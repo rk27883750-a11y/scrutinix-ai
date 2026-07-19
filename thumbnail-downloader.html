@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium YouTube Thumbnail Downloader | Scrutinix AI</title>
+    <style>
+        /* Global & Layout Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19; /* आपकी वेबसाइट का सिग्नेचर डार्क कलर */
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .tool-container {
+            background-color: #0f1626; /* साइडबार/कार्ड्स से मैच करता हुआ गहरा रंग */
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 30px;
+            width: 100%;
+            max-width: 750px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .tool-header h1 {
+            font-size: 24pt;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6, #ef4444); /* रेड-ब्लू प्रीमियम वाइब */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .tool-header p {
+            color: #94a3b8;
+            font-size: 11pt;
+            margin-bottom: 25px;
+        }
+
+        /* Input Form Styles */
+        .input-area {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .input-area input {
+            flex: 1;
+            background-color: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 10px;
+            padding: 14px 16px;
+            color: #ffffff;
+            font-size: 11pt;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-area input:focus {
+            border-color: #3b82f6;
+        }
+
+        .input-area button {
+            background: linear-gradient(135deg, #ef4444, #dc2626); /* वाइब्रेंट यूट्यूब रेड */
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 0 24px;
+            font-size: 11pt;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .input-area button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Error Message */
+        .error-msg {
+            color: #f87171;
+            font-size: 10.5pt;
+            margin-top: -20px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        /* Results & Thumbnail Grid */
+        .result-area {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .thumbnail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .input-area {
+                flex-direction: column;
+            }
+            .input-area button {
+                padding: 14px;
+            }
+            .thumbnail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .thumbnail-card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .thumbnail-card h3 {
+            font-size: 12pt;
+            color: #cbd5e1;
+            margin-bottom: 10px;
+        }
+
+        .img-wrapper {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: #0b0f19;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 1px solid #475569;
+        }
+
+        .img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #10b981, #059669); /* ग्रीन सक्सेस कलर */
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 10.5pt;
+            width: 100%;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+        }
+    </style>
+</head>
+<body>
+
+<div class="tool-container">
+    <div class="tool-header">
+        <h1>YouTube Thumbnail Downloader</h1>
+        <p>Paste YouTube video link below to download thumbnails in Ultra HD (1080p), HD, and SD qualities instantly.</p>
+    </div>
+
+    <div class="input-area">
+        <input type="text" id="video-url" placeholder="Paste YouTube Video URL here (e.g., https://www.youtube.com/watch?v=...)" autocomplete="off">
+        <button id="get-btn">Fetch Thumbnails</button>
+    </div>
+    
+    <div class="error-msg" id="error-box">⚠️ Please enter a valid YouTube video URL!</div>
+
+    <div class="result-area" id="result-box">
+        <hr style="border: 0; border-top: 1px solid #1e293b; margin-bottom: 20px;">
+        <h2 style="font-size: 14pt; color: #3b82f6; text-align: left; margin-bottom: 10px;">Available Qualities:</h2>
+        
+        <div class="thumbnail-grid">
+            <div class="thumbnail-card" id="card-max">
+                <h3>Maximum Quality (Ultra HD - 1080p)</h3>
+                <div class="img-wrapper">
+                    <img id="img-max" src="" alt="Max Quality Thumbnail">
+                </div>
+                <button class="download-btn" onclick="downloadImage('max')">Download Full HD</button>
+            </div>
+
+            <div class="thumbnail-card">
+                <h3>Standard Quality (HQ - 480p)</h3>
+                <div class="img-wrapper">
+                    <img id="img-sd" src="" alt="Standard Quality Thumbnail">
+                </div>
+                <button class="download-btn" onclick="downloadImage('sd')">Download HQ</button>
+            </div>
+
+            <div class="thumbnail-card">
+                <h3>Medium Quality (MQ - 360p)</h3>
+                <div class="img-wrapper">
+                    <img id="img-mq" src="" alt="Medium Quality Thumbnail">
+                </div>
+                <button class="download-btn" onclick="downloadImage('mq')">Download MQ</button>
+            </div>
+
+            <div class="thumbnail-card">
+                <h3>Normal Quality (Low - 120p)</h3>
+                <div class="img-wrapper">
+                    <img id="img-def" src="" alt="Default Quality Thumbnail">
+                </div>
+                <button class="download-btn" onclick="downloadImage('def')">Download Normal</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const getBtn = document.getElementById('get-btn');
+    const videoUrlInput = document.getElementById('video-url');
+    const errorBox = document.getElementById('error-box');
+    const resultBox = document.getElementById('result-box');
+
+    // अलग-अलग इमेजेस के लिंक्स स्टोर करने के लिए ग्लोबल ऑब्जेक्ट
+    let imgUrls = { max: '', sd: '', mq: '', def: '' };
+
+    // YouTube URL से Video ID निकालने का Regex फंक्शन
+    function getYouTubeVideoId(url) {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : null;
+    }
+
+    getBtn.addEventListener('click', () => {
+        const url = videoUrlInput.value.trim();
+        const videoId = getYouTubeVideoId(url);
+
+        if (videoId) {
+            errorBox.style.display = 'none';
+            
+            // YouTube No-Cookie Image Servers का उपयोग करके यूआरएल बनाना
+            imgUrls.max = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+            imgUrls.sd = `https://img.youtube.com/vi/${videoId}/sddefault.jpg`;
+            imgUrls.mq = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+            imgUrls.def = `https://img.youtube.com/vi/${videoId}/default.jpg`;
+
+            // इमेज सोर्सेज सेट करना
+            document.getElementById('img-max').src = imgUrls.max;
+            document.getElementById('img-sd').src = imgUrls.sd;
+            document.getElementById('img-mq').src = imgUrls.mq;
+            document.getElementById('img-def').src = imgUrls.def;
+
+            // रिजल्ट एरिया दिखाना
+            resultBox.style.display = 'block';
+        } else {
+            resultBox.style.display = 'none';
+            errorBox.style.display = 'block';
+        }
+    });
+
+    // CORS एरर से बचने के लिए और सीधे डाउनलोड ट्रिगर करने के लिए एडवांस फेच फंक्शन
+    async function downloadImage(type) {
+        const imageUrl = imgUrls[type];
+        try {
+            const response = await fetch(imageUrl);
+            if (!response.ok) throw new Error('Network response was not ok');
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `yt-thumbnail-${type}.jpg`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            // अगर CORS ब्लॉक होता है, तो नए टैब में इमेज ओपन कर दी जाएगी बैकअप के तौर पर
+            window.open(imageUrl, '_blank');
+        }
+    }
+</script>
+
+</body>
+</html>
