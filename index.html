@@ -3,39 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI</title>
+    <title>Scrutinix AI - Smart SEO & Data Insights</title>
     <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             background-color: #0f172a; 
             color: white; 
-            font-family: sans-serif; 
-            text-align: center; 
-            padding-top: 100px; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            line-height: 1.6;
         }
-        .blue-text { 
-            color: #38bdf8; 
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background-color: #1e293b;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
         }
+        .logo { font-size: 24px; font-weight: bold; color: #38bdf8; }
+        nav a { color: #94a3b8; text-decoration: none; margin-left: 20px; font-weight: 500; }
+        nav a:hover { color: #38bdf8; }
+        
+        .hero { padding: 160px 5% 80px; text-align: center; }
+        h1 { font-size: 48px; margin-bottom: 20px; }
+        .blue-text { color: #38bdf8; }
+        .hero p { font-size: 18px; color: #94a3b8; max-width: 600px; margin: 0 auto 30px; }
+        
         .btn {
             display: inline-block;
-            margin-top: 30px;
-            padding: 12px 24px;
+            padding: 14px 28px;
             background-color: #38bdf8;
             color: #000;
             text-decoration: none;
             border-radius: 8px;
             font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+            border: none;
         }
+        .btn:hover { background-color: #7dd3fc; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
+
+        section { padding: 80px 5%; border-top: 1px solid #1e293b; }
+        h2 { text-align: center; font-size: 32px; margin-bottom: 40px; color: #38bdf8; }
+
+        /* Pricing Grid */
+        .pricing-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .price-card { 
+            background-color: #1e293b; 
+            padding: 40px 30px; 
+            border-radius: 12px; 
+            width: 320px; 
+            text-align: center;
+            border: 1px solid #334155;
+        }
+        .price-card.premium { border-color: #38bdf8; position: relative; }
+        .price-card h3 { font-size: 22px; margin-bottom: 15px; }
+        .price { font-size: 36px; font-weight: bold; margin-bottom: 20px; color: white; }
+        .price span { font-size: 16px; color: #94a3b8; }
+        .features-list { list-style: none; margin-bottom: 30px; text-align: left; color: #94a3b8; }
+        .features-list li { margin-bottom: 10px; }
+        .features-list li::before { content: "✓ "; color: #38bdf8; font-weight: bold; }
+
+        /* Payment Modal Styling */
+        .modal {
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0; 
+            width: 100%; height: 100%; background-color: rgba(0,0,0,0.8);
+            align-items: center; justify-content: center;
+        }
+        .modal-content {
+            background-color: #1e293b; padding: 30px; border-radius: 12px;
+            max-width: 400px; width: 90%; text-align: center; border: 1px solid #38bdf8;
+            position: relative;
+        }
+        .close-btn {
+            position: absolute; right: 15px; top: 10px; color: #94a3b8;
+            font-size: 24px; cursor: pointer;
+        }
+        .qr-placeholder {
+            background: white; padding: 15px; border-radius: 8px;
+            display: inline-block; margin: 15px 0;
+        }
+
+        /* General Content Layout */
+        .content-box { max-width: 800px; margin: 0 auto; color: #94a3b8; font-size: 17px; text-align: left; }
+        .contact-info-box { background-color: #1e293b; padding: 25px; border-radius: 8px; border: 1px solid #334155; margin-bottom: 30px; }
+        
+        /* Contact Form */
+        .contact-form { max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+        .contact-form input, .contact-form textarea {
+            width: 100%; padding: 12px; background-color: #1e293b; border: 1px solid #334155;
+            color: white; border-radius: 6px; font-size: 16px;
+        }
+
+        footer { text-align: center; padding: 40px 5%; color: #64748b; font-size: 14px; background-color: #0f172a; }
     </style>
 </head>
 <body>
 
-    <h1>Intelligent Insights.<br><span class="blue-text">Smarter Decisions.</span></h1>
-    <p>Scrutinix AI transforms complex data into actionable insights.</p>
+    <header>
+        <div class="logo">Scrutinix AI</div>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#about">About Us</a>
+            <a href="#contact">Contact Us</a>
+            <a href="#privacy">Privacy & Policy</a>
+        </nav>
+    </header>
 
-    <!-- यह बटन सीधे आपकी नई seo-audit-tool.zip फ़ाइल को डाउनलोड करवाएगा -->
-    <a href="seo-audit-tool.zip" class="btn" download="Scrutinix-AI-SEO-Audit-Tool.zip">
-        Download Free Tools 🚀
-    </a>
+    <div class="hero">
+        <h1>Intelligent Insights.<br><span class="blue-text">Smarter Decisions.</span></h1>
+        <p>Scrutinix AI transforms complex data into actionable insights. Audit and optimize your website instantly.</p>
+        <a href="seo-audit-tool.zip" class="btn" download="Scrutinix-AI-SEO-Audit-Tool.zip">Download Free Tools 🚀</a>
+    </div>
 
-</body>
-</html>
+    <!-- Pricing Section -->
+    <section id="pricing">
+        <h2>Our Pricing Plans</h2>
+        <div class="pricing-grid">
+            <div class="price-card">
+                <h3>Free Tier</h3>
+                <div class="price">$0<span>/forever</span></div>
+                <ul class="features-list">
+                    <li>Basic SEO Audit Tool</li>
+                    <li>Desktop Performance Test</li>
+                    <li>Meta Tags Verification</li>
+                    <li>Community Support</li>
+                </ul>
+                <a href="seo-audit-tool.zip" class="btn" download="Scrutinix-AI-SEO-Audit-Tool.zip" style="width:100%;">Get Free Tool</a>
+            </div>
+            <div class="price-card premium">
+                <h3>Premium Plan</h3>
+                <div class="price">₹1,499<span>/month</span></div>
+                <ul class="features-list">
+                    <li>Advanced Deep AI Audit</li>
+                    <li>Mobile + Desktop Analysis</li>
+                    <li>Automatic PDF Report Download</li>
+                    <li>1-on-1 Expert SEO Consulting</li>
+                </ul>
+                <!-- इस बटन पर क्लिक करते ही पेमेंट गेटवे पॉप-अप खुलेगा -->
+                <button class="btn" onclick="openPaymentModal()" style="width:100%; background-color: white; color: black;">Buy Now 💳</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Pop-up Window (Modal) -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closePaymentModal()">&times;</span>
+            <h3 style="color: #38bdf8; margin-bottom: 10px;">Complete Your Payment</h3>
+            <p style="font-size: 14px; color: #94a3b8;">Scan the QR code below to pay <strong>₹1,499</strong> via any UPI App (PhonePe, GPay, Paytm).</p>
+            
+            <!-- ऑटोमैटिक UPI QR Code (इसमें आपकी ईमेल आईडी सेट है) -->
+            <div class="qr-placeholder">
+                <img src="https://qrserver.com" alt="UPI QR Code" style="display: block;">
+            </div>
+            
+            <p style="font-size: 15px; margin-bottom: 15px;">UPI ID: <strong style="color: white;">rk27883750@gmail.com</strong></p>
+            <p style="font-size: 13px; color: #ef4444; margin-bottom: 15px;">⚠️ Payment करने के बाद अपना स्क्रीनशॉट नीचे Contact Form या व्हाट्सएप (+91 7304111280) पर ज़रूर भेजें ताकि आपका प्रीमियम अकाउंट 5 मिनट में चालू हो सके।</p>
+            <button class="btn" onclick="closePaymentModal()" style="width: 100%;">I Have Paid ✅</button>
+        </div>
+    </div>
+
+    <!-- About Us Section -->
+    <section id="about">
+        <h2>About Us</h2>
+        <div class="content-box">
+            <p style="color: #f8fafc; font-size: 18px; margin-bottom: 15px; font-weight: 500;">Welcome to Scrutinix AI!</p>
+            <p style="margin-bottom: 15px;">Scrutinix AI is a premier digital intelligence platform. Our primary mission is to empower small business owners, web developers, and independent bloggers to achieve digital self-reliance. We provide simplified, highly effective guides on online monetization strategies, work-from-home optimization, professional blogging setups, and the deployment of advanced Artificial Intelligence resources.</p>
+            <p>Our automated AI SEO Audit tool systematically evaluates digital architectures, pinpointing technical optimization requirements to help you maximize search engine visibility and secure top algorithmic rankings on Google without excessive financial overhead.</p>
+        </div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <div class="content-box" style="max-width: 500px; margin-bottom: 30px;">
+            <div class="contact-info-box">
+                <p><strong>📧 Email Address:</strong> rk27883750@gmail.com</p>
+                <p><strong>📞 Mobile Number:</strong> +91 7304111280</p>
+                <p><strong>📍 Support Hours:</strong> Monday to Saturday (10 AM - 6 PM IST)</p>
+            </div>
+        </div>
+        
+        <form class="contact-form" action="https://formspree.io" method="POST">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email Address" required>
+            <textarea name="message" rows="5" placeholder="Enter transaction details or any support request..." required></textarea>
+            <button type="submit" style="background-color: #38bdf8; color: black; font-weight: bold; border-radius: 6px; padding: 12px; cursor: pointer;">Send Message</button>
+        </form>
+    </section>
+
+    <!-- Privacy Policy Section -->
+    <section id="privacy">
+        <h2>Privacy & Policy</h2>
+        <div class="content-box">
