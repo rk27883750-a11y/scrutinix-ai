@@ -50,20 +50,10 @@
             border: none;
             text-align: center;
             font-size: 14px;
+            width: 100%;
+            display: block;
         }
         .btn:hover { background-color: #7dd3fc; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
-        
-        .btn-outline {
-            background-color: transparent;
-            color: #38bdf8;
-            border: 2px solid #38bdf8;
-            margin-bottom: 10px;
-            display: block;
-            width: 100%;
-        }
-        .btn-outline:hover { background-color: #38bdf8; color: #000; }
-        .btn-paypal { background-color: #ffc439; color: #003087; }
-        .btn-paypal:hover { background-color: #ffd466; box-shadow: 0 0 15px rgba(255, 196, 57, 0.4); }
 
         /* Pricing & Plans Grid Layout */
         .pricing-grid { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 20px; }
@@ -115,6 +105,7 @@
 </head>
 <body>
 
+    <!-- हेडर बार (Our Plans पूरी तरह हटा दिया गया है) -->
     <header>
         <div class="logo">Scrutinix AI</div>
         <nav>
@@ -127,15 +118,16 @@
         </nav>
     </header>
 
+    <!-- मुख्य हेडिंग और आपका रीनेम किया हुआ बटन -->
     <div class="hero">
         <h1>Free AI SEO Audit Tool<br><span class="blue-text">for Websites</span></h1>
         <p>Analyze SEO, Speed, Meta Tags, Core Web Vitals & Technical SEO in Seconds. Run tools live or download HTML codes instantly.</p>
-        <a href="#plans" class="btn">Explore Our Plans 🚀</a>
+        <a href="#plans" class="btn" style="width: auto; display: inline-block;">Download Free Tools 🚀</a>
     </div>
 
-    <!-- Plans Section -->
+    <!-- Plans Section (Premium Plans की सटीक हेडिंग के साथ) -->
     <section id="plans">
-        <h2>Our Pricing & Plans</h2>
+        <h2>Premium Plans</h2>
         <div class="pricing-grid">
             
             <!-- ऑप्शन 1: फ्री प्लान -->
@@ -149,15 +141,14 @@
                     <li>Meta Tags Verification Support</li>
                     <li>Instant Browser File Download</li>
                 </ul>
-                <a href="seo-audit-tool.html" target="_blank" class="btn btn-outline">Live Use Tool 🌐</a>
-                <a href="seo-audit-tool.html" class="btn" style="width: 100%; display: block;" download="Scrutinix-SEO-Audit.html">Download Code 📥</a>
+                <a href="seo-audit-tool.html" class="btn" download="Scrutinix-SEO-Audit.html">Download Code 📥</a>
             </div>
 
-            <!-- ऑप्शन 2: प्रीमियम प्लान -->
+            <!-- ऑप्शन 2: प्रीमियम प्लान (क्लिक करते ही नीचे फॉर्म पर स्क्रॉल करेगा) -->
             <div class="price-card premium">
                 <div class="price-badge">🔥 Most Popular</div>
                 <h3>Premium Plan</h3>
-                <div class="price">₹199 / $2.49<span>/mo</span></div>
+                <div class="price">₹199<span>/mo</span></div>
                 <div class="old-price">Regular Price: ₹999 (80% OFF)</div>
                 <ul class="features-list">
                     <li>Advanced Deep AI Site Audit</li>
@@ -165,8 +156,7 @@
                     <li>Automatic PDF Report Download</li>
                     <li>1-on-1 Expert SEO Consulting</li>
                 </ul>
-                <a href="#contact" class="btn" style="width:100%; background-color: white; color: black; display: block; margin-bottom: 12px;">Buy Now (India) 💳</a>
-                <a href="https://paypal.me" target="_blank" class="btn btn-paypal" style="width:100%; display: block;">Buy Now (International) 🌎</a>
+                <a href="#contact" class="btn" style="background-color: white; color: black;">Buy Now 💳</a>
             </div>
 
         </div>
@@ -205,3 +195,11 @@
             </div>
             <div class="faq-item">
                 <h4>How does Scrutinix AI work?</h4>
+                <p>Scrutinix AI uses advanced client-side scripts and automation layers to verify your website structure, technical speed tags, and meta information instantly through the browser shell environment.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Is the Free Plan really free?</h4>
+                <p>Yes, absolutely! Our Free Tier gives you lifetime access to run all core digital utility tools directly live and download their full independent production code without any costs.</p>
+            </div>
+            <div class="faq-item">
+                <h4>How do I upgrade to Premium?</h4>
