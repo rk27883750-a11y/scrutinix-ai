@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scrutinix AI - Smart SEO & Data Insights</title>
-    <!-- यह आपका फेविचॉन लोगो कोड है जो गूगल सर्च और ब्राउज़र टैब पर 'S' लोगो दिखाएगा -->
+    <!-- यह आपका फेविचॉन लोगो कोड है जो ब्राउज़र टैब पर आपका चमकदार 'S' लोगो दिखाएगा -->
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -58,42 +58,34 @@
             color: #38bdf8;
             border: 2px solid #38bdf8;
             margin-bottom: 10px;
+            display: block;
+            width: 100%;
         }
         .btn-outline:hover { background-color: #38bdf8; color: #000; }
         .btn-paypal { background-color: #ffc439; color: #003087; }
         .btn-paypal:hover { background-color: #ffd466; box-shadow: 0 0 15px rgba(255, 196, 57, 0.4); }
 
-        .tools-grid { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
-        .tool-card {
-            background-color: #1e293b; padding: 30px 20px; border-radius: 12px; width: 280px;
-            text-align: center; border: 1px solid #334155; transition: 0.3s;
+        /* Pricing & Plans Grid Layout */
+        .pricing-grid { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 20px; }
+        .price-card { 
+            background-color: #1e293b; padding: 40px 30px; border-radius: 12px; width: 340px; 
+            text-align: center; border: 1px solid #334155; position: relative;
         }
-        .tool-card:hover { border-color: #38bdf8; transform: translateY(-5px); }
-        .tool-icon { font-size: 40px; margin-bottom: 15px; }
-        .tool-card h3 { font-size: 20px; margin-bottom: 12px; color: white; }
-        .tool-card p { font-size: 14px; color: #94a3b8; margin-bottom: 25px; height: 60px; }
+        .price-card.premium { border-color: #38bdf8; }
+        .price-badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background-color: #38bdf8; color: black; font-weight: bold; padding: 4px 12px; border-radius: 20px; font-size: 12px; text-transform: uppercase; }
+        .price-card h3 { font-size: 24px; margin-bottom: 15px; color: white; }
+        .price { font-size: 38px; font-weight: bold; margin-bottom: 5px; color: white; }
+        .price span { font-size: 16px; color: #94a3b8; }
+        .old-price { font-size: 16px; color: #ef4444; text-decoration: line-through; margin-bottom: 25px; }
+        .features-list { list-style: none; margin-bottom: 30px; text-align: left; color: #94a3b8; }
+        .features-list li { margin-bottom: 12px; font-size: 15px; }
+        .features-list li::before { content: "✓ "; color: #38bdf8; font-weight: bold; }
 
         /* Trust & Stats Section */
         .trust-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; text-align: center; }
         .trust-card { background-color: #1e293b; padding: 25px; border-radius: 10px; width: 220px; border: 1px solid #1e293b; }
         .trust-card h3 { font-size: 28px; color: #38bdf8; margin-bottom: 10px; }
         .trust-card p { color: #94a3b8; font-size: 15px; }
-
-        /* Pricing Grid */
-        .pricing-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
-        .price-card { 
-            background-color: #1e293b; padding: 40px 30px; border-radius: 12px; width: 320px; 
-            text-align: center; border: 1px solid #334155;
-        }
-        .price-card.premium { border-color: #38bdf8; position: relative; }
-        .price-badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background-color: #38bdf8; color: black; font-weight: bold; padding: 4px 12px; border-radius: 20px; font-size: 12px; text-transform: uppercase; }
-        .price-card h3 { font-size: 22px; margin-bottom: 15px; }
-        .price { font-size: 36px; font-weight: bold; margin-bottom: 5px; color: white; }
-        .price span { font-size: 16px; color: #94a3b8; }
-        .old-price { font-size: 16px; color: #ef4444; text-decoration: line-through; margin-bottom: 20px; }
-        .features-list { list-style: none; margin-bottom: 30px; text-align: left; color: #94a3b8; }
-        .features-list li { margin-bottom: 10px; }
-        .features-list li::before { content: "✓ "; color: #38bdf8; font-weight: bold; }
 
         /* FAQ Section */
         .faq-box { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
@@ -127,7 +119,7 @@
         <div class="logo">Scrutinix AI</div>
         <nav>
             <a href="#">Home</a>
-            <a href="#tools">Our Tools</a>
+            <a href="#plans">Our Plans</a>
             <a href="#terms">Terms & Conditions</a>
             <a href="#about">About Us</a>
             <a href="#contact">Contact Us</a>
@@ -138,53 +130,78 @@
     <div class="hero">
         <h1>Free AI SEO Audit Tool<br><span class="blue-text">for Websites</span></h1>
         <p>Analyze SEO, Speed, Meta Tags, Core Web Vitals & Technical SEO in Seconds. Run tools live or download HTML codes instantly.</p>
-        <a href="#tools" class="btn">Start Free SEO Audit 🚀</a>
+        <a href="#plans" class="btn">Explore Our Plans 🚀</a>
     </div>
 
-    <!-- Master Tools Gallery Section -->
-    <section id="tools">
-        <h2>Our Free AI Tools</h2>
-        <div class="tools-grid">
+    <!-- Plans Section -->
+    <section id="plans">
+        <h2>Our Pricing & Plans</h2>
+        <div class="pricing-grid">
             
-            <!-- Tool 1: SEO Audit -->
-            <div class="tool-card">
-                <div class="tool-icon">🚀</div>
-                <h3>SEO Audit Tool</h3>
-                <p>Systematically evaluate website digital architectures and optimize visibility.</p>
-                <a href="seo-audit-tool.html" target="_blank" class="btn btn-outline" style="width: 100%;">Live Use 🌐</a>
-                <a href="seo-audit-tool.html" class="btn" style="width: 100%;" download="Scrutinix-SEO-Audit.html">Download Code 📥</a>
+            <!-- ऑप्शन 1: फ्री प्लान -->
+            <div class="price-card">
+                <h3>Free Tier</h3>
+                <div class="price">$0<span>/forever</span></div>
+                <div class="old-price" style="visibility: hidden;">Placeholder</div>
+                <ul class="features-list">
+                    <li>Lifetime Access to AI SEO Audit Tool</li>
+                    <li>Desktop Performance Analysis</li>
+                    <li>Meta Tags Verification Support</li>
+                    <li>Instant Browser File Download</li>
+                </ul>
+                <a href="seo-audit-tool.html" target="_blank" class="btn btn-outline">Live Use Tool 🌐</a>
+                <a href="seo-audit-tool.html" class="btn" style="width: 100%; display: block;" download="Scrutinix-SEO-Audit.html">Download Code 📥</a>
             </div>
 
-            <!-- Tool 2: AdSense Calculator -->
-            <div class="tool-card">
-                <div class="tool-icon">📊</div>
-                <h3>AdSense Calculator</h3>
-                <p>Calculate your potential website earnings based on traffic metrics and clicks live.</p>
-                <a href="adsense-calculator.html" target="_blank" class="btn btn-outline" style="width: 100%;">Live Use 🌐</a>
-                <a href="adsense-calculator.html" class="btn" style="width: 100%;" download="Scrutinix-AdSense-Calculator.html">Download Code 📥</a>
+            <!-- ऑप्शन 2: प्रीमियम प्लान -->
+            <div class="price-card premium">
+                <div class="price-badge">🔥 Most Popular</div>
+                <h3>Premium Plan</h3>
+                <div class="price">₹199 / $2.49<span>/mo</span></div>
+                <div class="old-price">Regular Price: ₹999 (80% OFF)</div>
+                <ul class="features-list">
+                    <li>Advanced Deep AI Site Audit</li>
+                    <li>Mobile + Desktop Core Analysis</li>
+                    <li>Automatic PDF Report Download</li>
+                    <li>1-on-1 Expert SEO Consulting</li>
+                </ul>
+                <a href="#contact" class="btn" style="width:100%; background-color: white; color: black; display: block; margin-bottom: 12px;">Buy Now (India) 💳</a>
+                <a href="https://paypal.me" target="_blank" class="btn btn-paypal" style="width:100%; display: block;">Buy Now (International) 🌎</a>
             </div>
 
-            <!-- Tool 3: File Generator -->
-            <div class="tool-card">
-                <div class="tool-icon">📄</div>
-                <h3>File Generator</h3>
-                <p>Create and format standard TXT and HTML file structures directly inside browser.</p>
-                <a href="file-generator.html" target="_blank" class="btn btn-outline" style="width: 100%;">Live Use 🌐</a>
-                <a href="file-generator.html" class="btn" style="width: 100%;" download="Scrutinix-File-Generator.html">Download Code 📥</a>
-            </div>
+        </div>
+    </section>
 
-            <!-- Tool 4: ZIP File Maker -->
-            <div class="tool-card">
-                <div class="tool-icon">🗜️</div>
-                <h3>ZIP File Maker</h3>
-                <p>Compress your digital assets and files into secure ZIP archives effortlessly.</p>
-                <a href="zip-file-maker.html" target="_blank" class="btn btn-outline" style="width: 100%;">Live Use 🌐</a>
-                <a href="zip-file-maker.html" class="btn" style="width: 100%;" download="Scrutinix-ZIP-File-Maker.html">Download Code 📥</a>
+    <!-- Trust & Stats Section -->
+    <section id="trust" style="background-color: #111827;">
+        <h2>Trusted by Developers & Bloggers</h2>
+        <div class="trust-grid">
+            <div class="trust-card">
+                <h3>1000+</h3>
+                <p>Websites Analyzed</p>
             </div>
+            <div class="trust-card">
+                <h3>AI-Powered</h3>
+                <p>Detailed Reports</p>
+            </div>
+            <div class="trust-card">
+                <h3>Secure</h3>
+                <p> & Super Fast Latency</p>
+            </div>
+            <div class="trust-card">
+                <h3>24/7</h3>
+                <p>Active Support</p>
+            </div>
+        </div>
+    </section>
 
-            <!-- Tool 5: Unit Converter -->
-            <div class="tool-card">
-                <div class="tool-icon">⚖️</div>
-                <h3>Unit Converter</h3>
-                <p>Execute instant precision unit conversions powered by smart JS-Quantities live.</p>
-                <a href="unit-converter.html" target="_blank" class="btn btn-outline" style="width: 100%;">Live Use 🌐</a>
+    <!-- FAQ Section -->
+    <section id="faq">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-box">
+            <div class="faq-item">
+                <h4>What is an SEO Audit?</h4>
+                <p>An SEO audit evaluates your website's technical setup, content optimization, and performance metrics to help pinpoint why it may not be ranking correctly on search engines like Google.</p>
+            </div>
+            <div class="faq-item">
+                <h4>How does Scrutinix AI work?</h4>
