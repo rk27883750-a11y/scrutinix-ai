@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Universal Unit Converter Tool</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- JS-Quantities Library CDN -->
+  <script src="https://unpkg.com/js-quantities@1.4.0"></script>
+
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --secondary: #ec4899;
+      --accent: #8b5cf6;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1rem;
+      color: var(--text-dark);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 2.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    header h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Category Buttons Grid */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .cat-btn {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      padding: 0.75rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .cat-btn span.icon {
+      font-size: 1.25rem;
+    }
+
+    .cat-btn:hover {
+      background: #e2e8f0;
+      color: var(--text-dark);
+    }
+
+    .cat-btn.active {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+    }
+
+    /* Converter Area Grid */
+    .converter-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+    }
+
+    .converter-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .converter-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .unit-box {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .unit-box label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .input-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      background: #ffffff;
+      color: var(--text-dark);
+      transition: all 0.2s ease;
+    }
+
+    input[type="number"]:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+    }
+
+    select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      background: #ffffff;
+      color: var(--text-dark);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    select:focus {
+      border-color: var(--primary);
+    }
+
+    /* Swap Button */
+    .swap-btn-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 1.5rem;
+    }
+
+    .swap-btn {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .swap-btn:hover {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      transform: rotate(180deg);
+    }
+
+    /* Result Preview Box */
+    .result-display {
+      margin-top: 2rem;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(236, 72, 153, 0.08));
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-radius: 16px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .result-display p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .result-display h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-top: 0.25rem;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Unit Converter Tool</h1>
+      <p>Instant precision conversions powered by JS-Quantities</p>
+    </header>
+
+    <!-- Category Tabs -->
+    <div class="category-grid" id="categoryGrid"></div>
+
+    <!-- Main Converter -->
+    <div class="converter-card">
+      <div class="converter-grid">
+        
+        <!-- From Unit -->
+        <div class="unit-box">
+          <label>From</label>
+          <div class="input-wrapper">
+            <input type="number" id="fromValue" value="1" step="any" placeholder="Enter value...">
+            <select id="fromUnit"></select>
+          </div>
+        </div>
+
+        <!-- Swap Button -->
+        <div class="swap-btn-container">
+          <button class="swap-btn" id="swapBtn" title="Swap Units">⇄</button>
+        </div>
+
+        <!-- To Unit -->
+        <div class="unit-box">
+          <label>To</label>
+          <div class="input-wrapper">
+            <input type="number" id="toValue" readonly placeholder="Result...">
+            <select id="toUnit"></select>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Live Formula Result Display -->
+      <div class="result-display">
+        <p>Calculation Formula Result</p>
+        <h2 id="formulaText">1 = 1</h2>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Categories and Units Configuration Map
+    const unitCategories = {
+      length: {
+        name: 'Length',
+        icon: '📏',
+        units: [
+          { label: 'Meters (m)', value: 'm' },
+          { label: 'Kilometers (km)', value: 'km' },
+          { label: 'Centimeters (cm)', value: 'cm' },
+          { label: 'Millimeters (mm)', value: 'mm' },
+          { label: 'Inches (in)', value: 'in' },
+          { label: 'Feet (ft)', value: 'ft' },
+          { label: 'Yards (yd)', value: 'yd' },
+          { label: 'Miles (mi)', value: 'mi' }
+        ]
+      },
+      mass: {
+        name: 'Mass / Weight',
+        icon: '⚖️',
+        units: [
+          { label: 'Kilograms (kg)', value: 'kg' },
+          { label: 'Grams (g)', value: 'g' },
+          { label: 'Milligrams (mg)', value: 'mg' },
+          { label: 'Pounds (lbs)', value: 'lbs' },
+          { label: 'Ounces (oz)', value: 'oz' },
+          { label: 'Metric Tons (tonne)', value: 'tonne' }
+        ]
+      },
+      temp: {
+        name: 'Temperature',
+        icon: '🌡️',
+        units: [
+          { label: 'Celsius (°C)', value: 'tempC' },
+          { label: 'Fahrenheit (°F)', value: 'tempF' },
+          { label: 'Kelvin (K)', value: 'tempK' }
+        ]
+      },
+      volume: {
+        name: 'Volume',
+        icon: '🧪',
+        units: [
+          { label: 'Liters (l)', value: 'l' },
+          { label: 'Milliliters (ml)', value: 'ml' },
+          { label: 'Cubic Meters (m3)', value: 'm3' },
+          { label: 'Gallons (gal)', value: 'gal' },
+          { label: 'Quarts (qt)', value: 'qt' },
+          { label: 'Pints (pt)', value: 'pt' }
+        ]
+      },
+      area: {
+        name: 'Area',
+        icon: '📐',
+        units: [
+          { label: 'Square Meters (m2)', value: 'm2' },
+          { label: 'Square Kilometers (km2)', value: 'km2' },
+          { label: 'Square Feet (ft2)', value: 'ft2' },
+          { label: 'Acres (acre)', value: 'acre' },
+          { label: 'Hectares (ha)', value: 'ha' }
+        ]
+      },
+      time: {
+        name: 'Time',
+        icon: '⏱️',
+        units: [
+          { label: 'Seconds (s)', value: 's' },
+          { label: 'Minutes (min)', value: 'min' },
+          { label: 'Hours (h)', value: 'h' },
+          { label: 'Days (d)', value: 'd' },
+          { label: 'Weeks (wk)', value: 'wk' }
+        ]
+      }
+    };
+
+    let activeCategory = 'length';
+
+    // DOM Elements
+    const categoryGrid = document.getElementById('categoryGrid');
+    const fromUnitSelect = document.getElementById('fromUnit');
+    const toUnitSelect = document.getElementById('toUnit');
+    const fromInput = document.getElementById('fromValue');
+    const toInput = document.getElementById('toValue');
+    const formulaText = document.getElementById('formulaText');
+    const swapBtn = document.getElementById('swapBtn');
+
+    // Render Category Buttons
+    function initCategories() {
+      categoryGrid.innerHTML = '';
+      Object.keys(unitCategories).forEach(catKey => {
+        const cat = unitCategories[catKey];
+        const btn = document.createElement('button');
+        btn.className = `cat-btn ${catKey === activeCategory ? 'active' : ''}`;
+        btn.innerHTML = `<span class="icon">${cat.icon}</span>${cat.name}`;
+        btn.addEventListener('click', () => {
+          activeCategory = catKey;
+          document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          populateSelects();
+          convert();
+        });
+        categoryGrid.appendChild(btn);
+      });
+    }
+
+    // Populate Select Options
+    function populateSelects() {
+      const units = unitCategories[activeCategory].units;
+      fromUnitSelect.innerHTML = '';
+      toUnitSelect.innerHTML = '';
+
+      units.forEach((u, idx) => {
+        const optFrom = new Option(u.label, u.value);
+        const optTo = new Option(u.label, u.value);
+        fromUnitSelect.add(optFrom);
+        toUnitSelect.add(optTo);
+      });
+
+      // Default selecting 1st & 2nd options
+      if (units.length > 1) {
+        toUnitSelect.selectedIndex = 1;
+      }
+    }
+
+    // Real-Time Conversion logic using JS-Quantities
+    function convert() {
+      const val = parseFloat(fromInput.value);
+      if (isNaN(val)) {
+        toInput.value = '';
+        formulaText.textContent = 'Please enter a valid number';
+        return;
+      }
+
+      const fromUnit = fromUnitSelect.value;
+      const toUnit = toUnitSelect.value;
+
+      try {
+        // Construct Quantity Instance
+        const qty = Qty(`${val} ${fromUnit}`);
+        const converted = qty.to(toUnit);
+        
+        // Format Result
+        const resVal = Number(converted.scalar.toFixed(6));
+        toInput.value = resVal;
+        
+        formulaText.textContent = `${val} ${qty.units()} = ${resVal} ${converted.units()}`;
+      } catch (err) {
+        toInput.value = 'Error';
+        formulaText.textContent = 'Conversion invalid for selected units';
+      }
+    }
+
+    // Event Listeners
+    fromInput.addEventListener('input', convert);
+    fromUnitSelect.addEventListener('change', convert);
+    toUnitSelect.addEventListener('change', convert);
+
+    // Swap functionality
+    swapBtn.addEventListener('click', () => {
+      const tempIndex = fromUnitSelect.selectedIndex;
+      fromUnitSelect.selectedIndex = toUnitSelect.selectedIndex;
+      toUnitSelect.selectedIndex = tempIndex;
+      convert();
+    });
+
+    // Initialize Tool
+    initCategories();
+    populateSelects();
+    convert();
+  </script>
+</body>
+</html>
