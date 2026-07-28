@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RecordRTC Screen Recorder</title>
+  <!-- RecordRTC Library CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.6.2/RecordRTC.min.js"></script>
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #fff;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 800px;
+      padding: 30px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      background: linear-gradient(45deg, #00f2fe, #4facfe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.subtitle {
+      color: #a0aec0;
+      margin-bottom: 25px;
+      font-size: 0.95rem;
+    }
+
+    .preview-box {
+      width: 100%;
+      height: 380px;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      position: relative;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .options {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: background 0.3s;
+    }
+
+    .checkbox-label:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .timer {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #ff416c;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 6px 16px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      padding: 12px 24px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .btn:not(:disabled):hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-start {
+      background: linear-gradient(45deg, #11998e, #38ef7d);
+    }
+
+    .btn-pause {
+      background: linear-gradient(45deg, #ff9966, #ff5e62);
+    }
+
+    .btn-stop {
+      background: linear-gradient(45deg, #cb2d3e, #ef473a);
+    }
+
+    .btn-download {
+      background: linear-gradient(45deg, #8e2de2, #4a00e0);
+    }
+
+    @media (max-width: 600px) {
+      .preview-box {
+        height: 240px;
+      }
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Screen Recorder</h1>
+    <p class="subtitle">Record your browser screen & mic audio effortlessly</p>
+
+    <!-- Video Preview Box -->
+    <div class="preview-box">
+      <video id="videoPreview" autoplay playsinline muted></video>
+    </div>
+
+    <!-- Additional Options & Timer -->
+    <div class="options">
+      <label class="checkbox-label">
+        <input type="checkbox" id="micAudio" checked /> Include Microphone Audio
+      </label>
+      <div class="timer" id="timer">00:00:00</div>
+    </div>
+
+    <!-- Control Buttons -->
+    <div class="controls">
+      <button class="btn btn-start" id="btnStart">Start Recording</button>
+      <button class="btn btn-pause" id="btnPause" disabled>Pause</button>
+      <button class="btn btn-stop" id="btnStop" disabled>Stop</button>
+      <button class="btn btn-download" id="btnDownload" disabled>Download</button>
+    </div>
+  </div>
+
+  <script>
+    let recorder;
+    let stream;
+    let timerInterval;
+    let secondsElapsed = 0;
+
+    const videoPreview = document.getElementById('videoPreview');
+    const btnStart = document.getElementById('btnStart');
+    const btnPause = document.getElementById('btnPause');
+    const btnStop = document.getElementById('btnStop');
+    const btnDownload = document.getElementById('btnDownload');
+    const micCheckbox = document.getElementById('micAudio');
+    const timerDisplay = document.getElementById('timer');
+
+    // Timer Functions
+    function startTimer() {
+      secondsElapsed = 0;
+      updateTimerDisplay();
+      timerInterval = setInterval(() => {
+        secondsElapsed++;
+        updateTimerDisplay();
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      clearInterval(timerInterval);
+    }
+
+    function resumeTimer() {
+      timerInterval = setInterval(() => {
+        secondsElapsed++;
+        updateTimerDisplay();
+      }, 1000);
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+    }
+
+    function updateTimerDisplay() {
+      const hrs = String(Math.floor(secondsElapsed / 3600)).padStart(2, '0');
+      const mins = String(Math.floor((secondsElapsed % 3600) / 60)).padStart(2, '0');
+      const secs = String(secondsElapsed % 60).padStart(2, '0');
+      timerDisplay.innerText = `${hrs}:${mins}:${secs}`;
+    }
+
+    // Start Recording Action
+    btnStart.addEventListener('click', async () => {
+      try {
+        // Capture Screen Video
+        const screenStream = await navigator.mediaDevices.getDisplayMedia({
+          video: { frameRate: { ideal: 30 } },
+          audio: true // Capture system audio if available
+        });
+
+        let finalStream = screenStream;
+
+        // If Mic Option is Checked, Combine Audio Tracks
+        if (micCheckbox.checked) {
+          try {
+            const micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            const tracks = [...screenStream.getTracks(), ...micStream.getAudioTracks()];
+            finalStream = new MediaStream(tracks);
+          } catch (micErr) {
+            console.warn("Microphone access denied or not available.", micErr);
+          }
+        }
+
+        stream = finalStream;
+        videoPreview.srcObject = stream;
+        videoPreview.muted = true; // Avoid feedback during preview
+
+        // Initialize RecordRTC
+        recorder = new RecordRTC(stream, {
+          type: 'video',
+          mimeType: 'video/webm;codecs=vp9',
+          disableLogs: false
+        });
+
+        recorder.startRecording();
+        startTimer();
+
+        // Screen share stop callback (when user clicks browser's native "Stop sharing")
+        screenStream.getVideoTracks()[0].onended = () => {
+          stopRecording();
+        };
+
+        // Button States
+        btnStart.disabled = true;
+        btnPause.disabled = false;
+        btnStop.disabled = false;
+        btnDownload.disabled = true;
+        micCheckbox.disabled = true;
+
+      } catch (err) {
+        console.error("Error accessing screen/audio:", err);
+      }
+    });
+
+    // Pause/Resume Recording
+    btnPause.addEventListener('click', () => {
+      if (recorder.getState() === 'recording') {
+        recorder.pauseRecording();
+        pauseTimer();
+        btnPause.innerText = 'Resume';
+      } else if (recorder.getState() === 'paused') {
+        recorder.resumeRecording();
+        resumeTimer();
+        btnPause.innerText = 'Pause';
+      }
+    });
+
+    // Stop Recording Action
+    function stopRecording() {
+      if (!recorder) return;
+
+      recorder.stopRecording(() => {
+        stopTimer();
+        
+        // Stop all tracks to release camera/mic/screen
+        if (stream) {
+          stream.getTracks().forEach(track => track.stop());
+        }
+
+        const blob = recorder.getBlob();
+        videoPreview.srcObject = null;
+        videoPreview.src = URL.createObjectURL(blob);
+        videoPreview.muted = false; // Enable audio playback for preview
+        videoPreview.controls = true; // Show video controls
+
+        // Button States
+        btnStart.disabled = false;
+        btnPause.disabled = true;
+        btnStop.disabled = true;
+        btnDownload.disabled = false;
+        micCheckbox.disabled = false;
+        btnPause.innerText = 'Pause';
+      });
+    }
+
+    btnStop.addEventListener('click', stopRecording);
+
+    // Download Recording
+    btnDownload.addEventListener('click', () => {
+      if (recorder) {
+        recorder.save('Screen-Recording-' + Date.now() + '.webm');
+      }
+    });
+  </script>
+</body>
+</html>
