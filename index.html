@@ -63,7 +63,6 @@
             padding: 60px 20px;
             max-width: 1000px;
             margin: 0 auto;
-            position: relative;
         }
 
         .main-title {
@@ -82,6 +81,7 @@
             margin-bottom: 25px;
         }
 
+        /* Your Favorite Original Text */
         .description-text {
             font-size: 19px;
             color: #94A3B8;
@@ -90,16 +90,15 @@
             line-height: 1.7;
         }
 
-        /* Action Button */
+        /* Your Favorite Original Blue Button Style */
         .cta-button {
             background-color: #0EA5E9;
             color: #FFFFFF;
             padding: 15px 35px;
-            border: none;
+            text-decoration: none;
             border-radius: 30px;
             font-weight: bold;
             font-size: 17px;
-            cursor: pointer;
             display: inline-block;
             box-shadow: 0 4px 20px rgba(14, 165, 233, 0.4);
             transition: all 0.3s ease;
@@ -108,50 +107,10 @@
         .cta-button:hover {
             background-color: #0284C7;
             transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(14, 165, 233, 0.6);
         }
 
-        /* ⚡ Hidden Beautiful Dropdown Menu ⚡ */
-        .tools-dropdown {
-            display: none;
-            position: absolute;
-            top: 65%;
-            background-color: #1E293B;
-            border: 1px solid #38BDF8;
-            border-radius: 12px;
-            width: 320px;
-            padding: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            z-index: 100;
-            text-align: left;
-        }
-
-        .dropdown-title {
-            font-size: 14px;
-            color: #38BDF8;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-            border-bottom: 1px solid #334155;
-            padding-bottom: 5px;
-        }
-
-        .tool-item {
-            display: block;
-            color: #E2E8F0;
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 14px;
-            margin-bottom: 5px;
-            transition: background 0.2s;
-        }
-
-        .tool-item:hover {
-            background-color: #334155;
-            color: #38BDF8;
-        }
-
+        /* Premium Plans Section Layout */
         .premium-preview {
             margin-top: 60px;
             border-top: 1px dashed #1E293B;
@@ -177,56 +136,32 @@
             <a href="#">Terms & Conditions</a>
             <a href="#">About Us</a>
             <a href="#">Contact Us</a>
+            <a href="#">Privacy & Policy</a>
         </nav>
     </header>
 
-    <!-- Main Content -->
+    <!-- Main Content Box -->
     <div class="hero-container">
         
         <h1 class="main-title">Free AI SEO Audit Tool</h1>
         <div class="subtitle">for Business Growth</div>
         
+        <!-- Professional English Line -->
         <p class="description-text">
             Instantly check your website's SEO speed, technical meta tags, and Google ranking mistakes in seconds to optimize and scale your business growth.
         </p>
         
-        <!-- Button that toggles the menu -->
-        <button class="cta-button" onclick="toggleMenu(event)">Download Free Tools 🚀</button>
+        <!-- Your Original Button Link Back Online -->
+        <a href="https://notion.site" target="_blank" class="cta-button">
+            Download Free Tools 🚀
+        </a>
 
-        <!-- Dynamic Dropdown Menu with 100% Correct GitHub Raw Content Links -->
-        <div class="tools-dropdown" id="myDropdown">
-            <div class="dropdown-title">📊 SEO Audit Tool Files</div>
-            <a href="https://githubusercontent.com" target="_blank" class="tool-item">📄 Check Text Code (Free)</a>
-            <a href="https://githubusercontent.com" download class="tool-item">🌐 Download HTML Live Tool (Free)</a>
-            
-            <div class="dropdown-title" style="margin-top: 15px;">📹 Screen Recorder Files</div>
-            <a href="https://githubusercontent.com" target="_blank" class="tool-item">📄 Check Text Code (Free)</a>
-            <a href="https://githubusercontent.com" download class="tool-item">🌐 Download HTML Live Tool (Free)</a>
-        </div>
-
+        <!-- Premium Plans Label -->
         <div class="premium-preview">
             <div class="premium-title">Premium Plans</div>
         </div>
 
     </div>
-
-    <!-- JavaScript to control the list overlay -->
-    <script>
-        function toggleMenu(event) {
-            event.stopPropagation();
-            var dropdown = document.getElementById("myDropdown");
-            if (dropdown.style.display === "block") {
-                dropdown.style.display = "none";
-            } else {
-                dropdown.style.display = "block";
-            }
-        }
-
-        // Close menu if clicked outside
-        document.addEventListener("click", function() {
-            document.getElementById("myDropdown").style.display = "none";
-        });
-    </script>
 
 </body>
 </html>
