@@ -101,34 +101,6 @@
         .report-box h4 { color: #38bdf8; margin-bottom: 10px; font-size: 18px; }
         .report-box p { font-size: 14px; color: #cbd5e1; margin-bottom: 8px; }
 
-        /* Pricing & Plans Grid Layout */
-        .pricing-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 20px; }
-        .price-card { 
-            background-color: #131b2e; padding: 35px 25px; border-radius: 12px; width: 300px; 
-            text-align: center; border: 1px solid #1e293b; position: relative;
-        }
-        .price-card.premium { border-color: #38bdf8; }
-        .price-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background-color: #38bdf8; color: black; font-weight: bold; padding: 3px 10px; border-radius: 20px; font-size: 11px; text-transform: uppercase; }
-        .price-card h3 { font-size: 22px; margin-bottom: 15px; color: white; }
-        .price { font-size: 34px; font-weight: bold; margin-bottom: 5px; color: white; }
-        .price span { font-size: 14px; color: #94a3b8; }
-        .old-price { font-size: 14px; color: #ef4444; text-decoration: line-through; margin-bottom: 25px; }
-        .features-list { list-style: none; margin-bottom: 30px; text-align: left; color: #94a3b8; }
-        .features-list li { margin-bottom: 12px; font-size: 14px; }
-        .features-list li::before { content: "✓ "; color: #38bdf8; font-weight: bold; }
-
-        /* Trust & Stats Section */
-        .trust-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; text-align: center; }
-        .trust-card { background-color: #131b2e; padding: 25px; border-radius: 10px; width: 220px; border: 1px solid #1e293b; }
-        .trust-card h3 { font-size: 28px; color: #38bdf8; margin-bottom: 10px; }
-        .trust-card p { color: #94a3b8; font-size: 15px; }
-
-        /* FAQ Section */
-        .faq-box { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
-        .faq-item { background-color: #131b2e; padding: 20px; border-radius: 8px; border: 1px solid #1e293b; text-align: left; }
-        .faq-item h4 { color: #38bdf8; font-size: 18px; margin-bottom: 8px; }
-        .faq-item p { color: #94a3b8; font-size: 15px; }
-
         .content-box { max-width: 800px; margin: 0 auto; color: #94a3b8; font-size: 16px; text-align: left; }
         .contact-info-box { background-color: #131b2e; padding: 25px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 30px; }
         .contact-info-box p { margin-bottom: 12px; color: white; }
@@ -138,13 +110,6 @@
         .contact-form input, .contact-form textarea {
             width: 100%; padding: 12px; background-color: #131b2e; border: 1px solid #1e293b; color: white; border-radius: 6px; font-size: 16px;
         }
-
-        /* Footer Links Grid */
-        .footer-links-grid { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 20px; }
-        .footer-col { min-width: 150px; text-align: left; }
-        .footer-col h5 { color: #38bdf8; font-size: 16px; margin-bottom: 12px; text-transform: uppercase; }
-        .footer-col a { display: block; color: #94a3b8; text-decoration: none; margin-bottom: 8px; font-size: 14px; }
-        .footer-col a:hover { color: white; }
 
         footer { text-align: center; padding: 60px 5% 40px; color: #64748b; font-size: 14px; background-color: #060a12; border-top: 1px solid #1e293b; }
     </style>
@@ -156,14 +121,12 @@
         <div class="logo">Scrutinix AI</div>
         <nav>
             <a href="#">Home</a>
-            <a href="#terms">Terms & Conditions</a>
             <a href="#about">About Us</a>
             <a href="#contact">Contact Us</a>
-            <a href="#privacy">Privacy & Policy</a>
         </nav>
     </header>
 
-    <!-- Hero Section (लाइव इनपुट बॉक्स और वर्किंग बटन के साथ अपडेटेड) -->
+    <!-- Hero Section -->
     <div class="hero">
         <h1>Google Search Is Changing.<br><span class="blue-text">Is Your Business Visible Inside ChatGPT & Perplexity?</span></h1>
         <p>Millions of buyers are skipping Google and asking AI chatbots for recommendations. Find out your score in 30 seconds.</p>
@@ -184,32 +147,79 @@
         </div>
     </div>
 
-    <!-- Plans Section -->
-    <section id="plans">
-        <h2>Premium Plans</h2>
-        <div class="pricing-grid">
-            
-            <!-- Option 1: Free Tier -->
-            <div class="price-card">
-                <h3>Free Tier</h3>
-                <div class="price">$0<span>/forever</span></div>
-                <div class="old-price" style="visibility: hidden;">Placeholder</div>
-                <ul class="features-list">
-                    <li>AI SEO Audit Tool ka Lifetime Access</li>
-                    <li>Website ki Real-time Desktop Audit</li>
-                    <li>Meta Tags Check karne ka Support</li>
-                    <li>Direct Browser me single file Download</li>
-                </ul>
-                <a href="seo-audit-tool.html" class="btn" download="Scrutinix-SEO-Audit.html">Download Code 📥</a>
-            </div>
+    <!-- About Us Section -->
+    <section id="about">
+        <h2>About Us</h2>
+        <div class="content-box">
+            <p style="margin-bottom: 20px;">Welcome to <strong>Scrutinix AI</strong>, the world's first AI-driven Search Visibility and Context Auditor. As global search engines transition from traditional keyword ranking to Generative AI ecosystems, businesses face a new challenge: ensuring their brand is trusted and cited by AI models like ChatGPT, Google Gemini, and Perplexity.</p>
+            <p>Our intelligent system scans LLM memory structures, detects search engine hallucination risks, and ensures your company stands out as a verified authority. We bridge the gap between classic SEO and the modern AI-driven web.</p>
+        </div>
+    </section>
 
-            <!-- Option 2: Premium Plan -->
-            <div class="price-card premium">
-                <div class="price-badge">🔥 Most Popular</div>
-                <h3>Premium Plan</h3>
-                <div class="price">₹199<span>/mo</span></div>
-                <div class="old-price">Regular Price: ₹999 (80% OFF)</div>
-                <ul class="features-list">
-                    <li>Advanced Deep AI Website Audit</li>
-                    <li>Mobile + Desktop Core Analysis Reports</li>
-                    <li>Automatic PDF Report Download Feature</li>
+    <!-- Contact Us Section -->
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <div class="contact-info-box" style="max-width: 500px; margin: 0 auto 40px; text-align: left;">
+            <p>📧 <strong>Email Support:</strong> support@scrutinixai.com</p>
+            <p>⏰ <strong>Response Time:</strong> Within 24-48 business hours</p>
+        </div>
+        
+        <!-- Contact Form -->
+        <form class="contact-form" onsubmit="alert('Thank you! Your message has been sent successfully.'); return false;">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email Address" required>
+            <textarea rows="5" placeholder="How can we help your business grow?" required></textarea>
+            <button type="submit" class="btn">Send Message ✉️</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Scrutinix AI. All rights reserved.</p>
+    </footer>
+
+    <script>
+    async function runLiveAiAudit() {
+        const urlInput = document.getElementById('webUrl').value.trim();
+        const topicInput = document.getElementById('webTopic').value.trim();
+
+        const reportArea = document.getElementById('reportArea');
+        const repStatus = document.getElementById('repStatus');
+        const repScore = document.getElementById('repScore');
+        const repAnalysis = document.getElementById('repAnalysis');
+
+        if (!urlInput || !topicInput) {
+            alert("कृपया वेबसाइट URL और कीवर्ड/टॉपिक दोनों सही तरीके से भरें!");
+            return;
+        }
+
+        reportArea.style.display = "block";
+        repStatus.innerHTML = "🔄 <b>स्थिति:</b> लाइव AI डेटा स्कैन किया जा रहा है...";
+        repScore.innerText = "";
+        repAnalysis.innerText = "";
+
+        try {
+            const response = await fetch('http://127.0.0', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ url: urlInput, topic: topicInput })
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                repStatus.innerHTML = 📢 <b>स्थिति:</b> ${result.status};
+                repScore.innerHTML = 🎯 <b>AI विजिबिलिटी破解 स्कोर:</b> ${result.score}/100;
+                repAnalysis.innerHTML = 📝 <b>गहरी समीक्षा:</b> ${result.analysis};
+            } else {
+                repStatus.innerHTML = "❌ <b>त्रुटि:</b> सर्ver से सही जवाब नहीं मिला।";
+            }
+        } catch (error) {
+            repStatus.innerHTML = "⚠️ <b>कनेक्शन एरर:</b> कृपया चेक करें कि आपका काला बॉक्स (CMD Server) चालू है या नहीं।";
+        }
+    }
+    </script>
+
+</body>
+</html>
