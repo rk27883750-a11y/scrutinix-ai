@@ -43,9 +43,35 @@
         section { padding: 100px 5% 80px; border-top: 1px solid #1e293b; scroll-margin-top: 70px; }
         h2 { text-align: center; font-size: 32px; margin-bottom: 40px; color: #38bdf8; }
 
+        /* Custom Search Box CSS for Live AI Visibility Tool */
+        .search-container {
+            max-width: 500px;
+            margin: 30px auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: #131b2e;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+        }
+        .search-container input {
+            width: 100%;
+            padding: 14px;
+            background-color: #0b111e;
+            border: 1px solid #1e293b;
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+        .search-container input:focus {
+            border-color: #38bdf8;
+        }
+
         .btn {
             display: inline-block;
-            padding: 12px 20px;
+            padding: 14px 20px;
             background-color: #38bdf8;
             color: #000000;
             text-decoration: none;
@@ -55,11 +81,25 @@
             cursor: pointer;
             border: none;
             text-align: center;
-            font-size: 14px;
+            font-size: 16px;
             width: 100%;
             display: block;
         }
         .btn:hover { background-color: #7dd3fc; box-shadow: 0 0 15px rgba(56, 189, 248, 0.6); }
+
+        /* Report Output Styling Area */
+        .report-box {
+            max-width: 500px;
+            margin: 20px auto 0;
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #38bdf8;
+            text-align: left;
+            display: none;
+        }
+        .report-box h4 { color: #38bdf8; margin-bottom: 10px; font-size: 18px; }
+        .report-box p { font-size: 14px; color: #cbd5e1; margin-bottom: 8px; }
 
         /* Pricing & Plans Grid Layout */
         .pricing-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 20px; }
@@ -123,11 +163,25 @@
         </nav>
     </header>
 
-    <!-- Hero Section (बटन का नाम और डायरेक्ट डाउनलोड लिंक बिल्कुल फिक्स है) -->
+    <!-- Hero Section (लाइव इनपुट बॉक्स और वर्किंग बटन के साथ अपडेटेड) -->
     <div class="hero">
-        <h1>Free AI SEO Audit Tool<br><span class="blue-text">for Business Growth</span></h1>
-        <p>Aapki website ki SEO speed, meta tags aur Google ranking mistakes ko seconds me check karein aur business grow karein.</p>
-        <a href="seo-audit-tool.html" class="btn" style="width: auto; display: inline-block;" download="Scrutinix-SEO-Audit.html">Download Free Tools 🚀</a>
+        <h1>Google Search Is Changing.<br><span class="blue-text">Is Your Business Visible Inside ChatGPT & Perplexity?</span></h1>
+        <p>Millions of buyers are skipping Google and asking AI chatbots for recommendations. Find out your score in 30 seconds.</p>
+        
+        <!-- लाइव इनपुट फोर्म्स -->
+        <div class="search-container">
+            <input type="text" id="webUrl" placeholder="Website URL (e.g., https://mysite.com)">
+            <input type="text" id="webTopic" placeholder="Main Keyword/Topic (e.g., Best Digital Marketer)">
+            <button class="btn" onclick="runLiveAiAudit()">Scan My AI Visibility 💎</button>
+        </div>
+
+        <!-- लाइव यूनीक रिपोर्ट आउटपुट बॉक्स -->
+        <div id="reportArea" class="report-box">
+            <h4>🔮 Scrutinix AI Live Report</h4>
+            <p id="repStatus"></p>
+            <p id="repScore"></p>
+            <p id="repAnalysis"></p>
+        </div>
     </div>
 
     <!-- Plans Section -->
@@ -159,48 +213,3 @@
                     <li>Advanced Deep AI Website Audit</li>
                     <li>Mobile + Desktop Core Analysis Reports</li>
                     <li>Automatic PDF Report Download Feature</li>
-                    <li>1-on-1 Expert SEO Consulting & Support</li>
-                </ul>
-                <a href="#contact" class="btn" style="background-color: white; color: black;">Buy Now 💳</a>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Trust & Stats Section -->
-    <section id="trust" style="background-color: #0e1626;">
-        <h2>Trusted by Developers & Bloggers</h2>
-        <div class="trust-grid">
-            <div class="trust-card">
-                <h3>1000+</h3>
-                <p>Websites Audited</p>
-            </div>
-            <div class="trust-card">
-                <h3>AI-Powered</h3>
-                <p>Detailed Reports</p>
-            </div>
-            <div class="trust-card">
-                <h3>100% Safe</h3>
-                <p>& Super Fast Latency</p>
-            </div>
-            <div class="trust-card">
-                <h3>24/7</h3>
-                <p>Active Help Support</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section id="faq">
-        <h2>Frequently Asked Questions</h2>
-        <div class="faq-box">
-            <div class="faq-item">
-                <h4>SEO Audit kya hota hai?</h4>
-                <p>SEO audit aapki website ki speed, coding aur technical setup ko check karta hai. Isse pata chalta hai ki aapki website Google par rank kyu nahi kar paa rahi hai.</p>
-            </div>
-            <div class="faq-item">
-                <h4>Scrutinix AI kaise kaam karta hai?</h4>
-                <p>Scrutinix AI advanced coding scripts ka use karke aapki website ke meta tags, structure aur performance ko bina kisi server delay ke browser me hi turant scan kar deta hai.</p>
-            </div>
-            <div class="faq-item">
-                <h4>Kya Free Plan sach me muft hai?</h4>
