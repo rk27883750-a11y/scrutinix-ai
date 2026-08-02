@@ -3,145 +3,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - Smart SEO & Data Insights</title>
+    <title>Scrutinix AI - Smart SEO & Student Job Search Engine</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <meta name="google-site-verification" content="WkGd89WaQfflDJ_AalwZ-H_PqF0l4K_2Zg0I2Rre0Zc" />
 
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; html-behavior: smooth; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
+        
         body { 
-            background-color: #0b111e; 
-            color: white; 
+            background-color: #f8fafc; 
+            color: #0f172a; 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             line-height: 1.6;
         }
+        
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 20px 5%;
-            background-color: #131b2e;
+            background-color: #ffffff;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid #1e293b;
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
         }
-        .logo { font-size: 24px; font-weight: bold; color: #38bdf8; }
-        nav a { color: #94a3b8; text-decoration: none; margin-left: 20px; font-weight: 500; }
-        nav a:hover { color: #38bdf8; }
+        .logo { font-size: 26px; font-weight: bold; color: #0284c7; }
+        nav a { color: #64748b; text-decoration: none; margin-left: 25px; font-weight: 600; font-size: 16px; }
+        nav a:hover { color: #0284c7; }
         
         .hero { padding: 180px 5% 80px; text-align: center; }
         
         .free-badge {
             display: inline-block;
-            background: linear-gradient(135deg, #38bdf8, #10b981);
-            color: #000000;
+            background: linear-gradient(135deg, #0284c7, #10b981);
+            color: #ffffff;
             font-weight: bold;
-            padding: 6px 16px;
+            padding: 6px 18px;
             border-radius: 20px;
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.2);
         }
 
-        h1 { font-size: 48px; margin-bottom: 20px; }
-        .blue-text { color: #38bdf8; }
-        .hero p { font-size: 18px; color: #94a3b8; max-width: 600px; margin: 0 auto 30px; }
+        h1 { font-size: 46px; margin-bottom: 20px; color: #0f172a; font-weight: 800; }
+        .blue-text { color: #0284c7; }
+        .hero p { font-size: 19px; color: #475569; max-width: 700px; margin: 0 auto 35px; font-weight: 500; }
 
-        /* Modern Search Box */
+        /* Perplexity Style Search Box */
         .search-container {
-            max-width: 550px;
+            max-width: 680px;
             margin: 30px auto 0;
             display: flex;
             flex-direction: column;
             gap: 15px;
-            background: #131b2e;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #1e293b;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         }
         .search-container input {
             width: 100%;
-            padding: 14px;
-            background-color: #0b111e;
-            border: 1px solid #1e293b;
-            color: white;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: 16px;
+            background-color: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: #0f172a;
+            border-radius: 10px;
+            font-size: 18px;
             outline: none;
+            transition: 0.3s;
         }
-        .search-container input:focus { border-color: #38bdf8; }
+        .search-container input:focus { border-color: #0284c7; background-color: #ffffff; box-shadow: 0 0 10px rgba(2, 132, 199, 0.1); }
 
-        /* 4 रंगीन बटन्स */
+        /* 4 Action Buttons */
         .btn-group {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 12px;
             margin-top: 10px;
         }
         .btn {
-            padding: 14px 20px;
-            text-decoration: none;
+            padding: 14px 15px;
             border-radius: 8px;
             font-weight: bold;
             transition: 0.3s;
             cursor: pointer;
             border: none;
             text-align: center;
-            font-size: 15px;
-            width: 100%;
-            display: block;
+            font-size: 14px;
         }
-        .btn-seo { background-color: #38bdf8; color: #000000; }
-        .btn-seo:hover { background-color: #7dd3fc; box-shadow: 0 0 15px rgba(56, 189, 248, 0.6); }
-        
-        .btn-voice { background-color: #10b981; color: #000000; }
-        .btn-voice:hover { background-color: #34d399; box-shadow: 0 0 15px rgba(16, 185, 129, 0.6); }
+        .btn-ask { background-color: #0284c7; color: #ffffff; }
+        .btn-ask:hover { background-color: #0369a1; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3); }
+        .btn-voice { background-color: #10b981; color: #ffffff; }
+        .btn-voice:hover { background-color: #059669; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+        .btn-job { background-color: #f59e0b; color: #ffffff; }
+        .btn-job:hover { background-color: #d97706; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); }
+        .btn-shield { background-color: #ef4444; color: #ffffff; }
+        .btn-shield:hover { background-color: #dc2626; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
 
-        .btn-searchgpt { background-color: #fbbf24; color: #000000; }
-        .btn-searchgpt:hover { background-color: #fcd34d; box-shadow: 0 0 15px rgba(251, 191, 36, 0.6); }
-        
-        .btn-fraud { background-color: #ef4444; color: #ffffff; }
-        .btn-fraud:hover { background-color: #f87171; box-shadow: 0 0 15px rgba(239, 68, 68, 0.6); }
-
-        /* ४ सुंदर खानों (Boxes) वाला आउटपुट डैशबोर्ड */
+        /* Output Box Layout */
         .report-box {
-            max-width: 650px;
+            max-width: 750px;
             margin: 40px auto 0;
-            background: #131b2e;
-            padding: 30px;
+            background: #ffffff;
+            padding: 35px;
             border-radius: 16px;
-            border: 1px solid #1e293b;
-            border-top: 5px solid #38bdf8;
+            border: 1px solid #e2e8f0;
+            border-top: 5px solid #0284c7;
             text-align: left;
             display: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
         }
-        .report-box h3 { color: #38bdf8; margin-bottom: 20px; font-size: 22px; }
+
+        /* Perplexity Navigation Tabs */
+        .perplexity-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 12px;
+        }
+        .perp-tab {
+            font-size: 15px;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+        .perp-tab.active {
+            color: #0284c7;
+            background-color: #f0f9ff;
+            border: 1px solid #bae6fd;
+        }
+        .perp-tab:hover { background-color: #f1f5f9; color: #0284c7; }
         
-        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
-        .metric-card { background: #0b111e; padding: 15px; border-radius: 10px; border: 1px solid #1e293b; text-align: center; }
-        .metric-card h5 { color: #94a3b8; font-size: 13px; text-transform: uppercase; margin-bottom: 8px; }
-        .metric-value { font-size: 28px; font-weight: bold; color: #ffffff; }
+        /* Content display areas */
+        .engine-content-section { display: none; }
+        .engine-content-section.active { display: block; }
 
-        .analysis-text { background: #1e293b; padding: 15px; border-radius: 10px; font-size: 15px; color: #cbd5e1; margin-bottom: 20px; border-left: 3px solid #10b981; }
-        .extra-alert-text { background: #1e293b; padding: 15px; border-radius: 10px; font-size: 15px; color: #cbd5e1; border-left: 3px solid #fbbf24; display: none; margin-top: 15px; }
+        .ai-answer-area {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 12px;
+            font-size: 16px;
+            color: #334155;
+            line-height: 1.8;
+            border: 1px solid #e2e8f0;
+        }
+        .ai-answer-area ul { margin-left: 20px; margin-top: 10px; margin-bottom: 10px; }
+        .ai-answer-area li { margin-bottom: 12px; }
+        .ai-answer-area strong { color: #0284c7; }
 
-        section { padding: 100px 5% 80px; border-top: 1px solid #1e293b; scroll-margin-top: 70px; }
-        h2 { text-align: center; font-size: 32px; margin-bottom: 40px; color: #38bdf8; }
-        .content-box { max-width: 800px; margin: 0 auto; color: #94a3b8; font-size: 16px; text-align: left; }
+        /* Job Links Styling */
+        .job-link-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #e2e8f0;
+            transition: 0.3s;
+        }
+        .job-link-card:hover { border-color: #0284c7; transform: translateX(5px); }
+        .job-url-btn { background: #0284c7; color: white; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: bold; }
+
+        /* Image Thumbnails Grid Layout */
+        .thumbnail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .thumbnail-card {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: white;
+            padding: 25px 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.15);
+            font-size: 16px;
+            border-bottom: 4px solid #0b111e;
+        }
+
+        /* Sections Design */
+        section { 
+            padding: 120px 5% 100px; 
+            border-top: 1px solid #e2e8f0; 
+            scroll-margin-top: 80px;
+            background-color: #ffffff;
+        }
+        .section-title { 
+            text-align: center; 
+            font-size: 38px; 
+            font-weight: 800; 
+            margin-bottom: 45px; 
+            color: #0284c7; 
+        }
+        .large-content-box { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            color: #334155; 
+            font-size: 19px; 
+            line-height: 1.8; 
+            background: #f8fafc;
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+        }
         
-        .contact-info-box { background-color: #131b2e; padding: 25px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 30px; max-width: 500px; margin: 0 auto 40px; text-align: left; }
-        .contact-info-box p { margin-bottom: 12px; color: white; }
-        .contact-info-box strong { color: #38bdf8; }
-        .contact-form { max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
-        .contact-form input, .contact-form textarea { width: 100%; padding: 12px; background-color: #131b2e; border: 1px solid #1e293b; color: white; border-radius: 6px; font-size: 16px; }
+        .large-contact-info-box { 
+            background: linear-gradient(145deg, #ffffff, #f8fafc); 
+            padding: 45px; 
+            border-radius: 16px; 
+            border: 2px solid #0284c7; 
+            max-width: 650px; 
+            margin: 0 auto 50px; 
+            text-align: left; 
+            box-shadow: 0 10px 30px rgba(2, 132, 199, 0.08);
+        }
+        .large-contact-info-box p { margin-bottom: 20px; color: #0f172a; font-size: 22px; font-weight: 600; }
+        .large-contact-info-box strong { color: #0284c7; }
+        
+        .contact-form { max-width: 650px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 14px; background-color: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; border-radius: 8px; font-size: 16px; }
 
-        footer { text-align: center; padding: 60px 5% 40px; color: #64748b; font-size: 14px; background-color: #060a12; border-top: 1px solid #1e293b; }
+        /* Privacy Policy Box link styles for AdSense Approval */
+        .privacy-link {
+            color: #0284c7;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .privacy-box {
+            display: none;
+            max-width: 900px;
+            margin: 30px auto 0;
+            background: #f8fafc;
+            padding: 35px;
+            border-radius: 12px;
+            border: 1px dashed #cbd5e1;
+            text-align: left;
+            color: #475569;
+            font-size: 15px;
+        }
+
+        footer { text-align: center; padding: 60px 5% 40px; color: #64748b; font-size: 14px; background-color: #f1f5f9; border-top: 1px solid #e2e8f0; }
     </style>
 </head>
 <body>
@@ -152,69 +272,9 @@
             <a href="#">Home</a>
             <a href="#about">About Us</a>
             <a href="#contact">Contact Us</a>
+            <a onclick="togglePrivacyBox()" class="privacy-link" style="margin-left:25px; font-size:16px;">Privacy Policy</a>
         </nav>
     </header>
 
     <div class="hero">
-        <div class="free-badge">💎 100% Free AI Tool 💎</div>
-        
-        <h1>Google Search Is Changing.<br><span class="blue-text">Is Your Business Visible Inside ChatGPT & Perplexity?</span></h1>
-        <p>Millions of buyers are skipping Google and asking AI chatbots for recommendations. Find out your score in 30 seconds.</p>
-        
-        <div class="search-container">
-            <input type="text" id="webUrl" placeholder="Website URL (e.g., https://mysite.com)">
-            <input type="text" id="webTopic" placeholder="Main Keyword/Topic (e.g., Best Digital Marketer)">
-            
-            <div class="btn-group">
-                <button class="btn btn-seo" onclick="runLiveAiAudit()">1. Scan Website SEO & AI Score 🎯</button>
-                <button class="btn btn-voice" onclick="startVoiceOver()">2. Start AI Voice Over Expert 🔊</button>
-                <button class="btn btn-searchgpt" onclick="checkSearchGPT()">3. Check SearchGPT Ranking Status 🌐</button>
-                <button class="btn btn-fraud" onclick="activateFraudShield()">4. Activate Competitor Fraud Shield 🛡️</button>
-            </div>
-        </div>
-
-        <!-- ४ सुंदर खानों (Boxes) वाला लाइव आउटपुट डैशबोर्ड -->
-        <div id="reportArea" class="report-box">
-            <h3>🔮 Scrutinix AI Live System Report</h3>
-            
-            <div class="metric-grid">
-                <!-- ऑप्शन 1 -->
-                <div class="metric-card">
-                    <h5>ChatGPT Recommendation Chance</h5>
-                    <div id="repChance" class="metric-value" style="color: #10b981;">--</div>
-                </div>
-                <!-- ऑप्शन 2 -->
-                <div class="metric-card">
-                    <h5>AI Competitor Traffic Leaks</h5>
-                    <div id="repLeaks" class="metric-value" style="color: #f43f5e;">--</div>
-                </div>
-                <!-- ऑप्शन 3 -->
-                <div class="metric-card">
-                    <h5>AI Hallucination Risk</h5>
-                    <div id="repRisk" class="metric-value" style="color: #ef4444;">--</div>
-                </div>
-                <!-- ऑप्शन 4 -->
-                <div class="metric-card">
-                    <h5>SearchGPT Ranking Status</h5>
-                    <div id="repStatus" class="metric-value" style="color: #fbbf24;">--</div>
-                </div>
-            </div>
-
-            <div class="analysis-text" id="repAnalysis">
-                कृपया पहले बटन 1 दबाकर वेबसाइट स्कैन करें...
-            </div>
-
-            <div class="extra-alert-text" id="extraAlertArea"></div>
-        </div>
-    </div>
-
-    <!-- About Us Section -->
-    <section id="about">
-        <h2>About Us</h2>
-        <div class="content-box">
-            <p style="margin-bottom: 20px;">Welcome to <strong>Scrutinix AI</strong>, the world's first AI-driven Search Visibility and Context Auditor. As global search engines transition from traditional keyword ranking to Generative AI ecosystems, businesses face a new challenge: ensuring their brand is trusted and cited by AI models like ChatGPT, Google Gemini, and Perplexity.</p>
-            <p>Our intelligent system scans LLM memory structures, detects search engine hallucination risks, and ensures your company stands out as a verified authority. We bridge the gap between classic SEO and the modern AI-driven web.</p>
-        </div>
-    </section>
-
-    <!-- Contact Us Section -->
+        <div class="free-badge">🚀 100% Free AI Search Engine 🚀</div>
