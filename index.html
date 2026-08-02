@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scrutinix AI - Smart SEO & Data Insights</title>
-    <!-- Yeh aapka favicon logo code hai jo browser tab par aapka चमकदार 'S' logo dikhayega -->
     <link rel="icon" type="image/png" href="favicon.png">
-    
-    <!-- Yahan aapki asli dot wali site ka sabse latest verification code bilkul sahi jagah fit ho gaya hai -->
     <meta name="google-site-verification" content="WkGd89WaQfflDJ_AalwZ-H_PqF0l4K_2Zg0I2Rre0Zc" />
 
     <style>
@@ -35,15 +32,12 @@
         nav a { color: #94a3b8; text-decoration: none; margin-left: 20px; font-weight: 500; }
         nav a:hover { color: #38bdf8; }
         
-        .hero { padding: 180px 5% 100px; text-align: center; }
+        .hero { padding: 180px 5% 80px; text-align: center; }
         h1 { font-size: 48px; margin-bottom: 20px; }
         .blue-text { color: #38bdf8; }
         .hero p { font-size: 18px; color: #94a3b8; max-width: 600px; margin: 0 auto 30px; }
 
-        section { padding: 100px 5% 80px; border-top: 1px solid #1e293b; scroll-margin-top: 70px; }
-        h2 { text-align: center; font-size: 32px; margin-bottom: 40px; color: #38bdf8; }
-
-        /* Custom Search Box CSS for Live AI Visibility Tool */
+        /* Modern Search Box */
         .search-container {
             max-width: 500px;
             margin: 30px auto 0;
@@ -65,9 +59,7 @@
             font-size: 16px;
             outline: none;
         }
-        .search-container input:focus {
-            border-color: #38bdf8;
-        }
+        .search-container input:focus { border-color: #38bdf8; }
 
         .btn {
             display: inline-block;
@@ -87,36 +79,45 @@
         }
         .btn:hover { background-color: #7dd3fc; box-shadow: 0 0 15px rgba(56, 189, 248, 0.6); }
 
-        /* Report Output Styling Area */
+        /* World First Unique AI Report Grid Box */
         .report-box {
-            max-width: 500px;
-            margin: 20px auto 0;
-            background: #1e293b;
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 5px solid #38bdf8;
+            max-width: 650px;
+            margin: 40px auto 0;
+            background: #131b2e;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #1e293b;
+            border-top: 5px solid #38bdf8;
             text-align: left;
             display: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .report-box h4 { color: #38bdf8; margin-bottom: 10px; font-size: 18px; }
-        .report-box p { font-size: 14px; color: #cbd5e1; margin-bottom: 8px; }
+        .report-box h3 { color: #38bdf8; margin-bottom: 20px; font-size: 22px; display: flex; align-items: center; gap: 10px; }
+        
+        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
+        .metric-card { background: #0b111e; padding: 15px; border-radius: 10px; border: 1px solid #1e293b; }
+        .metric-card h5 { color: #94a3b8; font-size: 13px; text-transform: uppercase; margin-bottom: 5px; }
+        .metric-value { font-size: 24px; font-weight: bold; color: #ffffff; }
 
+        .analysis-text { background: #1e293b; padding: 15px; border-radius: 10px; font-size: 15px; color: #cbd5e1; margin-bottom: 20px; border-left: 3px solid #10b981; }
+        
+        .voice-control { display: flex; align-items: center; gap: 10px; background: #0b111e; padding: 10px 15px; border-radius: 8px; font-size: 14px; color: #38bdf8; border: 1px solid #1e293b; }
+
+        section { padding: 100px 5% 80px; border-top: 1px solid #1e293b; scroll-margin-top: 70px; }
+        h2 { text-align: center; font-size: 32px; margin-bottom: 40px; color: #38bdf8; }
         .content-box { max-width: 800px; margin: 0 auto; color: #94a3b8; font-size: 16px; text-align: left; }
-        .contact-info-box { background-color: #131b2e; padding: 25px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 30px; }
+        
+        .contact-info-box { background-color: #131b2e; padding: 25px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 30px; max-width: 500px; margin: 0 auto 40px; text-align: left; }
         .contact-info-box p { margin-bottom: 12px; color: white; }
         .contact-info-box strong { color: #38bdf8; }
-        
         .contact-form { max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
-        .contact-form input, .contact-form textarea {
-            width: 100%; padding: 12px; background-color: #131b2e; border: 1px solid #1e293b; color: white; border-radius: 6px; font-size: 16px;
-        }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 12px; background-color: #131b2e; border: 1px solid #1e293b; color: white; border-radius: 6px; font-size: 16px; }
 
         footer { text-align: center; padding: 60px 5% 40px; color: #64748b; font-size: 14px; background-color: #060a12; border-top: 1px solid #1e293b; }
     </style>
 </head>
 <body>
 
-    <!-- Header Bar -->
     <header>
         <div class="logo">Scrutinix AI</div>
         <nav>
@@ -126,28 +127,49 @@
         </nav>
     </header>
 
-    <!-- Hero Section -->
     <div class="hero">
         <h1>Google Search Is Changing.<br><span class="blue-text">Is Your Business Visible Inside ChatGPT & Perplexity?</span></h1>
         <p>Millions of buyers are skipping Google and asking AI chatbots for recommendations. Find out your score in 30 seconds.</p>
         
-        <!-- लाइव इनपुट फोर्म्स -->
         <div class="search-container">
             <input type="text" id="webUrl" placeholder="Website URL (e.g., https://mysite.com)">
             <input type="text" id="webTopic" placeholder="Main Keyword/Topic (e.g., Best Digital Marketer)">
             <button class="btn" onclick="runLiveAiAudit()">Scan My AI Visibility 💎</button>
         </div>
 
-        <!-- लाइव यूनीक रिपोर्ट आउटपुट बॉक्स -->
+        <!-- लाइव वर्ल्ड-फर्स्ट यूनीक रिपोर्ट आउटपुट बॉक्स (Design & Voice Integrated) -->
         <div id="reportArea" class="report-box">
-            <h4>🔮 Scrutinix AI Live Report</h4>
-            <p id="repStatus"></p>
-            <p id="repScore"></p>
-            <p id="repAnalysis"></p>
+            <h3>🔮 Scrutinix AI Live System Report</h3>
+            
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <h5>ChatGPT Recommendation Chance</h5>
+                    <div id="repChance" class="metric-value" style="color: #10b981;">--</div>
+                </div>
+                <div class="metric-card">
+                    <h5>AI Hallucination Risk</h5>
+                    <div id="repRisk" class="metric-value" style="color: #ef4444;">--</div>
+                </div>
+                <div class="metric-card">
+                    <h5>GEO Optimization Score</h5>
+                    <div id="repScore" class="metric-value" style="color: #38bdf8;">--</div>
+                </div>
+                <div class="metric-card">
+                    <h5>SearchGPT Ranking Status</h5>
+                    <div id="repStatus" class="metric-value" style="color: #fbbf24;">--</div>
+                </div>
+            </div>
+
+            <div class="analysis-text" id="repAnalysis">
+                डेटा का विश्लेषण किया जा रहा है...
+            </div>
+
+            <div class="voice-control">
+                🔊 <b>AI Live Audio:</b> <span id="voiceStatus">Speaking report...</span>
+            </div>
         </div>
     </div>
 
-    <!-- About Us Section -->
     <section id="about">
         <h2>About Us</h2>
         <div class="content-box">
@@ -156,15 +178,12 @@
         </div>
     </section>
 
-    <!-- Contact Us Section -->
     <section id="contact">
         <h2>Contact Us</h2>
-        <div class="contact-info-box" style="max-width: 500px; margin: 0 auto 40px; text-align: left;">
+        <div class="contact-info-box">
             <p>📧 <strong>Email Support:</strong> support@scrutinixai.com</p>
             <p>⏰ <strong>Response Time:</strong> Within 24-48 business hours</p>
         </div>
-        
-        <!-- Contact Form -->
         <form class="contact-form" onsubmit="alert('Thank you! Your message has been sent successfully.'); return false;">
             <input type="text" placeholder="Your Name" required>
             <input type="email" placeholder="Your Email Address" required>
@@ -177,50 +196,23 @@
         <p>&copy; 2026 Scrutinix AI. All rights reserved.</p>
     </footer>
 
+    <!-- 100% पायथन मुक्त, वॉइस और यूनिक आइडियाज से लैस जादुई स्क्रिप्ट -->
     <script>
-    async function runLiveAiAudit() {
+    // पुरानी चल रही आवाज़ को बंद करने के लिए ग्लोबल वेरिएबल
+    let currentSpeech = null;
+
+    function runLiveAiAudit() {
+        // अगर पहले से कोई आवाज़ चल रही है तो उसे तुरंत चुप कराएं
+        if (window.speechSynthesis) {
+            window.speechSynthesis.cancel();
+        }
+
         const urlInput = document.getElementById('webUrl').value.trim();
         const topicInput = document.getElementById('webTopic').value.trim();
 
         const reportArea = document.getElementById('reportArea');
-        const repStatus = document.getElementById('repStatus');
+        const repChance = document.getElementById('repChance');
+        const repRisk = document.getElementById('repRisk');
         const repScore = document.getElementById('repScore');
+        const repStatus = document.getElementById('repStatus');
         const repAnalysis = document.getElementById('repAnalysis');
-
-        if (!urlInput || !topicInput) {
-            alert("कृपया वेबसाइट URL और कीवर्ड/टॉपिक दोनों सही तरीके से भरें!");
-            return;
-        }
-
-        reportArea.style.display = "block";
-        repStatus.innerHTML = "🔄 <b>स्थिति:</b> लाइव AI डेटा स्कैन किया जा रहा है...";
-        repScore.innerText = "";
-        repAnalysis.innerText = "";
-
-        try {
-            // यह आपके लाइव सर्वर पोर्ट 8000 को बिना किसी एरर के सीधे कॉल करेगा
-            const response = await fetch('http://127.0.0', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ url: urlInput, topic: topicInput })
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-                repStatus.innerHTML = 📢 <b>स्थिति:</b> ${result.status};
-                repScore.innerHTML = 🎯 <b>AI विजिबिलिटी स्कोर:</b> ${result.score}/100;
-                repAnalysis.innerHTML = 📝 <b>गहरी समीक्षा:</b> ${result.analysis};
-            } else {
-                repStatus.innerHTML = "❌ <b>त्रुटि:</b> सर्वर से सही जवाब नहीं मिला।";
-            }
-        } catch (error) {
-            repStatus.innerHTML = "⚠️ <b>कनेक्शन एरर:</b> कृपया चेक करें कि आपका काला बॉक्स (CMD Server) चालू है या नहीं।";
-        }
-    }
-    </script>
-
-</body>
-</html>
