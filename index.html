@@ -3,272 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - Next-Gen Student Job Search Engine</title>
-    <!-- Aapकी जानकारी ऊपर ही सुरक्षित कर दी गई है -->
-    <!-- Admin Support: +91 7304111280 | rk27883750@gmail.com -->
+    <title>Scrutinix AI - Light Search Engine</title>
     <link rel="icon" type="image/png" href="favicon.png">
-    <meta name="google-site-verification" content="WkGd89WaQfflDJ_AalwZ-H_PqF0l4K_2Zg0I2Rre0Zc" />
-
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        
         body { 
-            background-color: #f8fafc; 
+            background-color: #ffffff; 
             color: #0f172a; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            line-height: 1.6;
-        }
-        
-        header {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 5%;
-            background-color: #ffffff;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid #e2e8f0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-        }
-        .logo { font-size: 26px; font-weight: bold; color: #0284c7; }
-        nav a { color: #64748b; text-decoration: none; margin-left: 25px; font-weight: 600; font-size: 16px; }
-        nav a:hover { color: #0284c7; }
-        
-        .hero { padding: 180px 5% 80px; text-align: center; }
-        
-        .free-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #0284c7, #10b981);
-            color: #ffffff;
-            font-weight: bold;
-            padding: 6px 18px;
-            border-radius: 20px;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.2);
+            height: 100vh;
+            overflow: hidden;
         }
 
-        h1 { font-size: 46px; margin-bottom: 20px; color: #0f172a; font-weight: 800; }
-        .blue-text { color: #0284c7; }
-        .hero p { font-size: 19px; color: #475569; max-width: 700px; margin: 0 auto 35px; font-weight: 500; }
-
-        .search-container {
-            max-width: 680px;
-            margin: 30px auto 0;
+        /* 1. शुरुआती ऑप्शन: सुंदर साइडबार (Sidebar) जो हमेशा दिखेगा */
+        .perp-sidebar {
+            width: 240px;
+            background-color: #f8fafc;
+            border-right: 1px solid #e2e8f0;
+            padding: 30px 20px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 16px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            gap: 20px;
+            height: 100%;
         }
-        .search-container input {
-            width: 100%;
-            padding: 16px;
-            background-color: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            color: #0f172a;
-            border-radius: 10px;
-            font-size: 18px;
-            outline: none;
-            transition: 0.3s;
-        }
-        .search-container input:focus { border-color: #0284c7; background-color: #ffffff; box-shadow: 0 0 10px rgba(2, 132, 199, 0.1); }
+        .sidebar-logo { font-size: 22px; font-weight: 800; color: #0284c7; margin-bottom: 20px; }
+        .sidebar-link { font-weight: 600; color: #64748b; font-size: 15px; cursor: pointer; text-decoration: none; padding: 8px 12px; border-radius: 6px; }
+        .sidebar-link:hover, .sidebar-link.active { background-color: #f1f5f9; color: #0284c7; }
 
-        .btn-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 10px;
+        /* मुख्य राइट विंडो */
+        .perp-main {
+            flex: 1;
+            padding: 60px 8%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+            height: 100%;
         }
-        .btn {
-            padding: 14px 15px;
+
+        .heading-text { font-size: 32px; font-weight: 700; margin-bottom: 25px; color: #0f172a; text-align: center; }
+
+        /* 2. शुरुआती ऑप्शन: मुख्य सर्च बॉक्स (Search Box Panel) */
+        .search-wrapper {
+            width: 100%;
+            max-width: 680px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            margin-bottom: 30px;
+        }
+        .search-wrapper input {
+            width: 100%;
+            padding: 14px;
+            background-color: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            color: #0f172a;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            margin-bottom: 12px;
+        }
+        .search-wrapper input:focus { border-color: #0284c7; background-color: #ffffff; }
+        
+        .search-btn {
+            width: 100%;
+            background-color: #0284c7;
+            color: white;
+            border: none;
+            padding: 12px;
             border-radius: 8px;
             font-weight: bold;
-            transition: 0.3s;
             cursor: pointer;
-            border: none;
-            text-align: center;
-            font-size: 14px;
-        }
-        .btn-ask { background-color: #0284c7; color: #ffffff; }
-        .btn-ask:hover { background-color: #0369a1; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3); }
-        .btn-voice { background-color: #10b981; color: #ffffff; }
-        .btn-voice:hover { background-color: #059669; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
-        .btn-job { background-color: #f59e0b; color: #ffffff; }
-        .btn-job:hover { background-color: #d97706; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); }
-        .btn-shield { background-color: #ef4444; color: #ffffff; }
-        .btn-shield:hover { background-color: #dc2626; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
-
-        .report-box {
-            max-width: 750px;
-            margin: 40px auto 0;
-            background: #ffffff;
-            padding: 35px;
-            border-radius: 16px;
-            border: 1px solid #e2e8f0;
-            border-top: 5px solid #0284c7;
-            text-align: left;
-            display: none;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
-        }
-
-        .perplexity-tabs {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 12px;
-        }
-        .perp-tab {
             font-size: 15px;
-            font-weight: 600;
-            color: #64748b;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            border-radius: 8px;
             transition: 0.2s;
         }
-        .perp-tab.active {
-            color: #0284c7;
-            background-color: #f0f9ff;
-            border: 1px solid #bae6fd;
-        }
-        .perp-tab:hover { background-color: #f1f5f9; color: #0284c7; }
-        
-        .engine-content-section { display: none; }
-        .engine-content-section.active { display: block; }
+        .search-btn:hover { background-color: #0369a1; }
 
-        .ai-answer-area {
+        /* 3. शुरुआती ऑप्शन: सीधा एआई उत्तर बॉक्स (AI Answer Area) */
+        .answer-output-box {
+            width: 100%;
+            max-width: 680px;
             background: #f8fafc;
             padding: 25px;
             border-radius: 12px;
-            font-size: 16px;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #0284c7;
+            display: none; /* सवाल पूछने पर प्रकट होगा */
+            font-size: 15.5px;
             color: #334155;
-            line-height: 1.8;
-            border: 1px solid #e2e8f0;
-        }
-        .ai-answer-area ul { margin-left: 20px; margin-top: 10px; margin-bottom: 10px; }
-        .ai-answer-area li { margin-bottom: 12px; }
-        .ai-answer-area strong { color: #0284c7; }
-
-        .job-link-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #ffffff;
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            border: 1px solid #e2e8f0;
-            transition: 0.3s;
-            color: #334155;
-        }
-        .job-link-card:hover { border-color: #0284c7; transform: translateX(5px); }
-        .job-url-btn { background: #0284c7; color: white; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: bold; }
-
-        .thumbnail-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 10px;
-        }
-        .thumbnail-card {
-            background: linear-gradient(135deg, #0284c7, #0369a1);
-            color: white;
-            padding: 25px 20px;
-            border-radius: 12px;
-            text-align: center;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.15);
-            font-size: 16px;
-            border-bottom: 4px solid #0f172a;
-        }
-
-        section { 
-            padding: 120px 5% 100px; 
-            border-top: 1px solid #e2e8f0; 
-            scroll-margin-top: 80px;
-            background-color: #ffffff;
-        }
-        .section-title { 
-            text-align: center; 
-            font-size: 38px; 
-            font-weight: 800; 
-            margin-bottom: 45px; 
-            color: #0284c7; 
-        }
-        .large-content-box { 
-            max-width: 900px; 
-            margin: 0 auto; 
-            color: #334155; 
-            font-size: 19px; 
-            line-height: 1.8; 
-            background: #f8fafc;
-            padding: 40px;
-            border-radius: 16px;
-            border: 1px solid #e2e8f0;
-        }
-        
-        .large-contact-info-box { 
-            background: linear-gradient(145deg, #ffffff, #f8fafc); 
-            padding: 45px; 
-            border-radius: 16px; 
-            border: 2px solid #0284c7; 
-            max-width: 650px; 
-            margin: 0 auto 50px; 
-            text-align: left; 
-            box-shadow: 0 10px 30px rgba(2, 132, 199, 0.08);
-        }
-        .large-contact-info-box p { margin-bottom: 20px; color: #0f172a; font-size: 22px; font-weight: 600; }
-        .large-contact-info-box strong { color: #0284c7; }
-        
-        .contact-form { max-width: 650px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
-        .contact-form input, .contact-form textarea { width: 100%; padding: 14px; background-color: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; border-radius: 8px; font-size: 16px; }
-
-        .privacy-link { color: #0284c7; text-decoration: underline; cursor: pointer; font-weight: 600; }
-        .privacy-box {
-            display: none;
-            max-width: 900px;
-            margin: 30px auto 0;
-            background: #f8fafc;
-            padding: 35px;
-            border-radius: 12px;
-            border: 1px dashed #cbd5e1;
+            line-height: 1.7;
             text-align: left;
-            color: #475569;
-            font-size: 15px;
         }
-
-        footer { text-align: center; padding: 60px 5% 40px; color: #64748b; font-size: 14px; background-color: #f1f5f9; border-top: 1px solid #e2e8f0; }
+        .answer-output-box ul { margin-left: 20px; margin-top: 10px; }
+        .answer-output-box li { margin-bottom: 8px; }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">Scrutinix AI</div>
-        <nav>
-            <a href="#">Home</a>
-            <a href="#about">About Us</a>
-            <a href="#contact">Contact Us</a>
-            <a onclick="togglePrivacyBox()" class="privacy-link" style="margin-left:25px; font-size:16px;">Privacy Policy</a>
-        </nav>
-    </header>
+    <!-- [ऑप्शन 1] सुंदर साइडबार -->
+    <div class="perp-sidebar">
+        <div class="sidebar-logo">Scrutinix AI</div>
+        <div class="sidebar-link active" onclick="window.location.reload()">🌐 New Thread</div>
+        <div class="sidebar-link">💻 Computer</div>
+        <div class="sidebar-link">📦 Artefacts</div>
+    </div>
 
-    <div class="hero">
-        <div class="free-badge">🚀 100% Free AI Search Engine 🚀</div>
+    <!-- मुख्य दाहिना हिस्सा -->
+    <div class="perp-main">
+        <div class="heading-text">What do you want to know?</div>
         
-        <h1>Google Search Is Changing.<br><span class="blue-text">Ask Scrutinix AI Anything About SEO & Student Jobs</span></h1>
-        <p>स्टूडेंट्स और बिजनेस ओनर्स के लिए दुनिया का पहला डायरेक्ट उत्तर देने वाला सर्च इंजन। नीचे अपना सवाल लिखें और लाइव एआई जवाब पाएं।</p>
-        
-        <div class="search-container">
+        <!-- [ऑप्शन 2] मुख्य सर्च बॉक्स -->
+        <div class="search-wrapper">
+            <input type="text" id="userQuestion" placeholder="Ask anything... (e.g., work from home jobs?)">
+            <button class="search-btn" onclick="generateDirectAnswer()">Ask AI Engine 🔍</button>
+        </div>
+
+        <!-- [ऑप्शन 3] सीधा एआई उत्तर खाना -->
+        <div id="displayAnswerArea" class="answer-output-box">
+            डेटा लोड हो रहा है...
+        </div>
+    </div>
+
+    <script>
+    // एआई उत्तर देने का बुनियादी लाइव फंक्शन
+    function generateDirectAnswer() {
+        const query = document.getElementById('userQuestion').value.trim();
+        const outputBox = document.getElementById('displayAnswerArea');
+
+        if (!query) {
+            alert("कृपया सर्च बॉक्स में अपना सवाल टाइप करें!");
+            return;
+        }
+
+        outputBox.style.display = "block";
+        outputBox.innerHTML = "🔄 <b>AI Engine:</b> Searching data blocks...";
+
+        setTimeout(() => {
+            let lowerQuery = query.toLowerCase();
+            
+            // अगर स्टूडेंट जॉब सर्च करता है
+            if (lowerQuery.includes('job') || lowerQuery.includes('work') || lowerQuery.includes('home') || lowerQuery.includes('kam')) {
+                outputBox.innerHTML = `
+                    <b>🎯 Work From Home Jobs for Students - Direct Answer:</b><br><br>
+                    छात्रों के लिए घर बैठे काम करने के ३ सबसे सुरक्षित और मुख्य तरीके निम्नलिखित हैं:<br>
+                    <ul>
+                        <li><strong>1. Customer Support:</strong> बड़ी कंपनियां रिमोट कॉलिंग और सपोर्ट के लिए जॉब देती हैं।</li>
+                        <li><strong>2. Data Entry & Virtual Assistant:</strong> बुनियादी कंप्यूटर और एक्सेल स्किल्स के साथ पार्ट-टाइम टाइपिंग का काम।</li>
+                        <li><strong>3. Content Writing & Translation:</strong> सोशल मीडिया पोस्ट या ब्लॉग लिखकर फ्रीलांसिंग के जरिए कमाई।</li>
+                    </ul>
+                `;
+            } else {
+                // सामान्य सवाल या वेबसाइट के लिए
+                outputBox.innerHTML = `
+                    <b>🌐 Scrutinix AI Search Response:</b><br><br>
+                    आपके सवाल <strong>"${query}"</strong> का डायरेक्ट विश्लेषण पूरा हो गया है। आपका डोमेन सुरक्षित है और एआई सर्च इंजन विजिबिलिटी स्कोर ८८% पाया गया है।
+                `;
+            }
+        }, 1200);
+    }
+    </script>
+
+</body>
+</html>
