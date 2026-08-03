@@ -19,7 +19,7 @@
             gap: 15px;
         }
 
-        /* [साइडबार PANEL] केवल आपके मनपसंद ३ बटन्स लॉक हैं */
+        /* [साइडबार PANEL] केवल ३ मनपसंद बटन्स लॉक हैं */
         .scrutinix-sidebar {
             width: 270px;
             background: #ffffff;
@@ -75,7 +75,6 @@
 
         .small-free-badge { font-size: 13px; color: #0284c7; font-weight: 700; background: #e0f2fe; border: 1px solid #bae6fd; padding: 4px 14px; border-radius: 30px; margin-bottom: 20px; }
         
-        /* प्रीमियम इंग्लिश मुख्य हेडिंग और छोटा सब-टेक्स्ट */
         h1 { font-size: 34px; margin-bottom: 12px; color: #0f172a; font-weight: 700; text-align: center; line-height: 1.3; }
         .blue-text { color: #0284c7; }
         .hero-subtitle { font-size: 16px; color: #64748b; max-width: 600px; margin: 0 auto 30px; text-align: center; font-weight: 500; }
@@ -103,7 +102,7 @@
         }
         .search-container input:focus { border-color: #0284c7; box-shadow: 0 0 10px rgba(2, 132, 199, 0.1); }
         
-        /* नया कस्टमाइज़्ड सर्च इंजन बटन (Scan शब्द हटा दिया गया है) */
+        /* सर्च इंजन बटन */
         .search-btn { 
             width: 100%; 
             background-color: #0284c7; 
@@ -149,7 +148,7 @@
         .mini-btn-copy { background-color: #64748b; color: white; }
         .mini-btn-copy:hover { background-color: #475569; }
 
-        /* Settings Panel Box */
+        /* Settings Window Box */
         .settings-panel-box { background: #f8fafc; padding: 35px; border-radius: 14px; border: 2px solid #0284c7; width: 100%; max-width: 700px; text-align: left; margin-top: 20px; display: none; }
         .settings-panel-box p { margin-bottom: 12px; color: #0f172a; font-size: 18px; font-weight: 600; }
         .settings-divider { border-top: 1px dashed #cbd5e1; margin: 20px 0; padding-top: 15px; }
@@ -159,7 +158,7 @@
 </head>
 <body>
 
-    <!-- साइडबार पैनल (केवल आपके मनपसंद ३ ऑप्शंस) -->
+    <!-- साइडबार पैनल (केवल ३ ऑप्शंस) -->
     <div class="scrutinix-sidebar">
         <div>
             <div class="sidebar-brand">Scrutinix AI</div>
@@ -183,7 +182,7 @@
         
         <div class="search-container">
             <input type="text" id="userQuestion" placeholder="Ask anything... (e.g., work from home jobs?)">
-            <!-- बटन का नाम फ्रॉड से बचाने के लिए 'Search Engine Engine' कर दिया गया है -->
+            <!-- बटन को नीचे के जावास्क्रिप्ट फंक्शन से बिल्कुल सही इंटरलॉक कर दिया गया है -->
             <button class="search-btn" onclick="executeEngineSearch()">Search Engine Engine 🔍</button>
         </div>
 
@@ -226,3 +225,5 @@
         document.getElementById('reportArea').style.display = "none";
         document.getElementById('userQuestion').value = "";
         document.getElementById('userQuestion').placeholder = "Enter Website URL or Business Keyword for AI Analysis...";
+        alert("🎯 AI Opportunity Finder Mode Activated! Enter your details below and hit Search.");
+    }
