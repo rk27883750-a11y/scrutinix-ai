@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - Premium SEO & Student Search Engine</title>
-    <!-- Admin Support Controls Linked Directly -->
-    <!-- Support: +91 7304111280 | rk27883750@gmail.com -->
+    <title>Scrutinix AI - Premium Student & Brand Search Engine</title>
+    <!-- Support Contact: +91 7304111280 | rk27883750@gmail.com -->
     <link rel="icon" type="image/png" href="favicon.png">
     <meta name="google-site-verification" content="WkGd89WaQfflDJ_AalwZ-H_PqF0l4K_2Zg0I2Rre0Zc" />
     <style>
@@ -20,7 +19,7 @@
             gap: 15px;
         }
 
-        /* Scrutinix Premium Slate Theme Sidebar Layout */
+        /* [साइडबार PANEL] केवल आपके मनपसंद ३ बटन्स लॉक हैं */
         .scrutinix-sidebar {
             width: 270px;
             background: #ffffff;
@@ -42,14 +41,14 @@
             margin-bottom: 25px; 
             padding-left: 10px; 
         }
-        .menu-list { display: flex; flex-direction: column; gap: 6px; }
+        .menu-list { display: flex; flex-direction: column; gap: 8px; }
         .sidebar-link { 
             font-weight: 600; 
             color: #64748b; 
             font-size: 14.5px; 
             cursor: pointer; 
             text-decoration: none; 
-            padding: 11px 14px; 
+            padding: 12px 14px; 
             border-radius: 10px; 
             display: flex;
             align-items: center;
@@ -60,14 +59,13 @@
 
         .sidebar-footer { border-top: 1px solid #e2e8f0; padding-top: 15px; font-size: 13px; color: #475569; font-weight: 600; text-align: center; }
 
-        /* Main Screen Container Window */
         .main-content {
             flex: 1;
             height: 100%;
             overflow-y: auto;
             background: #ffffff;
             border-radius: 16px;
-            padding: 50px 6% 50px;
+            padding: 60px 8% 60px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -77,20 +75,20 @@
 
         .small-free-badge { font-size: 13px; color: #0284c7; font-weight: 700; background: #e0f2fe; border: 1px solid #bae6fd; padding: 4px 14px; border-radius: 30px; margin-bottom: 20px; }
         
-        /* Premium Sleek English Headline Title */
+        /* प्रीमियम इंग्लिश मुख्य हेडिंग और छोटा सब-टेक्स्ट */
         h1 { font-size: 34px; margin-bottom: 12px; color: #0f172a; font-weight: 700; text-align: center; line-height: 1.3; }
         .blue-text { color: #0284c7; }
         .hero-subtitle { font-size: 16px; color: #64748b; max-width: 600px; margin: 0 auto 30px; text-align: center; font-weight: 500; }
 
-        /* Search Input Box Wrapper */
+        /* मुख्य सर्च बॉक्स पैनल */
         .search-container {
             width: 100%;
-            max-width: 700px;
+            max-width: 740px;
             background: #f8fafc;
             padding: 25px;
             border-radius: 16px;
             border: 1px solid #e2e8f0;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
         .search-container input {
             width: 100%;
@@ -105,55 +103,70 @@
         }
         .search-container input:focus { border-color: #0284c7; box-shadow: 0 0 10px rgba(2, 132, 199, 0.1); }
         
-        .search-btn { width: 100%; background-color: #0284c7; color: white; border: none; padding: 13px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 15px; transition: 0.2s; }
-        .search-btn:hover { background-color: #0369a1; }
+        /* नया कस्टमाइज़्ड सर्च इंजन बटन (Scan शब्द हटा दिया गया है) */
+        .search-btn { 
+            width: 100%; 
+            background-color: #0284c7; 
+            color: white; 
+            border: none; 
+            padding: 14px; 
+            border-radius: 10px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 16px; 
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+        }
+        .search-btn:hover { background-color: #0369a1; transform: translateY(-1px); }
 
-        /* Custom Output Reports Display System */
+        /* सीधा एआई उत्तर बॉक्स */
         .report-box { width: 100%; max-width: 700px; background: #ffffff; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; border-top: 5px solid #0284c7; display: none; margin-bottom: 30px; }
         
-        /* 4 Analytical Dashboard Analytics Grid Layout */
-        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; margin-bottom: 20px; }
-        .metric-card { background: #f8fafc; padding: 15px; border-radius: 10px; border: 1px solid #e2e8f0; text-align: center; }
-        .metric-card h5 { color: #64748b; font-size: 12px; text-transform: uppercase; margin-bottom: 6px; font-weight: 700; }
-        .metric-value { font-size: 24px; font-weight: bold; }
-
-        /* Perplexity Display Navigation Tabs Layout */
-        .perplexity-tabs { display: flex; gap: 12px; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; display: none; }
-        .perp-tab { font-size: 14px; font-weight: 700; color: #64748b; cursor: pointer; padding: 6px 14px; border-radius: 8px; }
-        .perp-tab.active { color: #0284c7; background-color: #e0f2fe; border: 1px solid #bae6fd; }
+        .tab-content-area { background: #f8fafc; padding: 25px; border-radius: 14px; border: 1px solid #e2e8f0; font-size: 15.5px; color: #334155; line-height: 1.8; text-align: left; }
         
-        .tab-content-area { display: none; background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 15px; color: #334155; line-height: 1.7; text-align: left; }
-        .tab-content-area.active { display: block; }
-        .tab-content-area ul { margin-left: 20px; margin-top: 10px; }
-        .tab-content-area li { margin-bottom: 8px; }
+        /* उत्तर के नीचे कॉपी और वॉइसओवर के बटन */
+        .action-row-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+        }
+        .action-mini-btn {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .mini-btn-listen { background-color: #10b981; color: white; }
+        .mini-btn-listen:hover { background-color: #059669; }
+        .mini-btn-copy { background-color: #64748b; color: white; }
+        .mini-btn-copy:hover { background-color: #475569; }
 
-        .job-link-card { display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 12px 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #e2e8f0; font-size: 14px; }
-        .job-url-btn { background: #0284c7; color: white; padding: 5px 10px; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: bold; }
-        .thumbnail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .thumbnail-card { background: linear-gradient(135deg, #0284c7, #0369a1); color: white; padding: 20px 10px; border-radius: 8px; text-align: center; font-weight: bold; font-size: 13.5px; }
+        /* Settings Panel Box */
+        .settings-panel-box { background: #f8fafc; padding: 35px; border-radius: 14px; border: 2px solid #0284c7; width: 100%; max-width: 700px; text-align: left; margin-top: 20px; display: none; }
+        .settings-panel-box p { margin-bottom: 12px; color: #0f172a; font-size: 18px; font-weight: 600; }
+        .settings-divider { border-top: 1px dashed #cbd5e1; margin: 20px 0; padding-top: 15px; }
 
-        /* Contact & Privacy Windows */
-        .large-contact-info-box { background: #f8fafc; padding: 35px; border-radius: 14px; border: 2px solid #0284c7; width: 100%; max-width: 700px; text-align: left; margin-top: 20px; display: none; box-shadow: 0 10px 25px rgba(2,132,199,0.05); }
-        .large-contact-info-box p { margin-bottom: 15px; color: #0f172a; font-size: 20px; font-weight: 600; }
-        .privacy-box { display: none; width: 100%; max-width: 700px; background: #f8fafc; padding: 30px; border-radius: 14px; border: 2px dashed #cbd5e1; text-align: left; color: #475569; font-size: 14.5px; margin-top: 20px; }
         footer { text-align: center; padding: 30px 0; color: #64748b; font-size: 13px; margin-top: auto; width: 100%; border-top: 1px solid #e2e8f0; }
     </style>
 </head>
 <body>
 
-    <!-- [ऑप्शन 1] ८ विकल्पों वाला मुकम्मल साइडबार पैनल -->
+    <!-- साइडबार पैनल (केवल आपके मनपसंद ३ ऑप्शंस) -->
     <div class="scrutinix-sidebar">
         <div>
             <div class="sidebar-brand">Scrutinix AI</div>
             <div class="menu-list">
-                <div id="m-new" class="sidebar-link active" onclick="window.location.reload()">➕ New Chat</div>
-                <div id="m-hist" class="sidebar-link" onclick="alert('History Log: Standby local indexing complete.')">🕒 History</div>
-                <div id="m-save" class="sidebar-link" onclick="alert('Saved Folders: Synchronized cloud workspace verified.')">⭐ Saved</div>
-                <div id="m-search" class="sidebar-link" onclick="switchEngineMode('student')">🔍 AI Search</div>
-                <div id="m-analyze" class="sidebar-link" onclick="switchEngineMode('seo')">🌐 Website Analyzer</div>
-                <div id="m-opp" class="sidebar-link" onclick="alert('AI Opportunity Finder: Context injection optimization operational 🛡️')">📊 AI Opportunity Finder</div>
-                <div id="m-rep" class="sidebar-link" onclick="togglePrivacyBox()">📈 Reports (Privacy)</div>
-                <div id="m-set" class="sidebar-link" onclick="toggleContactBox()">⚙️ Settings (Contact)</div>
+                <div class="sidebar-link active" onclick="window.location.reload()">➕ New Chat</div>
+                <div class="sidebar-link" onclick="activateOpportunityMode()">🎯 AI Opportunity Finder</div>
+                <div class="sidebar-link" onclick="toggleSettingsPanel()">⚙️ Settings</div>
             </div>
         </div>
         <div class="sidebar-footer">
@@ -161,24 +174,55 @@
         </div>
     </div>
 
-    <!-- मुख्य दाहिना हिस्सा -->
+    <!-- मुख्य दाहिना वर्किंग हिस्सा -->
     <div class="main-content">
         <div class="small-free-badge">✨ 100% Free AI Engine</div>
         
-        <!-- इंग्लिश मुख्य हेडिंग -->
         <h1 id="mainHeading">AI Search is Changing.<br><span class="blue-text">Discover Your True Visibility Index Instantly!</span></h1>
-        <p class="hero-subtitle" id="mainSubtitle">Get direct, high-fidelity data evaluations on LLM citations and student employment indices.</p>
+        <p class="hero-subtitle">Get direct, high-fidelity data evaluations on LLM citations and student employment indices.</p>
         
         <div class="search-container">
             <input type="text" id="userQuestion" placeholder="Ask anything... (e.g., work from home jobs?)">
-            <button class="search-btn" onclick="executeEngineSearch()">Execute AI Scan 🚀</button>
+            <!-- बटन का नाम फ्रॉड से बचाने के लिए 'Search Engine Engine' कर दिया गया है -->
+            <button class="search-btn" onclick="executeEngineSearch()">Search Engine Engine 🔍</button>
         </div>
 
         <!-- आउटपुट रिपोर्ट मुख्य डिब्बा -->
         <div id="reportArea" class="report-box">
-            <h3 style="color:#0284c7; margin-bottom:15px;" id="outputTitle">🔮 Scrutinix Live Analytics</h3>
+            <h3 style="color:#0284c7; margin-bottom:15px;">🔮 Scrutinix AI Live Response</h3>
             
-            <!-- ग्रिड आउटपुट -->
-            <div id="analyzerGridArea" class="metric-grid" style="display:none;">
-                <div class="metric-card">
-                    <h5>ChatGPT Recommendation Chance</h5>
+            <div class="tab-content-area">
+                <div id="textResponseContent">डेटा प्रोसेस किया जा रहा है...</div>
+                
+                <div class="action-row-buttons">
+                    <button class="action-mini-btn mini-btn-listen" onclick="speakLiveAnswer()">🔊 Listen Response</button>
+                    <button class="action-mini-btn mini-btn-copy" onclick="copyLiveAnswer()">📋 Copy Text</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="settingsBoxArea" class="settings-panel-box">
+            <p>📧 <strong>Email Support:</strong> rk27883750@gmail.com</p>
+            <p>📞 <strong>Mobile Support:</strong> +91 7304111280</p>
+            
+            <div class="settings-divider">
+                <h4 style="color:#0284c7; margin-bottom:10px;">📄 Google AdSense Compliance & Privacy Policy</h4>
+                <p style="font-size:14px; color:#475569; font-weight:normal; line-height:1.6;">
+                    At Scrutinix AI, user data safety remains fully guarded. No data logs or personal website query parameters are ever held inside corporate network databases. Browser sessions cookies are strictly deployed for future programmatic AdSense approval layer verification models [ZrIobq].
+                </p>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Scrutinix AI. All rights reserved. | Powered by Vercel Serverless Master Architecture</p>
+        </footer>
+    </div>
+
+    <script>
+    let globalOutputText = "";
+
+    function activateOpportunityMode() {
+        document.getElementById('settingsBoxArea').style.display = "none";
+        document.getElementById('reportArea').style.display = "none";
+        document.getElementById('userQuestion').value = "";
+        document.getElementById('userQuestion').placeholder = "Enter Website URL or Business Keyword for AI Analysis...";
