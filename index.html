@@ -3,168 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - Light Search Engine</title>
+    <title>Scrutinix AI - Premium SEO & Student Search Engine</title>
+    <!-- Admin Support Controls Linked Directly -->
+    <!-- Support: +91 7304111280 | rk27883750@gmail.com -->
     <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="google-site-verification" content="WkGd89WaQfflDJ_AalwZ-H_PqF0l4K_2Zg0I2Rre0Zc" />
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100vh; overflow: hidden; }
         body { 
-            background-color: #ffffff; 
-            color: #0f172a; 
+            background-color: #f8fafc; 
+            color: #1e293b; 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
-            height: 100vh;
-            overflow: hidden;
+            padding: 15px;
+            gap: 15px;
         }
 
-        /* 1. शुरुआती ऑप्शन: सुंदर साइडबार (Sidebar) जो हमेशा दिखेगा */
-        .perp-sidebar {
-            width: 240px;
-            background-color: #f8fafc;
+        /* Scrutinix Premium Slate Theme Sidebar Layout */
+        .scrutinix-sidebar {
+            width: 270px;
+            background: #ffffff;
             border-right: 1px solid #e2e8f0;
-            padding: 30px 20px;
+            padding: 30px 15px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            justify-content: space-between;
             height: 100%;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(148, 163, 184, 0.05);
         }
-        .sidebar-logo { font-size: 22px; font-weight: 800; color: #0284c7; margin-bottom: 20px; }
-        .sidebar-link { font-weight: 600; color: #64748b; font-size: 15px; cursor: pointer; text-decoration: none; padding: 8px 12px; border-radius: 6px; }
-        .sidebar-link:hover, .sidebar-link.active { background-color: #f1f5f9; color: #0284c7; }
+        .sidebar-brand { 
+            font-size: 24px; 
+            font-weight: 800; 
+            background: linear-gradient(135deg, #0284c7, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 25px; 
+            padding-left: 10px; 
+        }
+        .menu-list { display: flex; flex-direction: column; gap: 6px; }
+        .sidebar-link { 
+            font-weight: 600; 
+            color: #64748b; 
+            font-size: 14.5px; 
+            cursor: pointer; 
+            text-decoration: none; 
+            padding: 11px 14px; 
+            border-radius: 10px; 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+        .sidebar-link:hover, .sidebar-link.active { background-color: #0284c7; color: #ffffff; }
 
-        /* मुख्य राइट विंडो */
-        .perp-main {
+        .sidebar-footer { border-top: 1px solid #e2e8f0; padding-top: 15px; font-size: 13px; color: #475569; font-weight: 600; text-align: center; }
+
+        /* Main Screen Container Window */
+        .main-content {
             flex: 1;
-            padding: 60px 8%;
+            height: 100%;
+            overflow-y: auto;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 50px 6% 50px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow-y: auto;
-            height: 100%;
-        }
-
-        .heading-text { font-size: 32px; font-weight: 700; margin-bottom: 25px; color: #0f172a; text-align: center; }
-
-        /* 2. शुरुआती ऑप्शन: मुख्य सर्च बॉक्स (Search Box Panel) */
-        .search-wrapper {
-            width: 100%;
-            max-width: 680px;
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 14px;
-            border: 1px solid #cbd5e1;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-            margin-bottom: 30px;
-        }
-        .search-wrapper input {
-            width: 100%;
-            padding: 14px;
-            background-color: #f1f5f9;
+            box-shadow: 0 4px 20px rgba(148, 163, 184, 0.05);
             border: 1px solid #e2e8f0;
-            color: #0f172a;
-            border-radius: 8px;
-            font-size: 16px;
-            outline: none;
-            margin-bottom: 12px;
         }
-        .search-wrapper input:focus { border-color: #0284c7; background-color: #ffffff; }
-        
-        .search-btn {
-            width: 100%;
-            background-color: #0284c7;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 15px;
-            transition: 0.2s;
-        }
-        .search-btn:hover { background-color: #0369a1; }
 
-        /* 3. शुरुआती ऑप्शन: सीधा एआई उत्तर बॉक्स (AI Answer Area) */
-        .answer-output-box {
+        .small-free-badge { font-size: 13px; color: #0284c7; font-weight: 700; background: #e0f2fe; border: 1px solid #bae6fd; padding: 4px 14px; border-radius: 30px; margin-bottom: 20px; }
+        
+        /* Premium Sleek English Headline Title */
+        h1 { font-size: 34px; margin-bottom: 12px; color: #0f172a; font-weight: 700; text-align: center; line-height: 1.3; }
+        .blue-text { color: #0284c7; }
+        .hero-subtitle { font-size: 16px; color: #64748b; max-width: 600px; margin: 0 auto 30px; text-align: center; font-weight: 500; }
+
+        /* Search Input Box Wrapper */
+        .search-container {
             width: 100%;
-            max-width: 680px;
+            max-width: 700px;
             background: #f8fafc;
             padding: 25px;
-            border-radius: 12px;
+            border-radius: 16px;
             border: 1px solid #e2e8f0;
-            border-left: 4px solid #0284c7;
-            display: none; /* सवाल पूछने पर प्रकट होगा */
-            font-size: 15.5px;
-            color: #334155;
-            line-height: 1.7;
-            text-align: left;
+            margin-bottom: 30px;
         }
-        .answer-output-box ul { margin-left: 20px; margin-top: 10px; }
-        .answer-output-box li { margin-bottom: 8px; }
+        .search-container input {
+            width: 100%;
+            padding: 15px;
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #0f172a;
+            border-radius: 10px;
+            font-size: 16.5px;
+            outline: none;
+            margin-bottom: 15px;
+        }
+        .search-container input:focus { border-color: #0284c7; box-shadow: 0 0 10px rgba(2, 132, 199, 0.1); }
+        
+        .search-btn { width: 100%; background-color: #0284c7; color: white; border: none; padding: 13px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 15px; transition: 0.2s; }
+        .search-btn:hover { background-color: #0369a1; }
+
+        /* Custom Output Reports Display System */
+        .report-box { width: 100%; max-width: 700px; background: #ffffff; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; border-top: 5px solid #0284c7; display: none; margin-bottom: 30px; }
+        
+        /* 4 Analytical Dashboard Analytics Grid Layout */
+        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; margin-bottom: 20px; }
+        .metric-card { background: #f8fafc; padding: 15px; border-radius: 10px; border: 1px solid #e2e8f0; text-align: center; }
+        .metric-card h5 { color: #64748b; font-size: 12px; text-transform: uppercase; margin-bottom: 6px; font-weight: 700; }
+        .metric-value { font-size: 24px; font-weight: bold; }
+
+        /* Perplexity Display Navigation Tabs Layout */
+        .perplexity-tabs { display: flex; gap: 12px; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; display: none; }
+        .perp-tab { font-size: 14px; font-weight: 700; color: #64748b; cursor: pointer; padding: 6px 14px; border-radius: 8px; }
+        .perp-tab.active { color: #0284c7; background-color: #e0f2fe; border: 1px solid #bae6fd; }
+        
+        .tab-content-area { display: none; background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 15px; color: #334155; line-height: 1.7; text-align: left; }
+        .tab-content-area.active { display: block; }
+        .tab-content-area ul { margin-left: 20px; margin-top: 10px; }
+        .tab-content-area li { margin-bottom: 8px; }
+
+        .job-link-card { display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 12px 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #e2e8f0; font-size: 14px; }
+        .job-url-btn { background: #0284c7; color: white; padding: 5px 10px; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: bold; }
+        .thumbnail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .thumbnail-card { background: linear-gradient(135deg, #0284c7, #0369a1); color: white; padding: 20px 10px; border-radius: 8px; text-align: center; font-weight: bold; font-size: 13.5px; }
+
+        /* Contact & Privacy Windows */
+        .large-contact-info-box { background: #f8fafc; padding: 35px; border-radius: 14px; border: 2px solid #0284c7; width: 100%; max-width: 700px; text-align: left; margin-top: 20px; display: none; box-shadow: 0 10px 25px rgba(2,132,199,0.05); }
+        .large-contact-info-box p { margin-bottom: 15px; color: #0f172a; font-size: 20px; font-weight: 600; }
+        .privacy-box { display: none; width: 100%; max-width: 700px; background: #f8fafc; padding: 30px; border-radius: 14px; border: 2px dashed #cbd5e1; text-align: left; color: #475569; font-size: 14.5px; margin-top: 20px; }
+        footer { text-align: center; padding: 30px 0; color: #64748b; font-size: 13px; margin-top: auto; width: 100%; border-top: 1px solid #e2e8f0; }
     </style>
 </head>
 <body>
 
-    <!-- [ऑप्शन 1] सुंदर साइडबार -->
-    <div class="perp-sidebar">
-        <div class="sidebar-logo">Scrutinix AI</div>
-        <div class="sidebar-link active" onclick="window.location.reload()">🌐 New Thread</div>
-        <div class="sidebar-link">💻 Computer</div>
-        <div class="sidebar-link">📦 Artefacts</div>
+    <!-- [ऑप्शन 1] ८ विकल्पों वाला मुकम्मल साइडबार पैनल -->
+    <div class="scrutinix-sidebar">
+        <div>
+            <div class="sidebar-brand">Scrutinix AI</div>
+            <div class="menu-list">
+                <div id="m-new" class="sidebar-link active" onclick="window.location.reload()">➕ New Chat</div>
+                <div id="m-hist" class="sidebar-link" onclick="alert('History Log: Standby local indexing complete.')">🕒 History</div>
+                <div id="m-save" class="sidebar-link" onclick="alert('Saved Folders: Synchronized cloud workspace verified.')">⭐ Saved</div>
+                <div id="m-search" class="sidebar-link" onclick="switchEngineMode('student')">🔍 AI Search</div>
+                <div id="m-analyze" class="sidebar-link" onclick="switchEngineMode('seo')">🌐 Website Analyzer</div>
+                <div id="m-opp" class="sidebar-link" onclick="alert('AI Opportunity Finder: Context injection optimization operational 🛡️')">📊 AI Opportunity Finder</div>
+                <div id="m-rep" class="sidebar-link" onclick="togglePrivacyBox()">📈 Reports (Privacy)</div>
+                <div id="m-set" class="sidebar-link" onclick="toggleContactBox()">⚙️ Settings (Contact)</div>
+            </div>
+        </div>
+        <div class="sidebar-footer">
+            🔒 Admin Secured
+        </div>
     </div>
 
     <!-- मुख्य दाहिना हिस्सा -->
-    <div class="perp-main">
-        <div class="heading-text">What do you want to know?</div>
+    <div class="main-content">
+        <div class="small-free-badge">✨ 100% Free AI Engine</div>
         
-        <!-- [ऑप्शन 2] मुख्य सर्च बॉक्स -->
-        <div class="search-wrapper">
+        <!-- इंग्लिश मुख्य हेडिंग -->
+        <h1 id="mainHeading">AI Search is Changing.<br><span class="blue-text">Discover Your True Visibility Index Instantly!</span></h1>
+        <p class="hero-subtitle" id="mainSubtitle">Get direct, high-fidelity data evaluations on LLM citations and student employment indices.</p>
+        
+        <div class="search-container">
             <input type="text" id="userQuestion" placeholder="Ask anything... (e.g., work from home jobs?)">
-            <button class="search-btn" onclick="generateDirectAnswer()">Ask AI Engine 🔍</button>
+            <button class="search-btn" onclick="executeEngineSearch()">Execute AI Scan 🚀</button>
         </div>
 
-        <!-- [ऑप्शन 3] सीधा एआई उत्तर खाना -->
-        <div id="displayAnswerArea" class="answer-output-box">
-            डेटा लोड हो रहा है...
-        </div>
-    </div>
-
-    <script>
-    // एआई उत्तर देने का बुनियादी लाइव फंक्शन
-    function generateDirectAnswer() {
-        const query = document.getElementById('userQuestion').value.trim();
-        const outputBox = document.getElementById('displayAnswerArea');
-
-        if (!query) {
-            alert("कृपया सर्च बॉक्स में अपना सवाल टाइप करें!");
-            return;
-        }
-
-        outputBox.style.display = "block";
-        outputBox.innerHTML = "🔄 <b>AI Engine:</b> Searching data blocks...";
-
-        setTimeout(() => {
-            let lowerQuery = query.toLowerCase();
+        <!-- आउटपुट रिपोर्ट मुख्य डिब्बा -->
+        <div id="reportArea" class="report-box">
+            <h3 style="color:#0284c7; margin-bottom:15px;" id="outputTitle">🔮 Scrutinix Live Analytics</h3>
             
-            // अगर स्टूडेंट जॉब सर्च करता है
-            if (lowerQuery.includes('job') || lowerQuery.includes('work') || lowerQuery.includes('home') || lowerQuery.includes('kam')) {
-                outputBox.innerHTML = `
-                    <b>🎯 Work From Home Jobs for Students - Direct Answer:</b><br><br>
-                    छात्रों के लिए घर बैठे काम करने के ३ सबसे सुरक्षित और मुख्य तरीके निम्नलिखित हैं:<br>
-                    <ul>
-                        <li><strong>1. Customer Support:</strong> बड़ी कंपनियां रिमोट कॉलिंग और सपोर्ट के लिए जॉब देती हैं।</li>
-                        <li><strong>2. Data Entry & Virtual Assistant:</strong> बुनियादी कंप्यूटर और एक्सेल स्किल्स के साथ पार्ट-टाइम टाइपिंग का काम।</li>
-                        <li><strong>3. Content Writing & Translation:</strong> सोशल मीडिया पोस्ट या ब्लॉग लिखकर फ्रीलांसिंग के जरिए कमाई।</li>
-                    </ul>
-                `;
-            } else {
-                // सामान्य सवाल या वेबसाइट के लिए
-                outputBox.innerHTML = `
-                    <b>🌐 Scrutinix AI Search Response:</b><br><br>
-                    आपके सवाल <strong>"${query}"</strong> का डायरेक्ट विश्लेषण पूरा हो गया है। आपका डोमेन सुरक्षित है और एआई सर्च इंजन विजिबिलिटी स्कोर ८८% पाया गया है।
-                `;
-            }
-        }, 1200);
-    }
-    </script>
-
-</body>
-</html>
+            <!-- ग्रिड आउटपुट -->
+            <div id="analyzerGridArea" class="metric-grid" style="display:none;">
+                <div class="metric-card">
+                    <h5>ChatGPT Recommendation Chance</h5>
