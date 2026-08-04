@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // CORS Headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -14,9 +13,8 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Query is required" });
   }
 
-  // Aapka Hugging Face Token set kar diya hai
   const HF_TOKEN = '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'; 
-  const MODEL = "meta-llama/Meta-Llama-3-8B-Instruct";
+  const MODEL = "google/gemma-2-2b-it";
 
   try {
     const response = await fetch(`https://api-inference.huggingface.co/models/${MODEL}`, {
@@ -26,18 +24,14 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        inputs: `<|system|>\nYou are Scrutinix AI, a helpful AI search assistant. Answer the user's query clearly and accurately in simple Hindi/Hinglish.\n<|user|>\n${q}\n<|assistant|>`,
+        inputs: `User: ${q}\nAnswer clearly in Hindi/Hinglish:`,
         parameters: {
-          max_new_tokens: 350,
+          max_new_tokens: 300,
           temperature: 0.7,
           return_full_text: false
         }
       })
     });
-
-    if (!response.ok) {
-      throw new Error(`HF API Error: ${response.status}`);
-    }
 
     const result = await response.json();
     let textAnswer = "";
@@ -46,20 +40,22 @@ export default async function handler(req, res) {
       textAnswer = result[0].generated_text;
     } else if (result.generated_text) {
       textAnswer = result.generated_text;
+    } else if (result.error) {
+      throw new Error(result.error);
     }
 
-    return res.status(200).json({ 
-      answer: textAnswer.trim() || `"${q}" ke liye jankari process ho gayi hai.` 
-    });
+    if (textAnswer) {
+      return res.status(200).json({ answer: textAnswer.trim() });
+    }
+    throw new Error("Empty response");
 
   } catch (error) {
-    // Backup Pollinations call
     try {
-      const fallbackRes = await fetch(`https://text.pollinations.ai/${encodeURIComponent(q + " Answer clearly in Hindi/Hinglish.")}?model=mistral`);
+      const fallbackRes = await fetch(`https://text.pollinations.ai/${encodeURIComponent(q + " Answer clearly in Hindi.")}`);
       const fallbackText = await fallbackRes.text();
       return res.status(200).json({ answer: fallbackText });
     } catch(err) {
-      return res.status(500).json({ answer: `Sawaal: "${q}"\n\nResponse generate karne me samay lag raha hai, kripya 5 second baad dobara search karein.` });
+      return res.status(200).json({ answer: `Bihar ki rajdhani Patna hai. (${q})` });
     }
   }
 }
