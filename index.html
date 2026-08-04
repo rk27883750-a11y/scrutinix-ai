@@ -1,232 +1,326 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - Premium Student & Brand Search Engine</title>
-    <!-- Support Contact: +91 7304111280 | rk27883750@gmail.com -->
-    <link rel="icon" type="image/png" href="favicon.png">
-    <meta name="google-site-verification" content="WkGd89WaQfflDJ_AalwZ-H_PqF0l4K_2Zg0I2Rre0Zc" />
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { height: 100vh; overflow: hidden; }
-        body { 
-            background-color: #f8fafc; 
-            color: #1e293b; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            padding: 15px;
-            gap: 15px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrutinix AI</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
 
-        /* [साइडबार PANEL] केवल ३ मनपसंद बटन्स लॉक हैं */
-        .scrutinix-sidebar {
-            width: 270px;
-            background: #ffffff;
-            border-right: 1px solid #e2e8f0;
-            padding: 30px 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(148, 163, 184, 0.05);
-        }
-        .sidebar-brand { 
-            font-size: 24px; 
-            font-weight: 800; 
-            background: linear-gradient(135deg, #0284c7, #10b981);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 25px; 
-            padding-left: 10px; 
-        }
-        .menu-list { display: flex; flex-direction: column; gap: 8px; }
-        .sidebar-link { 
-            font-weight: 600; 
-            color: #64748b; 
-            font-size: 14.5px; 
-            cursor: pointer; 
-            text-decoration: none; 
-            padding: 12px 14px; 
-            border-radius: 10px; 
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.2s ease;
-        }
-        .sidebar-link:hover, .sidebar-link.active { background-color: #0284c7; color: #ffffff; }
+    body {
+      display: flex;
+      height: 100vh;
+      background-color: #ffffff;
+      color: #333;
+    }
 
-        .sidebar-footer { border-top: 1px solid #e2e8f0; padding-top: 15px; font-size: 13px; color: #475569; font-weight: 600; text-align: center; }
+    /* Sidebar Styling */
+    .sidebar {
+      width: 230px;
+      background-color: #f8fafc;
+      border-right: 1px solid #e2e8f0;
+      padding: 20px 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
 
-        .main-content {
-            flex: 1;
-            height: 100%;
-            overflow-y: auto;
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 60px 8% 60px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 4px 20px rgba(148, 163, 184, 0.05);
-            border: 1px solid #e2e8f0;
-        }
+    .brand-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0284c7;
+      margin-bottom: 24px;
+    }
 
-        .small-free-badge { font-size: 13px; color: #0284c7; font-weight: 700; background: #e0f2fe; border: 1px solid #bae6fd; padding: 4px 14px; border-radius: 30px; margin-bottom: 20px; }
-        
-        h1 { font-size: 34px; margin-bottom: 12px; color: #0f172a; font-weight: 700; text-align: center; line-height: 1.3; }
-        .blue-text { color: #0284c7; }
-        .hero-subtitle { font-size: 16px; color: #64748b; max-width: 600px; margin: 0 auto 30px; text-align: center; font-weight: 500; }
+    .btn-new-chat {
+      width: 100%;
+      background-color: #0284c7;
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 20px;
+      text-align: left;
+    }
 
-        /* मुख्य सर्च बॉक्स पैनल */
-        .search-container {
-            width: 100%;
-            max-width: 740px;
-            background: #f8fafc;
-            padding: 25px;
-            border-radius: 16px;
-            border: 1px solid #e2e8f0;
-            margin-bottom: 35px;
-        }
-        .search-container input {
-            width: 100%;
-            padding: 15px;
-            background-color: #ffffff;
-            border: 1px solid #cbd5e1;
-            color: #0f172a;
-            border-radius: 10px;
-            font-size: 16.5px;
-            outline: none;
-            margin-bottom: 15px;
-        }
-        .search-container input:focus { border-color: #0284c7; box-shadow: 0 0 10px rgba(2, 132, 199, 0.1); }
-        
-        /* सर्च इंजन बटन */
-        .search-btn { 
-            width: 100%; 
-            background-color: #0284c7; 
-            color: white; 
-            border: none; 
-            padding: 14px; 
-            border-radius: 10px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            font-size: 16px; 
-            transition: 0.2s;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
-        }
-        .search-btn:hover { background-color: #0369a1; transform: translateY(-1px); }
+    .btn-new-chat:hover {
+      background-color: #0369a1;
+    }
 
-        /* सीधा एआई उत्तर बॉक्स */
-        .report-box { width: 100%; max-width: 700px; background: #ffffff; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; border-top: 5px solid #0284c7; display: none; margin-bottom: 30px; }
-        
-        .tab-content-area { background: #f8fafc; padding: 25px; border-radius: 14px; border: 1px solid #e2e8f0; font-size: 15.5px; color: #334155; line-height: 1.8; text-align: left; }
-        
-        /* उत्तर के नीचे १-क्लिक कॉपी बटन */
-        .action-row-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            border-top: 1px solid #e2e8f0;
-            padding-top: 15px;
-        }
-        .action-mini-btn {
-            padding: 8px 16px;
-            font-size: 13px;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            border: none;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: 0.2s;
-        }
-        .mini-btn-copy { background-color: #64748b; color: white; }
-        .mini-btn-copy:hover { background-color: #475569; }
+    .nav-menu {
+      list-style: none;
+    }
 
-        footer { text-align: center; padding: 30px 0; color: #64748b; font-size: 13px; margin-top: auto; width: 100%; border-top: 1px solid #e2e8f0; }
-    </style>
+    .nav-item {
+      padding: 10px 12px;
+      color: #64748b;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 6px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-item:hover {
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .footer-note {
+      font-size: 12px;
+      color: #d97706;
+      font-weight: 500;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px 40px 20px;
+      overflow-y: auto;
+    }
+
+    .badge {
+      background-color: #f0f9ff;
+      color: #0284c7;
+      border: 1px solid #bae6fd;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 18px;
+    }
+
+    .hero-title {
+      font-size: 36px;
+      font-weight: 700;
+      text-align: center;
+      color: #0f172a;
+      margin-bottom: 12px;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      color: #64748b;
+      text-align: center;
+      max-width: 650px;
+      margin-bottom: 35px;
+      line-height: 1.5;
+    }
+
+    /* Search Container */
+    .search-box {
+      width: 100%;
+      max-width: 650px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+
+    .search-input:focus {
+      border-color: #0284c7;
+    }
+
+    .btn-search {
+      width: 100%;
+      background-color: #0284c7;
+      color: white;
+      border: none;
+      padding: 13px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .btn-search:hover {
+      background-color: #0369a1;
+    }
+
+    /* Output Container */
+    .result-container {
+      width: 100%;
+      max-width: 650px;
+      margin-top: 25px;
+      display: none;
+    }
+
+    /* Are You Looking For Block */
+    .suggestion-box {
+      background-color: #f8fafc;
+      border-left: 3px solid #0284c7;
+      padding: 16px 20px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+
+    .suggestion-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 10px;
+    }
+
+    .suggestion-box ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    .suggestion-box li {
+      margin-bottom: 8px;
+    }
+
+    .suggestion-box li:last-child {
+      margin-bottom: 0;
+    }
+
+    .suggestion-box a {
+      color: #0284c7;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .suggestion-box a:hover {
+      text-decoration: underline;
+    }
+
+    .answer-box {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #1e293b;
+      padding: 15px;
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      white-space: pre-line;
+    }
+
+    .loading-spinner {
+      color: #0284c7;
+      font-weight: 500;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- साइडबार पैनल (New Chat, History, Saved) -->
-    <div class="scrutinix-sidebar">
-        <div>
-            <div class="sidebar-brand">Scrutinix AI</div>
-            <div class="menu-list">
-                <div class="sidebar-link active" onclick="window.location.reload()">➕ New Chat</div>
-                <div class="sidebar-link" onclick="alert('History: Standby local indexing complete.')">🕒 History</div>
-                <div class="sidebar-link" onclick="alert('Saved Items: Workspace verified.')">⭐ Saved</div>
-            </div>
-        </div>
-        <div class="sidebar-footer">
-            🔒 Admin Secured
-        </div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div>
+      <div class="brand-title">Scrutinix AI</div>
+      <button class="btn-new-chat" onclick="resetSearch()">+ New Chat</button>
+      <ul class="nav-menu">
+        <li class="nav-item">🕒 History</li>
+        <li class="nav-item">⭐ Saved</li>
+      </ul>
+    </div>
+    <div class="footer-note">
+      ⚡ Admin Secured
+    </div>
+  </div>
+
+  <!-- Main Area -->
+  <div class="main-content">
+    <div class="badge">✨ 100% Free AI Engine</div>
+    
+    <h1 class="hero-title">AI Search is Changing.</h1>
+    <h2 style="font-size: 24px; font-weight: 700; color: #0284c7; text-align: center; margin-bottom: 10px;">Discover Your True Visibility Index Instantly.</h2>
+    <p class="hero-subtitle">Get direct, high-fidelity data evaluations on LLM citations and student employment indices.</p>
+
+    <!-- Search Section -->
+    <div class="search-box">
+      <input type="text" id="searchInput" class="search-input" placeholder="Ask anything...">
+      <button class="btn-search" onclick="runSearch()">Search Engine Engine</button>
     </div>
 
-    <!-- मुख्य दाहिना वर्किंग हिस्सा -->
-    <div class="main-content">
-        <div class="small-free-badge">✨ 100% Free AI Engine</div>
-        
-        <h1 id="mainHeading">AI Search is Changing.<br><span class="blue-text">Discover Your True Visibility Index Instantly!</span></h1>
-        <p class="hero-subtitle">Get direct, high-fidelity data evaluations on LLM citations and student employment indices.</p>
-        
-        <div class="search-container">
-            <input type="text" id="userQuestion" placeholder="">
-            <button class="search-btn" onclick="executeEngineSearch()">Search Engine Engine 🔍</button>
-        </div>
+    <!-- Output Section -->
+    <div id="resultContainer" class="result-container">
+      
+      <!-- 3 Options Suggestion Box -->
+      <div class="suggestion-box">
+        <div class="suggestion-title">Are you looking for:</div>
+        <ul id="suggestionList"></ul>
+      </div>
 
-        <!-- आउटपुट रिपोर्ट मुख्य डिब्बा -->
-        <div id="reportArea" class="report-box">
-            <h3 style="color:#0284c7; margin-bottom:15px;">🔮 Scrutinix AI Live Response</h3>
-            
-            <div class="tab-content-area">
-                <div id="textResponseContent">डेटा प्रोसेस किया जा रहा है...</div>
-                
-                <div class="action-row-buttons">
-                    <button class="action-mini-btn mini-btn-copy" onclick="copyLiveAnswer()">📋 Copy Text</button>
-                </div>
-            </div>
-        </div>
+      <!-- Main AI Answer Box -->
+      <div id="mainAnswer" class="answer-box">
+        <span class="loading-spinner">Generating response... Please wait...</span>
+      </div>
 
-        <footer>
-            <p>&copy; 2026 Scrutinix AI. All rights reserved. | Powered by Vercel Serverless Master Architecture</p>
-        </footer>
     </div>
+  </div>
 
-    <script>
-    // १००% सिंपल और अंकों में फिक्स किया गया जावास्क्रिप्ट उत्तर लॉजिक [ZrIobq]
-    function executeEngineSearch() {
-        const query = document.getElementById('userQuestion').value.trim();
-        const reportArea = document.getElementById('reportArea');
-        const textContent = document.getElementById('textResponseContent');
-        
-        if (!query) { alert("Please input query details first!"); return; }
+  <script>
+    async function runSearch() {
+      const query = document.getElementById("searchInput").value.trim();
+      if (!query) return;
 
-        reportArea.style.display = "block";
-        textContent.innerHTML = "🔄 <b>Scrutinix Engine:</b> Searching live database vectors...";
+      const resultBox = document.getElementById("resultContainer");
+      const answerBox = document.getElementById("mainAnswer");
+      const listElement = document.getElementById("suggestionList");
+
+      resultBox.style.display = "block";
+      answerBox.innerHTML = `<span class="loading-spinner">Generating AI response... Please wait...</span>`;
+
+      // 1. 3 Smart Options Set Karein
+      const options = [
+        `Work-from-home jobs related to ${query}?`,
+        `Top tools and platforms for ${query}?`,
+        `Beginner guide and best practices for ${query}?`
+      ];
+
+      listElement.innerHTML = "";
+      options.forEach(item => {
+        const li = document.createElement("li");
+        li.innerHTML = `<a onclick="autoFillSearch('${item}')">${item}</a>`;
+        listElement.appendChild(li);
+      });
+
+      // 2. Free AI Model (Pollinations AI) se real answer fetch karein
+      try {
+        const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(query)}`);
+        if (!response.ok) throw new Error("API error");
         
-        setTimeout(() => {
-            let lowerQuery = query.toLowerCase();
-            
-            // 1. पटना से जुड़े सवाल
-            if (lowerQuery.includes('patna') || lowerQuery.includes('bihar')) {
-                textContent.innerHTML = `
-                    बिहार की राजधानी <strong>पटना (Patna)</strong> है।<br><br>
-                    <b>📌 अतिरिक्त मुख्य तथ्य:</b><br>
-                    <ul>
-                        <li>पटना का प्राचीन ऐतिहासिक नाम <strong>पाटलिपुत्र</strong> था।</li>
-                        <li>यह गंगा नदी के पवित्र तट पर बसा हुआ भारत का एक अत्यंत ऐतिहासिक शहर है।</li>
-                    </ul>
-                `;
-            } 
-            // 2. नौकरी, काम या स्टूडेंट से जुड़े सवाल (पॉइंट्स अब पूर्ण रूप से अंकों '1, 2, 3' में लॉक हैं)
-            else if (lowerQuery.includes('job') || lowerQuery.includes('work') || lowerQuery.includes('home') || lowerQuery.includes('kam') || lowerQuery.includes('naukri')) {
-                textContent.innerHTML = `
-                    <b>🎯 Remote Student Opportunities - Verified Answer Node:</b><br><br>
-                    स्टूडेंट्स के लिए घर बैठे सुरक्षित पार्ट-टाइम काम खोजने के 3 सबसे बेहतरीन मार्ग निम्नलिखित हैं:<br>
-                    <ul>
-                        <li><strong>1. Customer Support & Calling:</strong> कई कंपनियां फोन और लैपटॉप के जरिए कॉलिंग सपोर्ट के लिए काम देती हैं।</li>
-                        <li><strong>2. Virtual Assistant & Data Entry:</strong> एक्सेल और बुनियादी कंप्यूटर स्किल्स के साथ पार्ट-टाइम डेटा कीपिंग का काम।</li>
+        const data = await response.text();
+        answerBox.innerText = data; // AI Answer Render
+      } catch (error) {
+        answerBox.innerText = "Sorry, response generate karne me problem hui. Kripya dobara try karein.";
+      }
+    }
+
+    function autoFillSearch(newQuery) {
+      document.getElementById("searchInput").value = newQuery;
+      runSearch();
+    }
+
+    function resetSearch() {
+      document.getElementById("searchInput").value = "";
+      document.getElementById("resultContainer").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
