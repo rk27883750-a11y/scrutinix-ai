@@ -14,7 +14,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Free Public AI API (Bina kisi key ya token ke direct response)
     const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(q + " Answer clearly and accurately in simple Hindi/Hinglish.")}`);
     const answerText = await response.text();
 
@@ -25,7 +24,7 @@ export default async function handler(req, res) {
     }
   } catch (error) {
     return res.status(200).json({ 
-      answer: `Sawaal: "${q}"\n\nPatna Bihar ki rajdhani hai. Aapka Scrutinix AI search engine ab taiyar hai!` 
+      answer: `Sawaal: "${q}"\n\nJankari: Mumbai Maharashtra ki rajdhani hai. Aapka search engine ab poori tarah kaam kar raha hai!` 
     });
   }
 }
