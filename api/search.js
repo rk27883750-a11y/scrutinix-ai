@@ -14,17 +14,13 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(q + " Answer clearly and accurately in simple Hindi/Hinglish.")}`);
-    const answerText = await response.text();
+    const apiRes = await fetch(`https://text.pollinations.ai/${encodeURIComponent(q)}?private=true&model=openai`);
+    const data = await apiRes.text();
 
-    if (answerText && !answerText.includes("error")) {
-      return res.status(200).json({ answer: answerText.trim() });
-    } else {
-      throw new Error("Invalid response");
-    }
+    return res.status(200).json({ answer: data.trim() });
   } catch (error) {
     return res.status(200).json({ 
-      answer: `Sawaal: "${q}"\n\nJankari: Mumbai Maharashtra ki rajdhani hai. Aapka search engine ab poori tarah kaam kar raha hai!` 
+      answer: `Aapka sawaal hai: "${q}". Kripya apna internet connection check karke 5 second baad dobara search karein.` 
     });
   }
 }
