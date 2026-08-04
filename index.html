@@ -5,278 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scrutinix AI</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    body {
-      display: flex;
-      height: 100vh;
-      background-color: #ffffff;
-      color: #333;
-    }
-
-    .sidebar {
-      width: 230px;
-      background-color: #f8fafc;
-      border-right: 1px solid #e2e8f0;
-      padding: 20px 15px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .brand-title {
-      font-size: 20px;
-      font-weight: 700;
-      color: #0284c7;
-      margin-bottom: 24px;
-    }
-
-    .btn-new-chat {
-      width: 100%;
-      background-color: #0284c7;
-      color: white;
-      border: none;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-bottom: 20px;
-      text-align: left;
-    }
-
-    .btn-new-chat:hover {
-      background-color: #0369a1;
-    }
-
-    .nav-menu {
-      list-style: none;
-    }
-
-    .nav-item {
-      padding: 10px 12px;
-      color: #64748b;
-      font-size: 14px;
-      cursor: pointer;
-      border-radius: 6px;
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .nav-item:hover {
-      background-color: #f1f5f9;
-      color: #0f172a;
-    }
-
-    .footer-note {
-      font-size: 12px;
-      color: #d97706;
-      font-weight: 500;
-    }
-
-    .main-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 60px 20px 40px 20px;
-      overflow-y: auto;
-    }
-
-    .badge {
-      background-color: #f0f9ff;
-      color: #0284c7;
-      border: 1px solid #bae6fd;
-      padding: 4px 14px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 500;
-      margin-bottom: 18px;
-    }
-
-    .hero-title {
-      font-size: 36px;
-      font-weight: 700;
-      text-align: center;
-      color: #0f172a;
-      margin-bottom: 12px;
-    }
-
-    .hero-subtitle {
-      font-size: 14px;
-      color: #64748b;
-      text-align: center;
-      max-width: 650px;
-      margin-bottom: 35px;
-      line-height: 1.5;
-    }
-
-    .search-box {
-      width: 100%;
-      max-width: 650px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 14px 18px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 15px;
-      outline: none;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-    }
-
-    .search-input:focus {
-      border-color: #0284c7;
-    }
-
-    .btn-search {
-      width: 100%;
-      background-color: #0284c7;
-      color: white;
-      border: none;
-      padding: 13px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-    .btn-search:hover {
-      background-color: #0369a1;
-    }
-
-    .result-container {
-      width: 100%;
-      max-width: 650px;
-      margin-top: 25px;
-      display: none;
-    }
-
-    .suggestion-box {
-      background-color: #f8fafc;
-      border-left: 3px solid #0284c7;
-      padding: 16px 20px;
-      border-radius: 6px;
-      margin-bottom: 20px;
-    }
-
-    .suggestion-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: #334155;
-      margin-bottom: 10px;
-    }
-
-    .suggestion-box ul {
-      list-style-type: disc;
-      padding-left: 20px;
-    }
-
-    .suggestion-box li {
-      margin-bottom: 8px;
-    }
-
-    .suggestion-box li:last-child {
-      margin-bottom: 0;
-    }
-
-    .suggestion-box a {
-      color: #0284c7;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-    }
-
-    .suggestion-box a:hover {
-      text-decoration: underline;
-    }
-
-    .answer-box {
-      font-size: 15px;
-      line-height: 1.6;
-      color: #1e293b;
-      padding: 18px;
-      background-color: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      white-space: pre-wrap;
-    }
-
-    .loading-spinner {
-      color: #0284c7;
-      font-weight: 500;
-      font-size: 14px;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { display: flex; height: 100vh; background-color: #ffffff; color: #333; }
+    .sidebar { width: 230px; background-color: #f8fafc; border-right: 1px solid #e2e8f0; padding: 20px 15px; display: flex; flex-direction: column; justify-content: space-between; }
+    .brand-title { font-size: 20px; font-weight: 700; color: #0284c7; margin-bottom: 24px; }
+    .btn-new-chat { width: 100%; background-color: #0284c7; color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; margin-bottom: 20px; }
+    .main-content { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 60px 20px 40px 20px; overflow-y: auto; }
+    .badge { background-color: #f0f9ff; color: #0284c7; border: 1px solid #bae6fd; padding: 4px 14px; border-radius: 20px; font-size: 12px; margin-bottom: 18px; }
+    .hero-title { font-size: 36px; font-weight: 700; text-align: center; color: #0f172a; margin-bottom: 12px; }
+    .hero-subtitle { font-size: 14px; color: #64748b; text-align: center; max-width: 650px; margin-bottom: 35px; }
+    .search-box { width: 100%; max-width: 650px; display: flex; flex-direction: column; gap: 12px; }
+    .search-input { width: 100%; padding: 14px 18px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; outline: none; }
+    .btn-search { width: 100%; background-color: #0284c7; color: white; border: none; padding: 13px; border-radius: 8px; font-weight: 600; font-size: 15px; cursor: pointer; }
+    .result-container { width: 100%; max-width: 650px; margin-top: 25px; display: none; }
+    .suggestion-box { background-color: #f8fafc; border-left: 3px solid #0284c7; padding: 16px 20px; border-radius: 6px; margin-bottom: 20px; }
+    .suggestion-box ul { list-style-type: disc; padding-left: 20px; }
+    .suggestion-box a { color: #0284c7; text-decoration: none; cursor: pointer; font-size: 14px; }
+    .answer-box { font-size: 15px; line-height: 1.6; color: #1e293b; padding: 18px; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; white-space: pre-wrap; }
+    .loading { color: #0284c7; font-weight: 600; }
   </style>
 </head>
 <body>
 
-  <!-- Sidebar -->
   <div class="sidebar">
     <div>
       <div class="brand-title">Scrutinix AI</div>
       <button class="btn-new-chat" onclick="resetSearch()">+ New Chat</button>
-      <ul class="nav-menu">
-        <li class="nav-item">🕒 History</li>
-        <li class="nav-item">⭐ Saved</li>
-      </ul>
     </div>
-    <div class="footer-note">
-      ⚡ Admin Secured
-    </div>
+    <div style="font-size:12px; color:#d97706;">⚡ Hugging Face Powered</div>
   </div>
 
-  <!-- Main Area -->
   <div class="main-content">
-    <div class="badge">✨ 100% Free AI Engine</div>
-    
+    <div class="badge">✨ Real AI Engine</div>
     <h1 class="hero-title">AI Search is Changing.</h1>
-    <h2 style="font-size: 24px; font-weight: 700; color: #0284c7; text-align: center; margin-bottom: 10px;">Discover Your True Visibility Index Instantly.</h2>
+    <h2 style="font-size: 22px; color: #0284c7; text-align: center; margin-bottom: 10px;">Discover Your True Visibility Index Instantly.</h2>
     <p class="hero-subtitle">Get direct, high-fidelity data evaluations on LLM citations and student employment indices.</p>
 
-    <!-- Search Section -->
     <div class="search-box">
       <input type="text" id="searchInput" class="search-input" placeholder="Ask anything...">
       <button class="btn-search" onclick="runSearch()">Search Engine Engine</button>
     </div>
 
-    <!-- Output Section -->
     <div id="resultContainer" class="result-container">
-      
-      <!-- 3 Options Suggestion Box -->
       <div class="suggestion-box">
-        <div class="suggestion-title">Are you looking for:</div>
+        <div style="font-weight:600; margin-bottom:8px;">Are you looking for:</div>
         <ul id="suggestionList"></ul>
       </div>
-
-      <!-- Main AI Answer Box -->
-      <div id="mainAnswer" class="answer-box">
-        <span class="loading-spinner">Searching & Generating answer... Please wait...</span>
-      </div>
-
+      <div id="mainAnswer" class="answer-box"></div>
     </div>
   </div>
 
   <script>
-    function generateSmartOptions(query) {
-      return [
-        `Top ways & platforms for "${query}"?`,
-        `Step-by-step guide for beginners on "${query}"?`,
-        `Tips to succeed and avoid scams in "${query}"?`
-      ];
-    }
-
     async function runSearch() {
       const query = document.getElementById("searchInput").value.trim();
       if (!query) return;
@@ -286,38 +65,28 @@
       const listElement = document.getElementById("suggestionList");
 
       resultBox.style.display = "block";
-      answerBox.innerHTML = `<span class="loading-spinner">Searching live database for "${query}"... Please wait...</span>`;
+      answerBox.innerHTML = '<span class="loading">Searching AI Engine... Please wait...</span>';
 
-      // 1. Render Smart Options
-      const options = generateSmartOptions(query);
-      listElement.innerHTML = "";
-      options.forEach(item => {
-        const li = document.createElement("li");
-        li.innerHTML = `<a onclick="autoFillSearch('${item}')">${item}</a>`;
-        listElement.appendChild(li);
-      });
+      listElement.innerHTML = `
+        <li><a onclick="autoSearch('Overview of ${query}')">Overview of "${query}"</a></li>
+        <li><a onclick="autoSearch('Detailed guide on ${query}')">Detailed guide on "${query}"</a></li>
+      `;
 
-      // 2. Fetch Real Search Answer
       try {
-        const apiUrl = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&origin=*`;
-        const res = await fetch(apiUrl);
-        const data = await res.json();
-
-        if (data.AbstractText && data.AbstractText.trim().length > 0) {
-          answerBox.innerText = data.AbstractText;
-        } else if (data.RelatedTopics && data.RelatedTopics.length > 0 && data.RelatedTopics[0].Text) {
-          answerBox.innerText = data.RelatedTopics[0].Text;
+        const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+        const data = await response.json();
+        if (data.answer) {
+          answerBox.innerText = data.answer;
         } else {
-          // Dynamic text generation based on the actual search query
-          answerBox.innerText = `Search results for "${query}":\n\n1. Basics & Fundamentals: "${query}" se judi buniyadi jankari samjhein aur sahi resources chunein.\n2. Best Learning Platforms: Free platforms jaise YouTube, Google, aur online documentation ka upyog karein.\n3. Practical Implementation: Kisi bhi topic ko achhi tarah samajhne ke liye regularly practice karein.`;
+          answerBox.innerText = "Error: No response from AI.";
         }
-      } catch (error) {
-        answerBox.innerText = `Search Results for "${query}":\n\n1. Basics & Fundamentals: "${query}" se judi buniyadi jankari samjhein.\n2. Best Learning Platforms: Online free tutorials aur guides explore karein.\n3. Regular Practice: Sikhi hui baaton ko step-by-step implement karein.`;
+      } catch (err) {
+        answerBox.innerText = "Server error. Please try again in a few seconds.";
       }
     }
 
-    function autoFillSearch(newQuery) {
-      document.getElementById("searchInput").value = newQuery;
+    function autoSearch(text) {
+      document.getElementById("searchInput").value = text;
       runSearch();
     }
 
@@ -325,7 +94,10 @@
       document.getElementById("searchInput").value = "";
       document.getElementById("resultContainer").style.display = "none";
     }
-  </script>
 
+    document.getElementById("searchInput").addEventListener("keypress", function(e) {
+      if (e.key === "Enter") runSearch();
+    });
+  </script>
 </body>
 </html>
