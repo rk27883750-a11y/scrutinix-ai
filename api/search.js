@@ -13,32 +13,44 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Query is required" });
   }
 
-  const lowerQ = q.toLowerCase();
-  let customAnswer = "";
-
-  // Common keywords matching for instant robust responses
-  if (lowerQ.includes("pani") || lowerQ.includes("water")) {
-    customAnswer = "Pani ko English me 'Water' kaha jata hai.";
-  } else if (lowerQ.includes("bihar")) {
-    customAnswer = "Bihar ki rajdhani Patna hai.";
-  } else if (lowerQ.includes("mumbai")) {
-    customAnswer = "Mumbai Maharashtra ki rajdhani hai.";
-  } else if (lowerQ.includes("job") || lowerQ.includes("naukri")) {
-    customAnswer = "Job dhoondhne ke liye aap LinkedIn, Naukri.com, aur Indeed ka upyog kar sakte hain.";
-  } else {
-    customAnswer = `Aapka sawaal hai: "${q}". Scrutinix AI search engine par iski jankari keval kuch hi der me update ki ja rahi hai. Kripya apna search dobara try karein.`;
-  }
+  const HF_TOKEN = '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';
+  const MODEL = "google/gemma-2-2b-it";
 
   try {
-    const apiRes = await fetch(`https://text.pollinations.ai/prompt/${encodeURIComponent(q)}`);
-    const data = await apiRes.text();
+    const response = await fetch(`https://api-inference.huggingface.co/models/${MODEL}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${HF_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        inputs: `User: ${q}\nAnswer clearly and accurately in simple Hindi/Hinglish:`,
+        parameters: {
+          max_new_tokens: 350,
+          temperature: 0.7,
+          return_full_text: false
+        }
+      })
+    });
 
-    if (data && !data.includes("error") && data.length > 3) {
-      return res.status(200).json({ answer: data.trim() });
+    const result = await response.json();
+    let textAnswer = "";
+
+    if (Array.isArray(result) && result[0]?.generated_text) {
+      textAnswer = result[0].generated_text;
+    } else if (result.generated_text) {
+      textAnswer = result.generated_text;
+    } else if (result.error) {
+      throw new Error(result.error);
     }
-  } catch (err) {
-    // Ignore error and use smart backup
-  }
 
-  return res.status(200).json({ answer: customAnswer });
+    if (textAnswer) {
+      return res.status(200).json({ answer: textAnswer.trim() });
+    }
+  } catch (error) {
+    // Agar Hugging Face ka server thodi der ke liye busy ho, toh smart fallback
+    return res.status(200).json({ 
+      answer: `Aapka sawaal hai: "${q}". Scrutinix AI search engine live hai. Kripya ek baar page refresh karke dobara search karein.` 
+    });
+  }
 }
