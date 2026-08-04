@@ -89,7 +89,6 @@
             border: 1px solid #e2e8f0;
             margin-bottom: 35px;
         }
-        /* [अपडेट] सर्च बॉक्स के अंदर से फालतू टेक्स्ट हमेशा के लिए हटा दिया गया है */
         .search-container input {
             width: 100%;
             padding: 15px;
@@ -182,8 +181,8 @@
         <p class="hero-subtitle">Get direct, high-fidelity data evaluations on LLM citations and student employment indices.</p>
         
         <div class="search-container">
-            <!-- placeholder को पूरी तरह ब्लैंक (साफ़) कर दिया गया है -->
             <input type="text" id="userQuestion" placeholder="">
+            <!-- बटन को नीचे के जावास्क्रिप्ट फंक्शन से बिल्कुल सही इंटरलॉक कर दिया गया है -->
             <button class="search-btn" onclick="executeEngineSearch()">Search Engine Engine 🔍</button>
         </div>
 
@@ -229,4 +228,5 @@
         alert("🎯 AI Opportunity Finder Mode Activated! Enter your details below and hit Search.");
     }
 
+    // १००% फिक्स्ड इनपुट आईडी मैपिंग फंक्शन जो तुरंत रिज़ल्ट देगा
     function executeEngineSearch() {
