@@ -13,29 +13,32 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Query is required" });
   }
 
+  const lowerQ = q.toLowerCase();
+  let customAnswer = "";
+
+  // Common keywords matching for instant robust responses
+  if (lowerQ.includes("pani") || lowerQ.includes("water")) {
+    customAnswer = "Pani ko English me 'Water' kaha jata hai.";
+  } else if (lowerQ.includes("bihar")) {
+    customAnswer = "Bihar ki rajdhani Patna hai.";
+  } else if (lowerQ.includes("mumbai")) {
+    customAnswer = "Mumbai Maharashtra ki rajdhani hai.";
+  } else if (lowerQ.includes("job") || lowerQ.includes("naukri")) {
+    customAnswer = "Job dhoondhne ke liye aap LinkedIn, Naukri.com, aur Indeed ka upyog kar sakte hain.";
+  } else {
+    customAnswer = `Aapka sawaal hai: "${q}". Scrutinix AI search engine par iski jankari keval kuch hi der me update ki ja rahi hai. Kripya apna search dobara try karein.`;
+  }
+
   try {
-    const apiRes = await fetch(`https://text.pollinations.ai/prompt/${encodeURIComponent(q + " (Provide a clear, detailed, and accurate answer in simple Hindi/Hinglish)")}`);
+    const apiRes = await fetch(`https://text.pollinations.ai/prompt/${encodeURIComponent(q)}`);
     const data = await apiRes.text();
 
-    if (data && !data.includes("error") && !data.includes("402") && !data.length < 5) {
+    if (data && !data.includes("error") && data.length > 3) {
       return res.status(200).json({ answer: data.trim() });
     }
-    throw new Error("Failed");
   } catch (err) {
-    // Smart Dynamic Backup Answer
-    let customAnswer = "";
-    const lowerQ = q.toLowerCase();
-    
-    if (lowerQ.includes("bihar")) {
-      customAnswer = "Bihar ki rajdhani Patna hai. Yeh ek aitihasik aur pramukh shahar hai.";
-    } else if (lowerQ.includes("mumbai")) {
-      customAnswer = "Mumbai Maharashtra ki rajdhani hai. Ise India ki financial capital bhi kaha jata hai.";
-    } else if (lowerQ.includes("job") || lowerQ.includes("naukri")) {
-      customAnswer = "Job dhoondhne ke liye aap LinkedIn, Naukri.com, aur Indeed par apni profile strong banayein, apna resume update karein aur regular apply karein.";
-    } else {
-      customAnswer = `Aapka sawaal hai: "${q}". Scrutinix AI search engine par iski jankari uplabdh hai. Kripya apna search dobara try karein.`;
-    }
-
-    return res.status(200).json({ answer: customAnswer });
+    // Ignore error and use smart backup
   }
+
+  return res.status(200).json({ answer: customAnswer });
 }
