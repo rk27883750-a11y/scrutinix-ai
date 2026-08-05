@@ -13,10 +13,10 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Query is required" });
   }
 
-  const GEMINI_API_KEY = "AQ.Ab8RN6KhfbCMaRP0ncrbRMPMI...";
+  const GEMINI_API_KEY = "AQ.Ab8RN6I__cwKPYgSatOwy-3nZpS1QhEq2q8FoGLmRl_oPxnCkQ";
 
   try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+    const apiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY.trim()}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,17 +28,17 @@ export default async function handler(req, res) {
       })
     });
 
-    const data = await response.json();
-    const answer = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-    if (answer) {
+    const data = await apiResponse.json();
+    
+    if (data && data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+      const answer = data.candidates[0].content.parts[0].text;
       return res.status(200).json({ answer: answer.trim() });
     } else {
-      throw new Error("Invalid response from Gemini");
+      return res.status(200).json({ answer: "API se sahi data nahi mila. Kripya dobara prayas karein." });
     }
   } catch (error) {
     return res.status(200).json({ 
-      answer: `Aapka sawaal hai: "${q}". Kripya page ko refresh karke dobara search karein.` 
+      answer: "Connection error. Kripya kuch samay baad prayas karein." 
     });
   }
 }
