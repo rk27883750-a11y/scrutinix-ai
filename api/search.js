@@ -7,35 +7,35 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  let userQuery = '';
-  if (req.method === 'GET') {
-    userQuery = req.query.q;
-  } else if (req.method === 'POST') {
-    userQuery = req.body?.q || (req.body?.contents && req.body.contents[0]?.parts[0]?.text);
-  }
+  const query = req.query.q || req.body?.q || req.body?.contents?.[0]?.parts?.[0]?.text;
 
-  if (!userQuery) {
+  if (!query) {
     return res.status(400).json({ error: "Query is required" });
   }
 
   const GEMINI_API_KEY = "AQ.Ab8RN6LhTQnKskrXMKrkrrcjC4vRcL2tYpwpKJrIW_K6HJuGNw";
 
   try {
-    const apiResponse = await fetch(https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}, {
+    const response = await fetch(https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         contents: [{
-          parts: [{ text: userQuery }]
+          parts: [{ text: query }]
         }]
       })
     });
 
-    const data = await apiResponse.json();
+    const data = await response.json();
+    
+    if (!response.ok) {
+      return res.status(response.status).json({ error: data.error?.message || "API Error" });
+    }
+
     return res.status(200).json(data);
-  } catch (error) {
-    return res.status(500).json({ error: "Something went wrong", details: error.message });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
   }
 }
