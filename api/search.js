@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   const GEMINI_API_KEY = "AQ.Ab8RN6I__cwKPYgSatOwy-3nZpS1QhEq2q8FoGLmRl_oPxnCkQ";
 
   try {
-    const apiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY.trim()}`, {
+    const apiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY.trim()}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -34,7 +34,9 @@ export default async function handler(req, res) {
       const answer = data.candidates[0].content.parts[0].text;
       return res.status(200).json({ answer: answer.trim() });
     } else {
-      return res.status(200).json({ answer: "API se sahi data nahi mila. Kripya dobara prayas karein." });
+      // Fallback agar 2.5-flash na chale toh 1.5-flash try karega ya error detail dega
+      const errorMsg = data.error ? data.error.message : "Unknown API error";
+      return res.status(200).json({ answer: `API Error: ${errorMsg}` });
     }
   } catch (error) {
     return res.status(200).json({ 
