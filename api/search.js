@@ -7,9 +7,14 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  const { q } = req.query;
+  let userQuery = '';
+  if (req.method === 'GET') {
+    userQuery = req.query.q;
+  } else if (req.method === 'POST') {
+    userQuery = req.body?.q || (req.body?.contents && req.body.contents[0]?.parts[0]?.text);
+  }
 
-  if (!q) {
+  if (!userQuery) {
     return res.status(400).json({ error: "Query is required" });
   }
 
@@ -23,7 +28,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         contents: [{
-          parts: [{ text: q }]
+          parts: [{ text: userQuery }]
         }]
       })
     });
@@ -31,6 +36,6 @@ export default async function handler(req, res) {
     const data = await apiResponse.json();
     return res.status(200).json(data);
   } catch (error) {
-    return res.status(500).json({ error: "Something went wrong" });
+    return res.status(500).json({ error: "Something went wrong", details: error.message });
   }
 }
