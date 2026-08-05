@@ -13,33 +13,24 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Query is required" });
   }
 
-  const GEMINI_API_KEY = "AQ.Ab8RN6I__cwKPYgSatOwy-3nZpS1QhEq2q8FoGLmRl_oPxnCkQ";
+  const GEMINI_API_KEY = "AQ.Ab8RN6LhTQnKskrXMKrkrrcjC4vRcL2tYpwpKJrIW_K6HJuGNw";
 
   try {
-    const apiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY.trim()}`, {
+    const apiResponse = await fetch(https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         contents: [{
-          parts: [{ text: `Answer this user query accurately, clearly, and directly in simple Hindi/Hinglish: ${q}` }]
+          parts: [{ text: q }]
         }]
       })
     });
 
     const data = await apiResponse.json();
-    
-    if (data && data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
-      const answer = data.candidates[0].content.parts[0].text;
-      return res.status(200).json({ answer: answer.trim() });
-    } else {
-      const errorMsg = data.error ? data.error.message : "Unknown API error";
-      return res.status(200).json({ answer: `API Error: ${errorMsg}` });
-    }
+    return res.status(200).json(data);
   } catch (error) {
-    return res.status(200).json({ 
-      answer: "Connection error. Kripya kuch samay baad prayas karein." 
-    });
+    return res.status(500).json({ error: "Something went wrong" });
   }
 }
