@@ -43,7 +43,7 @@
         <!-- वेबसाइट लिंक डालने का इनपुट बॉक्स -->
         <div class="search-box">
             <input type="text" class="search-input" id="websiteUrlInput" placeholder="Enter target website URL (e.g., https://example.com)...">
-            <button class="btn-new-chat" onclick="triggerAuditReport()" style="padding: 14px;">Run Website Diagnostic Audit</button>
+            <button class="btn-new-chat" style="padding: 14px;" onclick="const urlInput = document.getElementById('websiteUrlInput').value; if(!urlInput) { alert('Please enter a valid website URL first!'); } else { document.getElementById('diagnosticResultsZone').style.display = 'block'; }">Run Website Diagnostic Audit</button>
         </div>
 
         <!-- ऑडिट रिजल्ट और व्हाट्सएप पिच ज़ोन -->
@@ -66,39 +66,12 @@
                     <input type="text" id="wfhClientName" placeholder="उदा: शर्मा जी बेकरी या बालाजी ट्यूटोरियल्स" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1; box-sizing: border-box; font-size: 14px;">
                 </div>
 
-                <button onclick="dispatchClientWhatsAppPitch()" style="background: #22c55e; color: #fff; padding: 12px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; font-size: 15px; box-shadow: 0 4px 6px -1px rgba(34,197,94,0.2);">
+                <button style="background: #22c55e; color: #fff; padding: 12px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; font-size: 15px; box-shadow: 0 4px 6px -1px rgba(34,197,94,0.2);" onclick="const clientName = document.getElementById('wfhClientName').value || 'Website Owner'; const targetUrl = document.getElementById('websiteUrlInput').value || 'your website'; const message = 🚀 *WEBSITE PERFORMANCE NOTICE for ${clientName}* 🚀\n\nHello, I just ran a technical AI diagnostic audit on your website (${targetUrl}) using Scrutinix AI, and noticed a few critical technical bottlenecks that are heavily damaging your Google rankings and driving away customers:\n\n📉 *Site Speed & SEO Bottlenecks Found:*\n• Critical Page Speed Drop\n• Google First-Page SEO Tags Missing\n\nI can optimize your site speed, fix these core errors, and help your brand rank on Google's first page. Let me know if you are open for a quick 2-minute chat?\n- Report compiled via ScrutinixAI.com; const encodedText = encodeURIComponent(message); window.open(https://whatsapp.com{encodedText}, '_blank');">
                     📲 1-क्लिक में ग्राहक को व्हाट्सएप सेल्स पिच भेजें
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- लॉजिक स्क्रिप्ट्स जो बिना एरर के काम करेंगी -->
-    <script>
-        // ऑडिट रिपोर्ट दिखाने का फंक्शन
-        function triggerAuditReport() {
-            const urlInput = document.getElementById('websiteUrlInput').value;
-            if(!urlInput) {
-                alert('Please enter a valid website URL first!');
-                return;
-            }
-            document.getElementById('diagnosticResultsZone').style.display = 'block';
-        }
-
-        // डायरेक्ट व्हाट्सएप राउटिंग जो पॉप-अप ब्लॉकर को मात देगी
-        function dispatchClientWhatsAppPitch() {
-            const clientName = document.getElementById('wfhClientName').value || 'Website Owner';
-            const targetUrl = document.getElementById('websiteUrlInput').value || 'your website';
-            
-            // व्हाट्सएप के लिए सुंदर कड़क संदेश का ढांचा
-            const message = 🚀 *WEBSITE PERFORMANCE NOTICE for ${clientName}* 🚀\n\nHello, I just ran a technical AI diagnostic audit on your website (${targetUrl}) using Scrutinix AI, and noticed a few critical technical bottlenecks that are heavily damaging your Google rankings and driving away customers:\n\n📉 *Site Speed & SEO Bottlenecks Found:*\n• Critical Page Speed Drop\n• Google First-Page SEO Tags Missing\n\nI can optimize your site speed, fix these core errors, and help your brand rank on Google's first page. Let me know if you are open for a quick 2-minute chat?\n- Report compiled via ScrutinixAI.com;
-
-            const encodedText = encodeURIComponent(message);
-            const nativeWhatsAppGateway = https://whatsapp.com{encodedText};
-            
-            // हमेशा सुरक्षित नए ब्राउज़र टैब में खोलें
-            window.open(nativeWhatsAppGateway, '_blank');
-        }
-    </script>
 </body>
 </html>
