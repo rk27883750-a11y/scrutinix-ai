@@ -11,14 +11,14 @@
         body { display: flex; height: 100vh; background-color: #ffffff; color: #333; }
         .sidebar { width: 230px; background-color: #f8fafc; border-right: 1px solid #e2e8f0; padding: 20px 15px; display: flex; flex-direction: column; justify-content: space-between; }
         .brand-title { font-size: 20px; font-weight: 700; color: #0284c7; margin-bottom: 24px; }
-        .btn-new-chat { width: 100%; background-color: #0284c7; color: white; border: none; padding: 10px 14px; border-radius: 6px; font-weight: 600; cursor: pointer; }
-        .main-content { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 80px 20px 40px 20px; overflow-y: auto; }
+        .btn-new-chat { width: 100%; background-color: #0284c7; color: white; border: none; padding: 10px 14px; border-radius: 6px; font-weight: 600; cursor: pointer; position: relative; z-index: 10; }
+        .main-content { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 80px 20px 40px 20px; overflow-y: auto; position: relative; z-index: 1; }
         .badge { background-color: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-bottom: 16px; }
         .hero-title { font-size: 36px; font-weight: 700; text-align: center; color: #0f172a; margin-bottom: 12px; }
         .hero-subtitle { font-size: 14px; color: #64748b; text-align: center; max-width: 450px; margin-bottom: 35px; }
-        .search-box { width: 100%; max-width: 650px; display: flex; flex-direction: column; gap: 12px; }
-        .search-input { width: 100%; padding: 14px 18px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; outline: none; }
-        .result-container { width: 100%; max-width: 650px; margin-top: 25px; display: none; }
+        .search-box { width: 100%; max-width: 650px; display: flex; flex-direction: column; gap: 12px; position: relative; z-index: 50; margin-bottom: 20px; }
+        .search-input { width: 100%; padding: 14px 18px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; outline: none; background: #ffffff; }
+        .result-container { width: 100%; max-width: 650px; margin-top: 25px; display: none; position: relative; z-index: 100; }
         .suggestion-box { background-color: #f8fafc; border-left: 3px solid #0284c7; padding: 16px 20px; border-radius: 4px; margin-bottom: 20px; }
         .suggestion-box ul { list-style-type: disc; padding-left: 20px; }
         .answer-box { font-size: 15px; line-height: 1.6; color: #1e293b; padding: 18px; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; }
@@ -40,13 +40,13 @@
         <div class="hero-title">Optimize Your Web Speed</div>
         <div class="hero-subtitle">Audit any website in 10 seconds, unlock critical SEO parameters, and generate high-converting client pitches to earn from home.</div>
         
-        <!-- वेबसाइट लिंक डालने का इनपुट बॉक्स -->
+        <!-- वेबसाइट लिंक डालने का इनपुट बॉक्स (सुरक्षित मार्जिन के साथ) -->
         <div class="search-box">
             <input type="text" class="search-input" id="websiteUrlInput" placeholder="Enter target website URL (e.g., https://example.com)...">
-            <button class="btn-new-chat" style="padding: 14px;" onclick="const urlInput = document.getElementById('websiteUrlInput').value; if(!urlInput) { alert('Please enter a valid website URL first!'); } else { document.getElementById('diagnosticResultsZone').style.display = 'block'; }">Run Website Diagnostic Audit</button>
+            <button class="btn-new-chat" style="padding: 14px; position: relative; z-index: 60;" onclick="const urlInput = document.getElementById('websiteUrlInput').value; if(!urlInput) { alert('Please enter a valid website URL first!'); } else { document.getElementById('diagnosticResultsZone').style.display = 'block'; }">Run Website Diagnostic Audit</button>
         </div>
 
-        <!-- ऑडिट रिजल्ट और व्हाट्सएप पिच ज़ोन -->
+        <!-- ऑडिट रिजल्ट और व्हाट्सएप पिच ज़ोन (सबसे ऊपर की परत पर लॉक किया गया) -->
         <div class="result-container" id="diagnosticResultsZone">
             <div class="suggestion-box">
                 <p style="color: #ef4444; font-weight: bold; margin-bottom: 8px;">🚨 Critical SEO Bottlenecks Flagged:</p>
@@ -57,16 +57,16 @@
             </div>
             
             <!-- 💰 1-क्लिक सेल्स पिच जनरेटर इंटरफ़ेस -->
-            <div style="background: #f8fafc; color: #333; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; width: 100%; box-sizing: border-box; margin-top: 15px;">
-                <h3 style="color: #0284c7; margin-top: 0;">💰 Turn This Audit Into Cash (AI Freelance Closer)</h3>
-                <p style="color: #64748b; font-size: 13px; margin-bottom: 15px;">गूगल मैप्स से खोजे गए मालिक का नाम नीचे डालें और बिना नंबर सेव किए उन्हें सीधा व्हाट्सएप पर सबूत के साथ ऑफर भेजें।</p>
+            <div style="background: #f8fafc; color: #333; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; width: 100%; box-sizing: border-box; margin-top: 15px; position: relative; z-index: 110;">
+                <h3 style="color: #0284c7; margin-top: 0; font-weight: 700;">💰 Turn This Audit Into Cash (AI Freelance Closer)</h3>
+                <p style="color: #64748b; font-size: 13px; margin-bottom: 15px;">गूगल मैप्स से खोजे गए मालिक का नाम नीचे डालें और बिना नंबर सेव किए उन्हें सीधा व्हाट्सएप पर सबूत के साथ ऑफर भेजें.</p>
                 
-                <div style="margin-bottom: 15px;">
+                <div style="margin-bottom: 15px; position: relative; z-index: 120;">
                     <label style="display:block; margin-bottom: 6px; font-weight: bold; color: #334155; font-size: 14px;">क्लाइंट का नाम दर्ज करें:</label>
-                    <input type="text" id="wfhClientName" placeholder="उदा: शर्मा जी बेकरी या बालाजी ट्यूटोरियल्स" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1; box-sizing: border-box; font-size: 14px;">
+                    <input type="text" id="wfhClientName" placeholder="उदा: शर्मा जी बेकरी या बालाजी ट्यूटोरियल्स" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1; box-sizing: border-box; font-size: 14px; background: #ffffff; color: #000; position: relative; z-index: 130;">
                 </div>
 
-                <button style="background: #22c55e; color: #fff; padding: 12px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; font-size: 15px; box-shadow: 0 4px 6px -1px rgba(34,197,94,0.2);" onclick="const clientName = document.getElementById('wfhClientName').value || 'Website Owner'; const targetUrl = document.getElementById('websiteUrlInput').value || 'your website'; const message = 🚀 *WEBSITE PERFORMANCE NOTICE for ${clientName}* 🚀\n\nHello, I just ran a technical AI diagnostic audit on your website (${targetUrl}) using Scrutinix AI, and noticed a few critical technical bottlenecks that are heavily damaging your Google rankings and driving away customers:\n\n📉 *Site Speed & SEO Bottlenecks Found:*\n• Critical Page Speed Drop\n• Google First-Page SEO Tags Missing\n\nI can optimize your site speed, fix these core errors, and help your brand rank on Google's first page. Let me know if you are open for a quick 2-minute chat?\n- Report compiled via ScrutinixAI.com; const encodedText = encodeURIComponent(message); window.open(https://whatsapp.com{encodedText}, '_blank');">
+                <button style="background: #22c55e; color: #fff; padding: 12px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; font-size: 15px; box-shadow: 0 4px 6px -1px rgba(34,197,94,0.2); position: relative; z-index: 150;" onclick="const clientName = document.getElementById('wfhClientName').value || 'Website Owner'; const targetUrl = document.getElementById('websiteUrlInput').value || 'your website'; const message = 🚀 *WEBSITE PERFORMANCE NOTICE for ${clientName}* 🚀\n\nHello, I just ran a technical AI diagnostic audit on your website (\${targetUrl}) using Scrutinix AI, and noticed a few critical technical bottlenecks that are heavily damaging your Google rankings and driving away customers:\n\n📉 *Site Speed & SEO Bottlenecks Found:*\n• Critical Page Speed Drop\n• Google First-Page SEO Tags Missing\n\nI can optimize your site speed, fix these core errors, and help your brand rank on Google's first page. Let me know if you are open for a quick 2-minute chat?\n- Report compiled via ScrutinixAI.com; const encodedText = encodeURIComponent(message); window.open(https://whatsapp.com\${encodedText}, '_blank');">
                     📲 1-क्लिक में ग्राहक को व्हाट्सएप सेल्स पिच भेजें
                 </button>
             </div>
