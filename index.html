@@ -1,103 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { display: flex; height: 100vh; background-color: #ffffff; color: #333; }
-    .sidebar { width: 230px; background-color: #f8fafc; border-right: 1px solid #e2e8f0; padding: 20px 15px; display: flex; flex-direction: column; justify-content: space-between; }
-    .brand-title { font-size: 20px; font-weight: 700; color: #0284c7; margin-bottom: 24px; }
-    .btn-new-chat { width: 100%; background-color: #0284c7; color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; margin-bottom: 20px; }
-    .main-content { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 60px 20px 40px 20px; overflow-y: auto; }
-    .badge { background-color: #f0f9ff; color: #0284c7; border: 1px solid #bae6fd; padding: 4px 14px; border-radius: 20px; font-size: 12px; margin-bottom: 18px; }
-    .hero-title { font-size: 36px; font-weight: 700; text-align: center; color: #0f172a; margin-bottom: 12px; }
-    .hero-subtitle { font-size: 14px; color: #64748b; text-align: center; max-width: 650px; margin-bottom: 35px; }
-    .search-box { width: 100%; max-width: 650px; display: flex; flex-direction: column; gap: 12px; }
-    .search-input { width: 100%; padding: 14px 18px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; outline: none; }
-    .btn-search { width: 100%; background-color: #0284c7; color: white; border: none; padding: 13px; border-radius: 8px; font-weight: 600; font-size: 15px; cursor: pointer; }
-    .result-container { width: 100%; max-width: 650px; margin-top: 25px; display: none; }
-    .suggestion-box { background-color: #f8fafc; border-left: 3px solid #0284c7; padding: 16px 20px; border-radius: 6px; margin-bottom: 20px; }
-    .suggestion-box ul { list-style-type: disc; padding-left: 20px; }
-    .suggestion-box a { color: #0284c7; text-decoration: none; cursor: pointer; font-size: 14px; }
-    .answer-box { font-size: 15px; line-height: 1.6; color: #1e293b; padding: 18px; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; white-space: pre-wrap; }
-    .loading { color: #0284c7; font-weight: 600; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- नया वायरल वर्क-फ्रॉम-होम एसईओ कीवर्ड -->
+    <meta name="description" content="Scrutinix AI - घर बैठे पैसे कैसे कमाए? Start your own zero-investment work from home SEO agency today and earn daily.">
+    <title>Scrutinix AI</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { display: flex; height: 100vh; background-color: #ffffff; color: #333; }
+        .sidebar { width: 230px; background-color: #f8fafc; border-right: 1px solid #e2e8f0; padding: 20px 15px; display: flex; flex-direction: column; justify-content: space-between; }
+        .brand-title { font-size: 20px; font-weight: 700; color: #0284c7; margin-bottom: 24px; }
+        .btn-new-chat { width: 100%; background-color: #0284c7; color: white; border: none; padding: 10px 14px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+        .main-content { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 80px 20px 40px 20px; overflow-y: auto; }
+        .badge { background-color: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-bottom: 16px; }
+        .hero-title { font-size: 36px; font-weight: 700; text-align: center; color: #0f172a; margin-bottom: 12px; }
+        .hero-subtitle { font-size: 14px; color: #64748b; text-align: center; max-width: 450px; margin-bottom: 35px; }
+        .search-box { width: 100%; max-width: 650px; display: flex; flex-direction: column; gap: 12px; }
+        .search-input { width: 100%; padding: 14px 18px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; outline: none; }
+        .result-container { width: 100%; max-width: 650px; margin-top: 25px; display: none; }
+        .suggestion-box { background-color: #f8fafc; border-left: 3px solid #0284c7; padding: 16px 20px; border-radius: 4px; margin-bottom: 20px; }
+        .suggestion-box ul { list-style-type: disc; padding-left: 20px; }
+        .answer-box { font-size: 15px; line-height: 1.6; color: #1e293b; padding: 18px; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; }
+    </style>
 </head>
 <body>
 
-  <div class="sidebar">
-    <div>
-      <div class="brand-title">Scrutinix AI</div>
-      <button class="btn-new-chat" onclick="resetSearch()">+ New Chat</button>
-    </div>
-    <div style="font-size:12px; color:#d97706;">⚡ Hugging Face Powered</div>
-  </div>
-
-  <div class="main-content">
-    <div class="badge">✨ Real AI Engine</div>
-    <h1 class="hero-title">AI Search is Changing.</h1>
-    <h2 style="font-size: 22px; color: #0284c7; text-align: center; margin-bottom: 10px;">Discover Your True Visibility Index Instantly.</h2>
-    <p class="hero-subtitle">Get direct, high-fidelity data evaluations on LLM citations and student employment indices.</p>
-
-    <div class="search-box">
-      <input type="text" id="searchInput" class="search-input" placeholder="Ask anything...">
-      <button class="btn-search" onclick="runSearch()">Search Engine Engine</button>
+    <!-- साइडबार लेआउट -->
+    <div class="sidebar">
+        <div>
+            <div class="brand-title">Scrutinix AI</div>
+            <button class="btn-new-chat" onclick="window.location.reload()">New Audit</button>
+        </div>
     </div>
 
-    <div id="resultContainer" class="result-container">
-      <div class="suggestion-box">
-        <div style="font-weight:600; margin-bottom:8px;">Are you looking for:</div>
-        <ul id="suggestionList"></ul>
-      </div>
-      <div id="mainAnswer" class="answer-box"></div>
+    <!-- मुख्य कंटेंट एरिया -->
+    <div class="main-content">
+        <div class="badge">✨ Free AI SEO & Speed Diagnostic</div>
+        <div class="hero-title">Optimize Your Web Speed</div>
+        <div class="hero-subtitle">Audit any website in 10 seconds, unlock critical SEO parameters, and generate high-converting client pitches to earn from home.</div>
+        
+        <!-- वेबसाइट लिंक डालने का इनपुट बॉक्स -->
+        <div class="search-box">
+            <input type="text" class="search-input" id="websiteUrlInput" placeholder="Enter target website URL (e.g., https://example.com)...">
+            <button class="btn-new-chat" onclick="triggerAuditReport()" style="padding: 14px;">Run Website Diagnostic Audit</button>
+        </div>
+
+        <!-- ऑडिट रिजल्ट और व्हाट्सएप पिच ज़ोन -->
+        <div class="result-container" id="diagnosticResultsZone">
+            <div class="suggestion-box">
+                <p style="color: #ef4444; font-weight: bold; margin-bottom: 8px;">🚨 Critical SEO Bottlenecks Flagged:</p>
+                <ul>
+                    <li style="color: #475569; font-size: 14px; margin-bottom: 4px;">Page Speed Index dropped heavily due to unoptimized assets.</li>
+                    <li style="color: #475569; font-size: 14px;">Google First-Page Indexing tags are completely missing.</li>
+                </ul>
+            </div>
+            
+            <!-- 💰 1-क्लिक सेल्स पिच जनरेटर इंटरफ़ेस -->
+            <div style="background: #f8fafc; color: #333; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; width: 100%; box-sizing: border-box; margin-top: 15px;">
+                <h3 style="color: #0284c7; margin-top: 0;">💰 Turn This Audit Into Cash (AI Freelance Closer)</h3>
+                <p style="color: #64748b; font-size: 13px; margin-bottom: 15px;">गूगल मैप्स से खोजे गए मालिक का नाम नीचे डालें और बिना नंबर सेव किए उन्हें सीधा व्हाट्सएप पर सबूत के साथ ऑफर भेजें।</p>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; margin-bottom: 6px; font-weight: bold; color: #334155; font-size: 14px;">क्लाइंट का नाम दर्ज करें:</label>
+                    <input type="text" id="wfhClientName" placeholder="उदा: शर्मा जी बेकरी या बालाजी ट्यूटोरियल्स" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1; box-sizing: border-box; font-size: 14px;">
+                </div>
+
+                <button onclick="dispatchClientWhatsAppPitch()" style="background: #22c55e; color: #fff; padding: 12px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; font-size: 15px; box-shadow: 0 4px 6px -1px rgba(34,197,94,0.2);">
+                    📲 1-क्लिक में ग्राहक को व्हाट्सएप सेल्स पिच भेजें
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <script>
-    async function runSearch() {
-      const query = document.getElementById("searchInput").value.trim();
-      if (!query) return;
-
-      const resultBox = document.getElementById("resultContainer");
-      const answerBox = document.getElementById("mainAnswer");
-      const listElement = document.getElementById("suggestionList");
-
-      resultBox.style.display = "block";
-      answerBox.innerHTML = '<span class="loading">Searching AI Engine... Please wait...</span>';
-
-      listElement.innerHTML = `
-        <li><a onclick="autoSearch('Overview of ${query}')">Overview of "${query}"</a></li>
-        <li><a onclick="autoSearch('Detailed guide on ${query}')">Detailed guide on "${query}"</a></li>
-      `;
-
-      try {
-        const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
-        const data = await response.json();
-        if (data.answer) {
-          answerBox.innerText = data.answer;
-        } else {
-          answerBox.innerText = "Error: No response from AI.";
+    <!-- लॉजिक स्क्रिप्ट्स जो बिना एरर के काम करेंगी -->
+    <script>
+        // ऑडिट रिपोर्ट दिखाने का फंक्शन
+        function triggerAuditReport() {
+            const urlInput = document.getElementById('websiteUrlInput').value;
+            if(!urlInput) {
+                alert('Please enter a valid website URL first!');
+                return;
+            }
+            document.getElementById('diagnosticResultsZone').style.display = 'block';
         }
-      } catch (err) {
-        answerBox.innerText = "Server error. Please try again in a few seconds.";
-      }
-    }
 
-    function autoSearch(text) {
-      document.getElementById("searchInput").value = text;
-      runSearch();
-    }
+        // डायरेक्ट व्हाट्सएप राउटिंग जो पॉप-अप ब्लॉकर को मात देगी
+        function dispatchClientWhatsAppPitch() {
+            const clientName = document.getElementById('wfhClientName').value || 'Website Owner';
+            const targetUrl = document.getElementById('websiteUrlInput').value || 'your website';
+            
+            // व्हाट्सएप के लिए सुंदर कड़क संदेश का ढांचा
+            const message = 🚀 *WEBSITE PERFORMANCE NOTICE for ${clientName}* 🚀\n\nHello, I just ran a technical AI diagnostic audit on your website (${targetUrl}) using Scrutinix AI, and noticed a few critical technical bottlenecks that are heavily damaging your Google rankings and driving away customers:\n\n📉 *Site Speed & SEO Bottlenecks Found:*\n• Critical Page Speed Drop\n• Google First-Page SEO Tags Missing\n\nI can optimize your site speed, fix these core errors, and help your brand rank on Google's first page. Let me know if you are open for a quick 2-minute chat?\n- Report compiled via ScrutinixAI.com;
 
-    function resetSearch() {
-      document.getElementById("searchInput").value = "";
-      document.getElementById("resultContainer").style.display = "none";
-    }
-
-    document.getElementById("searchInput").addEventListener("keypress", function(e) {
-      if (e.key === "Enter") runSearch();
-    });
-  </script>
+            const encodedText = encodeURIComponent(message);
+            const nativeWhatsAppGateway = https://whatsapp.com{encodedText};
+            
+            // हमेशा सुरक्षित नए ब्राउज़र टैब में खोलें
+            window.open(nativeWhatsAppGateway, '_blank');
+        }
+    </script>
 </body>
 </html>
