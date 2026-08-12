@@ -1,77 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- नया वायरल वर्क-फ्रॉम-होम एसईओ कीवर्ड -->
-    <meta name="description" content="Scrutinix AI - घर बैठे पैसे कैसे कमाए? Start your own zero-investment work from home SEO agency today and earn daily.">
-    <title>Scrutinix AI</title>
+    <title>Scrutinix AI - Real Freemium Enterprise Hub</title>
+    <!-- Premium UI के लिए Tailwind CSS CDN -->
+    <script src="https://tailwindcss.com"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { display: flex; height: 100vh; background-color: #ffffff; color: #333; }
-        .sidebar { width: 230px; background-color: #f8fafc; border-right: 1px solid #e2e8f0; padding: 20px 15px; display: flex; flex-direction: column; justify-content: space-between; }
-        .brand-title { font-size: 20px; font-weight: 700; color: #0284c7; margin-bottom: 24px; }
-        .btn-new-chat { width: 100%; background-color: #0284c7; color: white; border: none; padding: 10px 14px; border-radius: 6px; font-weight: 600; cursor: pointer; position: relative; z-index: 10; }
-        .main-content { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 80px 20px 40px 20px; overflow-y: auto; position: relative; z-index: 1; }
-        .badge { background-color: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-bottom: 16px; }
-        .hero-title { font-size: 36px; font-weight: 700; text-align: center; color: #0f172a; margin-bottom: 12px; }
-        .hero-subtitle { font-size: 14px; color: #64748b; text-align: center; max-width: 450px; margin-bottom: 35px; }
-        .search-box { width: 100%; max-width: 650px; display: flex; flex-direction: column; gap: 12px; position: relative; z-index: 50; margin-bottom: 20px; }
-        .search-input { width: 100%; padding: 14px 18px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; outline: none; background: #ffffff; }
-        .result-container { width: 100%; max-width: 650px; margin-top: 25px; display: none; position: relative; z-index: 100; }
-        .suggestion-box { background-color: #f8fafc; border-left: 3px solid #0284c7; padding: 16px 20px; border-radius: 4px; margin-bottom: 20px; }
-        .suggestion-box ul { list-style-type: disc; padding-left: 20px; }
-        .answer-box { font-size: 15px; line-height: 1.6; color: #1e293b; padding: 18px; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; }
+        @media print {
+            body { background: white !important; color: black !important; }
+            .no-print { display: none !important; }
+            .print-full { width: 100% !important; max-width: 100% !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; }
+        }
     </style>
 </head>
-<body>
+<body class="bg-slate-950 font-sans text-slate-100 min-h-screen antialiased flex flex-col justify-between">
 
-    <!-- साइडबार लेआउट -->
-    <div class="sidebar">
-        <div>
-            <div class="brand-title">Scrutinix AI</div>
-            <button class="btn-new-chat" onclick="window.location.reload()">New Audit</button>
+    <!-- 1. TOP NAV HEADER -->
+    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50 no-print">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-gradient-to-tr from-teal-500 to-emerald-500 text-white p-2.5 rounded-xl font-bold text-xl shadow-lg">🔬</div>
+                <div>
+                    <span class="text-lg font-black tracking-tight bg-gradient-to-r from-teal-400 via-emerald-400 to-blue-400 bg-clip-text text-transparent">Scrutinix AI</span>
+                    <span class="text-slate-500 text-[10px] block font-medium">Perplexity-Style Hybrid Platform</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <span id="quota-badge" class="bg-blue-500/10 text-blue-400 text-xs font-bold px-3 py-1 rounded-full border border-blue-500/20">
+                    फ्री कोटा: 3 डेली रिपोर्ट्स बची हैं
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. THE PREMIUM LOCK OVERLAY MODAL (Perplexity Pro Screen) -->
+    <div id="pro-lock-screen" class="hidden fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 flex items-center justify-center p-4 no-print">
+        <div class="bg-slate-900 border border-emerald-500/30 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl">
+            <div class="text-5xl mb-4">💎</div>
+            <h2 class="text-2xl font-black text-white mb-2">आज का फ्री कोटा समाप्त!</h2>
+            <p class="text-slate-400 text-xs leading-relaxed mb-6">आप मुफ़्त वर्जन में रोज़ाना केवल 3 रिपोर्ट्स ही जनरेट कर सकते हैं। असीमित (Unlimited) रिपोर्ट्स, तेज़ विज़न स्कैनर और वीआईपी फीचर्स के लिए अभी *Scrutinix Pro* में अपग्रेड करें।</p>
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 mb-6 flex justify-between items-center text-left">
+                <div>
+                    <span class="text-[10px] font-bold text-slate-500 uppercase">Enterprise Lab Pro</span>
+                    <strong class="text-white text-base block mt-0.5">अनलिमिटेड स्कैन और रिपोर्ट्स</strong>
+                </div>
+                <span class="text-2xl font-black text-emerald-400">₹1,499<span class="text-xs font-normal text-slate-500">/महीना</span></span>
+            </div>
+            <div class="flex flex-col gap-3">
+                <button onclick="alert('💳 पेमेंट गेटवे एक्टिवेट हो रहा है...')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-slate-950 font-black py-3 rounded-xl text-sm shadow-lg shadow-emerald-600/20 transition">
+                    Upgrade to Scrutinix Pro
+                </button>
+                <button onclick="location.reload()" class="text-slate-500 hover:text-slate-400 text-xs font-medium">कल दोबारा मुफ़्त इस्तेमाल करें</button>
+            </div>
         </div>
     </div>
 
-    <!-- मुख्य कंटेंट एरिया -->
-    <div class="main-content">
-        <div class="badge">✨ Free AI SEO & Speed Diagnostic</div>
-        <div class="hero-title">Optimize Your Web Speed</div>
-        <div class="hero-subtitle">Audit any website in 10 seconds, unlock critical SEO parameters, and generate high-converting client pitches to earn from home.</div>
+    <!-- MAIN INTERACTIVE WORKSPACE CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 w-full flex-grow">
         
-        <!-- वेबसाइट लिंक डालने का इनपुट बॉक्स (सुरक्षित मार्जिन के साथ) -->
-        <div class="search-box">
-            <input type="text" class="search-input" id="websiteUrlInput" placeholder="Enter target website URL (e.g., https://example.com)...">
-            <button class="btn-new-chat" style="padding: 14px; position: relative; z-index: 60;" onclick="const urlInput = document.getElementById('websiteUrlInput').value; if(!urlInput) { alert('Please enter a valid website URL first!'); } else { document.getElementById('diagnosticResultsZone').style.display = 'block'; }">Run Website Diagnostic Audit</button>
-        </div>
+        <!-- LEFT WORKSPACE: WHITE-GREY CONTROL FORM WITH LOWER INPUT SMART BAR -->
+        <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-2xl text-slate-800 no-print flex flex-col justify-between min-h-[550px]">
+            <div>
+                <h2 class="text-base font-black text-slate-900 mb-2 flex items-center gap-2">
+                    <span>⚙️</span> Patient Details & AI Assistant
+                </h2>
+                <p class="text-xs text-slate-500 mb-4">मरीज़ की बुनियादी जानकारी भरें, फिर नीचे दिए गए स्मार्ट चैट बॉक्स का उपयोग करें।</p>
 
-        <!-- ऑडिट रिजल्ट और व्हाट्सएप पिच ज़ोन (सबसे ऊपर की परत पर लॉक किया गया) -->
-        <div class="result-container" id="diagnosticResultsZone">
-            <div class="suggestion-box">
-                <p style="color: #ef4444; font-weight: bold; margin-bottom: 8px;">🚨 Critical SEO Bottlenecks Flagged:</p>
-                <ul>
-                    <li style="color: #475569; font-size: 14px; margin-bottom: 4px;">Page Speed Index dropped heavily due to unoptimized assets.</li>
-                    <li style="color: #475569; font-size: 14px;">Google First-Page Indexing tags are completely missing.</li>
-                </ul>
-            </div>
-            
-            <!-- 💰 1-क्लिक सेल्स पिच जनरेटर इंटरफ़ेस -->
-            <div style="background: #f8fafc; color: #333; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; width: 100%; box-sizing: border-box; margin-top: 15px; position: relative; z-index: 110;">
-                <h3 style="color: #0284c7; margin-top: 0; font-weight: 700;">💰 Turn This Audit Into Cash (AI Freelance Closer)</h3>
-                <p style="color: #64748b; font-size: 13px; margin-bottom: 15px;">गूगल मैप्स से खोजे गए मालिक का नाम नीचे डालें और बिना नंबर सेव किए उन्हें सीधा व्हाट्सएप पर सबूत के साथ ऑफर भेजें.</p>
-                
-                <div style="margin-bottom: 15px; position: relative; z-index: 120;">
-                    <label style="display:block; margin-bottom: 6px; font-weight: bold; color: #334155; font-size: 14px;">क्लाइंट का नाम दर्ज करें:</label>
-                    <input type="text" id="wfhClientName" placeholder="उदा: शर्मा जी बेकरी या बालाजी ट्यूटोरियल्स" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1; box-sizing: border-box; font-size: 14px; background: #ffffff; color: #000; position: relative; z-index: 130;">
+                <!-- Patient Core Bio Inputs -->
+                <div class="space-y-3.5 mb-6">
+                    <div>
+                        <label class="text-[11px] font-bold text-slate-500 block mb-1">Patient Name *</label>
+                        <input id="pName" type="text" value="Rajesh Kumar" oninput="updateLiveReport()" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-emerald-500 transition">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-[11px] font-bold text-slate-500 block mb-1">Age (Years) *</label>
+                            <input id="pAge" type="number" value="42" oninput="updateLiveReport()" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-emerald-500 transition">
+                        </div>
+                        <div>
+                            <label class="text-[11px] font-bold text-slate-500 block mb-1">Gender *</label>
+                            <select id="pGender" onchange="updateLiveReport()" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-emerald-500 transition">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-[11px] font-bold text-slate-500 block mb-1">Referring Doctor *</label>
+                        <input id="pDoctor" type="text" value="Dr. S. K. Sharma (MD)" oninput="updateLiveReport()" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-emerald-500 transition">
+                    </div>
                 </div>
+            </div>
 
-                <button style="background: #22c55e; color: #fff; padding: 12px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; font-size: 15px; box-shadow: 0 4px 6px -1px rgba(34,197,94,0.2); position: relative; z-index: 150;" onclick="const clientName = document.getElementById('wfhClientName').value || 'Website Owner'; const targetUrl = document.getElementById('websiteUrlInput').value || 'your website'; const message = 🚀 *WEBSITE PERFORMANCE NOTICE for ${clientName}* 🚀\n\nHello, I just ran a technical AI diagnostic audit on your website (\${targetUrl}) using Scrutinix AI, and noticed a few critical technical bottlenecks that are heavily damaging your Google rankings and driving away customers:\n\n📉 *Site Speed & SEO Bottlenecks Found:*\n• Critical Page Speed Drop\n• Google First-Page SEO Tags Missing\n\nI can optimize your site speed, fix these core errors, and help your brand rank on Google's first page. Let me know if you are open for a quick 2-minute chat?\n- Report compiled via ScrutinixAI.com; const encodedText = encodeURIComponent(message); window.open(https://whatsapp.com\${encodedText}, '_blank');">
-                    📲 1-क्लिक में ग्राहक को व्हाट्सएप सेल्स पिच भेजें
+            <!-- 🎤➕ THE SMART LOWER CHAT BAR WITH MICROPHONE & ATTACHMENT PLUS BUTTONS -->
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 shadow-inner mt-auto">
+                <div class="flex items-center gap-2 mb-2">
+                    <!-- Plus / File Attachment Input Box ➕ -->
+                    <label class="cursor-pointer bg-slate-200 hover:bg-slate-300 text-slate-700 p-2.5 rounded-xl text-sm transition flex items-center justify-center font-bold" title="Upload Lab Report Image">
+                        ➕
+                        <input type="file" id="reportFile" accept="image/*" class="hidden" onchange="simulateImageScan()">
+                    </label>
+                    
+                    <!-- Voice / Mike Action Button 🎤 -->
+                    <button onclick="simulateVoiceInput()" id="mike-btn" class="bg-slate-200 hover:bg-slate-300 text-slate-700 p-2.5 rounded-xl text-sm transition flex items-center justify-center" title="Voice / Record Input">
+                        🎤
+                    </button>
+                    
+                    <!-- Real-Time User Typing Area Box -->
+                    <input id="aiAssistantPrompt" type="text" placeholder="रिपोर्ट की फोटो जोड़ें या यहाँ कुछ टाइप करें..." class="flex-grow bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-medium text-slate-900 focus:outline-none focus:border-emerald-500 transition">
+                </div>
+                
+                <!-- Green Processing Action Execution Button -->
+                <button onclick="generateNativeAISummary()" id="ai-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 rounded-xl text-xs shadow transition flex items-center justify-center gap-2">
+                    <span id="btn-text">✨ Generate AI Summary Now</span>
                 </button>
             </div>
         </div>
-    </div>
 
-</body>
-</html>
+        <!-- RIGHT WORKSPACE: LIVE MEDICAL REPORT BLUEPRINT -->
+        <div class="lg:col-span-7 flex flex-col gap-4 print-full">
+            <div class="flex flex-wrap gap-3 justify-between items-center no-print bg-slate-900 p-3 rounded-xl border border-slate-800 shadow-md">
+                <span class="text-xs text-slate-400 font-bold px-2">📋 Live Report Blueprint</span>
+                <div class="flex gap-2">
+                    <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold py-2.5 px-4 rounded-xl text-xs transition flex items-center gap-2 shadow-inner">
+                        🖨️ Print Report
+                    </button>
+                    <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition shadow-md shadow-emerald-500/10 flex items-center gap-2">
+                        📥 Download AI-Integrated Report PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- Official Medical Paper -->
+            <div id="report-paper" class="bg-white border border-slate-200 shadow-2xl rounded-2xl p-8 print-full text-slate-800">
+                <div class="border-b-4 border-emerald-600 pb-4 mb-5 flex justify-between items-start">
+                    <div>
+                        <h1 class="text-2xl font-black text-slate-900 tracking-tight">APEX DIAGNOSTICS & PATHOLOGY LAB</h1>
