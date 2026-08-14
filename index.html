@@ -1,271 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI | Intelligent Insights. Smarter Decisions.</title>
-    <style>
-        /* 🎨 आपकी वेबसाइट की असली नीली और काली कलर थीम */
-        body {
-            background-color: #030a16; /* गहरा काला-नीला बैकग्राउंड */
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            -webkit-font-smoothing: antialiased;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* 🌐 सबसे ऊपर का छोटा मेनू बार */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #142c4f;
-        }
-        .logo {
-            font-size: 18px;
-            font-weight: bold;
-            color: #ffffff;
-            text-decoration: none;
-        }
-        .nav-links a {
-            color: #8a99ad;
-            text-decoration: none;
-            font-size: 13px;
-            margin-left: 15px;
-            cursor: pointer;
-        }
-        .nav-links a:hover {
-            color: #00d2ff;
-        }
-
-        /* 🚀 मुख्य हेडिंग और सब-हेडिंग एरिया */
-        .hero {
-            padding: 40px 10px 25px 10px;
-        }
-        .hero h1 {
-            font-size: 34px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #ffffff;
-        }
-        .hero h1 span {
-            color: #00d2ff;
-        }
-        .hero p {
-            font-size: 15px;
-            color: #cbd5e1; /* चमकदार सिल्वर-सफेद रंग */
-            max-width: 580px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        /* 📥 मुख्य एक्शन बटन */
-        .download-btn {
-            background-color: #00d2ff;
-            color: #030a16;
-            border: none;
-            padding: 11px 26px;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            margin: 25px 0 35px 0;
-            transition: 0.2s;
-        }
-        .download-btn:hover {
-            opacity: 0.9;
-        }
-
-        /* 💰 प्राइजिंग प्लान हेडिंग */
-        .pricing-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 25px;
-            color: #ffffff;
-        }
-
-        /* 💳 केवल एक सिंगल फ्री बॉक्स (सेंटर एलाइनमेंट के साथ) */
-        .pricing-grid {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 40px;
-        }
-        .price-card {
-            background-color: #061121;
-            border: 1px solid #142c4f;
-            border-radius: 6px;
-            padding: 25px 30px;
-            width: 100%;
-            max-width: 400px; /* सिंगल बॉक्स को थोड़ा चौड़ा और सुंदर बनाया */
-            text-align: left;
-        }
-        .price-card h4 {
-            font-size: 12px;
-            color: #8a99ad;
-            margin: 0 0 8px 0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .price-amt {
-            font-size: 28px;
-            font-weight: bold;
-            color: #ffffff;
-            margin-bottom: 15px;
-        }
-        .price-amt span {
-            font-size: 12px;
-            color: #8a99ad;
-        }
-        .price-card ul {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 25px 0;
-        }
-        .price-card ul li {
-            font-size: 14px;
-            color: #ffffff;
-            margin-bottom: 10px;
-            padding-left: 22px;
-            position: relative;
-        }
-        .price-card ul li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #00d2ff;
-            font-weight: bold;
-        }
-        .price-btn {
-            width: 100%;
-            padding: 11px;
-            background-color: #00d2ff;
-            color: #030a16;
-            border: none;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* 📋 गूगल एडसेंस वैल्यू ब्लॉक */
-        .info-content {
-            background: #050d1a;
-            border-radius: 6px;
-            padding: 25px;
-            margin-top: 40px;
-            border: 1px dashed #142c4f;
-            text-align: justify;
-        }
-        .info-content h3 { color: #00d2ff; font-size: 16px; margin-bottom: 10px; text-align: center; }
-        .info-content p { color: #8a99ad; font-size: 13px; line-height: 1.6; margin: 0; }
-
-        /* 📞 फुटर और कांटेक्ट डिटेल्स */
-        .footer {
-            margin-top: 50px;
-            padding-top: 20px;
-            border-top: 1px solid #142c4f;
-            color: #8a99ad;
-            font-size: 13px;
-        }
-        .footer-links { margin-bottom: 10px; font-size: 13.5px; }
-        .footer-links a { color: #00d2ff; text-decoration: none; margin: 0 8px; font-weight: bold; }
-        
-        /* 🚨 पॉप-अप लीगल बॉक्स */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
-        .modal-content { background: #061121; padding: 25px; border-radius: 6px; max-width: 450px; width: 100%; border: 1px solid #142c4f; text-align: left; }
-        .modal h5 { font-size: 17px; color: #00d2ff; margin: 0 0 12px 0; font-weight: bold; text-align: center; }
-        .modal p { font-size: 13px; color: #8a99ad; margin-bottom: 15px; line-height: 1.5; }
-        .modal-close-btn { background: #00d2ff; color: #030a16; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrutinix AI - 100+ Free AI & SEO Tools</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-    <!-- 🌐 सबसे ऊपर का मेनू बार -->
-    <div class="navbar">
-        <a href="#" class="logo">Scrutinix AI</a>
-        <div class="nav-links">
-            <a onclick="openModal('about')">About Us</a>
-            <a onclick="openModal('contact')">Contact Us</a>
-            <a onclick="openModal('privacy')">Privacy Policy</a>
-        </div>
-    </div>
+  <!-- हेडर सेक्शन: नाम बाईं तरफ और लिंक्स दाईं तरफ -->
+  <header class="navbar">
+    <div class="logo">SCRUTINIX AI</div>
+    <nav class="nav-links">
+      <a href="#about">About Us</a>
+      <a href="#contact">Contact Us</a>
+      <a href="#privacy">Privacy Policy</a>
+    </nav>
+  </header>
 
-    <!-- 🚀 मुख्य हेडिंग और सब-हेडिंग -->
-    <div class="hero">
-        <h1>Find the Problem. Get the Solution. <span>Grow Faster.</span></h1>
-        <p>"AI-powered solutions for your business, work, and everyday challenges."</p>
-    </div>
+  <!-- मुख्य स्क्रीन (Hero Section) -->
+  <main class="hero-section">
+    <h1 class="bold-title">100+ Free AI & SEO Tools</h1>
+    <p class="bold-subtitle">Analyze, Optimize & Grow Your Business with our powerful AI-driven toolset.</p>
+    <button class="cta-button" id="downloadBtn">Download Free Tools 🔗</button>
+  </main>
 
-    <!-- 📥 मुख्य बटन -->
-    <button class="download-btn" onclick="alert('Free AI Tools are active below!')">Download Free Tools</button>
+  <!-- संपर्क की जानकारी (Contact Section) -->
+  <section id="contact" class="info-section">
+    <h2>Contact Us</h2>
+    <p>📧 ईमेल: <a href="mailto:rk27883750@gmail.com">rk27883750@gmail.com</a></p>
+    <p>📞 फ़ोन: <a href="tel:7304111280">+91 7304111280</a></p>
+  </section>
 
-    <!-- 💰 प्राइजिंग प्लान हेडिंग -->
-    <div class="pricing-title">Our Pricing Plans</div>
-    <div class="pricing-grid">
-        
-        <!-- 🆓 केवल एक फ्री बॉक्स आ गया है -->
-        <div class="price-card">
-            <h4>Free Tier</h4>
-            <div class="price-amt">$0 <span>/ forever</span></div>
-            <ul>
-                <li>Basic AI & SEO Tools</li>
-                <li>Basic Problem Analysis</li>
-                <li>Limited Daily Usage</li>
-                <li>Basic Reports</li>
-                <li>Essential Website Tools</li>
-                <li>No Credit Card Required</li>
-            </ul>
-            <button class="price-btn" onclick="alert('Free Tier features are automatically active!')">Get Free Trial</button>
-        </div>
+  <!-- प्राइवेसी और अबाउट की जानकारी (सिंपल टेक्स्ट) -->
+  <section id="about" class="simple-section">
+    <h2>About Us</h2>
+    <p>Scrutinix AI आपको आपके बिज़नेस और रोज़मर्रा के कामों को आसान बनाने के लिए 100 से भी ज़्यादा फ्री AI और SEO टूल्स देता है।</p>
+  </section>
 
-    </div>
+  <section id="privacy" class="simple-section">
+    <h2>Privacy Policy</h2>
+    <p>हम आपकी प्राइवेसी का पूरा ध्यान रखते हैं। आपकी कोई भी पर्सनल जानकारी हमारी साइट पर बिना अनुमति के सुरक्षित रखी जाती है और बेची नहीं जाती।</p>
+  </section>
 
-    <!-- 📋 गूगल एडसेंस के लिए उपयोगी जानकारी वाला ब्लॉक -->
-    <div class="info-content">
-        <h3>About Scrutinix AI Core Utilities</h3>
-        <p>
-            Welcome to Scrutinix AI. In today's competitive academic and industrial environment, users often face massive roadblocks trying to bridge theoretical textbook knowledge with actual commercial deployment. Our platform aggregates core operational parameters across domain tracks to output structured system roadmaps instantly. By providing step-by-step technical blueprints alongside computational communication sheets, we enable builders, freshers, and professionals globally to maximize structural growth, optimize outreach velocity, and configure high-performance digital modules without manual design overheads.
-        </p>
-    </div>
+  <!-- पाद लेख (Footer) -->
+  <footer class="footer">
+    <p>&copy; 2026 Scrutinix AI. All Rights Reserved.</p>
+  </footer>
 
-    <!-- 📞 फुटर और कांटेक्ट डिटेल्स -->
-    <div class="footer">
-        <div class="footer-links">
-            About Us: <a href="mailto:rk27883750@gmail.com">rk27883750@gmail.com</a> | 
-            Contact Us: <a href="tel:+917304111280">+91 7304111280</a>
-        </div>
-        <p>© 2026 Scrutinix AI. All Rights Reserved. Mobile: +91 7304111280 | Email: rk27883750@gmail.com</p>
-    </div>
-</div>
-
-<!-- 🚨 पॉप-अप लीगल बॉक्स कोड -->
-<div class="modal" id="pageModal">
-    <div class="modal-content">
-        <h5 id="modalTitle">Title</h5>
-        <p id="modalBody">Content</p>
-        <button class="modal-close-btn" onclick="closeModal()">Close</button>
-    </div>
-</div>
-
-<script>
-    const modalData = {
-        about: {
-            title: "About Scrutinix AI",
-            body: "Welcome to Scrutinix AI. We are a global automation intelligence platform. Our mission is to build highly effective micro-tools that help college students, small businesses, and contractors solve everyday technical and documentation challenges seamlessly through optimized algorithms."
-        },
-        contact: {
-            title: "Contact Us",
-            body: "Have questions or need direct premium access? Reach out to our operational team directly:\n\n📞 Hotline Number: +91 7304111280\n📧 Official Email: rk27883750@gmail.com\n\nWe respond within 2-4 business hours."
-        },
-        privacy: {
-            title: "Privacy Policy",
+  <script src="script.js"></script>
+</body>
+</html>
