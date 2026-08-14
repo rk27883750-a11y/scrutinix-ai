@@ -3,136 +3,270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI | Global Business & Academic Solutions</title>
+    <title>Scrutinix AI | Intelligent Insights. Smarter Decisions.</title>
     <style>
-        /* 🎨 CSS ROOT VARIABLES & THEME SETUP */
-        :root {
-            --bg-dark: #0c0919;
-            --bg-card: #16122c;
-            --bg-input: #211b41;
-            --primary: #6c5ce7;
-            --primary-light: #a29bfe;
-            --accent: #fdcb6e;
-            --text-main: #ffffff;
-            --text-muted: #b2bec3;
-            --border-color: #483b8a;
+        /* 🎨 आपकी वेबसाइट की असली नीली और काली कलर थीम */
+        body {
+            background-color: #030a16; /* गहरा काला-नीला बैकग्राउंड */
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-        body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.6; padding-bottom: 60px; }
-        .container { max-width: 1100px; width: 100%; margin: 0 auto; padding: 0 20px; }
+        /* 🌐 सबसे ऊपर का नेविगेशन बार (Legal Pages) */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0 30px 0;
+        }
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .nav-links a {
+            color: #8a99ad;
+            text-decoration: none;
+            font-size: 14px;
+            margin-left: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .nav-links a:hover {
+            color: #00d2ff;
+        }
 
-        /* 🌐 NAVBAR, NAV LINKS & LANGUAGE BOX */
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 25px 0; border-bottom: 1px solid #1c1736; flex-wrap: wrap; gap: 15px; }
-        .logo { font-size: 26px; font-weight: 800; background: linear-gradient(45deg, var(--primary-light), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+        /* 🚀 मुख्य हेडिंग एरिया (Hero Section) */
+        .hero {
+            padding: 80px 20px 40px 20px;
+        }
+        .hero h1 {
+            font-size: 38px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #ffffff;
+            line-height: 1.3;
+        }
+        .hero h1 span {
+            color: #00d2ff; /* आपकी साइट का हल्का नीला रंग */
+        }
+        .hero p {
+            font-size: 16px;
+            color: #8a99ad;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* 💰 प्राइजिंग प्लान हेडिंग */
+        .pricing-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 50px 0 30px 0;
+            color: #ffffff;
+        }
+
+        /* 💳 प्राइजिंग ग्रिड और आपके दो असली बॉक्स (Free & Paid) */
+        .pricing-grid {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+        .price-card {
+            background-color: #061121; /* आपकी फोटो वाला नीला-काला रंग */
+            border: 1px solid #142c4f;  /* आपकी फोटो वाला हल्का बॉर्डर */
+            border-radius: 8px;
+            padding: 35px 30px;
+            flex: 1;
+            max-width: 380px;
+            min-width: 280px;
+            text-align: left;
+            position: relative;
+        }
+        .price-card h4 {
+            font-size: 14px;
+            color: #8a99ad;
+            margin: 0 0 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .price-amt {
+            font-size: 34px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 25px;
+        }
+        .price-amt span {
+            font-size: 13px;
+            color: #8a99ad;
+            font-weight: normal;
+        }
+        .price-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 35px 0;
+        }
+        .price-card ul li {
+            font-size: 14px;
+            color: #ffffff;
+            margin-bottom: 14px;
+            padding-left: 22px;
+            position: relative;
+            line-height: 1.4;
+        }
+        .price-card ul li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #00d2ff; /* नीला टिक मार्क */
+            font-weight: bold;
+        }
+        .price-btn {
+            width: 100%;
+            padding: 13px;
+            background-color: #00d2ff; /* आपकी फोटो वाला लाइट ब्लू बटन */
+            color: #030a16;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .price-btn:hover {
+            opacity: 0.9;
+        }
+        .price-card.free .price-btn {
+            background-color: transparent;
+            border: 1px solid #1d3b66;
+            color: #00d2ff;
+        }
+
+        /* 📋 गूगल एडसेंस के लिए उपयोगी जानकारी वाला ब्लॉक */
+        .info-content {
+            background: #050d1a;
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 60px;
+            border: 1px dashed #142c4f;
+            text-align: justify;
+        }
+        .info-content h3 { color: #00d2ff; font-size: 18px; margin-bottom: 10px; text-align: center; }
+        .info-content p { color: #8a99ad; font-size: 13.5px; line-height: 1.6; margin: 0; }
+
+        /* 📞 फुटर और आपके असली कांटेक्ट डिटेल्स */
+        .footer {
+            margin-top: 80px;
+            padding-top: 25px;
+            border-top: 1px solid #142c4f;
+            color: #8a99ad;
+            font-size: 13.5px;
+        }
+        .footer-links { margin-bottom: 15px; font-size: 14px; }
+        .footer-links a { color: #00d2ff; text-decoration: none; margin: 0 10px; font-weight: bold; }
         
-        .nav-links { display: flex; gap: 20px; align-items: center; }
-        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.3s; cursor: pointer; }
-        .nav-links a:hover { color: var(--primary-light); }
-        
-        .right-nav { display: flex; align-items: center; gap: 15px; }
-        .lang-btn { background: var(--primary); color: white; border: none; padding: 8px 18px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 13px; }
-        .lang-btn:hover { background: #5649c0; transform: translateY(-1px); }
-
-        /* 🚀 HERO SECTION (THE BROAD & POWERFUL HEADINGS) */
-        .hero { text-align: center; padding: 80px 20px 60px 20px; }
-        .hero h1 { font-size: 48px; font-weight: 800; margin-bottom: 20px; letter-spacing: -1px; line-height: 1.2; }
-        .hero h1 span { background: linear-gradient(45deg, var(--primary-light), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { font-size: 19px; color: var(--text-muted); max-width: 750px; margin: 0 auto 30px auto; }
-
-        /* ⚙️ CORE ENGINE MODULE */
-        .engine-box { background: var(--bg-card); padding: 35px; border-radius: 16px; border: 1px solid #342a66; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 60px; }
-        .engine-title { font-size: 22px; font-weight: 700; color: var(--primary-light); margin-bottom: 25px; border-left: 4px solid var(--primary); padding-left: 10px; }
-        .row { display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
-        .col { flex: 1; min-width: 250px; }
-        label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 14px; font-weight: 500; }
-        select, input { width: 100%; padding: 14px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-size: 15px; outline: none; transition: 0.3s; }
-        select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(108, 92, 231, 0.2); }
-        
-        .engine-btn { width: 100%; padding: 15px; background: linear-gradient(45deg, var(--primary), var(--primary-light)); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4); transition: 0.3s; }
-        .engine-btn:hover { opacity: 0.95; transform: translateY(-1px); }
-
-        /* OUTPUT STYLING */
-        .output-section { margin-top: 35px; display: none; border-top: 1px solid #342a66; padding-top: 25px; }
-        .output-grid { display: flex; gap: 25px; flex-wrap: wrap; }
-        .output-col { flex: 1; min-width: 300px; }
-        .output-title { font-size: 18px; font-weight: bold; color: var(--accent); margin-bottom: 15px; }
-        .project-card { background: var(--bg-input); padding: 20px; border-radius: 10px; border-left: 4px solid var(--primary); margin-bottom: 15px; }
-        .p-title { font-weight: 700; font-size: 16px; color: #fff; margin-bottom: 6px; }
-        .p-desc { color: var(--text-muted); font-size: 14px; white-space: pre-line; line-height: 1.5; }
-        .letter-box { background: #1a1535; border: 1px dashed var(--primary); padding: 20px; border-radius: 10px; font-family: monospace; color: #e0dcf5; white-space: pre-wrap; font-size: 13px; line-height: 1.6; }
-
-        /* 💰 PRICING SECTIONS - UPDATED LOWER PRICES */
-        .pricing-section { padding: 30px 0; }
-        .pricing-grid { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
-        .price-card { background: var(--bg-card); border: 1px solid #342a66; border-radius: 16px; padding: 35px; flex: 1; max-width: 440px; min-width: 290px; text-align: left; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: 0.3s; position: relative; }
-        .price-card.premium { border: 2px solid var(--primary); box-shadow: 0 10px 30px rgba(108, 92, 231, 0.15); }
-        .popular-badge { position: absolute; top: -12px; right: 20px; background: var(--primary); color: white; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: bold; letter-spacing: 1px; }
-        .price-card h3 { font-size: 22px; margin-bottom: 10px; }
-        .price-amt { font-size: 34px; font-weight: 800; margin-bottom: 25px; }
-        .price-amt span { font-size: 14px; color: var(--text-muted); font-weight: normal; }
-        .price-card ul { list-style: none; margin-bottom: 30px; font-size: 14px; color: #dfe6e9; line-height: 2.3; }
-        .price-btn { width: 100%; padding: 13px; background: transparent; border: 2px solid var(--primary); color: white; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .price-card.premium .price-btn { background: linear-gradient(45deg, var(--primary), var(--primary-light)); border: none; box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3); }
-        .price-btn:hover { transform: translateY(-1px); opacity: 0.95; }
-
-        /* 📋 GOOGLE ADSENSE FRIENDLY VALUE CONTENT TEXTS */
-        .adsense-content { background: #110d24; border-radius: 12px; padding: 40px; margin-top: 60px; border: 1px dashed #2a2250; }
-        .adsense-content h3 { color: var(--primary-light); font-size: 22px; margin-bottom: 15px; font-weight: 700; }
-        .adsense-content p { color: var(--text-muted); font-size: 14.5px; line-height: 1.7; text-align: justify; }
-
-        /* 📞 FOOTER & CONTACT DETAILS */
-        .footer { border-top: 1px solid #1c1736; margin-top: 70px; padding-top: 30px; text-align: center; color: var(--text-muted); font-size: 14px; }
-        .contact-info { margin-top: 15px; font-size: 13px; color: var(--primary-light); }
-        .contact-info a { color: var(--accent); text-decoration: none; margin: 0 10px; font-weight: bold; }
-        
-        /* 🚨 MODAL WAITLIST POPUP & PAGE MODALS */
+        /* 🚨 पॉप-अप लीगल बॉक्स */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
-        .modal-content { background: var(--bg-card); padding: 35px; border-radius: 16px; max-width: 550px; width: 100%; border: 1px solid var(--primary); text-align: left; box-shadow: 0 10px 40px rgba(0,0,0,0.6); position: relative; max-height: 85vh; overflow-y: auto; }
-        .modal h4 { font-size: 24px; color: var(--accent); margin-bottom: 15px; text-align: center; font-weight: bold; }
-        .modal p { font-size: 14px; color: #dfe6e9; margin-bottom: 20px; line-height: 1.6; text-align: justify; }
-        .modal-btn { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
+        .modal-content { background: #061121; padding: 30px; border-radius: 8px; max-width: 500px; width: 100%; border: 1px solid #142c4f; text-align: left; }
+        .modal h5 { font-size: 18px; color: #00d2ff; margin: 0 0 15px 0; font-weight: bold; text-align: center; }
+        .modal p { font-size: 13.5px; color: #8a99ad; margin-bottom: 20px; line-height: 1.6; }
+        .modal-close-btn { background: #00d2ff; color: #030a16; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- 🌐 NAVIGATION HEADER -->
+    <!-- 🌐 सबसे ऊपर का मेनू बार -->
     <div class="navbar">
-        <a href="#" class="logo">SCRUTINIX AI</a>
-        <div class="right-nav">
-            <div class="nav-links">
-                <a onclick="openPageModal('about')">About Us</a>
-                <a onclick="openPageModal('contact')">Contact Us</a>
-                <a onclick="openPageModal('privacy')">Privacy Policy</a>
-            </div>
-            <button class="lang-btn" id="langBtn" onclick="toggleLanguage()">🌐 Switch to Hindi</button>
+        <a href="#" class="logo">Scrutinix AI</a>
+        <div class="nav-links">
+            <a onclick="openModal('about')">About Us</a>
+            <a onclick="openModal('contact')">Contact Us</a>
+            <a onclick="openModal('privacy')">Privacy Policy</a>
         </div>
     </div>
 
-    <!-- 🚀 HERO SECTION -->
+    <!-- 🚀 नया हेडिंग जो आपने फाइनल किया है -->
     <div class="hero">
-        <h1 id="heroTitle">Find the Problem. Get the Solution. <span id="heroSpan">Grow Faster.</span></h1>
-        <p id="heroSub">"AI-powered solutions for your business, work, and everyday challenges."</p>
+        <h1>Find the Problem. Get the Solution. <span>Grow Faster.</span></h1>
+        <p>"AI-powered solutions for your business, work, and everyday challenges."</p>
     </div>
 
-    <!-- ⚙️ CORE ENGINE MODULE -->
-    <div class="engine-box">
-        <div class="engine-title" id="engineTitle">🎓 AI College Project & Hyperlocal Internship Matcher Engine</div>
+    <!-- 💰 प्राइजिंग प्लान्स (Free और Paid दोनों बॉक्स आमने-सामने) -->
+    <div class="pricing-title">Our Pricing Plans</div>
+    <div class="pricing-grid">
         
-        <div class="row">
-            <div class="col">
-                <label id="lblStream">Select Educational Domain/Stream</label>
-                <select id="stream">
-                    <option value="IT">Information Technology (IT/CS)</option>
-                    <option value="BIZ">Business Management / Marketing</option>
-                </select>
-            </div>
-            <div class="col">
-                <label id="lblYear">Current Academic Year</label>
-                <select id="year">
-                    <option value="1st Year">1st Year</option>
-                    <option value="2nd Year">2nd Year</option>
-                    <option value="3rd Year">3rd Year</option>
-                    <option value="Final Year">Final Year</option>
-                </select>
+        <!-- 🆓 FREE BOX -->
+        <div class="price-card free">
+            <h4>Free Tier</h4>
+            <div class="price-amt">$0 <span>/ forever</span></div>
+            <ul>
+                <li>Basic AI & SEO Tools</li>
+                <li>Basic Problem Analysis</li>
+                <li>Limited Daily Usage</li>
+                <li>Basic Reports</li>
+                <li>Essential Website Tools</li>
+            </ul>
+            <button class="price-btn" onclick="alert('Free Tier features are automatically active!')">Get Free Trial</button>
+        </div>
+
+        <!-- 💳 PAID BOX (UPDATED LOWER RATE ₹149) -->
+        <div class="price-card">
+            <h4 style="color: #00d2ff;">Premium Plan</h4>
+            <div class="price-amt">₹149 <span>/ month ($1.99)</span></div>
+            <ul>
+                <li>Advanced AI Problem Analysis</li>
+                <li>Personalized AI Solutions</li>
+                <li>Deep Data & Competitor Analysis</li>
+                <li>Detailed AI Reports & PDF Export</li>
+                <li>Priority & Higher Usage Limits</li>
+                <li>Advanced SEO & Business Insights</li>
+            </ul>
+            <button class="price-btn" onclick="openModal('waitlist')">Purchase Pro</button>
+        </div>
+
+    </div>
+
+    <!-- 📋 गूगल एडसेंस के लिए उपयोगी जानकारी वाला ब्लॉग -->
+    <div class="info-content">
+        <h3>About Scrutinix AI Core Utilities</h3>
+        <p>
+            In today's competitive academic and industrial environment, users often face massive roadblocks trying to bridge theoretical textbook knowledge with actual commercial deployment. The Scrutinix AI Engine aggregates core operational parameters across domain tracks to output structured system roadmaps instantly. By providing step-by-step technical blueprints alongside computational communication sheets, we enable builders, freshers, and professionals globally to maximize structural growth, optimize outreach velocity, and configure high-performance digital modules without manual design overheads.
+        </p>
+    </div>
+
+    <!-- 📞 फुटर और आपके असली कांटेक्ट डिटेल्स -->
+    <div class="footer">
+        <div class="footer-links">
+            About Us: <a href="mailto:rk27883750@gmail.com">rk27883750@gmail.com</a> | 
+            Contact Us: <a href="tel:+917304111280">+91 7304111280</a>
+        </div>
+        <p>© 2026 Scrutinix AI. All Rights Reserved. Mobile: +91 7304111280 | Email: rk27883750@gmail.com</p>
+    </div>
+</div>
+
+<!-- 🚨 पॉप-अप लीगल बॉक्स कोड -->
+<div class="modal" id="pageModal">
+    <div class="modal-content">
+        <h5 id="modalTitle">Title</h5>
+        <p id="modalBody">Content</p>
+        <button class="modal-close-btn" onclick="closeModal()">Close</button>
+    </div>
+</div>
+
+<script>
+    const modalData = {
+        waitlist: {
+            title: "Thank you for your interest!",
