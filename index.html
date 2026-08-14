@@ -22,14 +22,13 @@
             padding: 20px;
         }
 
-        /* 🌐 ⚡ प्रोफेशनल नेविगेशन और ड्रॉप-डाउन मेनू बार (Hooray!) */
+        /* 🌐 प्रोफेशनल नेविगेशन और ड्रॉप-डाउन मेनू बार */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 20px 0;
             border-bottom: 1px solid #0f1e33;
-            position: relative;
         }
         .logo {
             font-size: 22px;
@@ -40,7 +39,7 @@
         }
         .nav-links {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             align-items: center;
         }
         
@@ -65,7 +64,7 @@
             color: #00d2ff;
         }
         
-        /* 📋 नीचे खुलने वाले ऑप्शंस की लिस्ट बॉक्स (Hidden by Default) */
+        /* 📋 नीचे खुलने वाले ऑप्शंस की लिस्ट बॉक्स */
         .dropdown-content {
             display: none;
             position: absolute;
@@ -95,6 +94,7 @@
             font-weight: 500;
             transition: 0.2s ease;
             border-bottom: 1px solid #0f1e33;
+            cursor: pointer;
         }
         .dropdown-content a:last-child {
             border-bottom: none;
@@ -301,3 +301,5 @@
 <body>
 
 <div class="container">
+    <div class="navbar">
+        <a href="#" class="logo">Scrutinix AI</a>
