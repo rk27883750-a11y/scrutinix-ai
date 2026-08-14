@@ -1,139 +1,138 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - Real Freemium Enterprise Hub</title>
-    <!-- Premium UI के लिए Tailwind CSS CDN -->
-    <script src="https://tailwindcss.com"></script>
+    <title>Scrutinix AI | Global Business & Academic Solutions</title>
     <style>
-        @media print {
-            body { background: white !important; color: black !important; }
-            .no-print { display: none !important; }
-            .print-full { width: 100% !important; max-width: 100% !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; }
+        /* 🎨 CSS ROOT VARIABLES & THEME SETUP */
+        :root {
+            --bg-dark: #0c0919;
+            --bg-card: #16122c;
+            --bg-input: #211b41;
+            --primary: #6c5ce7;
+            --primary-light: #a29bfe;
+            --accent: #fdcb6e;
+            --text-main: #ffffff;
+            --text-muted: #b2bec3;
+            --border-color: #483b8a;
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.6; padding-bottom: 60px; }
+        .container { max-width: 1100px; width: 100%; margin: 0 auto; padding: 0 20px; }
+
+        /* 🌐 NAVBAR, NAV LINKS & LANGUAGE BOX */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 25px 0; border-bottom: 1px solid #1c1736; flex-wrap: wrap; gap: 15px; }
+        .logo { font-size: 26px; font-weight: 800; background: linear-gradient(45deg, var(--primary-light), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+        
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.3s; cursor: pointer; }
+        .nav-links a:hover { color: var(--primary-light); }
+        
+        .right-nav { display: flex; align-items: center; gap: 15px; }
+        .lang-btn { background: var(--primary); color: white; border: none; padding: 8px 18px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 13px; }
+        .lang-btn:hover { background: #5649c0; transform: translateY(-1px); }
+
+        /* 🚀 HERO SECTION (THE BROAD & POWERFUL HEADINGS) */
+        .hero { text-align: center; padding: 80px 20px 60px 20px; }
+        .hero h1 { font-size: 48px; font-weight: 800; margin-bottom: 20px; letter-spacing: -1px; line-height: 1.2; }
+        .hero h1 span { background: linear-gradient(45deg, var(--primary-light), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 19px; color: var(--text-muted); max-width: 750px; margin: 0 auto 30px auto; }
+
+        /* ⚙️ CORE ENGINE MODULE */
+        .engine-box { background: var(--bg-card); padding: 35px; border-radius: 16px; border: 1px solid #342a66; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 60px; }
+        .engine-title { font-size: 22px; font-weight: 700; color: var(--primary-light); margin-bottom: 25px; border-left: 4px solid var(--primary); padding-left: 10px; }
+        .row { display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
+        .col { flex: 1; min-width: 250px; }
+        label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 14px; font-weight: 500; }
+        select, input { width: 100%; padding: 14px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-size: 15px; outline: none; transition: 0.3s; }
+        select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(108, 92, 231, 0.2); }
+        
+        .engine-btn { width: 100%; padding: 15px; background: linear-gradient(45deg, var(--primary), var(--primary-light)); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4); transition: 0.3s; }
+        .engine-btn:hover { opacity: 0.95; transform: translateY(-1px); }
+
+        /* OUTPUT STYLING */
+        .output-section { margin-top: 35px; display: none; border-top: 1px solid #342a66; padding-top: 25px; }
+        .output-grid { display: flex; gap: 25px; flex-wrap: wrap; }
+        .output-col { flex: 1; min-width: 300px; }
+        .output-title { font-size: 18px; font-weight: bold; color: var(--accent); margin-bottom: 15px; }
+        .project-card { background: var(--bg-input); padding: 20px; border-radius: 10px; border-left: 4px solid var(--primary); margin-bottom: 15px; }
+        .p-title { font-weight: 700; font-size: 16px; color: #fff; margin-bottom: 6px; }
+        .p-desc { color: var(--text-muted); font-size: 14px; white-space: pre-line; line-height: 1.5; }
+        .letter-box { background: #1a1535; border: 1px dashed var(--primary); padding: 20px; border-radius: 10px; font-family: monospace; color: #e0dcf5; white-space: pre-wrap; font-size: 13px; line-height: 1.6; }
+
+        /* 💰 PRICING SECTIONS - UPDATED LOWER PRICES */
+        .pricing-section { padding: 30px 0; }
+        .pricing-grid { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+        .price-card { background: var(--bg-card); border: 1px solid #342a66; border-radius: 16px; padding: 35px; flex: 1; max-width: 440px; min-width: 290px; text-align: left; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: 0.3s; position: relative; }
+        .price-card.premium { border: 2px solid var(--primary); box-shadow: 0 10px 30px rgba(108, 92, 231, 0.15); }
+        .popular-badge { position: absolute; top: -12px; right: 20px; background: var(--primary); color: white; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: bold; letter-spacing: 1px; }
+        .price-card h3 { font-size: 22px; margin-bottom: 10px; }
+        .price-amt { font-size: 34px; font-weight: 800; margin-bottom: 25px; }
+        .price-amt span { font-size: 14px; color: var(--text-muted); font-weight: normal; }
+        .price-card ul { list-style: none; margin-bottom: 30px; font-size: 14px; color: #dfe6e9; line-height: 2.3; }
+        .price-btn { width: 100%; padding: 13px; background: transparent; border: 2px solid var(--primary); color: white; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .price-card.premium .price-btn { background: linear-gradient(45deg, var(--primary), var(--primary-light)); border: none; box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3); }
+        .price-btn:hover { transform: translateY(-1px); opacity: 0.95; }
+
+        /* 📋 GOOGLE ADSENSE FRIENDLY VALUE CONTENT TEXTS */
+        .adsense-content { background: #110d24; border-radius: 12px; padding: 40px; margin-top: 60px; border: 1px dashed #2a2250; }
+        .adsense-content h3 { color: var(--primary-light); font-size: 22px; margin-bottom: 15px; font-weight: 700; }
+        .adsense-content p { color: var(--text-muted); font-size: 14.5px; line-height: 1.7; text-align: justify; }
+
+        /* 📞 FOOTER & CONTACT DETAILS */
+        .footer { border-top: 1px solid #1c1736; margin-top: 70px; padding-top: 30px; text-align: center; color: var(--text-muted); font-size: 14px; }
+        .contact-info { margin-top: 15px; font-size: 13px; color: var(--primary-light); }
+        .contact-info a { color: var(--accent); text-decoration: none; margin: 0 10px; font-weight: bold; }
+        
+        /* 🚨 MODAL WAITLIST POPUP & PAGE MODALS */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
+        .modal-content { background: var(--bg-card); padding: 35px; border-radius: 16px; max-width: 550px; width: 100%; border: 1px solid var(--primary); text-align: left; box-shadow: 0 10px 40px rgba(0,0,0,0.6); position: relative; max-height: 85vh; overflow-y: auto; }
+        .modal h4 { font-size: 24px; color: var(--accent); margin-bottom: 15px; text-align: center; font-weight: bold; }
+        .modal p { font-size: 14px; color: #dfe6e9; margin-bottom: 20px; line-height: 1.6; text-align: justify; }
+        .modal-btn { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
     </style>
 </head>
-<body class="bg-slate-950 font-sans text-slate-100 min-h-screen antialiased flex flex-col justify-between">
+<body>
 
-    <!-- 1. TOP NAV HEADER -->
-    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50 no-print">
-        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="bg-gradient-to-tr from-teal-500 to-emerald-500 text-white p-2.5 rounded-xl font-bold text-xl shadow-lg">🔬</div>
-                <div>
-                    <span class="text-lg font-black tracking-tight bg-gradient-to-r from-teal-400 via-emerald-400 to-blue-400 bg-clip-text text-transparent">Scrutinix AI</span>
-                    <span class="text-slate-500 text-[10px] block font-medium">Perplexity-Style Hybrid Platform</span>
-                </div>
+<div class="container">
+    <!-- 🌐 NAVIGATION HEADER -->
+    <div class="navbar">
+        <a href="#" class="logo">SCRUTINIX AI</a>
+        <div class="right-nav">
+            <div class="nav-links">
+                <a onclick="openPageModal('about')">About Us</a>
+                <a onclick="openPageModal('contact')">Contact Us</a>
+                <a onclick="openPageModal('privacy')">Privacy Policy</a>
             </div>
-            <div class="flex items-center gap-4">
-                <span id="quota-badge" class="bg-blue-500/10 text-blue-400 text-xs font-bold px-3 py-1 rounded-full border border-blue-500/20">
-                    फ्री कोटा: 3 डेली रिपोर्ट्स बची हैं
-                </span>
-            </div>
-        </div>
-    </header>
-
-    <!-- 2. THE PREMIUM LOCK OVERLAY MODAL (Perplexity Pro Screen) -->
-    <div id="pro-lock-screen" class="hidden fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 flex items-center justify-center p-4 no-print">
-        <div class="bg-slate-900 border border-emerald-500/30 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl">
-            <div class="text-5xl mb-4">💎</div>
-            <h2 class="text-2xl font-black text-white mb-2">आज का फ्री कोटा समाप्त!</h2>
-            <p class="text-slate-400 text-xs leading-relaxed mb-6">आप मुफ़्त वर्जन में रोज़ाना केवल 3 रिपोर्ट्स ही जनरेट कर सकते हैं। असीमित (Unlimited) रिपोर्ट्स, तेज़ विज़न स्कैनर और वीआईपी फीचर्स के लिए अभी *Scrutinix Pro* में अपग्रेड करें।</p>
-            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 mb-6 flex justify-between items-center text-left">
-                <div>
-                    <span class="text-[10px] font-bold text-slate-500 uppercase">Enterprise Lab Pro</span>
-                    <strong class="text-white text-base block mt-0.5">अनलिमिटेड स्कैन और रिपोर्ट्स</strong>
-                </div>
-                <span class="text-2xl font-black text-emerald-400">₹1,499<span class="text-xs font-normal text-slate-500">/महीना</span></span>
-            </div>
-            <div class="flex flex-col gap-3">
-                <button onclick="alert('💳 पेमेंट गेटवे एक्टिवेट हो रहा है...')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-slate-950 font-black py-3 rounded-xl text-sm shadow-lg shadow-emerald-600/20 transition">
-                    Upgrade to Scrutinix Pro
-                </button>
-                <button onclick="location.reload()" class="text-slate-500 hover:text-slate-400 text-xs font-medium">कल दोबारा मुफ़्त इस्तेमाल करें</button>
-            </div>
+            <button class="lang-btn" id="langBtn" onclick="toggleLanguage()">🌐 Switch to Hindi</button>
         </div>
     </div>
 
-    <!-- MAIN INTERACTIVE WORKSPACE CONTAINER -->
-    <main class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 w-full flex-grow">
+    <!-- 🚀 HERO SECTION -->
+    <div class="hero">
+        <h1 id="heroTitle">Find the Problem. Get the Solution. <span id="heroSpan">Grow Faster.</span></h1>
+        <p id="heroSub">"AI-powered solutions for your business, work, and everyday challenges."</p>
+    </div>
+
+    <!-- ⚙️ CORE ENGINE MODULE -->
+    <div class="engine-box">
+        <div class="engine-title" id="engineTitle">🎓 AI College Project & Hyperlocal Internship Matcher Engine</div>
         
-        <!-- LEFT WORKSPACE: WHITE-GREY CONTROL FORM WITH LOWER INPUT SMART BAR -->
-        <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-2xl text-slate-800 no-print flex flex-col justify-between min-h-[550px]">
-            <div>
-                <h2 class="text-base font-black text-slate-900 mb-2 flex items-center gap-2">
-                    <span>⚙️</span> Patient Details & AI Assistant
-                </h2>
-                <p class="text-xs text-slate-500 mb-4">मरीज़ की बुनियादी जानकारी भरें, फिर नीचे दिए गए स्मार्ट चैट बॉक्स का उपयोग करें।</p>
-
-                <!-- Patient Core Bio Inputs -->
-                <div class="space-y-3.5 mb-6">
-                    <div>
-                        <label class="text-[11px] font-bold text-slate-500 block mb-1">Patient Name *</label>
-                        <input id="pName" type="text" value="Rajesh Kumar" oninput="updateLiveReport()" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-emerald-500 transition">
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="text-[11px] font-bold text-slate-500 block mb-1">Age (Years) *</label>
-                            <input id="pAge" type="number" value="42" oninput="updateLiveReport()" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-emerald-500 transition">
-                        </div>
-                        <div>
-                            <label class="text-[11px] font-bold text-slate-500 block mb-1">Gender *</label>
-                            <select id="pGender" onchange="updateLiveReport()" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-emerald-500 transition">
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="text-[11px] font-bold text-slate-500 block mb-1">Referring Doctor *</label>
-                        <input id="pDoctor" type="text" value="Dr. S. K. Sharma (MD)" oninput="updateLiveReport()" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-emerald-500 transition">
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col">
+                <label id="lblStream">Select Educational Domain/Stream</label>
+                <select id="stream">
+                    <option value="IT">Information Technology (IT/CS)</option>
+                    <option value="BIZ">Business Management / Marketing</option>
+                </select>
             </div>
-
-            <!-- 🎤➕ THE SMART LOWER CHAT BAR WITH MICROPHONE & ATTACHMENT PLUS BUTTONS -->
-            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 shadow-inner mt-auto">
-                <div class="flex items-center gap-2 mb-2">
-                    <!-- Plus / File Attachment Input Box ➕ -->
-                    <label class="cursor-pointer bg-slate-200 hover:bg-slate-300 text-slate-700 p-2.5 rounded-xl text-sm transition flex items-center justify-center font-bold" title="Upload Lab Report Image">
-                        ➕
-                        <input type="file" id="reportFile" accept="image/*" class="hidden" onchange="simulateImageScan()">
-                    </label>
-                    
-                    <!-- Voice / Mike Action Button 🎤 -->
-                    <button onclick="simulateVoiceInput()" id="mike-btn" class="bg-slate-200 hover:bg-slate-300 text-slate-700 p-2.5 rounded-xl text-sm transition flex items-center justify-center" title="Voice / Record Input">
-                        🎤
-                    </button>
-                    
-                    <!-- Real-Time User Typing Area Box -->
-                    <input id="aiAssistantPrompt" type="text" placeholder="रिपोर्ट की फोटो जोड़ें या यहाँ कुछ टाइप करें..." class="flex-grow bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-medium text-slate-900 focus:outline-none focus:border-emerald-500 transition">
-                </div>
-                
-                <!-- Green Processing Action Execution Button -->
-                <button onclick="generateNativeAISummary()" id="ai-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 rounded-xl text-xs shadow transition flex items-center justify-center gap-2">
-                    <span id="btn-text">✨ Generate AI Summary Now</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- RIGHT WORKSPACE: LIVE MEDICAL REPORT BLUEPRINT -->
-        <div class="lg:col-span-7 flex flex-col gap-4 print-full">
-            <div class="flex flex-wrap gap-3 justify-between items-center no-print bg-slate-900 p-3 rounded-xl border border-slate-800 shadow-md">
-                <span class="text-xs text-slate-400 font-bold px-2">📋 Live Report Blueprint</span>
-                <div class="flex gap-2">
-                    <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold py-2.5 px-4 rounded-xl text-xs transition flex items-center gap-2 shadow-inner">
-                        🖨️ Print Report
-                    </button>
-                    <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition shadow-md shadow-emerald-500/10 flex items-center gap-2">
-                        📥 Download AI-Integrated Report PDF
-                    </button>
-                </div>
-            </div>
-
-            <!-- Official Medical Paper -->
-            <div id="report-paper" class="bg-white border border-slate-200 shadow-2xl rounded-2xl p-8 print-full text-slate-800">
-                <div class="border-b-4 border-emerald-600 pb-4 mb-5 flex justify-between items-start">
-                    <div>
-                        <h1 class="text-2xl font-black text-slate-900 tracking-tight">APEX DIAGNOSTICS & PATHOLOGY LAB</h1>
+            <div class="col">
+                <label id="lblYear">Current Academic Year</label>
+                <select id="year">
+                    <option value="1st Year">1st Year</option>
+                    <option value="2nd Year">2nd Year</option>
+                    <option value="3rd Year">3rd Year</option>
+                    <option value="Final Year">Final Year</option>
+                </select>
