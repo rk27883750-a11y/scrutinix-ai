@@ -3,67 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - Find the Problem. Get the Solution.</title>
+    <title>Scrutinix AI - Intelligent Insights. Smarter Decisions.</title>
     <style>
-        /* 1. बेसिक सेटिंग्स और डार्क थीम */
+        /* 1. प्रीमियम डार्क थीम और बैकग्राउंड ग्लो इफेक्ट */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: #030712; color: #e5e7eb; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; min-height: 100vh; padding-bottom: 40px; }
-        a { text-decoration: none; color: inherit; display: block; width: 100%; text-align: center; }
+        body { 
+            background-color: #030712; 
+            color: #f3f4f6; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            min-height: 100vh; 
+            padding-bottom: 60px;
+            background-image: radial-gradient(circle at top, rgba(34, 211, 238, 0.05) 0%, transparent 50%);
+        }
+        a, button { text-decoration: none; color: inherit; display: block; width: 100%; text-align: center; cursor: pointer; }
         
         /* 2. हेडर / नेविगेशन बार */
-        header { border-bottom: 1px solid #1f2937; background-color: rgba(3, 7, 18, 0.8); position: sticky; top: 0; z-index: 50; }
-        .nav-container { max-width: 1000px; margin: 0 auto; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 18px; font-weight: 900; letter-spacing: 2px; color: #22d3ee; text-transform: uppercase; }
-        .nav-links { display: flex; gap: 24px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #9ca3af; }
-        .nav-links a { display: inline; width: auto; }
+        header { border-bottom: 1px solid rgba(31, 41, 55, 0.6); background-color: rgba(3, 7, 18, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 50; }
+        .nav-container { max-width: 900px; margin: 0 auto; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 18px; font-weight: 800; letter-spacing: 2px; color: #22d3ee; text-transform: uppercase; }
+        .nav-links { display: flex; gap: 24px; font-size: 13px; font-weight: 500; color: #9ca3af; }
+        .nav-links a { display: inline; width: auto; transition: color 0.2s; }
         .nav-links a:hover { color: #22d3ee; }
-        .btn-header { background-color: #06b6d4; color: #000000; padding: 8px 16px; border-radius: 9999px; font-weight: 800; font-size: 12px; }
+        .btn-header { background-color: #22d3ee; color: #000000; padding: 8px 18px; border-radius: 9999px; font-weight: 700; font-size: 12px; width: auto; display: inline-block; transition: opacity 0.2s; }
+        .btn-header:hover { opacity: 0.9; }
 
-        /* 3. हीरो / मुख्य हेडिंग सेक्शन (अपडेटेड हेडिंग) */
-        .hero { text-align: center; padding: 64px 24px; max-width: 700px; margin: 0 auto; }
-        .ai-badge { font-size: 12px; color: #22d3ee; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; display: block; }
-        .hero h1 { font-size: 40px; font-weight: 900; color: #ffffff; line-height: 1.2; margin-bottom: 16px; tracking-tight: -0.05em; }
-        .highlight { color: #22d3ee; }
-        .subheading { font-size: 13px; color: #9ca3af; font-weight: 500; margin-bottom: 32px; line-height: 1.5; max-width: 500px; margin: 0 auto 32px auto; }
-        .btn-hero { display: inline-block; width: auto; background-color: #06b6d4; color: #000000; font-weight: 900; padding: 12px 32px; border-radius: 12px; font-size: 14px; box-shadow: 0 10px 15px -3px rgba(6, 182, 212, 0.3); }
+        /* 3. हीरो सेक्शन (हूबहू आपकी इमेज जैसा लुक) */
+        .hero { text-align: center; padding: 80px 24px 48px 24px; max-width: 650px; margin: 0 auto; }
+        .ai-badge { font-size: 11px; color: #22d3ee; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; display: inline-block; background: rgba(34, 211, 238, 0.1); padding: 4px 12px; border-radius: 9999px; }
+        .hero h1 { font-size: 38px; font-weight: 800; color: #ffffff; line-height: 1.25; margin-bottom: 16px; letter-spacing: -0.02em; }
+        .hero p.description { color: #9ca3af; font-size: 13px; line-height: 1.6; margin-bottom: 24px; max-width: 480px; margin-left: auto; margin-right: auto; }
+        
+        /* ऊपर वाला मुख्य बटन - अब यह भी ZIP डाउनलोड करेगा */
+        .btn-hero { display: inline-block; width: auto; border: none; background-color: #22d3ee; color: #000000; font-weight: 700; padding: 12px 28px; border-radius: 9999px; font-size: 13px; box-shadow: 0 8px 20px rgba(34, 211, 238, 0.2); transition: transform 0.2s; }
+        .btn-hero:hover { transform: translateY(-1px); }
 
-        /* 4. प्राइसिंग सेक्शन और दो समांतर कार्ड्स */
-        .pricing-section { padding: 48px 24px; border-top: 1px solid #1f2937; text-align: center; }
-        .pricing-section h2 { font-size: 20px; font-weight: 900; color: #ffffff; text-transform: uppercase; tracking-wider: 0.05em; margin-bottom: 40px; }
-        .pricing-container { display: flex; flex-direction: row; justify-content: center; align-items: stretch; gap: 24px; max-width: 750px; margin: 0 auto; }
+        /* 4. प्राइसिंग सेक्शन और राउंडेड समांतर कार्ड्स */
+        .pricing-section { padding: 48px 24px; text-align: center; }
+        .pricing-section h2 { font-size: 18px; font-weight: 800; color: #ffffff; text-transform: uppercase; tracking-wider: 0.05em; margin-bottom: 32px; letter-spacing: 1px; }
+        .pricing-container { display: flex; flex-direction: row; justify-content: center; align-items: stretch; gap: 24px; max-width: 720px; margin: 0 auto; }
         
-        .card { background-color: #0b0f19; border: 1px solid #1f2937; border-radius: 16px; padding: 24px; width: 50%; text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
-        .card-premium { border: 1px solid #1f2937; background-color: #0b0f19; }
+        /* प्रीमियम कार्ड डिज़ाइन */
+        .card { background-color: #0b0f19; border: 1px solid rgba(31, 41, 55, 0.8); border-radius: 20px; padding: 28px 24px; width: 50%; text-align: center; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .card-premium { border: 1px solid rgba(34, 211, 238, 0.3); background-image: linear-gradient(180deg, #0b0f19 0%, #040814 100%); }
         
-        .card h3 { font-size: 14px; font-weight: 700; color: #ffffff; text-transform: uppercase; tracking-wider: 0.05em; margin-bottom: 4px; text-align: center; }
-        .price { font-size: 28px; font-weight: 900; color: #ffffff; margin-bottom: 16px; padding-bottom: 16px; text-align: center; }
+        .card h3 { font-size: 12px; font-weight: 700; color: #9ca3af; text-transform: uppercase; tracking-wider: 0.05em; margin-bottom: 8px; }
+        .card-premium h3 { color: #22d3ee; }
+        .price { font-size: 32px; font-weight: 800; color: #ffffff; margin-bottom: 24px; }
+        .price span { font-size: 12px; color: #4b5563; font-weight: normal; block-size: auto; display: inline-block; }
         
-        .features-list { list-style: none; margin-bottom: 32px; }
+        .features-list { list-style: none; margin-bottom: 32px; text-align: left; padding-left: 8px; }
         .features-list li { font-size: 12px; margin-bottom: 12px; color: #9ca3af; display: flex; align-items: center; gap: 8px; }
+        .card-premium .features-list li { color: #d1d5db; }
         
-        .card-btn { padding: 10px; border-radius: 8px; font-weight: 800; font-size: 13px; border: none; cursor: pointer; }
-        .btn-blue { background-color: #06b6d4; color: #000000; }
-        .btn-blue:hover { background-color: #0891b2; }
-        .btn-white { background-color: #ffffff; color: #000000; }
+        /* बटन्स */
+        .card-btn { padding: 12px; border-radius: 9999px; font-weight: 700; font-size: 12px; border: none; transition: opacity 0.2s; }
+        /* लेफ्ट बॉक्स वाला बटन - यह भी ZIP डाउनलोड करेगा */
+        .btn-cyan { background-color: #22d3ee; color: #000000; box-shadow: 0 4px 12px rgba(34, 211, 238, 0.2); }
+        .btn-cyan:hover { opacity: 0.9; }
+        /* राइट बॉक्स - सफेद बटन */
+        .btn-white { background-color: #ffffff; color: #000000; box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1); }
         .btn-white:hover { background-color: #f3f4f6; }
 
-        /* 5. About & Contact सेक्शन */
-        .info-section { max-width: 650px; margin: 0 auto; padding: 48px 24px; border-top: 1px solid #1f2937; text-align: center; }
-        .info-section h2 { font-size: 16px; font-weight: 900; color: #ffffff; text-transform: uppercase; tracking-wider: 0.05em; margin-bottom: 16px; }
-        .info-section p { color: #9ca3af; font-size: 13px; line-height: 1.6; text-align: justify; }
+        /* 5. About Us सेक्शन */
+        .info-section { max-width: 600px; margin: 0 auto; padding: 56px 24px; text-align: center; }
+        .info-section h2 { font-size: 16px; font-weight: 800; color: #ffffff; text-transform: uppercase; tracking-wider: 0.05em; margin-bottom: 16px; border-bottom: 1px solid rgba(31, 41, 55, 0.4); padding-bottom: 12px; }
+        .info-section p { color: #9ca3af; font-size: 13px; line-height: 1.6; text-align: justify; text-justify: inter-word; }
         
-        .contact-box { background-color: rgba(11, 15, 25, 0.5); border: 1px solid #1f2937; border-radius: 12px; padding: 16px; margin-top: 24px; }
-        .contact-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; font-size: 12px; }
-        .contact-item:first-child { border-bottom: 1px solid #1f2937; }
+        /* 6. Contact Us सेक्शन */
+        .contact-box { background-color: rgba(11, 15, 25, 0.4); border: 1px solid rgba(31, 41, 55, 0.6); border-radius: 16px; padding: 20px; margin-top: 24px; max-width: 400px; margin-left: auto; margin-right: auto; }
+        .contact-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; font-size: 12px; }
+        .contact-item:first-child { border-bottom: 1px solid rgba(31, 41, 55, 0.4); }
         .contact-label { color: #6b7280; font-weight: 500; }
-        .contact-value { font-weight: 700; color: #ffffff; }
+        .contact-value { font-weight: 600; color: #ffffff; }
         .contact-value:hover { color: #22d3ee; }
 
-        footer { border-top: 1px solid #1f2937; padding: 24px; text-align: center; font-size: 10px; color: #4b5563; text-transform: uppercase; tracking-widest: 0.1em; }
+        /* 7. फुटर */
+        footer { border-top: 1px solid rgba(31, 41, 55, 0.4); padding: 24px; text-align: center; font-size: 10px; color: #4b5563; text-transform: uppercase; tracking-widest: 0.1em; }
 
+        /* मोबाइल व्यू के लिए ऑटो-फिट */
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .hero h1 { font-size: 28px; }
+            .hero h1 { font-size: 30px; }
             .pricing-container { flex-direction: column; align-items: center; }
             .card { width: 100%; max-width: 320px; }
         }
@@ -71,6 +91,7 @@
 </head>
 <body>
 
+    <!-- 1. नेविगेशन बार -->
     <header>
         <div class="nav-container">
             <div class="logo">SCRUTINIX AI</div>
@@ -83,13 +104,15 @@
         </div>
     </header>
 
+    <!-- मुख्य कंटेंट -->
     <main>
-        <!-- 2. हीरो सेक्शन (हेडिंग यहाँ बदल दी गई है) -->
+        <!-- 2. हीरो सेक्शन -->
         <section class="hero">
             <span class="ai-badge">⚡ AI-powered</span>
-            <h1>Find the Problem.<br><span class="highlight">Get the Solution.</span></h1>
-            <p class="subheading">⚡ AI-powered solutions for your business, work, and everyday challenges.</p>
-            <a href="#pricing" class="btn-hero">Get Started</a>
+            <h1>Intelligent Insights.<br><span class="highlight">Smarter Decisions.</span></h1>
+            <p class="description">Scrutinix AI transforms complex data into actionable insights. Audit and optimize your website instantly.</p>
+            <!-- ऊपर वाला मुख्य बटन - जो अब ZIP डाउनलोड करेगा -->
+            <button onclick="downloadZipFile()" class="btn-hero">Download Free Tools 💎</button>
         </section>
 
         <!-- 3. प्राइसिंग सेक्शन -->
@@ -97,39 +120,35 @@
             <h2>Our Pricing Plans</h2>
             <div class="pricing-container">
                 
-                <!-- लेफ्ट बॉक्स -->
+                <!-- लेफ्ट बॉक्स: Free Tier (नीला बटन जो ZIP डाउनलोड करेगा) -->
                 <div class="card">
                     <div>
                         <h3>Free Tier</h3>
-                        <div class="price">Rupee 0</div>
+                        <div class="price">Rupee 0 <span>/ forever</span></div>
                         <ul class="features-list">
-                            <li>✓ Basic AI & SEO Tools</li>
-                            <li>✓ Basic Problem Analysis</li>
-                            <li>✓ Limited Daily Usage</li>
-                            <li>✓ Basic Reports</li>
-                            <li>✓ Essential Website Tools</li>
-                            <li>✓ No Credit Card Required</li>
+                            <li>✓ Basic SEO Audit Tool</li>
+                            <li>✓ Desktop Performance Test</li>
+                            <li>✓ Meta Tags Verification</li>
+                            <li>✓ Community Support</li>
                         </ul>
                     </div>
-                    <a href="#pricing" class="card-btn btn-blue">Free Tier</a>
+                    <!-- नीचे वाला बटन जो ZIP डाउनलोड करेगा -->
+                    <button onclick="downloadZipFile()" class="card-btn btn-cyan">Get Free Tools</button>
                 </div>
 
-                <!-- राइट बॉक्स -->
+                <!-- राइट बॉक्स: Premium Plan (सफेद 'Buy Now' बटन) -->
                 <div class="card card-premium">
                     <div>
                         <h3>Premium Plan</h3>
-                        <div class="price">Rupee 199</div>
+                        <div class="price">Rupee 199 <span>/ month</span></div>
                         <ul class="features-list">
-                            <li>✓ Advanced AI Problem Analysis</li>
-                            <li>✓ Personalized AI Solutions</li>
-                            <li>✓ Deep Data & Competitor Analysis</li>
-                            <li>✓ Detailed AI Reports & PDF Export</li>
-                            <li>✓ Priority & Higher Usage Limits</li>
-                            <li>✓ Advanced SEO & Business Insights</li>
+                            <li>✓ Advanced Deep AI Audit</li>
+                            <li>✓ Mobile + Desktop Analysis</li>
+                            <li>✓ Automatic PDF Report Download</li>
+                            <li>✓ 1-on-1 Expert SEO Consulting</li>
                         </ul>
                     </div>
-                    <!-- यहाँ अपना Cosmofeed पेमेंट लिंक डालें -->
-                    <a href="YOUR_PAYMENT_LINK_HERE" target="_blank" class="card-btn btn-white">Buy Now</a>
+                    <a href="#pricing" class="card-btn btn-white">Buy Now</a>
                 </div>
             </div>
         </section>
@@ -137,28 +156,3 @@
         <!-- 4. About Us सेक्शन -->
         <section id="about" class="info-section">
             <h2>About Us</h2>
-            <p>Welcome to <strong>Scrutinix AI</strong>! Our mission is to simplify the complexities of the digital ecosystem. We provide an advanced AI platform designed to help college students, small scale businesses, and professionals analyze their operational challenges deeply and unlock tailored, data-driven solutions instantly. We believe in making technology accessible and efficient so everyone can accelerate their growth without any friction.</p>
-        </section>
-
-        <!-- 5. Contact Us सेक्शन -->
-        <section id="contact" class="info-section">
-            <h2>Contact Us</h2>
-            <div class="contact-box">
-                <div class="contact-item">
-                    <span class="contact-label">Call / WhatsApp:</span>
-                    <a href="tel:+917304111280" class="contact-value">+91 7304111280</a>
-                </div>
-                <div class="contact-item">
-                    <span class="contact-label">Email Address:</span>
-                    <a href="mailto:rk27883750@gmail.com" class="contact-value">rk27883750@gmail.com</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 Scrutinix AI. All rights reserved.</p>
-    </footer>
-
-</body>
-</html>
