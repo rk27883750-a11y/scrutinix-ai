@@ -17,7 +17,7 @@
         }
         a, button { text-decoration: none; color: inherit; display: block; width: 100%; text-align: center; cursor: pointer; }
         
-        /* 2. हेडर / नेविगेशन बार (Pricing हटा हुआ और पूरी तरह साफ है) */
+        /* 2. हेडर / नेविगेशन बार */
         header { border-bottom: 1px solid rgba(31, 41, 55, 0.6); background-color: rgba(3, 7, 18, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 50; }
         .nav-container { max-width: 1000px; margin: 0 auto; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
         .logo { font-size: 20px; font-weight: 800; letter-spacing: 2px; color: #22d3ee; text-transform: uppercase; text-shadow: 0 0 10px rgba(34, 211, 238, 0.4); }
@@ -32,10 +32,11 @@
         .highlight { color: #22d3ee; text-shadow: 0 0 15px rgba(34, 211, 238, 0.4); }
         .hero p.description { color: #9ca3af; font-size: 13px; line-height: 1.6; margin-bottom: 24px; max-width: 480px; margin-left: auto; margin-right: auto; }
         
-        .btn-hero { display: inline-block; width: auto; border: none; background-color: #22d3ee; color: #000000; font-weight: 700; padding: 12px 28px; border-radius: 9999px; font-size: 13px; box-shadow: 0 8px 20px rgba(34, 211, 238, 0.3); transition: transform 0.2s; }
+        /* मुख्य बड़ा डाउनलोड बटन जो ZIP डाउनलोड कराएगा */
+        .btn-hero { display: inline-block; width: auto; background-color: #22d3ee; color: #000000; font-weight: 700; padding: 12px 28px; border-radius: 9999px; font-size: 13px; box-shadow: 0 8px 20px rgba(34, 211, 238, 0.3); transition: transform 0.2s; border: none; }
         .btn-hero:hover { transform: translateY(-1px); opacity: 0.9; }
 
-        /* 4. प्राइसिंग सेक्शन ("Our Plans" हेडिंग और सिर्फ 0 और 199 कीमतें) */
+        /* 4. प्राइसिंग सेक्शन ("Our Plans" हेडिंग और दो बॉक्स) */
         .pricing-section { padding: 48px 24px; border-top: 1px solid #111827; text-align: center; }
         .pricing-section h2 { font-size: 20px; font-weight: 800; color: #ffffff; text-transform: uppercase; tracking-wider: 0.05em; margin-bottom: 40px; letter-spacing: 1px; }
         .pricing-container { display: flex; flex-direction: row; justify-content: center; align-items: stretch; gap: 24px; max-width: 720px; margin: 0 auto; }
@@ -47,6 +48,7 @@
         .card h3 { font-size: 12px; font-weight: 700; color: #9ca3af; text-transform: uppercase; tracking-wider: 0.05em; margin-bottom: 8px; }
         .card-premium h3 { color: #22d3ee; }
         
+        /* बिना "Rupee" शब्द के प्राइसिंग */
         .price { font-size: 32px; font-weight: 800; color: #ffffff; margin-bottom: 24px; }
         .price span { font-size: 12px; color: #4b5563; font-weight: normal; block-size: auto; display: inline-block; }
         
@@ -54,7 +56,7 @@
         .features-list li { font-size: 12px; margin-bottom: 12px; color: #9ca3af; display: flex; align-items: center; gap: 8px; }
         .card-premium .features-list li { color: #d1d5db; }
         
-        /* बटन्स */
+        /* बटन्स स्टाइल */
         .card-btn { padding: 12px; border-radius: 9999px; font-weight: 700; font-size: 12px; border: none; transition: opacity 0.2s; }
         .btn-cyan { background-color: #22d3ee; color: #000000; box-shadow: 0 4px 12px rgba(34, 211, 238, 0.2); }
         .btn-cyan:hover { opacity: 0.9; }
@@ -62,17 +64,16 @@
         .btn-white:hover { background-color: #f3f4f6; }
 
         /* 5. About Us सेक्शन */
-        .info-section { max-width: 650px; margin: 0 auto; padding: 56px 24px; text-align: center; }
+        .info-section { max-width: 600px; margin: 0 auto; padding: 56px 24px; text-align: center; }
         .info-section h2 { font-size: 16px; font-weight: 800; color: #ffffff; text-transform: uppercase; tracking-wider: 0.05em; margin-bottom: 16px; border-bottom: 1px solid rgba(31, 41, 55, 0.4); padding-bottom: 12px; }
         .info-section p { color: #9ca3af; font-size: 13px; line-height: 1.6; text-align: justify; text-justify: inter-word; }
         
-        /* 6. Privacy Policy (प्राइवेसी पॉलिसी) सेक्शन */
+        /* 6. Privacy Policy सेक्शन */
         .privacy-section { max-width: 650px; margin: 0 auto; padding: 56px 24px; border-top: 1px solid rgba(31, 41, 55, 0.4); text-align: center; }
         .privacy-section h2 { font-size: 16px; font-weight: 800; color: #ffffff; text-transform: uppercase; tracking-wider: 0.05em; margin-bottom: 16px; border-bottom: 1px solid rgba(31, 41, 55, 0.4); padding-bottom: 12px; }
         .privacy-section p { color: #9ca3af; font-size: 13px; line-height: 1.6; text-align: justify; text-justify: inter-word; margin-bottom: 12px; }
 
         /* 7. Contact Us सेक्शन */
-        #contact { border-top: 1px solid #111827; }
         .contact-box { background-color: rgba(11, 15, 25, 0.4); border: 1px solid rgba(31, 41, 55, 0.6); border-radius: 16px; padding: 20px; margin-top: 24px; max-width: 400px; margin-left: auto; margin-right: auto; }
         .contact-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; font-size: 12px; }
         .contact-item:first-child { border-bottom: 1px solid rgba(31, 41, 55, 0.4); }
@@ -105,22 +106,22 @@
         </div>
     </header>
 
-    <!-- मुख्य कंटेंट -->
     <main>
         <!-- 2. हीरो सेक्शन -->
         <section class="hero">
             <span class="ai-badge">⚡ AI-powered</span>
             <h1>Intelligent Insights.<br><span class="highlight">Smarter Decisions.</span></h1>
             <p class="description">Scrutinix AI transforms complex data into actionable insights. Audit and optimize your website instantly.</p>
-            <button onclick="downloadZipFile()" class="btn-hero">Download Free Tools 💎</button>
+            <!-- डायरेक्ट ज़िप फ़ाइल डाउनलोड लिंक -->
+            <a href="Scrutinix_Free_Tools.zip" download class="btn-hero">Download Free Tools 💎</a>
         </section>
 
-        <!-- 3. प्राइसिंग सेक्शन -->
+        <!-- 3. प्राइसिंग सेक्शन (Our Plans हेडिंग और दो बॉक्स) -->
         <section id="pricing" class="pricing-section">
             <h2>Our Plans</h2>
             <div class="pricing-container">
                 
-                <!-- लेफ्ट बॉक्स -->
+                <!-- लेफ्ट बॉक्स (Free Tier) -->
                 <div class="card">
                     <div>
                         <h3>Free Tier</h3>
@@ -132,10 +133,11 @@
                             <li>✓ Community Support</li>
                         </ul>
                     </div>
-                    <button onclick="downloadZipFile()" class="card-btn btn-cyan">Get Free Tools</button>
+                    <!-- डायरेक्ट ज़िप फ़ाइल डाउनलोड लिंक -->
+                    <a href="Scrutinix_Free_Tools.zip" download class="card-btn btn-cyan">Get Free Tools</a>
                 </div>
 
-                <!-- राइट बॉक्स -->
+                <!-- राइट बॉक्स (Premium Plan) -->
                 <div class="card card-premium">
                     <div>
                         <h3>Premium Plan</h3>
@@ -151,7 +153,3 @@
                 </div>
             </div>
         </section>
-
-        <!-- 4. About Us सेक्शन -->
-        <section id="about" class="info-section">
-            <h2>About Us</h2>
