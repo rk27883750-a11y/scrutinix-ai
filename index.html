@@ -1,53 +1,137 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI - 100+ Free AI & SEO Tools</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrutinix AI - Find Problems, Get Solutions</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://tailwindcss.com"></script>
+    <!-- Lucide Icons for beautiful icons -->
+    <script src="https://unpkg.com"></script>
 </head>
-<body>
+<body class="bg-black text-white font-sans antialiased min-h-screen flex flex-col justify-between">
 
-  <!-- हेडर सेक्शन: नाम बाईं तरफ और लिंक्स दाईं तरफ -->
-  <header class="navbar">
-    <div class="logo">SCRUTINIX AI</div>
-    <nav class="nav-links">
-      <a href="#about">About Us</a>
-      <a href="#contact">Contact Us</a>
-      <a href="#privacy">Privacy Policy</a>
-    </nav>
-  </header>
+    <!-- 1. हेडर / नेविगेशन बार (नियॉन ब्लू ब्रांडिंग के साथ) -->
+    <header class="border-b border-gray-900 bg-black/50 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <!-- फोटो के अनुसार स्पेशल नियॉन ब्लू कलर में SCRUTINIX AI -->
+                <span class="text-xl font-black tracking-widest text-[#38bdf8] uppercase drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]">
+                    SCRUTINIX AI
+                </span>
+            </div>
+            <nav class="hidden md:flex gap-6 text-sm text-gray-400">
+                <a href="#features" class="hover:text-white transition">फीचर्स</a>
+                <a href="#pricing" class="hover:text-white transition">प्राइसिंग</a>
+                <a href="#about" class="hover:text-white transition">हमारे बारे में</a>
+                <a href="#contact" class="hover:text-white transition">संपर्क करें</a>
+            </nav>
+            <a href="#pricing" class="text-xs bg-blue-600 text-white px-4 py-2 rounded-full font-bold hover:bg-blue-700 transition">Get Started</a>
+        </div>
+    </header>
 
-  <!-- मुख्य स्क्रीन (Hero Section) -->
-  <main class="hero-section">
-    <h1 class="bold-title">100+ Free AI & SEO Tools</h1>
-    <p class="bold-subtitle">Analyze, Optimize & Grow Your Business with our powerful AI-driven toolset.</p>
-    <button class="cta-button" id="downloadBtn">Download Free Tools 🔗</button>
-  </main>
+    <!-- मुख्य कंटेंट एरिया -->
+    <main class="flex-grow max-w-6xl mx-auto w-full px-4">
+        
+        <!-- 2. मुख्य हेडिंग सेक्शन (Hero Section) -->
+        <section class="text-center py-16 md:py-24">
+            <!-- बड़ी मुख्य हेडिंग -->
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-tight mb-6">
+                Find the Problem. <br class="md:hidden"> Get the Solution. <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-400">Grow Faster.</span>
+            </h1>
+            
+            <!-- छोटे अक्षरों में AI-powered सब-हेडिंग -->
+            <p class="text-sm md:text-base text-gray-400 max-w-2xl mx-auto font-medium tracking-wide uppercase mb-8">
+                ⚡ AI-powered solutions for your business, work, and everyday challenges.
+            </p>
 
-  <!-- संपर्क की जानकारी (Contact Section) -->
-  <section id="contact" class="info-section">
-    <h2>Contact Us</h2>
-    <p>📧 ईमेल: <a href="mailto:rk27883750@gmail.com">rk27883750@gmail.com</a></p>
-    <p>📞 फ़ोन: <a href="tel:7304111280">+91 7304111280</a></p>
-  </section>
+            <div class="flex justify-center gap-4">
+                <a href="#pricing" class="px-6 py-3 bg-blue-500 text-white font-bold rounded-xl shadow-lg shadow-blue-500/20 hover:bg-blue-600 transition flex items-center gap-2">
+                    शुरू करें <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </section>
 
-  <!-- प्राइवेसी और अबाउट की जानकारी (सिंपल टेक्स्ट) -->
-  <section id="about" class="simple-section">
-    <h2>About Us</h2>
-    <p>Scrutinix AI आपको आपके बिज़नेस और रोज़मर्रा के कामों को आसान बनाने के लिए 100 से भी ज़्यादा फ्री AI और SEO टूल्स देता है।</p>
-  </section>
+        <!-- 3. अपडेटेड प्राइसिंग सेक्शन -->
+        <section id="pricing" class="py-12 border-t border-gray-900">
+            <div class="text-center mb-10">
+                <h2 class="text-2xl md:text-3xl font-bold mb-2">सरल और पारदर्शी प्राइसिंग</h2>
+                <p class="text-gray-400 text-sm">बिना किसी छिपे हुए चार्ज के, अपनी जरूरत के हिसाब से चुनें।</p>
+            </div>
 
-  <section id="privacy" class="simple-section">
-    <h2>Privacy Policy</h2>
-    <p>हम आपकी प्राइवेसी का पूरा ध्यान रखते हैं। आपकी कोई भी पर्सनल जानकारी हमारी साइट पर बिना अनुमति के सुरक्षित रखी जाती है और बेची नहीं जाती।</p>
-  </section>
+            <div class="flex flex-col md:flex-row justify-center items-stretch gap-8 max-w-4xl mx-auto">
+                
+                <!-- फ्री प्लान कार्ड -->
+                <div class="bg-gray-950 border border-gray-800 rounded-2xl p-6 w-full md:w-1/2 flex flex-col justify-between hover:border-gray-700 transition">
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                            <i data-lucide="play" class="text-gray-400 w-5 h-5"></i> Free — Start Free
+                        </h3>
+                        <p class="text-3xl font-extrabold text-white mb-6">₹0 <span class="text-sm font-normal text-gray-500">/ हमेशा के लिए</span></p>
+                        
+                        <ul class="text-sm text-gray-400 space-y-4 mb-8">
+                            <li class="flex items-center gap-3"><i data-lucide="check" class="text-gray-600 w-4 h-4"></i> Basic AI & SEO Tools</li>
+                            <li class="flex items-center gap-3"><i data-lucide="check" class="text-gray-600 w-4 h-4"></i> Basic Problem Analysis</li>
+                            <li class="flex items-center gap-3"><i data-lucide="check" class="text-gray-600 w-4 h-4"></i> Limited Daily Usage</li>
+                            <li class="flex items-center gap-3"><i data-lucide="check" class="text-gray-600 w-4 h-4"></i> Basic Reports</li>
+                            <li class="flex items-center gap-3"><i data-lucide="check" class="text-gray-600 w-4 h-4"></i> Essential Website Tools</li>
+                            <li class="flex items-center gap-3"><i data-lucide="check" class="text-gray-600 w-4 h-4"></i> No Credit Card Required</li>
+                        </ul>
+                    </div>
+                    <button class="w-full py-3 bg-gray-900 text-gray-300 border border-gray-800 rounded-xl font-medium hover:bg-gray-800 transition">फ्री में शुरू करें</button>
+                </div>
 
-  <!-- पाद लेख (Footer) -->
-  <footer class="footer">
-    <p>&copy; 2026 Scrutinix AI. All Rights Reserved.</p>
-  </footer>
+                <!-- प्रीमियम प्रो प्लान कार्ड (₹199 - जादुई कीमत) -->
+                <div class="bg-gradient-to-b from-blue-950/40 to-black border-2 border-blue-500 rounded-2xl p-6 w-full md:w-1/2 flex flex-col justify-between shadow-2xl relative transform md:scale-105">
+                    <span class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">가장 लोकप्रिय</span>
+                    
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                            <i data-lucide="zap" class="text-blue-400 w-5 h-5"></i> Premium — Pro Tools
+                        </h3>
+                        <p class="text-3xl font-extrabold text-white mb-6">₹199 <span class="text-sm font-normal text-gray-400">/ वन-टाइम</span></p>
+                        
+                        <ul class="text-sm text-gray-200 space-y-4 mb-8">
+                            <li class="flex items-center gap-3"><i data-lucide="star" class="text-yellow-400 w-4 h-4 fill-yellow-400"></i> <strong class="text-white">Advanced AI Problem Analysis</strong></li>
+                            <li class="flex items-center gap-3"><i data-lucide="star" class="text-yellow-400 w-4 h-4 fill-yellow-400"></i> Personalized AI Solutions</li>
+                            <li class="flex items-center gap-3"><i data-lucide="star" class="text-yellow-400 w-4 h-4 fill-yellow-400"></i> Deep Data & Competitor Analysis</li>
+                            <li class="flex items-center gap-3"><i data-lucide="star" class="text-yellow-400 w-4 h-4 fill-yellow-400"></i> Detailed AI Reports & PDF Export</li>
+                            <li class="flex items-center gap-3"><i data-lucide="star" class="text-yellow-400 w-4 h-4 fill-yellow-400"></i> Priority & Higher Usage Limits</li>
+                            <li class="flex items-center gap-3"><i data-lucide="star" class="text-yellow-400 w-4 h-4 fill-yellow-400"></i> Advanced SEO & Business Insights</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- पेमेंट बटन्स -->
+                    <div class="space-y-3">
+                        <a href="#" class="block w-full py-3 bg-blue-500 text-white font-bold text-center rounded-xl hover:bg-blue-600 transition shadow-lg shadow-blue-500/30">
+                            Unlock Pro — ₹199 (India) 🇮🇳
+                        </a>
+                        <a href="#" class="block w-full py-2 bg-transparent text-gray-400 text-xs text-center rounded-xl font-medium border border-gray-800 hover:border-gray-700 hover:text-white transition">
+                            International Client? Pay $2.99 🌐
+                        </a>
+                    </div>
+                </div>
 
-  <script src="script.js"></script>
-</body>
-</html>
+            </div>
+        </section>
+
+        <!-- 4. About Us (हमारे बारे में) सेक्शन -->
+        <section id="about" class="py-16 border-t border-gray-900 max-w-3xl mx-auto text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 flex items-center justify-center gap-2">
+                <i data-lucide="info" class="text-blue-500 w-6 h-6"></i> About Us (हमारे बारे में)
+            </h2>
+            <p class="text-gray-400 text-sm md:text-base leading-relaxed">
+                Welcome to <strong class="text-white">Scrutinix AI</strong>! हमारा उद्देश्य डिजिटल दुनिया में काम करने वाले लोगों की मुश्किलों को आसान बनाना है। हमारा यह एडवांस्ड AI प्लेटफॉर्म कॉलेज के छात्रों, छोटे व्यवसायों और प्रोफेशनल्स की समस्याओं का गहराई से विश्लेषण करता है और उन्हें तुरंत सटीक, कस्टमाइज्ड और डेटा-संचालित समाधान प्रदान करता है। हम तकनीक को इतना सरल बनाना चाहते हैं कि हर कोई बिना किसी रुकावट के तेजी से ग्रो (Grow) कर सके।
+            </p>
+        </section>
+
+        <!-- 5. Contact Us (संपर्क करें) सेक्शन -->
+        <section id="contact" class="py-16 border-t border-gray-900 max-w-xl mx-auto text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6 flex items-center justify-center gap-2">
+                <i data-lucide="mail" class="text-blue-500 w-6 h-6"></i> Contact Us (संपर्क करें)
+            </h2>
+            <p class="text-gray-400 text-sm mb-8">यदि आपके पास कोई सवाल है या आप हमसे सहायता चाहते हैं, तो आप नीचे दिए गए माध्यमों से सीधे संपर्क कर सकते हैं:</p>
+            
+            <div class="bg-gray-950 border border-gray-800 rounded-2xl p-6 space-y-4 text-left">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500">
