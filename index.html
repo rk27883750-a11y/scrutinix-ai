@@ -5,151 +5,326 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scrutinix AI - Intelligent Insights. Smarter Decisions.</title>
     <style>
-        /* 1. प्रीमियम डार्क थीम और एक्वा ग्लो इफेक्ट */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            background-color: #030712; 
-            color: #f3f4f6; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            min-height: 100vh; 
-            padding-bottom: 60px;
-            background-image: radial-gradient(circle at top, rgba(34, 211, 238, 0.05) 0%, transparent 50%);
+        /* 1. यूनिवर्सल रीसेट और मुख्य बॉडी स्टाइल */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        a, button { text-decoration: none; color: inherit; display: block; width: 100%; text-align: center; cursor: pointer; }
-        
+        body {
+            background-color: #030712; /* डार्क प्रीमियम ब्लैक बैकग्राउंड */
+            color: #ffffff;
+            font-family: apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
         /* 2. हेडर / नेविगेशन बार */
-        header { border-bottom: 1px solid rgba(31, 41, 55, 0.6); background-color: rgba(3, 7, 18, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 50; }
-        .nav-container { max-width: 1000px; margin: 0 auto; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
-        .logo { font-size: 20px; font-weight: 800; letter-spacing: 2px; color: #22d3ee; text-transform: uppercase; text-shadow: 0 0 10px rgba(34, 211, 238, 0.4); }
-        .nav-links { display: flex; gap: 24px; font-size: 13px; font-weight: 500; color: #9ca3af; }
-        .nav-links a { display: inline; width: auto; transition: color 0.2s; }
-        .nav-links a:hover { color: #22d3ee; }
+        header {
+            border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+            background-color: rgba(3, 7, 18, 0.8);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #0284c7; /* चमकदार नीला रंग */
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(2, 132, 199, 0.3);
+            text-decoration: none;
+        }
+        .nav-links-wrapper {
+            display: flex;
+            gap: 24px;
+        }
+        .nav-links {
+            display: inline-block;
+            color: #9ca3af;
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .nav-links:hover {
+            color: #0284c7;
+        }
 
-        /* 3. हीरो सेक्शन */
-        .hero { text-align: center; padding: 80px 24px 48px 24px; max-width: 650px; margin: 0 auto; }
-        .ai-badge { font-size: 11px; color: #22d3ee; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; display: inline-block; background: rgba(34, 211, 238, 0.1); padding: 4px 12px; border-radius: 9999px; }
-        .hero h1 { font-size: 38px; font-weight: 800; color: #ffffff; line-height: 1.25; margin-bottom: 16px; letter-spacing: -0.02em; }
-        .highlight { color: #22d3ee; text-shadow: 0 0 15px rgba(34, 211, 238, 0.4); }
-        .hero p.description { color: #9ca3af; font-size: 13px; line-height: 1.6; margin-bottom: 24px; max-width: 480px; margin-left: auto; margin-right: auto; }
-        
-        /* मुख्य बड़ा डाउनलोड बटन जो ZIP डाउनलोड कराएगा */
-        .btn-hero { display: inline-block; width: auto; background-color: #22d3ee; color: #000000; font-weight: 700; padding: 12px 28px; border-radius: 9999px; font-size: 13px; box-shadow: 0 8px 20px rgba(34, 211, 238, 0.3); transition: transform 0.2s; border: none; }
-        .btn-hero:hover { transform: translateY(-1px); opacity: 0.9; }
+        /* 3. हीरो (Hero) सेक्शन */
+        .hero {
+            text-align: center;
+            padding: 80px 24px 60px 24px;
+            max-width: 650px;
+            margin: 0 auto;
+            flex: 1;
+        }
+        .ai-badge {
+            display: inline-block;
+            font-size: 11px;
+            color: #0284c7;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(2, 132, 199, 0.4);
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(2, 132, 199, 0.1);
+        }
+        .hero h1 {
+            font-size: 38px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.25;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+        .highlight {
+            color: #0284c7;
+            text-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
+            display: block;
+            margin-top: 5px;
+        }
+        .hero p {
+            color: #94a3b8;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+        .download-btn {
+            background-color: #0284c7;
+            color: white;
+            padding: 14px 28px;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+        }
+        .download-btn:hover {
+            background-color: #0369a1;
+        }
 
-        /* 4. प्राइसिंग सेक्शन ("Our Plans" हेडिंग और दो बॉक्स) */
-        .pricing-section { padding: 48px 24px; border-top: 1px solid #111827; text-align: center; }
-        .pricing-section h2 { font-size: 20px; font-weight: 800; color: #ffffff; text-transform: uppercase; tracking-wider: 0.05em; margin-bottom: 40px; letter-spacing: 1px; }
-        .pricing-container { display: flex; flex-direction: row; justify-content: center; align-items: stretch; gap: 24px; max-width: 720px; margin: 0 auto; }
-        
-        /* कार्ड्स डिज़ाइन */
-        .card { background-color: #0b0f19; border: 1px solid rgba(31, 41, 55, 0.8); border-radius: 20px; padding: 28px 24px; width: 50%; text-align: center; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .card-premium { border: 1px solid rgba(34, 211, 238, 0.3); background-image: linear-gradient(180deg, #0b0f19 0%, #040814 100%); }
-        
-        .card h3 { font-size: 12px; font-weight: 700; color: #9ca3af; text-transform: uppercase; tracking-wider: 0.05em; margin-bottom: 8px; }
-        .card-premium h3 { color: #22d3ee; }
-        
-        /* बिना "Rupee" शब्द के प्राइसिंग */
-        .price { font-size: 32px; font-weight: 800; color: #ffffff; margin-bottom: 24px; }
-        .price span { font-size: 12px; color: #4b5563; font-weight: normal; block-size: auto; display: inline-block; }
-        
-        .features-list { list-style: none; margin-bottom: 32px; text-align: left; padding-left: 8px; }
-        .features-list li { font-size: 12px; margin-bottom: 12px; color: #9ca3af; display: flex; align-items: center; gap: 8px; }
-        .card-premium .features-list li { color: #d1d5db; }
-        
-        /* बटन्स स्टाइल */
-        .card-btn { padding: 12px; border-radius: 9999px; font-weight: 700; font-size: 12px; border: none; transition: opacity 0.2s; }
-        .btn-cyan { background-color: #22d3ee; color: #000000; box-shadow: 0 4px 12px rgba(34, 211, 238, 0.2); }
-        .btn-cyan:hover { opacity: 0.9; }
-        .btn-white { background-color: #ffffff; color: #000000; box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1); }
-        .btn-white:hover { background-color: #f3f4f6; }
+        /* 4. प्राइजिंग (Plans) सेक्शन */
+        .plans-section {
+            max-width: 900px;
+            margin: 0 auto 80px auto;
+            padding: 0 24px;
+            text-align: center;
+        }
+        .plans-section h2 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .plan-card {
+            background-color: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 35px 25px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .plan-card:hover {
+            transform: translateY(-5px);
+        }
+        .plan-card.premium {
+            border-color: #0284c7;
+            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.15);
+            position: relative;
+        }
+        .plan-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background-color: #0284c7;
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 10px;
+            text-transform: uppercase;
+        }
+        .plan-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        .plan-card.premium .plan-name {
+            color: #0284c7;
+        }
+        .plan-price {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 25px;
+        }
+        .plan-price span {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 400;
+        }
+        .plan-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        .plan-features li {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .plan-features li::before {
+            content: "✓";
+            color: #0284c7;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        /* Buy Now बटन का स्टाइल */
+        .buy-btn {
+            background-color: transparent;
+            color: #0284c7;
+            border: 2px solid #0284c7;
+            padding: 12px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: block;
+        }
+        .plan-card.premium .buy-btn {
+            background-color: #0284c7;
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+        }
+        .plan-card.premium .buy-btn:hover {
+            background-color: #0369a1;
+        }
 
-        /* 5. About Us सेक्शन */
-        .info-section { max-width: 600px; margin: 0 auto; padding: 56px 24px; text-align: center; }
-        .info-section h2 { font-size: 16px; font-weight: 800; color: #ffffff; text-transform: uppercase; tracking-wider: 0.05em; margin-bottom: 16px; border-bottom: 1px solid rgba(31, 41, 55, 0.4); padding-bottom: 12px; }
-        .info-section p { color: #9ca3af; font-size: 13px; line-height: 1.6; text-align: justify; text-justify: inter-word; }
-        
-        /* 6. Privacy Policy सेक्शन */
-        .privacy-section { max-width: 650px; margin: 0 auto; padding: 56px 24px; border-top: 1px solid rgba(31, 41, 55, 0.4); text-align: center; }
-        .privacy-section h2 { font-size: 16px; font-weight: 800; color: #ffffff; text-transform: uppercase; tracking-wider: 0.05em; margin-bottom: 16px; border-bottom: 1px solid rgba(31, 41, 55, 0.4); padding-bottom: 12px; }
-        .privacy-section p { color: #9ca3af; font-size: 13px; line-height: 1.6; text-align: justify; text-justify: inter-word; margin-bottom: 12px; }
-
-        /* 7. Contact Us सेक्शन */
-        .contact-box { background-color: rgba(11, 15, 25, 0.4); border: 1px solid rgba(31, 41, 55, 0.6); border-radius: 16px; padding: 20px; margin-top: 24px; max-width: 400px; margin-left: auto; margin-right: auto; }
-        .contact-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; font-size: 12px; }
-        .contact-item:first-child { border-bottom: 1px solid rgba(31, 41, 55, 0.4); }
-        .contact-label { color: #6b7280; font-weight: 500; }
-        .contact-value { font-weight: 600; color: #ffffff; }
-        .contact-value:hover { color: #22d3ee; }
-
-        footer { border-top: 1px solid rgba(31, 41, 55, 0.4); padding: 24px; text-align: center; font-size: 10px; color: #4b5563; text-transform: uppercase; tracking-widest: 0.1em; }
-
-        @media (max-width: 768px) {
-            .nav-container { flex-direction: column; justify-content: center; text-align: center; }
-            .nav-links { margin: 10px 0; }
-            .hero h1 { font-size: 30px; }
-            .pricing-container { flex-direction: column; align-items: center; }
-            .card { width: 100%; max-width: 320px; }
+        /* 5. फुटर (Footer) सेक्शन */
+        footer {
+            background-color: #020617;
+            border-top: 1px solid #1e293b;
+            padding: 40px 24px 20px 24px;
+            margin-top: auto;
+        }
+        .footer-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .footer-brand h2 {
+            color: #0284c7;
+            font-size: 18px;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .footer-brand p {
+            color: #64748b;
+            font-size: 13px;
+        }
+        .footer-section h3 {
+            color: #ffffff;
+            font-size: 14px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .footer-section ul {
+            list-style: none;
+        }
+        .footer-section ul li {
+            margin-bottom: 8px;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+        .footer-section a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+        }
+        .footer-section a:hover {
+            color: #0284c7;
+        }
+        .footer-bottom {
+            max-width: 1100px;
+            margin: 30px auto 0 auto;
+            border-top: 1px solid #1e293b;
+            padding-top: 20px;
+            text-align: center;
+            color: #475569;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. नेविगेशन बार -->
+    <!-- 2. हेडर / नेविगेशन बार -->
     <header>
         <div class="nav-container">
-            <div class="logo">SCRUTINIX AI</div>
-            <div class="nav-links">
-                <a href="#about">About Us</a>
-                <a href="#privacy">Privacy Policy</a>
-                <a href="#contact">Contact Us</a>
+            <a href="#" class="logo">Scrutinix AI</a>
+            <div class="nav-links-wrapper">
+                <!-- यहाँ पर क्लिक करते ही स्टूडेंट सीधे डाउनलोड की हुई लाइव फाइल पर पहुँच जायेगा -->
+                <a href="allfreestore (12).html" class="nav-links">Free Tools</a>
+                <a href="#about" class="nav-links">About Us</a>
+                <a href="#privacy" class="nav-links">Privacy Policy</a>
             </div>
         </div>
     </header>
 
-    <main>
-        <!-- 2. हीरो सेक्शन -->
-        <section class="hero">
-            <span class="ai-badge">⚡ AI-powered</span>
-            <h1>Intelligent Insights.<br><span class="highlight">Smarter Decisions.</span></h1>
-            <p class="description">Scrutinix AI transforms complex data into actionable insights. Audit and optimize your website instantly.</p>
-            <!-- डायरेक्ट ज़िप फ़ाइल डाउनलोड लिंक -->
-            <a href="Scrutinix_Free_Tools.zip" download class="btn-hero">Download Free Tools 💎</a>
-        </section>
+    <!-- 3. हीरो (Hero) सेक्शन -->
+    <main class="hero">
+        <div class="ai-badge">✦ AI-Powered</div>
+        <h1>Intelligent Insights.<br><span class="highlight">Smarter Decisions.</span></h1>
+        <p>Scrutinix AI transforms complex data into actionable insights. Audit and optimize your website instantly.</p>
+        <a href="Scrutinix_Free_Tools.zip" class="download-btn">Download Free Tools</a>
+    </main>
 
-        <!-- 3. प्राइसिंग सेक्शन (Our Plans हेडिंग और दो बॉक्स) -->
-        <section id="pricing" class="pricing-section">
-            <h2>Our Plans</h2>
-            <div class="pricing-container">
-                
-                <!-- लेफ्ट बॉक्स (Free Tier) -->
-                <div class="card">
-                    <div>
-                        <h3>Free Tier</h3>
-                        <div class="price">0 <span>/ forever</span></div>
-                        <ul class="features-list">
-                            <li>✓ Basic SEO Audit Tool</li>
-                            <li>✓ Desktop Performance Test</li>
-                            <li>✓ Meta Tags Verification</li>
-                            <li>✓ Community Support</li>
-                        </ul>
-                    </div>
-                    <!-- डायरेक्ट ज़िप फ़ाइल डाउनलोड लिंक -->
-                    <a href="Scrutinix_Free_Tools.zip" download class="card-btn btn-cyan">Get Free Tools</a>
-                </div>
-
-                <!-- राइट बॉक्स (Premium Plan) -->
-                <div class="card card-premium">
-                    <div>
-                        <h3>Premium Plan</h3>
-                        <div class="price">199 <span>/ month</span></div>
-                        <ul class="features-list">
-                            <li>✓ Advanced Deep AI Audit</li>
-                            <li>✓ Mobile + Desktop Analysis</li>
-                            <li>✓ Automatic PDF Report Download</li>
-                            <li>✓ 1-on-1 Expert SEO Consulting</li>
-                        </ul>
-                    </div>
-                    <a href="#pricing" class="card-btn btn-white">Buy Now</a>
-                </div>
-            </div>
-        </section>
+    <!-- 4. प्राइजिंग (Plans) सेक्शन -->
+    <section class="plans-section">
+        <h2>Our Plans</h2>
+        <div class="plans-grid">
+            <!-- फ्री प्लान -->
+            <div class="plan-card">
+                <div>
+                    <div class="plan-name">Free Tier</div>
+                    <div class="plan-price">0 <span>/ forever</span></div>
+                    <ul class="plan-features">
+                        <li>Basic SEO Audit Tool</li>
+                        <li>Desktop Performance Test</li>
