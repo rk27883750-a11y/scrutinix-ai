@@ -1,330 +1,215 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - Intelligent Insights. Smarter Decisions.</title>
+    <title>Scrutinix AI - Global Live Dashboard</title>
+    
+    <!-- ONESIGNAL PUSH NOTIFICATION SDK INTEGRATION -->
+    <script src="https://onesignal.com" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      window.OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "11042c12-1257-4a97-b866-4f155e2ea142", // आपकी असली OneSignal App ID यहाँ सेट है
+          notifyButton: {
+            enable: true, /* स्क्रीन पर घंटी का बटन दिखेगा ताकि लोग आसानी से Allow कर सकें */
+          },
+        });
+      });
+    </script>
+
     <style>
-        /* 1. यूनिवर्सल रीसेट और मुख्य बॉडी स्टाइल */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        :root {
+            --primary: #00ffcc;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --text-light: #f8fafc;
+            --accent: #ff0055;
         }
         body {
-            background-color: #030712; /* डार्क प्रीमियम ब्लैक बैकग्राउंड */
-            color: #ffffff;
-            font-family: apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark); color: var(--text-light);
+            margin: 0; padding: 0; text-align: center;
+        }
+        header { padding: 40px 20px; background: linear-gradient(135deg, #1e1b4b, #0f172a); }
+        h1 { font-size: 2.5rem; color: var(--primary); margin-bottom: 10px; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .search-box {
+            background: var(--card-bg); padding: 30px; border-radius: 12px;
+            border: 1px solid #334155; margin-bottom: 30px;
+        }
+        input[type="text"] {
+            width: 65%; padding: 12px; border-radius: 8px;
+            border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 1rem;
+        }
+        .main-btn {
+            padding: 12px 25px; background-color: var(--primary); color: #0f172a;
+            border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem;
+        }
+        .results { display: none; text-align: left; margin-top: 20px; }
+        .bot-card {
+            background: var(--card-bg); padding: 25px; margin: 15px 0;
+            border-radius: 8px; border-left: 5px solid var(--primary); position: relative;
+        }
+        .premium-blur { filter: blur(6px); user-select: none; pointer-events: none; }
+        .lock-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(30, 41, 59, 0.9); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; font-weight: bold; color: var(--primary);
+            border-radius: 8px; z-index: 10;
+        }
+        .unlock-inline-btn {
+            background: var(--accent); color: white; border: none; padding: 10px 20px;
+            border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px;
+        }
+        .live-badge {
+            background: #22c55e; color: white; padding: 4px 8px;
+            font-size: 0.8rem; border-radius: 4px; font-weight: bold;
+            display: inline-block; margin-bottom: 10px;
+        }
+        .live-btn {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: #000; width: 100%; padding: 15px; font-size: 1.2rem;
+            border: none; border-radius: 30px; font-weight: bold; cursor: pointer;
+            margin-top: 20px; display: none;
+        }
+        .solution-box {
+            display: none; margin-top: 20px; text-align: left;
+            background: #0f172a; padding: 25px; border-radius: 8px; border: 2px solid var(--primary);
         }
 
-        /* 2. हेडर / नेविगेशन बार */
-        header {
-            border-bottom: 1px solid rgba(51, 65, 85, 0.4);
-            background-color: rgba(3, 7, 18, 0.8);
-            backdrop-filter: blur(12px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+        /* POPUP PRICING MODAL */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 100; justify-content: center; align-items: center;
         }
-        .nav-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 18px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .modal-content {
+            background: #111827; padding: 30px; border-radius: 12px; max-width: 500px;
+            width: 90%; border: 1px solid var(--primary); text-align: center;
         }
-        .logo {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: 2px;
-            color: #0284c7; /* चमकदार नीला रंग */
-            text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(2, 132, 199, 0.3);
-            text-decoration: none;
+        .price { font-size: 2.2rem; color: var(--primary); font-weight: bold; margin: 15px 0; }
+        .cashfree-link {
+            background: var(--accent); color: white; padding: 15px 25px;
+            border-radius: 8px; text-decoration: none; display: block; font-weight: bold; margin-top: 15px;
         }
-        .nav-links-wrapper {
-            display: flex;
-            gap: 24px;
-        }
-        .nav-links {
-            display: inline-block;
-            color: #9ca3af;
-            font-size: 15px;
-            font-weight: 500;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .nav-links:hover {
-            color: #0284c7;
-        }
-
-        /* 3. हीरो (Hero) सेक्शन */
-        .hero {
-            text-align: center;
-            padding: 80px 24px 60px 24px;
-            max-width: 650px;
-            margin: 0 auto;
-            flex: 1;
-        }
-        .ai-badge {
-            display: inline-block;
-            font-size: 11px;
-            color: #0284c7;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 16px;
-            border: 1px solid rgba(2, 132, 199, 0.4);
-            padding: 4px 10px;
-            border-radius: 20px;
-            background: rgba(2, 132, 199, 0.1);
-        }
-        .hero h1 {
-            font-size: 38px;
-            font-weight: 800;
-            color: #ffffff;
-            line-height: 1.25;
-            margin-bottom: 16px;
-            letter-spacing: -0.02em;
-        }
-        .highlight {
-            color: #0284c7;
-            text-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
-            display: block;
-            margin-top: 5px;
-        }
-        .hero p {
-            color: #94a3b8;
-            font-size: 15px;
-            line-height: 1.6;
-            margin-bottom: 32px;
-        }
-        .download-btn {
-            background-color: #0284c7;
-            color: white;
-            padding: 14px 28px;
-            font-size: 15px;
-            font-weight: 600;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.2s;
-            text-decoration: none;
-            display: inline-block;
-            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
-        }
-        .download-btn:hover {
-            background-color: #0369a1;
-        }
-
-        /* 4. प्राइजिंग (Plans) सेक्शन */
-        .plans-section {
-            max-width: 900px;
-            margin: 0 auto 80px auto;
-            padding: 0 24px;
-            text-align: center;
-        }
-        .plans-section h2 {
-            font-size: 26px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            margin-bottom: 40px;
-            text-transform: uppercase;
-        }
-        .plans-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-        .plan-card {
-            background-color: #0f172a;
-            border: 1px solid #1e293b;
-            border-radius: 12px;
-            padding: 35px 25px;
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-        .plan-card:hover {
-            transform: translateY(-5px);
-        }
-        .plan-card.premium {
-            border-color: #0284c7;
-            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.15);
-            position: relative;
-        }
-        .plan-badge {
-            position: absolute;
-            top: -12px;
-            right: 20px;
-            background-color: #0284c7;
-            color: white;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 3px 10px;
-            border-radius: 10px;
-            text-transform: uppercase;
-        }
-        .plan-name {
-            font-size: 14px;
-            font-weight: 700;
-            color: #94a3b8;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-        .plan-card.premium .plan-name {
-            color: #0284c7;
-        }
-        .plan-price {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 25px;
-        }
-        .plan-price span {
-            font-size: 14px;
-            color: #64748b;
-            font-weight: 400;
-        }
-        .plan-features {
-            list-style: none;
-            margin-bottom: 30px;
-        }
-        .plan-features li {
-            color: #94a3b8;
-            font-size: 14px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-        }
-        .plan-features li::before {
-            content: "✓";
-            color: #0284c7;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-        /* Buy Now बटन का स्टाइल */
-        .buy-btn {
-            background-color: transparent;
-            color: #0284c7;
-            border: 2px solid #0284c7;
-            padding: 12px;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 14px;
-            transition: all 0.2s;
-            display: block;
-        }
-        .plan-card.premium .buy-btn {
-            background-color: #0284c7;
-            color: white;
-            border: none;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
-        }
-        .plan-card.premium .buy-btn:hover {
-            background-color: #0369a1;
-        }
-
-        /* 5. फुटर (Footer) सेक्शन */
-        footer {
-            background-color: #020617;
-            border-top: 1px solid #1e293b;
-            padding: 40px 24px 20px 24px;
-            margin-top: auto;
-        }
-        .footer-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 30px;
-        }
-        .footer-brand h2 {
-            color: #0284c7;
-            font-size: 18px;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-        .footer-brand p {
-            color: #64748b;
-            font-size: 13px;
-        }
-        .footer-section h3 {
-            color: #ffffff;
-            font-size: 14px;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .footer-section ul {
-            list-style: none;
-        }
-        .footer-section ul li {
-            margin-bottom: 8px;
-            color: #94a3b8;
-            font-size: 13px;
-        }
-        .footer-section a {
-            color: #94a3b8;
-            text-decoration: none;
-            font-size: 13px;
-            transition: color 0.2s;
-        }
-        .footer-section a:hover {
-            color: #0284c7;
-        }
-        .footer-bottom {
-            max-width: 1100px;
-            margin: 30px auto 0 auto;
-            border-top: 1px solid #1e293b;
-            padding-top: 20px;
-            text-align: center;
-            color: #475569;
-            font-size: 12px;
-        }
+        .close-btn { color: #9ca3af; cursor: pointer; float: right; font-size: 1.5rem; margin-top: -10px; }
+        
+        .country-switch { margin-bottom: 15px; font-size: 0.9rem; color: #94a3b8; }
+        .country-switch span { cursor: pointer; margin: 0 10px; text-decoration: underline; color: var(--primary); }
     </style>
 </head>
 <body>
 
-    <!-- 2. हेडर / नेविगेशन बार -->
     <header>
-        <div class="nav-container">
-            <a href="#" class="logo">Scrutinix AI</a>
-            <div class="nav-links-wrapper">
-                <!-- यहाँ पर क्लिक करते ही स्टूडेंट सीधे डाउनलोड की हुई लाइव फाइल पर पहुँच जायेगा -->
-                <a href="allfreestore (12).html" class="nav-links">Free Tools</a>
-                <a href="#about" class="nav-links">About Us</a>
-                <a href="#privacy" class="nav-links">Privacy Policy</a>
-            </div>
-        </div>
+        <h1>Scrutinix AI 🤖</h1>
+        <p>Analyze your AI Search Visibility live across ChatGPT, Gemini, and Perplexity!</p>
     </header>
 
-    <!-- 3. हीरो (Hero) सेक्शन -->
-    <main class="hero">
-        <div class="ai-badge">✦ AI-Powered</div>
-        <h1>Intelligent Insights.<br><span class="highlight">Smarter Decisions.</span></h1>
-        <p>Scrutinix AI transforms complex data into actionable insights. Audit and optimize your website instantly.</p>
-        <a href="Scrutinix_Free_Tools.zip" class="download-btn">Download Free Tools</a>
-    </main>
+    <div class="container">
+        <div class="search-box">
+            <input type="text" id="websiteUrl" placeholder="Enter website domain (eg. mysite.com)">
+            <button class="main-btn" onclick="runAudit()">Scan For FREE</button>
+        </div>
 
-    <!-- 4. प्राइजिंग (Plans) सेक्शन -->
-    <section class="plans-section">
-        <h2>Our Plans</h2>
-        <div class="plans-grid">
-            <!-- फ्री प्लान -->
-            <div class="plan-card">
-                <div>
-                    <div class="plan-name">Free Tier</div>
-                    <div class="plan-price">0 <span>/ forever</span></div>
-                    <ul class="plan-features">
-                        <li>Basic SEO Audit Tool</li>
-                        <li>Desktop Performance Test</li>
+        <!-- RESULTS SECTION -->
+        <div class="results" id="auditResults">
+            <h2>Live AI Visibility for <span id="targetDomain"></span></h2>
+            
+            <!-- CHATGPT (FREE TIER) -->
+            <div class="bot-card">
+                <span class="live-badge">🟢 LIVE FREE DATA</span>
+                <h3>ChatGPT Audit</h3>
+                <p>Visibility Score: <strong style="color: var(--accent);">42% (Low)</strong></p>
+                <p>Status: AI is missing your brand in key industry keywords.</p>
+            </div>
+
+            <!-- GEMINI (PREMIUM LOGGED) -->
+            <div class="bot-card" id="geminiCard">
+                <div class="lock-overlay" id="geminiLock">
+                    <span>🔒 Gemini Live Audit Locked</span>
+                    <button class="unlock-inline-btn" onclick="openPricing()">Unlock Live Data</button>
+                </div>
+                <div class="premium-blur" id="geminiContent">
+                    <span class="live-badge">⚡ LIVE PREMIUM DATA</span>
+                    <h3>Google Gemini Audit</h3>
+                    <p>Visibility Score: <strong>89%</strong></p>
+                </div>
+            </div>
+
+            <!-- PERPLEXITY (PREMIUM LOGGED) -->
+            <div class="bot-card" id="perplexityCard">
+                <div class="lock-overlay" id="perplexityLock">
+                    <span>🔒 Perplexity Live Audit Locked</span>
+                    <button class="unlock-inline-btn" onclick="openPricing()">Unlock Live Data</button>
+                </div>
+                <div class="premium-blur" id="perplexityContent">
+                    <span class="live-badge">⚡ LIVE PREMIUM DATA</span>
+                    <h3>Perplexity AI Audit</h3>
+                    <p>Visibility Score: <strong>15%</strong></p>
+                </div>
+            </div>
+
+            <!-- THE MAGIC LIVE BUTTON -->
+            <button class="live-btn" id="liveFixBtn" onclick="loadLiveSolution()">
+                🚀 Click to View Live AI-SEO Action Plan (No Download)
+            </button>
+
+            <!-- LIVE SOLUTION SCREEN DISPLAY -->
+            <div class="solution-box" id="liveSolutionBox">
+                <span class="live-badge" style="background: var(--accent);">🔥 LIVE ACTION BLUEPRINT</span>
+                <h3 style="color: var(--primary); margin-top: 5px;">Your Customized Fix Blueprint:</h3>
+                <div id="liveOutputText" style="white-space: pre-line; color: #fff; line-height: 1.6;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GLOBAL PRICING POPUP BOX -->
+    <div class="modal" id="pricingModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closePricing()">&times;</span>
+            <h3>💎 Unlock All Live Bots & Action Plan</h3>
+            <p>One-time payment. No automatic renewals. Safe & Secure.</p>
+            
+            <div class="price" id="displayPrice">₹1,999</div>
+            
+            <!-- FOR INDIA CLIENTS: CASHFREE LINK -->
+            <div id="indiaPaymentBox">
+                <!-- अपनी असली CASHFREE पेमेंट लिंक यहाँ पेस्ट करें -->
+                <a href="https://your-cashfree-payment-link-here" target="_blank" class="cashfree-link" onclick="paymentSuccessTrigger()">
+                    Pay via UPI / Cards (Cashfree)
+                </a>
+            </div>
+
+            <!-- FOR INTERNATIONAL CLIENTS: PAYPAL BUTTON -->
+            <div id="intlPaymentBox" style="display: none; margin-top: 20px;">
+                <div id="paypal-button-container"></div>
+            </div>
+
+            <hr style="border: 0; border-top: 1px dashed #334155; margin: 20px 0;">
+            <div class="country-switch">
+                Not in India? <span onclick="switchCurrency('USD')">Switch to USD ($)</span> | 
+                भारत में हैं? <span onclick="switchCurrency('INR')">INR (₹) में देखें</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAYPAL SDK & LOGIC -->
+    <script src="https://paypal.com"></script>
+
+    <script>
+        let hasPaid = false;
+
+        function runAudit() {
+            const url = document.getElementById('websiteUrl').value;
+            if(!url) { alert('Please enter a website domain!'); return; }
+            
+            document.getElementById('targetDomain').innerText = url;
+            document.getElementById('auditResults').style.display = 'block';
+            document.getElementById('liveFixBtn').style.display = 'block';
+            
+            detectUserLocation();
+        }
+
+        function openPricing() { document.getElementById('pricingModal').style.display = 'flex'; }
+        function closePricing() { document.getElementById('pricingModal').style.display = 'none'; }
