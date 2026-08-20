@@ -24,9 +24,10 @@
     header h1 { font-size: 2.2rem; color: var(--accent-color); letter-spacing: 1px; }
     header p { color: var(--text-secondary); font-size: 0.95rem; margin-top: 5px; }
 
-    /* Search Box */
+    /* Search Box Fix */
     .search-container { max-width: 800px; margin: 0 auto 25px auto; display: flex; gap: 10px; }
     .search-input { flex: 1; padding: 14px 18px; border-radius: 8px; border: 1px solid #334155; background: var(--card-bg); color: #fff; font-size: 1rem; outline: none; }
+    .search-input::placeholder { color: #94a3b8; opacity: 1; } /* FIXED PLACEHOLDER COLOR */
     .search-input:focus { border-color: var(--accent-color); }
     .btn-search { padding: 14px 28px; background: var(--accent-color); border: none; border-radius: 8px; color: #0f172a; font-weight: bold; cursor: pointer; transition: 0.2s; }
     .btn-search:hover { opacity: 0.9; }
@@ -38,18 +39,20 @@
     .panel { background: var(--card-bg); border-radius: 12px; border: 1px solid #334155; padding: 20px; display: flex; flex-direction: column; }
     .panel-title { font-size: 1.1rem; color: var(--accent-color); margin-bottom: 15px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
 
-    /* Feature 1: Graph Container */
+    .btn-export { background: #334155; color: #38bdf8; border: 1px solid #38bdf8; padding: 4px 10px; font-size: 0.75rem; border-radius: 4px; cursor: pointer; transition: 0.2s; }
+    .btn-export:hover { background: #38bdf8; color: #0f172a; }
+
+    /* Graph Container */
     #network-graph { width: 100%; height: 320px; background-color: #070a13; border-radius: 8px; border: 1px solid #334155; }
 
-    /* Feature 2: Time-Travel Slider */
+    /* Time-Travel Slider */
     .slider-box { margin-top: 15px; background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #334155; }
     .slider-box label { font-size: 0.85rem; color: var(--text-secondary); display: block; margin-bottom: 8px; }
     .timeline-slider { width: 100%; accent-color: var(--accent-color); cursor: pointer; }
     .year-display { text-align: center; font-weight: bold; color: var(--accent-color); margin-top: 5px; }
 
-    /* Feature 3: Interactive Study Flashcards */
+    /* Flashcards */
     .flashcards-container { display: flex; flex-direction: column; gap: 15px; height: 390px; overflow-y: auto; padding-right: 5px; }
-    
     .flashcard { perspective: 1000px; height: 110px; cursor: pointer; }
     .flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; border-radius: 8px; }
     .flashcard:hover .flashcard-inner, .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
@@ -68,19 +71,21 @@
 
   <!-- Search Area -->
   <div class="search-container">
-    <input type="text" id="searchInput" class="search-input" placeholder="Topic type karein (Jaise: AI, Web Development, History)...">
+    <input type="text" id="searchInput" class="search-input" placeholder="Topic type karein (Jaise: HTML, Python, AI, SEO)...">
     <button onclick="runScrutinix()" class="btn-search">Scrutinize</button>
   </div>
 
   <!-- Dashboard Layout -->
   <div class="main-grid">
     
-    <!-- Left Column: Interactive Graph & Time Slider -->
+    <!-- Left Column: Graph & Slider -->
     <div class="panel">
-      <div class="panel-title"><span>Interactive Brain-Graph</span> <small style="font-size: 0.75rem; color: #94a3b8;">(Zoom/Drag nodes)</small></div>
+      <div class="panel-title">
+        <span>Interactive Brain-Graph</span>
+        <button class="btn-export" onclick="exportGraph()">Download PNG</button>
+      </div>
       <div id="network-graph"></div>
 
-      <!-- Feature 2: Time-Travel Slider -->
       <div class="slider-box">
         <label for="timeline">Time-Travel Slider (Timeline Explorer):</label>
         <input type="range" id="timeline" class="timeline-slider" min="2000" max="2026" value="2026" oninput="updateTimeline(this.value)">
@@ -88,82 +93,125 @@
       </div>
     </div>
 
-    <!-- Right Column: Interactive Study Flashcards -->
+    <!-- Right Column: Flashcards -->
     <div class="panel">
       <div class="panel-title"><span>Study Flashcards</span> <small style="font-size: 0.75rem; color: #94a3b8;">(Hover/Tap to flip)</small></div>
-      <div id="flashcardsBox" class="flashcards-container">
-        <div class="flashcard">
-          <div class="flashcard-inner">
-            <div class="card-front">Q: Scrutinix AI kaise kaam karta hai?</div>
-            <div class="card-back">A: Yeh bina API ke direct browser par visual mind-map aur flashcards banata hai.</div>
-          </div>
-        </div>
-      </div>
+      <div id="flashcardsBox" class="flashcards-container"></div>
     </div>
 
   </div>
 
   <script>
     let network = null;
+    let currentTopic = "";
+
+    // Preset Knowledge Base for Dynamic Responses
+    const knowledgeData = {
+      html: {
+        nodes: ['Tags & Elements', 'Attributes', 'DOM Structure', 'CSS Integration', 'HTML5 APIs'],
+        q1: 'HTML ka main purpose kya hai?', a1: 'Web pages ka structure aur layout तैयार करना।',
+        q2: 'HTML5 me naya kya hai?', a2: 'Audio, Video, Canvas aur Semantic tags (header, footer).',
+        q3: 'Best Practice for HTML?', a3: 'Semantic HTML tags aur clean nesting use karein.'
+      },
+      python: {
+        nodes: ['Syntax & Basics', 'Data Structures', 'OOPs Concept', 'Libraries (NumPy/Pandas)', 'Automation Scripts'],
+        q1: 'Python itna popular kyu hai?', a1: 'Simple syntax, high readability aur rich libraries ki wajah se.',
+        q2: 'Python se kya-kya ban sakta hai?', a2: 'AI/ML Models, Web Apps, Automation Scripts aur Data Tools.',
+        q3: 'Best Python Frameworks?', a3: 'Django, Flask, aur FastAPI.'
+      },
+      ai: {
+        nodes: ['Machine Learning', 'Neural Networks', 'LLM Models', 'NLP Processing', 'Prompt Engineering'],
+        q1: 'Artificial Intelligence kya hai?', a1: 'Machines ko human-like decision taking capacity dena.',
+        q2: 'Generative AI ka use-case?', a2: 'Text generation, Image creation, aur Code automation.',
+        q3: 'Future of AI?', a3: 'Autonomous agents aur Hyper-personalized tools.'
+      }
+    };
 
     function runScrutinix() {
-      const topic = document.getElementById('searchInput').value.trim() || "Research Topic";
+      const input = document.getElementById('searchInput').value.trim();
+      currentTopic = input || "Research Topic";
+      const key = currentTopic.toLowerCase();
 
-      // 1. Generate 3D Style Interactive Graph
-      const nodes = new vis.DataSet([
-        { id: 1, label: topic, shape: 'dot', size: 25, color: '#38bdf8', font: { color: '#fff', size: 16 } },
-        { id: 2, label: 'Core Fundamentals', shape: 'dot', size: 15, color: '#34d399' },
-        { id: 3, label: 'Advanced Features', shape: 'dot', size: 15, color: '#fbbf24' },
-        { id: 4, label: 'Practical Uses', shape: 'dot', size: 15, color: '#a78bfa' },
-        { id: 5, label: 'Tools & Ecosystem', shape: 'dot', size: 10, color: '#94a3b8' }
-      ]);
+      let subNodes = ['Core Concepts', 'Features', 'Applications', 'Tools Ecosystem'];
+      let cards = {
+        q1: ${currentTopic} ka Mukhya Concept?, a1: 'Yeh topic ke basic principles ko darshata hai.',
+        q2: ${currentTopic} ka Real-world Use?, a2: 'Problem solving aur modern automation system mein.',
+        q3: ${currentTopic} ke liye Best Tools?, a3: 'Standard open-source libraries aur modern frameworks.'
+      };
 
-      const edges = new vis.DataSet([
-        { from: 1, to: 2, color: { color: '#334155' } },
-        { from: 1, to: 3, color: { color: '#334155' } },
-        { from: 1, to: 4, color: { color: '#334155' } },
-        { from: 2, to: 5, color: { color: '#334155' } }
-      ]);
+      if (knowledgeData[key]) {
+        subNodes = knowledgeData[key].nodes;
+        cards = { q1: knowledgeData[key].q1, a1: knowledgeData[key].a1, q2: knowledgeData[key].q2, a2: knowledgeData[key].a2, q3: knowledgeData[key].q3, a3: knowledgeData[key].a3 };
+      }
+
+      // 1. Build Dynamic Graph
+      const nodesArr = [{ id: 1, label: currentTopic.toUpperCase(), shape: 'dot', size: 28, color: '#38bdf8', font: { color: '#fff', size: 16 } }];
+      const edgesArr = [];
+
+      subNodes.forEach((name, index) => {
+        const id = index + 2;
+        nodesArr.push({ id: id, label: name, shape: 'dot', size: 16, color: '#34d399', font: { color: '#f8fafc' } });
+        edgesArr.push({ from: 1, to: id, color: { color: '#334155' } });
+      });
 
       const container = document.getElementById('network-graph');
-      const data = { nodes: nodes, edges: edges };
-      const options = {
-        nodes: { borderWidth: 2 },
-        physics: { stabilization: false, barnesHut: { springLength: 100 } }
-      };
+      const data = { nodes: new vis.DataSet(nodesArr), edges: new vis.DataSet(edgesArr) };
+      const options = { nodes: { borderWidth: 2 }, physics: { stabilization: false, barnesHut: { springLength: 100 } } };
 
       network = new vis.Network(container, data, options);
 
-      // 2. Generate Flashcards Dynamic Content
+      // 2. Render Dynamic Flashcards
+      renderFlashcards(cards);
+    }
+
+    function renderFlashcards(cards) {
       const flashcardsBox = document.getElementById('flashcardsBox');
       flashcardsBox.innerHTML = `
         <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="flashcard-inner">
-            <div class="card-front">Q: ${topic} Ka Mukhya Concept Kya Hai?</div>
-            <div class="card-back">A: Yeh topic ke basic principles aur structure ko darshata hai.</div>
-          </div>
+          <div class="flashcard-inner"><div class="card-front">Q: ${cards.q1}</div><div class="card-back">A: ${cards.a1}</div></div>
         </div>
         <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="flashcard-inner">
-            <div class="card-front">Q: ${topic} Ka Practical Application?</div>
-            <div class="card-back">A: Iska upyog problem solving aur project development mein hota hai.</div>
-          </div>
+          <div class="flashcard-inner"><div class="card-front">Q: ${cards.q2}</div><div class="card-back">A: ${cards.a2}</div></div>
         </div>
         <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="flashcard-inner">
-            <div class="card-front">Q: ${topic} Ke Liye Best Tools?</div>
-            <div class="card-back">A: Standard open-source libraries aur modern frameworks.</div>
-          </div>
+          <div class="flashcard-inner"><div class="card-front">Q: ${cards.q3}</div><div class="card-back">A: ${cards.a3}</div></div>
         </div>
       `;
     }
 
-    // Time-Travel Slider Handler
-    function updateTimeline(year) {
-      document.getElementById('yearVal').innerText = year;
+    // Export Mind-Map as PNG
+    function exportGraph() {
+      if (!network) return;
+      const canvas = document.querySelectorAll('#network-graph canvas')[0];
+      if (canvas) {
+        const image = canvas.toDataURL("image/png");
+        const a = document.createElement("a");
+        a.href = image;
+        a.download = ${currentTopic || 'scrutinix'}-mindmap.png;
+        a.click();
+      }
     }
 
-    // Initial Load
+    // Dynamic Time Slider Functionality
+    function updateTimeline(year) {
+      document.getElementById('yearVal').innerText = year;
+      if (year < 2010) {
+        renderFlashcards({
+          q1: ${year} Era: Legacy Tech Phase, a1: 'Is saal mein basic Web 1.0/2.0 aur monolithic systems use hote the.',
+          q2: 'Infrastructure?', a2: 'On-premise physical servers aur manual deployments.',
+          q3: 'Data Processing?', a3: 'Basic SQL databases aur limited automation.'
+        });
+      } else if (year >= 2010 && year < 2022) {
+        renderFlashcards({
+          q1: ${year} Era: Cloud & Mobile Boom, a1: 'Cloud Computing (AWS) aur Mobile-first applications ka daur.',
+          q2: 'Key Tech Driver?', a2: 'REST APIs, Microservices, aur early Machine Learning models.',
+          q3: 'Frameworks?', a3: 'React, Modern Python, aur DevOps automation pipelines.'
+        });
+      } else {
+        runScrutinix();
+      }
+    }
+
     window.onload = runScrutinix;
   </script>
 </body>
