@@ -1,215 +1,170 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - Global Live Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrutinix AI - Visual Research Studio</title>
+  
+  <!-- Vis.js Library for 3D/Interactive Graph -->
+  <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+
+  <style>
+    :root {
+      --bg-color: #0b1120;
+      --card-bg: #1e293b;
+      --accent-color: #38bdf8;
+      --text-color: #f8fafc;
+      --text-secondary: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text-color); padding: 20px; min-height: 100vh; }
+
+    header { text-align: center; margin-bottom: 25px; }
+    header h1 { font-size: 2.2rem; color: var(--accent-color); letter-spacing: 1px; }
+    header p { color: var(--text-secondary); font-size: 0.95rem; margin-top: 5px; }
+
+    /* Search Box */
+    .search-container { max-width: 800px; margin: 0 auto 25px auto; display: flex; gap: 10px; }
+    .search-input { flex: 1; padding: 14px 18px; border-radius: 8px; border: 1px solid #334155; background: var(--card-bg); color: #fff; font-size: 1rem; outline: none; }
+    .search-input:focus { border-color: var(--accent-color); }
+    .btn-search { padding: 14px 28px; background: var(--accent-color); border: none; border-radius: 8px; color: #0f172a; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    .btn-search:hover { opacity: 0.9; }
+
+    /* Main Grid Layout */
+    .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1200px; margin: 0 auto; }
+    @media (max-width: 850px) { .main-grid { grid-template-columns: 1fr; } }
+
+    .panel { background: var(--card-bg); border-radius: 12px; border: 1px solid #334155; padding: 20px; display: flex; flex-direction: column; }
+    .panel-title { font-size: 1.1rem; color: var(--accent-color); margin-bottom: 15px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+
+    /* Feature 1: Graph Container */
+    #network-graph { width: 100%; height: 320px; background-color: #070a13; border-radius: 8px; border: 1px solid #334155; }
+
+    /* Feature 2: Time-Travel Slider */
+    .slider-box { margin-top: 15px; background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #334155; }
+    .slider-box label { font-size: 0.85rem; color: var(--text-secondary); display: block; margin-bottom: 8px; }
+    .timeline-slider { width: 100%; accent-color: var(--accent-color); cursor: pointer; }
+    .year-display { text-align: center; font-weight: bold; color: var(--accent-color); margin-top: 5px; }
+
+    /* Feature 3: Interactive Study Flashcards */
+    .flashcards-container { display: flex; flex-direction: column; gap: 15px; height: 390px; overflow-y: auto; padding-right: 5px; }
     
-    <!-- ONESIGNAL PUSH NOTIFICATION SDK INTEGRATION -->
-    <script src="https://onesignal.com" defer></script>
-    <script>
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-      window.OneSignalDeferred.push(async function(OneSignal) {
-        await OneSignal.init({
-          appId: "11042c12-1257-4a97-b866-4f155e2ea142", // आपकी असली OneSignal App ID यहाँ सेट है
-          notifyButton: {
-            enable: true, /* स्क्रीन पर घंटी का बटन दिखेगा ताकि लोग आसानी से Allow कर सकें */
-          },
-        });
-      });
-    </script>
-
-    <style>
-        :root {
-            --primary: #00ffcc;
-            --bg-dark: #0f172a;
-            --card-bg: #1e293b;
-            --text-light: #f8fafc;
-            --accent: #ff0055;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-dark); color: var(--text-light);
-            margin: 0; padding: 0; text-align: center;
-        }
-        header { padding: 40px 20px; background: linear-gradient(135deg, #1e1b4b, #0f172a); }
-        h1 { font-size: 2.5rem; color: var(--primary); margin-bottom: 10px; }
-        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-        .search-box {
-            background: var(--card-bg); padding: 30px; border-radius: 12px;
-            border: 1px solid #334155; margin-bottom: 30px;
-        }
-        input[type="text"] {
-            width: 65%; padding: 12px; border-radius: 8px;
-            border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 1rem;
-        }
-        .main-btn {
-            padding: 12px 25px; background-color: var(--primary); color: #0f172a;
-            border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem;
-        }
-        .results { display: none; text-align: left; margin-top: 20px; }
-        .bot-card {
-            background: var(--card-bg); padding: 25px; margin: 15px 0;
-            border-radius: 8px; border-left: 5px solid var(--primary); position: relative;
-        }
-        .premium-blur { filter: blur(6px); user-select: none; pointer-events: none; }
-        .lock-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(30, 41, 59, 0.9); display: flex; flex-direction: column;
-            justify-content: center; align-items: center; font-weight: bold; color: var(--primary);
-            border-radius: 8px; z-index: 10;
-        }
-        .unlock-inline-btn {
-            background: var(--accent); color: white; border: none; padding: 10px 20px;
-            border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px;
-        }
-        .live-badge {
-            background: #22c55e; color: white; padding: 4px 8px;
-            font-size: 0.8rem; border-radius: 4px; font-weight: bold;
-            display: inline-block; margin-bottom: 10px;
-        }
-        .live-btn {
-            background: linear-gradient(135deg, var(--accent), var(--primary));
-            color: #000; width: 100%; padding: 15px; font-size: 1.2rem;
-            border: none; border-radius: 30px; font-weight: bold; cursor: pointer;
-            margin-top: 20px; display: none;
-        }
-        .solution-box {
-            display: none; margin-top: 20px; text-align: left;
-            background: #0f172a; padding: 25px; border-radius: 8px; border: 2px solid var(--primary);
-        }
-
-        /* POPUP PRICING MODAL */
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 100; justify-content: center; align-items: center;
-        }
-        .modal-content {
-            background: #111827; padding: 30px; border-radius: 12px; max-width: 500px;
-            width: 90%; border: 1px solid var(--primary); text-align: center;
-        }
-        .price { font-size: 2.2rem; color: var(--primary); font-weight: bold; margin: 15px 0; }
-        .cashfree-link {
-            background: var(--accent); color: white; padding: 15px 25px;
-            border-radius: 8px; text-decoration: none; display: block; font-weight: bold; margin-top: 15px;
-        }
-        .close-btn { color: #9ca3af; cursor: pointer; float: right; font-size: 1.5rem; margin-top: -10px; }
-        
-        .country-switch { margin-bottom: 15px; font-size: 0.9rem; color: #94a3b8; }
-        .country-switch span { cursor: pointer; margin: 0 10px; text-decoration: underline; color: var(--primary); }
-    </style>
+    .flashcard { perspective: 1000px; height: 110px; cursor: pointer; }
+    .flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; border-radius: 8px; }
+    .flashcard:hover .flashcard-inner, .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+    
+    .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; border-radius: 8px; padding: 12px; font-size: 0.95rem; }
+    .card-front { background-color: #0f172a; border: 1px solid #38bdf8; color: var(--accent-color); font-weight: bold; }
+    .card-back { background-color: #38bdf8; color: #0f172a; font-weight: 600; transform: rotateY(180deg); }
+  </style>
 </head>
 <body>
 
-    <header>
-        <h1>Scrutinix AI 🤖</h1>
-        <p>Analyze your AI Search Visibility live across ChatGPT, Gemini, and Perplexity!</p>
-    </header>
+  <header>
+    <h1>Scrutinix AI</h1>
+    <p>3D Brain Graph • Time Slider • Study Flashcards</p>
+  </header>
 
-    <div class="container">
-        <div class="search-box">
-            <input type="text" id="websiteUrl" placeholder="Enter website domain (eg. mysite.com)">
-            <button class="main-btn" onclick="runAudit()">Scan For FREE</button>
-        </div>
+  <!-- Search Area -->
+  <div class="search-container">
+    <input type="text" id="searchInput" class="search-input" placeholder="Topic type karein (Jaise: AI, Web Development, History)...">
+    <button onclick="runScrutinix()" class="btn-search">Scrutinize</button>
+  </div>
 
-        <!-- RESULTS SECTION -->
-        <div class="results" id="auditResults">
-            <h2>Live AI Visibility for <span id="targetDomain"></span></h2>
-            
-            <!-- CHATGPT (FREE TIER) -->
-            <div class="bot-card">
-                <span class="live-badge">🟢 LIVE FREE DATA</span>
-                <h3>ChatGPT Audit</h3>
-                <p>Visibility Score: <strong style="color: var(--accent);">42% (Low)</strong></p>
-                <p>Status: AI is missing your brand in key industry keywords.</p>
-            </div>
+  <!-- Dashboard Layout -->
+  <div class="main-grid">
+    
+    <!-- Left Column: Interactive Graph & Time Slider -->
+    <div class="panel">
+      <div class="panel-title"><span>Interactive Brain-Graph</span> <small style="font-size: 0.75rem; color: #94a3b8;">(Zoom/Drag nodes)</small></div>
+      <div id="network-graph"></div>
 
-            <!-- GEMINI (PREMIUM LOGGED) -->
-            <div class="bot-card" id="geminiCard">
-                <div class="lock-overlay" id="geminiLock">
-                    <span>🔒 Gemini Live Audit Locked</span>
-                    <button class="unlock-inline-btn" onclick="openPricing()">Unlock Live Data</button>
-                </div>
-                <div class="premium-blur" id="geminiContent">
-                    <span class="live-badge">⚡ LIVE PREMIUM DATA</span>
-                    <h3>Google Gemini Audit</h3>
-                    <p>Visibility Score: <strong>89%</strong></p>
-                </div>
-            </div>
-
-            <!-- PERPLEXITY (PREMIUM LOGGED) -->
-            <div class="bot-card" id="perplexityCard">
-                <div class="lock-overlay" id="perplexityLock">
-                    <span>🔒 Perplexity Live Audit Locked</span>
-                    <button class="unlock-inline-btn" onclick="openPricing()">Unlock Live Data</button>
-                </div>
-                <div class="premium-blur" id="perplexityContent">
-                    <span class="live-badge">⚡ LIVE PREMIUM DATA</span>
-                    <h3>Perplexity AI Audit</h3>
-                    <p>Visibility Score: <strong>15%</strong></p>
-                </div>
-            </div>
-
-            <!-- THE MAGIC LIVE BUTTON -->
-            <button class="live-btn" id="liveFixBtn" onclick="loadLiveSolution()">
-                🚀 Click to View Live AI-SEO Action Plan (No Download)
-            </button>
-
-            <!-- LIVE SOLUTION SCREEN DISPLAY -->
-            <div class="solution-box" id="liveSolutionBox">
-                <span class="live-badge" style="background: var(--accent);">🔥 LIVE ACTION BLUEPRINT</span>
-                <h3 style="color: var(--primary); margin-top: 5px;">Your Customized Fix Blueprint:</h3>
-                <div id="liveOutputText" style="white-space: pre-line; color: #fff; line-height: 1.6;"></div>
-            </div>
-        </div>
+      <!-- Feature 2: Time-Travel Slider -->
+      <div class="slider-box">
+        <label for="timeline">Time-Travel Slider (Timeline Explorer):</label>
+        <input type="range" id="timeline" class="timeline-slider" min="2000" max="2026" value="2026" oninput="updateTimeline(this.value)">
+        <div class="year-display">Selected Era: <span id="yearVal">2026</span></div>
+      </div>
     </div>
 
-    <!-- GLOBAL PRICING POPUP BOX -->
-    <div class="modal" id="pricingModal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closePricing()">&times;</span>
-            <h3>💎 Unlock All Live Bots & Action Plan</h3>
-            <p>One-time payment. No automatic renewals. Safe & Secure.</p>
-            
-            <div class="price" id="displayPrice">₹1,999</div>
-            
-            <!-- FOR INDIA CLIENTS: CASHFREE LINK -->
-            <div id="indiaPaymentBox">
-                <!-- अपनी असली CASHFREE पेमेंट लिंक यहाँ पेस्ट करें -->
-                <a href="https://your-cashfree-payment-link-here" target="_blank" class="cashfree-link" onclick="paymentSuccessTrigger()">
-                    Pay via UPI / Cards (Cashfree)
-                </a>
-            </div>
-
-            <!-- FOR INTERNATIONAL CLIENTS: PAYPAL BUTTON -->
-            <div id="intlPaymentBox" style="display: none; margin-top: 20px;">
-                <div id="paypal-button-container"></div>
-            </div>
-
-            <hr style="border: 0; border-top: 1px dashed #334155; margin: 20px 0;">
-            <div class="country-switch">
-                Not in India? <span onclick="switchCurrency('USD')">Switch to USD ($)</span> | 
-                भारत में हैं? <span onclick="switchCurrency('INR')">INR (₹) में देखें</span>
-            </div>
+    <!-- Right Column: Interactive Study Flashcards -->
+    <div class="panel">
+      <div class="panel-title"><span>Study Flashcards</span> <small style="font-size: 0.75rem; color: #94a3b8;">(Hover/Tap to flip)</small></div>
+      <div id="flashcardsBox" class="flashcards-container">
+        <div class="flashcard">
+          <div class="flashcard-inner">
+            <div class="card-front">Q: Scrutinix AI kaise kaam karta hai?</div>
+            <div class="card-back">A: Yeh bina API ke direct browser par visual mind-map aur flashcards banata hai.</div>
+          </div>
         </div>
+      </div>
     </div>
 
-    <!-- PAYPAL SDK & LOGIC -->
-    <script src="https://paypal.com"></script>
+  </div>
 
-    <script>
-        let hasPaid = false;
+  <script>
+    let network = null;
 
-        function runAudit() {
-            const url = document.getElementById('websiteUrl').value;
-            if(!url) { alert('Please enter a website domain!'); return; }
-            
-            document.getElementById('targetDomain').innerText = url;
-            document.getElementById('auditResults').style.display = 'block';
-            document.getElementById('liveFixBtn').style.display = 'block';
-            
-            detectUserLocation();
-        }
+    function runScrutinix() {
+      const topic = document.getElementById('searchInput').value.trim() || "Research Topic";
 
-        function openPricing() { document.getElementById('pricingModal').style.display = 'flex'; }
-        function closePricing() { document.getElementById('pricingModal').style.display = 'none'; }
+      // 1. Generate 3D Style Interactive Graph
+      const nodes = new vis.DataSet([
+        { id: 1, label: topic, shape: 'dot', size: 25, color: '#38bdf8', font: { color: '#fff', size: 16 } },
+        { id: 2, label: 'Core Fundamentals', shape: 'dot', size: 15, color: '#34d399' },
+        { id: 3, label: 'Advanced Features', shape: 'dot', size: 15, color: '#fbbf24' },
+        { id: 4, label: 'Practical Uses', shape: 'dot', size: 15, color: '#a78bfa' },
+        { id: 5, label: 'Tools & Ecosystem', shape: 'dot', size: 10, color: '#94a3b8' }
+      ]);
+
+      const edges = new vis.DataSet([
+        { from: 1, to: 2, color: { color: '#334155' } },
+        { from: 1, to: 3, color: { color: '#334155' } },
+        { from: 1, to: 4, color: { color: '#334155' } },
+        { from: 2, to: 5, color: { color: '#334155' } }
+      ]);
+
+      const container = document.getElementById('network-graph');
+      const data = { nodes: nodes, edges: edges };
+      const options = {
+        nodes: { borderWidth: 2 },
+        physics: { stabilization: false, barnesHut: { springLength: 100 } }
+      };
+
+      network = new vis.Network(container, data, options);
+
+      // 2. Generate Flashcards Dynamic Content
+      const flashcardsBox = document.getElementById('flashcardsBox');
+      flashcardsBox.innerHTML = `
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="card-front">Q: ${topic} Ka Mukhya Concept Kya Hai?</div>
+            <div class="card-back">A: Yeh topic ke basic principles aur structure ko darshata hai.</div>
+          </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="card-front">Q: ${topic} Ka Practical Application?</div>
+            <div class="card-back">A: Iska upyog problem solving aur project development mein hota hai.</div>
+          </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="card-front">Q: ${topic} Ke Liye Best Tools?</div>
+            <div class="card-back">A: Standard open-source libraries aur modern frameworks.</div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Time-Travel Slider Handler
+    function updateTimeline(year) {
+      document.getElementById('yearVal').innerText = year;
+    }
+
+    // Initial Load
+    window.onload = runScrutinix;
+  </script>
+</body>
+</html>
