@@ -3,259 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - 100% Free AI Search & SEO Platform</title>
+    <title>Scrutinix AI - Where Knowledge Begins</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         
+        /* 🌌 पूरी स्क्रीन का बैकग्राउंड Perplexity की तरह साफ सफेद है */
         body { 
-            background: radial-gradient(circle at top, #1e293b 0%, #0b0f19 100%); 
-            color: #fff; 
+            background-color: #f8fafc; 
+            color: #0f172a; 
             min-height: 100vh;
-            padding-bottom: 60px;
-        }
-
-        /* 1. सबसे ऊपर की चमकदार पट्टी (Announcement Bar) */
-        .top-red-bar {
-            background: linear-gradient(90deg, #ef4444, #f97316);
-            color: white;
-            text-align: center;
-            padding: 10px;
-            font-weight: bold;
-            font-size: 14px;
-            letter-spacing: 1px;
-        }
-
-        /* 2. नया ड्रॉपडाउन नेविगेशन बार */
-        .navbar {
-            background-color: #131926;
-            border-bottom: 2px solid #1e293b;
-            padding: 15px 40px;
             display: flex;
-            justify-content: center;
-            gap: 30px;
+            overflow-x: hidden;
         }
 
-        .nav-item {
-            color: #cbd5e1;
-            font-size: 16px;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            padding: 8px 16px;
-            border-radius: 6px;
-            transition: 0.3s;
-            position: relative;
-        }
-
-        .nav-item:hover { color: #38bdf8; background-color: #1e293b; }
-
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: #131926;
-            border: 2px solid #1e293b;
-            border-radius: 8px;
+        /* 📁 1. बाईं तरफ का आलीशान साइडबार */
+        .left-sidebar {
             width: 240px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            z-index: 100;
-            margin-top: 5px;
-            padding: 10px 0;
+            background-color: #ffffff;
+            border-right: 1px solid #e2e8f0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
         }
 
-        .dropdown-menu a {
-            color: #cbd5e1;
-            padding: 12px 20px;
+        .sidebar-brand {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2563eb;
+            letter-spacing: 0.5px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-menu { display: flex; flex-direction: column; gap: 10px; flex-grow: 1; }
+        
+        .menu-link {
+            color: #475569;
             text-decoration: none;
-            display: block;
-            font-size: 14px;
-            border-bottom: 1px solid #1e293b;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
             transition: 0.2s;
         }
+        .menu-link:hover, .menu-link.active { background-color: #f1f5f9; color: #2563eb; }
 
-        .dropdown-menu a:hover { background-color: #1e293b; color: #38bdf8; padding-left: 25px; }
-        .nav-item-dropdown:hover .dropdown-menu { display: block; }
-
-        /* 3. बीच का मुख्य हीरो बैनर */
-        .hero-banner {
-            max-width: 1400px;
-            margin: 30px auto;
-            background: #131926;
-            border: 2px solid #1e293b;
-            border-radius: 12px;
+        /* 💻 2. मुख्य कंटेंट एरिया */
+        .main-content {
+            margin-left: 240px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             padding: 40px;
+            min-height: 100vh;
+        }
+
+        .home-heading {
+            font-size: 38px;
+            font-weight: 500;
+            color: #0f172a;
+            margin-bottom: 25px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .hero-banner h1 { font-size: 46px; color: #38bdf8; margin-bottom: 10px; }
-        .hero-banner h2 { font-size: 26px; color: #22c55e; margin-bottom: 25px; }
-
-        .feature-highlights {
-            font-size: 20px; color: #cbd5e1; line-height: 1.8; font-weight: 600;
-            background: #0b0f19; padding: 15px 30px; border-radius: 8px;
-            border-left: 5px solid #38bdf8; display: inline-block;
-        }
-
-        /* 4. एडवांस परप्लेक्सिटी स्टाइल सर्च बॉक्स (With Mike, Camera, Focus) */
-        .ai-search-box {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 15px;
-            background: #131926;
-            border-radius: 16px;
-            border: 2px solid #1e293b;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        /* 🤍 आलीशान सफेद सर्च बॉक्स कॉम्बो */
+        .search-container-box {
+            width: 100%;
+            max-width: 740px;
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid #cbd5e1;
+            padding: 16px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
 
-        .search-upper {
-            width: 100%;
+        .search-container-box textarea {
+            width: 100%; height: 55px; background: transparent; border: none; color: #0f172a; font-size: 17px; outline: none; resize: none; font-family: inherit; padding: 5px;
         }
 
-        .search-upper textarea {
-            width: 100%;
-            height: 60px;
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 16px;
-            outline: none;
-            resize: none;
-            font-family: inherit;
+        .controls-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 12px; }
+        .buttons-group { display: flex; gap: 10px; align-items: center; position: relative; }
+
+        /* आपके विशेष गोल कस्टमाइज्ड बटन्स */
+        .pill-btn {
+            background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 6px; transition: 0.2s;
         }
+        .pill-btn:hover { background: #e2e8f0; color: #2563eb; }
 
-        /* नीचे की कंट्रोल्स पट्टी (बिल्कुल Perplexity जैसी) */
-        .search-controls-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid #1e293b;
-            padding-top: 12px;
+        /* 🌐 Focus बटन का सुंदर ड्रॉपडाउन मेन्यू */
+        .focus-dropdown {
+            display: none; position: absolute; bottom: 42px; left: 0; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; width: 230px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); z-index: 100; padding: 5px 0;
         }
+        .focus-dropdown div { color: #334155; padding: 10px 15px; cursor: pointer; font-size: 13px; border-bottom: 1px solid #f1f5f9; text-align: left; }
+        .focus-dropdown div:hover { background: #f1f5f9; color: #2563eb; }
 
-        .left-controls {
-            display: flex;
-            gap: 12px;
-            align-items: center;
+        .search-go-btn {
+            background: #22c55e; color: white; border: none; padding: 10px 24px; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 14px;
         }
+        .search-go-btn:hover { background: #16a34a; }
 
-        /* फोकस, अटैचमेंट और माइक बटन्स की स्टाइल */
-        .control-btn {
-            background: #1e293b;
-            color: #94a3b8;
-            border: 1px solid #334155;
-            padding: 8px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: 0.2s;
-        }
-
-        .control-btn:hover {
-            color: #38bdf8;
-            border-color: #38bdf8;
-            background: #131926;
-        }
-
-        .submit-search-btn {
-            background: #22c55e;
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 14px;
-            transition: 0.2s;
-        }
-
-        .submit-search-btn:hover { background: #16a34a; transform: scale(1.02); }
-
-        .ai-response-area {
-            max-width: 800px; margin: 0 auto 40px auto; padding: 20px; background: #0b0f19; border-radius: 12px;
-            text-align: left; min-height: 50px; line-height: 1.6; color: #cbd5e1; display: none;
-            border: 1px solid #1e293b;
-        }
-
-        /* 5. कैटगरी फ़िल्टर बटन्स */
-        .filter-container {
-            max-width: 1400px; margin: 40px auto; text-align: center;
-            display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background-color: #2563eb; color: white; border: none; padding: 10px 24px;
-            font-size: 15px; font-weight: bold; border-radius: 20px; cursor: pointer; transition: 0.3s;
-        }
-
-        .filter-btn:hover, .filter-btn.active { background-color: #38bdf8; color: #0b0f19; transform: scale(1.05); }
-
-        /* 6. फुल-स्क्रीन टूल्स ग्रिड */
-        .section-title { max-width: 1400px; margin: 50px auto 20px auto; font-size: 28px; color: #f97316; border-bottom: 2px solid #1e293b; padding-bottom: 10px; }
+        /* 📊 बहने वाला स्ट्रीम रिस्पॉन्स होल्डर (Sectioned & Continuous Layout) */
+        .stream-board { width: 100%; max-width: 740px; margin-top: 30px; display: flex; flex-direction: column; gap: 20px; }
         
-        .tools-grid { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); 
-            gap: 30px; max-width: 1400px; margin: 0 auto; padding: 0 10px;
+        .stream-card {
+            background: #ffffff;
+            border: 2px solid #cbd5e1; /* यह बॉर्डर रंग मूड के हिसाब से बदलेगा */
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            animation: slideIn 0.3s ease-out;
+            color: #334155;
+            transition: border-color 0.5s ease;
         }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .tool-card { 
-            background: #131926; border: 2px solid #1e293b; border-radius: 12px; padding: 22px; 
-            display: flex; flex-direction: column; transition: 0.3s;
-        }
+        /* 📎 सोर्स कोड डिसेक्टर ग्रिड */
+        .dissector-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; height: 220px; margin-top: 10px; }
+        .dissect-box { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; }
+        iframe { width: 100%; flex-grow: 1; border: none; background: white; }
         
-        .tool-card:hover { border-color: #38bdf8; transform: translateY(-3px); }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .code-btn { background: #1e293b; color: #38bdf8; border: 1px solid #334155; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; }
-        
-        .live-area { background: #0b0f19; padding: 15px; border-radius: 8px; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; }
-        .live-area input[type="text"], .live-area textarea { width: 100%; padding: 12px; background: #1e293b; border: 1px solid #334155; color: #fff; border-radius: 6px; outline: none;}
-        button.action-btn { width: 100%; padding: 12px; border: none; font-weight: bold; border-radius: 6px; cursor: pointer; }
-        .result-box { margin-top: 10px; text-align: center; max-height: 150px; overflow-y: auto; }
-
-        /* प्राइजिंग टेबल */
-        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1400px; margin: 40px auto; padding: 0 10px; }
-        .price-card { background: #131926; border: 2px solid #1e293b; border-radius: 12px; padding: 30px; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; }
-
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-content { background: #131926; padding: 30px; border-radius: 16px; border: 2px solid #38bdf8; max-width: 500px; width: 90%; text-align: center; position: relative; }
-        .modal-content input { width: 100%; padding: 12px; background: #0b0f19; border: 1px solid #334155; color: #fff; border-radius: 6px; margin-top: 10px; }
+        .suggested-item { color: #475569; font-size: 13px; padding: 6px 0; cursor: pointer; font-weight: 500; }
+        .suggested-item:hover { color: #2563eb; }
+        #loadingText { text-align: center; color: #94a3b8; margin-top: 20px; display: none; }
     </style>
 </head>
 <body>
 
-    <div class="top-red-bar">🔥 ANNOUNCEMENT: ALL PREMIUM AI & SEO UTILITIES ARE 100% FREE FOR EVERYONE!</div>
-
-    <!-- नेविगेशन मेन्यू बार -->
-    <nav class="navbar">
-        <a href="#" class="nav-item">Home</a>
-        <div class="nav-item nav-item-dropdown">
-            Tools ⚙️
-            <div class="dropdown-menu">
-                <a href="#tools-section" onclick="filterSelection('media')">🎥 YouTube Thumbnail</a>
-                <a href="#tools-section" onclick="filterSelection('dev')">📊 JSON Calculator</a>
-                <a href="#tools-section" onclick="filterSelection('seo')">🎯 SEO Auditor</a>
+    <!-- 1. बाईं तरफ का आलीशान साइडबार -->
+    <div class="left-sidebar">
+        <div>
+            <div class="sidebar-brand">Scrutinix AI</div>
+            <div class="sidebar-menu">
+                <a href="#" class="menu-link active">🌐 New Search</a>
+                <a href="#" class="menu-link" onclick="openKeySettings()">🔑 Settings</a>
             </div>
         </div>
-        <a href="#pricing-section" class="nav-item">Pricing Plans</a>
-        <a href="#" class="nav-item" onclick="openModal()">Connect Key 🔑</a>
-    </nav>
-
-    <!-- मुख्य हीरो बैनर -->
-    <div class="hero-banner">
-        <h1>SCRUTINIX AI</h1>
-        <h2>Everything is 100% FREE to Use & Copy</h2>
-        <div class="feature-highlights">
-            ⚡ 100+ Free Tools • 🎥 Live App Previews • 📄 No Download Required
+        <div class="sidebar-footer">
+            <p style="color:#475569; font-weight:bold;">👤 Free Pro Active</p>
         </div>
     </div>
 
-    <!-- 4. असली काम करने वाला एडवांस AI सर्च बॉक्स (Perplexity Style ವಿత్ మ్మొబైల్ బటన్స్) -->
-    <div class="ai-search-box">
+    <!-- 2. बीच का मुख्य कंटेंट एरिया -->
+    <div class="main-content">
+        
+        <div class="home-heading" id="mainPromptTitle">What do you want to know?</div>
+
+        <!-- मुख्य सफेद सर्च बॉक्स कॉम्बो विथ कस्टमाइज्ड यूनिक बटन्स -->
+        <div class="search-container-box">
+            <textarea id="aiQuery" placeholder="Ask anything..."></textarea>
+            <div class="controls-row">
+                <div class="buttons-group">
+                    
+                    <!-- 🌐 1. फोकस बटन (ऑडियंस मोड चेंज करने वाला) -->
+                    <button class="pill-btn" onclick="toggleFocusDropdown()">
+                        🌐 Focus: <span id="modeDisplay" style="color:#2563eb;">Standard</span>
+                    </button>
+                    <div id="focusMenu" class="focus-dropdown">
+                        <div onclick="selectAudienceMode('Standard')">🌐 Standard Internet Search</div>
+                        <div onclick="selectAudienceMode('Easy (5-Year Old)')">👶 5 साल के बच्चे की तरह (Easy)</div>
+                        <div onclick="selectAudienceMode('Technical (Coder)')">💻 कोडर की तरह (Technical)</div>
+                    </div>
+
+                    <!-- 📎 2. कैमरा / अटैचमेंट प्लस बटन (सोर्स कोड डिसेक्टर) -->
+                    <input type="file" id="codeFileUploader" style="display: none;" onchange="dissectUploadedCode(this)">
+                    <button class="pill-btn" onclick="document.getElementById('codeFileUploader').click()">
+                        📎 Attach +
+                    </button>
+
+                    <!-- 🎙️ 3. माइक बटन (वॉइस मूड रीडर) -->
+                    <button id="voiceBtn" class="pill-btn" onclick="startVoiceMoodReader()">
+                        🎙️ Mike
+                    </button>
+                    
+                </div>
+                <button class="search-go-btn" onclick="runAiStreamSearch()">Search 🚀</button>
+            </div>
+        </div>
+
+        <p id="loadingText">AI बारीक जाँच कर रहा है और नया धागा (Stream) जोड़ रहा है... 🧠</p>
+
+        <!-- 📊 लगातार बहने वाला स्ट्रीम रिस्पॉन्स होल्डर -->
+        <div id="streamBoard" class="stream-board"></div>
+
+    </div>
+
+    <script>
+        let selectedMode = "Standard";
+        let detectedMoodColor = "#cbd5e1"; // डिफ़ॉल्ट न्यूट्रल रंग
+        let moodBadgeText = "";
+
+        // 🌐 1. फोकस बटन: ड्रॉपडाउन कण्ट्रोल
+        function toggleFocusDropdown() {
+            const menu = document.getElementById('focusMenu');
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+
+        function selectAudienceMode(mode) {
+            selectedMode = mode;
+            document.getElementById('modeDisplay').innerText = mode.split(' ');
+            document.getElementById('focusMenu').style.display = "none";
+            alert("🎯 Focus Set: अब AI आपको " + mode + " शैली में जवाब देगा।");
+        }
+
+        // 📎 2. कैमरा/अटैच प्लस बटन: कोड डिसेक्टर सैंडबॉक्स
+        let attachedFileCode = "";
+        let attachedFileName = "";
+        function dissectUploadedCode(input) {
+            if(input.files && input.files[0]) {
+                attachedFileName = input.files[0].name;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    attachedFileCode = e.target.result;
+                    alert("🔬 Code Detected: '" + attachedFileName + "' loaded! सर्च बटन दबाते ही इसका लाइव ऐप नीचे खुल जाएगा।");
+                };
+                reader.readAsText(input.files[0]);
+            }
+        }
+
+        // 🎙️ 3. माइक बटन: वॉइस मूड रीडर
+        function startVoiceMoodReader() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
