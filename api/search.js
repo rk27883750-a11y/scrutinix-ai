@@ -1,4 +1,5 @@
 export default async function handler(req, res) {
+  // सिर्फ POST रिक्वेस्ट की अनुमति दें
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -9,19 +10,19 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Query is required' });
   }
 
-  // वर्सेल से जेमिनी की नई चाबी उठाई जा रही है
   const apiKey = process.env.GEMINI_API_KEY; 
 
   try {
-    const response = await fetch("https://googleapis.com", {
+    // 🚀 जेमिनी का सबसे नया और डायरेक्ट ऑफिशियल रास्ता
+    const response = await fetch(https://googleapis.com{apiKey}, {
       method: "POST",
       headers: {
-        "Authorization": Bearer ${apiKey},
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "gemini-2.5-flash", 
-        messages: [{ role: "user", content: query }]
+        contents: [{
+          parts: [{ text: query }]
+        }]
       })
     });
 
