@@ -10,17 +10,19 @@ export default async function handler(req, res) {
   }
 
   try {
-    // 1. गिटहब यूआरएल से यूजर और रेपो का नाम निकालना
+    // 1. गिटहब यूआरएल को बिल्कुल सही तरीके से टुकड़ों में बांटना
     const cleanUrl = githubUrl.replace("https://github.com", "");
     const urlParts = cleanUrl.split("/");
-    const owner = urlParts[0];
-    const repo = urlParts[1];
+    
+    // 🚀 यहाँ कंप्यूटर को सही इंडेक्स [0] और [1] देना ज़रूरी है
+    const owner = urlParts[0]; 
+    const repo = urlParts[1];  
 
     if (!owner || !repo) {
-      return res.status(400).json({ error: 'Invalid GitHub URL format' });
+      return res.status(400).json({ error: 'कृपया पूरा गिटहब लिंक सही डालें।' });
     }
 
-    // 2. गिटहब एपीआई से index.html का कोड खींचना (User-Agent हेडर के साथ जो एरर को रोकेगा)
+    // 2. गिटहब एपीआई से index.html का कोड खींचना
     const githubApiResponse = await fetch(https://github.com{owner}/${repo}/contents/index.html, {
       headers: {
         "User-Agent": "Scrutinix-DocBot-App"
@@ -28,7 +30,7 @@ export default async function handler(req, res) {
     });
     
     if (!githubApiResponse.ok) {
-      return res.status(404).json({ error: 'Could not find index.html in this repository' });
+      return res.status(404).json({ error: 'इस प्रोजेक्ट में index.html फाइल नहीं मिली।' });
     }
 
     const githubData = await githubApiResponse.json();
@@ -51,7 +53,7 @@ export default async function handler(req, res) {
     if (geminiData.candidates && geminiData.candidates[0].content.parts[0].text) {
       return res.status(200).json({ readme: geminiData.candidates[0].content.parts[0].text });
     } else {
-      return res.status(500).json({ error: 'AI failed to generate docs: ' + JSON.stringify(geminiData) });
+      return res.status(500).json({ error: 'AI गाइड बनाने में असफल रहा: ' + JSON.stringify(geminiData) });
     }
 
   } catch (error) {
