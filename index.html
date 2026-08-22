@@ -3,274 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - Where Knowledge Begins</title>
+    <title>Scrutinix AI - Simple Search Test</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        
-        body { 
-            background-color: #f8fafc; 
-            color: #0f172a; 
-            min-height: 100vh;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
             display: flex;
-            overflow-x: hidden;
-        }
-
-        /* 📁 1. बाईं तरफ का आलीशान साइडबार */
-        .left-sidebar {
-            width: 240px;
-            background-color: #ffffff;
-            border-right: 1px solid #e2e8f0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .sidebar-brand {
-            font-size: 22px;
-            font-weight: bold;
-            color: #2563eb;
-            letter-spacing: 0.5px;
-            margin-bottom: 30px;
-        }
-
-        .sidebar-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            flex-grow: 1;
-        }
-
-        .menu-link {
-            color: #475569;
-            text-decoration: none;
-            padding: 12px 15px;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: 0.2s;
-        }
-        .menu-link:hover, .menu-link.active {
-            background-color: #f1f5f9;
-            color: #2563eb;
-        }
-
-        .sidebar-footer {
-            border-top: 1px solid #e2e8f0;
-            padding-top: 15px;
-            font-size: 13px;
-            color: #94a3b8;
-        }
-
-        /* 💻 2. मुख्य कंटेंट एरिया */
-        .main-content {
-            margin-left: 240px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            padding: 40px;
-            min-height: 100vh;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-
-        .home-heading {
-            font-size: 38px;
-            font-weight: 500;
-            color: #0f172a;
-            margin-bottom: 25px;
+        .search-container {
             text-align: center;
-            letter-spacing: -0.5px;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            width: 90%;
+            max-width: 500px;
         }
-
-        /* 🤍 आलीशान सफेद सर्च बॉक्स कॉम्बो */
-        .search-container-box {
-            width: 100%;
-            max-width: 740px;
-            background: #ffffff;
-            border-radius: 20px;
-            border: 1px solid #cbd5e1;
-            padding: 16px;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        h2 {
+            color: #222;
+            margin-bottom: 20px;
+            font-size: 24px;
         }
-
-        .search-container-box textarea {
+        input[type="text"] {
             width: 100%;
-            height: 55px;
-            background: transparent;
-            border: none;
-            color: #0f172a;
-            font-size: 17px;
+            padding: 14px;
+            font-size: 16px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
             outline: none;
-            resize: none;
-            font-family: inherit;
-            padding: 5px;
         }
-
-        .controls-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid #f1f5f9;
-            padding-top: 12px;
+        input[type="text"]:focus {
+            border-color: #007bff;
         }
-
-        .buttons-group {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            position: relative;
-        }
-
-        .pill-btn {
-            background: #f8fafc;
-            color: #475569;
-            border: 1px solid #e2e8f0;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: 0.2s;
-        }
-        .pill-btn:hover {
-            background: #e2e8f0;
-            color: #2563eb;
-        }
-
-        .focus-dropdown {
-            display: none; position: absolute; bottom: 42px; left: 0; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; width: 230px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); z-index: 100; padding: 5px 0;
-        }
-        .focus-dropdown div { color: #334155; padding: 10px 15px; cursor: pointer; font-size: 13px; border-bottom: 1px solid #f1f5f9; text-align: left; }
-        .focus-dropdown div:hover { background: #f1f5f9; color: #2563eb; }
-
-        .search-submit-btn {
-            background: #22c55e;
+        button {
+            background-color: #007bff;
             color: white;
             border: none;
-            padding: 10px 24px;
-            border-radius: 25px;
-            font-weight: bold;
+            padding: 14px 24px;
+            font-size: 16px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 14px;
-            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
-        }
-        .search-submit-btn:hover { background: #16a34a; }
-
-        /* 📊 बहने वाला स्ट्रीम रिस्पॉन्स होल्डर */
-        .stream-board {
             width: 100%;
-            max-width: 740px;
-            margin-top: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            font-weight: bold;
         }
-
-        .stream-card {
-            background: #ffffff;
-            border: 2px solid #cbd5e1;
-            border-radius: 16px;
-            padding: 22px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            animation: slideIn 0.3s ease-out;
-            color: #334155;
-            transition: border-color 0.5s ease;
+        button:hover {
+            background-color: #0056b3;
         }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .dissector-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; height: 220px; margin-top: 10px; }
-        .dissect-box { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; }
-        iframe { width: 100%; flex-grow: 1; border: none; background: white; }
-        .code-preview-text { width: 100%; flex-grow: 1; background: #0b0f19; color: #38bdf8; padding: 10px; font-family: monospace; font-size: 12px; border: none; resize: none; outline: none; }
-
-        .interactive-sandbox {
-            background: #f1f5f9; border-left: 5px solid #2563eb; padding: 15px; border-radius: 8px; margin: 15px 0;
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            text-align: left;
+            white-space: pre-wrap;
+            max-height: 250px;
+            overflow-y: auto;
+            display: none;
+            color: #333;
         }
-
-        .action-bar-bottom { display: flex; gap: 10px; margin-top: 15px; border-top: 1px solid #f1f5f9; padding-top: 15px; flex-wrap: wrap; }
-        .action-trigger-btn { background: #f1f5f9; color: #2563eb; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer; }
-        .action-trigger-btn:hover { background: #2563eb; color: white; }
-
-        .suggested-item { color: #475569; font-size: 13px; padding: 6px 0; cursor: pointer; font-weight: 500; }
-        .suggested-item:hover { color: #2563eb; }
-        #loadingText { text-align: center; color: #94a3b8; margin-top: 20px; display: none; }
     </style>
 </head>
 <body>
 
-    <!-- 1. बाईं तरफ का आलीशान सफेद साइडबार -->
-    <div class="left-sidebar">
-        <div>
-            <div class="sidebar-brand">Scrutinix AI</div>
-            <div class="sidebar-menu">
-                <a href="#" class="menu-link active">🌐 1. Web Search</a>
-                <a href="#" class="menu-link" onclick="document.getElementById('codeFileUploader').click()">📎 2. Attach & Analyze</a>
-                <a href="#" class="menu-link" onclick="startVoiceMoodReader()">🎙️ 3. Voice Search</a>
-            </div>
-        </div>
-        <div class="sidebar-footer">
-            <p style="color:#475569; font-weight:bold;">🎛️ Live Sandbox Active</p>
-            <p style="font-size: 11px; margin-top: 5px;">© 2026 Scrutinix Team</p>
-        </div>
-    </div>
+<div class="search-container">
+    <h2>What do you want to know?</h2>
+    <input type="text" id="queryInput" placeholder="यहाँ अपना सवाल लिखें...">
+    <button onclick="askGroqAI()">Search</button>
+    <div id="result"></div>
+</div>
 
-    <!-- 2. बीच का मुख्य सर्च हब एरिया -->
-    <div class="main-content">
+<script>
+async function askGroqAI() {
+    const query = document.getElementById('queryInput').value;
+    const resultDiv = document.getElementById('result');
+    
+    if (!query) {
+        alert('कृपया पहले कुछ लिखें!');
+        return;
+    }
+
+    resultDiv.style.display = "block";
+    resultDiv.innerText = "सोच रहा हूँ...";
+
+    try {
+        // यह हमारे नए बनाए गए /api/search बैकएंड को कॉल करेगा
+        const response = await fetch("/api/search", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ query: query })
+        });
+
+        const data = await response.json();
         
-        <div class="home-heading" id="mainPromptTitle">What do you want to know?</div>
+        if (data.choices && data.choices[0] && data.choices[0].message) {
+            resultDiv.innerText = data.choices[0].message.content;
+        } else {
+            resultDiv.innerText = "कोई जवाब नहीं मिला। कृपया Vercel में अपनी GROQ_API_KEY चेक करें।";
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        resultDiv.innerText = "गड़बड़ हुई: " + error.message;
+    }
+}
+</script>
 
-        <!-- मुख्य सफेद सर्च बॉक्स कॉम्बो विथ कस्टमाइज्ड यूनिक बटन्स -->
-        <div class="search-container-box">
-            <textarea id="aiQuery" placeholder="सर्च करें (जैसे: blogging income, या वेबसाइट का ब्याज)..."></textarea>
-            <div class="controls-row">
-                <div class="buttons-group">
-                    
-                    <button class="pill-btn" onclick="toggleFocusDropdown()">
-                        🌐 Focus: <span id="modeDisplay" style="color:#2563eb;">Standard</span>
-                    </button>
-                    <div id="focusMenu" class="focus-dropdown">
-                        <div onclick="selectAudienceMode('Standard')">🌐 Standard Internet Search</div>
-                        <div onclick="selectAudienceMode('Easy (5-Year Old)')">👶 5 साल के बच्चे की तरह (Easy)</div>
-                        <div onclick="selectAudienceMode('Technical (Coder)')">💻 कोडर की तरह (Technical)</div>
-                    </div>
-
-                    <input type="file" id="codeFileUploader" style="display: none;" onchange="dissectUploadedCode(this)">
-                    <button class="pill-btn" onclick="document.getElementById('codeFileUploader').click()">
-                        📎 Attach +
-                    </button>
-
-                    <button id="voiceBtn" class="pill-btn" onclick="startVoiceMoodReader()">
-                        🎙️ Mike
-                    </button>
-                    
-                </div>
-                <!-- ✅ बटन का नाम बिल्कुल परफेक्ट सेट कर दिया गया है! -->
-                <button class="search-submit-btn" onclick="askGroqAI()">Search 🚀</button>
-            </div>
-        </div>
-
-        <p id="loadingText">AI लाइव सिमुलेशन सैंडबॉक्स तैयार कर रहा है... 🧠</p>
-
-        <div id="streamBoard" class="stream-board"></div>
-
-    </div>
-
-    <script>
-        let selectedMode = "Standard";
-        let detectedMoodColor = "#cbd5e1"; 
-        let moodBadgeText = "";
+</body>
+</html>
