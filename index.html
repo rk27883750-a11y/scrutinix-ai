@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - Simple Search Test</title>
+    <title>Scrutinix AI - Gemini Test</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -75,12 +75,12 @@
 <div class="search-container">
     <h2>What do you want to know?</h2>
     <input type="text" id="queryInput" placeholder="यहाँ अपना सवाल लिखें...">
-    <button onclick="askGroqAI()">Search</button>
+    <button onclick="askGeminiAI()">Search</button>
     <div id="result"></div>
 </div>
 
 <script>
-async function askGroqAI() {
+async function askGeminiAI() {
     const query = document.getElementById('queryInput').value;
     const resultDiv = document.getElementById('result');
     
@@ -93,7 +93,6 @@ async function askGroqAI() {
     resultDiv.innerText = "सोच रहा हूँ...";
 
     try {
-        // यह हमारे नए बनाए गए /api/search बैकएंड को कॉल करेगा
         const response = await fetch("/api/search", {
             method: "POST",
             headers: {
@@ -104,10 +103,11 @@ async function askGroqAI() {
 
         const data = await response.json();
         
-        if (data.choices && data.choices[0] && data.choices[0].message) {
-            resultDiv.innerText = data.choices[0].message.content;
+        // ✨ जेमिनी के डायरेक्ट रिस्पॉन्स को पढ़ने का नया तरीका
+        if (data.candidates && data.candidates[0].content.parts[0].text) {
+            resultDiv.innerText = data.candidates[0].content.parts[0].text;
         } else {
-            resultDiv.innerText = "कोई जवाब नहीं मिला। कृपया Vercel में अपनी GROQ_API_KEY चेक करें।";
+            resultDiv.innerText = "कोई जवाब नहीं मिला या चाबी में गड़बड़ है। " + JSON.stringify(data);
         }
     } catch (error) {
         console.error("Error:", error);
