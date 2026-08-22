@@ -9,17 +9,18 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Query is required' });
   }
 
-  const apiKey = process.env.GROQ_API_KEY; 
+  // वर्सेल से जेमिनी की नई चाबी उठाई जा रही है
+  const apiKey = process.env.GEMINI_API_KEY; 
 
   try {
-    const response = await fetch("https://groq.com", {
+    const response = await fetch("https://googleapis.com", {
       method: "POST",
       headers: {
         "Authorization": Bearer ${apiKey},
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "llama3-8b-8192", 
+        model: "gemini-2.5-flash", 
         messages: [{ role: "user", content: query }]
       })
     });
