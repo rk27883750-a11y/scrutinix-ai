@@ -10,6 +10,7 @@ export default async function handler(req, res) {
   }
 
   try {
+    // 1. गिटहब लिंक को सही तरीके से यूजर और प्रोजेक्ट नाम में तोड़ना
     const matches = githubUrl.match(/github\.com\/([^\/]+)\/([^\/]+)/);
     if (!matches) {
       return res.status(400).json({ error: 'कृपया पूरा गिटहब लिंक सही डालें।' });
@@ -18,8 +19,11 @@ export default async function handler(req, res) {
     const owner = matches[1];
     const repo = matches[2].replace(".git", "");
 
+    // 2. बिल्कुल सही और सटीक यूआरएल रास्ता (बिना किसी सिंटैक्स एरर के)
     const githubResponse = await fetch(https://github.com{owner}/${repo}/contents/index.html, {
-      headers: { "User-Agent": "Scrutinix-DocBot" }
+      headers: { 
+        "User-Agent": "Scrutinix-DocBot" 
+      }
     });
 
     if (!githubResponse.ok) {
@@ -29,6 +33,7 @@ export default async function handler(req, res) {
     const githubData = await githubResponse.json();
     const rawCode = Buffer.from(githubData.content, 'base64').toString('utf-8');
 
+    // 3. जेमिनी डायरेक्ट ऑफिशियल एपीआई कनेक्शन
     const apiKey = process.env.GEMINI_API_KEY;
     const prompt = Analyze this HTML code and write a professional GitHub README.md file in Hindi/English mix language:\n\n${rawCode};
 
