@@ -10,7 +10,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    // गिटहब लिंक को सही तरीके से यूजरनेम और प्रोजेक्ट नाम में तोड़ना
     const matches = githubUrl.match(/github\.com\/([^\/]+)\/([^\/]+)/);
     if (!matches) {
       return res.status(400).json({ error: 'कृपया पूरा गिटहब लिंक सही डालें।' });
@@ -19,7 +18,6 @@ export default async function handler(req, res) {
     const owner = matches[1];
     const repo = matches[2].replace(".git", "");
 
-    // गिटहब से index.html का कोड खींचना
     const githubResponse = await fetch(https://github.com{owner}/${repo}/contents/index.html, {
       headers: { "User-Agent": "Scrutinix-DocBot" }
     });
@@ -31,7 +29,6 @@ export default async function handler(req, res) {
     const githubData = await githubResponse.json();
     const rawCode = Buffer.from(githubData.content, 'base64').toString('utf-8');
 
-    // जेमिनी डायरेक्ट ऑफिशियल एपीआई कनेक्शन
     const apiKey = process.env.GEMINI_API_KEY;
     const prompt = Analyze this HTML code and write a professional GitHub README.md file in Hindi/English mix language:\n\n${rawCode};
 
@@ -44,10 +41,9 @@ export default async function handler(req, res) {
     });
 
     const geminiData = await geminiResponse.json();
-    const textResult = geminiData.candidates?.[0]?.content?.parts?.[0]?.text;
-
-    if (textResult) {
-      return res.status(200).json({ readme: textResult });
+    
+    if (geminiData && geminiData.candidates && geminiData.candidates[0] && geminiData.candidates[0].content && geminiData.candidates[0].content.parts && geminiData.candidates[0].content.parts[0]) {
+      return res.status(200).json({ readme: geminiData.candidates[0].content.parts[0].text });
     } else {
       return res.status(500).json({ error: 'AI गाइड बनाने में असफल रहा।' });
     }
