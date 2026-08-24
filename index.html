@@ -1,56 +1,34 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix DocBot 🤖</title>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f6f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width: 90%; maxWidth: 500px; text-align: center; }
-        input { width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ced4da; box-sizing: border-box; }
-        button { width: 100%; padding: 14px; background-color: #28a745; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        #result { margin-top: 25px; padding: 20px; background: #1e1e1e; color: #39ff14; border-radius: 8px; text-align: left; white-space: pre-wrap; max-height: 300px; overflow-y: auto; font-family: monospace; display: none; }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <h2>Scrutinix DocBot 🤖</h2>
-    <p style="color: #666;">अपना GitHub लिंक डालें और ऑटोमैटिक गाइड (README) पाएं।</p>
-    <input type="text" id="githubUrl" placeholder="https://github.com">
-    <button onclick="generateDocs()">Generate Documentation</button>
-    <div id="result"></div>
-</div>
-
-<script>
-async function generateDocs() {
-    const urlInput = document.getElementById('githubUrl').value;
-    const resultDiv = document.getElementById('result');
-    
-    if (!urlInput) {
-        alert('कृपया गिटहब लिंक डालें!');
-        return;
+export default async function handler(req, res) {
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    resultDiv.style.display = 'block';
-    resultDiv.innerText = '⏳ AI गाइड तैयार कर रहा है... कृपया रुकें...';
+    const { repoUrl } = req.body;
+    const apiKey = process.env.DEEPSEEK_API_KEY;
+
+    if (!apiKey) {
+        return res.status(500).json({ error: 'DeepSeek API Key सेट नहीं है!' });
+    }
 
     try {
-        // यह सीधे और सरल तरीके से बिना किसी सर्वर एरर के लिंक को चेक करेगा
-        const cleanUrl = urlInput.replace("https://github.com", "");
-        
-        if(!cleanUrl || !cleanUrl.includes("/")) {
-            throw new Error("कृपया पूरा गिटहब लिंक सही डालें।");
-        }
+        const response = await fetch('https://api.deepseek.com/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': Bearer ${apiKey}
+            },
+            body: JSON.stringify({
+                model: 'deepseek-chat',
+                messages: [
+                    { role: 'system', content: 'You are a professional technical documentation generator.' },
+                    { role: 'user', content: Generate a clear README and overview for this repository: ${repoUrl} }
+                ]
+            })
+        });
 
-        resultDiv.innerText = "🚀 कनेक्शन सफल! पुरानी सुंदर वेबसाइट वापस आ चुकी है।";
-        alert('बधाई हो! आपकी पुरानी वेबसाइट बिना किसी एरर के काम करने के लिए तैयार है।');
-        
-    } catch (err) {
-        resultDiv.innerText = '❌ गड़बड़: ' + err.message;
+        const data = await response.json();
+        return res.status(200).json(data);
+    } catch (error) {
+        return res.status(500).json({ error: 'Server connection failed' });
     }
 }
-</script>
-
-</body>
-</html>
