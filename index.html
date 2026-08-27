@@ -1,152 +1,271 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - 100+ Free AI & SEO Tools Hub</title>
-    <!-- Tailwind CSS Dynamic CDN -->
-    <script src="https://tailwindcss.com"></script>
-    <!-- Monaco Editor Code Loader -->
-    <script src="https://cloudflare.com"></script>
+    <title>Scrutinix AI - 100+ Free AI & UI Tools 🤖</title>
     <style>
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
-        .custom-scroll::-webkit-scrollbar-track { background: #020617; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-        #editorAnchor, #diffEditorAnchor { min-height: 0; min-width: 0; }
+        /* Notion & Cursor Inspired Premium Dark Theme CSS */
+        :root {
+            --bg-main: #0B0E14;
+            --bg-sidebar: #141923;
+            --bg-card: #1E2638;
+            --text-main: #F4F6F9;
+            --text-muted: #8E9AA8;
+            --accent-green: #39FF14;
+            --accent-blue: #007FFF;
+            --border-color: #2D3748;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Like Notion */
+        .sidebar {
+            width: 260px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            padding: 25px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--text-main);
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu-item {
+            padding: 12px;
+            border-radius: 6px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 14px;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            border-left: 3px solid var(--accent-green);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 30px;
+        }
+
+        .header-section {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .header-section h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #39FF14, #007FFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-section p {
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        /* Search Area Like Cursor AI */
+        .search-box-container {
+            width: 100%;
+            max-width: 550px;
+            background: var(--bg-sidebar);
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            gap: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-main);
+            font-size: 16px;
+            padding: 12px;
+        }
+
+        .search-input::placeholder {
+            color: #526477;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(57, 255, 20, 0.3);
+        }
+
+        /* Output Window */
+        .output-container {
+            width: 100%;
+            max-width: 650px;
+            background: #121824;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 25px;
+            display: none;
+            box-sizing: border-box;
+        }
+
+        /* Resume Template Visual Style */
+        .resume-preview {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-family: 'Arial', sans-serif;
+        }
+
+        .resume-header {
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .code-box {
+            background: #000;
+            color: var(--accent-green);
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 13px;
+            margin-top: 15px;
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 overflow-x-hidden overflow-y-auto custom-scroll selection:bg-cyan-500/30">
+<body>
 
-    <!-- 🎨 SECTION 1: आपका आलीशान VIP लैंडिंग पेज (Exactly your image style) -->
-    <div id="landing-page-hero" class="w-full min-h-screen flex flex-col items-center justify-center text-center px-4 relative shrink-0">
-        <!-- Background Gradient Glow Effect -->
-        <div class="absolute w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
-
-        <div class="z-10 max-w-2xl">
-            <!-- Top Branding Mini Title -->
-            <h2 class="text-cyan-400 font-mono tracking-widest text-xs font-bold uppercase mb-4 shadow-sm">SCRUTINIX AI</h2>
-            
-            <!-- Main Catchy Heading -->
-            <h1 class="text-4xl md:text-5xl font-black tracking-tight mb-4 bg-gradient-to-r from-slate-100 via-slate-300 to-cyan-400 bg-clip-text text-transparent">
-                100+ Free AI & SEO Tools
-            </h1>
-            
-            <!-- Subtitle description -->
-            <p class="text-sm md:text-md text-slate-400 font-sans mb-8 leading-relaxed max-w-lg mx-auto">
-                Analyze, Optimize & Grow Your Business with our powerful AI-driven toolset. Everything built into a single workspace.
-            </p>
-            
-            <!-- ⚡ Magic Action Button (इस पर क्लिक करते ही नीचे सॉफ्टवेयर खुल जाएगा) -->
-            <button onclick="scrollToWorkspace()" class="bg-cyan-400 text-slate-950 font-bold font-mono text-xs px-6 py-3.5 rounded-lg hover:bg-cyan-300 hover:scale-105 transition-all shadow-[0_0_25px_#22d3ee_rgba(6,182,212,0.3)]">
-                Launch Dashboard Tools 🚀
-            </button>
-        </div>
-
-        <!-- Copyright Footer bottom text matching your image -->
-        <div class="absolute bottom-6 text-[10px] font-mono text-slate-600">
-            © 2026 Scrutinix AI. All Rights Reserved.
-        </div>
+    <!-- Sidebar Menu Like Notion -->
+    <div class="sidebar">
+        <div class="logo">Scrutinix AI 🤖</div>
+        <ul class="menu-list">
+            <li class="menu-item active">📄 UI & Resume Builder</li>
+            <li class="menu-item">🛠️ HTML/CSS Cleaner</li>
+            <li class="menu-item">🎨 Color Palette Generator</li>
+            <li class="menu-item">🔐 Secure Password Generator</li>
+            <li class="menu-item">📝 Text to Markdown Tool</li>
+            <li class="menu-item">📊 SEO Metadata Tags Creator</li>
+        </ul>
     </div>
 
+    <!-- Main Window Like Cursor AI -->
+    <div class="main-content">
+        <div class="header-section">
+            <h1>100+ Free AI & UI Tools</h1>
+            <p>बिना किसी एपीआई की (API Key) के कर्सर और नोशन जैसा प्रीमियम डिज़ाइन, रेज़्यूमे और कोडिंग टूल्स एक क्लिक में डाउनलोड और इस्तेमाल करें।</p>
+        </div>
 
-    <!-- 🎛️ SECTION 2: असली कर्सर-स्टाइल डार्क सॉफ्टवेयर (3-Panel IDE Layout) -->
-    <div id="scrutinix-workspace" class="w-full h-screen border-t border-slate-800 bg-slate-950 flex flex-col shrink-0 overflow-hidden">
-        
-        <!-- TOP NAVBAR INSIDE IDE -->
-        <header class="h-14 border-b border-slate-800 bg-slate-900/40 backdrop-blur flex items-center justify-between px-6 shrink-0 z-50">
-            <div class="flex items-center space-x-3">
-                <div class="h-3 w-3 rounded-full bg-cyan-400 shadow-[0_0_12px_#22d3ee]"></div>
-                <span class="text-sm font-bold font-mono text-cyan-400">SCRUTINIX COMPOSER WORKSPACE</span>
-            </div>
-            
-            <!-- LIVE TRIAL DAY TRACKER -->
-            <div class="flex items-center space-x-3">
-                <div id="trialDaysRemainingBadge" class="text-[10px] font-mono bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-3 py-1 rounded">
-                    Calculating Trial Status...
-                </div>
-                <button onclick="triggerPaywallModal(true)" class="bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 text-[10px] font-bold font-mono px-3 py-1 rounded hover:opacity-90 transition-all shadow-[0_0_10px_rgba(245,158,11,0.2)]">
-                    👑 GO PRO
-                </button>
-            </div>
-        </header>
+        <!-- Premium Search Box -->
+        <div class="search-box-container">
+            <input type="text" id="userInput" class="search-input" placeholder="यहाँ 'resume' या 'design' टाइप करें...">
+            <button onclick="handleSearch()" class="generate-btn">Generate</button>
+        </div>
 
-        <!-- THREE-PANEL CORE CONTAINER -->
-        <div class="flex-grow w-full flex overflow-hidden">
-            
-            <!-- PANEL 1: Left Sidebar Explorer (15% Width) -->
-            <section class="w-[15%] h-full border-r border-slate-800 bg-slate-950 p-4 flex flex-col justify-between shrink-0">
-                <div class="space-y-4 overflow-y-auto custom-scroll pr-1">
-                    <div>
-                        <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider block mb-2 font-mono">📄 CAREER ENGINE</span>
-                        <div class="space-y-1.5 text-xs font-mono text-slate-400 pl-2">
-                            <div class="text-cyan-400"># resume-fixer</div>
-                            <div class="text-cyan-400"># bio-architect</div>
+        <!-- Result Box -->
+        <div id="outputBox" class="output-container"></div>
+    </div>
+
+    <!-- JavaScript Logic (No API Key Required) -->
+    <script>
+        function handleSearch() {
+            const query = document.getElementById('userInput').value.toLowerCase().trim();
+            const outputBox = document.getElementById('outputBox');
+
+            if (!query) {
+                alert('कृपया सर्च बॉक्स में कुछ टाइप करें!');
+                return;
+            }
+
+            outputBox.style.display = 'block';
+            outputBox.innerHTML = '<p style="color: var(--accent-blue);">⏳ डिज़ाईन तैयार हो रहा है... कृपया रुकें...</p>';
+
+            setTimeout(() => {
+                if (query.includes('resume') || query.includes('cv') || query.includes('biodata')) {
+                    // 📄 क्लाइंट को सीधे बना-बनाया सुंदर रेज़्यूमे और उसका डिज़ाईन कोड देना
+                    outputBox.innerHTML = `
+                        <h3 style="color: var(--accent-green); margin-top:0;">🎉 प्रीमियम रेज़्यूमे टेम्प्लेट तैयार है!</h3>
+                        <p style="color: var(--text-muted); font-size:14px; margin-bottom:15px;">नीचे इसका विजुअल डिज़ाईन और कॉपी करने का कोड दिया गया है:</p>
+                        
+                        <!-- Visual Design Preview -->
+                        <div class="resume-preview">
+                            <div class="resume-header">
+                                <h2 style="margin:0; color:#111;">RAHUL KUMAR</h2>
+                                <p style="margin:5px 0 0 0; color:#666; font-size:14px;">Full Stack Developer | rahul@email.com</p>
+                            </div>
+                            <h4 style="color:#111; margin-bottom:5px;">EXPERIENCE</h4>
+                            <p style="margin:0; font-size:13px; color:#444;"><strong>Senior AI Tool Developer</strong> - Scrutinix AI (2025 - Present)</p>
+                            <p style="margin:5px 0 0 0; font-size:12px; color:#777;">Built 100+ premium client-side web tools with zero maintenance cost.</p>
                         </div>
-                    </div>
-                    <div>
-                        <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider block mb-2 font-mono">🎨 DESIGN ENGINE</span>
-                        <div class="space-y-1.5 text-xs font-mono text-slate-400 pl-2">
-                            <div class="text-emerald-400"># login-form</div>
-                            <div class="text-emerald-400"># glow-button</div>
-                            <div class="text-emerald-400"># modern-card</div>
+
+                        <!-- Source Code To Copy -->
+                        <div class="code-box">
+&lt;!-- इसे कॉपी करके इस्तेमाल करें --&gt;\n&lt;div class="resume"&gt;\n  &lt;h2&gt;YOUR NAME&lt;/h2&gt;\n  &lt;p&gt;Full Stack Developer&lt;/p&gt;\n&lt;/div&gt;
                         </div>
-                    </div>
-                    <div>
-                        <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider block mb-2 font-mono">🛠️ POWER TOOLS</span>
-                        <div class="space-y-1.5 text-xs font-mono text-slate-400 pl-2">
-                            <div class="text-amber-400"># code-minifier</div>
-                            <div class="text-amber-400"># json-formatter</div>
+                    `;
+                } else if (query.includes('design') || query.includes('ui') || query.includes('button')) {
+                    // 🎨 क्लाइंट को प्रीमियम UI बटन डिज़ाईन और कोड देना
+                    outputBox.innerHTML = `
+                        <h3 style="color: var(--accent-green); margin-top:0;">🎉 प्रीमियम कर्सर स्टाइल बटन UI रेडी है!</h3>
+                        <div style="padding: 20px; text-align:center; background:#0B0E14; border-radius:8px; margin-bottom:15px;">
+                            <button style="background:linear-gradient(45deg, #39FF14, #007FFF); color:black; border:none; padding:12px 30px; border-radius:6px; font-weight:bold; cursor:pointer;">Hover Me 🚀</button>
                         </div>
-                    </div>
-                </div>
-                <div class="text-[10px] font-mono text-cyan-400/80 pt-2 border-t border-slate-900">⚡ Core Modules Active</div>
-            </section>
-
-            <!-- PANEL 2: Middle Input Canvas Workspace (45% Width) -->
-            <section class="w-[45%] h-full border-r border-slate-800 flex flex-col bg-slate-950">
-                <div class="h-10 border-b border-slate-800/60 bg-slate-900/30 flex items-center px-4 justify-between text-xs text-slate-400 font-mono shrink-0">
-                    <div>Input Format: Plain Text / Code / JSON</div>
-                    <div>active_canvas.txt</div>
-                </div>
-
-                <!-- Primary Monaco Box Content -->
-                <div id="editorAnchor" class="flex-grow w-full bg-slate-950"></div>
-
-                <!-- THE INLINE CHAT PROMPT BOX AT THE BOTTOM -->
-                <div class="p-4 border-t border-slate-800 bg-slate-950 flex flex-col gap-2 shrink-0 z-20">
-                    <div class="flex items-center justify-between text-[11px] font-mono text-slate-400">
-                        <span>Keywords: 'resume', 'bio', 'login', 'button', 'minify'</span>
-                        <span class="text-slate-600">Zero API Key Mode</span>
-                    </div>
-                    <div class="flex gap-2 bg-slate-900 border border-cyan-500/30 rounded-lg p-2 focus-within:border-cyan-400 transition-all shadow-[0_0_15px_rgba(6,182,212,0.05)]">
-                        <input type="text" id="aiInputPromptField" class="flex-grow bg-transparent text-xs text-slate-200 focus:outline-none px-2 font-sans" placeholder="Ask AI to compile or execute changes...">
-                        <button onclick="executeLocalUIQuery()" class="bg-cyan-500 text-slate-950 text-xs font-bold font-mono h-8 px-4 rounded-md hover:bg-cyan-400 transition-all flex items-center gap-1 shrink-0">
-                            🚀 Run Tool
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- PANEL 3: Right Side Split Diff View (40% Width) -->
-            <section class="w-[40%] h-full flex flex-col overflow-hidden bg-slate-950 relative">
-                
-                <!-- Top Half: AI Explanation Window -->
-                <div class="h-[35%] border-b border-slate-800 bg-[#020617] flex flex-col">
-                    <div class="h-8 border-b border-slate-800/60 px-4 flex items-center text-[10px] font-mono text-slate-500">💬 AI EXPLANATION & UTILITY SPECS</div>
-                    <div id="aiExplanationTextBox" class="flex-grow p-4 font-sans text-xs overflow-y-auto custom-scroll text-slate-300 leading-relaxed space-y-2">
-                        <div class="text-slate-500 italic">// Diagnostics specs logs will display here...</div>
-                    </div>
-                </div>
-
-                <!-- Bottom Half: Side-by-Side Diff Fixer -->
-                <div class="h-[65%] flex flex-col bg-slate-950">
-                    <div class="h-10 border-b border-slate-800 bg-slate-900/10 flex items-center justify-between px-4">
-                        <span class="text-[10px] font-mono text-slate-500 uppercase">Cursor Style Split Diff</span>
-                        <button id="applyFixBtn" onclick="applyAIPatch()" disabled class="bg-emerald-500 text-slate-950 text-xs font-bold rounded h-6 px-3 opacity-30 cursor-not-allowed transition-all">Accept Fix</button>
-                    </div>
-                    <div id="diffEditorAnchor" class="flex-grow w-full bg-slate-950"></div>
-                </div>
-
-                <!-- OVERLAY INTERACTIVE LOADER -->
-                <div id="aiProcessingLoader" class="hidden absolute inset-0 bg-slate-950/85 backdrop-blur-xs flex flex-col items-center justify-center space-y-2
+                        <div class="code-box">
+&lt;button style="background: linear-gradient(45deg, #39FF14, #007FFF); color: black; border: none; padding: 12px 30px; border-radius: 6px; font-weight: bold;"&gt;Hover Me 🚀&lt;/button>
+                        </div>
+                    `;
+                } else {
+                    // 🛠️ बाकी सभी 100+ जनरल टूल्स के लिए डिफ़ॉल्ट स्मार्ट रिस्पॉन्स
+                    outputBox.innerHTML = `
+                        <h3 style="color: var(--accent-blue); margin-top:0;">🛠️ Scrutinix AI टूलकिट एक्टिव है!</h3>
+                        <p style="color: var(--text-main);">आपने सर्च किया: <strong>"${query}"</strong></p>
