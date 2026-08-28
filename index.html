@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intelligent Insights - AI SEO & Pro Plans</title>
+    <title>Intelligent Insights - AI SEO & Plans</title>
     
     <style>
         /* General Setup */
@@ -15,12 +15,13 @@
         }
 
         body {
-            background-color: #0b111e;
+            background-color: #0b111e; /* आपका पसंदीदा ओरिजिनल डार्क बैकग्राउंड */
             color: #ffffff;
             padding: 60px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
         }
 
         /* TOP NAVIGATION BAR */
@@ -46,15 +47,16 @@
             font-weight: 600;
         }
 
-        /* HERO SECTION (आपकी पसंदीदा बड़ी हेडिंग और विवरण) */
-        .hero-section {
+        /* ================= PAGE 1: HOME LANDING VIEW ================= */
+        .home-view-container {
             text-align: center;
             max-width: 750px;
-            margin-bottom: 50px;
+            margin-top: 40px;
+            display: block; /* शुरुआत में केवल यही दिखेगा */
         }
 
         .main-heading {
-            font-size: 2.6rem;
+            font-size: 2.8rem;
             font-weight: 800;
             line-height: 1.3;
             margin-bottom: 20px;
@@ -62,7 +64,7 @@
         }
 
         .cyan-text {
-            color: #00e5ff;
+            color: #00e5ff; /* चमकीला स्काई ब्लू */
         }
 
         .sub-text {
@@ -75,7 +77,6 @@
             margin-right: auto;
         }
 
-        /* DOWNLOAD FREE TOOLS BUTTON */
         .primary-btn {
             background-color: #4cc9f0;
             color: #0b111e;
@@ -87,57 +88,50 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(76, 201, 240, 0.4);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
         }
 
         .primary-btn:hover {
             background-color: #00b4d8;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(76, 201, 240, 0.6);
         }
 
-        /* 🆕 PRICING SECTION SYSTEM (शुरुआत में पूरी तरह छिपा रहेगा) */
-        .pricing-section {
+        /* ================= 🆕 PAGE 2: PRICING VIEW (क्लिक करने पर खुलने वाला नया पेज) ================= */
+        .pricing-page-view {
             width: 100%;
             max-width: 1000px;
             text-align: center;
-            margin-top: 40px;
-            margin-bottom: 60px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            padding-top: 60px;
-            display: none; /* Hidden by default */
-            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            display: none; /* शुरुआत में हिडन रहेगा */
+            animation: fadeInPage 0.4s ease-out forwards;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
         }
 
-        .pricing-section h2 {
+        .pricing-page-view h2 {
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 10px;
         }
 
-        .pricing-section p {
+        .pricing-page-view .pricing-subtitle {
             color: #94a3b8;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            font-size: 1.05rem;
         }
 
-        /* Monthly / Yearly Toggle Switch */
-        .toggle-container {
+        /* Personal, Education, Business Tabs */
+        .plan-tabs {
             display: inline-flex;
-            background-color: rgba(255, 255, 255, 0.04);
+            background-color: rgba(255, 255, 255, 0.03);
             padding: 4px;
             border-radius: 30px;
             margin-bottom: 45px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .toggle-btn {
+        .tab-btn {
             background: none;
             border: none;
             color: #94a3b8;
@@ -146,19 +140,19 @@
             font-weight: 600;
             cursor: pointer;
             border-radius: 25px;
-            transition: all 0.3s ease;
         }
 
-        .toggle-btn.active {
-            background-color: #ffffff;
-            color: #0b111e;
+        .tab-btn.active {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
         }
 
-        /* Cards Setup */
-        .pricing-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        /* 2 Columns Cards Layout */
+        .pricing-grid {
+            display: flex;
             gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
             width: 100%;
         }
 
@@ -168,7 +162,7 @@
             border-radius: 16px;
             padding: 40px 30px;
             text-align: left;
-            position: relative;
+            width: 340px;
             display: flex;
             flex-direction: column;
             transition: 0.3s;
@@ -212,7 +206,6 @@
         .price span {
             font-size: 0.9rem;
             color: #94a3b8;
-            font-weight: 400;
         }
 
         .billing-info {
@@ -258,34 +251,39 @@
             border: none;
             margin-top: auto;
             text-align: center;
-            transition: background 0.2s;
         }
 
-        .btn-pro {
-            background-color: #ffffff;
-            color: #0b111e;
+        .btn-pro { background-color: #ffffff; color: #0b111e; }
+        .btn-max { background-color: #00e5ff; color: #0b111e; }
+
+        /* बैक बटन का स्टाइल */
+        .back-home-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-bottom: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .btn-max {
-            background-color: #00e5ff;
-            color: #0b111e;
-        }
-
-        .card-btn:hover {
-            opacity: 0.9;
+        .back-home-btn:hover {
+            color: #ffffff;
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Navigation Tabs -->
-    <nav class="top-nav">
-        <span class="nav-item">Free plan</span>
+    <!-- Top Navigation Links -->
+    <nav class="top-nav" id="topNavLinks">
+        <span class="nav-item" id="navFreeLink">Free plan</span>
         <span class="nav-item upgrade-pro-link" id="upgradeProLink">Upgrade Pro</span>
     </nav>
 
-    <!-- Hero Header (आपकी पसंदीदा पुरानी बड़ी हेडिंग्स) -->
-    <header class="hero-section">
+    <!-- ================= PAGE 1: HOME VIEW ================= -->
+    <div class="home-view-container" id="homeView">
         <h1 class="main-heading">
             Free AI SEO & Website Growth Audit<br>
             <span class="cyan-text">Grow Your Business Faster 🚀</span>
@@ -296,21 +294,26 @@
         </p>
         
         <button class="primary-btn" id="downloadBtn">Download Free Tools ⚡</button>
-    </header>
+    </div>
 
-    <!-- PRICING SECTION (सिस्टम: क्लिक करने पर ही नीचे ओपन होकर दिखाई देगा) -->
-    <section class="pricing-section" id="pricingSection">
-        <h2>Select your plan</h2>
-        <p>Upgrade for a broader search experience and premium AI models.</p>
+    <!-- ================= PAGE 2: PRICING VIEW (नया पेज जो क्लिक पर खुलेगा) ================= -->
+    <div class="pricing-page-view" id="pricingView">
+        <!-- वापस होम पेज पर जाने के लिए बटन -->
+        <button class="back-home-btn" id="backToHome">← Back to Dashboard</button>
         
-        <div class="toggle-container">
-            <button class="toggle-btn active" id="monthlyBtn">Monthly</button>
-            <button class="toggle-btn" id="yearlyBtn">Yearly (Save 20%)</button>
+        <h2>Select your plan</h2>
+        <p class="pricing-subtitle">Upgrade for a broader search experience and premium AI models.</p>
+        
+        <!-- Tabs (Personal, Education, Business) -->
+        <div class="plan-tabs">
+            <button class="tab-btn active">Personal</button>
+            <button class="tab-btn">Education</button>
+            <button class="tab-btn">Business</button>
         </div>
 
-        <div class="pricing-container">
-            
-            <!-- Card 1: Perplexity Pro -->
+        <!-- 2 Pricing Cards ($5 & $15) -->
+        <div class="pricing-grid">
+            <!-- Pro Card -->
             <div class="price-card">
                 <div class="badge-container">
                     <span class="credit-badge">+$10 free Credits</span>
@@ -318,9 +321,8 @@
                 </div>
                 <div class="plan-name">perplexity pro</div>
                 <div class="plan-desc">Advanced answers and top AI models.</div>
-                
-                <div class="price" id="proPrice">US$5<span>/month</span></div>
-                <div class="billing-info" id="proBilling">Billed monthly, cancel anytime</div>
+                <div class="price">US$5<span>/month</span></div>
+                <div class="billing-info">Billed monthly, cancel anytime</div>
                 
                 <div class="features-title">Everything in Free and:</div>
                 <ul class="features">
@@ -331,10 +333,3 @@
                     <li>Select between AI models</li>
                     <li>Create polished documents & apps</li>
                 </ul>
-                <button class="card-btn btn-pro checkout-btn" data-plan="Perplexity Pro">Get Pro</button>
-            </div>
-
-            <!-- Card 2: Perplexity Max -->
-            <div class="price-card" style="border-color: rgba(0,229,255,0.2);">
-                <div class="badge-container">
-                    <span class="credit-badge">+$50 free Credits</span>
