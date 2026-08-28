@@ -14,8 +14,12 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
+        html {
+            scroll-behavior: smooth; /* क्लिक करने पर स्मूथ स्क्रॉल करने के लिए */
+        }
+
         body {
-            background-color: #0b111e;
+            background-color: #0b111e; /* ओरिजिनल डार्क बैकग्राउंड */
             color: #ffffff;
             padding: 60px 20px;
             display: flex;
@@ -38,6 +42,7 @@
         .nav-item {
             font-size: 0.95rem;
             color: #94a3b8;
+            text-decoration: none;
             cursor: pointer;
             transition: color 0.2s;
         }
@@ -47,12 +52,12 @@
             font-weight: 600;
         }
 
-        /* ================= PAGE 1: HOME LANDING VIEW ================= */
+        /* HOME HERO VIEW */
         .home-view-container {
             text-align: center;
             max-width: 750px;
             margin-top: 40px;
-            display: block; /* शुरुआत में केवल यह दिखेगा */
+            margin-bottom: 100px;
         }
 
         .main-heading {
@@ -72,11 +77,9 @@
             color: #94a3b8;
             margin-bottom: 35px;
             line-height: 1.6;
-            max-width: 650px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
+        /* ROUNDED CYAN BUTTON */
         .primary-btn {
             background-color: #4cc9f0;
             color: #0b111e;
@@ -85,9 +88,13 @@
             font-size: 1.1rem;
             font-weight: 600;
             border-radius: 30px;
+            text-decoration: none;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(76, 201, 240, 0.4);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .primary-btn:hover {
@@ -95,68 +102,44 @@
             transform: translateY(-2px);
         }
 
-        /* ================= PAGE 2: PRICING VIEW ================= */
-        .pricing-page-view {
+        /* SIMPLE PRICING SECTION */
+        .pricing-section {
             width: 100%;
-            max-width: 1000px;
+            max-width: 1100px;
             text-align: center;
-            display: none; /* शुरुआत में हिडन रहेगा */
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 60px;
+            margin-top: 40px;
         }
 
-        .pricing-page-view h2 {
+        .pricing-section h2 {
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 10px;
         }
 
-        .pricing-page-view .pricing-subtitle {
+        .pricing-section p {
             color: #94a3b8;
-            margin-bottom: 30px;
+            margin-bottom: 45px;
             font-size: 1.05rem;
         }
 
-        /* Personal, Education, Business Tabs */
-        .plan-tabs {
-            display: inline-flex;
-            background-color: rgba(255, 255, 255, 0.03);
-            padding: 4px;
-            border-radius: 30px;
-            margin-bottom: 45px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .tab-btn {
-            background: none;
-            border: none;
-            color: #94a3b8;
-            padding: 8px 24px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 25px;
-        }
-
-        .tab-btn.active {
-            background-color: rgba(255, 255, 255, 0.08);
-            color: #ffffff;
-        }
-
-        /* 2 Columns Cards Layout */
+        /* 3 Columns Cards Layout */
         .pricing-grid {
             display: flex;
-            gap: 30px;
+            gap: 25px;
             justify-content: center;
             flex-wrap: wrap;
             width: 100%;
         }
 
         .price-card {
-            background-color: rgba(255, 255, 255, 0.01);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            padding: 40px 30px;
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 35px 25px;
             text-align: left;
-            width: 340px;
+            width: 300px;
             display: flex;
             flex-direction: column;
             transition: 0.3s;
@@ -167,63 +150,55 @@
             transform: translateY(-4px);
         }
 
-        .badge-container {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        /* Featured या मुख्य प्लान को अलग दिखाने के लिए */
+        .price-card.featured {
+            border-color: rgba(0, 229, 255, 0.3);
+            background-color: rgba(0, 229, 255, 0.01);
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-transform: capitalize;
+        }
+
+        .plan-sub {
+            font-size: 0.9rem;
+            color: #94a3b8;
             margin-bottom: 20px;
         }
 
-        .credit-badge { color: #00e5ff; font-weight: 600; }
-        .time-badge { color: #94a3b8; }
-
-        .plan-name {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .plan-desc {
-            font-size: 0.95rem;
-            color: #94a3b8;
-            margin-bottom: 25px;
-        }
-
         .price {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 5px;
+            margin-bottom: 25px;
         }
 
         .price span {
             font-size: 0.9rem;
             color: #94a3b8;
-        }
-
-        .billing-info {
-            font-size: 0.85rem;
-            color: #64748b;
-            margin-bottom: 30px;
+            font-weight: 400;
         }
 
         .features-title {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #94a3b8;
             margin-bottom: 15px;
-            font-weight: 600;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .features {
             list-style: none;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
         }
 
         .features li {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #cbd5e1;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
         }
@@ -231,53 +206,53 @@
         .features li::before {
             content: "✓";
             color: #00e5ff;
-            margin-right: 12px;
+            margin-right: 10px;
             font-weight: bold;
         }
 
         .card-btn {
             width: 100%;
-            padding: 14px;
-            border-radius: 25px;
+            padding: 12px;
+            border-radius: 8px;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
-            border: none;
+            border: 1px solid rgba(255, 255, 255, 0.15);
             margin-top: auto;
             text-align: center;
-        }
-
-        .btn-pro { background-color: #ffffff; color: #0b111e; }
-        .btn-max { background-color: #00e5ff; color: #0b111e; }
-
-        /* बैक बटन का स्टाइल */
-        .back-home-btn {
-            background: none;
-            border: none;
-            color: #94a3b8;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-bottom: 30px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .back-home-btn:hover {
+            background: transparent;
             color: #ffffff;
+            transition: 0.2s;
+        }
+
+        .price-card.featured .card-btn {
+            background-color: #00e5ff;
+            color: #0b111e;
+            border: none;
+        }
+
+        .card-btn:hover {
+            background-color: #ffffff;
+            color: #0b111e;
+            border-color: #ffffff;
+        }
+
+        .price-card.featured .card-btn:hover {
+            background-color: #00b4d8;
         }
     </style>
 </head>
 <body>
 
     <!-- Top Navigation Links -->
-    <nav class="top-nav" id="topNavLinks">
-        <span class="nav-item" id="navFreeLink">Free plan</span>
-        <span class="nav-item upgrade-pro-link" id="upgradeProLink">Upgrade Pro</span>
+    <nav class="top-nav">
+        <a href="#" class="nav-item">Free plan</a>
+        <!-- HTML Anchor लिंक: यह सीधे नीचे #pricingView पर स्क्रॉल करेगा -->
+        <a href="#pricingView" class="nav-item upgrade-pro-link">Upgrade Pro</a>
     </nav>
 
-    <!-- ================= PAGE 1: HOME VIEW ================= -->
-    <div class="home-view-container" id="homeView">
+    <!-- HOME HERO VIEW SECTION -->
+    <div class="home-view-container">
         <h1 class="main-heading">
             Free AI SEO & Website Growth Audit<br>
             <span class="cyan-text">Grow Your Business Faster 🚀</span>
@@ -287,51 +262,65 @@
             Check your website's SEO, speed, content and technical issues in seconds. Get actionable recommendations to improve your Google visibility and grow your business.
         </p>
         
-        <button class="primary-btn" id="downloadBtn">Download Free Tools ⚡</button>
+        <!-- HTML Anchor बटन: यह भी सीधे नीचे #pricingView पर स्क्रॉल करेगा -->
+        <a href="#pricingView" class="primary-btn">Download Free Tools ⚡</a>
     </div>
 
-    <!-- ================= PAGE 2: PRICING VIEW ================= -->
-    <div class="pricing-page-view" id="pricingView">
-        <button class="back-home-btn" id="backToHome">← Back to Dashboard</button>
-        
+    <!-- SIMPLE PRICING SECTION -->
+    <section class="pricing-section" id="pricingView">
         <h2>Select your plan</h2>
-        <p class="pricing-subtitle">Upgrade for a broader search experience and premium AI models.</p>
+        <p>Upgrade for a broader search experience and premium AI models.</p>
         
-        <div class="plan-tabs">
-            <button class="tab-btn active">Personal</button>
-            <button class="tab-btn">Education</button>
-            <button class="tab-btn">Business</button>
-        </div>
-
         <div class="pricing-grid">
-            <!-- Pro Card -->
+            
+            <!-- Card 1: Hobby (Free) -->
             <div class="price-card">
-                <div class="badge-container">
-                    <span class="credit-badge">+$10 free Credits</span>
-                    <span class="time-badge">⏱️ Limited Time</span>
-                </div>
-                <div class="plan-name">perplexity pro</div>
-                <div class="plan-desc">Advanced answers and top AI models.</div>
-                <div class="price">US $5<span>/month</span></div>
-                <div class="billing-info">Billed monthly, cancel anytime</div>
-                
-                <div class="features-title">Everything in Free and:</div>
+                <div class="plan-name">Hobby</div>
+                <div class="plan-sub">Free plan</div>
+                <div class="price">$0</div>
+                <div class="features-title">Includes:</div>
                 <ul class="features">
-                    <li>Expanded computer access</li>
-                    <li>1,000 bonus credits</li>
+                    <li>No credit card required</li>
+                    <li>Limited daily tools</li>
+                    <li>Basic web audit tool</li>
+                </ul>
+                <button class="card-btn" onclick="alert('You are already on the Free Plan!')">Current Plan</button>
+            </div>
+
+            <!-- Card 2: Individual Pro ($5) -->
+            <div class="price-card featured">
+                <div class="plan-name">Individual Pro</div>
+                <div class="plan-sub">For Professionals</div>
+                <div class="price">$5<span>/month</span></div>
+                <div class="features-title">Everything in Free, plus:</div>
+                <ul class="features">
                     <li>Deep research capability</li>
                     <li>Access to top AI models</li>
                     <li>Select between AI models</li>
-                    <li>Create polished documents & apps</li>
+                    <li>Advanced website audit</li>
+                    <li>24/7 Priority support</li>
                 </ul>
-                <button class="card-btn btn-pro checkout-btn" data-plan="Perplexity Pro">Get Pro</button>
+                <button class="card-btn" onclick="alert('Opening secure payment gateway for Pro Plan... 🛒')">Get Pro</button>
             </div>
 
-            <!-- Max Card -->
-            <div class="price-card" style="border-color: rgba(0,229,255,0.2);">
-                <div class="badge-container">
-                    <span class="credit-badge">+$50 free Credits</span>
-                    <span class="time-badge">⏱️ Limited Time</span>
-                </div>
-                <div class="plan-name">perplexity max</div>
-                <div class="plan-desc">Unlimited usage and top performance.</div>
+            <!-- Card 3: Teams ($15) -->
+            <div class="price-card">
+                <div class="plan-name">Teams</div>
+                <div class="plan-sub">For fast growing teams</div>
+                <div class="price">$15<span>/month</span></div>
+                <div class="features-title">Everything in Pro, plus:</div>
+                <ul class="features">
+                    <li>Centralized team billing</li>
+                    <li>Shared team context</li>
+                    <li>Highest usage limits</li>
+                    <li>Expert level research</li>
+                    <li>Priority access to features</li>
+                </ul>
+                <button class="card-btn" onclick="alert('Opening secure payment gateway for Teams Plan... 🛒')">Try Teams</button>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>
