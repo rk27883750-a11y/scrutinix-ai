@@ -15,7 +15,7 @@
         }
 
         body {
-            background-color: #0b111e; /* आपका पसंदीदा ओरिजिनल डार्क बैकग्राउंड */
+            background-color: #0b111e;
             color: #ffffff;
             padding: 60px 20px;
             display: flex;
@@ -52,7 +52,7 @@
             text-align: center;
             max-width: 750px;
             margin-top: 40px;
-            display: block; /* शुरुआत में केवल यही दिखेगा */
+            display: block; /* शुरुआत में केवल यह दिखेगा */
         }
 
         .main-heading {
@@ -64,7 +64,7 @@
         }
 
         .cyan-text {
-            color: #00e5ff; /* चमकीला स्काई ब्लू */
+            color: #00e5ff;
         }
 
         .sub-text {
@@ -95,18 +95,12 @@
             transform: translateY(-2px);
         }
 
-        /* ================= 🆕 PAGE 2: PRICING VIEW (क्लिक करने पर खुलने वाला नया पेज) ================= */
+        /* ================= PAGE 2: PRICING VIEW ================= */
         .pricing-page-view {
             width: 100%;
             max-width: 1000px;
             text-align: center;
             display: none; /* शुरुआत में हिडन रहेगा */
-            animation: fadeInPage 0.4s ease-out forwards;
-        }
-
-        @keyframes fadeInPage {
-            from { opacity: 0; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
         }
 
         .pricing-page-view h2 {
@@ -296,22 +290,19 @@
         <button class="primary-btn" id="downloadBtn">Download Free Tools ⚡</button>
     </div>
 
-    <!-- ================= PAGE 2: PRICING VIEW (नया पेज जो क्लिक पर खुलेगा) ================= -->
+    <!-- ================= PAGE 2: PRICING VIEW ================= -->
     <div class="pricing-page-view" id="pricingView">
-        <!-- वापस होम पेज पर जाने के लिए बटन -->
         <button class="back-home-btn" id="backToHome">← Back to Dashboard</button>
         
         <h2>Select your plan</h2>
         <p class="pricing-subtitle">Upgrade for a broader search experience and premium AI models.</p>
         
-        <!-- Tabs (Personal, Education, Business) -->
         <div class="plan-tabs">
             <button class="tab-btn active">Personal</button>
             <button class="tab-btn">Education</button>
             <button class="tab-btn">Business</button>
         </div>
 
-        <!-- 2 Pricing Cards ($5 & $15) -->
         <div class="pricing-grid">
             <!-- Pro Card -->
             <div class="price-card">
@@ -321,7 +312,7 @@
                 </div>
                 <div class="plan-name">perplexity pro</div>
                 <div class="plan-desc">Advanced answers and top AI models.</div>
-                <div class="price">US$5<span>/month</span></div>
+                <div class="price">US $5<span>/month</span></div>
                 <div class="billing-info">Billed monthly, cancel anytime</div>
                 
                 <div class="features-title">Everything in Free and:</div>
@@ -333,3 +324,14 @@
                     <li>Select between AI models</li>
                     <li>Create polished documents & apps</li>
                 </ul>
+                <button class="card-btn btn-pro checkout-btn" data-plan="Perplexity Pro">Get Pro</button>
+            </div>
+
+            <!-- Max Card -->
+            <div class="price-card" style="border-color: rgba(0,229,255,0.2);">
+                <div class="badge-container">
+                    <span class="credit-badge">+$50 free Credits</span>
+                    <span class="time-badge">⏱️ Limited Time</span>
+                </div>
+                <div class="plan-name">perplexity max</div>
+                <div class="plan-desc">Unlimited usage and top performance.</div>
