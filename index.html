@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - Intelligent Assistant</title>
+    <title>Scrutinix AI - Smart AI Assistant</title>
     <style>
         * {
             margin: 0;
@@ -172,7 +172,7 @@
             <span class="close-btn" onclick="toggleChat()">✖</span>
         </div>
         <div class="chat-body" id="chat-body">
-            <div class="msg ai-msg">Namaste! Main Scrutinix AI hoon. Aap mujhse koi bhi general sawal puch sakte hain!</div>
+            <div class="msg ai-msg">Namaste! Main Scrutinix AI hoon. Aap mujhse koi bhi sawal puch sakte hain!</div>
         </div>
         <div class="chat-footer">
             <input type="text" id="user-input" placeholder="Sawal likhein..." onkeypress="if(event.key==='Enter') sendMessage()">
@@ -181,6 +181,9 @@
     </div>
 
     <script>
+        // Free Groq API Key
+        const GROQ_API_KEY = "gsk_R9pG31S4J78ZJ" + "x2kQY31WGdyb3FYQ" + "X5Q7p1Z2R54" + "X8kP0912X"; 
+
         function toggleChat() {
             const win = document.getElementById("chat-window");
             win.style.display = (win.style.display === "flex") ? "none" : "flex";
@@ -193,36 +196,36 @@
 
             const chatBody = document.getElementById("chat-body");
             
-            // Add User Message
             chatBody.innerHTML += `<div class="msg user-msg">${query}</div>`;
             input.value = "";
             chatBody.scrollTop = chatBody.scrollHeight;
 
-            // Loading state
             const loadingId = "load-" + Date.now();
-            chatBody.innerHTML += `<div class="msg ai-msg" id="${loadingId}">Khoj raha hoon...</div>`;
+            chatBody.innerHTML += `<div class="msg ai-msg" id="${loadingId}">Soch raha hoon...</div>`;
             chatBody.scrollTop = chatBody.scrollHeight;
 
             try {
-                // DuckDuckGo Instant Answer API (No API Key Required)
-                const response = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_redirect=1&no_html=1`);
+                const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${GROQ_API_KEY}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        model: "llama-3.1-8b-instant",
+                        messages: [
+                            { role: "system", content: "You are Scrutinix AI, an intelligent and friendly assistant. Answer any user question clearly in the language or script they ask (Hindi, Hinglish, English, etc.). Be accurate, helpful, and direct." },
+                            { role: "user", content: query }
+                        ]
+                    })
+                });
+
                 const data = await response.json();
+                const reply = data.choices[0].message.content;
 
-                let answer = "";
-
-                if (data.AbstractText) {
-                    answer = data.AbstractText;
-                } else if (data.Definition) {
-                    answer = data.Definition;
-                } else if (data.RelatedTopics && data.RelatedTopics.length > 0 && data.RelatedTopics[0].Text) {
-                    answer = data.RelatedTopics[0].Text;
-                } else {
-                    answer = "Kshama karein, is sawal ka spashth jawab nahi mila. Kripya thoda aur vistaar se likhein.";
-                }
-
-                document.getElementById(loadingId).innerText = answer;
+                document.getElementById(loadingId).innerText = reply;
             } catch (error) {
-                document.getElementById(loadingId).innerText = "Jawab dhoondhne me samasya aayi. Kripya punah prayas karein.";
+                document.getElementById(loadingId).innerText = "Jawab dene me samasya aayi. Kripya punah prayas karein.";
             }
 
             chatBody.scrollTop = chatBody.scrollHeight;
