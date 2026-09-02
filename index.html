@@ -3,228 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI</title>
+    <title>Scrutinix AI Store</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background-color: #0f172a; color: #fff; padding: 20px; }
+        
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 1000px; margin: 40px auto; }
+        .product-card { background: #1e293b; border: 1px solid #334155; padding: 15px; border-radius: 10px; text-align: center; }
+        .product-card h3 { margin: 10px 0; color: #38bdf8; }
+        .price { font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; color: #4ade80; }
+        .add-btn { background: #0284c7; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; }
+        .add-btn:hover { background: #0369a1; }
 
-        body {
-            background-color: #0f172a;
-            color: #ffffff;
-            padding: 60px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
+        /* Floating Cart Icon */
+        #cart-icon-btn { position: fixed; top: 20px; right: 20px; background: #0284c7; color: white; border: none; padding: 12px 18px; border-radius: 30px; cursor: pointer; font-weight: bold; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        #cart-count { background: #ef4444; padding: 2px 8px; border-radius: 50%; font-size: 12px; margin-left: 5px; }
 
-        .container {
-            width: 100%;
-            max-width: 800px;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: #38bdf8;
-        }
-
-        p {
-            color: #94a3b8;
-            font-size: 1.1rem;
-        }
-
-        /* Floating Button */
-        #chat-btn {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: #0284c7;
-            color: #ffffff;
-            border: none;
-            padding: 14px 22px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 15px;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
-        }
-
-        #chat-btn:hover {
-            background: #0369a1;
-        }
-
-        /* Chat Window */
-        #chat-window {
-            display: none;
-            position: fixed;
-            bottom: 85px;
-            right: 25px;
-            width: 360px;
-            height: 480px;
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-        }
-
-        .chat-header {
-            background: #0284c7;
-            padding: 14px 18px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .close-btn {
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        .chat-body {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            font-size: 14px;
-        }
-
-        .msg {
-            padding: 10px 14px;
-            border-radius: 8px;
-            max-width: 85%;
-            line-height: 1.4;
-            word-wrap: break-word;
-        }
-
-        .user-msg {
-            background: #0284c7;
-            align-self: flex-end;
-            color: #ffffff;
-        }
-
-        .ai-msg {
-            background: #334155;
-            align-self: flex-start;
-            color: #f1f5f9;
-        }
-
-        .chat-footer {
-            padding: 12px;
-            background: #0f172a;
-            display: flex;
-            gap: 8px;
-            border-top: 1px solid #334155;
-        }
-
-        .chat-footer input {
-            flex: 1;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #334155;
-            background: #1e293b;
-            color: #ffffff;
-            outline: none;
-        }
-
-        .chat-footer button {
-            background: #0284c7;
-            color: #ffffff;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-        }
+        /* Cart Sidebar Drawer */
+        #cart-sidebar { display: none; position: fixed; top: 0; right: 0; width: 320px; height: 100%; background: #1e293b; border-left: 1px solid #334155; padding: 20px; flex-direction: column; z-index: 1000; box-shadow: -5px 0 15px rgba(0,0,0,0.5); }
+        .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 10px; }
+        .cart-items { flex: 1; overflow-y: auto; margin-top: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; background: #0f172a; padding: 10px; border-radius: 6px; }
+        .remove-btn { background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        .cart-footer { border-top: 1px solid #334155; padding-top: 15px; margin-top: 10px; }
+        .checkout-btn { background: #22c55e; color: white; border: none; padding: 12px; border-radius: 6px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Scrutinix AI</h1>
-        <p>Welcome to Scrutinix AI. Ask any question using the chat widget below!</p>
+    <!-- Floating Cart Button -->
+    <button id="cart-icon-btn" onclick="toggleCartDrawer()">🛒 Cart <span id="cart-count">0</span></button>
+
+    <!-- Product Showcase -->
+    <div class="products-grid">
+        <div class="product-card">
+            <h3>AI Prompt eBook</h3>
+            <div class="price">₹199</div>
+            <button class="add-btn" onclick="addToCart('AI Prompt eBook', 199)">Add to Cart</button>
+        </div>
+        <div class="product-card">
+            <h3>SEO Audit Tool</h3>
+            <div class="price">₹499</div>
+            <button class="add-btn" onclick="addToCart('SEO Audit Tool', 499)">Add to Cart</button>
+        </div>
     </div>
 
-    <!-- Floating Chat Button -->
-    <button id="chat-btn" onclick="toggleChat()">💬 Chat Assistant</button>
-
-    <!-- Chat Box -->
-    <div id="chat-window">
-        <div class="chat-header">
-            <span>Scrutinix AI Assistant</span>
-            <span class="close-btn" onclick="toggleChat()">✖</span>
+    <!-- Cart Sidebar Modal -->
+    <div id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <span style="cursor:pointer;" onclick="toggleCartDrawer()">✖</span>
         </div>
-        <div class="chat-body" id="chat-body">
-            <div class="msg ai-msg">Namaste! Main Scrutinix AI hoon. Aap mujhse koi bhi sawal puch sakte hain!</div>
+        <div class="cart-items" id="cart-items-container">
+            <p style="color:#94a3b8; text-align:center;">Cart is empty</p>
         </div>
-        <div class="chat-footer">
-            <input type="text" id="user-input" placeholder="Sawal likhein..." onkeypress="if(event.key==='Enter') sendMessage()">
-            <button onclick="sendMessage()">Send</button>
+        <div class="cart-footer">
+            <div style="display:flex; justify-content:space-between; font-weight:bold;">
+                <span>Total Amount:</span>
+                <span id="cart-total">₹0</span>
+            </div>
+            <button class="checkout-btn" onclick="proceedToCheckout()">Checkout / Buy Now</button>
         </div>
     </div>
 
     <script>
-        function toggleChat() {
-            const win = document.getElementById("chat-window");
-            win.style.display = (win.style.display === "flex") ? "none" : "flex";
+        let cart = [];
+
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cart-sidebar');
+            drawer.style.display = drawer.style.display === 'flex' ? 'none' : 'flex';
         }
 
-        async function sendMessage() {
-            const input = document.getElementById("user-input");
-            const query = input.value.trim();
-            if (!query) return;
+        function addToCart(name, price) {
+            cart.push({ id: Date.now(), name: name, price: price });
+            updateCartUI();
+            toggleCartDrawer();
+        }
 
-            const chatBody = document.getElementById("chat-body");
-            
-            chatBody.innerHTML += `<div class="msg user-msg">${query}</div>`;
-            input.value = "";
-            chatBody.scrollTop = chatBody.scrollHeight;
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+        }
 
-            const loadingId = "load-" + Date.now();
-            chatBody.innerHTML += `<div class="msg ai-msg" id="${loadingId}">Soch raha hoon...</div>`;
-            chatBody.scrollTop = chatBody.scrollHeight;
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            const countEl = document.getElementById('cart-count');
+            const totalEl = document.getElementById('cart-total');
 
-            const apiKey = "gsk_R9pG31S4J78ZJx2kQY31WGdyb3FYQX5Q7p1Z2R54X8kP0912X";
+            countEl.innerText = cart.length;
 
-            try {
-                const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                    method: "POST",
-                    headers: {
-                        "Authorization": "Bearer " + apiKey,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        model: "llama-3.1-8b-instant",
-                        messages: [
-                            { role: "system", content: "You are Scrutinix AI, an intelligent assistant. Answer user questions accurately in Hindi, Hinglish, or English." },
-                            { role: "user", content: query }
-                        ]
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.choices && data.choices[0]) {
-                    document.getElementById(loadingId).innerText = data.choices[0].message.content;
-                } else {
-                    document.getElementById(loadingId).innerText = "Jawab me samasya aayi, punah try karein.";
-                }
-            } catch (error) {
-                document.getElementById(loadingId).innerText = "Connection error. Network check karein.";
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="color:#94a3b8; text-align:center;">Cart is empty</p>';
+                totalEl.innerText = '₹0';
+                return;
             }
 
-            chatBody.scrollTop = chatBody.scrollHeight;
+            let html = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                total += item.price;
+                html += `
+                    <div class="cart-item">
+                        <div>
+                            <div style="font-weight:bold;">${item.name}</div>
+                            <div style="color:#4ade80; font-size:13px;">₹${item.price}</div>
+                        </div>
+                        <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            totalEl.innerText = '₹' + total;
+        }
+
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                alert("Aapka cart khali hai!");
+                return;
+            }
+            // Payment Gateway link ya redirect logic yahan aayega
+            alert("Redirecting to Payment Gateway...");
         }
     </script>
 </body>
