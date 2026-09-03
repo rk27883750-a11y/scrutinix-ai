@@ -6,126 +6,191 @@
     <title>Scrutinix AI Store</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-        body { background-color: #0f172a; color: #fff; padding: 20px; }
+        body { background-color: #f1f2f6; color: #333; padding-bottom: 70px; }
+
+        /* Header */
+        header { background: #2874f0; color: white; padding: 12px 16px; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.2rem; font-weight: bold; }
+        .search-box input { padding: 8px 12px; border: none; border-radius: 4px; width: 100%; max-width: 300px; outline: none; }
+
+        /* Control Bar (Sort & Filter) */
+        .controls { display: flex; background: #fff; border-bottom: 1px solid #ddd; position: sticky; top: 50px; z-index: 90; }
+        .controls button, .controls select { flex: 1; padding: 12px; border: none; background: transparent; font-weight: bold; font-size: 14px; border-right: 1px solid #ddd; outline: none; cursor: pointer; }
+
+        /* Product Grid */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; padding: 10px; }
+        .card { background: #fff; border-radius: 6px; padding: 10px; position: relative; border: 1px solid #e0e0e0; display: flex; flex-direction: column; justify-content: space-between; }
+        .wishlist-btn { position: absolute; top: 10px; right: 10px; background: #fff; border: 1px solid #ddd; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #ccc; font-size: 16px; }
+        .wishlist-btn.active { color: #ff4757; border-color: #ff4757; }
         
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 1000px; margin: 40px auto; }
-        .product-card { background: #1e293b; border: 1px solid #334155; padding: 15px; border-radius: 10px; text-align: center; }
-        .product-card h3 { margin: 10px 0; color: #38bdf8; }
-        .price { font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; color: #4ade80; }
-        .add-btn { background: #0284c7; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; }
-        .add-btn:hover { background: #0369a1; }
+        .card img { width: 100%; height: 160px; object-fit: contain; border-radius: 4px; }
+        .card-title { font-size: 14px; font-weight: bold; margin: 8px 0 4px 0; color: #212121; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+        
+        .rating-badge { background: #388e3c; color: white; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; display: inline-block; width: max-content; margin-bottom: 6px; }
+        
+        .price-section { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+        .selling-price { font-weight: bold; font-size: 16px; color: #212121; }
+        .mrp { text-decoration: line-through; color: #878787; font-size: 12px; }
+        .discount { color: #388e3c; font-size: 12px; font-weight: bold; }
+        
+        .add-cart-btn { background: #ff9f00; color: white; border: none; padding: 8px; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; }
 
-        /* Floating Cart Icon */
-        #cart-icon-btn { position: fixed; top: 20px; right: 20px; background: #0284c7; color: white; border: none; padding: 12px 18px; border-radius: 30px; cursor: pointer; font-weight: bold; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        #cart-count { background: #ef4444; padding: 2px 8px; border-radius: 50%; font-size: 12px; margin-left: 5px; }
-
-        /* Cart Sidebar Drawer */
-        #cart-sidebar { display: none; position: fixed; top: 0; right: 0; width: 320px; height: 100%; background: #1e293b; border-left: 1px solid #334155; padding: 20px; flex-direction: column; z-index: 1000; box-shadow: -5px 0 15px rgba(0,0,0,0.5); }
-        .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 10px; }
+        /* Floating Cart & Sidebar */
+        #cart-sidebar { display: none; position: fixed; top: 0; right: 0; width: 320px; height: 100%; background: #fff; border-left: 1px solid #ddd; padding: 20px; flex-direction: column; z-index: 1000; box-shadow: -5px 0 15px rgba(0,0,0,0.2); }
+        .cart-header { display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; padding-bottom: 10px; font-weight: bold; }
         .cart-items { flex: 1; overflow-y: auto; margin-top: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; background: #0f172a; padding: 10px; border-radius: 6px; }
-        .remove-btn { background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; }
-        .cart-footer { border-top: 1px solid #334155; padding-top: 15px; margin-top: 10px; }
-        .checkout-btn { background: #22c55e; color: white; border: none; padding: 12px; border-radius: 6px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; background: #f8f9fa; padding: 8px; border-radius: 4px; border: 1px solid #eee; }
+        .checkout-btn { background: #fb641b; color: white; border: none; padding: 12px; border-radius: 4px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px; }
+
+        /* Bottom Navigation Bar (Flipkart Style) */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 1px solid #ddd; display: flex; justify-content: space-around; padding: 8px 0; z-index: 99; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; color: #666; cursor: pointer; text-decoration: none; }
+        .nav-item.active { color: #2874f0; font-weight: bold; }
+        .nav-icon { font-size: 18px; margin-bottom: 2px; }
     </style>
 </head>
 <body>
 
-    <!-- Floating Cart Button -->
-    <button id="cart-icon-btn" onclick="toggleCartDrawer()">🛒 Cart <span id="cart-count">0</span></button>
-
-    <!-- Product Showcase -->
-    <div class="products-grid">
-        <div class="product-card">
-            <h3>AI Prompt eBook</h3>
-            <div class="price">₹199</div>
-            <button class="add-btn" onclick="addToCart('AI Prompt eBook', 199)">Add to Cart</button>
+    <!-- Header -->
+    <header>
+        <div class="logo">Scrutinix AI</div>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search products..." onkeyup="filterProducts()">
         </div>
-        <div class="product-card">
-            <h3>SEO Audit Tool</h3>
-            <div class="price">₹499</div>
-            <button class="add-btn" onclick="addToCart('SEO Audit Tool', 499)">Add to Cart</button>
+    </header>
+
+    <!-- Controls Bar -->
+    <div class="controls">
+        <select id="sortSelect" onchange="sortProducts()">
+            <option value="default">Sort By: Featured</option>
+            <option value="lowToHigh">Price: Low to High</option>
+            <option value="highToLow">Price: High to Low</option>
+        </select>
+        <button onclick="toggleCartDrawer()">🛒 Cart (<span id="cartCount">0</span>)</button>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="product-grid" id="productGrid"></div>
+
+    <!-- Cart Drawer -->
+    <div id="cart-sidebar">
+        <div class="cart-header">
+            <span>My Cart</span>
+            <span style="cursor:pointer;" onclick="toggleCartDrawer()">✖</span>
+        </div>
+        <div class="cart-items" id="cartContainer"></div>
+        <div style="border-top:1px solid #ddd; padding-top:10px;">
+            <div style="display:flex; justify-content:space-between; font-weight:bold;">
+                <span>Total:</span>
+                <span id="cartTotal">₹0</span>
+            </div>
+            <button class="checkout-btn" onclick="alert('Proceeding to Checkout!')">PLACE ORDER</button>
         </div>
     </div>
 
-    <!-- Cart Sidebar Modal -->
-    <div id="cart-sidebar">
-        <div class="cart-header">
-            <h3>Your Cart</h3>
-            <span style="cursor:pointer;" onclick="toggleCartDrawer()">✖</span>
-        </div>
-        <div class="cart-items" id="cart-items-container">
-            <p style="color:#94a3b8; text-align:center;">Cart is empty</p>
-        </div>
-        <div class="cart-footer">
-            <div style="display:flex; justify-content:space-between; font-weight:bold;">
-                <span>Total Amount:</span>
-                <span id="cart-total">₹0</span>
-            </div>
-            <button class="checkout-btn" onclick="proceedToCheckout()">Checkout / Buy Now</button>
-        </div>
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <div class="nav-item active"><span class="nav-icon">🏠</span>Home</div>
+        <div class="nav-item"><span class="nav-icon">🏷️</span>Categories</div>
+        <div class="nav-item" onclick="toggleCartDrawer()"><span class="nav-icon">🛒</span>Cart</div>
+        <div class="nav-item"><span class="nav-icon">👤</span>Account</div>
     </div>
 
     <script>
+        const products = [
+            { id: 1, title: "AI Prompt eBook 2026", mrp: 1999, price: 268, rating: "4.2 ★", img: "https://via.placeholder.com/150/0284c7/ffffff?text=eBook" },
+            { id: 2, title: "SEO Audit Tool Script", mrp: 2499, price: 565, rating: "4.5 ★", img: "https://via.placeholder.com/150/22c55e/ffffff?text=SEO+Tool" },
+            { id: 3, title: "GST Reconciliation AI", mrp: 1500, price: 344, rating: "3.9 ★", img: "https://via.placeholder.com/150/eab308/ffffff?text=GST+Tool" },
+            { id: 4, title: "Python Automation Suite", mrp: 2999, price: 899, rating: "4.8 ★", img: "https://via.placeholder.com/150/ef4444/ffffff?text=Python+Code" }
+        ];
+
         let cart = [];
+        let currentProducts = [...products];
+
+        function renderProducts(data) {
+            const grid = document.getElementById("productGrid");
+            grid.innerHTML = "";
+            data.forEach(p => {
+                const discount = Math.round(((p.mrp - p.price) / p.mrp) * 100);
+                grid.innerHTML += `
+                    <div class="card">
+                        <button class="wishlist-btn" onclick="toggleWishlist(this)">♥</button>
+                        <img src="${p.img}" alt="${p.title}">
+                        <div class="card-title">${p.title}</div>
+                        <div class="rating-badge">${p.rating}</div>
+                        <div class="price-section">
+                            <span class="selling-price">₹${p.price}</span>
+                            <span class="mrp">₹${p.mrp}</span>
+                            <span class="discount">${discount}% off</span>
+                        </div>
+                        <button class="add-cart-btn" onclick="addToCart('${p.title}', ${p.price})">Add to Cart</button>
+                    </div>
+                `;
+            });
+        }
+
+        function toggleWishlist(btn) {
+            btn.classList.toggle("active");
+        }
+
+        function filterProducts() {
+            const query = document.getElementById("searchInput").value.toLowerCase();
+            const filtered = products.filter(p => p.title.toLowerCase().includes(query));
+            renderProducts(filtered);
+        }
+
+        function sortProducts() {
+            const val = document.getElementById("sortSelect").value;
+            let sorted = [...currentProducts];
+            if (val === "lowToHigh") sorted.sort((a,b) => a.price - b.price);
+            if (val === "highToLow") sorted.sort((a,b) => b.price - a.price);
+            renderProducts(sorted);
+        }
 
         function toggleCartDrawer() {
-            const drawer = document.getElementById('cart-sidebar');
-            drawer.style.display = drawer.style.display === 'flex' ? 'none' : 'flex';
+            const drawer = document.getElementById("cart-sidebar");
+            drawer.style.display = drawer.style.display === "flex" ? "none" : "flex";
         }
 
         function addToCart(name, price) {
-            cart.push({ id: Date.now(), name: name, price: price });
-            updateCartUI();
+            cart.push({ name, price });
+            updateCart();
             toggleCartDrawer();
         }
 
-        function removeFromCart(id) {
-            cart = cart.filter(item => item.id !== id);
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            const container = document.getElementById('cart-items-container');
-            const countEl = document.getElementById('cart-count');
-            const totalEl = document.getElementById('cart-total');
-
-            countEl.innerText = cart.length;
-
+        function updateCart() {
+            document.getElementById("cartCount").innerText = cart.length;
+            const container = document.getElementById("cartContainer");
             if (cart.length === 0) {
-                container.innerHTML = '<p style="color:#94a3b8; text-align:center;">Cart is empty</p>';
-                totalEl.innerText = '₹0';
+                container.innerHTML = "<p style='text-align:center;'>Cart is empty</p>";
+                document.getElementById("cartTotal").innerText = "₹0";
                 return;
             }
-
-            let html = '';
+            let html = "";
             let total = 0;
-
-            cart.forEach(item => {
+            cart.forEach((item, index) => {
                 total += item.price;
                 html += `
                     <div class="cart-item">
                         <div>
-                            <div style="font-weight:bold;">${item.name}</div>
-                            <div style="color:#4ade80; font-size:13px;">₹${item.price}</div>
+                            <div style="font-size:13px; font-weight:bold;">${item.name}</div>
+                            <div style="color:#388e3c; font-size:12px;">₹${item.price}</div>
                         </div>
-                        <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
+                        <button style="color:red; border:none; background:none; cursor:pointer;" onclick="removeFromCart(${index})">Delete</button>
                     </div>
                 `;
             });
-
             container.innerHTML = html;
-            totalEl.innerText = '₹' + total;
+            document.getElementById("cartTotal").innerText = "₹" + total;
         }
 
-        function proceedToCheckout() {
-            if (cart.length === 0) {
-                alert("Aapka cart khali hai!");
-                return;
-            }
-            // Payment Gateway link ya redirect logic yahan aayega
-            alert("Redirecting to Payment Gateway...");
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
         }
+
+        // Initial Load
+        renderProducts(products);
     </script>
 </body>
 </html>
