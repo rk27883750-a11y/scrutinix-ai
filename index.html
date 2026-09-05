@@ -34,7 +34,7 @@
 
     <style>
         /* ==========================================
-           1. CORE STYLING & ADOBE DARK THEME
+           1. CORE STYLING & ADOBE WHITE-RED THEME
            ========================================== */
         * {
             margin: 0;
@@ -44,14 +44,14 @@
         }
 
         :root {
-            --bg-main: #0B0F19;       
-            --bg-sidebar: #070A12;    
-            --bg-card: #131A2A;       
-            --accent-cyan: #00F2FE;   
-            --accent-purple: #9b51e0; 
-            --text-main: #F3F4F6;     
-            --text-muted: #9CA3AF;    
-            --border-color: #1E293B;  
+            --bg-main: #FAFAFA;       /* Clean White Main Screen */
+            --bg-sidebar: #F0F0F0;    /* Soft Light Gray for Sidebar & Nav */
+            --bg-card: #FFFFFF;       /* Pure White Cards */
+            --accent-red: #FA0F00;    /* Adobe Signature Red */
+            --accent-coral: #FF5252;  /* Light Adobe Coral */
+            --text-main: #2C2C2C;     /* Dark Charcoal Text for high readability */
+            --text-muted: #6E6E6E;    /* Standard Gray for descriptions */
+            --border-color: #E1E1E1;  /* Clean light divider lines */
         }
 
         body {
@@ -63,11 +63,11 @@
         }
 
         /* ==========================================
-           2. NAVIGATION TOP BAR (Adobe Style)
+           2. NAVIGATION TOP BAR (Adobe White-Red)
            ========================================== */
         .top-navbar {
             height: 65px;
-            background-color: var(--bg-sidebar);
+            background-color: var(--bg-card);
             border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
@@ -76,12 +76,10 @@
         }
 
         .brand-logo {
-            font-size: 22px;
-            font-weight: 800;
+            font-size: 24px;
+            font-weight: 900;
             letter-spacing: -0.5px;
-            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--accent-red); /* Adobe Red Logo */
             cursor: pointer;
         }
 
@@ -89,12 +87,14 @@
             display: flex;
             gap: 25px;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             color: var(--text-muted);
         }
 
         .nav-item:hover, .nav-item.active {
-            color: var(--accent-cyan);
+            color: var(--text-main);
+            border-bottom: 2px solid var(--accent-red);
+            padding-bottom: 4px;
             cursor: pointer;
         }
 
@@ -107,7 +107,7 @@
             width: 100vw;
         }
 
-        /* PANEL 1: LEFT ART CATEGORIES */
+        /* PANEL 1: LEFT SIDEBAR */
         .left-sidebar {
             width: 240px;
             background-color: var(--bg-sidebar);
@@ -131,48 +131,47 @@
             padding: 12px 16px;
             text-align: left;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
         .cat-button:hover, .cat-button.active {
-            background-color: rgba(0, 242, 254, 0.08);
-            color: var(--accent-cyan);
+            background-color: #FFFFFF;
+            color: var(--accent-red);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
 
-        /* PANEL 2: CENTER WORKSPACE (Adobe Screen Clone) */
+        /* PANEL 2: CENTER WORKSPACE */
         .center-feed {
             flex-grow: 1;
             padding: 25px;
             overflow-y: auto;
+            background-color: var(--bg-main);
         }
 
-        /* Adobe Style Hero Banner */
+        /* Adobe Style Light Hero Banner */
         .adobe-hero {
-            background: linear-gradient(135deg, rgba(19, 26, 42, 0.8), rgba(7, 10, 18, 0.9)), 
-                        linear-gradient(45deg, rgba(155, 81, 224, 0.15), rgba(0, 242, 254, 0.15));
-            border: 1px solid var(--border-color);
+            background: linear-gradient(135deg, #FFF5F5 0%, #FFF 100%);
+            border: 1px solid #FFE5E5;
             border-radius: 16px;
             padding: 40px;
             text-align: center;
             margin-bottom: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
         }
 
         .adobe-hero h1 {
-            font-size: 32px;
-            font-weight: 700;
+            font-size: 36px;
+            font-weight: 800;
             margin-bottom: 10px;
-            background: linear-gradient(to right, #FFF, var(--text-muted));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #1A1A1A;
         }
 
         .adobe-hero p {
             color: var(--text-muted);
-            font-size: 15px;
+            font-size: 16px;
             margin-bottom: 25px;
         }
 
@@ -192,19 +191,20 @@
             cursor: pointer;
             transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s ease;
             aspect-ratio: 1 / 1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
 
         .asset-card:hover {
             transform: translateY(-4px);
-            border-color: var(--accent-cyan);
-            box-shadow: 0 8px 24px rgba(0, 242, 254, 0.12);
+            border-color: var(--accent-red);
+            box-shadow: 0 8px 24px rgba(250, 15, 0, 0.1);
         }
 
         .asset-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            pointer-events: none; /* Disables mouse dragging theft */
+            pointer-events: none; 
             user-select: none;
         }
 
@@ -213,7 +213,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(transparent, rgba(7, 10, 18, 0.95));
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
             padding: 20px 15px 15px;
             color: #FFF;
             font-size: 13px;
@@ -227,7 +227,7 @@
             opacity: 1;
         }
 
-        /* PANEL 3: RIGHT INTERACTIVE CONTROL PANEL */
+        /* PANEL 3: RIGHT CONTROL PANEL */
         .right-control-panel {
             width: 340px;
             background-color: var(--bg-sidebar);
@@ -251,19 +251,21 @@
             width: 100%;
             border-radius: 10px;
             border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .price-tag {
-            font-size: 24px;
-            font-weight: 700;
-            color: #FFF;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-main);
         }
 
         .code-box-container {
-            background-color: rgba(255, 255, 255, 0.02);
+            background-color: #FFFFFF;
             border: 1px solid var(--border-color);
             padding: 15px;
             border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
         .code-box-container h5 {
@@ -276,28 +278,31 @@
 
         .code-box-container code {
             font-family: 'Courier New', Courier, monospace;
-            color: var(--accent-cyan);
-            font-size: 12px;
+            color: #D32F2F; /* Warm red for text prompts */
+            font-size: 13px;
             word-break: break-all;
+            font-weight: 600;
         }
 
-        /* Action Buttons */
+        /* Adobe Style Solid Red Button */
         .checkout-action-btn {
-            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-purple));
-            color: #000;
+            background: linear-gradient(45deg, var(--accent-red), var(--accent-coral));
+            color: #FFFFFF;
             border: none;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 24px; /* Curved pill shapes just like Adobe UI */
             font-size: 15px;
             font-weight: 700;
             cursor: pointer;
             text-align: center;
             text-decoration: none;
+            box-shadow: 0 4px 12px rgba(250, 15, 0, 0.2);
             transition: opacity 0.2s ease, transform 0.1s ease;
         }
 
         .checkout-action-btn:hover {
-            opacity: 0.9;
+            opacity: 0.95;
+            box-shadow: 0 6px 16px rgba(250, 15, 0, 0.3);
         }
 
         .checkout-action-btn:active {
@@ -305,9 +310,9 @@
         }
     </style>
 </head>
-<body class="dark-theme">
+<body>
 
-    <!-- TOP HEADER NAVBAR (Adobe Style) -->
+    <!-- TOP HEADER NAVBAR (Adobe White Style) -->
     <header class="top-navbar">
         <div class="brand-logo">Scrutinix AI</div>
         <nav class="nav-links">
@@ -319,9 +324,3 @@
     </header>
 
     <!-- MAIN DASHBOARD CONTENT -->
-    <div class="dashboard-layout">
-        
-        <!-- PANEL 1: ART CATEGORIES -->
-        <aside class="left-sidebar">
-            <div class="category-list">
-                <button class="cat-button active" onclick="filterGallery('all')">✨ All Creations</button>
