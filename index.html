@@ -1,127 +1,109 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - Next-Gen Workspace</title>
-    <!-- Tailwind CSS (प्रीमियम और मॉडर्न डिज़ाइन के लिए) -->
-    <script src="https://jsdelivr.net"></script>
-</head>
-<body class="bg-gray-950 text-white font-sans overflow-hidden">
+// 1. शुरुआत में यूजर के पास 5 फ्री क्रेडिट्स हैं
+let userCredits = 5;
 
-    <div class="flex h-screen w-full">
-        
-        <!-- 1. बाईं तरफ (Adobe जैसा Tool Selector Sidebar) -->
-        <div class="w-1/5 border-r border-gray-800 p-5 flex flex-col justify-between bg-gray-950/80 backdrop-blur-md">
-            <div>
-                <h1 class="text-xl font-black tracking-widest bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">SCRUTINIX AI</h1>
-                <p class="text-[10px] text-gray-500 uppercase font-bold tracking-wider mt-0.5">The Adobe Killer Workspace</p>
-                
-                <!-- एआई टूल्स का टैब स्विच (यूनिक फीचर - 1 क्लिक में टूल बदलें) -->
-                <nav class="mt-8 flex flex-col gap-1.5">
-                    <button onclick="switchTab('text-to-image')" id="btn-text-to-image" class="tab-btn w-full flex items-center gap-3 bg-gray-900 border border-gray-800 text-cyan-400 font-semibold p-3 rounded-xl text-xs text-left transition shadow-md">
-                        <span>🎨</span> Text to Image (एआई फोटो मेकर)
-                    </button>
-                    <button onclick="switchTab('ad-maker')" id="btn-ad-maker" class="tab-btn w-full flex items-center gap-3 text-gray-400 hover:bg-gray-900/50 p-3 rounded-xl text-xs text-left transition">
-                        <span>📊</span> 1-Click Ad Banner (विज्ञापन मेaper)
-                    </button>
-                    <button onclick="switchTab('bg-remover')" id="btn-bg-remover" class="tab-btn w-full flex items-center gap-3 text-gray-400 hover:bg-gray-900/50 p-3 rounded-xl text-xs text-left transition">
-                        <span>✂️</span> AI BG Remover (बैकग्राउंड हटाएं)
-                    </button>
-                    <button onclick="switchTab('avatar-gen')" id="btn-avatar-gen" class="tab-btn w-full flex items-center gap-3 text-gray-400 hover:bg-gray-900/50 p-3 rounded-xl text-xs text-left transition">
-                        <span>🎭</span> 3D Avatar Studio (3D प्रोफाइल फोटो)
-                    </button>
-                </nav>
+// 2. बिना API के दिखाने के लिए प्रीमियम और रंगीन एआई इमेजेस का डेटाबेस (Sample URLs)
+// यहाँ आप अपने द्वारा बनाई गई बेहतरीन त्योहारों और 3D अवतार इमेजेस के असली लिंक्स डालेंगे
+const textToImageGallery = [
+    "https://unsplash.com", // रंगीन आर्ट 1
+    "https://unsplash.com", // रंगीन आर्ट 2
+    "https://unsplash.com"  // रंगीन आर्ट 3
+];
 
-                <!-- क्रेडिट्स ट्रैकर -->
-                <div class="mt-6 bg-gray-900/30 p-3.5 rounded-xl border border-gray-850">
-                    <p class="text-[10px] text-gray-500 uppercase font-bold">बचे हुए क्रेडिट</p>
-                    <p id="credits" class="text-2xl font-black mt-0.5 text-cyan-400">5 <span class="text-xs font-normal text-gray-500">/ 5 फ्री</span></p>
-                </div>
-            </div>
+const adMakerGallery = [
+    "https://unsplash.com", // बिजनेस विज्ञापन 1
+    "https://unsplash.com"  // बिजनेस विज्ञापन 2
+];
 
-            <!-- Adobe जैसा सब्सक्रिप्शन और पेमेंट एरिया -->
-            <div class="bg-gradient-to-b from-gray-900 to-gray-950 p-4 rounded-xl border border-gray-800 text-center shadow-2xl">
-                <p class="text-xs text-yellow-400 font-bold flex items-center justify-center gap-1">✨ Limited Offer: Save 50%</p>
-                <button id="checkout-btn" class="w-full mt-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-black py-2.5 px-4 rounded-xl text-xs hover:opacity-95 transition-all duration-200 shadow-lg shadow-cyan-500/10 active:scale-98">
-                    Upgrade to Pro (₹399/mo)
-                </button>
-                <p class="text-[9px] text-gray-500 mt-2">7-Days Money-Back Guarantee 🔒</p>
-            </div>
+const avatarGallery = [
+    "https://unsplash.com", // 3D प्रोफाइल 1
+    "https://unsplash.com"  // 3D प्रोफाइल 2
+];
+
+// 3. वर्तमान में कौन सा टैब एक्टिव है, उसे ट्रैक करने के लिए वेरिएबल
+let currentActiveTab = "text-to-image";
+
+// HTML तत्वों को सिलेक्ट करना
+const creditDisplay = document.getElementById("credits");
+const promptBox = document.getElementById("prompt-box");
+const generateBtn = document.getElementById("generate-btn");
+const imageDisplay = document.getElementById("image-display");
+
+// 4. टैब बदलने पर एक्टिव टैब को अपडेट करने का लॉजिक (इसे HTML के switchTab फ़ंक्शन में जोड़ें)
+function switchTab(tabId) {
+    currentActiveTab = tabId; // एक्टिव टैब को अपडेट करें
+    
+    // HTML कंटेंट्स को छुपाना और दिखाना
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+    document.getElementById(tab-${tabId}).classList.remove('hidden');
+
+    // बटन्स का स्टाइल बदलना
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active-tab');
+        btn.classList.add('hover:bg-gray-900/40');
+    });
+    const activeBtn = document.getElementById(btn-${tabId});
+    activeBtn.classList.remove('hover:bg-gray-900/40');
+    activeBtn.classList.add('active-tab');
+}
+
+// 5. "एआई जादू से जनरेट करें" बटन का कोडिंग लॉजिक
+generateBtn.addEventListener("click", () => {
+    
+    // सुरक्षा जांच - क्या क्रेडिट बचे हैं?
+    if (userCredits <= 0) {
+        alert("आपके फ्री क्रेडिट खत्म हो चुके हैं! कृपया Scrutinix Pro में अपग्रेड करें।");
+        return;
+    }
+
+    // लोडिंग स्टेट - Adobe स्टाइल नियॉन स्पिनर एनिमेशन
+    generateBtn.innerText = "एआई जादू कर रहा है...";
+    generateBtn.disabled = true;
+    
+    imageDisplay.innerHTML = `
+        <div class="text-center p-8 border border-cyan-500/30 rounded-2xl w-full aspect-square flex flex-col items-center justify-center gap-3 bg-gray-900/40 backdrop-blur-md shadow-lg shadow-cyan-500/10">
+            <div class="w-10 h-10 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
+            <p class="text-xs text-cyan-400 font-bold tracking-wide animate-pulse">रंगीन इमेज तैयार हो रही है...</p>
         </div>
+    `;
 
-        <!-- 2. बीच का हिस्सा (Dynamic Controls Panel - जो टैब बदलने पर खुद बदल जाएगा) -->
-        <div class="flex-1 p-8 flex flex-col justify-center max-w-xl mx-auto bg-gray-950">
-            
-            <!-- टैब 1: Text to Image Controls -->
-            <div id="tab-text-to-image" class="tab-content flex flex-col gap-4">
-                <h2 class="text-lg font-bold">कल्पना को तस्वीर में बदलें</h2>
-                <textarea id="prompt-box" placeholder="उदा. एक भारतीय लड़का दिवाली पर दीये जला रहा है, 3D पिक्सर स्टाइल..." class="w-full h-32 p-4 bg-gray-900 border border-gray-800 rounded-2xl focus:outline-none focus:border-cyan-500 text-xs resize-none text-gray-200 placeholder-gray-600"></textarea>
-                
-                <div class="grid grid-cols-2 gap-2">
-                    <button class="bg-gray-900 border border-gray-800 p-2.5 rounded-lg text-[11px] text-center text-gray-400 hover:text-white transition">📐 Aspect Ratio (16:9)</button>
-                    <button class="bg-gray-900 border border-gray-800 p-2.5 rounded-lg text-[11px] text-center text-gray-400 hover:text-white transition">🔥 Hyper-Realistic Mode</button>
-                </div>
-            </div>
+    // 6. नकली लोडिंग टाइम (3 सेकंड का टाइमर जैसे असली AI प्रोसेस हो रहा हो)
+    setTimeout(() => {
+        let selectedImage = "";
 
-            <!-- टैब 2: 1-Click Ad Banner Controls (छिपा हुआ) -->
-            <div id="tab-ad-maker" class="tab-content hidden flex flex-col gap-4">
-                <h2 class="text-lg font-bold">सोशल मीडिया विज्ञापन मेकर</h2>
-                <input type="text" placeholder="अपने बिजनेस/दुकान का नाम (उदा. Sharma Sweets)" class="w-full p-3 bg-gray-900 border border-gray-800 rounded-xl text-xs focus:outline-none focus:border-cyan-500">
-                <textarea placeholder="ऑफर या त्योहार का नाम लिखे (उदा. दीवाली महासेल: 20% की छूट!)" class="w-full h-20 p-3 bg-gray-900 border border-gray-800 rounded-xl focus:outline-none focus:border-cyan-500 text-xs resize-none"></textarea>
-            </div>
-
-            <!-- टैब 3: BG Remover Controls (छिपा हुआ) -->
-            <div id="tab-bg-remover" class="tab-content hidden flex flex-col gap-4">
-                <h2 class="text-lg font-bold">फोटो का बैकग्राउंड हटाएं</h2>
-                <div class="border-2 border-dashed border-gray-800 rounded-2xl p-8 text-center bg-gray-900/20 cursor-pointer hover:border-cyan-500 transition">
-                    <p class="text-2xl mb-1">📤</p>
-                    <p class="text-xs text-gray-400">अपनी इमेज यहाँ ड्रैग करें या ब्राउज़ करें</p>
-                </div>
-            </div>
-
-            <!-- टैब 4: 3D Avatar Controls (छिपा हुआ) -->
-            <div id="tab-avatar-gen" class="tab-content hidden flex flex-col gap-4">
-                <h2 class="text-lg font-bold">3D एनिमेटेड प्रोफाइल डीपी</h2>
-                <input type="text" placeholder="अपने चेहरे या स्टाइल का विवरण दें (उदा. चश्मा पहने हुए कोडिंग करता लड़का)" class="w-full p-3 bg-gray-900 border border-gray-800 rounded-xl text-xs focus:outline-none focus:border-cyan-500">
-            </div>
-
-            <!-- मुख्य मैजिक बटन (हमेशा नीचे फिक्स रहेगा) -->
-            <button id="generate-btn" class="w-full mt-6 bg-gradient-to-r from-cyan-400 to-blue-500 text-gray-950 font-black py-3.5 px-6 rounded-xl transition-all duration-200 text-xs uppercase tracking-wider shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/30 active:scale-99">
-                ✨ एआई जादू शुरू करें
-            </button>
-        </div>
-
-        <!-- 3. दाहिनी तरफ (Live Result & Instant Download Area) -->
-        <div class="w-1/3 border-l border-gray-800 p-6 flex flex-col justify-center items-center bg-gray-900/10">
-            <div id="image-display" class="w-full flex flex-col items-center justify-center h-full">
-                <div class="text-center text-gray-600 p-8 border border-gray-850 rounded-2xl w-full aspect-square flex flex-col items-center justify-center gap-2 bg-gray-900/30">
-                    <span class="text-xl">⚡</span>
-                    <p class="text-[11px] text-gray-500">मात्र 5 सेकंड में आपका परिणाम यहाँ लाइव लोड होगा</p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- टैब चेंज करने का जादुई स्क्रिप्ट लॉजिक -->
-    <script>
-        function switchTab(tabId) {
-            // सभी कंटेंट्स को छुपाना
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
-            // चुनी हुई टैब को दिखाना
-            document.getElementById(tab-${tabId}).classList.remove('hidden');
-
-            // सभी बटन्स का स्टाइल सामान्य करना
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('bg-gray-900', 'border-gray-800', 'text-cyan-400', 'shadow-md');
-                btn.classList.add('text-gray-400', 'hover:bg-gray-900/50');
-            });
-            // एक्टिव बटन को चमकाना
-            const activeBtn = document.getElementById(btn-${tabId});
-            activeBtn.classList.remove('text-gray-400', 'hover:bg-gray-900/50');
-            activeBtn.classList.add('bg-gray-900', 'border', 'border-gray-800', 'text-cyan-400', 'shadow-md');
+        // एक्टिव टैब के हिसाब से सही गैलरी में से रैंडम रंगीन फोटो चुनना
+        if (currentActiveTab === "text-to-image") {
+            selectedImage = textToImageGallery[Math.floor(Math.random() * textToImageGallery.length)];
+        } else if (currentActiveTab === "ad-maker") {
+            selectedImage = adMakerGallery[Math.floor(Math.random() * adMakerGallery.length)];
+        } else if (currentActiveTab === "avatar-gen") {
+            selectedImage = avatarGallery[Math.floor(Math.random() * avatarGallery.length)];
+        } else {
+            selectedImage = "https://picsum.photos"; // डिफॉल्ट इमेज
         }
-    </script>
-</body>
-</html>
+
+        // 7. दाहिनी तरफ बेहद खूबसूरत और रंगीन रिजल्ट लोड करना
+        imageDisplay.innerHTML = `
+            <div class="w-full flex flex-col items-center animate-fade-in">
+                <div class="relative rounded-2xl overflow-hidden border border-cyan-500/30 shadow-2xl shadow-cyan-500/10 group">
+                    <img src="${selectedImage}" alt="Scrutinix AI Generated" class="max-h-80 w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex items-end">
+                        <p class="text-[10px] text-cyan-400 font-mono tracking-wider">Scrutinix Premium Core v2</p>
+                    </div>
+                </div>
+                <!-- चमकदार रंगीन डाउनलोड बटन -->
+                <a href="${selectedImage}" target="_blank" class="w-full text-center mt-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs font-black py-3 px-6 rounded-xl transition-all duration-200 shadow-md shadow-cyan-500/10 hover:opacity-90 active:scale-98 uppercase tracking-wider">
+                    📥 हाई-क्वालिटी डाउनलोड करें
+                </a>
+            </div>
+        `;
+
+        // 8. क्रेडिट को 1 कम करना और स्क्रीन पर अपडेट करना
+        userCredits--;
+        creditDisplay.innerHTML = ${userCredits} <span class="text-xs font-normal text-gray-500">/ 5 फ्री उपलब्ध</span>;
+
+        // बटन को वापस सामान्य करना
+        generateBtn.innerText = "✨ एआई जादू से जनरेट करें";
+        generateBtn.disabled = false;
+
+    }, 3000); // 3 सेकंड बाद इमेज लोड होगी
+});
