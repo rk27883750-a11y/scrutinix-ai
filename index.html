@@ -3,194 +3,325 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI Store</title>
+    <title>Scrutinix AI - Premium AI Assets & Code Marketplace</title>
+    
+    <!-- Lemon Squeezy Script for Overlay Checkout -->
+    <script src="https://lemonsqueezy.com" defer></script>
+
+    <!-- Google Schema Markup for Logo in Search -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Scrutinix AI",
+      "url": "https://github.io",
+      "logo": "https://github.ioassets/logo.png"
+    }
+    </script>
+
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-        body { background-color: #f1f2f6; color: #333; padding-bottom: 70px; }
+        /* ==========================================
+           1. RESET & VARIABLES (Dark Neon Theme)
+           ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
 
-        /* Header */
-        header { background: #2874f0; color: white; padding: 12px 16px; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.2rem; font-weight: bold; }
-        .search-box input { padding: 8px 12px; border: none; border-radius: 4px; width: 100%; max-width: 300px; outline: none; }
+        :root {
+            --bg-main: #0B0F19;       
+            --bg-sidebar: #070A12;    
+            --bg-card: #131A2A;       
+            --accent-cyan: #00F2FE;   
+            --accent-purple: #9b51e0; 
+            --text-main: #F3F4F6;     
+            --text-muted: #9CA3AF;    
+            --border-color: #1E293B;  
+        }
 
-        /* Control Bar (Sort & Filter) */
-        .controls { display: flex; background: #fff; border-bottom: 1px solid #ddd; position: sticky; top: 50px; z-index: 90; }
-        .controls button, .controls select { flex: 1; padding: 12px; border: none; background: transparent; font-weight: bold; font-size: 14px; border-right: 1px solid #ddd; outline: none; cursor: pointer; }
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            overflow: hidden; 
+            height: 100vh;
+            width: 100vw;
+        }
 
-        /* Product Grid */
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; padding: 10px; }
-        .card { background: #fff; border-radius: 6px; padding: 10px; position: relative; border: 1px solid #e0e0e0; display: flex; flex-direction: column; justify-content: space-between; }
-        .wishlist-btn { position: absolute; top: 10px; right: 10px; background: #fff; border: 1px solid #ddd; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #ccc; font-size: 16px; }
-        .wishlist-btn.active { color: #ff4757; border-color: #ff4757; }
-        
-        .card img { width: 100%; height: 160px; object-fit: contain; border-radius: 4px; }
-        .card-title { font-size: 14px; font-weight: bold; margin: 8px 0 4px 0; color: #212121; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
-        
-        .rating-badge { background: #388e3c; color: white; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; display: inline-block; width: max-content; margin-bottom: 6px; }
-        
-        .price-section { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
-        .selling-price { font-weight: bold; font-size: 16px; color: #212121; }
-        .mrp { text-decoration: line-through; color: #878787; font-size: 12px; }
-        .discount { color: #388e3c; font-size: 12px; font-weight: bold; }
-        
-        .add-cart-btn { background: #ff9f00; color: white; border: none; padding: 8px; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; }
+        /* ==========================================
+           2. THREE-PANEL LAYOUT STRUCTURE
+           ========================================== */
+        .dashboard-container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
 
-        /* Floating Cart & Sidebar */
-        #cart-sidebar { display: none; position: fixed; top: 0; right: 0; width: 320px; height: 100%; background: #fff; border-left: 1px solid #ddd; padding: 20px; flex-direction: column; z-index: 1000; box-shadow: -5px 0 15px rgba(0,0,0,0.2); }
-        .cart-header { display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; padding-bottom: 10px; font-weight: bold; }
-        .cart-items { flex: 1; overflow-y: auto; margin-top: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; background: #f8f9fa; padding: 8px; border-radius: 4px; border: 1px solid #eee; }
-        .checkout-btn { background: #fb641b; color: white; border: none; padding: 12px; border-radius: 4px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        /* --- PANEL 1: LEFT SIDEBAR --- */
+        .sidebar {
+            width: 280px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
 
-        /* Bottom Navigation Bar (Flipkart Style) */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 1px solid #ddd; display: flex; justify-content: space-around; padding: 8px 0; z-index: 99; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; color: #666; cursor: pointer; text-decoration: none; }
-        .nav-item.active { color: #2874f0; font-weight: bold; }
-        .nav-icon { font-size: 18px; margin-bottom: 2px; }
+        .brand {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
+
+        .categories {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+        }
+
+        .cat-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background-color: rgba(0, 242, 254, 0.08);
+            color: var(--accent-cyan);
+        }
+
+        .pricing-section {
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .pro-banner {
+            background: linear-gradient(135deg, rgba(155, 81, 224, 0.15), rgba(0, 242, 254, 0.15));
+            border: 1px solid var(--accent-purple);
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            text-align: center;
+            font-weight: 700;
+            color: #FFF;
+            text-decoration: none;
+            box-shadow: 0 0 15px rgba(155, 81, 224, 0.15);
+            transition: transform 0.2s;
+        }
+
+        .pro-banner:hover {
+            transform: scale(1.02);
+        }
+
+        /* --- PANEL 2: CENTER IMAGE FEED --- */
+        .main-feed {
+            flex-grow: 1;
+            padding: 30px;
+            overflow-y: auto;
+            background-color: var(--bg-main);
+        }
+
+        .feed-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #FFF;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .image-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s ease;
+            aspect-ratio: 1 / 1;
+        }
+
+        .image-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 8px 24px rgba(0, 242, 254, 0.15);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none; /* Block drag-and-drop */
+            user-select: none;
+        }
+
+        .overlay-btn {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(7, 10, 18, 0.95));
+            padding: 20px 15px 15px;
+            color: #FFF;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-card:hover .overlay-btn {
+            opacity: 1;
+        }
+
+        /* --- PANEL 3: RIGHT DETAILS PANEL --- */
+        .right-panel {
+            width: 360px;
+            background-color: var(--bg-sidebar);
+            border-left: 1px solid var(--border-color);
+            padding: 30px 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .placeholder-text {
+            color: var(--text-muted);
+            font-size: 14px;
+            text-align: center;
+            margin-auto: auto;
+            line-height: 1.6;
+        }
+
+        /* ==========================================
+           3. INTERACTION & UTILITY UI COMPONENTS
+           ========================================== */
+        .detail-box {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .detail-preview-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .detail-preview {
+            width: 100%;
+            display: block;
+            pointer-events: none;
+        }
+
+        .detail-box h3 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .price-tag {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--accent-cyan);
+        }
+
+        .prompt-section {
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        .prompt-section h5 {
+            color: var(--text-muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .prompt-section code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #FF79C6;
+            font-size: 13px;
+            word-break: break-all;
+        }
+
+        .features-list {
+            list-style: none;
+            font-size: 13px;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .features-list li::before {
+            content: "✓ ";
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        .buy-btn {
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-purple));
+            color: #000;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        .buy-btn:hover { opacity: 0.95; }
+        .buy-btn:active { transform: scale(0.98); }
     </style>
 </head>
-<body>
+<body class="dark-theme" oncontextmenu="return false;"> <!-- Global Right-click Blocked -->
 
-    <!-- Header -->
-    <header>
-        <div class="logo">Scrutinix AI</div>
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Search products..." onkeyup="filterProducts()">
-        </div>
-    </header>
-
-    <!-- Controls Bar -->
-    <div class="controls">
-        <select id="sortSelect" onchange="sortProducts()">
-            <option value="default">Sort By: Featured</option>
-            <option value="lowToHigh">Price: Low to High</option>
-            <option value="highToLow">Price: High to Low</option>
-        </select>
-        <button onclick="toggleCartDrawer()">🛒 Cart (<span id="cartCount">0</span>)</button>
-    </div>
-
-    <!-- Product Grid -->
-    <div class="product-grid" id="productGrid"></div>
-
-    <!-- Cart Drawer -->
-    <div id="cart-sidebar">
-        <div class="cart-header">
-            <span>My Cart</span>
-            <span style="cursor:pointer;" onclick="toggleCartDrawer()">✖</span>
-        </div>
-        <div class="cart-items" id="cartContainer"></div>
-        <div style="border-top:1px solid #ddd; padding-top:10px;">
-            <div style="display:flex; justify-content:space-between; font-weight:bold;">
-                <span>Total:</span>
-                <span id="cartTotal">₹0</span>
+    <div class="dashboard-container">
+        
+        <!-- PANEL 1: LEFT SIDEBAR (Navigation & Subscriptions) -->
+        <aside class="sidebar">
+            <div>
+                <div class="brand" onclick="filterImages('all')">Scrutinix AI</div>
+                <nav class="categories">
+                    <button class="cat-btn active" id="cat-all" onclick="filterImages('all')">All Asset Bndles</button>
+                    <button class="cat-btn" id="cat-realestate" onclick="filterImages('realestate')">Real Estate Pack</button>
+                    <button class="cat-btn" id="cat-garage" onclick="filterImages('garage')">Garage & Modification</button>
+                    <button class="cat-btn" id="cat-trucking" onclick="filterImages('trucking')">Trucking & Logistics</button>
+                </nav>
             </div>
-            <button class="checkout-btn" onclick="alert('Proceeding to Checkout!')">PLACE ORDER</button>
-        </div>
-    </div>
 
-    <!-- Bottom Navigation Bar -->
-    <div class="bottom-nav">
-        <div class="nav-item active"><span class="nav-icon">🏠</span>Home</div>
-        <div class="nav-item"><span class="nav-icon">🏷️</span>Categories</div>
-        <div class="nav-item" onclick="toggleCartDrawer()"><span class="nav-icon">🛒</span>Cart</div>
-        <div class="nav-item"><span class="nav-icon">👤</span>Account</div>
-    </div>
-
-    <script>
-        const products = [
-            { id: 1, title: "AI Prompt eBook 2026", mrp: 1999, price: 268, rating: "4.2 ★", img: "https://via.placeholder.com/150/0284c7/ffffff?text=eBook" },
-            { id: 2, title: "SEO Audit Tool Script", mrp: 2499, price: 565, rating: "4.5 ★", img: "https://via.placeholder.com/150/22c55e/ffffff?text=SEO+Tool" },
-            { id: 3, title: "GST Reconciliation AI", mrp: 1500, price: 344, rating: "3.9 ★", img: "https://via.placeholder.com/150/eab308/ffffff?text=GST+Tool" },
-            { id: 4, title: "Python Automation Suite", mrp: 2999, price: 899, rating: "4.8 ★", img: "https://via.placeholder.com/150/ef4444/ffffff?text=Python+Code" }
-        ];
-
-        let cart = [];
-        let currentProducts = [...products];
-
-        function renderProducts(data) {
-            const grid = document.getElementById("productGrid");
-            grid.innerHTML = "";
-            data.forEach(p => {
-                const discount = Math.round(((p.mrp - p.price) / p.mrp) * 100);
-                grid.innerHTML += `
-                    <div class="card">
-                        <button class="wishlist-btn" onclick="toggleWishlist(this)">♥</button>
-                        <img src="${p.img}" alt="${p.title}">
-                        <div class="card-title">${p.title}</div>
-                        <div class="rating-badge">${p.rating}</div>
-                        <div class="price-section">
-                            <span class="selling-price">₹${p.price}</span>
-                            <span class="mrp">₹${p.mrp}</span>
-                            <span class="discount">${discount}% off</span>
-                        </div>
-                        <button class="add-cart-btn" onclick="addToCart('${p.title}', ${p.price})">Add to Cart</button>
-                    </div>
-                `;
-            });
-        }
-
-        function toggleWishlist(btn) {
-            btn.classList.toggle("active");
-        }
-
-        function filterProducts() {
-            const query = document.getElementById("searchInput").value.toLowerCase();
-            const filtered = products.filter(p => p.title.toLowerCase().includes(query));
-            renderProducts(filtered);
-        }
-
-        function sortProducts() {
-            const val = document.getElementById("sortSelect").value;
-            let sorted = [...currentProducts];
-            if (val === "lowToHigh") sorted.sort((a,b) => a.price - b.price);
-            if (val === "highToLow") sorted.sort((a,b) => b.price - a.price);
-            renderProducts(sorted);
-        }
-
-        function toggleCartDrawer() {
-            const drawer = document.getElementById("cart-sidebar");
-            drawer.style.display = drawer.style.display === "flex" ? "none" : "flex";
-        }
-
-        function addToCart(name, price) {
-            cart.push({ name, price });
-            updateCart();
-            toggleCartDrawer();
-        }
-
-        function updateCart() {
-            document.getElementById("cartCount").innerText = cart.length;
-            const container = document.getElementById("cartContainer");
-            if (cart.length === 0) {
-                container.innerHTML = "<p style='text-align:center;'>Cart is empty</p>";
-                document.getElementById("cartTotal").innerText = "₹0";
-                return;
-            }
-            let html = "";
-            let total = 0;
-            cart.forEach((item, index) => {
-                total += item.price;
-                html += `
-                    <div class="cart-item">
-                        <div>
-                            <div style="font-size:13px; font-weight:bold;">${item.name}</div>
-                            <div style="color:#388e3c; font-size:12px;">₹${item.price}</div>
-                        </div>
-                        <button style="color:red; border:none; background:none; cursor:pointer;" onclick="removeFromCart(${index})">Delete</button>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-            document.getElementById("cartTotal").innerText = "₹" + total;
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCart();
-        }
-
-        // Initial Load
-        renderProducts(products);
-    </script>
-</body>
-</html>
+            <!-- Lemon Squeezy Subscription Checkout Integration -->
+            <div class="pricing-section">
+                <!-- Replace 'YOUR_SUBSCRIPTION_URL' with your real Lemon Squeezy checkout link -->
