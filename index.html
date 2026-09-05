@@ -1,109 +1,327 @@
-// 1. शुरुआत में यूजर के पास 5 फ्री क्रेडिट्स हैं
-let userCredits = 5;
-
-// 2. बिना API के दिखाने के लिए प्रीमियम और रंगीन एआई इमेजेस का डेटाबेस (Sample URLs)
-// यहाँ आप अपने द्वारा बनाई गई बेहतरीन त्योहारों और 3D अवतार इमेजेस के असली लिंक्स डालेंगे
-const textToImageGallery = [
-    "https://unsplash.com", // रंगीन आर्ट 1
-    "https://unsplash.com", // रंगीन आर्ट 2
-    "https://unsplash.com"  // रंगीन आर्ट 3
-];
-
-const adMakerGallery = [
-    "https://unsplash.com", // बिजनेस विज्ञापन 1
-    "https://unsplash.com"  // बिजनेस विज्ञापन 2
-];
-
-const avatarGallery = [
-    "https://unsplash.com", // 3D प्रोफाइल 1
-    "https://unsplash.com"  // 3D प्रोफाइल 2
-];
-
-// 3. वर्तमान में कौन सा टैब एक्टिव है, उसे ट्रैक करने के लिए वेरिएबल
-let currentActiveTab = "text-to-image";
-
-// HTML तत्वों को सिलेक्ट करना
-const creditDisplay = document.getElementById("credits");
-const promptBox = document.getElementById("prompt-box");
-const generateBtn = document.getElementById("generate-btn");
-const imageDisplay = document.getElementById("image-display");
-
-// 4. टैब बदलने पर एक्टिव टैब को अपडेट करने का लॉजिक (इसे HTML के switchTab फ़ंक्शन में जोड़ें)
-function switchTab(tabId) {
-    currentActiveTab = tabId; // एक्टिव टैब को अपडेट करें
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrutinix AI - Generate. Edit. Transform.</title>
     
-    // HTML कंटेंट्स को छुपाना और दिखाना
-    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
-    document.getElementById(tab-${tabId}).classList.remove('hidden');
-
-    // बटन्स का स्टाइल बदलना
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active-tab');
-        btn.classList.add('hover:bg-gray-900/40');
-    });
-    const activeBtn = document.getElementById(btn-${tabId});
-    activeBtn.classList.remove('hover:bg-gray-900/40');
-    activeBtn.classList.add('active-tab');
-}
-
-// 5. "एआई जादू से जनरेट करें" बटन का कोडिंग लॉजिक
-generateBtn.addEventListener("click", () => {
-    
-    // सुरक्षा जांच - क्या क्रेडिट बचे हैं?
-    if (userCredits <= 0) {
-        alert("आपके फ्री क्रेडिट खत्म हो चुके हैं! कृपया Scrutinix Pro में अपग्रेड करें।");
-        return;
+    <!-- Google Schema for Search Favicon & Logo -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Scrutinix AI",
+      "url": "https://github.io",
+      "logo": "https://github.ioassets/logo.png"
     }
+    </script>
 
-    // लोडिंग स्टेट - Adobe स्टाइल नियॉन स्पिनर एनिमेशन
-    generateBtn.innerText = "एआई जादू कर रहा है...";
-    generateBtn.disabled = true;
-    
-    imageDisplay.innerHTML = `
-        <div class="text-center p-8 border border-cyan-500/30 rounded-2xl w-full aspect-square flex flex-col items-center justify-center gap-3 bg-gray-900/40 backdrop-blur-md shadow-lg shadow-cyan-500/10">
-            <div class="w-10 h-10 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
-            <p class="text-xs text-cyan-400 font-bold tracking-wide animate-pulse">रंगीन इमेज तैयार हो रही है...</p>
-        </div>
-    `;
+    <!-- Lemon Squeezy Script for Safe Popup Checkout -->
+    <script src="https://lemonsqueezy.com" defer></script>
+    <script>
+        window.createLemonSqueezy = function() {
+            if (window.LemonSqueezy) {
+                window.LemonSqueezy.Setup({
+                    eventHandler: (event) => {
+                        if (event.event === 'Order.Success') {
+                            alert('धन्यवाद! आपका भुगतान सफल रहा। एआई इमेज और प्रॉम्प्ट आपकी ईमेल पर भेज दिया गया है।');
+                        }
+                    }
+                });
+            }
+        };
+    </script>
 
-    // 6. नकली लोडिंग टाइम (3 सेकंड का टाइमर जैसे असली AI प्रोसेस हो रहा हो)
-    setTimeout(() => {
-        let selectedImage = "";
-
-        // एक्टिव टैब के हिसाब से सही गैलरी में से रैंडम रंगीन फोटो चुनना
-        if (currentActiveTab === "text-to-image") {
-            selectedImage = textToImageGallery[Math.floor(Math.random() * textToImageGallery.length)];
-        } else if (currentActiveTab === "ad-maker") {
-            selectedImage = adMakerGallery[Math.floor(Math.random() * adMakerGallery.length)];
-        } else if (currentActiveTab === "avatar-gen") {
-            selectedImage = avatarGallery[Math.floor(Math.random() * avatarGallery.length)];
-        } else {
-            selectedImage = "https://picsum.photos"; // डिफॉल्ट इमेज
+    <style>
+        /* ==========================================
+           1. CORE STYLING & ADOBE DARK THEME
+           ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
-        // 7. दाहिनी तरफ बेहद खूबसूरत और रंगीन रिजल्ट लोड करना
-        imageDisplay.innerHTML = `
-            <div class="w-full flex flex-col items-center animate-fade-in">
-                <div class="relative rounded-2xl overflow-hidden border border-cyan-500/30 shadow-2xl shadow-cyan-500/10 group">
-                    <img src="${selectedImage}" alt="Scrutinix AI Generated" class="max-h-80 w-full object-cover transition-transform duration-300 group-hover:scale-105" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-gray-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex items-end">
-                        <p class="text-[10px] text-cyan-400 font-mono tracking-wider">Scrutinix Premium Core v2</p>
-                    </div>
-                </div>
-                <!-- चमकदार रंगीन डाउनलोड बटन -->
-                <a href="${selectedImage}" target="_blank" class="w-full text-center mt-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs font-black py-3 px-6 rounded-xl transition-all duration-200 shadow-md shadow-cyan-500/10 hover:opacity-90 active:scale-98 uppercase tracking-wider">
-                    📥 हाई-क्वालिटी डाउनलोड करें
-                </a>
-            </div>
-        `;
+        :root {
+            --bg-main: #0B0F19;       
+            --bg-sidebar: #070A12;    
+            --bg-card: #131A2A;       
+            --accent-cyan: #00F2FE;   
+            --accent-purple: #9b51e0; 
+            --text-main: #F3F4F6;     
+            --text-muted: #9CA3AF;    
+            --border-color: #1E293B;  
+        }
 
-        // 8. क्रेडिट को 1 कम करना और स्क्रीन पर अपडेट करना
-        userCredits--;
-        creditDisplay.innerHTML = ${userCredits} <span class="text-xs font-normal text-gray-500">/ 5 फ्री उपलब्ध</span>;
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
 
-        // बटन को वापस सामान्य करना
-        generateBtn.innerText = "✨ एआई जादू से जनरेट करें";
-        generateBtn.disabled = false;
+        /* ==========================================
+           2. NAVIGATION TOP BAR (Adobe Style)
+           ========================================== */
+        .top-navbar {
+            height: 65px;
+            background-color: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
 
-    }, 3000); // 3 सेकंड बाद इमेज लोड होगी
-});
+        .brand-logo {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--accent-cyan);
+            cursor: pointer;
+        }
+
+        /* ==========================================
+           3. THREE-PANEL LAYOUT
+           ========================================== */
+        .dashboard-layout {
+            display: flex;
+            height: calc(100vh - 65px);
+            width: 100vw;
+        }
+
+        /* PANEL 1: LEFT ART CATEGORIES */
+        .left-sidebar {
+            width: 240px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            justify-content: space-between;
+        }
+
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .cat-button {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .cat-button:hover, .cat-button.active {
+            background-color: rgba(0, 242, 254, 0.08);
+            color: var(--accent-cyan);
+        }
+
+        /* PANEL 2: CENTER WORKSPACE (Adobe Screen Clone) */
+        .center-feed {
+            flex-grow: 1;
+            padding: 25px;
+            overflow-y: auto;
+        }
+
+        /* Adobe Style Hero Banner */
+        .adobe-hero {
+            background: linear-gradient(135deg, rgba(19, 26, 42, 0.8), rgba(7, 10, 18, 0.9)), 
+                        linear-gradient(45deg, rgba(155, 81, 224, 0.15), rgba(0, 242, 254, 0.15));
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .adobe-hero h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #FFF, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .adobe-hero p {
+            color: var(--text-muted);
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+
+        /* Assets Grid Gallery */
+        .image-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .asset-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s ease;
+            aspect-ratio: 1 / 1;
+        }
+
+        .asset-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 8px 24px rgba(0, 242, 254, 0.12);
+        }
+
+        .asset-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none; /* Disables mouse dragging theft */
+            user-select: none;
+        }
+
+        .asset-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(7, 10, 18, 0.95));
+            padding: 20px 15px 15px;
+            color: #FFF;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .asset-card:hover .asset-overlay {
+            opacity: 1;
+        }
+
+        /* PANEL 3: RIGHT INTERACTIVE CONTROL PANEL */
+        .right-control-panel {
+            width: 340px;
+            background-color: var(--bg-sidebar);
+            border-left: 1px solid var(--border-color);
+            padding: 25px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ==========================================
+           4. ASSET SPECIFIC DETAIL BOXES
+           ========================================== */
+        .detail-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .preview-box {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .price-tag {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFF;
+        }
+
+        .code-box-container {
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .code-box-container h5 {
+            color: var(--text-muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .code-box-container code {
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--accent-cyan);
+            font-size: 12px;
+            word-break: break-all;
+        }
+
+        /* Action Buttons */
+        .checkout-action-btn {
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-purple));
+            color: #000;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: opacity 0.2s ease, transform 0.1s ease;
+        }
+
+        .checkout-action-btn:hover {
+            opacity: 0.9;
+        }
+
+        .checkout-action-btn:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="dark-theme">
+
+    <!-- TOP HEADER NAVBAR (Adobe Style) -->
+    <header class="top-navbar">
+        <div class="brand-logo">Scrutinix AI</div>
+        <nav class="nav-links">
+            <span class="nav-item active">Explore</span>
+            <span class="nav-item">Photos</span>
+            <span class="nav-item">Vector Art</span>
+            <span class="nav-item">3D Renders</span>
+        </nav>
+    </header>
+
+    <!-- MAIN DASHBOARD CONTENT -->
+    <div class="dashboard-layout">
+        
+        <!-- PANEL 1: ART CATEGORIES -->
+        <aside class="left-sidebar">
+            <div class="category-list">
+                <button class="cat-button active" onclick="filterGallery('all')">✨ All Creations</button>
