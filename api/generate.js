@@ -17,14 +17,13 @@ export default async function handler(req, res) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "google/gemma-2-9b-it:free", // यह मॉडल हमेशा फ्री और एक्टिव रहता है
+        model: "meta-llama/llama-3.2-1b-instruct:free",
         messages: [{ role: "user", content: prompt }]
       })
     });
 
     const data = await response.json();
 
-    // अगर OpenRouter से कोई एरर आता है तो उसे कैच करें
     if (data.error) {
       return res.status(500).json({ reply: `API Error: ${data.error.message}` });
     }
