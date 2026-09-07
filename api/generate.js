@@ -17,16 +17,22 @@ export default async function handler(req, res) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "deepseek/deepseek-chat",
+        model: "google/gemma-2-9b-it:free", // यह मॉडल हमेशा फ्री और एक्टिव रहता है
         messages: [{ role: "user", content: prompt }]
       })
     });
 
     const data = await response.json();
+
+    // अगर OpenRouter से कोई एरर आता है तो उसे कैच करें
+    if (data.error) {
+      return res.status(500).json({ reply: `API Error: ${data.error.message}` });
+    }
+
     const reply = data.choices?.[0]?.message?.content || "No response received";
 
     return res.status(200).json({ reply });
   } catch (error) {
-    return res.status(500).json({ error: "Server Error", details: error.message });
+    return res.status(500).json({ reply: "Server Error", details: error.message });
   }
 }
