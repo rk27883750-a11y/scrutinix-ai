@@ -2,81 +2,199 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI</title>
+    <title>Scrutinix AI - No-CA Premium Unified Canvas</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-        body { background-color: #0f172a; color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .chat-container { width: 100%; max-width: 600px; height: 85vh; background-color: #1e293b; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        .chat-header { padding: 16px; background-color: #334155; text-align: center; font-weight: bold; font-size: 1.1rem; border-bottom: 1px solid #475569; }
-        .chat-box { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-        .message { max-width: 80%; padding: 10px 14px; border-radius: 8px; line-height: 1.4; font-size: 0.95rem; word-break: break-word; }
-        .user-message { align-self: flex-end; background-color: #2563eb; color: #fff; }
-        .ai-message { align-self: flex-start; background-color: #475569; color: #fff; }
-        .input-area { display: flex; padding: 12px; background-color: #334155; gap: 8px; }
-        input[type="text"] { flex: 1; padding: 10px 14px; border: none; border-radius: 6px; background-color: #0f172a; color: #fff; outline: none; }
-        button { padding: 10px 18px; border: none; border-radius: 6px; background-color: #2563eb; color: white; font-weight: bold; cursor: pointer; }
-        button:disabled { background-color: #64748b; cursor: not-allowed; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { display: flex; height: 100vh; background: #0f172a; color: white; overflow: hidden; }
+        
+        /* बायाँ हिस्सा: वॉयस कमांड सेंटर */
+        .sidebar { width: 35%; background: #1e293b; padding: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 1px solid #334155; text-align: center; }
+        .logo-area h2 { color: #38bdf8; font-size: 28px; margin-bottom: 5px; }
+        .logo-area p { color: #94a3b8; font-size: 14px; margin-bottom: 40px; }
+        
+        .btn-mic { background: #ef4444; border: none; width: 90px; height: 90px; border-radius: 50%; color: white; font-size: 36px; cursor: pointer; transition: 0.3s; margin-bottom: 20px; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+        .btn-mic.recording { background: #22c55e; box-shadow: 0 0 25px rgba(34, 197, 94, 0.6); animation: pulse 1.5s infinite; }
+        
+        #status { font-size: 15px; color: #cbd5e1; margin-bottom: 20px; }
+        #transcript { background: #0f172a; padding: 15px; border-radius: 8px; width: 100%; text-align: left; font-size: 13px; color: #94a3b8; border: 1px solid #334155; min-height: 80px; line-height: 1.6; }
+
+        /* दायाँ हिस्सा: लाइव मास्टर टैक्स लेज़र और लीड्स ग्रिड */
+        .workspace { width: 65%; padding: 40px; display: flex; flex-direction: column; }
+        .header-area { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .header-area h3 { color: #38bdf8; font-size: 22px; }
+        
+        .tabs { display: flex; gap: 10px; }
+        .tab-btn { background: #1e293b; border: 1px solid #334155; color: #94a3b8; padding: 10px 20px; cursor: pointer; border-radius: 6px; font-weight: bold; }
+        .tab-btn.active { background: #38bdf8; color: #0f172a; border-color: #38bdf8; }
+
+        .btn-ca-download { background: #22c55e; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; }
+        .btn-ca-download:hover { background: #16a34a; }
+
+        .table-container { background: #1e293b; border-radius: 10px; border: 1px solid #334155; padding: 20px; flex: 1; overflow-y: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        th { background: #334155; color: #38bdf8; padding: 14px; font-weight: 600; }
+        td { padding: 14px; border-bottom: 1px solid #334155; color: #e2e8f0; }
+        .btn-wa { background: #25d366; color: white; text-decoration: none; padding: 5px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
-<div class="chat-container">
-    <div class="chat-header">Scrutinix AI Assistant</div>
-    <div class="chat-box" id="chatBox">
-        <div class="message ai-message">नमस्ते! मैं Scrutinix AI हूँ। बताइए मैं आपकी क्या मदद करूँ?</div>
+    <!-- बायाँ भाग: वॉयस कमांड इनपुट -->
+    <div class="sidebar">
+        <div class="logo-area">
+            <h2>Scrutinix AI ⚡</h2>
+            <p>Unified No-CA Tax & Leads Engine</p>
+        </div>
+        
+        <button id="micBtn" class="btn-mic" onclick="toggleVoiceCapture()">🎤</button>
+        <div id="status">माइक दबाकर कमांड बोलें...</div>
+        <div id="transcript">आपकी आवाज़ यहाँ लाइव इनपुट में बदलेगी...</div>
     </div>
-    <div class="input-area">
-        <input type="text" id="userInput" placeholder="अपना मैसेज लिखें..." onkeydown="if(event.key === 'Enter') sendMessage()">
-        <button onclick="sendMessage()" id="sendBtn">Send</button>
+
+    <!-- दायाँ भाग: मल्टी-टैब ग्रिड कार्यक्षेत्र -->
+    <div class="workspace">
+        <div class="header-area">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchCanvas('invoices')">🧾 Invoices Database</button>
+                <button class="tab-btn" onclick="switchCanvas('leads')">📋 Voice Leads Grid</button>
+            </div>
+            <button class="btn-ca-download" onclick="downloadCALedger()">📥 Download CA File</button>
+        </div>
+        
+        <!-- टैब 1: इनवॉइस ग्रिड -->
+        <div class="table-container" id="invoicesCanvas">
+            <table>
+                <thead>
+                    <tr>
+                        <th>इनवॉइस नंबर</th>
+                        <th>ग्राहक का नाम</th>
+                        <th>मूल राशि (Base)</th>
+                        <th>GST (18%)</th>
+                        <th>कुल राशि (Total)</th>
+                    </tr>
+                </thead>
+                <tbody id="invoiceRows">
+                    <tr class="empty-row"><td colspan="5" style="text-align: center; color: #64748b; padding: 30px;">अभी तक कोई बिल या टैक्स डेटा रिकॉर्ड नहीं हुआ है।</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- टैब 2: लीड्स ग्रिड -->
+        <div class="table-container" id="leadsCanvas" style="display: none;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>नाम (Name)</th>
+                        <th>शहर (City)</th>
+                        <th>फ़ोन नंबर (Phone)</th>
+                        <th>एक्शन (Action)</th>
+                    </tr>
+                </thead>
+                <tbody id="leadsRows">
+                    <tr class="empty-state"><td colspan="4" style="text-align: center; color: #64748b; padding: 30px;">अभी तक कोई वॉयस लीड रिकॉर्ड नहीं हुई है।</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
 <script>
-    async function sendMessage() {
-        const inputField = document.getElementById("userInput");
-        const sendBtn = document.getElementById("sendBtn");
-        const chatBox = document.getElementById("chatBox");
-        const prompt = inputField.value.trim();
+    // 🔔 यहाँ अपना अभी-अभी कॉपी किया हुआ लंबा Google Web App URL पेस्ट करें!
+    const SCRUTINIX_TAX_API = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"; 
 
-        if (!prompt) return;
+    let recognition;
+    let isListening = false;
+    let localLedgerCache = [];
 
-        appendMessage(prompt, "user-message");
-        inputField.value = "";
-        inputField.disabled = true;
-        sendBtn.disabled = true;
-
-        const loadingDiv = appendMessage("सोच रहा हूँ...", "ai-message");
-
-        try {
-            const response = await fetch("/api/generate", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ prompt: prompt })
-            });
-
-            const data = await response.json();
-            loadingDiv.innerText = data.reply || "कोई उत्तर प्राप्त नहीं हुआ।";
-        } catch (error) {
-            loadingDiv.innerText = "एरर: सर्वर से कनेक्ट नहीं हो सका।";
-        } finally {
-            inputField.disabled = false;
-            sendBtn.disabled = false;
-            inputField.focus();
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRec();
+        recognition.lang = 'hi-IN'; // हिंदी + इंग्लिश मिक्स कमांड सपोर्ट
+        
+        recognition.onstart = () => {
+            document.getElementById('status').innerText = "🔴 सुन रहा हूँ, बोलिए...";
+            document.getElementById('micBtn').classList.add('recording');
+        };
+        recognition.onerror = () => { stopMicUI(); };
+        recognition.onend = () => { stopMicUI(); };
+        
+        recognition.onresult = async (event) => {
+            const speechText = event.results.transcript;
+            document.getElementById('transcript').innerHTML = <b>पहचाना गया:</b> "${speechText}";
+            
+            // स्मार्ट रूटिंग लॉजिक
+            if (speechText.includes("बिल") || speechText.includes("इनवॉइस") || speechText.includes("invoice")) {
+                await executeInvoiceTask(speechText);
+            } else {
+                await executeLeadTask(speechText);
+            }
+        };
     }
 
-    function appendMessage(text, className) {
-        const chatBox = document.getElementById("chatBox");
-        const messageDiv = document.createElement("div");
-        messageDiv.className = `message ${className}`;
-        messageDiv.innerText = text;
-        chatBox.appendChild(messageDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
-        return messageDiv;
+    function toggleVoiceCapture() {
+        if (!isListening) { recognition.start(); isListening = true; } 
+        else { recognition.stop(); isListening = false; }
     }
-</script>
 
-</body>
-</html>
+    function stopMicUI() {
+        document.getElementById('micBtn').classList.remove('recording');
+        document.getElementById('status').innerText = "✅ कमांड पूरी हुई! अगला बोलें।";
+        isListening = false;
+    }
+
+    // फंक्शन 1: नो-सीए (No-CA) ऑटो टैक्स इनवॉइस मेकर
+    async function executeInvoiceTask(text) {
+        const amountMatch = text.match(/\d+/);
+        const baseAmount = amountMatch ? parseFloat(amountMatch) : 1000;
+        const words = text.split(" ");
+        const clientName = words.length > 1 ? words : "ग्राहक";
+
+        const gst = (baseAmount * 0.18).toFixed(2);
+        const total = (baseAmount + parseFloat(gst)).toFixed(2);
+        const invNumber = "SCRX-TAX-" + Math.floor(100000 + Math.random() * 900000);
+
+        clearState('invoiceRows');
+        document.getElementById('invoiceRows').innerHTML = `
+            <tr><td><b>${invNumber}</b></td><td>👤 ${clientName}</td><td>₹${baseAmount.toFixed(2)}</td><td style="color:#ef4444;">₹${gst}</td><td style="color:#22c55e; font-weight:bold;">₹${total}</td></tr>
+        ` + document.getElementById('invoiceRows').innerHTML;
+
+        localLedgerCache.push([invNumber, clientName, baseAmount, gst, total]);
+        triggerVoiceAlert("इनवॉइस और टैक्स कैलकुलेट हो गया है।");
+        
+        sendToSystemBackend({ type: "invoice", clientName: clientName, amount: baseAmount });
+    }
+
+    // फंक्शन 2: वॉयस लीड्स टू एक्सेल ग्रिड
+    async function executeLeadTask(text) {
+        const words = text.split(" ");
+        const name = words || "क्लाइंट";
+        const city = words || "नहीं दिया";
+        const numMatch = text.match(/[6-9]\d{9}/);
+        const phone = numMatch ? numMatch : "नंबर नहीं मिला";
+
+        clearState('leadsRows');
+        const waLink = https://wa.me{phone}?text=नमस्ते%20${name},%20Scrutinix%20AI%20में%20आपका%20स्वागत%20है!;
+        
+        document.getElementById('leadsRows').innerHTML = `
+            <tr><td><b>${name}</b></td><td>📍 ${city}</td><td style="color:#4ade80;">${phone}</td><td><a href="${waLink}" target="_blank" class="btn-wa">💬 WhatsApp</a></td></tr>
+        ` + document.getElementById('leadsRows').innerHTML;
+        
+        triggerVoiceAlert(${name} की लीड सेव हो गई है।);
+        sendToSystemBackend({ type: "lead", name: name, city: city, phone: phone, fullText: text });
+    }
+
+    // यूटिलिटी फंक्शंस
+    function switchCanvas(target) {
+        document.getElementById('invoicesCanvas').style.display = target === 'invoices' ? 'block' : 'none';
+        document.getElementById('leadsCanvas').style.display = target === 'leads' ? 'block' : 'none';
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+    }
+
+    function clearState(id) {
+        const container = document.getElementById(id);
+        if (container.innerHTML.includes("अभी") || container.innerHTML.includes("No")) container.innerHTML = "";
+    }
+
+    function triggerVoiceAlert(msg) {
