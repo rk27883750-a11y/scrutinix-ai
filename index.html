@@ -53,7 +53,7 @@
         <div id="transcript">आपकी आवाज़ यहाँ लाइव इनपुट में बदलेगी...</div>
     </div>
 
-    <!-- दायाँ भाग: मल्टी-टैब ग्रिड कार्यक्षेत्र -->
+    <!-- दायाँ भाग: मल्टि-टैब ग्रिड कार्यक्षेत्र -->
     <div class="workspace">
         <div class="header-area">
             <div class="tabs">
@@ -93,15 +93,15 @@
                     </tr>
                 </thead>
                 <tbody id="leadsRows">
-                    <tr class="empty-state"><td colspan="4" style="text-align: center; color: #64748b; padding: 30px;">अभी तक कोई वॉयस लीड रिकॉर्ड नहीं हुई है।</td></tr>
+                    <tr class="empty-state"><td colspan="4" style="text-align: center; color: #64748b; padding: 30px;">अभी तक कोई वॉयस लीड रिकॉर्ड हुई है।</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
 
 <script>
-    // 🔔 यहाँ अपना अभी-अभी कॉपी किया हुआ लंबा Google Web App URL पेस्ट करें!
-    const SCRUTINIX_TAX_API = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"; 
+    // 🔔 आपका असली लिंक यहाँ सेट कर दिया गया है!
+    const SCRUTINIX_TAX_API = "https://google.com"; 
 
     let recognition;
     let isListening = false;
@@ -148,7 +148,7 @@
         const amountMatch = text.match(/\d+/);
         const baseAmount = amountMatch ? parseFloat(amountMatch) : 1000;
         const words = text.split(" ");
-        const clientName = words.length > 1 ? words : "ग्राहक";
+        const clientName = words.length > 1 ? words[1] : "ग्राहक";
 
         const gst = (baseAmount * 0.18).toFixed(2);
         const total = (baseAmount + parseFloat(gst)).toFixed(2);
@@ -168,10 +168,10 @@
     // फंक्शन 2: वॉयस लीड्स टू एक्सेल ग्रिड
     async function executeLeadTask(text) {
         const words = text.split(" ");
-        const name = words || "क्लाइंट";
-        const city = words || "नहीं दिया";
+        const name = words[0] || "क्लाइंट";
+        const city = words[1] || "नहीं दिया";
         const numMatch = text.match(/[6-9]\d{9}/);
-        const phone = numMatch ? numMatch : "नंबर नहीं मिला";
+        const phone = numMatch ? numMatch[0] : "नंबर नहीं मिला";
 
         clearState('leadsRows');
         const waLink = https://wa.me{phone}?text=नमस्ते%20${name},%20Scrutinix%20AI%20में%20आपका%20स्वागत%20है!;
