@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scrutinix AI - Website Insights</title>
     <style>
-        /* Base Cyberpunk Styles */
+        /* Global Reset & Cyberpunk Neon Theme */
         * {
             margin: 0 !important;
             padding: 0 !important;
@@ -20,94 +20,121 @@
             display: flex !important;
             flex-direction: column !important;
             align-items: center !important;
+            overflow-x: hidden !important;
         }
 
-        /* Top Header Navigation */
-        header {
-            width: 100% !important;
-            max-width: 1200px !important;
-            display: flex !important;
-            justify-content: space-between !important;
-            align-items: center !important;
-            padding: 25px 20px !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-            margin-bottom: 60px !important;
-        }
-        .scrutinix-logo {
-            font-size: 24px !important;
-            font-weight: bold !important;
-            color: #FFFFFF !important;
-        }
-        .scrutinix-logo span {
-            color: #00FFCC !important;
-        }
-        .center-menu {
-            display: flex !important;
-            gap: 30px !important;
-            list-style: none !important;
-        }
-        .center-menu a {
-            color: #8A99AD !important;
-            text-decoration: none !important;
-            font-size: 16px !important;
-        }
-
-        /* Hero Layout Split (Left & Right) */
-        .main-hero-flex {
-            display: flex !important;
-            gap: 50px !important;
-            align-items: center !important;
-            justify-content: space-between !important;
+        /* Full Width Wrapper */
+        .wrapper {
             width: 100% !important;
             max-width: 1200px !important;
             padding: 0 20px !important;
         }
-        .hero-left-text {
-            flex: 1 !important;
+
+        /* 1. Header Navigation */
+        header {
+            width: 100% !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            padding: 25px 0 !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
         }
-        .hero-left-text h1 {
-            font-size: 48px !important;
+        .brand-logo {
+            font-size: 22px !important;
+            font-weight: 700 !important;
+            color: #FFFFFF !important;
+        }
+        .brand-logo span {
+            color: #00FFCC !important;
+        }
+        .navbar-links {
+            display: flex !important;
+            gap: 30px !important;
+            list-style: none !important;
+        }
+        .navbar-links a {
+            color: #8A99AD !important;
+            text-decoration: none !important;
+            font-size: 15px !important;
+            transition: color 0.3s !important;
+        }
+        .navbar-links a:hover {
+            color: #FFFFFF !important;
+        }
+        .auth-buttons {
+            display: flex !important;
+            align-items: center !important;
+            gap: 20px !important;
+        }
+        .btn-login {
+            color: #FFFFFF !important;
+            text-decoration: none !important;
+            font-size: 15px !important;
+        }
+        .btn-cta-glow {
+            background: linear-gradient(135deg, #00FFCC, #0099FF) !important;
+            color: #000000 !important;
+            padding: 10px 22px !important;
+            border-radius: 100px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            font-size: 15px !important;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.4) !important;
+        }
+
+        /* 2. Main Hero Section Split */
+        .hero-layout {
+            display: flex !important;
+            gap: 40px !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            margin-top: 60px !important;
+            margin-bottom: 60px !important;
+            width: 100% !important;
+        }
+        .hero-left {
+            flex: 1.2 !important;
+        }
+        .hero-left h1 {
+            font-size: 44px !important;
             font-weight: 800 !important;
             line-height: 1.2 !important;
             margin-bottom: 20px !important;
             color: #FFFFFF !important;
         }
-        .hero-left-text h1 span {
+        .hero-left h1 span {
             color: #00FFCC !important;
         }
-        .hero-left-text p {
+        .hero-left p {
             color: #8A99AD !important;
-            font-size: 18px !important;
+            font-size: 17px !important;
             line-height: 1.6 !important;
-            margin-bottom: 35px !important;
+            margin-bottom: 30px !important;
         }
-
-        /* Glowing AI Input Box */
-        .ai-search-input {
+        .glowing-search-box {
             width: 100% !important;
             max-width: 480px !important;
             padding: 16px 20px !important;
-            background: rgba(255, 255, 255, 0.04) !important;
+            background: rgba(255, 255, 255, 0.03) !important;
             border: 1px solid #00FFCC !important;
             border-radius: 12px !important;
             color: #FFFFFF !important;
-            font-size: 16px !important;
+            font-size: 15px !important;
             outline: none !important;
             box-shadow: 0 0 15px rgba(0, 255, 204, 0.2) !important;
         }
 
-        /* Right Side Dashboard View */
-        .hero-right-dashboard {
-            flex: 1 !important;
+        /* Right Dashboard Card Mockup */
+        .hero-right-dash {
+            flex: 0.9 !important;
             background: #0D0F16 !important;
-            border: 2px solid rgba(0, 153, 255, 0.4) !important;
-            box-shadow: 0 0 30px rgba(0, 153, 255, 0.2) !important;
+            border: 2px solid rgba(0, 153, 255, 0.3) !important;
+            box-shadow: 0 0 35px rgba(0, 153, 255, 0.15) !important;
             border-radius: 16px !important;
-            padding: 35px !important;
-            max-width: 480px !important;
+            padding: 30px !important;
             width: 100% !important;
         }
-        .dash-top-bar {
+        .dash-user-row {
             display: flex !important;
             justify-content: space-between !important;
             align-items: center !important;
@@ -115,150 +142,148 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
             padding-bottom: 15px !important;
         }
-        .greeting-user {
-            font-size: 22px !important;
+        .user-title {
+            font-size: 20px !important;
             font-weight: 600 !important;
         }
-        .greeting-user span {
+        .user-title span {
             color: #00FFCC !important;
         }
-        .stats-row-flex {
+        .flex-stat-grid {
             display: flex !important;
-            gap: 20px !important;
+            gap: 15px !important;
         }
-        .stat-small-box {
+        .stat-card-item {
             flex: 1 !important;
             background: rgba(255, 255, 255, 0.02) !important;
             border: 1px solid rgba(255, 255, 255, 0.06) !important;
-            padding: 18px !important;
+            padding: 15px !important;
             border-radius: 10px !important;
         }
-        .big-stat-number {
-            font-size: 26px !important;
+        .stat-num-blue {
+            font-size: 24px !important;
             font-weight: 700 !important;
             color: #0099FF !important;
             margin-top: 5px !important;
         }
 
-        /* Ctrl + K Popup Bar overlay */
-        .ctrl-k-overlay {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            background: rgba(5, 7, 11, 0.95) !important;
-            z-index: 99999 !important;
+        /* Logos Ribbon bar */
+        .brand-ribbon {
             display: flex !important;
-            justify-content: center !important;
-            padding-top: 15vh !important;
-            opacity: 0 !important;
-            pointer-events: none !important;
-            transition: opacity 0.2s ease !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            padding: 20px 0 !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+            color: #4A5568 !important;
+            font-weight: 600 !important;
+            font-size: 14px !important;
+            margin-bottom: 60px !important;
         }
-        .ctrl-k-overlay.active {
-            opacity: 1 !important;
-            pointer-events: auto !important;
+
+        /* 3. Six Grid Features Section */
+        .section-headline {
+            text-align: center !important;
+            margin-bottom: 40px !important;
         }
-        .ctrl-k-box-body {
-            width: 90% !important;
-            max-width: 550px !important;
-            background: #121620 !important;
-            border: 1px solid #00FFCC !important;
-            box-shadow: 0 0 35px rgba(0, 255, 204, 0.3) !important;
-            border-radius: 14px !important;
-            padding: 25px !important;
-            height: fit-content !important;
-        }
-        .ctrl-k-input-field {
-            width: 100% !important;
-            padding: 14px !important;
-            background: rgba(255, 255, 255, 0.04) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 8px !important;
-            color: #FFFFFF !important;
-            font-size: 16px !important;
-            outline: none !important;
-            margin-bottom: 10px !important;
-        }
-        .cmd-list-row {
-            padding: 12px 10px !important;
-            color: #8A99AD !important;
-            margin-top: 8px !important;
-            cursor: pointer !important;
-            border-radius: 6px !important;
-        }
-        .cmd-list-row:hover {
+        .section-headline span {
             color: #00FFCC !important;
-            background: rgba(0,255,204,0.06) !important;
+            font-size: 12px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 2px !important;
+            font-weight: 700 !important;
+        }
+        .section-headline h2 {
+            font-size: 34px !important;
+            font-weight: 800 !important;
+            margin-top: 10px !important;
+        }
+        .six-features-grid {
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 20px !important;
+            margin-bottom: 80px !important;
+        }
+        .neon-feature-box {
+            background: rgba(13, 15, 22, 0.6) !important;
+            border: 1px solid rgba(0, 255, 204, 0.15) !important;
+            box-shadow: 0 0 12px rgba(0, 255, 204, 0.03) !important;
+            border-radius: 14px !important;
+            padding: 30px !important;
+            transition: all 0.3s ease !important;
+        }
+        .neon-feature-box:hover {
+            border-color: rgba(0, 255, 204, 0.6) !important;
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.25) !important;
+            transform: translateY(-2px) !important;
+        }
+        .box-icon {
+            font-size: 26px !important;
+            margin-bottom: 15px !important;
+        }
+        .neon-feature-box h3 {
+            font-size: 19px !important;
+            margin-bottom: 10px !important;
+            color: #FFFFFF !important;
+        }
+        .neon-feature-box p {
+            color: #8A99AD !important;
+            font-size: 14px !important;
+            line-height: 1.5 !important;
         }
 
-        /* Responsive Breakpoint for Mobile screen */
-        @media (max-width: 768px) {
-            .main-hero-flex {
-                flex-direction: column !important;
-                text-align: center !important;
-            }
-            .center-menu { display: none !important; }
+        /* 4. Pricing Plans Section */
+        .three-pricing-grid {
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 25px !important;
+            margin-bottom: 80px !important;
         }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div class="scrutinix-logo">⚡ Scrutinix <span>AI</span></div>
-        <ul class="center-menu">
-            <li><a href="#">Features</a></li>
-            <li><a href="#">Pricing</a></li>
-            <li><a href="#">Docs</a></li>
-        </ul>
-        <div style="font-size: 16px; color: #00FFCC; font-weight: 600; cursor: pointer;">Sign In</div>
-    </header>
-
-    <main class="main-hero-flex">
-        <div class="hero-left-text">
-            <span style="color: #00FFCC; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px;">✨ Next-Gen Automation</span>
-            <h1 style="margin-top: 15px;">Ask anything about your <span>website & brand</span>.</h1>
-            <p>From SEO Audits to AI Visibility, Scrutinix helps you extract valuable data and grow faster—all in one place.</p>
-            <input type="text" class="ai-search-input" placeholder="अपनी वेबसाइट का URL डालें (Press Ctrl+K)...">
-        </div>
-
-        <div class="hero-right-dashboard">
-            <div class="dash-top-bar">
-                <div class="greeting-user">Hello, <span>Rahul 👋</span></div>
-                <div style="font-size: 14px; color: #8A99AD; font-weight: 500;">Plan: Premium</div>
-            </div>
-            <div class="stats-row-flex">
-                <div class="stat-small-box">
-                    <div style="font-size: 12px; color: #8A99AD;">AI Credits</div>
-                    <div class="big-stat-number">$24.00</div>
-                </div>
-                <div class="stat-small-box">
-                    <div style="font-size: 12px; color: #8A99AD;">Remaining</div>
-                    <div class="big-stat-number" style="color: #00FFCC !important;">13 Days</div>
-                </div>
-            </div>
-            <div style="margin-top: 25px; color: #8A99AD; font-size: 14px;">
-                🔍 System Status: <span style="color: #FFF;">Connected to n8n</span>
-            </div>
-        </div>
-    </main>
-
-    <!-- Ctrl + K Magic Popup Bar Modal -->
-    <div class="ctrl-k-overlay" id="popupBar">
-        <div class="ctrl-k-box-body">
-            <input type="text" class="ctrl-k-input-field" id="modalSearch" placeholder="Type a command or ask AI...">
-            <div class="cmd-list-row">> Run Website SEO Audit</div>
-            <div class="cmd-list-row">> Check Available Credits</div>
-            <div class="cmd-list-row">> Open n8n Cloud Dashboard</div>
-        </div>
-    </div>
-
-    <script>
-        const barOverlay = document.getElementById('popupBar');
-        const searchInp = document.getElementById('modalSearch');
-
-        document.addEventListener('keydown', function(e) {
-            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
-                e.preventDefault();
-                barOverlay.classList.toggle('active');
+        .p-card {
+            background: rgba(13, 15, 22, 0.6) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 14px !important;
+            padding: 35px 25px !important;
+            display: flex !important;
+            flex-direction: column !important;
+        }
+        .p-premium-active {
+            border-color: rgba(0, 255, 204, 0.4) !important;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.1) !important;
+        }
+        .p-name {
+            font-size: 16px !important;
+            color: #8A99AD !important;
+            margin-bottom: 8px !important;
+        }
+        .p-cost {
+            font-size: 38px !important;
+            font-weight: 800 !important;
+            margin-bottom: 20px !important;
+        }
+        .p-cost span {
+            font-size: 15px !important;
+            font-weight: 400 !important;
+            color: #8A99AD !important;
+        }
+        .p-list {
+            list-style: none !important;
+            margin-bottom: 30px !important;
+            flex-grow: 1 !important;
+        }
+        .p-list li {
+            font-size: 14px !important;
+            color: #CBD5E1 !important;
+            margin-bottom: 10px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+        }
+        .p-list li::before {
+            content: "✓" !important;
+            color: #00FFCC !important;
+            font-weight: bold !important;
+        }
+        .btn-p-action {
+            width: 100%;
+            padding: 12px !important;
+            border-radius: 8px !important;
