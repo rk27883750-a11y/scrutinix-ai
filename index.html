@@ -13,27 +13,25 @@
             font-family: 'Inter', -apple-system, sans-serif;
         }
         body {
-            background-color: #05070B;
-            color: #FFFFFF;
+            background-color: #05070B !important;
+            color: #FFFFFF !important;
             overflow-x: hidden;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            width: 100vw;
+            min-height: 100vh;
+            padding: 0 40px;
         }
 
         /* Neon Glow Utility */
         .neon-border {
-            border: 1px solid rgba(0, 255, 204, 0.2);
+            border: 1px solid rgba(0, 255, 204, 0.2) !important;
             box-shadow: 0 0 15px rgba(0, 255, 204, 0.1), inset 0 0 15px rgba(0, 255, 204, 0.05);
             border-radius: 16px;
-            background: rgba(13, 15, 22, 0.6);
+            background: rgba(13, 15, 22, 0.9) !important;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
         }
         .neon-border:hover {
-            border-color: rgba(0, 255, 204, 0.6);
+            border-color: rgba(0, 255, 204, 0.6) !important;
             box-shadow: 0 0 25px rgba(0, 255, 204, 0.3);
         }
 
@@ -43,26 +41,29 @@
             padding: 20px 0;
             position: sticky;
             top: 0;
-            background: rgba(5, 7, 11, 0.8);
+            background: rgba(5, 7, 11, 0.9);
             backdrop-filter: blur(12px);
             z-index: 100;
+            width: 100%;
         }
         .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         .logo {
             font-size: 22px;
             font-weight: 700;
-            color: #FFFFFF;
+            color: #FFFFFF !important;
             display: flex;
             align-items: center;
             gap: 8px;
             text-decoration: none;
         }
         .logo span {
-            color: #00FFCC;
+            color: #00FFCC !important;
         }
         nav ul {
             display: flex;
@@ -70,13 +71,13 @@
             gap: 30px;
         }
         nav ul li a {
-            color: #8A99AD;
+            color: #8A99AD !important;
             text-decoration: none;
             font-size: 15px;
             transition: color 0.3s;
         }
         nav ul li a:hover {
-            color: #FFFFFF;
+            color: #FFFFFF !important;
         }
         .header-btns {
             display: flex;
@@ -84,13 +85,13 @@
             gap: 20px;
         }
         .btn-signin {
-            color: #FFFFFF;
+            color: #FFFFFF !important;
             text-decoration: none;
             font-size: 15px;
         }
         .btn-glow {
-            background: linear-gradient(135deg, #00FFCC, #0099FF);
-            color: #000;
+            background: linear-gradient(135deg, #00FFCC, #0099FF) !important;
+            color: #000000 !important;
             padding: 10px 22px;
             border-radius: 100px;
             font-weight: 600;
@@ -105,7 +106,9 @@
         }
 
         /* 2. Hero Section */
-        .hero {
+        .hero-section {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 80px 0;
             display: flex;
             gap: 50px;
@@ -118,7 +121,7 @@
             flex: 1;
         }
         .hero-tag {
-            color: #00FFCC;
+            color: #00FFCC !important;
             font-size: 14px;
             font-weight: 600;
             text-transform: uppercase;
@@ -126,22 +129,20 @@
             margin-bottom: 20px;
             display: inline-block;
         }
-        .hero h1 {
+        .hero-section h1 {
             font-size: 48px;
             line-height: 1.15;
             font-weight: 800;
             margin-bottom: 25px;
-            background: linear-gradient(to right, #FFF, #8A99AD);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #FFFFFF !important;
         }
-        .hero h1 span {
+        .hero-section h1 span {
             background: linear-gradient(to right, #00FFCC, #0099FF);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .hero p {
-            color: #8A99AD;
+        .hero-section p {
+            color: #8A99AD !important;
             font-size: 17px;
             line-height: 1.6;
             margin-bottom: 35px;
@@ -155,16 +156,16 @@
         .search-box {
             width: 100%;
             padding: 18px 25px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
             border-radius: 12px;
-            color: #FFF;
+            color: #FFFFFF !important;
             font-size: 16px;
             outline: none;
             transition: border-color 0.3s;
         }
         .search-box:focus {
-            border-color: #00FFCC;
+            border-color: #00FFCC !important;
         }
         .search-hint {
             position: absolute;
@@ -175,15 +176,16 @@
             padding: 4px 8px;
             border-radius: 6px;
             font-size: 12px;
-            color: #8A99AD;
+            color: #8A99AD !important;
             pointer-events: none;
         }
 
         /* Dashboard Preview Mockup */
         .dashboard-mock {
             padding: 30px;
-            border: 1px solid rgba(0, 153, 255, 0.2);
+            border: 1px solid rgba(0, 153, 255, 0.2) !important;
             box-shadow: 0 0 30px rgba(0, 153, 255, 0.1);
+            width: 100%;
         }
         .mock-header {
             display: flex;
@@ -198,7 +200,7 @@
             font-weight: 600;
         }
         .mock-user span {
-            color: #00FFCC;
+            color: #00FFCC !important;
         }
         .mock-stats {
             display: grid;
@@ -206,19 +208,23 @@
             gap: 20px;
         }
         .stat-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.02) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
             padding: 20px;
             border-radius: 12px;
         }
         .stat-val {
             font-size: 24px;
             font-weight: 700;
-            color: #0099FF;
+            color: #0099FF !important;
             margin-top: 5px;
         }
 
         /* 3. Features Grid Section */
+        .main-content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
         .section-title {
             text-align: center;
             margin: 80px 0 40px;
@@ -227,6 +233,7 @@
             font-size: 36px;
             font-weight: 800;
             margin-bottom: 15px;
+            color: #FFFFFF !important;
         }
         .features-grid {
             display: grid;
@@ -244,10 +251,10 @@
         .feature-card h3 {
             font-size: 20px;
             margin-bottom: 12px;
-            color: #FFF;
+            color: #FFFFFF !important;
         }
         .feature-card p {
-            color: #8A99AD;
+            color: #8A99AD !important;
             font-size: 15px;
             line-height: 1.6;
         }
@@ -267,18 +274,19 @@
         }
         .price-name {
             font-size: 18px;
-            color: #8A99AD;
+            color: #8A99AD !important;
             margin-bottom: 10px;
         }
         .price-amount {
             font-size: 42px;
             font-weight: 800;
             margin-bottom: 25px;
+            color: #FFFFFF !important;
         }
         .price-amount span {
             font-size: 16px;
             font-weight: 400;
-            color: #8A99AD;
+            color: #8A99AD !important;
         }
         .price-features {
             list-style: none;
@@ -288,23 +296,23 @@
         .price-features li {
             margin-bottom: 12px;
             font-size: 15px;
-            color: #E2E8F0;
+            color: #E2E8F0 !important;
             display: flex;
             align-items: center;
             gap: 10px;
         }
         .price-features li::before {
             content: "✓";
-            color: #00FFCC;
+            color: #00FFCC !important;
             font-weight: bold;
         }
         .btn-price {
             width: 100%;
             padding: 14px;
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.05);
-            color: #FFF;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            color: #FFFFFF !important;
             font-weight: 600;
             cursor: pointer;
             text-align: center;
@@ -312,8 +320,8 @@
             transition: all 0.3s;
         }
         .price-card:hover .btn-price {
-            background: #FFFFFF;
-            color: #000;
+            background: #FFFFFF !important;
+            color: #000000 !important;
         }
 
         /* 5. Ctrl + K Command Modal */
@@ -333,23 +341,3 @@
             pointer-events: none;
             transition: opacity 0.3s ease;
         }
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .command-box {
-            width: 100%;
-            max-width: 600px;
-            background: #0D0F16;
-            border: 1px solid rgba(0, 255, 204, 0.3);
-            box-shadow: 0 0 40px rgba(0, 255, 204, 0.15);
-            border-radius: 14px;
-            padding: 20px;
-            height: max-content;
-            transform: translateY(-20px);
-            transition: transform 0.3s ease;
-        }
-        .modal-overlay.active .command-box {
-            transform: translateY(0);
-        }
-        .command-input {
