@@ -2,199 +2,354 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <title>Scrutinix AI - No-CA Premium Unified Canvas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrutinix AI - Website Insights</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
-        body { display: flex; height: 100vh; background: #0f172a; color: white; overflow: hidden; }
-        
-        /* बायाँ हिस्सा: वॉयस कमांड सेंटर */
-        .sidebar { width: 35%; background: #1e293b; padding: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 1px solid #334155; text-align: center; }
-        .logo-area h2 { color: #38bdf8; font-size: 28px; margin-bottom: 5px; }
-        .logo-area p { color: #94a3b8; font-size: 14px; margin-bottom: 40px; }
-        
-        .btn-mic { background: #ef4444; border: none; width: 90px; height: 90px; border-radius: 50%; color: white; font-size: 36px; cursor: pointer; transition: 0.3s; margin-bottom: 20px; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
-        .btn-mic.recording { background: #22c55e; box-shadow: 0 0 25px rgba(34, 197, 94, 0.6); animation: pulse 1.5s infinite; }
-        
-        #status { font-size: 15px; color: #cbd5e1; margin-bottom: 20px; }
-        #transcript { background: #0f172a; padding: 15px; border-radius: 8px; width: 100%; text-align: left; font-size: 13px; color: #94a3b8; border: 1px solid #334155; min-height: 80px; line-height: 1.6; }
+        /* Base Styles & Cyberpunk Theme */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+        body {
+            background-color: #05070B;
+            color: #FFFFFF;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-        /* दायाँ हिस्सा: लाइव मास्टर टैक्स लेज़र और लीड्स ग्रिड */
-        .workspace { width: 65%; padding: 40px; display: flex; flex-direction: column; }
-        .header-area { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .header-area h3 { color: #38bdf8; font-size: 22px; }
-        
-        .tabs { display: flex; gap: 10px; }
-        .tab-btn { background: #1e293b; border: 1px solid #334155; color: #94a3b8; padding: 10px 20px; cursor: pointer; border-radius: 6px; font-weight: bold; }
-        .tab-btn.active { background: #38bdf8; color: #0f172a; border-color: #38bdf8; }
+        /* Neon Glow Utility */
+        .neon-border {
+            border: 1px solid rgba(0, 255, 204, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.1), inset 0 0 15px rgba(0, 255, 204, 0.05);
+            border-radius: 16px;
+            background: rgba(13, 15, 22, 0.6);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        .neon-border:hover {
+            border-color: rgba(0, 255, 204, 0.6);
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.3);
+        }
 
-        .btn-ca-download { background: #22c55e; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; }
-        .btn-ca-download:hover { background: #16a34a; }
+        /* 1. Header / Navigation */
+        header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            background: rgba(5, 7, 11, 0.8);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .logo span {
+            color: #00FFCC;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        nav ul li a {
+            color: #8A99AD;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+        nav ul li a:hover {
+            color: #FFFFFF;
+        }
+        .header-btns {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .btn-signin {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 15px;
+        }
+        .btn-glow {
+            background: linear-gradient(135deg, #00FFCC, #0099FF);
+            color: #000;
+            padding: 10px 22px;
+            border-radius: 100px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 15px;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.6);
+        }
 
-        .table-container { background: #1e293b; border-radius: 10px; border: 1px solid #334155; padding: 20px; flex: 1; overflow-y: auto; }
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-        th { background: #334155; color: #38bdf8; padding: 14px; font-weight: 600; }
-        td { padding: 14px; border-bottom: 1px solid #334155; color: #e2e8f0; }
-        .btn-wa { background: #25d366; color: white; text-decoration: none; padding: 5px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; }
-        
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-    </style>
-</head>
-<body>
+        /* 2. Hero Section */
+        .hero {
+            padding: 80px 0;
+            display: flex;
+            gap: 50px;
+            align-items: center;
+        }
+        .hero-left {
+            flex: 1;
+        }
+        .hero-right {
+            flex: 1;
+        }
+        .hero-tag {
+            color: #00FFCC;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        .hero h1 {
+            font-size: 48px;
+            line-height: 1.15;
+            font-weight: 800;
+            margin-bottom: 25px;
+            background: linear-gradient(to right, #FFF, #8A99AD);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero h1 span {
+            background: linear-gradient(to right, #00FFCC, #0099FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            color: #8A99AD;
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
 
-    <!-- बायाँ भाग: वॉयस कमांड इनपुट -->
-    <div class="sidebar">
-        <div class="logo-area">
-            <h2>Scrutinix AI ⚡</h2>
-            <p>Unified No-CA Tax & Leads Engine</p>
-        </div>
-        
-        <button id="micBtn" class="btn-mic" onclick="toggleVoiceCapture()">🎤</button>
-        <div id="status">माइक दबाकर कमांड बोलें...</div>
-        <div id="transcript">आपकी आवाज़ यहाँ लाइव इनपुट में बदलेगी...</div>
-    </div>
+        /* Mock Search Box UI */
+        .search-box-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .search-box {
+            width: 100%;
+            padding: 18px 25px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #FFF;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .search-box:focus {
+            border-color: #00FFCC;
+        }
+        .search-hint {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #8A99AD;
+            pointer-events: none;
+        }
 
-    <!-- दायाँ भाग: मल्टि-टैब ग्रिड कार्यक्षेत्र -->
-    <div class="workspace">
-        <div class="header-area">
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchCanvas('invoices')">🧾 Invoices Database</button>
-                <button class="tab-btn" onclick="switchCanvas('leads')">📋 Voice Leads Grid</button>
-            </div>
-            <button class="btn-ca-download" onclick="downloadCALedger()">📥 Download CA File</button>
-        </div>
-        
-        <!-- टैब 1: इनवॉइस ग्रिड -->
-        <div class="table-container" id="invoicesCanvas">
-            <table>
-                <thead>
-                    <tr>
-                        <th>इनवॉइस नंबर</th>
-                        <th>ग्राहक का नाम</th>
-                        <th>मूल राशि (Base)</th>
-                        <th>GST (18%)</th>
-                        <th>कुल राशि (Total)</th>
-                    </tr>
-                </thead>
-                <tbody id="invoiceRows">
-                    <tr class="empty-row"><td colspan="5" style="text-align: center; color: #64748b; padding: 30px;">अभी तक कोई बिल या टैक्स डेटा रिकॉर्ड नहीं हुआ है।</td></tr>
-                </tbody>
-            </table>
-        </div>
+        /* Dashboard Preview Mockup */
+        .dashboard-mock {
+            padding: 30px;
+            border: 1px solid rgba(0, 153, 255, 0.2);
+            box-shadow: 0 0 30px rgba(0, 153, 255, 0.1);
+        }
+        .mock-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 15px;
+        }
+        .mock-user {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .mock-user span {
+            color: #00FFCC;
+        }
+        .mock-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+        }
+        .stat-val {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0099FF;
+            margin-top: 5px;
+        }
 
-        <!-- टैब 2: लीड्स ग्रिड -->
-        <div class="table-container" id="leadsCanvas" style="display: none;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>नाम (Name)</th>
-                        <th>शहर (City)</th>
-                        <th>फ़ोन नंबर (Phone)</th>
-                        <th>एक्शन (Action)</th>
-                    </tr>
-                </thead>
-                <tbody id="leadsRows">
-                    <tr class="empty-state"><td colspan="4" style="text-align: center; color: #64748b; padding: 30px;">अभी तक कोई वॉयस लीड रिकॉर्ड नहीं हुई है।</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+        /* 3. Features Grid Section */
+        .section-title {
+            text-align: center;
+            margin: 80px 0 40px;
+        }
+        .section-title h2 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 80px;
+        }
+        .feature-card {
+            padding: 35px;
+        }
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: #FFF;
+        }
+        .feature-card p {
+            color: #8A99AD;
+            font-size: 15px;
+            line-height: 1.6;
+        }
 
-<script>
-    // 🔔 आपका नया और वर्किंग लिंक यहाँ सफलतापूर्वक सेट कर दिया गया है!
-    const SCRUTINIX_TAX_API = "https://script.google.com/macros/s/AKfycbXXGaP4AtBNhGSzfA2HOoj8IKqh0CxfoYOFru0lIKVLlDY9gZrHaiJPLrKrdOEBAqIS/exec"; 
+        /* 4. Pricing Section */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 100px;
+            align-items: stretch;
+        }
+        .price-card {
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        .price-name {
+            font-size: 18px;
+            color: #8A99AD;
+            margin-bottom: 10px;
+        }
+        .price-amount {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 25px;
+        }
+        .price-amount span {
+            font-size: 16px;
+            font-weight: 400;
+            color: #8A99AD;
+        }
+        .price-features {
+            list-style: none;
+            margin-bottom: 35px;
+            flex-grow: 1;
+        }
+        .price-features li {
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #E2E8F0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .price-features li::before {
+            content: "✓";
+            color: #00FFCC;
+            font-weight: bold;
+        }
+        .btn-price {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: #FFF;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .price-card:hover .btn-price {
+            background: #FFFFFF;
+            color: #000;
+        }
 
-    let recognition;
-    let isListening = false;
-    let localLedgerCache = [];
-
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-        recognition = new SpeechRec();
-        recognition.lang = 'hi-IN'; // हिंदी + इंग्लिश मिक्स कमांड सपोर्ट
-        
-        recognition.onstart = () => {
-            document.getElementById('status').innerText = "🔴 सुन रहा हूँ, बोलिए...";
-            document.getElementById('micBtn').classList.add('recording');
-        };
-        recognition.onerror = () => { stopMicUI(); };
-        recognition.onend = () => { stopMicUI(); };
-        
-        recognition.onresult = async (event) => {
-            const speechText = event.results.transcript;
-            document.getElementById('transcript').innerHTML = <b>पहचाना गया:</b> "${speechText}";
-            
-            // स्मार्ट रूटिंग लॉजिक
-            if (speechText.includes("बिल") || speechText.includes("इनवॉइस") || speechText.includes("invoice")) {
-                await executeInvoiceTask(speechText);
-            } else {
-                await executeLeadTask(speechText);
-            }
-        };
-    }
-
-    function toggleVoiceCapture() {
-        if (!isListening) { recognition.start(); isListening = true; } 
-        else { recognition.stop(); isListening = false; }
-    }
-
-    function stopMicUI() {
-        document.getElementById('micBtn').classList.remove('recording');
-        document.getElementById('status').innerText = "✅ कमांड पूरी हुई! अगला बोलें।";
-        isListening = false;
-    }
-
-    // फंक्शन 1: नो-सीए (No-CA) ऑटो टैक्स इनवॉइस मेकर
-    async function executeInvoiceTask(text) {
-        const amountMatch = text.match(/\d+/);
-        const baseAmount = amountMatch ? parseFloat(amountMatch) : 1000;
-        const words = text.split(" ");
-        const clientName = words.length > 1 ? words : "ग्राहक";
-
-        const gst = (baseAmount * 0.18).toFixed(2);
-        const total = (baseAmount + parseFloat(gst)).toFixed(2);
-        const invNumber = "SCRX-TAX-" + Math.floor(100000 + Math.random() * 900000);
-
-        clearState('invoiceRows');
-        document.getElementById('invoiceRows').innerHTML = `
-            <tr><td><b>${invNumber}</b></td><td>👤 ${clientName}</td><td>₹${baseAmount.toFixed(2)}</td><td style="color:#ef4444;">₹${gst}</td><td style="color:#22c55e; font-weight:bold;">₹${total}</td></tr>
-        ` + document.getElementById('invoiceRows').innerHTML;
-
-        localLedgerCache.push([invNumber, clientName, baseAmount, gst, total]);
-        triggerVoiceAlert("इनवॉइस और टैक्स कैलकुलेट हो गया है।");
-        
-        sendToSystemBackend({ type: "invoice", clientName: clientName, amount: baseAmount });
-    }
-
-    // फंक्शन 2: वॉयस लीड्स टू एक्सेल ग्रिड
-    async function executeLeadTask(text) {
-        const words = text.split(" ");
-        const name = words || "क्लाइंट";
-        const city = words || "नहीं दिया";
-        const numMatch = text.match(/[6-9]\d{9}/);
-        const phone = numMatch ? numMatch : "नंबर नहीं मिला";
-
-        clearState('leadsRows');
-        const waLink = https://wa.me{phone}?text=नमस्ते%20${name},%20Scrutinix%20AI%20में%20आपका%20स्वागत%20है!;
-        
-        document.getElementById('leadsRows').innerHTML = `
-            <tr><td><b>${name}</b></td><td>📍 ${city}</td><td style="color:#4ade80;">${phone}</td><td><a href="${waLink}" target="_blank" class="btn-wa">💬 WhatsApp</a></td></tr>
-        ` + document.getElementById('leadsRows').innerHTML;
-        
-        triggerVoiceAlert(${name} की लीड सेव हो गई है।);
-        sendToSystemBackend({ type: "lead", name: name, city: city, phone: phone, fullText: text });
-    }
-
-    // यूटिलिटी फंक्शंस
-    function switchCanvas(target) {
-        document.getElementById('invoicesCanvas').style.display = target === 'invoices' ? 'block' : 'none';
-        document.getElementById('leadsCanvas').style.display = target === 'leads' ? 'block' : 'none';
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        event.target.classList.add('active');
-    }
-
-    function clearState(id) {
-        const container = document.getElementById(id);
-        if (container.innerHTML.includes("अभी") || container.innerHTML.includes("No")) container.innerHTML = "";
-    }
-
-    function triggerVoiceAlert(msg) {
+        /* 5. Ctrl + K Command Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 7, 11, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            padding-top: 15vh;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .command-box {
+            width: 100%;
+            max-width: 600px;
+            background: #0D0F16;
+            border: 1px solid rgba(0, 255, 204, 0.3);
+            box-shadow: 0 0 40px rgba(0, 255, 204, 0.15);
+            border-radius: 14px;
+            padding: 20px;
+            height: max-content;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .command-box {
+            transform: translateY(0);
+        }
+        .command-input {
