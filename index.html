@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI Test</title>
+  <title>Scrutinix AI - Automation Builder</title>
   <style>
     body {
       background-color: #0b0f19;
@@ -12,58 +12,116 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
+      padding: 20px;
     }
-    .test-box {
-      text-align: center;
+    .automation-box {
+      width: 100%;
+      max-width: 450px;
       padding: 30px;
       border: 2px solid #38bdf8;
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
-      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.2);
+      border-radius: 16px;
       background: #111827;
     }
-    .btn-test {
-      padding: 15px 30px;
+    .automation-box h3 {
+      margin-top: 0;
+      margin-bottom: 5px;
+      font-size: 1.6rem;
+      text-align: center;
+      color: #38bdf8;
+    }
+    .automation-box p {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      margin-bottom: 6px;
+    }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      background: #0b0f19;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 10px;
+      color: white;
+      font-size: 0.95rem;
+      box-sizing: border-box;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      border-color: #38bdf8;
+      outline: none;
+    }
+    .btn-run {
+      width: 100%;
+      padding: 12px;
       background-color: #007bff;
       color: white;
       border: none;
       border-radius: 8px;
-      font-size: 1.2rem;
       font-weight: bold;
+      font-size: 1rem;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
       transition: 0.2s;
+      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+      margin-top: 10px;
     }
-    .btn-test:hover {
+    .btn-run:hover {
       background-color: #0056b3;
     }
   </style>
 </head>
 <body>
 
-  <div class="test-box">
-    <h2 style="margin-bottom: 20px;">⚡ Scrutinix AI Automation Test</h2>
-    <p style="color: #94a3b8; margin-bottom: 25px;">नीचे दिए बटन पर क्लिक करके सीधे अपनी Google Sheet में डेटा भेजें।</p>
+  <div class="automation-box">
+    <h3>⚡ Automation Builder</h3>
+    <p>Fill out the details below to trigger your automation.</p>
     
-    <!-- टेस्ट करने का मुख्य बटन -->
-    <button id="runBtn" class="btn-test">[ Run Automation ]</button>
+    <form id="scrutinixForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="Enter your name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+      </div>
+      <div class="form-group">
+        <label for="website">Website</label>
+        <input type="url" id="website" placeholder="https://yourwebsite.com" required>
+      </div>
+      <div class="form-group">
+        <label for="requirement">Requirement</label>
+        <textarea id="requirement" rows="4" placeholder="What do you want to automate?" required></textarea>
+      </div>
+      <button type="submit" class="btn-run">[ Run Automation ]</button>
+    </form>
   </div>
 
   <script>
-    document.getElementById('runBtn').addEventListener('click', function() {
-      // आपका बिल्कुल नया और लाइव Google Apps Script लिंक यहाँ सेट है
-      var webAppUrl = "https://script.google.com/macros/s/AKfycbyheFoHMOOVEi5IEO4Ayv_uOR0giRu9Gd5VB5O1O-otsDr7cbIrhPI9EVEgn370rifq/exec";
+    document.getElementById('scrutinixForm').addEventListener('submit', function(e) {
+      e.preventDefault();
       
-      // टेस्टिंग के लिए डमी डेटा (जो शीट में जाएगा)
-      var testData = {
-        name: "Rahul Test Live",
-        email: "rk27883750@gmail.com",
-        website: "scrutinixai.com",
-        requirement: "Testing with New Deployment Link"
+      var webAppUrl = "https://google.com";
+      
+      // अब डेटा सीधे इनपुट बॉक्स से लिया जाएगा
+      var formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        website: document.getElementById('website').value,
+        requirement: document.getElementById('requirement').value
       };
       
-      var btn = document.getElementById('runBtn');
+      var btn = e.target.querySelector('.btn-run');
       btn.innerText = "Running...";
       btn.disabled = true;
 
@@ -73,9 +131,10 @@
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(testData)
+        body: JSON.stringify(formData)
       }).then(function() {
-        alert('बधाई हो! ऑटोमेशन रन हो गया है। कृपया अपनी Google Sheet चेक करें।');
+        alert('ऑटोमेशन सफलतापूर्वक रन हो गया! कृपया अपनी Google Sheet चेक करें।');
+        document.getElementById('scrutinixForm').reset();
         btn.innerText = "[ Run Automation ]";
         btn.disabled = false;
       }).catch(function(err) {
