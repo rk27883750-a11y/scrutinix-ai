@@ -3,302 +3,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI - Grow Your Business</title>
-  <!-- फ़ॉन्ट और आइकॉन लोड करने के लिए सबसे ज़रूरी लाइन -->
-  <link rel="stylesheet" href="https://cloudflare.com">
+  <title>Scrutinix AI Test</title>
   <style>
-    /* Global Styles */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
     body {
       background-color: #0b0f19;
-      color: #ffffff;
-      padding: 40px 20px;
-    }
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .badge {
-      color: #38bdf8;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 10px;
-      display: inline-block;
-    }
-    h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-    h1 span {
-      background: linear-gradient(90deg, #38bdf8, #34d399);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .subtitle {
-      color: #94a3b8;
-      margin-bottom: 40px;
-      font-size: 1.1rem;
-    }
-
-    /* Grid for Features */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      margin-bottom: 40px;
-    }
-    .feature-card {
-      background: rgba(17, 24, 39, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 25px;
-      text-align: left;
-      position: relative;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-    .feature-card:hover {
-      transform: translateY(-5px);
-    }
-    .card-green { border-color: #059669; box-shadow: 0 0 15px rgba(5, 150, 105, 0.2); }
-    .card-blue { border-color: #2563eb; box-shadow: 0 0 15px rgba(37, 99, 235, 0.2); }
-    .card-cyan { border-color: #0891b2; box-shadow: 0 0 15px rgba(8, 145, 178, 0.2); }
-    .card-purple { border-color: #7c3aed; box-shadow: 0 0 15px rgba(124, 58, 237, 0.2); }
-
-    .icon-box {
-      width: 45px;
-      height: 45px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 15px;
-      font-size: 1.2rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    .arrow-top {
-      position: absolute;
-      top: 25px;
-      right: 25px;
-      color: #64748b;
-    }
-    .feature-card h3 {
-      font-size: 1.3rem;
-      margin-bottom: 10px;
-    }
-    .feature-card p {
-      color: #94a3b8;
-      font-size: 0.95rem;
-      line-height: 1.5;
-      margin-bottom: 15px;
-    }
-    .try-now {
-      color: #ffffff;
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .try-now:hover { text-decoration: underline; }
-
-    /* Trust Info Strip */
-    .trust-strip {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 25px;
-      color: #94a3b8;
-      font-size: 0.9rem;
-      padding: 20px 0;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      margin-bottom: 60px;
-    }
-    .trust-strip span i { margin-right: 5px; color: #34d399; }
-
-    /* Pricing Section */
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-      margin-top: 30px;
-      margin-bottom: 60px;
-    }
-    .price-card {
-      background: rgba(17, 24, 39, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 30px 20px;
-      text-align: left;
-      position: relative;
-    }
-    .price-card.premium-glow {
-      border-color: #3b82f6;
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-    }
-    .popular-tag {
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #2563eb;
       color: white;
-      padding: 3px 12px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: bold;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
     }
-    .price-card h4 { font-size: 1.2rem; margin-bottom: 5px; }
-    .price-card .desc { color: #64748b; font-size: 0.85rem; margin-bottom: 15px; }
-    .price-card .cost { font-size: 2rem; font-weight: bold; margin-bottom: 20px; }
-    .price-card .cost span { font-size: 1rem; color: #64748b; }
-    .price-card ul { list-style: none; margin-bottom: 25px; }
-    .price-card ul li { margin-bottom: 10px; font-size: 0.9rem; color: #cbd5e1; display: flex; align-items: center; gap: 8px; }
-    .price-card ul li i { color: #34d399; font-size: 0.8rem; }
-    .btn-plan {
-      width: 100%;
-      padding: 10px;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.2);
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.3s;
+    .test-box {
       text-align: center;
-    }
-    .price-card.premium-glow .btn-plan {
-      background: #2563eb;
-      border: none;
-    }
-    .btn-plan:hover { background: rgba(255,255,255,0.1); }
-    .price-card.premium-glow .btn-plan:hover { background: #1d4ed8; }
-
-    /* Testimonials */
-    .testimonial-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      margin-bottom: 60px;
-      text-align: left;
-    }
-    .testi-card {
-      background: rgba(17, 24, 39, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      padding: 20px;
-    }
-    .user-info { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
-    .avatar { width: 40px; height: 40px; background: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-    .user-details h5 { font-size: 0.95rem; }
-    .user-details span { font-size: 0.75rem; color: #64748b; }
-    .testi-card p { color: #94a3b8; font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px; }
-    .stars { color: #f59e0b; font-size: 0.8rem; }
-
-    /* Automation Builder Form Style */
-    .automation-section {
-      background: linear-gradient(135deg, rgba(17,24,39,0.9), rgba(9,15,25,0.9));
-      border: 1px solid #38bdf8;
-      box-shadow: 0 0 25px rgba(56, 189, 248, 0.2);
-      border-radius: 16px;
-      max-width: 500px;
-      margin: 40px auto;
       padding: 30px;
-      text-align: left;
-    }
-    .automation-section h3 { margin-bottom: 10px; font-size: 1.5rem; display: flex; align-items: center; gap: 8px; }
-    .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 5px; }
-    .form-group input, .form-group textarea {
-      width: 100%;
+      border: 2px solid #38bdf8;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+      border-radius: 12px;
       background: #111827;
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 8px;
-      padding: 10px;
-      color: white;
-      font-size: 0.95rem;
     }
-    .form-group input:focus, .form-group textarea:focus {
-      border-color: #38bdf8;
-      outline: none;
-    }
-    .btn-run {
-      width: 100%;
-      padding: 12px;
-      background: #007bff;
+    .btn-test {
+      padding: 15px 30px;
+      background-color: #007bff;
       color: white;
       border: none;
       border-radius: 8px;
+      font-size: 1.2rem;
       font-weight: bold;
-      font-size: 1rem;
       cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+      transition: 0.2s;
     }
-    .btn-run:hover { background: #0056b3; }
-
-    /* Footer Navigation */
-    footer {
-      margin-top: 60px;
-      padding: 20px 0;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 20px;
+    .btn-test:hover {
+      background-color: #0056b3;
     }
-    .footer-logo { font-weight: bold; display: flex; align-items: center; gap: 8px; font-size: 1.1rem; }
-    .footer-links a { color: #64748b; text-decoration: none; margin-left: 15px; font-size: 0.9rem; }
-    .footer-links a:hover { color: white; }
-    .social-icons a { color: #64748b; margin-left: 10px; font-size: 1rem; }
-    .social-icons a:hover { color: white; }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <span class="badge">✦ Powerful Features ✦</span>
-    <h1>Everything You Need to <span>Grow Your Business</span></h1>
-    <p class="subtitle">Powerful AI tools designed to help you solve real problems, save time, and get better results.</p>
+  <div class="test-box">
+    <h2 style="margin-bottom: 20px;">⚡ Scrutinix AI Automation Test</h2>
+    <p style="color: #94a3b8; margin-bottom: 25px;">नीचे दिए बटन पर क्लिक करके सीधे अपनी Google Sheet में डेटा भेजें।</p>
+    
+    <!-- टेस्ट करने का मुख्य बटन -->
+    <button id="runBtn" class="btn-test">[ Run Automation ]</button>
+  </div>
 
-    <!-- 5 Feature Cards Grid -->
-    <div class="features-grid">
-      <div class="feature-card card-green">
-        <div class="icon-box" style="color: #34d399;"><i class="fa-solid fa-magnifying-glass"></i></div>
-        <i class="fa-solid fa-arrow-up-right-from-square arrow-top"></i>
-        <h3>SEO Audit Tool</h3>
-        <p>Check your website's speed, meta tags, mobile-friendliness, SSL sitemap & more.</p>
-        <a href="#automation-form" class="try-now">Try Now →</a>
-      </div>
+  <script>
+    document.getElementById('runBtn').addEventListener('click', function() {
+      // आपका लाइव Google Apps Script लिंक
+      var webAppUrl = "https://google.com";
+      
+      // टेस्टिंग के लिए डमी डेटा (जो शीट में जाएगा)
+      var testData = {
+        name: "Rahul Test",
+        email: "rk27883750@gmail.com",
+        website: "scrutinixai.com",
+        requirement: "Direct Testing from Live Button"
+      };
+      
+      var btn = document.getElementById('runBtn');
+      btn.innerText = "Running...";
+      btn.disabled = true;
 
-      <div class="feature-card card-blue">
-        <div class="icon-box" style="color: #3b82f6;"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-        <i class="fa-solid fa-arrow-up-right-from-square arrow-top"></i>
-        <h3>AI Search</h3>
-        <p>Get instant answers, research from the web, upload files, use voice & more.</p>
-        <a href="#automation-form" class="try-now">Try Now →</a>
-      </div>
-
-      <div class="feature-card card-cyan">
-        <div class="icon-box" style="color: #22d3ee;"><i class="fa-solid fa-database"></i></div>
-        <i class="fa-solid fa-arrow-up-right-from-square arrow-top"></i>
-        <h3>Extract Data</h3>
-        <p>Pull data from websites, PDFs, documents and more in seconds.</p>
-        <a href="#automation-form" class="try-now">Try Now →</a>
-      </div>
-
-      <div class="feature-card card-purple">
-        <div class="icon-box" style="color: #a78bfa;"><i class="fa-solid fa-chart-line"></i></div>
-        <i class="fa-solid fa-arrow-up-right-from-square arrow-top"></i>
-        <h3>AI Visibility</h3>
+      fetch(webAppUrl, {
+        method: 'POST',
+        mode: 'no-cors', 
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(testData)
+      }).then(function() {
+        alert('बधाई हो! ऑटोमेशन रन हो गया है। कृपया अपनी Google Sheet चेक करें।');
+        btn.innerText = "[ Run Automation ]";
+        btn.disabled = false;
+      }).catch(function(err) {
+        alert('त्रुटि हुई: ' + err);
+        btn.innerText = "[ Run Automation ]";
+        btn.disabled = false;
+      });
+    });
+  </script>
+</body>
+</html>
