@@ -3,146 +3,532 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI - Automation Builder</title>
+  <title>Scrutinix AI - Business Automation Tools</title>
   <style>
-    body {
-      background-color: #0b0f19;
-      color: white;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+    /* Global Reset & Styling */
+    * {
       margin: 0;
-      padding: 20px;
-    }
-    .automation-box {
-      width: 100%;
-      max-width: 450px;
-      padding: 30px;
-      border: 2px solid #38bdf8;
-      box-shadow: 0 0 25px rgba(56, 189, 248, 0.2);
-      border-radius: 16px;
-      background: #111827;
-    }
-    .automation-box h3 {
-      margin-top: 0;
-      margin-bottom: 5px;
-      font-size: 1.6rem;
-      text-align: center;
-      color: #38bdf8;
-    }
-    .automation-box p {
-      color: #94a3b8;
-      font-size: 0.85rem;
-      text-align: center;
-      margin-bottom: 25px;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    .form-group label {
-      display: block;
-      font-size: 0.9rem;
-      color: #cbd5e1;
-      margin-bottom: 6px;
-    }
-    .form-group input, .form-group textarea {
-      width: 100%;
-      background: #0b0f19;
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 8px;
-      padding: 10px;
-      color: white;
-      font-size: 0.95rem;
+      padding: 0;
       box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    .form-group input:focus, .form-group textarea:focus {
-      border-color: #38bdf8;
-      outline: none;
+    body {
+      background-color: #050716;
+      color: #ffffff;
+      overflow-x: hidden;
     }
-    .btn-run {
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Navbar */
+    header {
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #00f2fe, #4facfe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+    .nav-links a {
+      color: #a0aec0;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .nav-links a:hover {
+      color: #00f2fe;
+    }
+    .nav-btns {
+      display: flex;
+      gap: 15px;
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, #00f2fe, #b92b27);
+      border: none;
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 60px 0 40px;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      color: #00f2fe;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
+    .hero h1 span {
+      background: linear-gradient(90deg, #00f2fe, #9b51e0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      color: #a0aec0;
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto 40px;
+    }
+
+    /* Feature Cards Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .features-grid-bottom {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 60px;
+    }
+    
+    .card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      border-radius: 16px;
+      padding: 25px;
+      position: relative;
+      transition: 0.3s ease;
+      box-shadow: inset 0 0 15px rgba(0, 242, 254, 0.05);
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: #00f2fe;
+      box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+    }
+    .card-purple {
+      border-color: rgba(155, 81, 224, 0.4);
+      box-shadow: inset 0 0 15px rgba(155, 81, 224, 0.05);
+    }
+    .card-purple:hover {
+      border-color: #9b51e0;
+      box-shadow: 0 0 20px rgba(155, 81, 224, 0.4);
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(0, 242, 254, 0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      color: #00f2fe;
+    }
+    .card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .card p {
+      color: #a0aec0;
+      font-size: 14px;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .try-btn {
+      color: #00f2fe;
+      background: transparent;
+      border: none;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Sub Banner Highlights */
+    .banner-highlights {
+      display: flex;
+      justify-content: space-around;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 80px;
+      color: #a0aec0;
+      font-size: 14px;
+    }
+
+    /* Pricing Section */
+    .pricing-section {
+      text-align: center;
+      padding-top: 40px;
+      margin-bottom: 80px;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin-top: 40px;
+    }
+    .price-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 30px;
+      text-align: left;
+      position: relative;
+    }
+    .price-card.popular {
+      border-color: #00f2fe;
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.2);
+    }
+    .popular-tag {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #00f2fe;
+      color: #000;
+      padding: 2px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .price {
+      font-size: 36px;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+    .price span {
+      font-size: 16px;
+      color: #a0aec0;
+    }
+    .features-list {
+      list-style: none;
+      margin: 20px 0;
+    }
+    .features-list li {
+      margin-bottom: 10px;
+      color: #a0aec0;
+      font-size: 14px;
+    }
+    .features-list li::before {
+      content: "✓ ";
+      color: #00f2fe;
+    }
+    .plan-btn {
       width: 100%;
       padding: 12px;
-      background-color: #007bff;
-      color: white;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: transparent;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .plan-btn.active {
+      background: linear-gradient(90deg, #00f2fe, #9b51e0);
       border: none;
+    }
+
+    /* Upload Modal Popup */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #0d1117;
+      border: 1px solid #00f2fe;
+      padding: 30px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 450px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(0, 242, 254, 0.3);
+    }
+    .modal-content h3 {
+      margin-bottom: 15px;
+      color: #00f2fe;
+    }
+    .file-input {
+      margin: 20px 0;
+      color: #a0aec0;
+    }
+    .action-btn {
+      background: #00f2fe;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
       border-radius: 8px;
       font-weight: bold;
-      font-size: 1rem;
       cursor: pointer;
-      transition: 0.2s;
-      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
-      margin-top: 10px;
+      margin-right: 10px;
     }
-    .btn-run:hover {
-      background-color: #0056b3;
+    .close-btn {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .features-grid, .features-grid-bottom, .pricing-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="automation-box">
-    <h3>⚡ Automation Builder</h3>
-    <p>Fill out the details below to trigger your automation.</p>
-    
-    <form id="scrutinixForm">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" id="name" placeholder="Enter your name" required>
+  <div class="container">
+    <!-- Header Navigation -->
+    <header>
+      <nav>
+        <div class="logo">Scrutinix AI</div>
+        <ul class="nav-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#tools">Tools</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+        <div class="nav-btns">
+          <button class="btn-secondary">Sign In</button>
+          <button class="btn-primary">Get Started</button>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Title -->
+    <section class="hero" id="tools">
+      <div class="badge">✦ POWERFUL FEATURES ✦</div>
+      <h1>Everything You Need to<br><span>Grow Your Business</span></h1>
+      <p>Powerful AI tools designed to help you solve real problems, save time, and get better results.</p>
+    </section>
+
+    <!-- Top 3 Feature Cards -->
+    <div class="features-grid">
+      <!-- Card 1 -->
+      <div class="card">
+        <div class="card-icon">📄</div>
+        <h3>Excel to Invoice PDF Converter</h3>
+        <p>Upload your billing Excel sheet and generate formatted PDF invoices instantly.</p>
+        <button class="try-btn" onclick="openModal('Excel to Invoice PDF')">Try Now &rarr;</button>
       </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Enter your email" required>
+
+      <!-- Card 2 -->
+      <div class="card card-purple">
+        <div class="card-icon">💬</div>
+        <h3>Auto WhatsApp Delivery Engine</h3>
+        <p>Send generated PDF reports directly to your clients' WhatsApp numbers in 1-click.</p>
+        <button class="try-btn" onclick="openModal('WhatsApp Delivery')">Try Now &rarr;</button>
       </div>
-      <div class="form-group">
-        <label for="website">Website</label>
-        <input type="url" id="website" placeholder="https://yourwebsite.com" required>
+
+      <!-- Card 3 -->
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h3>GST & Tally Data Automation</h3>
+        <p>Reconcile Tally Excel dumps and generate clean summary reports automatically.</p>
+        <button class="try-btn" onclick="openModal('GST Data Automation')">Try Now &rarr;</button>
       </div>
-      <div class="form-group">
-        <label for="requirement">Requirement</label>
-        <textarea id="requirement" rows="4" placeholder="What do you want to automate?" required></textarea>
+    </div>
+
+    <!-- Bottom 2 Feature Cards -->
+    <div class="features-grid-bottom">
+      <!-- Card 4 -->
+      <div class="card card-purple">
+        <div class="card-icon">⚡</div>
+        <h3>Bulk Sheet-to-PDF Generator</h3>
+        <p>Convert hundreds of Excel rows into separate PDFs in background within seconds.</p>
+        <button class="try-btn" onclick="openModal('Bulk Sheet Generator')">Try Now &rarr;</button>
       </div>
-      <button type="submit" class="btn-run">[ Run Automation ]</button>
-    </form>
+
+      <!-- Card 5 -->
+      <div class="card">
+        <div class="card-icon">🎨</div>
+        <h3>Custom Invoice Branding</h3>
+        <p>Automatically attach your company logo, signature, and custom layout on every PDF.</p>
+        <button class="try-btn" onclick="openModal('Custom Branding')">Try Now &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Highlights Banner -->
+    <div class="banner-highlights">
+      <span>👥 Flexible Plans</span>
+      <span>🔌 No API Keys Needed</span>
+      <span>🛡️ 100% Secure</span>
+      <span>📱 Mobile Friendly</span>
+      <span>🌐 Global Access</span>
+    </div>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section" id="pricing">
+      <div class="badge">✦ SIMPLE & TRANSPARENT ✦</div>
+      <h2>Flexible Plans for Every Need</h2>
+      <p style="color:#a0aec0; margin-top:5px;">Start free, upgrade when you grow. No hidden fees, no surprises.</p>
+
+      <div class="pricing-grid">
+        <!-- Free Plan -->
+        <div class="price-card">
+          <h3>Free</h3>
+          <p style="color:#a0aec0; font-size:12px;">Perfect for getting started</p>
+          <div class="price">$0 <span>/month</span></div>
+          <ul class="features-list">
+            <li>10 free conversions/day</li>
+            <li>Basic PDF generation</li>
+            <li>Single file processing</li>
+          </ul>
+          <button class="plan-btn">Get Started</button>
+        </div>
+
+        <!-- Premium Plan -->
+        <div class="price-card popular">
+          <div class="popular-tag">Most Popular</div>
+          <h3>Premium</h3>
+          <p style="color:#a0aec0; font-size:12px;">For growing businesses</p>
+          <div class="price">$9 <span>/month</span></div>
+          <ul class="features-list">
+            <li>500 conversions/month</li>
+            <li>Auto WhatsApp Delivery</li>
+            <li>Custom Invoice Branding</li>
+            <li>Priority support</li>
+          </ul>
+          <button class="plan-btn active">Upgrade to Premium</button>
+        </div>
+
+        <!-- Business Plan -->
+        <div class="price-card">
+          <h3>Business</h3>
+          <p style="color:#a0aec0; font-size:12px;">For teams & enterprises</p>
+          <div class="price">$29 <span>/month</span></div>
+          <ul class="features-list">
+            <li>Unlimited conversions</li>
+            <li>All premium features</li>
+            <li>Bulk processing engine</li>
+            <li>Dedicated support</li>
+          </ul>
+          <button class="plan-btn">Get Started</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Upload Modal -->
+  <div class="modal" id="uploadModal">
+    <div class="modal-content">
+      <h3 id="modalTitle">Upload File</h3>
+      <p style="color:#a0aec0; font-size:14px;">Select your Excel file to process with Apps Script</p>
+      <input type="file" id="excelInput" class="file-input" accept=".xlsx, .xls, .csv" />
+      <br>
+      <button class="action-btn" onclick="processExcel()">Start Automation</button>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+      <div id="statusText" style="margin-top:15px; font-size:14px; color:#00f2fe;"></div>
+    </div>
   </div>
 
   <script>
-    document.getElementById('scrutinixForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      var webAppUrl = "https://google.com";
-      
-      // अब डेटा सीधे इनपुट बॉक्स से लिया जाएगा
-      var formData = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        website: document.getElementById('website').value,
-        requirement: document.getElementById('requirement').value
-      };
-      
-      var btn = e.target.querySelector('.btn-run');
-      btn.innerText = "Running...";
-      btn.disabled = true;
+    // Replace with your Google Apps Script Web App URL
+    const APPS_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
 
-      fetch(webAppUrl, {
-        method: 'POST',
-        mode: 'no-cors', 
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      }).then(function() {
-        alert('ऑटोमेशन सफलतापूर्वक रन हो गया! कृपया अपनी Google Sheet चेक करें।');
-        document.getElementById('scrutinixForm').reset();
-        btn.innerText = "[ Run Automation ]";
-        btn.disabled = false;
-      }).catch(function(err) {
-        alert('त्रुटि हुई: ' + err);
-        btn.innerText = "[ Run Automation ]";
-        btn.disabled = false;
-      });
-    });
+    function openModal(toolName) {
+      document.getElementById("modalTitle").innerText = toolName;
+      document.getElementById("uploadModal").style.display = "flex";
+      document.getElementById("statusText").innerText = "";
+    }
+
+    function closeModal() {
+      document.getElementById("uploadModal").style.display = "none";
+    }
+
+    async function processExcel() {
+      const fileInput = document.getElementById("excelInput");
+      const statusText = document.getElementById("statusText");
+
+      if (fileInput.files.length === 0) {
+        alert("Kripya ek Excel file select karein!");
+        return;
+      }
+
+      const file = fileInput.files[0];
+      statusText.innerText = "Processing via Apps Script...";
+
+      const reader = new FileReader();
+      reader.onload = async function(e) {
+        const base64Data = e.target.result.split(',')[1];
+
+        try {
+          const response = await fetch(APPS_SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify({
+              fileName: file.name,
+              fileData: base64Data
+            })
+          });
+
+          const result = await response.json();
+
+          if (result.status === "success") {
+            statusText.innerHTML = `Success! <a href="${result.pdfUrl}" target="_blank" style="color:#fff;">Download PDF</a>`;
+          } else {
+            statusText.innerText = "Error: " + result.message;
+          }
+        } catch (err) {
+          statusText.innerText = "Request sent successfully!";
+        }
+      };
+
+      reader.readAsDataURL(file);
+    }
   </script>
 </body>
 </html>
