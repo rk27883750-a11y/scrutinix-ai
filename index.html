@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI - Business Automation Tools</title>
+  <title>Scrutinix - Business Automation Tools</title>
   <style>
     /* Global Reset & Styling */
     * {
@@ -39,11 +39,12 @@
       align-items: center;
     }
     .logo {
-      font-size: 24px;
+      font-size: 26px;
       font-weight: bold;
       background: linear-gradient(90deg, #00f2fe, #4facfe);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      letter-spacing: 0.5px;
     }
     .nav-links {
       display: flex;
@@ -196,12 +197,77 @@
       font-size: 14px;
     }
 
-    /* Pricing Section */
+    /* Pricing Section & Toggle */
     .pricing-section {
       text-align: center;
       padding-top: 40px;
       margin-bottom: 80px;
     }
+
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 25px;
+    }
+    .toggle-text {
+      font-size: 16px;
+      color: #a0aec0;
+    }
+    .toggle-text.active {
+      color: #00f2fe;
+      font-weight: bold;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 56px;
+      height: 28px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(0, 242, 254, 0.4);
+      transition: .4s;
+      border-radius: 34px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 4px;
+      bottom: 3px;
+      background-color: #00f2fe;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: rgba(155, 81, 224, 0.3);
+      border-color: #9b51e0;
+    }
+    input:checked + .slider:before {
+      transform: translateX(26px);
+      background-color: #9b51e0;
+    }
+    .save-badge {
+      background: rgba(155, 81, 224, 0.2);
+      border: 1px solid #9b51e0;
+      color: #d69e2e;
+      font-size: 12px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      margin-left: 5px;
+    }
+
     .pricing-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -238,8 +304,9 @@
       margin: 15px 0;
     }
     .price span {
-      font-size: 16px;
+      font-size: 14px;
       color: #a0aec0;
+      font-weight: normal;
     }
     .features-list {
       list-style: none;
@@ -334,7 +401,7 @@
     <!-- Header Navigation -->
     <header>
       <nav>
-        <div class="logo">Scrutinix AI</div>
+        <div class="logo">Scrutinix</div>
         <ul class="nav-links">
           <li><a href="#">Home</a></li>
           <li><a href="#tools">Tools</a></li>
@@ -353,7 +420,7 @@
     <section class="hero" id="tools">
       <div class="badge">✦ POWERFUL FEATURES ✦</div>
       <h1>Everything You Need to<br><span>Grow Your Business</span></h1>
-      <p>Powerful AI tools designed to help you solve real problems, save time, and get better results.</p>
+      <p>Powerful automation tools designed to help you solve real problems, save time, and get better results.</p>
     </section>
 
     <!-- Top 3 Feature Cards -->
@@ -417,12 +484,22 @@
       <h2>Flexible Plans for Every Need</h2>
       <p style="color:#a0aec0; margin-top:5px;">Start free, upgrade when you grow. No hidden fees, no surprises.</p>
 
+      <!-- Monthly / Yearly Toggle -->
+      <div class="toggle-container">
+        <span class="toggle-text active" id="monthlyLabel">Monthly</span>
+        <label class="switch">
+          <input type="checkbox" id="pricingToggle" onchange="togglePricing()">
+          <span class="slider"></span>
+        </label>
+        <span class="toggle-text" id="yearlyLabel">Yearly <span class="save-badge">Save 20%</span></span>
+      </div>
+
       <div class="pricing-grid">
         <!-- Free Plan -->
         <div class="price-card">
           <h3>Free</h3>
           <p style="color:#a0aec0; font-size:12px;">Perfect for getting started</p>
-          <div class="price">$0 <span>/month</span></div>
+          <div class="price" id="freePrice">₹0 <span id="freeCycle">/month</span></div>
           <ul class="features-list">
             <li>10 free conversions/day</li>
             <li>Basic PDF generation</li>
@@ -436,7 +513,7 @@
           <div class="popular-tag">Most Popular</div>
           <h3>Premium</h3>
           <p style="color:#a0aec0; font-size:12px;">For growing businesses</p>
-          <div class="price">$9 <span>/month</span></div>
+          <div class="price" id="premiumPrice">₹299 <span id="premiumCycle">/month</span></div>
           <ul class="features-list">
             <li>500 conversions/month</li>
             <li>Auto WhatsApp Delivery</li>
@@ -450,7 +527,7 @@
         <div class="price-card">
           <h3>Business</h3>
           <p style="color:#a0aec0; font-size:12px;">For teams & enterprises</p>
-          <div class="price">$29 <span>/month</span></div>
+          <div class="price" id="businessPrice">₹999 <span id="businessCycle">/month</span></div>
           <ul class="features-list">
             <li>Unlimited conversions</li>
             <li>All premium features</li>
@@ -488,6 +565,34 @@
 
     function closeModal() {
       document.getElementById("uploadModal").style.display = "none";
+    }
+
+    // Toggle Monthly and Yearly Pricing
+    function togglePricing() {
+      const isYearly = document.getElementById("pricingToggle").checked;
+      
+      const monthlyLabel = document.getElementById("monthlyLabel");
+      const yearlyLabel = document.getElementById("yearlyLabel");
+
+      const premiumPrice = document.getElementById("premiumPrice");
+      const businessPrice = document.getElementById("businessPrice");
+
+      const premiumCycle = document.getElementById("premiumCycle");
+      const businessCycle = document.getElementById("businessCycle");
+
+      if (isYearly) {
+        monthlyLabel.classList.remove("active");
+        yearlyLabel.classList.add("active");
+
+        premiumPrice.innerHTML = '₹2,799 <span id="premiumCycle">/year</span>';
+        businessPrice.innerHTML = '₹9,599 <span id="businessCycle">/year</span>';
+      } else {
+        yearlyLabel.classList.remove("active");
+        monthlyLabel.classList.add("active");
+
+        premiumPrice.innerHTML = '₹299 <span id="premiumCycle">/month</span>';
+        businessPrice.innerHTML = '₹999 <span id="businessCycle">/month</span>';
+      }
     }
 
     async function processExcel() {
