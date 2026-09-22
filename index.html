@@ -374,14 +374,9 @@
       margin-bottom: 15px;
       color: #00f2fe;
     }
-    .file-input, .text-input {
-      margin: 15px 0;
+    .file-input {
+      margin: 20px 0;
       color: #a0aec0;
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #374151;
-      background: #1f2937;
     }
     .action-btn {
       background: #00f2fe;
@@ -569,12 +564,7 @@
   <div class="modal" id="uploadModal">
     <div class="modal-content">
       <h3 id="modalTitle">Upload File</h3>
-      <p style="color:#a0aec0; font-size:14px; margin-top:5px;" id="modalSubtitle">Select your file to process with Apps Script</p>
-
-      <!-- Input for Mobile Number (Only shows for WhatsApp Tool) -->
-      <input type="tel" id="whatsappPhone" class="text-input" placeholder="Enter Mobile Number (e.g. 7304111280)" value="7304111280" style="display:none;" />
-
-      <!-- Input for Excel File -->
+      <p style="color:#a0aec0; font-size:14px; margin-top:5px;">Select your file to process with Apps Script</p>
       <input type="file" id="excelInput" class="file-input" accept=".xlsx, .xls, .csv, .pdf" />
       <br>
       <button class="action-btn" onclick="processExcel()">Start Automation</button>
@@ -584,7 +574,8 @@
   </div>
 
   <script>
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_PGPHV-yoNYy5tI5IFGIaDLYVLiCzhDtMCxnvOEOi41OFuE1ZaLOAbAqIZycTW9vH/exec";
+    // Updated Web App URL Version 9
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxKHWbtdVQ_SoiI2uaFfHkoVYxzDxsAXwYy6o5QjaydtEvgyhMLcvASzRuu_yUAjg/exec";
     
     let currentSelectedTool = "";
 
@@ -594,21 +585,6 @@
       document.getElementById("uploadModal").style.display = "flex";
       document.getElementById("statusText").innerText = "";
       document.getElementById("excelInput").value = "";
-
-      const phoneInput = document.getElementById("whatsappPhone");
-      const fileInput = document.getElementById("excelInput");
-      const modalSubtitle = document.getElementById("modalSubtitle");
-
-      // Check if WhatsApp Tool clicked
-      if (toolName === "Auto WhatsApp Delivery Engine") {
-        phoneInput.style.display = "block";
-        fileInput.style.display = "none";
-        modalSubtitle.innerText = "Enter recipient WhatsApp number";
-      } else {
-        phoneInput.style.display = "none";
-        fileInput.style.display = "block";
-        modalSubtitle.innerText = "Select your file to process with Apps Script";
-      }
     }
 
     function closeModal() {
@@ -637,28 +613,8 @@
 
     function processExcel() {
       const fileInput = document.getElementById("excelInput");
-      const phoneInput = document.getElementById("whatsappPhone");
       const statusText = document.getElementById("statusText");
 
-      // Logic for WhatsApp Delivery Direct Redirection
-      if (currentSelectedTool === "Auto WhatsApp Delivery Engine") {
-        let cleanNumber = phoneInput.value.replace(/[^0-9]/g, '');
-        if (cleanNumber.length === 10) cleanNumber = "91" + cleanNumber;
-
-        if (!cleanNumber) {
-          alert("Kripya mobile number enter karein!");
-          return;
-        }
-
-        let message = `Hello! Scrutinix AI dwara aapka document ready ho gaya hai. Check your Google Drive!`;
-        let whatsappUrl = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(message)}`;
-        
-        window.open(whatsappUrl, '_blank');
-        statusText.innerText = "✅ Opening WhatsApp...";
-        return;
-      }
-
-      // Logic for Google Drive PDF Generators
       if (fileInput.files.length === 0) {
         alert("Kripya pehle ek file select karein!");
         return;
