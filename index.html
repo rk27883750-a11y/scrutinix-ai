@@ -3,634 +3,281 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix - Business Automation Tools</title>
+  <title>Scrutinix AI - Tools & Automation</title>
+  
+  <!-- FontAwesome Icons for Colorful Tool Logos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    /* Global Reset & Styling */
+    /* Global Settings & Dark Theme */
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
+
     body {
-      background-color: #050716;
+      background-color: #0b0f19;
       color: #ffffff;
-      overflow-x: hidden;
-    }
-    html {
-      scroll-behavior: smooth;
+      padding: 40px 15px;
     }
 
-    /* Container */
     .container {
-      max-width: 1200px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* Navbar */
-    header {
-      padding: 20px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .logo {
-      font-size: 26px;
-      font-weight: bold;
-      background: linear-gradient(90deg, #00f2fe, #4facfe);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 0.5px;
-    }
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 30px;
-    }
-    .nav-links a {
-      color: #a0aec0;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-    .nav-links a:hover {
-      color: #00f2fe;
-    }
-    .nav-btns {
-      display: flex;
-      gap: 15px;
-    }
-    .btn-secondary {
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fff;
-      padding: 8px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .btn-primary {
-      background: linear-gradient(90deg, #00f2fe, #b92b27);
-      border: none;
-      color: #fff;
-      padding: 8px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
-    }
-
-    /* Hero Section */
-    .hero {
       text-align: center;
-      padding: 60px 0 40px;
     }
+
+    /* Badge & Headers */
     .badge {
       display: inline-block;
-      background: rgba(0, 242, 254, 0.1);
-      border: 1px solid rgba(0, 242, 254, 0.3);
-      color: #00f2fe;
+      background: rgba(56, 189, 248, 0.1);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.2);
       padding: 6px 16px;
       border-radius: 20px;
-      font-size: 14px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #f8fafc;
+    }
+
+    .subtitle {
+      color: #94a3b8;
+      font-size: 15px;
+      max-width: 600px;
+      margin: 0 auto 40px auto;
+      line-height: 1.6;
+    }
+
+    /* Grid Layout */
+    .tools-grid {
+      display: grid;
+      gap: 20px;
       margin-bottom: 20px;
     }
-    .hero h1 {
-      font-size: 48px;
-      margin-bottom: 15px;
-      line-height: 1.2;
-    }
-    .hero h1 span {
-      background: linear-gradient(90deg, #00f2fe, #9b51e0);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero p {
-      color: #a0aec0;
-      font-size: 18px;
-      max-width: 600px;
-      margin: 0 auto 40px;
+
+    .top-row {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     }
 
-    /* Feature Cards Grid */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      margin-bottom: 40px;
+    .bottom-row {
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .features-grid-bottom {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      margin-bottom: 60px;
+
+    /* Tool Card Design */
+    .tool-card {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 14px;
+      padding: 24px;
+      text-align: left;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
-    
-    .card {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(0, 242, 254, 0.3);
-      border-radius: 16px;
-      padding: 25px;
-      position: relative;
-      transition: 0.3s ease;
-      box-shadow: inset 0 0 15px rgba(0, 242, 254, 0.05);
-    }
-    .card:hover {
+
+    .tool-card:hover {
       transform: translateY(-5px);
-      border-color: #00f2fe;
-      box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
-    }
-    .card-purple {
-      border-color: rgba(155, 81, 224, 0.4);
-      box-shadow: inset 0 0 15px rgba(155, 81, 224, 0.05);
-    }
-    .card-purple:hover {
-      border-color: #9b51e0;
-      box-shadow: 0 0 20px rgba(155, 81, 224, 0.4);
+      border-color: #3b82f6;
+      box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1);
     }
 
-    .card-icon {
-      width: 40px;
-      height: 40px;
-      background: rgba(0, 242, 254, 0.1);
-      border-radius: 8px;
+    /* Colorful Logo Boxes */
+    .icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 15px;
-      color: #00f2fe;
+      font-size: 22px;
+      margin-bottom: 18px;
     }
-    .card h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
+
+    .excel-bg { background: rgba(16, 185, 129, 0.15); }
+    .icon-excel { color: #10b981; }
+
+    .whatsapp-bg { background: rgba(37, 211, 102, 0.15); }
+    .icon-whatsapp { color: #25d366; }
+
+    .gst-bg { background: rgba(59, 130, 246, 0.15); }
+    .icon-gst { color: #3b82f6; }
+
+    .pdf-bg { background: rgba(239, 68, 68, 0.15); }
+    .icon-pdf { color: #ef4444; }
+
+    .branding-bg { background: rgba(245, 158, 11, 0.15); }
+    .icon-branding { color: #f59e0b; }
+
+    /* Card Content */
+    .tool-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #f3f4f6;
     }
-    .card p {
-      color: #a0aec0;
+
+    .tool-card p {
       font-size: 14px;
-      margin-bottom: 20px;
+      color: #9ca3af;
       line-height: 1.5;
+      margin-bottom: 20px;
     }
+
+    /* Try Now Button */
     .try-btn {
-      color: #00f2fe;
       background: transparent;
       border: none;
-      font-size: 15px;
+      color: #38bdf8;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
+      transition: color 0.2s;
+      padding: 0;
+      width: max-content;
     }
 
-    /* Sub Banner Highlights */
-    .banner-highlights {
-      display: flex;
-      justify-content: space-around;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 80px;
-      color: #a0aec0;
-      font-size: 14px;
-    }
-
-    /* Pricing Section & Toggle */
-    .pricing-section {
-      text-align: center;
-      padding-top: 40px;
-      margin-bottom: 80px;
-    }
-
-    .toggle-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 25px;
-    }
-    .toggle-text {
-      font-size: 16px;
-      color: #a0aec0;
-    }
-    .toggle-text.active {
-      color: #00f2fe;
-      font-weight: bold;
-    }
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 56px;
-      height: 28px;
-    }
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(0, 242, 254, 0.4);
-      transition: .4s;
-      border-radius: 34px;
-    }
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 20px;
-      width: 20px;
-      left: 4px;
-      bottom: 3px;
-      background-color: #00f2fe;
-      transition: .4s;
-      border-radius: 50%;
-    }
-    input:checked + .slider {
-      background-color: rgba(155, 81, 224, 0.3);
-      border-color: #9b51e0;
-    }
-    input:checked + .slider:before {
-      transform: translateX(26px);
-      background-color: #9b51e0;
-    }
-    .save-badge {
-      background: rgba(155, 81, 224, 0.2);
-      border: 1px solid #9b51e0;
-      color: #d69e2e;
-      font-size: 12px;
-      padding: 3px 8px;
-      border-radius: 12px;
-      margin-left: 5px;
-    }
-
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 25px;
-      margin-top: 40px;
-    }
-    .price-card {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 30px;
-      text-align: left;
-      position: relative;
-    }
-    .price-card.popular {
-      border-color: #00f2fe;
-      box-shadow: 0 0 25px rgba(0, 242, 254, 0.2);
-    }
-    .popular-tag {
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #00f2fe;
-      color: #000;
-      padding: 2px 12px;
-      border-radius: 10px;
-      font-size: 12px;
-      font-weight: bold;
-    }
-    .price {
-      font-size: 36px;
-      font-weight: bold;
-      margin: 15px 0;
-    }
-    .price span {
-      font-size: 14px;
-      color: #a0aec0;
-      font-weight: normal;
-    }
-    .features-list {
-      list-style: none;
-      margin: 20px 0;
-    }
-    .features-list li {
-      margin-bottom: 10px;
-      color: #a0aec0;
-      font-size: 14px;
-    }
-    .features-list li::before {
-      content: "✓ ";
-      color: #00f2fe;
-    }
-    .plan-btn {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: transparent;
-      color: #fff;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .plan-btn.active {
-      background: linear-gradient(90deg, #00f2fe, #9b51e0);
-      border: none;
-    }
-
-    /* Upload Modal Popup */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(5px);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    .modal-content {
-      background: #0d1117;
-      border: 1px solid #00f2fe;
-      padding: 30px;
-      border-radius: 16px;
-      width: 90%;
-      max-width: 450px;
-      text-align: center;
-      box-shadow: 0 0 30px rgba(0, 242, 254, 0.3);
-    }
-    .modal-content h3 {
-      margin-bottom: 15px;
-      color: #00f2fe;
-    }
-    .file-input {
-      margin: 20px 0;
-      color: #a0aec0;
-    }
-    .action-btn {
-      background: #00f2fe;
-      color: #000;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-    .close-btn {
-      background: transparent;
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .features-grid, .features-grid-bottom, .pricing-grid {
-        grid-template-columns: 1fr;
-      }
+    .try-btn:hover {
+      color: #60a5fa;
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <!-- Header Navigation -->
-    <header>
-      <nav>
-        <div class="logo">Scrutinix</div>
-        <ul class="nav-links">
-          <li><a href="#">Home</a></li>
-          <li><a href="#tools">Tools</a></li>
-          <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-        <div class="nav-btns">
-          <button class="btn-secondary">Sign In</button>
-          <button class="btn-primary">Get Started</button>
-        </div>
-      </nav>
-    </header>
+    <span class="badge">✦ POWERFUL BUSINESS TOOLS ✦</span>
+    <h2>Everything You Need to Grow Your Business</h2>
+    <p class="subtitle">Powerful AI tools designed to help you solve real problems, save time, and get better results.</p>
 
-    <!-- Hero Title -->
-    <section class="hero" id="tools">
-      <div class="badge">✦ POWERFUL FEATURES ✦</div>
-      <h1>Everything You Need to<br><span>Grow Your Business</span></h1>
-      <p>Powerful automation tools designed to help you solve real problems, save time, and get better results.</p>
-    </section>
-
-    <!-- Top 3 Feature Cards -->
-    <div class="features-grid">
-      <!-- Card 1 -->
-      <div class="card">
-        <div class="card-icon">📄</div>
-        <h3>Excel to Invoice PDF Converter</h3>
-        <p>Upload your billing Excel sheet and generate formatted PDF invoices instantly.</p>
-        <button class="try-btn" onclick="openModal('Excel to Invoice PDF')">Try Now &rarr;</button>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="card card-purple">
-        <div class="card-icon">💬</div>
-        <h3>Auto WhatsApp Delivery Engine</h3>
-        <p>Send generated PDF reports directly to your clients' WhatsApp numbers in 1-click.</p>
-        <button class="try-btn" onclick="openModal('WhatsApp Delivery')">Try Now &rarr;</button>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="card">
-        <div class="card-icon">📊</div>
-        <h3>GST & Tally Data Automation</h3>
-        <p>Reconcile Tally Excel dumps and generate clean summary reports automatically.</p>
-        <button class="try-btn" onclick="openModal('GST Data Automation')">Try Now &rarr;</button>
-      </div>
-    </div>
-
-    <!-- Bottom 2 Feature Cards -->
-    <div class="features-grid-bottom">
-      <!-- Card 4 -->
-      <div class="card card-purple">
-        <div class="card-icon">⚡</div>
-        <h3>Bulk Sheet-to-PDF Generator</h3>
-        <p>Convert hundreds of Excel rows into separate PDFs in background within seconds.</p>
-        <button class="try-btn" onclick="openModal('Bulk Sheet Generator')">Try Now &rarr;</button>
-      </div>
-
-      <!-- Card 5 -->
-      <div class="card">
-        <div class="card-icon">🎨</div>
-        <h3>Custom Invoice Branding</h3>
-        <p>Automatically attach your company logo, signature, and custom layout on every PDF.</p>
-        <button class="try-btn" onclick="openModal('Custom Branding')">Try Now &rarr;</button>
-      </div>
-    </div>
-
-    <!-- Highlights Banner -->
-    <div class="banner-highlights">
-      <span>👥 Flexible Plans</span>
-      <span>🔌 No API Keys Needed</span>
-      <span>🛡️ 100% Secure</span>
-      <span>📱 Mobile Friendly</span>
-      <span>🌐 Global Access</span>
-    </div>
-
-    <!-- Pricing Section -->
-    <section class="pricing-section" id="pricing">
-      <div class="badge">✦ SIMPLE & TRANSPARENT ✦</div>
-      <h2>Flexible Plans for Every Need</h2>
-      <p style="color:#a0aec0; margin-top:5px;">Start free, upgrade when you grow. No hidden fees, no surprises.</p>
-
-      <!-- Monthly / Yearly Toggle -->
-      <div class="toggle-container">
-        <span class="toggle-text active" id="monthlyLabel">Monthly</span>
-        <label class="switch">
-          <input type="checkbox" id="pricingToggle" onchange="togglePricing()">
-          <span class="slider"></span>
-        </label>
-        <span class="toggle-text" id="yearlyLabel">Yearly <span class="save-badge">Save 20%</span></span>
-      </div>
-
-      <div class="pricing-grid">
-        <!-- Free Plan -->
-        <div class="price-card">
-          <h3>Free</h3>
-          <p style="color:#a0aec0; font-size:12px;">Perfect for getting started</p>
-          <div class="price" id="freePrice">₹0 <span id="freeCycle">/month</span></div>
-          <ul class="features-list">
-            <li>10 free conversions/day</li>
-            <li>Basic PDF generation</li>
-            <li>Single file processing</li>
-          </ul>
-          <button class="plan-btn">Get Started</button>
-        </div>
-
-        <!-- Premium Plan -->
-        <div class="price-card popular">
-          <div class="popular-tag">Most Popular</div>
-          <h3>Premium</h3>
-          <p style="color:#a0aec0; font-size:12px;">For growing businesses</p>
-          <div class="price" id="premiumPrice">₹299 <span id="premiumCycle">/month</span></div>
-          <ul class="features-list">
-            <li>500 conversions/month</li>
-            <li>Auto WhatsApp Delivery</li>
-            <li>Custom Invoice Branding</li>
-            <li>Priority support</li>
-          </ul>
-          <button class="plan-btn active">Upgrade to Premium</button>
-        </div>
-
-        <!-- Business Plan -->
-        <div class="price-card">
-          <h3>Business</h3>
-          <p style="color:#a0aec0; font-size:12px;">For teams & enterprises</p>
-          <div class="price" id="businessPrice">₹999 <span id="businessCycle">/month</span></div>
-          <ul class="features-list">
-            <li>Unlimited conversions</li>
-            <li>All premium features</li>
-            <li>Bulk processing engine</li>
-            <li>Dedicated support</li>
-          </ul>
-          <button class="plan-btn">Get Started</button>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- Upload Modal -->
-  <div class="modal" id="uploadModal">
-    <div class="modal-content">
-      <h3 id="modalTitle">Upload File</h3>
-      <p style="color:#a0aec0; font-size:14px;">Select your Excel file to process with Apps Script</p>
-      <input type="file" id="excelInput" class="file-input" accept=".xlsx, .xls, .csv" />
-      <br>
-      <button class="action-btn" onclick="processExcel()">Start Automation</button>
-      <button class="close-btn" onclick="closeModal()">Close</button>
-      <div id="statusText" style="margin-top:15px; font-size:14px; color:#00f2fe;"></div>
-    </div>
-  </div>
-
-  <script>
-    // Replace with your Google Apps Script Web App URL
-    const APPS_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
-
-    function openModal(toolName) {
-      document.getElementById("modalTitle").innerText = toolName;
-      document.getElementById("uploadModal").style.display = "flex";
-      document.getElementById("statusText").innerText = "";
-    }
-
-    function closeModal() {
-      document.getElementById("uploadModal").style.display = "none";
-    }
-
-    // Toggle Monthly and Yearly Pricing
-    function togglePricing() {
-      const isYearly = document.getElementById("pricingToggle").checked;
+    <!-- Top Row: Excel, WhatsApp, GST/Tally -->
+    <div class="tools-grid top-row">
       
-      const monthlyLabel = document.getElementById("monthlyLabel");
-      const yearlyLabel = document.getElementById("yearlyLabel");
+      <!-- Tool 1 -->
+      <div class="tool-card">
+        <div>
+          <div class="icon-box excel-bg">
+            <i class="fa-solid fa-file-excel icon-excel"></i>
+          </div>
+          <h3>Excel to Invoice PDF Converter</h3>
+          <p>Upload your billing Excel sheet and generate formatted PDF invoices instantly.</p>
+        </div>
+        <button class="try-btn" onclick="triggerTool('Excel to Invoice PDF Converter')">
+          Try Now &rarr;
+        </button>
+      </div>
 
-      const premiumPrice = document.getElementById("premiumPrice");
-      const businessPrice = document.getElementById("businessPrice");
+      <!-- Tool 2 -->
+      <div class="tool-card">
+        <div>
+          <div class="icon-box whatsapp-bg">
+            <i class="fa-brands fa-whatsapp icon-whatsapp"></i>
+          </div>
+          <h3>Auto WhatsApp Delivery Engine</h3>
+          <p>Send generated PDF reports directly to your clients' WhatsApp numbers in 1-click.</p>
+        </div>
+        <button class="try-btn" onclick="triggerTool('Auto WhatsApp Delivery Engine')">
+          Try Now &rarr;
+        </button>
+      </div>
 
-      if (isYearly) {
-        monthlyLabel.classList.remove("active");
-        yearlyLabel.classList.add("active");
+      <!-- Tool 3 -->
+      <div class="tool-card">
+        <div>
+          <div class="icon-box gst-bg">
+            <i class="fa-solid fa-chart-line icon-gst"></i>
+          </div>
+          <h3>GST & Tally Data Automation</h3>
+          <p>Reconcile Tally Excel dumps and generate clean summary reports automatically.</p>
+        </div>
+        <button class="try-btn" onclick="triggerTool('GST & Tally Data Automation')">
+          Try Now &rarr;
+        </button>
+      </div>
 
-        premiumPrice.innerHTML = '₹2,799 <span id="premiumCycle">/year</span>';
-        businessPrice.innerHTML = '₹9,599 <span id="businessCycle">/year</span>';
-      } else {
-        yearlyLabel.classList.remove("active");
-        monthlyLabel.classList.add("active");
+    </div>
 
-        premiumPrice.innerHTML = '₹299 <span id="premiumCycle">/month</span>';
-        businessPrice.innerHTML = '₹999 <span id="businessCycle">/month</span>';
-      }
-    }
+    <!-- Bottom Row: Bulk Sheet, Custom Branding -->
+    <div class="tools-grid bottom-row">
+      
+      <!-- Tool 4 -->
+      <div class="tool-card">
+        <div>
+          <div class="icon-box pdf-bg">
+            <i class="fa-solid fa-file-pdf icon-pdf"></i>
+          </div>
+          <h3>Bulk Sheet-to-PDF Generator</h3>
+          <p>Convert hundreds of Excel rows into separate PDFs in background within seconds.</p>
+        </div>
+        <button class="try-btn" onclick="triggerTool('Bulk Sheet-to-PDF Generator')">
+          Try Now &rarr;
+        </button>
+      </div>
 
-    async function processExcel() {
-      const fileInput = document.getElementById("excelInput");
-      const statusText = document.getElementById("statusText");
+      <!-- Tool 5 -->
+      <div class="tool-card">
+        <div>
+          <div class="icon-box branding-bg">
+            <i class="fa-solid fa-palette icon-branding"></i>
+          </div>
+          <h3>Custom Invoice Branding</h3>
+          <p>Automatically attach your company logo, signature, and custom layout on every PDF.</p>
+        </div>
+        <button class="try-btn" onclick="triggerTool('Custom Invoice Branding')">
+          Try Now &rarr;
+        </button>
+      </div>
 
-      if (fileInput.files.length === 0) {
-        alert("Kripya ek Excel file select karein!");
-        return;
-      }
+    </div>
+  </div>
 
-      const file = fileInput.files[0];
-      statusText.innerText = "Processing via Apps Script...";
+  <!-- Centralized JavaScript Router Logic -->
+  <script>
+    // Single Google Apps Script Web App Deployment URL
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzq7ZeEpu8XZp3fpdvQ5gtmVaoHw1EXeix8WcBWOevs-NmJ-DMs54xjjNoNQ6.../exec";
 
-      const reader = new FileReader();
-      reader.onload = async function(e) {
-        const base64Data = e.target.result.split(',')[1];
+    function triggerTool(toolName) {
+      console.log("Triggering Tool: " + toolName);
 
-        try {
-          const response = await fetch(APPS_SCRIPT_URL, {
-            method: "POST",
-            body: JSON.stringify({
-              fileName: file.name,
-              fileData: base64Data
-            })
-          });
-
-          const result = await response.json();
-
-          if (result.status === "success") {
-            statusText.innerHTML = `Success! <a href="${result.pdfUrl}" target="_blank" style="color:#fff;">Download PDF</a>`;
-          } else {
-            statusText.innerText = "Error: " + result.message;
-          }
-        } catch (err) {
-          statusText.innerText = "Request sent successfully!";
-        }
+      // Payload sending toolName dynamically
+      const payload = {
+        action: toolName,
+        timestamp: new Date().toISOString()
       };
 
-      reader.readAsDataURL(file);
+      fetch(WEB_APP_URL, {
+        method: "POST",
+        mode: "no-cors", // Prevents CORS errors on Apps Script
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(() => {
+        alert("✅ Request Sent for: " + toolName + "\nCheck your Google Drive!");
+      })
+      .catch((error) => {
+        console.error("Error triggering tool:", error);
+        alert("❌ Error sending request. Please try again.");
+      });
     }
   </script>
+
 </body>
 </html>
