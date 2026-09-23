@@ -172,6 +172,7 @@
       font-size: 11px;
       color: #64748b;
     }
+    .laptop-sidebar div { cursor: pointer; }
     .laptop-sidebar div.active { color: #00f2fe; font-weight: bold; }
     .laptop-main {
       display: flex;
@@ -491,7 +492,7 @@
       border: none;
     }
 
-    /* Upload Modal Style */
+    /* Modal Styles */
     .modal {
       display: none;
       position: fixed;
@@ -508,10 +509,9 @@
       padding: 30px;
       border-radius: 16px;
       width: 90%;
-      max-width: 480px;
+      max-width: 500px;
       text-align: center;
     }
-    .modal-content h3 { color: #00f2fe; margin-bottom: 10px; }
     .file-input-box {
       border: 2px dashed rgba(0, 242, 254, 0.4);
       border-radius: 10px;
@@ -520,7 +520,7 @@
       background: rgba(255,255,255,0.02);
       margin: 15px 0;
     }
-    .btn-act { background: #00f2fe; color: #000; border: none; padding: 10px 22px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-right: 8px; }
+    .btn-act { background: #00f2fe; color: #000; border: none; padding: 10px 22px; border-radius: 6px; font-weight: bold; cursor: pointer; }
     .btn-cls { background: transparent; color: #fff; border: 1px solid #334155; padding: 10px 22px; border-radius: 6px; cursor: pointer; }
 
     footer {
@@ -537,7 +537,7 @@
 <body>
 
   <div class="container">
-    <!-- Header -->
+    <!-- Header Nav -->
     <header>
       <nav>
         <a href="#" class="logo-box">
@@ -577,10 +577,10 @@
           <div class="laptop-grid">
             <div class="laptop-sidebar">
               <div class="active">🏠 Home</div>
-              <div>🧰 Tools</div>
-              <div>⚡ Automation <span style="font-size:8px; color:#00f2fe;">New</span></div>
-              <div>📊 Analytics</div>
-              <div>⚙️ Settings</div>
+              <div onclick="openMultiDispatchModal('Tools')">🧰 Tools</div>
+              <div onclick="openMultiDispatchModal('Automation')">⚡ Automation <span style="font-size:8px; color:#00f2fe;">New</span></div>
+              <div onclick="alert('Analytics Dashboard Loading...')">📊 Analytics</div>
+              <div onclick="alert('Settings Panel')">⚙️ Settings</div>
             </div>
             <div class="laptop-main">
               <div class="search-box">
@@ -588,10 +588,10 @@
                 <i class="fa-solid fa-magnifying-glass" style="color:#00f2fe;"></i>
               </div>
               <div class="app-shortcuts">
-                <div class="app-mini-card" onclick="openModal('PDF Tools')"><i class="fa-solid fa-file-pdf" style="color:#ef4444;"></i>PDF Tools</div>
-                <div class="app-mini-card" onclick="openModal('WhatsApp Automation')"><i class="fa-brands fa-whatsapp" style="color:#25d366;"></i>WhatsApp</div>
-                <div class="app-mini-card" onclick="openModal('GST & Tally Tools')"><i class="fa-solid fa-chart-line" style="color:#3b82f6;"></i>GST & Tally</div>
-                <div class="app-mini-card" onclick="openModal('Custom Automation')"><i class="fa-solid fa-grip" style="color:#a855f7;"></i>More Tools</div>
+                <div class="app-mini-card" onclick="openMultiDispatchModal('PDF Tools')"><i class="fa-solid fa-file-pdf" style="color:#ef4444;"></i>PDF Tools</div>
+                <div class="app-mini-card" onclick="openMultiDispatchModal('WhatsApp Automation')"><i class="fa-brands fa-whatsapp" style="color:#25d366;"></i>WhatsApp</div>
+                <div class="app-mini-card" onclick="openMultiDispatchModal('GST & Tally Tools')"><i class="fa-solid fa-chart-line" style="color:#3b82f6;"></i>GST & Tally</div>
+                <div class="app-mini-card" onclick="openMultiDispatchModal('Custom Automation')"><i class="fa-solid fa-grip" style="color:#a855f7;"></i>More Tools</div>
               </div>
             </div>
           </div>
@@ -606,7 +606,7 @@
         <div class="tool-content">
           <h3>Excel to Invoice PDF Converter</h3>
           <p>Upload your billing Excel sheet and generate formatted PDF invoices instantly.</p>
-          <a class="try-link" onclick="openModal('Excel to Invoice PDF Converter')">Try Now &rarr;</a>
+          <a class="try-link" onclick="openMultiDispatchModal('Excel to Invoice PDF Converter')">Try Now &rarr;</a>
         </div>
       </div>
 
@@ -615,7 +615,7 @@
         <div class="tool-content">
           <h3>Auto WhatsApp Delivery Engine</h3>
           <p>Send generated PDF reports directly to your clients' WhatsApp numbers in 1-click.</p>
-          <a class="try-link" onclick="openModal('Auto WhatsApp Delivery Engine')">Try Now &rarr;</a>
+          <a class="try-link" onclick="openMultiDispatchModal('Auto WhatsApp Delivery Engine')">Try Now &rarr;</a>
         </div>
       </div>
 
@@ -624,7 +624,7 @@
         <div class="tool-content">
           <h3>GST & Tally Data Automation</h3>
           <p>Reconcile Tally Excel dumps and generate clean summary reports automatically.</p>
-          <a class="try-link" onclick="openModal('GST & Tally Data Automation')">Try Now &rarr;</a>
+          <a class="try-link" onclick="openMultiDispatchModal('GST & Tally Data Automation')">Try Now &rarr;</a>
         </div>
       </div>
     </div>
@@ -636,7 +636,7 @@
         <div class="tool-content">
           <h3>Bulk Sheet-to-PDF Generator</h3>
           <p>Convert hundreds of Excel rows into separate PDFs in background within seconds.</p>
-          <a class="try-link" onclick="openModal('Bulk Sheet-to-PDF Generator')">Try Now &rarr;</a>
+          <a class="try-link" onclick="openMultiDispatchModal('Bulk Sheet-to-PDF Generator')">Try Now &rarr;</a>
         </div>
       </div>
 
@@ -645,7 +645,7 @@
         <div class="tool-content">
           <h3>Custom Invoice Branding</h3>
           <p>Automatically attach your company logo, signature, and custom layout on every PDF.</p>
-          <a class="try-link" onclick="openModal('Custom Invoice Branding')">Try Now &rarr;</a>
+          <a class="try-link" onclick="openMultiDispatchModal('Custom Invoice Branding')">Try Now &rarr;</a>
         </div>
       </div>
     </div>
@@ -675,7 +675,7 @@
             <li><i class="fa-solid fa-check"></i> Connect Multiple Apps</li>
           </ul>
 
-          <button class="btn-gradient" onclick="openModal('Custom Automation Builder')">Start Building Now &rarr;</button>
+          <button class="btn-gradient" onclick="openMultiDispatchModal('Custom Automation Builder')">Start Building Now &rarr;</button>
         </div>
 
         <!-- Visual Workflow Box -->
@@ -727,11 +727,11 @@
         <!-- Popular Templates -->
         <div class="templates-box">
           <h4>Popular Automation Templates</h4>
-          <div class="template-item" onclick="openModal('Template: Form to Sheet to Email')"><i class="fa-solid fa-file" style="color:#3b82f6;"></i> Website Form &rarr; Google Sheets &rarr; Email</div>
-          <div class="template-item" onclick="openModal('Template: Sheet to PDF')"><i class="fa-solid fa-file-excel" style="color:#10b981;"></i> Google Sheet &rarr; PDF &rarr; Email</div>
-          <div class="template-item" onclick="openModal('Template: WhatsApp Engine')"><i class="fa-brands fa-whatsapp" style="color:#25d366;"></i> WhatsApp &rarr; Google Sheets &rarr; Email</div>
-          <div class="template-item" onclick="openModal('Template: Slack Notifier')"><i class="fa-brands fa-slack" style="color:#e11d48;"></i> New Email &rarr; Slack Notification</div>
-          <div class="template-item" onclick="openModal('Template: Invoice Sync')"><i class="fa-solid fa-receipt" style="color:#f59e0b;"></i> Invoice &rarr; WhatsApp &rarr; Google Drive</div>
+          <div class="template-item" onclick="openMultiDispatchModal('Template: Form to Sheet to Email')"><i class="fa-solid fa-file" style="color:#3b82f6;"></i> Website Form &rarr; Google Sheets &rarr; Email</div>
+          <div class="template-item" onclick="openMultiDispatchModal('Template: Sheet to PDF')"><i class="fa-solid fa-file-excel" style="color:#10b981;"></i> Google Sheet &rarr; PDF &rarr; Email</div>
+          <div class="template-item" onclick="openMultiDispatchModal('Template: WhatsApp Engine')"><i class="fa-brands fa-whatsapp" style="color:#25d366;"></i> WhatsApp &rarr; Google Sheets &rarr; Email</div>
+          <div class="template-item" onclick="openMultiDispatchModal('Template: Slack Notifier')"><i class="fa-brands fa-slack" style="color:#e11d48;"></i> New Email &rarr; Slack Notification</div>
+          <div class="template-item" onclick="openMultiDispatchModal('Template: Invoice Sync')"><i class="fa-solid fa-receipt" style="color:#f59e0b;"></i> Invoice &rarr; WhatsApp &rarr; Google Drive</div>
 
           <a href="#automation" class="view-all-link">View All Templates &rarr;</a>
           
@@ -748,15 +748,15 @@
       <p style="font-size:11px; color:#64748b;">Click on any app to configure integration...</p>
 
       <div class="integrations-grid">
-        <div class="app-icon-card" onclick="openModal('Google Forms Integration')"><i class="fa-solid fa-list-check" style="color:#a855f7;"></i>Google Forms</div>
-        <div class="app-icon-card" onclick="openModal('Google Sheets Integration')"><i class="fa-solid fa-table" style="color:#10b981;"></i>Google Sheets</div>
-        <div class="app-icon-card" onclick="openModal('Gmail Integration')"><i class="fa-solid fa-envelope" style="color:#ef4444;"></i>Gmail</div>
-        <div class="app-icon-card" onclick="openModal('WhatsApp Integration')"><i class="fa-brands fa-whatsapp" style="color:#25d366;"></i>WhatsApp</div>
-        <div class="app-icon-card" onclick="openModal('Slack Integration')"><i class="fa-brands fa-slack" style="color:#e11d48;"></i>Slack</div>
-        <div class="app-icon-card" onclick="openModal('Telegram Integration')"><i class="fa-brands fa-telegram" style="color:#3b82f6;"></i>Telegram</div>
-        <div class="app-icon-card" onclick="openModal('CRM Integration')"><i class="fa-solid fa-box" style="color:#00f2fe;"></i>CRM</div>
-        <div class="app-icon-card" onclick="openModal('Google Drive Integration')"><i class="fa-brands fa-google-drive" style="color:#f59e0b;"></i>Google Drive</div>
-        <div class="app-icon-card" onclick="openModal('Custom Apps Integration')"><i class="fa-solid fa-plus" style="color:#64748b;"></i>More Apps</div>
+        <div class="app-icon-card" onclick="openMultiDispatchModal('Google Forms Integration')"><i class="fa-solid fa-list-check" style="color:#a855f7;"></i>Google Forms</div>
+        <div class="app-icon-card" onclick="openMultiDispatchModal('Google Sheets Integration')"><i class="fa-solid fa-table" style="color:#10b981;"></i>Google Sheets</div>
+        <div class="app-icon-card" onclick="openMultiDispatchModal('Gmail Integration')"><i class="fa-solid fa-envelope" style="color:#ef4444;"></i>Gmail</div>
+        <div class="app-icon-card" onclick="openMultiDispatchModal('WhatsApp Integration')"><i class="fa-brands fa-whatsapp" style="color:#25d366;"></i>WhatsApp</div>
+        <div class="app-icon-card" onclick="openMultiDispatchModal('Slack Integration')"><i class="fa-brands fa-slack" style="color:#e11d48;"></i>Slack</div>
+        <div class="app-icon-card" onclick="openMultiDispatchModal('Telegram Integration')"><i class="fa-brands fa-telegram" style="color:#3b82f6;"></i>Telegram</div>
+        <div class="app-icon-card" onclick="openMultiDispatchModal('CRM Integration')"><i class="fa-solid fa-box" style="color:#00f2fe;"></i>CRM</div>
+        <div class="app-icon-card" onclick="openMultiDispatchModal('Google Drive Integration')"><i class="fa-brands fa-google-drive" style="color:#f59e0b;"></i>Google Drive</div>
+        <div class="app-icon-card" onclick="openMultiDispatchModal('Custom Apps Integration')"><i class="fa-solid fa-plus" style="color:#64748b;"></i>More Apps</div>
       </div>
     </div>
 
@@ -841,102 +841,110 @@
     </footer>
   </div>
 
-  <!-- Universal Upload & Link Modal -->
-  <div class="modal" id="uploadModal">
+  <!-- 1-Click Multi-Channel Dispatch Modal -->
+  <div class="modal" id="multiDispatchModal">
     <div class="modal-content">
-      <h3 id="modalTitle">Upload File</h3>
-      <p style="color:#94a3b8; font-size:12px; margin-top:5px;">Upload your Excel/Data file or enter your Google Sheet link:</p>
+      <h3 id="multiModalTitle" style="color:#00f2fe; margin-bottom: 5px;"><i class="fa-solid fa-paper-plane"></i> 1-Click Multi-Channel Dispatch</h3>
+      <p style="color:#94a3b8; font-size:12px; margin-bottom: 15px;">Send PDF Reports & Messages across all channels simultaneously.</p>
 
-      <div class="file-input-box" onclick="document.getElementById('excelInput').click()">
+      <!-- Channel Selection -->
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius:10px; padding:12px; margin-bottom:15px; text-align:left;">
+        <p style="font-size:11px; color:#cbd5e1; margin-bottom:8px; font-weight:bold;">Select Active Delivery Channels:</p>
+        <div style="display:flex; justify-content:space-between; font-size:12px;">
+          <label style="cursor:pointer;"><input type="checkbox" id="chkWhatsapp" checked> <i class="fa-brands fa-whatsapp" style="color:#25d366;"></i> WhatsApp</label>
+          <label style="cursor:pointer;"><input type="checkbox" id="chkGmail" checked> <i class="fa-solid fa-envelope" style="color:#ef4444;"></i> Gmail</label>
+          <label style="cursor:pointer;"><input type="checkbox" id="chkSheets" checked> <i class="fa-solid fa-table" style="color:#10b981;"></i> Sheets Log</label>
+        </div>
+      </div>
+
+      <!-- File Input Box -->
+      <div class="file-input-box" onclick="document.getElementById('multiFileInput').click()">
         <i class="fa-solid fa-cloud-arrow-up" style="font-size:28px; color:#00f2fe; margin-bottom:8px;"></i>
         <p style="font-size:12px; color:#cbd5e1;">Click to select file (.xlsx, .csv, .pdf)</p>
-        <input type="file" id="excelInput" accept=".xlsx, .xls, .csv, .pdf" style="display:none;" onchange="handleFileSelect(this)">
+        <input type="file" id="multiFileInput" accept=".xlsx, .xls, .csv, .pdf" style="display:none;" onchange="handleFileSelect(this)">
       </div>
-      <div id="fileNameDisplay" style="font-size:12px; color:#10b981; margin-bottom:8px;"></div>
+      <div id="multiFileName" style="font-size:12px; color:#10b981; margin-bottom:8px;"></div>
 
       <div style="font-size:11px; color:#64748b; margin:8px 0;">— OR —</div>
 
-      <input type="url" id="sheetUrlInput" placeholder="Paste Google Sheet Public Link here..." style="width:100%; padding:9px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.15); background:#070d1e; color:#fff; font-size:12px; outline:none; margin-bottom:15px;">
+      <input type="url" id="multiSheetUrl" placeholder="Paste Google Sheet Public Link here..." style="width:100%; padding:9px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.15); background:#070d1e; color:#fff; font-size:12px; outline:none; margin-bottom:15px;">
 
       <br>
-      <button class="btn-act" onclick="processExcel()">Start Automation</button>
-      <button class="btn-cls" onclick="closeModal()">Close</button>
-      <div id="statusText" style="margin-top:15px; font-size:13px; color:#00f2fe;"></div>
+      <button class="btn-act" onclick="triggerMultiDispatch()" style="width:100%; margin-bottom:8px; background: linear-gradient(90deg, #00f2fe, #a855f7); color:#fff;">🚀 Send All via 1-Click</button>
+      <button class="btn-cls" onclick="closeMultiModal()" style="width:100%;">Close</button>
+      <div id="multiStatusText" style="margin-top:12px; font-size:12px; color:#00f2fe;"></div>
     </div>
   </div>
 
   <script>
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_PGPHV-yoNYy5tI5IFGIaDLYVLiCzhDtMCxnvOEOi41OFuE1ZaLOAbAqIZycTW9vH/exec";
+    // Apne Google Apps Script Web App URL ko yahan paste karein
+    const APPS_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
+
     let currentSelectedTool = "";
 
-    function openModal(toolName) {
-      currentSelectedTool = toolName;
-      document.getElementById("modalTitle").innerText = toolName;
-      document.getElementById("uploadModal").style.display = "flex";
-      document.getElementById("statusText").innerText = "";
-      document.getElementById("excelInput").value = "";
-      document.getElementById("sheetUrlInput").value = "";
-      document.getElementById("fileNameDisplay").innerText = "";
+    function openMultiDispatchModal(toolName) {
+      currentSelectedTool = toolName || "General Automation";
+      document.getElementById("multiModalTitle").innerHTML = `<i class="fa-solid fa-paper-plane"></i> ${currentSelectedTool}`;
+      document.getElementById("multiDispatchModal").style.display = "flex";
+      document.getElementById("multiStatusText").innerText = "";
+      document.getElementById("multiFileName").innerText = "";
+      document.getElementById("multiFileInput").value = "";
+      document.getElementById("multiSheetUrl").value = "";
     }
 
-    function closeModal() {
-      document.getElementById("uploadModal").style.display = "none";
+    function closeMultiModal() {
+      document.getElementById("multiDispatchModal").style.display = "none";
     }
 
     function handleFileSelect(input) {
-      if (input.files && input.files[0]) {
-        document.getElementById("fileNameDisplay").innerText = "Selected File: " + input.files[0].name;
+      if (input.files.length > 0) {
+        document.getElementById("multiFileName").innerText = "Selected File: " + input.files[0].name;
       }
     }
 
-    function togglePricing() {
-      const isYearly = document.getElementById("pricingToggle").checked;
-      const premiumPrice = document.getElementById("premiumPrice");
-      const businessPrice = document.getElementById("businessPrice");
-
-      if (isYearly) {
-        premiumPrice.innerHTML = '₹2,799 <span>/year</span>';
-        businessPrice.innerHTML = '₹9,599 <span>/year</span>';
-      } else {
-        premiumPrice.innerHTML = '₹299 <span>/month</span>';
-        businessPrice.innerHTML = '₹999 <span>/month</span>';
-      }
-    }
-
-    function processExcel() {
-      const fileInput = document.getElementById("excelInput");
-      const sheetUrl = document.getElementById("sheetUrlInput").value.trim();
-      const statusText = document.getElementById("statusText");
+    function triggerMultiDispatch() {
+      const fileInput = document.getElementById("multiFileInput");
+      const sheetUrl = document.getElementById("multiSheetUrl").value.trim();
+      const sendWhatsapp = document.getElementById("chkWhatsapp").checked;
+      const sendGmail = document.getElementById("chkGmail").checked;
+      const logSheet = document.getElementById("chkSheets").checked;
+      const statusText = document.getElementById("multiStatusText");
 
       if (fileInput.files.length === 0 && sheetUrl === "") {
-        alert("Kripya pehle ek file select karein ya Google Sheet link paste karein!");
+        alert("Kripya Excel/PDF file upload karein ya Google Sheet link paste karein!");
         return;
       }
 
-      statusText.innerText = `Processing ${currentSelectedTool}... Please wait.`;
+      statusText.innerText = "⏳ Executing 1-Click Multi-Channel Dispatch...";
+
+      const payloadData = {
+        action: "MULTI_DISPATCH",
+        toolName: currentSelectedTool,
+        channels: {
+          whatsapp: sendWhatsapp,
+          gmail: sendGmail,
+          googleSheets: logSheet
+        },
+        sheetUrl: sheetUrl
+      };
 
       if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
         const reader = new FileReader();
         reader.onload = function(e) {
-          const base64Data = e.target.result.split(',')[1];
-          sendToScript({
-            toolName: currentSelectedTool,
-            fileName: file.name,
-            fileData: base64Data
-          });
+          payloadData.fileName = file.name;
+          payloadData.fileData = e.target.result.split(',')[1];
+          sendToAppsScript(payloadData);
         };
         reader.readAsDataURL(file);
       } else {
-        sendToScript({
-          toolName: currentSelectedTool,
-          sheetUrl: sheetUrl
-        });
+        sendToAppsScript(payloadData);
       }
     }
 
-    function sendToScript(payload) {
-      const statusText = document.getElementById("statusText");
+    function sendToAppsScript(payload) {
+      const statusText = document.getElementById("multiStatusText");
+      
       fetch(APPS_SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
@@ -944,19 +952,19 @@
         body: JSON.stringify(payload)
       })
       .then(() => {
-        statusText.innerText = "✅ Automation request sent! Check your Google Drive in a few seconds.";
+        statusText.innerText = "✅ Dispatch Command Sent! Messages & PDF successfully sent via WhatsApp & Gmail.";
       })
       .catch((err) => {
         console.error(err);
-        statusText.innerText = "❌ Connection Error. Please try again.";
+        statusText.innerText = "❌ Error sending request. Please check connection.";
       });
     }
 
-    window.onclick = function(event) {
-      let modal = document.getElementById('uploadModal');
-      if (event.target == modal) {
-        closeModal();
-      }
+    function togglePricing() {
+      const isYearly = document.getElementById('pricingToggle').checked;
+      document.getElementById('freePrice').innerHTML = isYearly ? "₹0 <span>/year</span>" : "₹0 <span>/month</span>";
+      document.getElementById('premiumPrice').innerHTML = isYearly ? "₹2,870 <span>/year</span>" : "₹299 <span>/month</span>";
+      document.getElementById('businessPrice').innerHTML = isYearly ? "₹9,590 <span>/year</span>" : "₹999 <span>/month</span>";
     }
   </script>
 </body>
