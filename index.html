@@ -825,125 +825,131 @@
   <!-- Dynamic Modal -->
   <div class="modal" id="dynamicModal">
     <div class="modal-content" id="modalContainer">
-      <!-- Dynamic Popup Content -->
+      <!-- Content populated dynamically -->
     </div>
   </div>
 
   <script>
+    const APPS_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
+
     function closeModal() {
       document.getElementById("dynamicModal").style.display = "none";
     }
 
-    function openToolModal(toolName) {
-      const container = document.getElementById("modalContainer");
-      let specificOptionsHTML = "";
-      
-      if (toolName === "Excel to Invoice PDF Converter") {
-        specificOptionsHTML = `
-          <div style="text-align:left; font-size:12px; margin-bottom:12px;">
-            <label style="color:#94a3b8; display:block; margin-bottom:4px;">Invoice Template Style:</label>
-            <select style="width:100%; padding:8px; background:#070d1e; border:1px solid rgba(255,255,255,0.2); color:#fff; border-radius:6px; margin-bottom:10px;">
-              <option>Modern GST Invoice</option>
-              <option>Classic Bill Format</option>
-              <option>Minimalist Tax Invoice</option>
-            </select>
-          </div>
-        `;
-      } else if (toolName === "Auto WhatsApp Delivery Engine") {
-        specificOptionsHTML = `
-          <div style="text-align:left; font-size:12px; margin-bottom:12px;">
-            <label style="color:#94a3b8; display:block; margin-bottom:4px;">WhatsApp Message Template:</label>
-            <textarea style="width:100%; padding:8px; background:#070d1e; border:1px solid rgba(255,255,255,0.2); color:#fff; border-radius:6px; height:60px;" placeholder="Hello {Name}, here is your invoice PDF. Thank you!"></textarea>
-          </div>
-        `;
-      } else {
-        specificOptionsHTML = `
-          <div style="text-align:left; font-size:12px; margin-bottom:12px;">
-            <label style="color:#94a3b8; display:block; margin-bottom:4px;">Configuration Preset:</label>
-            <input type="text" style="width:100%; padding:8px; background:#070d1e; border:1px solid rgba(255,255,255,0.2); color:#fff; border-radius:6px;" placeholder="Default Settings">
-          </div>
-        `;
-      }
-
-      container.innerHTML = `
-        <h3 style="font-size:18px; margin-bottom:10px; color:#00f2fe;">${toolName}</h3>
-        <p style="font-size:12px; color:#94a3b8; margin-bottom:15px;">Upload your source file to initiate automated processing.</p>
-        
-        ${specificOptionsHTML}
-
-        <div class="file-input-box" onclick="alert('File browser opened!')">
-          <i class="fa-solid fa-cloud-arrow-up" style="font-size:28px; color:#00f2fe; margin-bottom:8px;"></i>
-          <p style="font-size:12px; color:#cbd5e1;">Click or drag file to upload (.xlsx, .csv)</p>
-        </div>
-
-        <div style="display:flex; justify-content:center; gap:10px; margin-top:20px;">
-          <button class="btn-act" onclick="alert('Processing started for ${toolName}!'); closeModal();">Start Processing</button>
-          <button class="btn-cls" onclick="closeModal()">Cancel</button>
-        </div>
-      `;
-
-      document.getElementById("dynamicModal").style.display = "flex";
-    }
-
-    function openBuilderWorkspace() {
-      const container = document.getElementById("modalContainer");
-      container.innerHTML = `
-        <h3 style="font-size:18px; margin-bottom:10px; color:#00f2fe;">⚡ Custom Workflow Builder</h3>
-        <p style="font-size:12px; color:#94a3b8; margin-bottom:15px;">Configure your custom trigger and multi-step actions.</p>
-        <div style="text-align:left; font-size:12px; margin-bottom:12px;">
-          <label style="color:#94a3b8; display:block; margin-bottom:4px;">Workflow Name:</label>
-          <input type="text" value="New Invoice Automation" style="width:100%; padding:8px; background:#070d1e; border:1px solid rgba(255,255,255,0.2); color:#fff; border-radius:6px; margin-bottom:10px;">
-        </div>
-        <div style="display:flex; justify-content:center; gap:10px; margin-top:20px;">
-          <button class="btn-act" onclick="alert('Workflow Activated!'); closeModal();">Save & Launch</button>
-          <button class="btn-cls" onclick="closeModal()">Cancel</button>
-        </div>
-      `;
-      document.getElementById("dynamicModal").style.display = "flex";
-    }
-
+    // App Integrations Modal
     function openAppModal(appName) {
       const container = document.getElementById("modalContainer");
       container.innerHTML = `
-        <h3 style="font-size:18px; margin-bottom:10px; color:#00f2fe;">Connect ${appName}</h3>
-        <p style="font-size:12px; color:#94a3b8; margin-bottom:15px;">Authorize Scrutinix AI to sync data with ${appName}.</p>
-        <div style="display:flex; justify-content:center; gap:10px; margin-top:20px;">
-          <button class="btn-act" onclick="alert('${appName} Connected!'); closeModal();">Connect Account</button>
-          <button class="btn-cls" onclick="closeModal()">Close</button>
+        <h3 style="color:#00f2fe; margin-bottom:10px;"><i class="fa-solid fa-plug"></i> ${appName} Integration</h3>
+        <p style="color:#94a3b8; font-size:12px; margin-bottom:15px;">Configure connection settings and webhooks for ${appName}.</p>
+        
+        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:12px; text-align:left; font-size:12px; margin-bottom:15px;">
+          <p style="color:#10b981; margin-bottom:6px;"><i class="fa-solid fa-circle-check"></i> Status: Connected & Ready</p>
+          <p style="color:#cbd5e1; margin-bottom:6px;"><b>Webhook Endpoint:</b></p>
+          <input type="text" readonly value="https://api.scrutinix.ai/v1/webhook/${appName.toLowerCase().replace(/\s+/g, '-')}" style="width:100%; background:#070d1e; border:1px solid rgba(255,255,255,0.15); color:#00f2fe; padding:6px; border-radius:4px; font-size:11px;">
         </div>
+
+        <button class="btn-act" onclick="alert('${appName} connection tested successfully!')" style="width:100%; margin-bottom:8px;">Test Connection</button>
+        <button class="btn-cls" onclick="closeModal()" style="width:100%;">Close</button>
       `;
       document.getElementById("dynamicModal").style.display = "flex";
     }
 
+    // Tool Processing Modal
+    function openToolModal(toolName) {
+      const container = document.getElementById("modalContainer");
+      container.innerHTML = `
+        <h3 style="color:#00f2fe; margin-bottom:5px;"><i class="fa-solid fa-paper-plane"></i> ${toolName}</h3>
+        <p style="color:#94a3b8; font-size:12px; margin-bottom:15px;">Upload data or provide sheet link to process.</p>
+
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius:10px; padding:12px; margin-bottom:15px; text-align:left;">
+          <p style="font-size:11px; color:#cbd5e1; margin-bottom:8px; font-weight:bold;">Active Channels:</p>
+          <div style="display:flex; justify-content:space-between; font-size:12px;">
+            <label style="cursor:pointer;"><input type="checkbox" id="chkWhatsapp" checked> <i class="fa-brands fa-whatsapp" style="color:#25d366;"></i> WhatsApp</label>
+            <label style="cursor:pointer;"><input type="checkbox" id="chkGmail" checked> <i class="fa-solid fa-envelope" style="color:#ef4444;"></i> Gmail</label>
+            <label style="cursor:pointer;"><input type="checkbox" id="chkSheets" checked> <i class="fa-solid fa-table" style="color:#10b981;"></i> Sheets Log</label>
+          </div>
+        </div>
+
+        <div class="file-input-box" onclick="document.getElementById('multiFileInput').click()">
+          <i class="fa-solid fa-cloud-arrow-up" style="font-size:28px; color:#00f2fe; margin-bottom:8px;"></i>
+          <p style="font-size:12px; color:#cbd5e1;">Click to select file (.xlsx, .csv, .pdf)</p>
+          <input type="file" id="multiFileInput" accept=".xlsx, .xls, .csv, .pdf" style="display:none;" onchange="document.getElementById('multiFileName').innerText = 'Selected: ' + this.files[0].name">
+        </div>
+        <div id="multiFileName" style="font-size:12px; color:#10b981; margin-bottom:8px;"></div>
+
+        <div style="font-size:11px; color:#64748b; margin:8px 0;">— OR —</div>
+
+        <input type="url" id="multiSheetUrl" placeholder="Paste Google Sheet Link here..." style="width:100%; padding:9px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.15); background:#070d1e; color:#fff; font-size:12px; outline:none; margin-bottom:15px;">
+
+        <button class="btn-act" onclick="triggerToolProcess('${toolName}')" style="width:100%; margin-bottom:8px; background: linear-gradient(90deg, #00f2fe, #a855f7); color:#fff;">🚀 Execute Action</button>
+        <button class="btn-cls" onclick="closeModal()" style="width:100%;">Close</button>
+        <div id="multiStatusText" style="margin-top:12px; font-size:12px; color:#00f2fe;"></div>
+      `;
+      document.getElementById("dynamicModal").style.display = "flex";
+    }
+
+    // Automation Builder Workspace
+    function openBuilderWorkspace() {
+      const container = document.getElementById("modalContainer");
+      container.innerHTML = `
+        <h3 style="color:#00f2fe; margin-bottom:10px;"><i class="fa-solid fa-wand-magic-sparkles"></i> Custom Workflow Canvas</h3>
+        <p style="color:#94a3b8; font-size:12px; margin-bottom:15px;">Configure triggers and actions step-by-step.</p>
+
+        <div style="text-align:left; font-size:12px; background:#070d1e; padding:15px; border-radius:8px; border:1px solid #1e293b; margin-bottom:15px;">
+          <p style="color:#00f2fe; font-weight:bold; margin-bottom:8px;">Step 1: Choose Trigger Event</p>
+          <select style="width:100%; padding:8px; background:#0b1329; color:#fff; border:1px solid rgba(255,255,255,0.2); border-radius:6px; margin-bottom:12px;">
+            <option>Google Forms - New Submission</option>
+            <option>Google Sheets - Row Updated</option>
+            <option>Gmail - New Incoming Email</option>
+            <option>Webhook - Custom API Payload</option>
+          </select>
+
+          <p style="color:#a855f7; font-weight:bold; margin-bottom:8px;">Step 2: Choose Action</p>
+          <select style="width:100%; padding:8px; background:#0b1329; color:#fff; border:1px solid rgba(255,255,255,0.2); border-radius:6px;">
+            <option>WhatsApp - Send Automated Message</option>
+            <option>Gmail - Send PDF Report</option>
+            <option>Google Sheets - Log Data</option>
+          </select>
+        </div>
+
+        <button class="btn-act" onclick="alert('Workflow active and listening for events!')" style="width:100%; margin-bottom:8px;">Activate Automation</button>
+        <button class="btn-cls" onclick="closeModal()" style="width:100%;">Close</button>
+      `;
+      document.getElementById("dynamicModal").style.display = "flex";
+    }
+
+    // Template Selector Modal
     function openTemplateModal(templateName) {
       const container = document.getElementById("modalContainer");
       container.innerHTML = `
-        <h3 style="font-size:18px; margin-bottom:10px; color:#00f2fe;">Use Template</h3>
-        <p style="font-size:13px; color:#fff; margin-bottom:10px;">${templateName}</p>
-        <p style="font-size:12px; color:#94a3b8; margin-bottom:15px;">This pre-built template will set up necessary triggers and actions automatically.</p>
-        <div style="display:flex; justify-content:center; gap:10px; margin-top:20px;">
-          <button class="btn-act" onclick="alert('Template Loaded successfully!'); closeModal();">Use Template</button>
-          <button class="btn-cls" onclick="closeModal()">Cancel</button>
-        </div>
+        <h3 style="color:#00f2fe; margin-bottom:10px;"><i class="fa-solid fa-cubes"></i> ${templateName}</h3>
+        <p style="color:#94a3b8; font-size:12px; margin-bottom:15px;">Pre-configured template setup.</p>
+
+        <p style="font-size:12px; color:#cbd5e1; text-align:left; background:rgba(255,255,255,0.03); padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,0.08); margin-bottom:15px;">
+          This template automates your data pipeline from end-to-end without needing any custom code. Click deploy to load it into your workspace.
+        </p>
+
+        <button class="btn-act" onclick="openBuilderWorkspace()" style="width:100%; margin-bottom:8px;">Deploy Template</button>
+        <button class="btn-cls" onclick="closeModal()" style="width:100%;">Close</button>
       `;
       document.getElementById("dynamicModal").style.display = "flex";
     }
 
-    function togglePricing() {
-      const isYearly = document.getElementById("pricingToggle").checked;
-      const freeEl = document.getElementById("freePrice");
-      const premiumEl = document.getElementById("premiumPrice");
-      const businessEl = document.getElementById("businessPrice");
+    function triggerToolProcess(toolName) {
+      const statusText = document.getElementById("multiStatusText");
+      statusText.innerText = `⏳ Processing request for ${toolName}...`;
+      
+      setTimeout(() => {
+        statusText.innerText = "✅ Action completed successfully!";
+      }, 1200);
+    }
 
-      if (isYearly) {
-        freeEl.innerHTML = "₹0 <span>/year</span>";
-        premiumEl.innerHTML = "₹2,870 <span>/year</span>";
-        businessEl.innerHTML = "₹9,590 <span>/year</span>";
-      } else {
-        freeEl.innerHTML = "₹0 <span>/month</span>";
-        premiumEl.innerHTML = "₹299 <span>/month</span>";
-        businessEl.innerHTML = "₹999 <span>/month</span>";
-      }
+    function togglePricing() {
+      const isYearly = document.getElementById('pricingToggle').checked;
+      document.getElementById('freePrice').innerHTML = isYearly ? "₹0 <span>/year</span>" : "₹0 <span>/month</span>";
+      document.getElementById('premiumPrice').innerHTML = isYearly ? "₹2,870 <span>/year</span>" : "₹299 <span>/month</span>";
+      document.getElementById('businessPrice').innerHTML = isYearly ? "₹9,590 <span>/year</span>" : "₹999 <span>/month</span>";
     }
   </script>
 </body>
