@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI - One Page Automation Hub</title>
+  <title>Scrutinix AI - Smart Business & CA Automation</title>
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -27,7 +27,6 @@
       padding: 0 20px;
     }
 
-    /* Header Navbar */
     header {
       padding: 20px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -41,22 +40,16 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 800;
       color: #fff;
       text-decoration: none;
     }
     .logo-icon {
-      width: 28px;
-      height: 28px;
-      background: linear-gradient(135deg, #00f2fe, #a855f7);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      color: #000;
-      font-weight: bold;
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
+      clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
     }
     .nav-links {
       display: flex;
@@ -70,37 +63,45 @@
       font-size: 14px;
       transition: 0.3s;
     }
-    .nav-links a:hover, .nav-links a.active { color: #00f2fe; }
-    
-    .nav-right { display: flex; align-items: center; gap: 15px; }
-    .theme-icon { color: #94a3b8; cursor: pointer; font-size: 16px; }
-    .btn-sign {
+    .nav-links a:hover { color: #00f2fe; }
+    .badge-new {
+      background: rgba(0, 242, 254, 0.15);
+      color: #00f2fe;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      margin-left: 4px;
+    }
+    .nav-btns { display: flex; gap: 12px; }
+    .btn-login {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.15);
       color: #fff;
       padding: 8px 18px;
-      border-radius: 20px;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 14px;
     }
-    .btn-started {
-      background: linear-gradient(90deg, #00f2fe, #a855f7);
+    .btn-getstarted {
+      background: #00f2fe;
       border: none;
       color: #000;
       padding: 8px 20px;
-      border-radius: 20px;
+      border-radius: 8px;
       cursor: pointer;
       font-weight: 700;
-      font-size: 13px;
+      font-size: 14px;
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
     }
 
     /* Hero Section */
     .hero-container {
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
-      gap: 40px;
+      gap: 30px;
       align-items: center;
-      padding: 60px 0 40px;
+      padding: 50px 0 30px;
     }
     .hero-badge {
       display: inline-flex;
@@ -113,16 +114,17 @@
       border-radius: 20px;
       font-size: 12px;
       font-weight: 600;
+      letter-spacing: 0.5px;
       margin-bottom: 20px;
     }
     .hero-left h1 {
-      font-size: 48px;
+      font-size: 44px;
       line-height: 1.15;
       font-weight: 800;
       margin-bottom: 15px;
     }
     .hero-left h1 span {
-      background: linear-gradient(90deg, #00f2fe, #a855f7);
+      background: linear-gradient(90deg, #00f2fe, #3b82f6);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -130,156 +132,390 @@
       color: #94a3b8;
       font-size: 15px;
       line-height: 1.6;
+      max-width: 520px;
+    }
+
+    .laptop-wrapper {
+      position: relative;
+      background: #0b1329;
+      border: 2px solid #1e293b;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 0 30px rgba(0, 242, 254, 0.15);
+    }
+    .laptop-screen {
+      background: #070d1e;
+      border-radius: 8px;
+      padding: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .laptop-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 12px;
+    }
+    .laptop-grid {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 15px;
+    }
+    .laptop-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 11px;
+      color: #64748b;
+    }
+    .laptop-sidebar div { cursor: pointer; }
+    .laptop-sidebar div.active { color: #00f2fe; font-weight: bold; }
+    .laptop-main {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .search-box {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(0,242,254,0.3);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      color: #94a3b8;
+      display: flex;
+      justify-content: space-between;
+    }
+    .app-shortcuts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .app-mini-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 10px 5px;
+      text-align: center;
+      font-size: 10px;
+      cursor: pointer;
+    }
+    .app-mini-card i { font-size: 16px; margin-bottom: 4px; display: block; }
+
+    /* Unique Features Section */
+    .unique-section {
+      background: linear-gradient(180deg, rgba(11, 19, 41, 0.8) 0%, rgba(3, 7, 18, 1) 100%);
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      border-radius: 16px;
+      padding: 30px;
+      margin: 40px 0;
+    }
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-desc {
+      color: #94a3b8;
+      font-size: 13px;
       margin-bottom: 25px;
     }
 
-    .prompt-box {
-      background: rgba(15, 23, 42, 0.8);
+    .tools-grid-top {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .tools-grid-bottom {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .tool-card {
+      background: rgba(15, 23, 42, 0.7);
       border: 1px solid rgba(0, 242, 254, 0.3);
-      border-radius: 30px;
-      padding: 6px 8px 6px 20px;
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      gap: 15px;
+      transition: 0.3s;
+    }
+    .tool-card:hover {
+      border-color: #00f2fe;
+      transform: translateY(-3px);
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+    }
+    .tool-card-purple {
+      border-color: rgba(168, 85, 247, 0.3);
+    }
+    .tool-card-purple:hover {
+      border-color: #a855f7;
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+    }
+    .tool-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      box-shadow: 0 0 25px rgba(0, 242, 254, 0.15);
-      margin-bottom: 15px;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
     }
-    .prompt-box i { color: #00f2fe; }
-    .prompt-box input {
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #fff;
-      width: 100%;
-      font-size: 14px;
+    .icon-green { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+    .icon-whatsapp { background: rgba(37, 211, 102, 0.15); color: #25d366; }
+    .icon-blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+    .icon-red { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+    .icon-orange { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+
+    .tool-content h3 { font-size: 15px; margin-bottom: 6px; }
+    .tool-content p { color: #94a3b8; font-size: 12px; line-height: 1.4; margin-bottom: 12px; }
+    .unique-tag {
+      display: inline-block;
+      background: rgba(0, 242, 254, 0.1);
+      color: #00f2fe;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+      font-weight: bold;
+      border: 1px solid rgba(0, 242, 254, 0.3);
     }
-    .btn-create {
+    .try-link {
+      color: #00f2fe;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .features-strip {
+      display: flex;
+      justify-content: space-between;
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 30px;
+      padding: 12px 30px;
+      margin: 35px 0 50px;
+      color: #94a3b8;
+      font-size: 13px;
+    }
+    .strip-item { display: flex; align-items: center; gap: 8px; }
+    .strip-item i { color: #00f2fe; }
+
+    /* Builder Section */
+    .builder-section {
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid rgba(0, 242, 254, 0.2);
+      border-radius: 16px;
+      padding: 35px;
+      margin-bottom: 50px;
+    }
+    .builder-grid {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr 0.9fr;
+      gap: 25px;
+      align-items: start;
+      margin-top: 20px;
+    }
+    .builder-left h2 { font-size: 30px; margin-bottom: 12px; }
+    .builder-left p { color: #94a3b8; font-size: 13px; line-height: 1.5; margin-bottom: 20px; }
+    .checklist { list-style: none; margin-bottom: 25px; }
+    .checklist li { font-size: 13px; color: #cbd5e1; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .checklist li i { color: #10b981; }
+    .btn-gradient {
       background: linear-gradient(90deg, #00f2fe, #a855f7);
       border: none;
-      color: #000;
-      padding: 10px 22px;
-      border-radius: 20px;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
       font-weight: 700;
-      font-size: 13px;
       cursor: pointer;
-      white-space: nowrap;
+      box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
     }
 
-    .examples-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 12px;
-      color: #64748b;
+    .workflow-box {
+      background: #070d1e;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 15px;
     }
-    .example-tag {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 4px 12px;
-      border-radius: 15px;
-      color: #cbd5e1;
-      cursor: pointer;
-    }
-
-    /* Hero Right Graphic Card */
-    .hub-card {
-      background: #0b1329;
-      border: 2px solid #1e293b;
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 0 35px rgba(0, 242, 254, 0.2);
-      position: relative;
-    }
-    .hub-header {
+    .wf-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      font-size: 12px;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
     }
-    .hub-title { font-size: 14px; font-weight: bold; color: #fff; display: flex; align-items: center; gap: 8px; }
-    .hub-badge { background: rgba(0, 242, 254, 0.15); color: #00f2fe; font-size: 10px; padding: 2px 8px; border-radius: 10px; }
-    .hub-grid {
-      display: grid;
-      grid-template-columns: 110px 1fr;
-      gap: 15px;
-    }
-    .hub-sidebar { display: flex; flex-direction: column; gap: 8px; font-size: 11px; color: #64748b; }
-    .hub-sidebar div { padding: 6px 10px; border-radius: 6px; cursor: pointer; }
-    .hub-sidebar div.active { background: rgba(0, 242, 254, 0.1); color: #00f2fe; font-weight: bold; }
-    .hub-main { background: #070d1e; border-radius: 10px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.05); }
-    .hub-search { background: rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 8px 12px; font-size: 11px; color: #94a3b8; display: flex; justify-content: space-between; margin-bottom: 15px; }
-    .hub-apps { display: flex; gap: 10px; justify-content: space-around; }
-    .hub-app-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; }
-
-    /* Categories Grid */
-    .categories-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 15px;
-      margin: 30px 0 60px;
-    }
-    .cat-card {
-      background: rgba(15, 23, 42, 0.6);
+    .wf-save { background: #3b82f6; border: none; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; }
+    .wf-step {
+      background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .wf-step-num { font-size: 10px; color: #64748b; margin-bottom: 4px; }
+    .wf-step-content { display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 600; }
+    .wf-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .wf-plus {
+      width: 20px;
+      height: 20px;
+      background: #3b82f6;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      margin: -5px auto 5px;
+      color: #fff;
+    }
+
+    .templates-box {
+      background: #070d1e;
+      border: 1px solid #1e293b;
       border-radius: 12px;
-      padding: 18px 14px;
-      transition: 0.3s;
+      padding: 15px;
+    }
+    .templates-box h4 { font-size: 13px; margin-bottom: 12px; color: #e2e8f0; }
+    .template-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      font-size: 11px;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       cursor: pointer;
     }
-    .cat-card:hover { border-color: #00f2fe; transform: translateY(-3px); }
-    .cat-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-bottom: 12px; }
-    .cat-title { font-size: 13px; font-weight: bold; margin-bottom: 6px; }
-    .cat-desc { font-size: 11px; color: #64748b; line-height: 1.4; margin-bottom: 12px; }
-    .cat-link { font-size: 11px; color: #00f2fe; font-weight: bold; text-decoration: none; }
 
-    /* Builder Section */
-    .builder-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 25px;
-      margin-bottom: 60px;
-    }
-    .build-box {
-      background: rgba(15, 23, 42, 0.4);
+    /* Integrations */
+    .integrations-section {
+      background: rgba(15, 23, 42, 0.3);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
       padding: 25px;
-    }
-    .wf-step {
-      background: #070d1e;
-      border: 1px solid #1e293b;
-      border-radius: 10px;
-      padding: 12px;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .wf-step-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
-
-    /* Popular Templates */
-    .templates-section { margin-bottom: 60px; }
-    .section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .templates-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 15px; }
-    .tpl-card { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 15px; cursor: pointer; }
-    .tpl-card:hover { border-color: #a855f7; }
-    .tpl-icons { display: flex; align-items: center; gap: 8px; font-size: 14px; margin-bottom: 10px; color: #00f2fe; }
-    .tpl-title { font-size: 12px; font-weight: bold; margin-bottom: 4px; }
-    .tpl-desc { font-size: 10px; color: #64748b; }
-
-    /* Bottom Banner */
-    .bottom-banner {
-      background: linear-gradient(135deg, rgba(0, 242, 254, 0.1), rgba(168, 85, 247, 0.1));
-      border: 1px solid rgba(0, 242, 254, 0.3);
-      border-radius: 20px;
-      padding: 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       margin-bottom: 60px;
     }
+    .integrations-grid {
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .app-icon-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 15px 5px;
+      text-align: center;
+      font-size: 11px;
+      color: #94a3b8;
+      cursor: pointer;
+    }
+    .app-icon-card:hover { border-color: #00f2fe; color: #fff; }
+    .app-icon-card i { font-size: 22px; display: block; margin-bottom: 8px; }
 
-    /* Modal Popup Styling */
+    /* Pricing */
+    .pricing-header { text-align: center; margin-bottom: 30px; }
+    .toggle-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+      font-size: 13px;
+    }
+    .switch {
+      position: relative;
+      width: 44px;
+      height: 22px;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(0, 242, 254, 0.4);
+      transition: .4s;
+      border-radius: 20px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #00f2fe;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider:before { transform: translateX(22px); }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 60px;
+    }
+    .price-card {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 25px;
+      position: relative;
+    }
+    .price-card.popular {
+      border-color: #00f2fe;
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.15);
+    }
+    .popular-tag {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #00f2fe;
+      color: #000;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 2px 10px;
+      border-radius: 10px;
+    }
+    .price-num { font-size: 32px; font-weight: bold; margin: 15px 0 5px; }
+    .price-num span { font-size: 13px; color: #94a3b8; font-weight: normal; }
+    .plan-features { list-style: none; margin: 20px 0; font-size: 12px; color: #cbd5e1; }
+    .plan-features li { margin-bottom: 8px; }
+    .plan-features li::before { content: "✓ "; color: #00f2fe; margin-right: 5px; }
+    .btn-plan {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: transparent;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-plan-active {
+      background: linear-gradient(90deg, #00f2fe, #a855f7);
+      border: none;
+    }
+
+    /* Modal Styling */
     .modal {
       display: none;
       position: fixed;
@@ -296,18 +532,19 @@
       padding: 30px;
       border-radius: 16px;
       width: 90%;
-      max-width: 500px;
+      max-width: 520px;
       text-align: center;
     }
-    .file-dropzone {
+    .file-input-box {
       border: 2px dashed rgba(0, 242, 254, 0.4);
       border-radius: 10px;
-      padding: 25px;
+      padding: 20px;
       cursor: pointer;
-      background: rgba(255, 255, 255, 0.02);
+      background: rgba(255,255,255,0.02);
       margin: 15px 0;
     }
-    .file-dropzone:hover { border-color: #00f2fe; background: rgba(0, 242, 254, 0.05); }
+    .btn-act { background: #00f2fe; color: #000; border: none; padding: 10px 22px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    .btn-cls { background: transparent; color: #fff; border: 1px solid #334155; padding: 10px 22px; border-radius: 6px; cursor: pointer; }
 
     footer {
       border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -322,308 +559,421 @@
 </head>
 <body>
 
-  <!-- Hidden Real File Input -->
-  <input type="file" id="realFileInput" style="display: none;" onchange="handleFileSelected(event)">
-
   <div class="container">
     <header>
       <nav>
         <a href="#" class="logo-box">
-          <div class="logo-icon">S</div>
+          <div class="logo-icon"></div>
           Scrutinix AI
         </a>
         <ul class="nav-links">
-          <li><a href="#" class="active">Home</a></li>
-          <li><a href="#automation">Automation</a></li>
-          <li><a href="#templates">Templates</a></li>
-          <li><a href="#tools">Tools</a></li>
+          <li><a href="#">Home</a></li>
+          <li><a href="#tools">CA Tools</a></li>
+          <li><a href="#automation">Automation <span class="badge-new">New</span></a></li>
           <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#">Resources</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
         </ul>
-        <div class="nav-right">
-          <i class="fa-regular fa-sun theme-icon"></i>
-          <button class="btn-sign" onclick="alert('Sign In Window Opened')">Sign In</button>
-          <button class="btn-started" onclick="triggerFilePicker('General Upload')">Get Started Free</button>
+        <div class="nav-btns">
+          <button class="btn-login" onclick="alert('Sign In clicked!')">Sign In</button>
+          <button class="btn-getstarted" onclick="alert('Welcome to Scrutinix AI!')">Get Started</button>
         </div>
       </nav>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero-container">
       <div class="hero-left">
-        <div class="hero-badge">⚡ AI-POWERED AUTOMATION HUB</div>
-        <h1>What do you want to<br><span>automate today?</span></h1>
-        <p>Scrutinix AI helps you <b>automate your business tasks</b>, connect your apps, and save time — all in one place. No complex setup. Just tell us your goal, and <b>we'll build</b> the perfect automation for you.</p>
-
-        <div class="prompt-box">
-          <i class="fa-solid fa-wand-magic-sparkles"></i>
-          <input type="text" id="promptInput" placeholder="Describe what you want to automate...">
-          <button class="btn-create" onclick="processPrompt()">Create Automation &rarr;</button>
-        </div>
-
-        <div class="examples-bar">
-          <span>Examples:</span>
-          <span class="example-tag" onclick="fillPrompt('Save new leads to Google Sheets')">Save new leads to Google Sheets</span>
-          <span class="example-tag" onclick="fillPrompt('Send email on form submission')">Send email on form submission</span>
-          <span class="example-tag" onclick="fillPrompt('Check website SEO')">Check website SEO</span>
-        </div>
+        <div class="hero-badge">✦ BEYOND GENERIC AUTOMATION</div>
+        <h1>Zero-Code Finance &<br><span>CA Business Automation</span></h1>
+        <p>Direct Tally XML parsing, GSTR-2B Recon, PDF Bank Statements, and Direct WhatsApp Delivery — features general automation engines like Make.com don't offer natively.</p>
       </div>
 
-      <!-- Hub Interactive Graphic Card -->
-      <div class="hub-card">
-        <div class="hub-header">
-          <div class="hub-title"><div class="logo-icon" style="width:20px; height:20px; font-size:10px;">S</div> Scrutinix AI</div>
-          <span class="hub-badge">✦ AI Powered</span>
-        </div>
-        <div class="hub-grid">
-          <div class="hub-sidebar">
-            <div class="active">🏠 Dashboard</div>
-            <div onclick="document.getElementById('automation').scrollIntoView({behavior:'smooth'})">⚡ Automations</div>
-            <div onclick="document.getElementById('templates').scrollIntoView({behavior:'smooth'})">📄 Templates</div>
-            <div>🧩 Apps</div>
-            <div>⚙️ Settings</div>
+      <div class="laptop-wrapper">
+        <div class="laptop-screen">
+          <div class="laptop-topbar">
+            <span style="font-size:11px; font-weight:bold; color:#00f2fe;">✦ Scrutinix AI Workspace</span>
+            <span style="font-size:10px; background:rgba(0,242,254,0.1); color:#00f2fe; padding:2px 8px; border-radius:10px;">Ready To Automate</span>
           </div>
-          <div class="hub-main">
-            <div style="font-size:12px; font-weight:bold; margin-bottom:4px;">Your Automation Hub</div>
-            <div style="font-size:10px; color:#64748b; margin-bottom:12px;">Connect apps, automate tasks, grow faster.</div>
-            
-            <div class="hub-search">
-              <span>What do you want to automate today?</span>
-              <i class="fa-solid fa-arrow-right" style="color:#00f2fe;"></i>
+          <div class="laptop-grid">
+            <div class="laptop-sidebar">
+              <div class="active">🏠 Home</div>
+              <div onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">🧰 CA Tools</div>
+              <div onclick="openBuilderWorkspace()">⚡ Workflows <span style="font-size:8px; color:#00f2fe;">New</span></div>
+              <div onclick="alert('Analytics Dashboard')">📊 Audits</div>
+              <div onclick="alert('Settings Panel')">⚙️ Settings</div>
             </div>
-
-            <div class="hub-apps">
-              <div class="hub-app-icon" style="background:rgba(16,185,129,0.15); color:#10b981;" onclick="triggerFilePicker('Excel/Sheets Processing')"><i class="fa-solid fa-file-excel"></i></div>
-              <div class="hub-app-icon" style="background:rgba(239,68,68,0.15); color:#ef4444;" onclick="triggerFilePicker('Gmail Alert Engine')"><i class="fa-solid fa-envelope"></i></div>
-              <div class="hub-app-icon" style="background:rgba(59,130,246,0.15); color:#3b82f6;" onclick="triggerFilePicker('Slack Sync')"><i class="fa-brands fa-slack"></i></div>
-              <div class="hub-app-icon" style="background:rgba(168,85,247,0.15); color:#a855f7;" onclick="triggerFilePicker('Notion Integration')"><i class="fa-solid fa-note-sticky"></i></div>
+            <div class="laptop-main">
+              <div class="search-box">
+                <span>Select Tally / GSTR-2B / Bank PDF process...</span>
+                <i class="fa-solid fa-magnifying-glass" style="color:#00f2fe;"></i>
+              </div>
+              <div class="app-shortcuts">
+                <div class="app-mini-card" onclick="openToolModal('GST GSTR-2B vs Purchase Reconciler')"><i class="fa-solid fa-calculator" style="color:#00f2fe;"></i>GST Recon</div>
+                <div class="app-mini-card" onclick="openToolModal('Bank Statement OCR to Tally Excel')"><i class="fa-solid fa-building-columns" style="color:#f59e0b;"></i>Bank OCR</div>
+                <div class="app-mini-card" onclick="openToolModal('Auto WhatsApp Delivery Engine')"><i class="fa-brands fa-whatsapp" style="color:#25d366;"></i>WhatsApp</div>
+                <div class="app-mini-card" onclick="openToolModal('Excel to Invoice PDF Converter')"><i class="fa-solid fa-file-pdf" style="color:#ef4444;"></i>Invoice PDF</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 6 Primary Category Cards -->
-    <div class="categories-grid" id="tools">
-      <div class="cat-card" onclick="openModal('AI Automation')">
-        <div class="cat-icon" style="background:rgba(16,185,129,0.15); color:#10b981;"><i class="fa-solid fa-robot"></i></div>
-        <div class="cat-title">AI Automation</div>
-        <div class="cat-desc">Let AI find and automate repetitive tasks for your business.</div>
-        <a class="cat-link">Explore &rarr;</a>
+    <!-- Unique Features Section (Not in Make.com) -->
+    <div class="unique-section" id="tools">
+      <div class="section-title">
+        <i class="fa-solid fa-microchip" style="color:#00f2fe;"></i>
+        Native Tools Built Specifically for Finance & CAs
       </div>
+      <p class="section-desc">Unlike generic webhook automation platforms, Scrutinix AI parses complex financial formats directly without writing code or API scripts.</p>
 
-      <div class="cat-card" onclick="openModal('Email Automation')">
-        <div class="cat-icon" style="background:rgba(168,85,247,0.15); color:#a855f7;"><i class="fa-solid fa-envelope"></i></div>
-        <div class="cat-title">Email Automation</div>
-        <div class="cat-desc">Send emails automatically from forms, sheets or triggers.</div>
-        <a class="cat-link">Explore &rarr;</a>
-      </div>
+      <!-- Top 3 Tools -->
+      <div class="tools-grid-top">
+        <div class="tool-card">
+          <div class="tool-icon icon-blue"><i class="fa-solid fa-receipt"></i></div>
+          <div class="tool-content">
+            <span class="unique-tag">Not in Make.com</span>
+            <h3>GSTR-2B Auto Reconciler</h3>
+            <p>Upload JSON/Excel from GST portal & Tally Purchase Register for multi-rule matching instantly.</p>
+            <a class="try-link" onclick="openToolModal('GST GSTR-2B vs Purchase Reconciler')">Run Reconciliation &rarr;</a>
+          </div>
+        </div>
 
-      <div class="cat-card" onclick="openModal('Lead Automation')">
-        <div class="cat-icon" style="background:rgba(59,130,246,0.15); color:#3b82f6;"><i class="fa-solid fa-user-group"></i></div>
-        <div class="cat-title">Lead Automation</div>
-        <div class="cat-desc">Capture, organize and follow up with leads — automatically.</div>
-        <a class="cat-link">Explore &rarr;</a>
-      </div>
+        <div class="tool-card tool-card-purple">
+          <div class="tool-icon icon-whatsapp"><i class="fa-brands fa-whatsapp"></i></div>
+          <div class="tool-content">
+            <span class="unique-tag">Native Setup</span>
+            <h3>Direct WhatsApp Notice Dispatch</h3>
+            <p>Send GST Payment Reminders & Tax Invoices to client's WhatsApp without complex Meta Cloud tokens.</p>
+            <a class="try-link" onclick="openToolModal('Auto WhatsApp Delivery Engine')">Try Engine &rarr;</a>
+          </div>
+        </div>
 
-      <div class="cat-card" onclick="openModal('Website Automation')">
-        <div class="cat-icon" style="background:rgba(236,72,153,0.15); color:#ec4899;"><i class="fa-solid fa-globe"></i></div>
-        <div class="cat-title">Website Automation</div>
-        <div class="cat-desc">Check your website, get insights, and fix issues automatically.</div>
-        <a class="cat-link">Explore &rarr;</a>
-      </div>
-
-      <div class="cat-card" onclick="openModal('Document Automation')">
-        <div class="cat-icon" style="background:rgba(245,158,11,0.15); color:#f59e0b;"><i class="fa-solid fa-file-invoice"></i></div>
-        <div class="cat-title">Document Automation</div>
-        <div class="cat-desc">Extract data from PDFs & files, organize and manage it.</div>
-        <a class="cat-link">Explore &rarr;</a>
-      </div>
-
-      <div class="cat-card" onclick="openModal('Connect Your Apps')">
-        <div class="cat-icon" style="background:rgba(0,242,254,0.15); color:#00f2fe;"><i class="fa-solid fa-link"></i></div>
-        <div class="cat-title">Connect Your Apps</div>
-        <div class="cat-desc">Integrate Google, Gmail, Sheets, Slack, Notion and 100+ apps.</div>
-        <a class="cat-link">Explore &rarr;</a>
-      </div>
-    </div>
-
-    <!-- Workflow Builder Section -->
-    <div class="builder-container" id="automation">
-      <div class="build-box">
-        <div style="background:rgba(0,242,254,0.1); color:#00f2fe; font-size:10px; padding:3px 10px; border-radius:10px; display:inline-block; margin-bottom:10px;">✦ Our Unique Approach</div>
-        <h2 style="font-size:24px; margin-bottom:10px;">Tell us your goal,<br>we'll build the workflow.</h2>
-        <p style="font-size:12px; color:#94a3b8; line-height:1.5; margin-bottom:20px;">Unlike traditional automation tools, you don't need to learn complex workflows. Just describe what you want, and Scrutinix AI will create a ready-to-use automation for you — in seconds.</p>
-        
-        <div style="font-size:12px; color:#cbd5e1; display:flex; flex-direction:column; gap:8px;">
-          <div><i class="fa-solid fa-circle-check" style="color:#10b981;"></i> No technical knowledge required</div>
-          <div><i class="fa-solid fa-circle-check" style="color:#10b981;"></i> Pre-built templates & smart suggestions</div>
-          <div><i class="fa-solid fa-circle-check" style="color:#10b981;"></i> Easy to connect with your favorite apps</div>
+        <div class="tool-card">
+          <div class="tool-icon icon-orange"><i class="fa-solid fa-building-columns"></i></div>
+          <div class="tool-content">
+            <span class="unique-tag">Not in Make.com</span>
+            <h3>Bank Statement OCR to Tally</h3>
+            <p>Convert ICICI, HDFC, SBI PDF Bank statements into Tally-ready CSV / XML journal entries.</p>
+            <a class="try-link" onclick="openToolModal('Bank Statement OCR to Tally Excel')">Parse Statement &rarr;</a>
+          </div>
         </div>
       </div>
 
-      <div class="build-box" style="background:#070d1e;">
-        <div style="font-size:11px; color:#64748b; margin-bottom:15px; display:flex; align-items:center; gap:6px;">
-          <span style="width:8px; height:8px; background:#10b981; border-radius:50%;"></span> Live Preview
+      <!-- Bottom 2 Tools -->
+      <div class="tools-grid-bottom">
+        <div class="tool-card tool-card-purple">
+          <div class="tool-icon icon-red"><i class="fa-solid fa-file-pdf"></i></div>
+          <div class="tool-content">
+            <span class="unique-tag">Instant Template</span>
+            <h3>Excel to GST Invoice Generator</h3>
+            <p>Batch convert Excel rows into GST Compliant Tax Invoices with custom logo and QR payment links.</p>
+            <a class="try-link" onclick="openToolModal('Excel to Invoice PDF Converter')">Generate Invoices &rarr;</a>
+          </div>
         </div>
 
-        <div class="wf-step">
-          <div class="wf-step-icon" style="background:rgba(168,85,247,0.2); color:#a855f7;"><i class="fa-solid fa-user"></i></div>
-          <div><div style="font-size:12px; font-weight:bold;">New Lead Received</div><div style="font-size:10px; color:#64748b;">(Form / Website / Sheet)</div></div>
-        </div>
-        <div style="text-align:center; color:#00f2fe; font-size:10px; margin:-5px 0;">↓</div>
-        <div class="wf-step">
-          <div class="wf-step-icon" style="background:rgba(16,185,129,0.2); color:#10b981;"><i class="fa-solid fa-table"></i></div>
-          <div><div style="font-size:12px; font-weight:bold;">Google Sheets Sync</div><div style="font-size:10px; color:#64748b;">Save lead information</div></div>
-        </div>
-        <div style="text-align:center; color:#00f2fe; font-size:10px; margin:-5px 0;">↓</div>
-        <div class="wf-step">
-          <div class="wf-step-icon" style="background:rgba(239,68,68,0.2); color:#ef4444;"><i class="fa-solid fa-envelope"></i></div>
-          <div><div style="font-size:12px; font-weight:bold;">Send Email Alert</div><div style="font-size:10px; color:#64748b;">Notify team instantly</div></div>
-        </div>
-
-        <button class="btn-create" style="width:100%; margin-top:10px;" onclick="triggerFilePicker('Custom Automation Sequence')">Create This Automation &rarr;</button>
-      </div>
-    </div>
-
-    <!-- Popular Templates Section -->
-    <div class="templates-section" id="templates">
-      <div class="section-head">
-        <h3 style="font-size:18px;">Popular Automation Templates</h3>
-        <a href="#" style="color:#00f2fe; font-size:12px; text-decoration:none;">View All Templates &rarr;</a>
-      </div>
-
-      <div class="templates-grid">
-        <div class="tpl-card" onclick="openModal('Form to Email Template')">
-          <div class="tpl-icons"><i class="fa-solid fa-wpforms"></i> &rarr; <i class="fa-solid fa-envelope"></i></div>
-          <div class="tpl-title">Form to Email</div>
-          <div class="tpl-desc">Send email when someone fills your form.</div>
-        </div>
-
-        <div class="tpl-card" onclick="openModal('Sheet to Slack Template')">
-          <div class="tpl-icons"><i class="fa-solid fa-file-excel"></i> &rarr; <i class="fa-brands fa-slack"></i></div>
-          <div class="tpl-title">Sheet to Slack</div>
-          <div class="tpl-desc">Notify your team when new data is added.</div>
-        </div>
-
-        <div class="tpl-card" onclick="openModal('New Lead Follow-up')">
-          <div class="tpl-icons"><i class="fa-solid fa-user"></i> &rarr; <i class="fa-solid fa-paper-plane"></i></div>
-          <div class="tpl-title">New Lead Follow-up</div>
-          <div class="tpl-desc">Save leads and send automatic follow-up.</div>
-        </div>
-
-        <div class="tpl-card" onclick="openModal('Website SEO Check')">
-          <div class="tpl-icons"><i class="fa-solid fa-globe"></i> &rarr; <i class="fa-solid fa-chart-line"></i></div>
-          <div class="tpl-title">Website SEO Check</div>
-          <div class="tpl-desc">Get instant SEO report for your website.</div>
-        </div>
-
-        <div class="tpl-card" onclick="openModal('PDF to Google Sheets')">
-          <div class="tpl-icons"><i class="fa-solid fa-file-pdf"></i> &rarr; <i class="fa-solid fa-table"></i></div>
-          <div class="tpl-title">PDF to Google Sheets</div>
-          <div class="tpl-desc">Extract data from PDF and organize in Sheets.</div>
-        </div>
-
-        <div class="tpl-card" onclick="openModal('Social Media Auto Post')">
-          <div class="tpl-icons"><i class="fa-brands fa-twitter"></i> &rarr; <i class="fa-brands fa-linkedin"></i></div>
-          <div class="tpl-title">Social Media Post</div>
-          <div class="tpl-desc">Auto post content to multiple platforms.</div>
+        <div class="tool-card">
+          <div class="tool-icon icon-green"><i class="fa-solid fa-database"></i></div>
+          <div class="tool-content">
+            <span class="unique-tag">1-Click Action</span>
+            <h3>Tally DayBook XML Parser</h3>
+            <p>Export DayBook XML directly from Tally Prime and parse sales, purchase, and payment summaries.</p>
+            <a class="try-link" onclick="openToolModal('Tally DayBook XML Parser')">Upload XML &rarr;</a>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Bottom Smart Banner -->
-    <div class="bottom-banner">
-      <div>
-        <h3 style="font-size:20px; margin-bottom:5px;">Ready to Automate Smarter?</h3>
-        <p style="font-size:12px; color:#94a3b8;">Join thousands of creators, solopreneurs and businesses using Scrutinix AI to save time.</p>
+    <div class="features-strip">
+      <div class="strip-item"><i class="fa-solid fa-bolt"></i> No API Keys Needed</div>
+      <div class="strip-item"><i class="fa-solid fa-indian-rupee-sign"></i> Built for Indian GST Standards</div>
+      <div class="strip-item"><i class="fa-solid fa-shield-halved"></i> Client Data Private & Encrypted</div>
+      <div class="strip-item"><i class="fa-solid fa-file-excel"></i> Native Excel / Tally Support</div>
+    </div>
+
+    <!-- Automation Builder Section -->
+    <div class="builder-section" id="automation">
+      <span class="badge-new">NEW WORKFLOW</span>
+      <div class="builder-grid">
+        <div class="builder-left">
+          <h2><i class="fa-solid fa-network-wired" style="color:#00f2fe;"></i> Simple Workflow Builder</h2>
+          <p style="font-weight:bold; color:#fff;">Connect Tally, Sheets & WhatsApp</p>
+          <p>Set triggers and automated actions without needing Make.com scenarios or technical webhooks.</p>
+
+          <ul class="checklist">
+            <li><i class="fa-solid fa-check"></i> Simple Form Inputs (No Complex Graphs)</li>
+            <li><i class="fa-solid fa-check"></i> Built-in Indian Finance Triggers</li>
+            <li><i class="fa-solid fa-check"></i> WhatsApp & Email Native Alerts</li>
+          </ul>
+
+          <button class="btn-gradient" onclick="openBuilderWorkspace()">Launch Workflow Builder &rarr;</button>
+        </div>
+
+        <div class="workflow-box">
+          <div class="wf-header">
+            <span>&larr; Visual Finance Workflow</span>
+            <button class="wf-save" onclick="alert('Workflow Saved Successfully!')">Save</button>
+          </div>
+
+          <div class="wf-step">
+            <div class="wf-step-num">1. Trigger Event</div>
+            <div class="wf-step-content">
+              <div class="wf-icon" style="background:rgba(16,185,129,0.2); color:#10b981;"><i class="fa-solid fa-file-excel"></i></div>
+              <div>Upload Tally Purchase Sheet<br><span style="font-size:10px; color:#64748b;">New Excel File Dropped</span></div>
+            </div>
+          </div>
+
+          <div class="wf-plus">+</div>
+
+          <div class="wf-step">
+            <div class="wf-step-num">2. Auto Processing</div>
+            <div class="wf-step-content">
+              <div class="wf-icon" style="background:rgba(59,130,246,0.2); color:#3b82f6;"><i class="fa-solid fa-calculator"></i></div>
+              <div>Match against GSTR-2B JSON<br><span style="font-size:10px; color:#64748b;">Tolerance rule: ± ₹5 match</span></div>
+            </div>
+          </div>
+
+          <div class="wf-plus">+</div>
+
+          <div class="wf-step">
+            <div class="wf-step-num">3. Action</div>
+            <div class="wf-step-content">
+              <div class="wf-icon" style="background:rgba(37,211,102,0.2); color:#25d366;"><i class="fa-brands fa-whatsapp"></i></div>
+              <div>WhatsApp Mismatch Summary<br><span style="font-size:10px; color:#64748b;">Alert CA Assistant / Client</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="templates-box">
+          <h4>Pre-configured Templates</h4>
+          <div class="template-item" onclick="openTemplateModal('GSTR-2B Recon to WhatsApp Summary')"><i class="fa-solid fa-calculator" style="color:#00f2fe;"></i> GSTR-2B Recon &rarr; WhatsApp Alert</div>
+          <div class="template-item" onclick="openTemplateModal('Bank Statement OCR to Tally Batch')"><i class="fa-solid fa-building-columns" style="color:#f59e0b;"></i> Bank Statement OCR &rarr; Tally CSV</div>
+          <div class="template-item" onclick="openTemplateModal('Excel Invoices to WhatsApp Dispatch')"><i class="fa-brands fa-whatsapp" style="color:#25d366;"></i> Excel Invoice &rarr; PDF &rarr; WhatsApp</div>
+          <div class="template-item" onclick="openTemplateModal('Tally Ledger Auto Reminders')"><i class="fa-solid fa-clock" style="color:#ef4444;"></i> Outstanding Ledger &rarr; Auto Reminders</div>
+
+          <a href="#automation" style="color:#00f2fe; font-size:11px; text-decoration:none; display:inline-block; margin-top:8px;">View All Templates &rarr;</a>
+        </div>
       </div>
-      <button class="btn-started" style="padding:12px 28px; font-size:14px;" onclick="triggerFilePicker('Instant Platform Onboarding')">Get Started Free &rarr;</button>
+    </div>
+
+    <!-- Integrations Cards -->
+    <div class="integrations-section">
+      <h3 style="font-size:15px;">Connect Your Daily Work Tools</h3>
+      <p style="font-size:11px; color:#64748b;">Click on any app to configure integration...</p>
+
+      <div class="integrations-grid">
+        <div class="app-icon-card" onclick="openAppModal('Tally Prime')"><i class="fa-solid fa-database" style="color:#00f2fe;"></i>Tally Prime</div>
+        <div class="app-icon-card" onclick="openAppModal('GST Portal')"><i class="fa-solid fa-receipt" style="color:#3b82f6;"></i>GST Portal</div>
+        <div class="app-icon-card" onclick="openAppModal('Google Sheets')"><i class="fa-solid fa-table" style="color:#10b981;"></i>Google Sheets</div>
+        <div class="app-icon-card" onclick="openAppModal('WhatsApp')"><i class="fa-brands fa-whatsapp" style="color:#25d366;"></i>WhatsApp</div>
+        <div class="app-icon-card" onclick="openAppModal('Gmail')"><i class="fa-solid fa-envelope" style="color:#ef4444;"></i>Gmail</div>
+        <div class="app-icon-card" onclick="openAppModal('Google Drive')"><i class="fa-brands fa-google-drive" style="color:#f59e0b;"></i>Google Drive</div>
+        <div class="app-icon-card" onclick="openAppModal('Marg ERP')"><i class="fa-solid fa-boxes-stacked" style="color:#a855f7;"></i>Marg ERP</div>
+        <div class="app-icon-card" onclick="openAppModal('Razorpay / Cashfree')"><i class="fa-solid fa-credit-card" style="color:#00f2fe;"></i>Payment Links</div>
+        <div class="app-icon-card" onclick="openAppModal('Custom Webhooks')"><i class="fa-solid fa-plus" style="color:#64748b;"></i>More Apps</div>
+      </div>
+    </div>
+
+    <!-- Pricing Section -->
+    <section class="pricing-header" id="pricing">
+      <div class="hero-badge">✦ AFFORDABLE FOR INDIAN BUSINESSES</div>
+      <h2>Simple Plans for CAs, SMBs & Freelancers</h2>
+
+      <div class="toggle-bar">
+        <span>Monthly</span>
+        <label class="switch">
+          <input type="checkbox" id="pricingToggle" onchange="togglePricing()">
+          <span class="slider"></span>
+        </label>
+        <span>Yearly <span style="background:rgba(168,85,247,0.2); color:#d8b4fe; font-size:10px; padding:2px 6px; border-radius:8px; border:1px solid #a855f7;">Save 20%</span></span>
+      </div>
+    </section>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h3>Starter</h3>
+        <p style="font-size:11px; color:#64748b;">Free setup for testing</p>
+        <div class="price-num" id="freePrice">₹0 <span>/month</span></div>
+        <ul class="plan-features">
+          <li>10 daily GST / PDF operations</li>
+          <li>Basic Excel Invoice Converter</li>
+          <li>Single Bank Statement Parsing</li>
+        </ul>
+        <button class="btn-plan" onclick="alert('Starter Plan Active')">Get Started</button>
+      </div>
+
+      <div class="price-card popular">
+        <div class="popular-tag">CA & Business Special</div>
+        <h3>Pro Firm</h3>
+        <p style="font-size:11px; color:#64748b;">For CA Offices & Finance Teams</p>
+        <div class="price-num" id="premiumPrice">₹299 <span>/month</span></div>
+        <ul class="plan-features">
+          <li>GSTR-2B vs Tally Auto Recon</li>
+          <li>WhatsApp Direct Invoice Engine</li>
+          <li>Bank PDF OCR to Tally Conversion</li>
+          <li>Priority Support</li>
+        </ul>
+        <button class="btn-plan btn-plan-active" onclick="alert('Redirecting to Payment Gateway...')">Upgrade to Pro Firm</button>
+      </div>
+
+      <div class="price-card">
+        <h3>Enterprise</h3>
+        <p style="font-size:11px; color:#64748b;">For Multi-Branch Firms</p>
+        <div class="price-num" id="businessPrice">₹999 <span>/month</span></div>
+        <ul class="plan-features">
+          <li>Unlimited GST & Bank Parsers</li>
+          <li>Multi-User Staff Access</li>
+          <li>Custom WhatsApp Branding</li>
+          <li>Dedicated Account Manager</li>
+        </ul>
+        <button class="btn-plan" onclick="alert('Redirecting to Payment Gateway...')">Get Started</button>
+      </div>
     </div>
 
     <footer>
       <div class="logo-box" style="font-size:18px;">
-        <div class="logo-icon" style="width:22px; height:22px; font-size:10px;">S</div>
+        <div class="logo-icon" style="width:22px; height:22px;"></div>
         Scrutinix AI
       </div>
       <div>
         <a href="#" style="color:#64748b; margin:0 10px; text-decoration:none;">Home</a>
-        <a href="#automation" style="color:#64748b; margin:0 10px; text-decoration:none;">Automation</a>
-        <a href="#templates" style="color:#64748b; margin:0 10px; text-decoration:none;">Templates</a>
-        <a href="#tools" style="color:#64748b; margin:0 10px; text-decoration:none;">Tools</a>
+        <a href="#tools" style="color:#64748b; margin:0 10px; text-decoration:none;">CA Tools</a>
+        <a href="#automation" style="color:#64748b; margin:0 10px; text-decoration:none;">Workflows</a>
         <a href="#pricing" style="color:#64748b; margin:0 10px; text-decoration:none;">Pricing</a>
       </div>
       <div>
-        <span>© 2026 Scrutinix AI. All rights reserved.</span>
+        <span>© 2026 Scrutinix AI. Made for CAs & Businesses.</span>
       </div>
     </footer>
   </div>
 
-  <!-- Dynamic Modal for Actions -->
-  <div class="modal" id="actionModal">
-    <div class="modal-content">
-      <h3 id="modalTitle" style="color:#00f2fe; margin-bottom:8px;">Tool Selected</h3>
-      <p id="modalDesc" style="font-size:12px; color:#94a3b8; margin-bottom:15px;">Configure your automation options below.</p>
-
-      <div class="file-dropzone" onclick="triggerFilePicker('Modal Zone')">
-        <i class="fa-solid fa-cloud-arrow-up" style="font-size:32px; color:#00f2fe; margin-bottom:8px;"></i>
-        <p style="font-size:12px; color:#cbd5e1;" id="fileNameDisplay">Click to Select & Upload File (.xlsx, .pdf, .json)</p>
-      </div>
-
-      <div style="display:flex; justify-content:center; gap:10px; margin-top:15px;">
-        <button class="btn-started" style="border-radius:6px;" onclick="executeProcess()">Start Automation</button>
-        <button class="btn-sign" style="border-radius:6px;" onclick="closeModal()">Cancel</button>
-      </div>
+  <!-- Dynamic Modal -->
+  <div class="modal" id="dynamicModal">
+    <div class="modal-content" id="modalContainer">
+      <!-- Modal Content Loaded Dynamically -->
     </div>
   </div>
 
   <script>
-    let activeAction = "Default";
-
-    function fillPrompt(text) {
-      document.getElementById("promptInput").value = text;
-    }
-
-    function processPrompt() {
-      const val = document.getElementById("promptInput").value;
-      if (!val) {
-        alert("Kripya prompt input me apni automation detail likhein!");
-        return;
-      }
-      openModal("AI Prompt: " + val);
-    }
-
-    function openModal(title) {
-      activeAction = title;
-      document.getElementById("modalTitle").innerText = title;
-      document.getElementById("modalDesc").innerText = "File upload karke " + title + " ko execute kijiye.";
-      document.getElementById("fileNameDisplay").innerText = "Click to Select & Upload File (.xlsx, .pdf, .json)";
-      document.getElementById("actionModal").style.display = "flex";
-    }
-
     function closeModal() {
-      document.getElementById("actionModal").style.display = "none";
+      document.getElementById("dynamicModal").style.display = "none";
     }
 
-    // Direct Real Computer File Selector Execution
-    function triggerFilePicker(context) {
-      activeAction = context;
-      document.getElementById("realFileInput").click();
-    }
+    function openToolModal(toolName) {
+      const container = document.getElementById("modalContainer");
+      let customOptions = "";
 
-    function handleFileSelected(event) {
-      const file = event.target.files[0];
-      if (file) {
-        document.getElementById("fileNameDisplay").innerText = "Selected File: " + file.name;
-        document.getElementById("modalTitle").innerText = "File Selected";
-        document.getElementById("modalDesc").innerText = "File: " + file.name + " (" + (file.size / 1024).toFixed(1) + " KB)";
-        document.getElementById("actionModal").style.display = "flex";
+      if(toolName === "GST GSTR-2B vs Purchase Reconciler") {
+        customOptions = `
+          <div style="text-align:left; font-size:12px; margin-bottom:12px;">
+            <label style="color:#94a3b8; display:block; margin-bottom:4px;">Tax Amount Tolerance Limit:</label>
+            <select style="width:100%; padding:8px; background:#070d1e; border:1px solid rgba(255,255,255,0.2); color:#fff; border-radius:6px; margin-bottom:10px;">
+              <option>Strict Match (₹0 Difference)</option>
+              <option selected>Standard Tolerance (± ₹5)</option>
+              <option>Relaxed Match (± ₹10)</option>
+            </select>
+          </div>
+        `;
+      } else if(toolName === "Bank Statement OCR to Tally Excel") {
+        customOptions = `
+          <div style="text-align:left; font-size:12px; margin-bottom:12px;">
+            <label style="color:#94a3b8; display:block; margin-bottom:4px;">Select Indian Bank Format:</label>
+            <select style="width:100%; padding:8px; background:#070d1e; border:1px solid rgba(255,255,255,0.2); color:#fff; border-radius:6px; margin-bottom:10px;">
+              <option>HDFC Bank PDF</option>
+              <option>ICICI Bank PDF</option>
+              <option>State Bank of India (SBI)</option>
+              <option>Axis Bank PDF</option>
+            </select>
+          </div>
+        `;
+      } else {
+        customOptions = `
+          <div style="text-align:left; font-size:12px; margin-bottom:12px;">
+            <label style="color:#94a3b8; display:block; margin-bottom:4px;">Preset Format:</label>
+            <input type="text" value="Default Indian GST Format" style="width:100%; padding:8px; background:#070d1e; border:1px solid rgba(255,255,255,0.2); color:#fff; border-radius:6px; margin-bottom:10px;">
+          </div>
+        `;
       }
+
+      container.innerHTML = `
+        <h3 style="font-size:18px; margin-bottom:8px; color:#00f2fe;">${toolName}</h3>
+        <p style="font-size:12px; color:#94a3b8; margin-bottom:15px;">Upload your source document (Excel, XML, or PDF Statement) to start processing.</p>
+        
+        ${customOptions}
+
+        <div class="file-input-box" onclick="alert('File selector opened! Choose your Tally / GST / Bank PDF file.')">
+          <i class="fa-solid fa-cloud-arrow-up" style="font-size:28px; color:#00f2fe; margin-bottom:8px;"></i>
+          <p style="font-size:12px; color:#cbd5e1;">Click or Drag & Drop File Here (.xlsx, .json, .pdf, .xml)</p>
+        </div>
+
+        <div style="display:flex; justify-content:center; gap:10px; margin-top:20px;">
+          <button class="btn-act" onclick="alert('Processing started for ${toolName}!'); closeModal();">Start Automation</button>
+          <button class="btn-cls" onclick="closeModal()">Cancel</button>
+        </div>
+      `;
+
+      document.getElementById("dynamicModal").style.display = "flex";
     }
 
-    function executeProcess() {
-      alert("Success! " + activeAction + " process successfully initiate ho chuka hai.");
-      closeModal();
+    function openBuilderWorkspace() {
+      const container = document.getElementById("modalContainer");
+      container.innerHTML = `
+        <h3 style="font-size:18px; margin-bottom:10px; color:#00f2fe;">⚡ Scrutinix CA Workflow Builder</h3>
+        <p style="font-size:12px; color:#94a3b8; margin-bottom:15px;">Configure your custom automated sequence.</p>
+        <div style="text-align:left; font-size:12px; margin-bottom:12px;">
+          <label style="color:#94a3b8; display:block; margin-bottom:4px;">Workflow Name:</label>
+          <input type="text" value="GSTR-2B Recon + Client WhatsApp Alert" style="width:100%; padding:8px; background:#070d1e; border:1px solid rgba(255,255,255,0.2); color:#fff; border-radius:6px; margin-bottom:10px;">
+        </div>
+        <div style="display:flex; justify-content:center; gap:10px; margin-top:20px;">
+          <button class="btn-act" onclick="alert('Custom Finance Workflow Activated!'); closeModal();">Save & Launch</button>
+          <button class="btn-cls" onclick="closeModal()">Cancel</button>
+        </div>
+      `;
+      document.getElementById("dynamicModal").style.display = "flex";
+    }
+
+    function openAppModal(appName) {
+      const container = document.getElementById("modalContainer");
+      container.innerHTML = `
+        <h3 style="font-size:18px; margin-bottom:10px; color:#00f2fe;">Integrate ${appName}</h3>
+        <p style="font-size:12px; color:#94a3b8; margin-bottom:15px;">Connect your ${appName} data stream to Scrutinix AI.</p>
+        <div style="display:flex; justify-content:center; gap:10px; margin-top:20px;">
+          <button class="btn-act" onclick="alert('${appName} Successfully Connected!'); closeModal();">Connect ${appName}</button>
+          <button class="btn-cls" onclick="closeModal()">Close</button>
+        </div>
+      `;
+      document.getElementById("dynamicModal").style.display = "flex";
+    }
+
+    function openTemplateModal(templateName) {
+      const container = document.getElementById("modalContainer");
+      container.innerHTML = `
+        <h3 style="font-size:18px; margin-bottom:10px; color:#00f2fe;">Launch Template</h3>
+        <p style="font-size:13px; color:#fff; margin-bottom:10px;">${templateName}</p>
+        <p style="font-size:12px; color:#94a3b8; margin-bottom:15px;">Pre-configured rule set will load automatically.</p>
+        <div style="display:flex; justify-content:center; gap:10px; margin-top:20px;">
+          <button class="btn-act" onclick="alert('Template loaded successfully!'); closeModal();">Load Template</button>
+          <button class="btn-cls" onclick="closeModal()">Cancel</button>
+        </div>
+      `;
+      document.getElementById("dynamicModal").style.display = "flex";
+    }
+
+    function togglePricing() {
+      const isYearly = document.getElementById("pricingToggle").checked;
+      const freeEl = document.getElementById("freePrice");
+      const premiumEl = document.getElementById("premiumPrice");
+      const businessEl = document.getElementById("businessPrice");
+
+      if (isYearly) {
+        freeEl.innerHTML = "₹0 <span>/year</span>";
+        premiumEl.innerHTML = "₹2,870 <span>/year</span>";
+        businessEl.innerHTML = "₹9,590 <span>/year</span>";
+      } else {
+        freeEl.innerHTML = "₹0 <span>/month</span>";
+        premiumEl.innerHTML = "₹299 <span>/month</span>";
+        businessEl.innerHTML = "₹999 <span>/month</span>";
+      }
     }
   </script>
 </body>
