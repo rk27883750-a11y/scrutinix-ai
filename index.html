@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scrutinix AI - Smart Automation for Smarter Business</title>
-    <!-- Google Fonts & FontAwesome for Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -17,20 +16,23 @@
         }
 
         body {
-            background-color: #0b0f19;
+            background-color: #040814;
             color: #ffffff;
-            overflow-x: hidden;
             padding: 20px;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(0, 162, 255, 0.22) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(168, 85, 247, 0.22) 0%, transparent 45%);
+            background-attachment: fixed;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, #0f172a 0%, #0b0f19 100%);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            padding: 45px 35px;
+            background: linear-gradient(135deg, #0a1128 0%, #060a17 100%);
+            border-radius: 28px;
+            border: 1px solid rgba(0, 162, 255, 0.25);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 162, 255, 0.12);
         }
 
         /* Header / Brand */
@@ -38,7 +40,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 40px;
+            margin-bottom: 45px;
             flex-wrap: wrap;
             gap: 20px;
         }
@@ -46,314 +48,274 @@
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
 
         .logo-icon {
-            width: 42px;
-            height: 42px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            border-radius: 10px;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #00b4d8, #7928ca);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
-            font-weight: bold;
+            font-size: 26px;
+            font-weight: 900;
             color: white;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 20px rgba(0, 180, 216, 0.6);
         }
 
         .logo-text h1 {
-            font-size: 22px;
-            font-weight: 800;
+            font-size: 26px;
+            font-weight: 900;
             letter-spacing: 0.5px;
         }
 
         .logo-text p {
-            font-size: 12px;
-            color: #94a3b8;
+            font-size: 13px;
+            color: #a0aec0;
+            font-weight: 500;
         }
 
         .top-badges {
             display: flex;
-            gap: 15px;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 8px 16px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 20px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
             font-size: 13px;
-            color: #cbd5e1;
+            color: #e2e8f0;
             align-items: center;
-        }
-
-        .top-badges span {
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            font-weight: 600;
         }
 
         .top-badges i {
-            color: #f59e0b;
+            color: #00f2fe;
         }
 
         /* Main Heading */
         .main-title-section {
-            text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         .main-title-section h2 {
-            font-size: 38px;
-            font-weight: 800;
-            margin-bottom: 10px;
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 12px;
             letter-spacing: -0.5px;
         }
 
         .main-title-section h2 span {
-            background: linear-gradient(90deg, #38bdf8, #c084fc);
+            background: linear-gradient(90deg, #00f2fe, #d946ef);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .main-title-section p {
-            color: #94a3b8;
-            font-size: 16px;
-        }
-
-        /* Workflow Steps Row */
-        .workflow-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 60px;
-            position: relative;
-            align-items: center;
-        }
-
-        .workflow-card {
-            background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 16px;
-            padding: 20px;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .workflow-card:hover {
-            transform: translateY(-5px);
-            border-color: #38bdf8;
-        }
-
-        .step-number {
-            position: absolute;
-            top: -12px;
-            left: 15px;
-            background: #3b82f6;
-            color: white;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
-        }
-
-        .workflow-icon {
-            font-size: 28px;
-            color: #38bdf8;
-            margin-bottom: 12px;
-            margin-top: 5px;
-        }
-
-        .workflow-card h3 {
-            font-size: 15px;
+        .main-title-section h3 {
+            font-size: 26px;
             font-weight: 700;
-            margin-bottom: 6px;
+            color: #ffffff;
+            margin-bottom: 10px;
         }
 
-        .workflow-card p {
-            font-size: 12px;
-            color: #94a3b8;
-            line-height: 1.4;
+        .main-title-section p {
+            color: #a0aec0;
+            font-size: 16px;
+            font-weight: 400;
         }
 
-        .workflow-card.extra-box {
-            border: 1px dashed rgba(168, 85, 247, 0.4);
-            background: rgba(168, 85, 247, 0.03);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        .workflow-card.extra-box p {
-            color: #c084fc;
-            font-weight: 600;
-        }
-
-        /* Section Divider Title */
-        .section-divider {
-            text-align: center;
-            margin: 40px 0 30px;
-        }
-
-        .section-divider h3 {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .section-divider h3 span {
-            color: #38bdf8;
-        }
-
-        .section-divider p {
-            font-size: 13px;
-            color: #64748b;
-            margin-top: 5px;
-        }
-
-        /* 5 Amazing Features Grid */
+        /* 5 Amazing Features Grid (Top 5 Cards like image) */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
             margin-bottom: 50px;
         }
 
         .feature-card {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 20px;
+            background: linear-gradient(180deg, rgba(13, 22, 43, 0.95) 0%, rgba(7, 12, 24, 0.95) 100%);
+            border-radius: 20px;
+            padding: 22px;
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
         }
 
-        .feature-card:nth-child(1) { border-top: 3px solid #10b981; }
-        .feature-card:nth-child(2) { border-top: 3px solid #3b82f6; }
-        .feature-card:nth-child(3) { border-top: 3px solid #06b6d4; }
-        .feature-card:nth-child(4) { border-top: 3px solid #8b5cf6; }
-        .feature-card:nth-child(5) { border-top: 3px solid #ec4899; }
+        .feature-card:hover {
+            transform: translateY(-6px);
+        }
+
+        /* Card Top Colorful Borders */
+        .feature-card:nth-child(1) { border: 1.5px solid #10b981; box-shadow: 0 0 20px rgba(16, 185, 129, 0.15); }
+        .feature-card:nth-child(2) { border: 1.5px solid #00b4d8; box-shadow: 0 0 20px rgba(0, 180, 216, 0.15); }
+        .feature-card:nth-child(3) { border: 1.5px solid #7c3aed; box-shadow: 0 0 20px rgba(124, 58, 237, 0.15); }
+        .feature-card:nth-child(4) { border: 1.5px solid #06b6d4; box-shadow: 0 0 20px rgba(6, 182, 212, 0.15); }
+        .feature-card:nth-child(5) { border: 1.5px solid #d946ef; box-shadow: 0 0 20px rgba(217, 70, 239, 0.15); }
+
+        .f-num-icon {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
 
         .f-num {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             background: rgba(255, 255, 255, 0.08);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
-            font-weight: bold;
-            margin-bottom: 12px;
+            font-size: 12px;
+            font-weight: 800;
         }
 
         .f-icon {
             font-size: 24px;
-            margin-bottom: 10px;
         }
 
         .feature-card:nth-child(1) .f-icon { color: #10b981; }
-        .feature-card:nth-child(2) .f-icon { color: #3b82f6; }
-        .feature-card:nth-child(3) .f-icon { color: #06b6d4; }
-        .feature-card:nth-child(4) .f-icon { color: #8b5cf6; }
-        .feature-card:nth-child(5) .f-icon { color: #ec4899; }
+        .feature-card:nth-child(2) .f-icon { color: #00b4d8; }
+        .feature-card:nth-child(3) .f-icon { color: #7c3aed; }
+        .feature-card:nth-child(4) .f-icon { color: #06b6d4; }
+        .feature-card:nth-child(5) .f-icon { color: #d946ef; }
 
         .feature-card h4 {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 700;
             margin-bottom: 8px;
+            line-height: 1.4;
         }
 
         .feature-card p {
-            font-size: 11px;
-            color: #94a3b8;
-            line-height: 1.4;
+            font-size: 12px;
+            color: #a0aec0;
+            line-height: 1.5;
             margin-bottom: 15px;
         }
 
-        /* Mini UI Mockups inside Cards */
+        /* Mini UI Box inside Cards */
         .mini-ui {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            padding: 8px;
-            font-size: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 11px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .mini-btn {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            background: linear-gradient(135deg, #00b4d8, #7c3aed);
             color: white;
             border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 10px;
-            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
             cursor: pointer;
             width: 100%;
-            margin-top: 8px;
+            margin-top: 10px;
             text-align: center;
             display: block;
             text-decoration: none;
         }
 
-        /* Footer Call to Action */
-        .footer-cta {
+        /* Bottom Workflow Steps Section */
+        .bottom-workflow-section {
+            background: rgba(13, 22, 43, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .bottom-workflow-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .workflow-steps-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            align-items: center;
+        }
+
+        .step-box {
+            background: rgba(5, 10, 20, 0.8);
+            border: 1px solid rgba(0, 180, 216, 0.3);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .step-box i {
+            font-size: 26px;
+            color: #00f2fe;
+            margin-bottom: 8px;
+        }
+
+        .step-box h5 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .step-box p {
+            font-size: 11px;
+            color: #a0aec0;
+        }
+
+        /* Footer Details & CTA */
+        .footer-bottom {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(30, 41, 59, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 20px 30px;
-            border-radius: 16px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
             flex-wrap: wrap;
             gap: 20px;
         }
 
-        .cta-left {
+        .footer-points {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        .footer-points span {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 8px;
         }
 
-        .cta-left i {
-            font-size: 28px;
-            color: #38bdf8;
-        }
-
-        .cta-left h5 {
-            font-size: 15px;
-            font-weight: 700;
-        }
-
-        .cta-left p {
-            font-size: 12px;
-            color: #94a3b8;
+        .footer-points i {
+            color: #10b981;
         }
 
         .cta-btn {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            background: linear-gradient(135deg, #00f2fe, #7928ca);
             color: white;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 14px;
+            padding: 14px 28px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 15px;
             border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
-            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
-            transition: opacity 0.2s;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(0, 242, 254, 0.4);
             text-decoration: none;
+            transition: opacity 0.2s;
         }
 
         .cta-btn:hover {
@@ -361,8 +323,8 @@
         }
 
         @media(max-width: 768px) {
-            .main-title-section h2 { font-size: 28px; }
-            .footer-cta { flex-direction: column; align-items: flex-start; }
+            .main-title-section h2 { font-size: 30px; }
+            .footer-bottom { flex-direction: column; align-items: flex-start; }
             .cta-btn { width: 100%; justify-content: center; }
         }
     </style>
@@ -390,50 +352,9 @@
 
         <!-- Main Title -->
         <div class="main-title-section">
-            <h2>Your Complete <span>Automation Workflow</span></h2>
-            <p>From Form to Email — All in One Place</p>
-        </div>
-
-        <!-- Workflow Steps (Top Row) -->
-        <div class="workflow-row">
-            <div class="workflow-card">
-                <div class="step-number">1</div>
-                <div class="workflow-icon"><i class="fa-solid fa-file-lines"></i></div>
-                <h3>Form</h3>
-                <p>Collect data with a simple online form.</p>
-            </div>
-
-            <div class="workflow-card">
-                <div class="step-number">2</div>
-                <div class="workflow-icon"><i class="fa-solid fa-file-pdf"></i></div>
-                <h3>Extract from File</h3>
-                <p>Get data from uploaded PDF, images or documents.</p>
-            </div>
-
-            <div class="workflow-card">
-                <div class="step-number">3</div>
-                <div class="workflow-icon"><i class="fa-solid fa-table"></i></div>
-                <h3>Append row in sheet</h3>
-                <p>Automatically save data to Google Sheets.</p>
-            </div>
-
-            <div class="workflow-card">
-                <div class="step-number">4</div>
-                <div class="workflow-icon"><i class="fa-solid fa-envelope-circle-check"></i></div>
-                <h3>Send an Email</h3>
-                <p>Instantly send email to your client.</p>
-            </div>
-
-            <div class="workflow-card extra-box">
-                <i class="fa-solid fa-circle-plus" style="font-size: 24px; color: #c084fc; margin-bottom: 8px;"></i>
-                <p>And now, with 5 more powerful options...</p>
-            </div>
-        </div>
-
-        <!-- Section Divider -->
-        <div class="section-divider">
-            <h3>5 Amazing <span>Features</span> to Take It to the Next Level</h3>
-            <p>More automation | More control | More productivity</p>
+            <h2>5 Powerful <span>Automations</span></h2>
+            <h3>Jo Jo Aapke Roz ke Kaam ko Banayein Simple</h3>
+            <p>Complex tools ko bhool jaiye — Yahan milte hain ready-to-use workflows, jo seedha aapke kaam aate hain.</p>
         </div>
 
         <!-- 5 Amazing Features Grid -->
@@ -441,92 +362,126 @@
             <!-- Feature 1 -->
             <div class="feature-card">
                 <div>
-                    <div class="f-num">1</div>
-                    <div class="f-icon"><i class="fa-brands fa-whatsapp"></i></div>
-                    <h4>WhatsApp Notification</h4>
-                    <p>Instant invoice confirmation message goes straight to your WhatsApp.</p>
+                    <div class="f-num-icon">
+                        <div class="f-num">1</div>
+                        <div class="f-icon"><i class="fa-brands fa-whatsapp"></i></div>
+                    </div>
+                    <h4>Invoice banne ke turant baad Customer ko WhatsApp bhején</h4>
+                    <p>Jaise hi aapka invoice taiyar hota hai, customer ko automatically WhatsApp message chala jaae।</p>
                 </div>
                 <div class="mini-ui" style="color: #10b981;">
-                    ✓ Invoice Confirmed! Order received.
+                    ✓ Hello Rajesh, invoice #INV-1024 is ready. Total: ₹12,500
                 </div>
             </div>
 
             <!-- Feature 2 -->
             <div class="feature-card">
                 <div>
-                    <div class="f-num">2</div>
-                    <div class="f-icon"><i class="fa-solid fa-folder-tree"></i></div>
-                    <h4>Google Drive Folder Organization</h4>
-                    <p>Invoices uploaded with form are safely saved in your Google Drive folder.</p>
+                    <div class="f-num-icon">
+                        <div class="f-num">2</div>
+                        <div class="f-icon"><i class="fa-solid fa-folder-tree"></i></div>
+                    </div>
+                    <h4>Google Drive mein Documents Auto Organize karein</h4>
+                    <p>Invoice, Bank Statement, PDF ya other files automatically sahi folder mein sev ho jaaein।</p>
                 </div>
-                <div class="mini-ui" style="color: #38bdf8;">
-                    📁 /Invoices /2026-10-02
+                <div class="mini-ui" style="color: #00b4d8;">
+                    📁 /Invoices /Bank Statements
                 </div>
             </div>
 
             <!-- Feature 3 -->
             <div class="feature-card">
                 <div>
-                    <div class="f-num">3</div>
-                    <div class="f-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                    <h4>Data Validation & Error Handling</h4>
-                    <p>Detects wrong file formats or empty fields and asks user to retry.</p>
+                    <div class="f-num-icon">
+                        <div class="f-num">3</div>
+                        <div class="f-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    </div>
+                    <h4>Galat ya adhure Data ko Auto Detect karein</h4>
+                    <p>Sheet ya Form mein data upload karte hi, system automatically errors ko pakad lega aur alert karega।</p>
                 </div>
                 <div class="mini-ui" style="color: #f87171;">
-                    ⚠ Upload a valid PDF file only.
+                    ⚠ Error Found! 1 record missing amount.
                 </div>
             </div>
 
             <!-- Feature 4 -->
             <div class="feature-card">
                 <div>
-                    <div class="f-num">4</div>
-                    <div class="f-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
-                    <h4>PDF Auto-Generation</h4>
-                    <p>Form data automatically creates custom invoice in PDF and emails client.</p>
+                    <div class="f-num-icon">
+                        <div class="f-num">4</div>
+                        <div class="f-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                    </div>
+                    <h4>Invoice PDF banakar Client ko Email karein</h4>
+                    <p>Data se automatically branded invoice PDF generate hoga aur customer ke email par bheja jaega।</p>
                 </div>
-                <div class="mini-ui" style="color: #c084fc;">
-                    📄 Custom Branded PDF Ready
+                <div class="mini-ui" style="color: #06b6d4;">
+                    📄 Branded PDF Invoice Ready
                 </div>
             </div>
 
             <!-- Feature 5 -->
             <div class="feature-card">
                 <div>
-                    <div class="f-num">5</div>
-                    <div class="f-icon"><i class="fa-solid fa-chart-pie"></i></div>
-                    <h4>Dashboard / Analytics Summary</h4>
-                    <p>Get weekly or monthly summary reports of total sales & form submissions.</p>
+                    <div class="f-num-icon">
+                        <div class="f-num">5</div>
+                        <div class="f-icon"><i class="fa-solid fa-chart-pie"></i></div>
+                    </div>
+                    <h4>Monthly Sales Summary apne-aap Email karein</h4>
+                    <p>Har mahine ki sales, payment aur expense report automatically ready hokar aapke email par pahunch jaegi।</p>
                 </div>
-                <div class="mini-ui" style="color: #ec4899;">
-                    📊 Total Sales: Track & Grow
+                <div class="mini-ui" style="color: #d946ef;">
+                    📊 Total Sales: ₹2,48,500
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Workflow Row -->
+        <div class="bottom-workflow-section">
+            <div class="bottom-workflow-title">ek hi Dashboard mein sabhi Workflows</div>
+            <div class="workflow-steps-row">
+                <div class="step-box">
+                    <i class="fa-solid fa-file-lines"></i>
+                    <h5>Form</h5>
+                    <p>( Data Collect )</p>
+                </div>
+                <div class="step-box">
+                    <i class="fa-solid fa-file-arrow-down"></i>
+                    <h5>Extract File</h5>
+                    <p>( PDF / Images )</p>
+                </div>
+                <div class="step-box">
+                    <i class="fa-solid fa-table"></i>
+                    <h5>Google Sheet</h5>
+                    <p>( Save Data )</p>
+                </div>
+                <div class="step-box">
+                    <i class="fa-solid fa-envelope"></i>
+                    <h5>Gmail</h5>
+                    <p>( Send Email )</p>
                 </div>
             </div>
         </div>
 
         <!-- Footer CTA -->
-        <div class="footer-cta">
-            <div class="cta-left">
-                <i class="fa-solid fa-rocket"></i>
-                <div>
-                    <h5>Less Manual Work. More Time for What Matters.</h5>
-                    <p>Automate your business processes with Scrutinix AI.</p>
-                </div>
+        <div class="footer-bottom">
+            <div class="footer-points">
+                <span><i class="fa-solid fa-check"></i> No Technical Knowledge Required</span>
+                <span><i class="fa-solid fa-check"></i> Ready-to-Use Business Workflows</span>
+                <span><i class="fa-solid fa-check"></i> Save Time | Reduce Errors | Increase Productivity</span>
             </div>
-            <!-- yahan apna n8n form ka Production URL dal sakte hain -->
-            <a href="#" id="getStartedBtn" class="cta-btn">Get Started <i class="fa-solid fa-arrow-right"></i></a>
+            <!-- Get Started Button linked with n8n Production URL -->
+            <a href="#" id="getStartedBtn" class="cta-btn">Start Your Automation Journey <i class="fa-solid fa-arrow-right"></i></a>
         </div>
     </div>
 
     <script>
-        // JavaScript se aap apne n8n ke production URL ko button ke sath connect kar sakte hain
         document.getElementById('getStartedBtn').addEventListener('click', function(e) {
             e.preventDefault();
-            // Apna n8n Production URL yahan paste karein:
+            // Yahan apna n8n ka Production URL paste karein:
             const n8nProductionURL = "YOUR_N8N_PRODUCTION_URL_HERE"; 
             
             if(n8nProductionURL.includes("YOUR_N8N")) {
-                alert("Please replace 'YOUR_N8N_PRODUCTION_URL_HERE' with your actual n8n form URL in the script!");
+                alert("Please update your n8n Production URL inside the code script!");
             } else {
                 window.open(n8nProductionURL, '_blank');
             }
