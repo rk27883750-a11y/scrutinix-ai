@@ -208,22 +208,6 @@
             border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
-        .mini-btn {
-            background: linear-gradient(135deg, #00b4d8, #7c3aed);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-            text-align: center;
-            display: block;
-            text-decoration: none;
-        }
-
         /* Bottom Workflow Steps Section */
         .bottom-workflow-section {
             background: rgba(13, 22, 43, 0.6);
@@ -477,8 +461,8 @@
     <script>
         document.getElementById('getStartedBtn').addEventListener('click', function(e) {
             e.preventDefault();
-            // Yahan apna n8n ka Production URL paste karein:
-            const n8nProductionURL = "YOUR_N8N_PRODUCTION_URL_HERE"; 
+            // Updated n8n Production URL:
+            const n8nProductionURL = "https://n8n-r80y.onrender.com"; 
             
             if(n8nProductionURL.includes("YOUR_N8N")) {
                 alert("Please update your n8n Production URL inside the code script!");
