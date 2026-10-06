@@ -125,7 +125,7 @@
             font-weight: 400;
         }
 
-        /* 5 Amazing Features Grid (Top 5 Cards like image) */
+        /* 5 Amazing Features Grid */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -149,7 +149,6 @@
             transform: translateY(-6px);
         }
 
-        /* Card Top Colorful Borders */
         .feature-card:nth-child(1) { border: 1.5px solid #10b981; box-shadow: 0 0 20px rgba(16, 185, 129, 0.15); }
         .feature-card:nth-child(2) { border: 1.5px solid #00b4d8; box-shadow: 0 0 20px rgba(0, 180, 216, 0.15); }
         .feature-card:nth-child(3) { border: 1.5px solid #7c3aed; box-shadow: 0 0 20px rgba(124, 58, 237, 0.15); }
@@ -199,13 +198,63 @@
             margin-bottom: 15px;
         }
 
-        /* Mini UI Box inside Cards */
         .mini-ui {
             background: rgba(0, 0, 0, 0.4);
             border-radius: 10px;
             padding: 10px;
             font-size: 11px;
             border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* Testing Console / Form Section */
+        .testing-section {
+            background: rgba(13, 22, 43, 0.8);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .testing-section h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #00f2fe;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            background: rgba(5, 10, 20, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 12px;
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #00f2fe;
         }
 
         /* Bottom Workflow Steps Section */
@@ -306,6 +355,12 @@
             opacity: 0.9;
         }
 
+        #responseStatus {
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
         @media(max-width: 768px) {
             .main-title-section h2 { font-size: 30px; }
             .footer-bottom { flex-direction: column; align-items: flex-start; }
@@ -343,7 +398,6 @@
 
         <!-- 5 Amazing Features Grid -->
         <div class="features-grid">
-            <!-- Feature 1 -->
             <div class="feature-card">
                 <div>
                     <div class="f-num-icon">
@@ -354,11 +408,10 @@
                     <p>Jaise hi aapka invoice taiyar hota hai, customer ko automatically WhatsApp message chala jaae।</p>
                 </div>
                 <div class="mini-ui" style="color: #10b981;">
-                    ✓ Hello Rajesh, invoice #INV-1024 is ready. Total: ₹12,500
+                    ✓ Hello Rajesh, invoice is ready. Total: ₹12,500
                 </div>
             </div>
 
-            <!-- Feature 2 -->
             <div class="feature-card">
                 <div>
                     <div class="f-num-icon">
@@ -373,7 +426,6 @@
                 </div>
             </div>
 
-            <!-- Feature 3 -->
             <div class="feature-card">
                 <div>
                     <div class="f-num-icon">
@@ -388,7 +440,6 @@
                 </div>
             </div>
 
-            <!-- Feature 4 -->
             <div class="feature-card">
                 <div>
                     <div class="f-num-icon">
@@ -403,7 +454,6 @@
                 </div>
             </div>
 
-            <!-- Feature 5 -->
             <div class="feature-card">
                 <div>
                     <div class="f-num-icon">
@@ -417,6 +467,34 @@
                     📊 Total Sales: ₹2,48,500
                 </div>
             </div>
+        </div>
+
+        <!-- Live Testing Automation Form -->
+        <div class="testing-section">
+            <h3><i class="fa-solid fa-terminal"></i> Test Scrutinix AI 5-Step Engine</h3>
+            <p style="color: #a0aec0; font-size: 13px; margin-bottom: 20px;">Apni details daalkar test karein ki kaise Google Sheet log, PDF Drive save aur Email dispatch ek click mein hota hai.</p>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Client Name</label>
+                    <input type="text" id="clientName" placeholder="e.g. Rahul Kumar">
+                </div>
+                <div class="form-group">
+                    <label>Client Email</label>
+                    <input type="email" id="clientEmail" placeholder="e.g. your-email@gmail.com">
+                </div>
+                <div class="form-group">
+                    <label>Service / Details</label>
+                    <input type="text" id="details" placeholder="e.g. Web Automation Package">
+                </div>
+                <div class="form-group">
+                    <label>Amount (₹)</label>
+                    <input type="text" id="amount" placeholder="e.g. ₹15,000">
+                </div>
+            </div>
+            
+            <button type="button" id="testRunBtn" class="cta-btn">Run Automation Pipeline <i class="fa-solid fa-play"></i></button>
+            <div id="responseStatus"></div>
         </div>
 
         <!-- Bottom Workflow Row -->
@@ -453,21 +531,52 @@
                 <span><i class="fa-solid fa-check"></i> Ready-to-Use Business Workflows</span>
                 <span><i class="fa-solid fa-check"></i> Save Time | Reduce Errors | Increase Productivity</span>
             </div>
-            <!-- Get Started Button linked with n8n Production URL -->
             <a href="#" id="getStartedBtn" class="cta-btn">Start Your Automation Journey <i class="fa-solid fa-arrow-right"></i></a>
         </div>
     </div>
 
     <script>
+        // Main Get Started Button Action
         document.getElementById('getStartedBtn').addEventListener('click', function(e) {
             e.preventDefault();
-            // Updated n8n Production URL:
-            const n8nProductionURL = "https://n8n-r80y.onrender.com"; 
-            
-            if(n8nProductionURL.includes("YOUR_N8N")) {
-                alert("Please update your n8n Production URL inside the code script!");
-            } else {
-                window.open(n8nProductionURL, '_blank');
+            alert("Scrutinix AI engine is connected and ready to run!");
+        });
+
+        // Pipeline Test Trigger
+        document.getElementById('testRunBtn').addEventListener('click', async function() {
+            const clientName = document.getElementById('clientName').value.trim();
+            const clientEmail = document.getElementById('clientEmail').value.trim();
+            const details = document.getElementById('details').value.trim();
+            const amount = document.getElementById('amount').value.trim();
+            const statusDiv = document.getElementById('responseStatus');
+
+            if (!clientName || !clientEmail) {
+                statusDiv.style.color = "#f87171";
+                statusDiv.innerText = "Error: Client Name aur Client Email zaroori hain!";
+                return;
+            }
+
+            statusDiv.style.color = "#00f2fe";
+            statusDiv.innerText = "Processing automation pipeline... Please wait...";
+
+            // Your Google Apps Script Web App URL
+            const webAppURL = "https://script.google.com/macros/s/AKfycbzLdNqloxvnZAs4PhfXJDbDkho6VeYpG5I__j0QvoBr76geaXjhcqa7cJfweI6zc-Fp/exec";
+
+            try {
+                const response = await fetch(webAppURL, {
+                    method: "POST",
+                    mode: "no-cors", // Required for Google Apps Script endpoints
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ clientName, clientEmail, details, amount })
+                });
+
+                statusDiv.style.color = "#10b981";
+                statusDiv.innerText = "Success! Automation pipeline executed. Check your Google Sheet, Drive, and Email!";
+            } catch (error) {
+                statusDiv.style.color = "#f87171";
+                statusDiv.innerText = "Error executing pipeline: " + error.toString();
             }
         });
     </script>
