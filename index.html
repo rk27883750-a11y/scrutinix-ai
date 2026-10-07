@@ -350,3 +350,235 @@
             text-decoration: none;
             transition: opacity 0.2s;
         }
+
+        .cta-btn:hover {
+            opacity: 0.9;
+        }
+
+        #responseStatus {
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        @media(max-width: 768px) {
+            .main-title-section h2 { font-size: 30px; }
+            .footer-bottom { flex-direction: column; align-items: flex-start; }
+            .cta-btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="brand-header">
+            <div class="logo-area">
+                <div class="logo-icon">S</div>
+                <div class="logo-text">
+                    <h1>Scrutinix AI</h1>
+                    <p>Automate • Simplify • Grow</p>
+                </div>
+            </div>
+            <div class="top-badges">
+                <span><i class="fa-solid fa-bolt"></i> No Coding</span>
+                <span>•</span>
+                <span>No Complex Setup</span>
+                <span>•</span>
+                <span>Just Choose & Run</span>
+            </div>
+        </div>
+
+        <!-- Main Title -->
+        <div class="main-title-section">
+            <h2>5 Powerful <span>Automations</span></h2>
+            <h3>Jo Jo Aapke Roz ke Kaam ko Banayein Simple</h3>
+            <p>Complex tools ko bhool jaiye — Yahan milte hain ready-to-use workflows, jo seedha aapke kaam aate hain.</p>
+        </div>
+
+        <!-- 5 Amazing Features Grid -->
+        <div class="features-grid">
+            <div class="feature-card">
+                <div>
+                    <div class="f-num-icon">
+                        <div class="f-num">1</div>
+                        <div class="f-icon"><i class="fa-brands fa-whatsapp"></i></div>
+                    </div>
+                    <h4>Invoice banne ke turant baad Customer ko WhatsApp bhején</h4>
+                    <p>Jaise hi aapka invoice taiyar hota hai, customer ko automatically WhatsApp message chala jaae।</p>
+                </div>
+                <div class="mini-ui" style="color: #10b981;">
+                    ✓ Hello Rajesh, invoice is ready. Total: ₹12,500
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div>
+                    <div class="f-num-icon">
+                        <div class="f-num">2</div>
+                        <div class="f-icon"><i class="fa-solid fa-folder-tree"></i></div>
+                    </div>
+                    <h4>Google Drive mein Documents Auto Organize karein</h4>
+                    <p>Invoice, Bank Statement, PDF ya other files automatically sahi folder mein sev ho jaaein।</p>
+                </div>
+                <div class="mini-ui" style="color: #00b4d8;">
+                    📁 /Invoices /Bank Statements
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div>
+                    <div class="f-num-icon">
+                        <div class="f-num">3</div>
+                        <div class="f-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    </div>
+                    <h4>Galat ya adhure Data ko Auto Detect karein</h4>
+                    <p>Sheet ya Form mein data upload karte hi, system automatically errors ko pakad lega aur alert karega।</p>
+                </div>
+                <div class="mini-ui" style="color: #f87171;">
+                    ⚠ Error Found! 1 record missing amount.
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div>
+                    <div class="f-num-icon">
+                        <div class="f-num">4</div>
+                        <div class="f-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                    </div>
+                    <h4>Invoice PDF banakar Client ko Email karein</h4>
+                    <p>Data se automatically branded invoice PDF generate hoga aur customer ke email par bheja jaega।</p>
+                </div>
+                <div class="mini-ui" style="color: #06b6d4;">
+                    📄 Branded PDF Invoice Ready
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div>
+                    <div class="f-num-icon">
+                        <div class="f-num">5</div>
+                        <div class="f-icon"><i class="fa-solid fa-chart-pie"></i></div>
+                    </div>
+                    <h4>Monthly Sales Summary apne-aap Email karein</h4>
+                    <p>Har mahine ki sales, payment aur expense report automatically ready hokar aapke email par pahunch jaegi।</p>
+                </div>
+                <div class="mini-ui" style="color: #d946ef;">
+                    📊 Total Sales: ₹2,48,500
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Testing Automation Form -->
+        <div class="testing-section">
+            <h3><i class="fa-solid fa-terminal"></i> Test Scrutinix AI 5-Step Engine</h3>
+            <p style="color: #a0aec0; font-size: 13px; margin-bottom: 20px;">Apni details daalkar test karein ki kaise Google Sheet log, PDF Drive save aur Email dispatch ek click mein hota hai.</p>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Client Name</label>
+                    <input type="text" id="clientName" placeholder="e.g. Rahul Kumar">
+                </div>
+                <div class="form-group">
+                    <label>Client Email</label>
+                    <input type="email" id="clientEmail" placeholder="e.g. your-email@gmail.com">
+                </div>
+                <div class="form-group">
+                    <label>Service / Details</label>
+                    <input type="text" id="details" placeholder="e.g. Web Automation Package">
+                </div>
+                <div class="form-group">
+                    <label>Amount (₹)</label>
+                    <input type="text" id="amount" placeholder="e.g. ₹15,000">
+                </div>
+            </div>
+            
+            <button type="button" id="testRunBtn" class="cta-btn">Run Automation Pipeline <i class="fa-solid fa-play"></i></button>
+            <div id="responseStatus"></div>
+        </div>
+
+        <!-- Bottom Workflow Row -->
+        <div class="bottom-workflow-section">
+            <div class="bottom-workflow-title">ek hi Dashboard mein sabhi Workflows</div>
+            <div class="workflow-steps-row">
+                <div class="step-box">
+                    <i class="fa-solid fa-file-lines"></i>
+                    <h5>Form</h5>
+                    <p>( Data Collect )</p>
+                </div>
+                <div class="step-box">
+                    <i class="fa-solid fa-file-arrow-down"></i>
+                    <h5>Extract File</h5>
+                    <p>( PDF / Images )</p>
+                </div>
+                <div class="step-box">
+                    <i class="fa-solid fa-table"></i>
+                    <h5>Google Sheet</h5>
+                    <p>( Save Data )</p>
+                </div>
+                <div class="step-box">
+                    <i class="fa-solid fa-envelope"></i>
+                    <h5>Gmail</h5>
+                    <p>( Send Email )</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer CTA -->
+        <div class="footer-bottom">
+            <div class="footer-points">
+                <span><i class="fa-solid fa-check"></i> No Technical Knowledge Required</span>
+                <span><i class="fa-solid fa-check"></i> Ready-to-Use Business Workflows</span>
+                <span><i class="fa-solid fa-check"></i> Save Time | Reduce Errors | Increase Productivity</span>
+            </div>
+            <a href="#" id="getStartedBtn" class="cta-btn">Start Your Automation Journey <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </div>
+
+    <script>
+        // Main Get Started Button Action
+        document.getElementById('getStartedBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert("Scrutinix AI engine is connected and ready to run!");
+        });
+
+        // Pipeline Test Trigger
+        document.getElementById('testRunBtn').addEventListener('click', async function() {
+            const clientName = document.getElementById('clientName').value.trim();
+            const clientEmail = document.getElementById('clientEmail').value.trim();
+            const details = document.getElementById('details').value.trim();
+            const amount = document.getElementById('amount').value.trim();
+            const statusDiv = document.getElementById('responseStatus');
+
+            if (!clientName || !clientEmail) {
+                statusDiv.style.color = "#f87171";
+                statusDiv.innerText = "Error: Client Name aur Client Email zaroori hain!";
+                return;
+            }
+
+            statusDiv.style.color = "#00f2fe";
+            statusDiv.innerText = "Processing automation pipeline... Please wait...";
+
+            // Your updated Google Apps Script Web App URL
+            const webAppURL = "https://script.google.com/macros/s/AKfycbwOmP09j2b-BKp3XeMDj5HECOcVsPcHq_Kt70F_28TmgBBmEhjyS1d9gTRdc_RIWdkCgw/exec";
+
+            try {
+                const response = await fetch(webAppURL, {
+                    method: "POST",
+                    mode: "no-cors", // Required for Google Apps Script endpoints
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ clientName, clientEmail, details, amount })
+                });
+
+                statusDiv.style.color = "#10b981";
+                statusDiv.innerText = "Success! Automation pipeline executed. Check your Google Sheet!";
+            } catch (error) {
+                statusDiv.style.color = "#f87171";
+                statusDiv.innerText = "Error executing pipeline: " + error.toString();
+            }
+        });
+    </script>
+</body>
+</html>
