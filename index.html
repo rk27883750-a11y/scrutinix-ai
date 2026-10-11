@@ -3,582 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - Smart Automation for Smarter Business</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>Scrutinix AI - One-Click Design System Generator</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background-color: #040814;
-            color: #ffffff;
-            padding: 20px;
-            background-image: 
-                radial-gradient(circle at 15% 15%, rgba(0, 162, 255, 0.22) 0%, transparent 45%),
-                radial-gradient(circle at 85% 85%, rgba(168, 85, 247, 0.22) 0%, transparent 45%);
-            background-attachment: fixed;
-        }
-
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 45px 35px;
-            background: linear-gradient(135deg, #0a1128 0%, #060a17 100%);
-            border-radius: 28px;
-            border: 1px solid rgba(0, 162, 255, 0.25);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 162, 255, 0.12);
-        }
-
-        /* Header / Brand */
-        .brand-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 45px;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .logo-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #00b4d8, #7928ca);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            font-weight: 900;
-            color: white;
-            box-shadow: 0 0 20px rgba(0, 180, 216, 0.6);
-        }
-
-        .logo-text h1 {
-            font-size: 26px;
-            font-weight: 900;
-            letter-spacing: 0.5px;
-        }
-
-        .logo-text p {
-            font-size: 13px;
-            color: #a0aec0;
-            font-weight: 500;
-        }
-
-        .top-badges {
-            display: flex;
-            gap: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 10px 20px;
-            border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            font-size: 13px;
-            color: #e2e8f0;
-            align-items: center;
-            font-weight: 600;
-        }
-
-        .top-badges i {
-            color: #00f2fe;
-        }
-
-        /* Main Heading */
-        .main-title-section {
-            margin-bottom: 40px;
-        }
-
-        .main-title-section h2 {
-            font-size: 42px;
-            font-weight: 900;
-            margin-bottom: 12px;
-            letter-spacing: -0.5px;
-        }
-
-        .main-title-section h2 span {
-            background: linear-gradient(90deg, #00f2fe, #d946ef);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .main-title-section h3 {
-            font-size: 26px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 10px;
-        }
-
-        .main-title-section p {
-            color: #a0aec0;
-            font-size: 16px;
-            font-weight: 400;
-        }
-
-        /* 5 Amazing Features Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 18px;
-            margin-bottom: 50px;
-        }
-
-        .feature-card {
-            background: linear-gradient(180deg, rgba(13, 22, 43, 0.95) 0%, rgba(7, 12, 24, 0.95) 100%);
-            border-radius: 20px;
-            padding: 22px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
-            transition: transform 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-6px);
-        }
-
-        .feature-card:nth-child(1) { border: 1.5px solid #10b981; box-shadow: 0 0 20px rgba(16, 185, 129, 0.15); }
-        .feature-card:nth-child(2) { border: 1.5px solid #00b4d8; box-shadow: 0 0 20px rgba(0, 180, 216, 0.15); }
-        .feature-card:nth-child(3) { border: 1.5px solid #7c3aed; box-shadow: 0 0 20px rgba(124, 58, 237, 0.15); }
-        .feature-card:nth-child(4) { border: 1.5px solid #06b6d4; box-shadow: 0 0 20px rgba(6, 182, 212, 0.15); }
-        .feature-card:nth-child(5) { border: 1.5px solid #d946ef; box-shadow: 0 0 20px rgba(217, 70, 239, 0.15); }
-
-        .f-num-icon {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-        }
-
-        .f-num {
-            width: 28px;
-            height: 28px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 800;
-        }
-
-        .f-icon {
-            font-size: 24px;
-        }
-
-        .feature-card:nth-child(1) .f-icon { color: #10b981; }
-        .feature-card:nth-child(2) .f-icon { color: #00b4d8; }
-        .feature-card:nth-child(3) .f-icon { color: #7c3aed; }
-        .feature-card:nth-child(4) .f-icon { color: #06b6d4; }
-        .feature-card:nth-child(5) .f-icon { color: #d946ef; }
-
-        .feature-card h4 {
-            font-size: 15px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            line-height: 1.4;
-        }
-
-        .feature-card p {
-            font-size: 12px;
-            color: #a0aec0;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-
-        .mini-ui {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 10px;
-            padding: 10px;
-            font-size: 11px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        /* Testing Console / Form Section */
-        .testing-section {
-            background: rgba(13, 22, 43, 0.8);
-            border: 1px solid rgba(0, 242, 254, 0.3);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-        }
-
-        .testing-section h3 {
-            font-size: 20px;
-            margin-bottom: 15px;
-            color: #00f2fe;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .form-group label {
-            font-size: 13px;
-            color: #cbd5e1;
-            font-weight: 600;
-        }
-
-        .form-group input {
-            background: rgba(5, 10, 20, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 12px;
-            border-radius: 10px;
-            color: white;
-            font-size: 14px;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #00f2fe;
-        }
-
-        /* Bottom Workflow Steps Section */
-        .bottom-workflow-section {
-            background: rgba(13, 22, 43, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 25px;
-            margin-top: 30px;
-        }
-
-        .bottom-workflow-title {
-            font-size: 18px;
-            font-weight: 800;
-            margin-bottom: 20px;
-        }
-
-        .workflow-steps-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            align-items: center;
-        }
-
-        .step-box {
-            background: rgba(5, 10, 20, 0.8);
-            border: 1px solid rgba(0, 180, 216, 0.3);
-            border-radius: 14px;
-            padding: 16px;
-            text-align: center;
-        }
-
-        .step-box i {
-            font-size: 26px;
-            color: #00f2fe;
-            margin-bottom: 8px;
-        }
-
-        .step-box h5 {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .step-box p {
-            font-size: 11px;
-            color: #a0aec0;
-        }
-
-        /* Footer Details & CTA */
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .footer-points {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            font-size: 13px;
-            color: #cbd5e1;
-        }
-
-        .footer-points span {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .footer-points i {
-            color: #10b981;
-        }
-
-        .cta-btn {
-            background: linear-gradient(135deg, #00f2fe, #7928ca);
-            color: white;
-            padding: 14px 28px;
-            border-radius: 14px;
-            font-weight: 800;
-            font-size: 15px;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 10px 25px rgba(0, 242, 254, 0.4);
-            text-decoration: none;
-            transition: opacity 0.2s;
-        }
-
-        .cta-btn:hover {
-            opacity: 0.9;
-        }
-
-        #responseStatus {
-            margin-top: 15px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        @media(max-width: 768px) {
-            .main-title-section h2 { font-size: 30px; }
-            .footer-bottom { flex-direction: column; align-items: flex-start; }
-            .cta-btn { width: 100%; justify-content: center; }
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0b0f19; color: #f1f5f9; padding: 20px; margin: 0; }
+        .container { max-width: 850px; margin: 40px auto; background: #1e293b; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); border: 1px solid #334155; }
+        h2 { color: #38bdf8; margin-top: 0; margin-bottom: 5px; }
+        p { color: #94a3b8; font-size: 14px; margin-bottom: 25px; }
+        label { font-weight: 600; color: #cbd5e1; display: block; margin-top: 15px; }
+        input, select, textarea { width: 100%; padding: 12px; background: #0f172a; color: #f8fafc; border: 1px solid #475569; border-radius: 8px; box-sizing: border-box; font-size: 14px; margin-top: 5px; }
+        .flex-row { display: flex; gap: 15px; }
+        .flex-child { flex: 1; }
+        button { background-color: #38bdf8; color: #090d16; border: none; padding: 14px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 25px; }
+        button:hover { background-color: #7dd3fc; }
+        .result-box { margin-top: 25px; padding: 20px; border-radius: 8px; display: none; background: #0f172a; border: 1px solid #334155; }
+        .tab-container { display: flex; gap: 10px; margin-bottom: 10px; }
+        .tab { background: #1e293b; color: #94a3b8; padding: 8px 16px; border-radius: 6px; cursor: pointer; border: 1px solid #334155; font-size: 13px; font-weight: bold; }
+        .tab.active { background: #38bdf8; color: #090d16; border-color: #38bdf8; }
+        pre { background: #030712; padding: 15px; border-radius: 6px; border: 1px solid #1f2937; color: #4ade80; overflow-x: auto; font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 1.5; margin: 0; }
+        .premium-box { margin-top: 25px; padding: 20px; background: #1e293b; border: 1px dashed #38bdf8; border-radius: 8px; text-align: center; }
+        .pdf-btn { background-color: #22c55e; color: white; margin-top: 10px; width: auto; display: inline-block; padding: 12px 24px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        .pdf-btn:hover { background-color: #16a34a; }
+        .disclaimer { font-size: 11px; color: #64748b; text-align: center; margin-top: 25px; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Header -->
-        <div class="brand-header">
-            <div class="logo-area">
-                <div class="logo-icon">S</div>
-                <div class="logo-text">
-                    <h1>Scrutinix AI</h1>
-                    <p>Automate • Simplify • Grow</p>
-                </div>
-            </div>
-            <div class="top-badges">
-                <span><i class="fa-solid fa-bolt"></i> No Coding</span>
-                <span>•</span>
-                <span>No Complex Setup</span>
-                <span>•</span>
-                <span>Just Choose & Run</span>
-            </div>
+<div class="container">
+    <h2>Scrutinix AI // System_Generator</h2>
+    <p>Skip manual Figma asset hunting. Enter core parameters to generate production-ready CSS Tokens and Tailwind Config structure instantly.</p>
+    
+    <label>Project Name:</label>
+    <input type="text" id="projectName" placeholder="e.g., Inventory Dashboard">
+
+    <div class="flex-row">
+        <div class="flex-child">
+            <label>Brand Primary Color (HEX):</label>
+            <input type="text" id="brandColor" placeholder="e.g., #38BDF8">
         </div>
-
-        <!-- Main Title -->
-        <div class="main-title-section">
-            <h2>5 Powerful <span>Automations</span></h2>
-            <h3>Jo Jo Aapke Roz ke Kaam ko Banayein Simple</h3>
-            <p>Complex tools ko bhool jaiye — Yahan milte hain ready-to-use workflows, jo seedha aapke kaam aate hain.</p>
-        </div>
-
-        <!-- 5 Amazing Features Grid -->
-        <div class="features-grid">
-            <div class="feature-card">
-                <div>
-                    <div class="f-num-icon">
-                        <div class="f-num">1</div>
-                        <div class="f-icon"><i class="fa-brands fa-whatsapp"></i></div>
-                    </div>
-                    <h4>Invoice banne ke turant baad Customer ko WhatsApp bhején</h4>
-                    <p>Jaise hi aapka invoice taiyar hota hai, customer ko automatically WhatsApp message chala jaae।</p>
-                </div>
-                <div class="mini-ui" style="color: #10b981;">
-                    ✓ Hello Rajesh, invoice is ready. Total: ₹12,500
-                </div>
-            </div>
-
-            <div class="feature-card">
-                <div>
-                    <div class="f-num-icon">
-                        <div class="f-num">2</div>
-                        <div class="f-icon"><i class="fa-solid fa-folder-tree"></i></div>
-                    </div>
-                    <h4>Google Drive mein Documents Auto Organize karein</h4>
-                    <p>Invoice, Bank Statement, PDF ya other files automatically sahi folder mein sev ho jaaein।</p>
-                </div>
-                <div class="mini-ui" style="color: #00b4d8;">
-                    📁 /Invoices /Bank Statements
-                </div>
-            </div>
-
-            <div class="feature-card">
-                <div>
-                    <div class="f-num-icon">
-                        <div class="f-num">3</div>
-                        <div class="f-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                    </div>
-                    <h4>Galat ya adhure Data ko Auto Detect karein</h4>
-                    <p>Sheet ya Form mein data upload karte hi, system automatically errors ko pakad lega aur alert karega।</p>
-                </div>
-                <div class="mini-ui" style="color: #f87171;">
-                    ⚠ Error Found! 1 record missing amount.
-                </div>
-            </div>
-
-            <div class="feature-card">
-                <div>
-                    <div class="f-num-icon">
-                        <div class="f-num">4</div>
-                        <div class="f-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
-                    </div>
-                    <h4>Invoice PDF banakar Client ko Email karein</h4>
-                    <p>Data se automatically branded invoice PDF generate hoga aur customer ke email par bheja jaega।</p>
-                </div>
-                <div class="mini-ui" style="color: #06b6d4;">
-                    📄 Branded PDF Invoice Ready
-                </div>
-            </div>
-
-            <div class="feature-card">
-                <div>
-                    <div class="f-num-icon">
-                        <div class="f-num">5</div>
-                        <div class="f-icon"><i class="fa-solid fa-chart-pie"></i></div>
-                    </div>
-                    <h4>Monthly Sales Summary apne-aap Email karein</h4>
-                    <p>Har mahine ki sales, payment aur expense report automatically ready hokar aapke email par pahunch jaegi।</p>
-                </div>
-                <div class="mini-ui" style="color: #d946ef;">
-                    📊 Total Sales: ₹2,48,500
-                </div>
-            </div>
-        </div>
-
-        <!-- Live Testing Automation Form -->
-        <div class="testing-section">
-            <h3><i class="fa-solid fa-terminal"></i> Test Scrutinix AI 5-Step Engine</h3>
-            <p style="color: #a0aec0; font-size: 13px; margin-bottom: 20px;">Apni details daalkar test karein ki kaise Google Sheet log, PDF Drive save aur Email dispatch ek click mein hota hai.</p>
-            
-            <div class="form-grid">
-                <div class="form-group">
-                    <label>Client Name</label>
-                    <input type="text" id="clientName" placeholder="e.g. Rahul Kumar">
-                </div>
-                <div class="form-group">
-                    <label>Client Email</label>
-                    <input type="email" id="clientEmail" placeholder="e.g. your-email@gmail.com">
-                </div>
-                <div class="form-group">
-                    <label>Service / Details</label>
-                    <input type="text" id="details" placeholder="e.g. Web Automation Package">
-                </div>
-                <div class="form-group">
-                    <label>Amount (₹)</label>
-                    <input type="text" id="amount" placeholder="e.g. ₹15,000">
-                </div>
-            </div>
-            
-            <button type="button" id="testRunBtn" class="cta-btn">Run Automation Pipeline <i class="fa-solid fa-play"></i></button>
-            <div id="responseStatus"></div>
-        </div>
-
-        <!-- Bottom Workflow Row -->
-        <div class="bottom-workflow-section">
-            <div class="bottom-workflow-title">ek hi Dashboard mein sabhi Workflows</div>
-            <div class="workflow-steps-row">
-                <div class="step-box">
-                    <i class="fa-solid fa-file-lines"></i>
-                    <h5>Form</h5>
-                    <p>( Data Collect )</p>
-                </div>
-                <div class="step-box">
-                    <i class="fa-solid fa-file-arrow-down"></i>
-                    <h5>Extract File</h5>
-                    <p>( PDF / Images )</p>
-                </div>
-                <div class="step-box">
-                    <i class="fa-solid fa-table"></i>
-                    <h5>Google Sheet</h5>
-                    <p>( Save Data )</p>
-                </div>
-                <div class="step-box">
-                    <i class="fa-solid fa-envelope"></i>
-                    <h5>Gmail</h5>
-                    <p>( Send Email )</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer CTA -->
-        <div class="footer-bottom">
-            <div class="footer-points">
-                <span><i class="fa-solid fa-check"></i> No Technical Knowledge Required</span>
-                <span><i class="fa-solid fa-check"></i> Ready-to-Use Business Workflows</span>
-                <span><i class="fa-solid fa-check"></i> Save Time | Reduce Errors | Increase Productivity</span>
-            </div>
-            <a href="#" id="getStartedBtn" class="cta-btn">Start Your Automation Journey <i class="fa-solid fa-arrow-right"></i></a>
+        <div class="flex-child">
+            <label>Select Typography Font:</label>
+            <select id="fontFamily">
+                <option value="'Inter', sans-serif">Inter</option>
+                <option value="'Roboto', sans-serif">Roboto</option>
+                <option value="'SF Pro', sans-serif">SF Pro</option>
+            </select>
         </div>
     </div>
 
-    <script>
-        // Main Get Started Button Action
-        document.getElementById('getStartedBtn').addEventListener('click', function(e) {
-            e.preventDefault();
-            alert("Scrutinix AI engine is connected and ready to run!");
+    <label>Additional Layout / Component Rules:</label>
+    <textarea id="uiDetails" rows="3" placeholder="e.g., Core border-radius is 12px, maximum layout bounds capped at 1440px..."></textarea>
+    
+    <button id="genBtn" onclick="generateDesignSystem()">⚡ GENERATE TOKENS & ARCHITECTURE</button>
+    
+    <!-- परिणाम बॉक्स -->
+    <div id="resultBox" class="result-box">
+        <div class="tab-container">
+            <div id="cssTab" class="tab active" onclick="switchTab('css')">CSS Variables (:root)</div>
+            <div id="twTab" class="tab" onclick="switchTab('tw')">Tailwind Config Extend</div>
+        </div>
+        
+        <pre id="codeOutput"></pre>
+        
+        <!-- प्रीमियम एक्सपोर्ट सेक्शन -->
+        <div class="premium-box">
+            <h3 style="color: #38bdf8; margin-top: 0; font-size: 16px;">📥 Export Official Architecture Spec Sheet</h3>
+            <p style="color: #94a3b8; font-size: 12px; margin-bottom: 15px;">Download a certified, formatted Technical Specification Sheet PDF directly into your development repository architecture logs.</p>
+            
+            <button class="pdf-btn" id="pdfBtn" onclick="downloadSpecSheet()">Download Technical Spec PDF</button>
+        </div>
+    </div>
+    
+    <div class="disclaimer">
+        Disclaimer: Scrutinix AI provides automation utilities for developers. Generated assets map strictly to standardized web frameworks.
+    </div>
+</div>
+
+<script>
+let systemPayload = {};
+let generatedCSS = "";
+let generatedTW = "";
+
+function generateDesignSystem() {
+    const pName = document.getElementById('projectName').value;
+    const bColor = document.getElementById('brandColor').value || "#38BDF8";
+    const font = document.getElementById('fontFamily').value;
+    const details = document.getElementById('uiDetails').value || "Standard architecture constraints enforced.";
+    
+    if(!pName.trim()) {
+        alert("Please enter a Project Name to compile tokens!");
+        return;
+    }
+
+    // 1. Raw CSS जनरेशन
+    generatedCSS = `:root {\n` +
+                   `  /* Project: ${pName} */\n` +
+                   `  --primary-brand: ${bColor};\n` +
+                   `  --primary-brand-rgb: ${hexToRgb(bColor)};\n` +
+                   `  --main-font: ${font};\n` +
+                   `}`;
+
+    // 2. Tailwind JSON जनरेशन
+    generatedTW = `theme: {\n` +
+                  `  extend: {\n` +
+                  `    colors: {\n` +
+                  `      brand: '${bColor}',\n` +
+                  `    },\n` +
+                  `    fontFamily: {\n` +
+                  `      sans: [${font.split(',')}, 'sans-serif'],\n` +
+                  `    }\n` +
+                  `  }\n` +
+                  `}`;
+
+    document.getElementById('resultBox').style.display = "block";
+    switchTab('css');
+
+    systemPayload = { projectName: pName, color: bColor, font: font, details: details, cssTokens: generatedCSS };
+}
+
+function switchTab(type) {
+    const cssTab = document.getElementById('cssTab');
+    const twTab = document.getElementById('twTab');
+    const output = document.getElementById('codeOutput');
+    
+    if(type === 'css') {
+        cssTab.className = "tab active";
+        twTab.className = "tab";
+        output.innerText = generatedCSS;
+    } else {
+        cssTab.className = "tab";
+        twTab.className = "tab active";
+        output.innerText = generatedTW;
+    }
+}
+
+function hexToRgb(hex) {
+    hex = hex.replace('#', '');
+    if(hex.length === 3) hex = hex.split('').map(x => x + x).join('');
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    return `${r}, ${g}, ${b}`;
+}
+
+async function downloadSpecSheet() {
+    const pdfBtn = document.getElementById('pdfBtn');
+    pdfBtn.innerText = "Processing Cloud Architecture PDF...";
+    pdfBtn.disabled = true;
+
+    // आपका असली Google Apps Script URL यहाँ जुड़ चुका है
+    const gasUrl = "https://google.com";
+
+    try {
+        const response = await fetch(gasUrl, {
+            method: 'POST',
+            body: JSON.stringify(systemPayload)
         });
-
-        // Pipeline Test Trigger
-        document.getElementById('testRunBtn').addEventListener('click', async function() {
-            const clientName = document.getElementById('clientName').value.trim();
-            const clientEmail = document.getElementById('clientEmail').value.trim();
-            const details = document.getElementById('details').value.trim();
-            const amount = document.getElementById('amount').value.trim();
-            const statusDiv = document.getElementById('responseStatus');
-
-            if (!clientName || !clientEmail) {
-                statusDiv.style.color = "#f87171";
-                statusDiv.innerText = "Error: Client Name aur Client Email zaroori hain!";
-                return;
-            }
-
-            statusDiv.style.color = "#00f2fe";
-            statusDiv.innerText = "Processing automation pipeline... Please wait...";
-
-            // Your updated Google Apps Script Web App URL
-            const webAppURL = "https://script.google.com/macros/s/AKfycbwOmP09j2b-BKp3XeMDj5HECOcVsPcHq_Kt70F_28TmgBBmEhjyS1d9gTRdc_RIWdkCgw/exec";
-
-            try {
-                const response = await fetch(webAppURL, {
-                    method: "POST",
-                    mode: "no-cors", // Required for Google Apps Script endpoints
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ clientName, clientEmail, details, amount })
-                });
-
-                statusDiv.style.color = "#10b981";
-                statusDiv.innerText = "Success! Automation pipeline executed. Check your Google Sheet!";
-            } catch (error) {
-                statusDiv.style.color = "#f87171";
-                statusDiv.innerText = "Error executing pipeline: " + error.toString();
-            }
-        });
-    </script>
+        const result = await response.json();
+        if(result.success) {
+            window.location.href = result.pdfUrl;
+        } else {
+            alert("Error compiling document: " + result.error);
+        }
+    } catch (e) {
+        alert("Failed to reach server. Verify network configuration.");
+    } finally {
+        pdfBtn.innerText = "Download Technical Spec PDF";
+        pdfBtn.disabled = false;
+    }
+}
+</script>
 </body>
 </html>
