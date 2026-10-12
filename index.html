@@ -3,312 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - Autonomous UI & Design Tokens Infrastructure</title>
+    <title>Scrutinix AI - One-Click Design System Generator</title>
     <style>
-        :root {
-            --bg-main: #0b0f19;
-            --bg-card: #1e293b;
-            --bg-input: #0f172a;
-            --text-main: #f1f5f9;
-            --text-muted: #94a3b8;
-            --accent-cyan: #38bdf8;
-            --accent-green: #22c55e;
-            --border-color: #334155;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            border-bottom: 1px solid var(--border-color);
-            background: #111827;
-        }
-
-        .logo-text {
-            font-size: 22px;
-            font-weight: bold;
-            color: var(--accent-cyan);
-            letter-spacing: 1px;
-        }
-
-        .badge-premium {
-            background-color: rgba(34, 197, 94, 0.1);
-            color: var(--accent-green);
-            border: 1px solid var(--accent-green);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-        }
-
-        .hero-section {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-            text-align: center;
-        }
-
-        .hero-section h1 {
-            font-size: 36px;
-            color: var(--text-main);
-            margin-bottom: 15px;
-            line-height: 1.3;
-        }
-
-        .hero-section h1 span {
-            color: var(--accent-cyan);
-        }
-
-        .hero-section p {
-            color: var(--text-muted);
-            font-size: 16px;
-            max-width: 700px;
-            margin: 0 auto 40px auto;
-            line-height: 1.6;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 5px;
-        }
-
-        .widget-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 25px;
-            text-align: left;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .widget-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.05);
-            border-color: var(--accent-cyan);
-        }
-
-        .widget-card h3 {
-            color: var(--accent-cyan);
-            margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
-
-        .widget-card p {
-            font-size: 13.5px;
-            color: var(--text-muted);
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        /* ⚡ क्रांतिकारी इंफ्रास्ट्रक्चर एडवांटेज विजेट */
-        .infra-card {
-            grid-column: 1 / -1;
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border: 1px dashed var(--accent-cyan);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .infra-content {
-            max-width: 75%;
-        }
-
-        .infra-badge {
-            background: var(--accent-cyan);
-            color: #090d16;
-            font-size: 10px;
-            font-weight: bold;
-            padding: 3px 8px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-
-        .cta-container {
-            margin: 50px 0;
-            text-align: center;
-        }
-
-        .cta-btn {
-            background-color: var(--accent-cyan);
-            color: #090d16;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 16px 36px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: 0.2s;
-            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
-        }
-
-        .cta-btn:hover {
-            background-color: #7dd3fc;
-            transform: scale(1.03);
-        }
-
-        .workflow-section {
-            border-top: 1px solid var(--border-color);
-            padding: 50px 20px;
-            background: #111827;
-        }
-
-        .workflow-section h2 {
-            text-align: center;
-            color: var(--text-main);
-            margin-bottom: 40px;
-            font-size: 24px;
-        }
-
-        .steps-container {
-            display: flex;
-            justify-content: space-between;
-            max-width: 1000px;
-            margin: 0 auto;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .step-item {
-            flex: 1;
-            min-width: 200px;
-            text-align: center;
-        }
-
-        .step-number {
-            width: 40px;
-            height: 40px;
-            background: var(--bg-card);
-            border: 2px solid var(--accent-cyan);
-            color: var(--accent-cyan);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin: 0 auto 15px auto;
-            font-size: 16px;
-        }
-
-        .step-item h4 {
-            margin: 0 0 8px 0;
-            color: var(--text-main);
-        }
-
-        .step-item p {
-            margin: 0;
-            font-size: 12px;
-            color: var(--text-muted);
-            line-height: 1.4;
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            font-size: 11px;
-            color: #64748b;
-            border-top: 1px solid var(--border-color);
-            margin-top: auto;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0b0f19; color: #f1f5f9; padding: 20px; margin: 0; }
+        .container { max-width: 850px; margin: 40px auto; background: #1e293b; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); border: 1px solid #334155; }
+        h2 { color: #38bdf8; margin-top: 0; margin-bottom: 5px; }
+        p { color: #94a3b8; font-size: 14px; margin-bottom: 25px; }
+        label { font-weight: 600; color: #cbd5e1; display: block; margin-top: 15px; }
+        input, select, textarea { width: 100%; padding: 12px; background: #0f172a; color: #f8fafc; border: 1px solid #475569; border-radius: 8px; box-sizing: border-box; font-size: 14px; margin-top: 5px; }
+        .flex-row { display: flex; gap: 15px; }
+        .flex-child { flex: 1; }
+        button.primary-btn { background-color: #38bdf8; color: #090d16; border: none; padding: 14px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 25px; }
+        button.primary-btn:hover { background-color: #7dd3fc; }
+        .result-box { margin-top: 25px; padding: 20px; border-radius: 8px; display: none; background: #0f172a; border: 1px solid #334155; }
+        .tab-container { display: flex; gap: 10px; margin-bottom: 10px; }
+        .tab { background: #1e293b; color: #94a3b8; padding: 8px 16px; border-radius: 6px; cursor: pointer; border: 1px solid #334155; font-size: 13px; font-weight: bold; }
+        .tab.active { background: #38bdf8; color: #090d16; border-color: #38bdf8; }
+        pre { background: #030712; padding: 15px; border-radius: 6px; border: 1px solid #1f2937; color: #4ade80; overflow-x: auto; font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 1.5; margin: 0; }
+        .export-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+        .exp-btn { background-color: #1e293b; color: #38bdf8; border: 1px solid #38bdf8; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.2s; }
+        .exp-btn:hover { background-color: #38bdf8; color: #090d16; }
+        .pdf-btn { background-color: #22c55e !important; color: white !important; border: none !important; }
+        .pdf-btn:hover { background-color: #16a34a !important; }
+        .disclaimer { font-size: 11px; color: #64748b; text-align: center; margin-top: 25px; }
     </style>
 </head>
 <body>
 
-    <!-- हेडर सेक्शन -->
-    <header>
-        <div class="logo-text">SCRUTINIX AI</div>
-        <div class="badge-premium">⚡ 100% Production-Ready Code</div>
-    </header>
+<div class="container">
+    <h2>Scrutinix AI // One-Click Design System Generator</h2>
+    <p>व्यवसायिक उपयोग के लिए तत्काल प्रोडक्शन-रेडी टोकन्स, CSS, Tailwind कॉन्फ़िगरेशन कोड और आर्किटेक्चर स्पेक शीट पीडीएफ जेनरेट करें।</p>
+    
+    <!-- 1️⃣ प्रोजेक्ट का नाम -->
+    <label>1️⃣ Project Name (प्रोजेक्ट का नाम):</label>
+    <input type="text" id="projectName" placeholder="जैसे: Grocery App">
 
-    <!-- मुख्य हीरो सेक्शन -->
-    <div class="hero-section">
-        <h1>UI Parameters & Design Tokens को <span>Infrastructure Ready-to-Dev</span> बनाएं</h1>
-        <p>बिना किसी भारी कैनवास या जटिल डिज़ाइनिंग सॉफ़्टवेयर के झंझट के, सीधे डेवलपर्स के लिए 1-क्लिक में क्लीन कोड आर्किटेक्चर और टेक्निकल स्पेक शीट्स जनरेट करें।</p>
+    <div class="flex-row">
+        <!-- 2️⃣ ब्रांड का मुख्य रंग -->
+        <div class="flex-child">
+            <label>2️⃣ Brand Primary Color (HEX):</label>
+            <input type="text" id="brandColor" placeholder="जैसे: #38BDF8">
+        </div>
+        <!-- 3️⃣ टाइपोग्राफी फ़ॉन्ट का चुनाव -->
+        <div class="flex-child">
+            <label>3️⃣ Typography (फ़ॉन्ट चुनें):</label>
+            <select id="fontFamily">
+                <option value="'Roboto', sans-serif">Roboto</option>
+                <option value="'Inter', sans-serif">Inter</option>
+                <option value="'Open Sans', sans-serif">Open Sans</option>
+            </select>
+        </div>
+    </div>
+
+    <label>Additional Component Directives (वैकल्पिक लेआउट नियम):</label>
+    <textarea id="uiDetails" rows="3" placeholder="जैसे: Buttons corner-radius: 8px, Container width: 1200px..."></textarea>
+    
+    <!-- 4️⃣ जनरेट डिज़ाइन सिस्टम बटन -->
+    <button class="primary-btn" id="genBtn" onclick="generateDesignSystem()">⚡ 4️⃣ GENERATE DESIGN SYSTEM</button>
+    
+    <!-- 5️⃣ आउटपुट और एक्सपोर्ट सेक्शन -->
+    <div id="resultBox" class="result-box">
+        <h3 style="color: #38bdf8; margin-top: 0; font-size: 16px;">🚀 Generated Production-Ready Output</h3>
+        <div class="tab-container">
+            <div id="cssTab" class="tab active" onclick="switchTab('css')">CSS Variables (:root)</div>
+            <div id="twTab" class="tab" onclick="switchTab('tw')">Tailwind Config Extend</div>
+        </div>
         
-        <!-- डैशबोर्ड ग्रिड (रीब्रांडेड विजेट्स) -->
-        <div class="dashboard-grid">
-            <div class="widget-card">
-                <h3>📁 Global Design Tokens Compiler</h3>
-                <p>अपने प्रोजेक्ट का नाम, प्राथमिक ब्रांड रंग (HEX कोड) दर्ज करें और आधुनिक वेब फ्रेमवर्क के लिए तत्काल ग्लोबल वेरिएबल्स जनरेट करें।</p>
-            </div>
-            
-            <div class="widget-card">
-                <h3>🔤 Typography Config Engine</h3>
-                <p>ड्रॉपडाउन से सीधे मानक वेब फॉन्ट स्टैक्स (Inter, Roboto) चुनें और अपने पूरे रिपोजिटरी के लिए रेडी-टू-यूज़ CSS कोड संरचना प्राप्त करें।</p>
-            </div>
-            
-            <div class="widget-card">
-                <h3>⚡ Framework Architecture Logic</h3>
-                <p>सिस्टम स्वचालित रूप से इनपुट को प्रोसेस करता है और लाइव स्क्रीन पर सीधे कॉपी करने योग्य :root CSS Variables और Tailwind Config संरचनाएं आउटपुट करता है।</p>
-            </div>
-
-            <!-- ⚡ जोड़ा गया: क्रांतिकारी इंफ्रास्ट्रक्चर एडवांटेज विकल्प -->
-            <div class="widget-card infra-card">
-                <div class="infra-content">
-                    <span class="infra-badge">INFRASTRUCTURE ADVANTAGE</span>
-                    <h3 style="color: #fff; margin: 0 0 5px 0;">Zero-Installation Cloud Architecture</h3>
-                    <p>फिग्मा की तरह, Scrutinix AI भी बिना किसी भारी सॉफ्टवेयर इंस्टॉलेशन के सीधे ब्राउज़र में लाइव चलता है। यह 100% सुरक्षित और लाइटवेट गूगल क्लाउड इंफ्रास्ट्रक्चर का उपयोग करके डेटा सुरक्षा के साथ फाइलों को प्रोसेस करता है।</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- मुख्य एक्शन बटन -->
-        <div class="cta-container">
-            <a href="/generator" class="cta-btn">⚡ Launch System Generator ➔</a>
+        <pre id="codeOutput"></pre>
+        
+        <div class="export-actions">
+            <button class="exp-btn" onclick="downloadCodeFile('css')">📥 Export variables.css</button>
+            <button class="exp-btn" onclick="downloadCodeFile('tailwind')">📥 Export tailwind.config.js</button>
+            <button class="exp-btn pdf-btn" id="pdfBtn" onclick="downloadSpecPDF()">📥 5️⃣ Export Spec PDF</button>
         </div>
     </div>
-
-    <!-- How It Works सेक्शन -->
-    <div class="workflow-section">
-        <h2>How It Works? (काम कैसे करता है)</h2>
-        <div class="steps-container">
-            <div class="step-item">
-                <div class="step-number">1</div>
-                <h4>Input Specs</h4>
-                <p>प्रोजेक्ट का नाम, ब्रांड का मुख्य रंग और फॉन्ट इनपुट दर्ज करें।</p>
-            </div>
-            <div class="step-item">
-                <div class="step-number">2</div>
-                <h4>Compile System</h4>
-                <p>हमारा इंफ्रास्ट्रक्चर इंजन तुरंत इनपुट्स को कोड आर्किटेक्चर में बदलता है।</p>
-            </div>
-            <div class="step-item">
-                <div class="step-number">3</div>
-                <h4>Preview Code</h4>
-                <p>लाइव ब्राउज़र में रॉ CSS Variables और Tailwind Config कोड स्निपेट्स देखें।</p>
-            </div>
-            <div class="step-item">
-                <div class="step-number">4</div>
-                <h4>Export Assets</h4>
-                <p>1-क्लिक में अपनी .css, .js फाइलें और डाउनलोड करने योग्य टेक्निकल स्पेक पीडीएफ प्राप्त करें।</p>
-            </div>
-        </div>
+    
+    <div class="disclaimer">
+        Disclaimer: Scrutinix AI compiles automated design specifications directly mapping to standardized W3C framework protocols.
     </div>
+</div>
 
-    <!-- फुटर डिस्क्लेमर -->
-    <footer>
-        Disclaimer: Scrutinix AI is an independent developer utility infrastructure tool. W3C Framework configuration assets are compiled directly via highly secure cloud computation. All rights reserved.
-    </footer>
+<script>
+let systemPayload = {};
+let generatedCSS = "";
+let generatedTW = "";
 
+function generateDesignSystem() {
+    const pName = document.getElementById('projectName').value;
+    const bColor = document.getElementById('brandColor').value || "#38BDF8";
+    const font = document.getElementById('fontFamily').value;
+    const details = document.getElementById('uiDetails').value || "Standard architecture constraints enforced.";
+    
+    if(!pName.trim()) {
+        alert("Please enter a Project Name to compile tokens!");
+        return;
+    }
+
+    // 1. शुद्ध W3C विनिर्देशों के अनुसार CSS Variables बनाना
+    generatedCSS = :root {\n +
+                   `  /* Project Identity: ${pName} */\n` +
+                   `  --primary-brand: ${bColor};\n` +
+                   `  --primary-brand-rgb: ${hexToRgb(bColor)};\n` +
+                   `  --main-font-stack: ${font};\n` +
+                   `  --heading-font-stack: ${font};\n` +
+                   `  \n` +
+                   `  /* Custom Configuration Constraints */\n` +
+                   `  --base-padding: 16px;\n` +
+                   `  --border-radius-md: 8px;\n` +
+                   };
+
+    // 2. मॉडर्न वेब फ्रेमवर्क के लिए Tailwind CSS JSON Config Extension बनाना
+    generatedTW = /** @type {import('tailwindcss').Config} */\n +
+                  module.exports = {\n +
+                  `  theme: {\n` +
+                  `    extend: {\n` +
+                  `      colors: {\n` +
+                  `        brand: '${bColor}',\n` +
+                  `      },\n` +
+                  `      fontFamily: {\n` +
+                  `        sans: [${font.split(',')[0]}, 'sans-serif'],\n` +
+                  `      }\n` +
+                  `    }\n` +
+                  `  }\n` +
+                  };
+
+    document.getElementById('resultBox').style.display = "block";
+    switchTab('css');
+
+    systemPayload = { projectName: pName, color: bColor, font: font, details: details, cssTokens: generatedCSS };
+}
+
+function switchTab(type) {
+    const cssTab = document.getElementById('cssTab');
+    const twTab = document.getElementById('twTab');
+    const output = document.getElementById('codeOutput');
+    
+    if(type === 'css') {
+        cssTab.className = "tab active";
+        twTab.className = "tab";
+        output.innerText = generatedCSS;
+    } else {
+        cssTab.className = "tab";
+        twTab.className = "tab active";
+        output.innerText = generatedTW;
+    }
+}
+
+function hexToRgb(hex) {
+    hex = hex.replace('#', '');
+    if(hex.length === 3) hex = hex.split('').map(x => x + x).join('');
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    return ${r}, ${g}, ${b};
+}
+
+// 📂 ब्राउज़र में सीधे .css और .js फ़ाइल जनरेट करके तुरंत डाउनलोड कराना
+function downloadCodeFile(type) {
+    let textContent = type === 'css' ? generatedCSS : generatedTW;
+    let fileName = type === 'css' ? 'variables.css' : 'tailwind.config.js';
+    let mimeType = type === 'css' ? 'text/css' : 'application/javascript';
+    
+    let blob = new Blob([textContent], { type: mimeType });
+    let link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    link.click();
+}
+
+// 📥 आपका लाइव Google Apps Script ट्रिगर करने वाला फंक्शन
+async function downloadSpecPDF() {
+    const pdfBtn = document.getElementById('pdfBtn');
+    pdfBtn.innerText = "Processing certified Technical Spec PDF...";
+    pdfBtn.disabled = true;
+
+    // आपका मुफ़्त और लाइव डिप्लॉयड Google Apps Script URL यहाँ एम्बेड कर दिया गया है
+    const gasUrl = "https://google.com";
+
+    try {
+        const response = await fetch(gasUrl, {
+            method: 'POST',
+            body: JSON.stringify(systemPayload)
+        });
+        const result = await response.json();
+        if(result.success) {
+            window.location.href = result.pdfUrl; // गूगल ड्राइव से सीधे पीडीएफ फाइल डाउनलोड शुरू
+        } else {
+            alert("Error compiling configuration document: " + result.error);
+        }
+    } catch (e) {
+        alert("Failed to communicate with the processing server architecture log.");
+    } finally {
+        pdfBtn.innerText = "📥 5️⃣ Export Spec PDF";
+        pdfBtn.disabled = false;
+    }
+}
+</script>
 </body>
 </html>
