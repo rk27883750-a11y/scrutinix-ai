@@ -6,125 +6,309 @@
     <title>Scrutinix AI - Autonomous UI & Design Tokens Infrastructure</title>
     <style>
         :root {
-            --bg-main: #060913;
-            --bg-card: #0f172a;
-            --bg-input: #020617;
-            --text-main: #f8fafc;
+            --bg-main: #0b0f19;
+            --bg-card: #1e293b;
+            --bg-input: #0f172a;
+            --text-main: #f1f5f9;
             --text-muted: #94a3b8;
             --accent-cyan: #38bdf8;
             --accent-green: #22c55e;
-            --accent-pink: #ec4899;
-            --border-color: #1e293b;
-            --neon-glow: 0 0 20px rgba(56, 189, 248, 0.15);
+            --border-color: #334155;
         }
-        
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-main); color: var(--text-main); margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
-        
-        /* Premium Header Navigation */
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; border-bottom: 1px solid var(--border-color); background: #0b0f19; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-        .logo-text { font-size: 24px; font-weight: 800; color: var(--text-main); letter-spacing: 1.5px; }
-        .logo-text span { color: var(--accent-cyan); }
-        nav { display: flex; gap: 35px; align-items: center; }
-        nav a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.3s; }
-        nav a:hover { color: var(--accent-cyan); }
-        .launch-btn { background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #060913; font-size: 13px; font-weight: 700; padding: 10px 22px; border-radius: 8px; text-decoration: none; transition: 0.3s; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
-        .launch-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5); }
-        
-        /* Hero Section Styling */
-        .hero-section { max-width: 1200px; margin: 60px auto 40px auto; padding: 0 30px; text-align: center; }
-        .hero-section h1 { font-size: 46px; font-weight: 800; color: var(--text-main); margin-bottom: 20px; line-height: 1.2; letter-spacing: -0.5px; }
-        .hero-section h1 span.cyan { color: var(--accent-cyan); }
-        .hero-section p { color: var(--text-muted); font-size: 18px; max-width: 850px; margin: 0 auto 50px auto; line-height: 1.6; }
-        
-        /* Advanced SaaS Grid Layout */
-        .dashboard-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 25px; margin-bottom: 50px; }
-        
-        .widget-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 30px; position: relative; transition: all 0.3s ease; box-shadow: var(--neon-glow); }
-        .widget-card:hover { transform: translateY(-5px); border-color: var(--accent-cyan); box-shadow: 0 10px 30px rgba(56, 189, 248, 0.15); }
-        
-        .widget-card h3 { color: #ffffff; margin-top: 0; margin-bottom: 15px; font-size: 20px; font-weight: 700; }
-        .widget-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin: 0; }
-        
-        /* Specific Grid Assignments */
-        .w-col-4 { grid-column: span 4; }
-        .full-width-card { grid-column: span 12; background: linear-gradient(135deg, #0f172a 0%, #030712 100%); border: 1px dashed var(--accent-cyan); }
-        
-        .main-cta { background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #060913; font-size: 18px; font-weight: 700; padding: 16px 44px; border: none; border-radius: 10px; cursor: pointer; text-decoration: none; display: inline-block; transition: 0.3s; box-shadow: 0 4px 20px rgba(56, 189, 248, 0.3); }
-        .main-cta:hover { transform: scale(1.03); box-shadow: 0 6px 25px rgba(56, 189, 248, 0.5); }
-        
-        /* Form Workspace Styling */
-        .workspace-section { padding: 80px 20px; border-top: 1px solid var(--border-color); background: #090d16; }
-        .form-container { max-width: 800px; margin: 0 auto; background: var(--bg-card); padding: 40px; border-radius: 20px; border: 1px solid var(--border-color); box-shadow: var(--neon-glow); text-align: left; }
-        .form-container h2 { font-size: 28px; font-weight: 800; margin-top: 0; color: #ffffff; margin-bottom: 5px; }
-        
-        .form-group { margin-bottom: 20px; }
-        label { font-weight: 600; color: #cbd5e1; display: block; margin-bottom: 8px; font-size: 14px; }
-        input, select, textarea { width: 100%; padding: 14px; background: var(--bg-input); color: #f8fafc; border: 1px solid #334155; border-radius: 10px; box-sizing: border-box; font-size: 14px; transition: 0.3s; }
-        input:focus, select:focus, textarea:focus { border-color: var(--accent-cyan); outline: none; box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
-        
-        .flex-row { display: flex; gap: 15px; }
-        .flex-child { flex: 1; }
-        
-        button.gen-btn { background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #060913; border: none; padding: 16px; width: 100%; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 25px; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
-        button.gen-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5); }
-        
-        /* Outputs & Tabs Layout */
-        .result-box { margin-top: 35px; padding: 25px; border-radius: 12px; display: none; background: var(--bg-input); border: 1px solid #334155; text-align: left; }
-        .tab-container { display: flex; gap: 12px; margin-bottom: 15px; }
-        .tab { background: #1e293b; color: #94a3b8; padding: 10px 20px; border-radius: 8px; cursor: pointer; border: 1px solid #334155; font-size: 13px; font-weight: 700; transition: 0.3s; }
-        .tab.active { background: var(--accent-cyan); color: #060913; border-color: var(--accent-cyan); }
-        pre { background: #020617; padding: 20px; border-radius: 8px; border: 1px solid #1e293b; color: #4ade80; overflow-x: auto; font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 1.6; margin: 0; }
-        
-        /* Export Buttons Tier */
-        .export-actions { display: flex; gap: 15px; margin-top: 25px; flex-wrap: wrap; }
-        .exp-btn { background-color: #1e293b; color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 12px 22px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 700; transition: 0.3s; flex: 1; min-width: 160px; }
-        .exp-btn:hover { background-color: var(--accent-cyan); color: #060913; }
-        .pdf-btn { background-color: var(--accent-green) !important; color: white !important; border: none !important; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3); }
-        .pdf-btn:hover { background-color: #16a34a !important; box-shadow: 0 6px 20px rgba(34, 197, 94, 0.5); }
-        
-        /* Pricing Component Layout */
-        .pricing-section { padding: 80px 20px; text-align: center; border-top: 1px solid var(--border-color); background: #0b0f19; }
-        .pricing-container { display: flex; justify-content: center; gap: 40px; margin-top: 40px; flex-wrap: wrap; }
-        .price-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 40px; width: 280px; text-align: center; position: relative; box-shadow: var(--neon-glow); }
-        .price-card.premium { border: 2px solid var(--accent-cyan); }
-        .price-card h3 { color: #ffffff; margin-top: 0; font-size: 22px; }
-        .price { font-size: 42px; font-weight: 800; color: var(--accent-cyan); margin: 20px 0; }
-        .price-btn { background: transparent; color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 12px 28px; border-radius: 8px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; width: 85%; margin-top: 20px; transition: 0.3s; }
-        .price-card.premium .price-btn { background: var(--accent-cyan); color: #060913; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
-        .price-btn:hover { transform: translateY(-2px); }
-        
-        footer { text-align: center; padding: 40px; font-size: 12px; color: #64748b; border-top: 1px solid var(--border-color); background: #060913; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border-color);
+            background: #111827;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--accent-cyan);
+            letter-spacing: 1px;
+        }
+
+        .badge-premium {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: var(--accent-green);
+            border: 1px solid var(--accent-green);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-size: 36px;
+            color: var(--text-main);
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .hero-section h1 span {
+            color: var(--accent-cyan);
+        }
+
+        .hero-section p {
+            color: var(--text-muted);
+            font-size: 16px;
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+            line-height: 1.6;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 5px;
+        }
+
+        .widget-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: left;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .widget-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.05);
+            border-color: var(--accent-cyan);
+        }
+
+        .widget-card h3 {
+            color: var(--accent-cyan);
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .widget-card p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* ⚡ क्रांतिकारी इंफ्रास्ट्रक्चर एडवांटेज विजेट */
+        .infra-card {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px dashed var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .infra-content {
+            max-width: 75%;
+        }
+
+        .infra-badge {
+            background: var(--accent-cyan);
+            color: #090d16;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .cta-container {
+            margin: 50px 0;
+            text-align: center;
+        }
+
+        .cta-btn {
+            background-color: var(--accent-cyan);
+            color: #090d16;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 16px 36px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.2s;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+        }
+
+        .cta-btn:hover {
+            background-color: #7dd3fc;
+            transform: scale(1.03);
+        }
+
+        .workflow-section {
+            border-top: 1px solid var(--border-color);
+            padding: 50px 20px;
+            background: #111827;
+        }
+
+        .workflow-section h2 {
+            text-align: center;
+            color: var(--text-main);
+            margin-bottom: 40px;
+            font-size: 24px;
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1000px;
+            margin: 0 auto;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .step-item {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-card);
+            border: 2px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 15px auto;
+            font-size: 16px;
+        }
+
+        .step-item h4 {
+            margin: 0 0 8px 0;
+            color: var(--text-main);
+        }
+
+        .step-item p {
+            margin: 0;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            font-size: 11px;
+            color: #64748b;
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Header Navigation Section -->
+    <!-- हेडर सेक्शन -->
     <header>
-        <div class="logo-text">SCRUTINIX <span>AI</span></div>
-        <nav>
-            <a href="#features">Features</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#workspace" class="launch-btn">Launch Generator ➔</a>
-        </nav>
+        <div class="logo-text">SCRUTINIX AI</div>
+        <div class="badge-premium">⚡ 100% Production-Ready Code</div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- मुख्य हीरो सेक्शन -->
     <div class="hero-section">
-        <h1>Compile UI Parameters & Design Tokens into <span class="cyan">Infrastructure Ready-to-Dev</span></h1>
-        <p>Skip heavy software installs and canvas load lag. Scrutinix AI provides a zero-canvas architecture pipeline to instantly output production-ready styling tokens and comprehensive technical specification sheets for engineers.</p>
+        <h1>UI Parameters & Design Tokens को <span>Infrastructure Ready-to-Dev</span> बनाएं</h1>
+        <p>बिना किसी भारी कैनवास या जटिल डिज़ाइनिंग सॉफ़्टवेयर के झंझट के, सीधे डेवलपर्स के लिए 1-क्लिक में क्लीन कोड आर्किटेक्चर और टेक्निकल स्पेक शीट्स जनरेट करें।</p>
         
-        <!-- Feature Widgets Grid -->
-        <div class="dashboard-grid" id="features">
-            <div class="widget-card w-col-4">
-                <h3>🎨 1. Global Design Tokens</h3>
-                <p>Input your target system identifier and core brand attributes. The system compiles standardized global root variables instantly.</p>
+        <!-- डैशबोर्ड ग्रिड (रीब्रांडेड विजेट्स) -->
+        <div class="dashboard-grid">
+            <div class="widget-card">
+                <h3>📁 Global Design Tokens Compiler</h3>
+                <p>अपने प्रोजेक्ट का नाम, प्राथमिक ब्रांड रंग (HEX कोड) दर्ज करें और आधुनिक वेब फ्रेमवर्क के लिए तत्काल ग्लोबल वेरिएबल्स जनरेट करें।</p>
             </div>
             
-            <div class="widget-card w-col-4">
-                <h3>🔤 2. Multi-Framework Typography</h3>
-                <p>Select standard system font stacks natively. Generates absolute typography definitions ready for immediate codebase integration.</p>
+            <div class="widget-card">
+                <h3>🔤 Typography Config Engine</h3>
+                <p>ड्रॉपडाउन से सीधे मानक वेब फॉन्ट स्टैक्स (Inter, Roboto) चुनें और अपने पूरे रिपोजिटरी के लिए रेडी-टू-यूज़ CSS कोड संरचना प्राप्त करें।</p>
             </div>
             
-            <div class="widget-card w-col-4">
-                <h3>⚡ 3. Framework Architecture Logic</h
+            <div class="widget-card">
+                <h3>⚡ Framework Architecture Logic</h3>
+                <p>सिस्टम स्वचालित रूप से इनपुट को प्रोसेस करता है और लाइव स्क्रीन पर सीधे कॉपी करने योग्य :root CSS Variables और Tailwind Config संरचनाएं आउटपुट करता है।</p>
+            </div>
+
+            <!-- ⚡ जोड़ा गया: क्रांतिकारी इंफ्रास्ट्रक्चर एडवांटेज विकल्प -->
+            <div class="widget-card infra-card">
+                <div class="infra-content">
+                    <span class="infra-badge">INFRASTRUCTURE ADVANTAGE</span>
+                    <h3 style="color: #fff; margin: 0 0 5px 0;">Zero-Installation Cloud Architecture</h3>
+                    <p>फिग्मा की तरह, Scrutinix AI भी बिना किसी भारी सॉफ्टवेयर इंस्टॉलेशन के सीधे ब्राउज़र में लाइव चलता है। यह 100% सुरक्षित और लाइटवेट गूगल क्लाउड इंफ्रास्ट्रक्चर का उपयोग करके डेटा सुरक्षा के साथ फाइलों को प्रोसेस करता है।</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- मुख्य एक्शन बटन -->
+        <div class="cta-container">
+            <a href="/generator" class="cta-btn">⚡ Launch System Generator ➔</a>
+        </div>
+    </div>
+
+    <!-- How It Works सेक्शन -->
+    <div class="workflow-section">
+        <h2>How It Works? (काम कैसे करता है)</h2>
+        <div class="steps-container">
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <h4>Input Specs</h4>
+                <p>प्रोजेक्ट का नाम, ब्रांड का मुख्य रंग और फॉन्ट इनपुट दर्ज करें।</p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <h4>Compile System</h4>
+                <p>हमारा इंफ्रास्ट्रक्चर इंजन तुरंत इनपुट्स को कोड आर्किटेक्चर में बदलता है।</p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <h4>Preview Code</h4>
+                <p>लाइव ब्राउज़र में रॉ CSS Variables और Tailwind Config कोड स्निपेट्स देखें।</p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">4</div>
+                <h4>Export Assets</h4>
+                <p>1-क्लिक में अपनी .css, .js फाइलें और डाउनलोड करने योग्य टेक्निकल स्पेक पीडीएफ प्राप्त करें।</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- फुटर डिस्क्लेमर -->
+    <footer>
+        Disclaimer: Scrutinix AI is an independent developer utility infrastructure tool. W3C Framework configuration assets are compiled directly via highly secure cloud computation. All rights reserved.
+    </footer>
+
+</body>
+</html>
