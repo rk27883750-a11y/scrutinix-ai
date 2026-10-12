@@ -6,128 +6,114 @@
     <title>Scrutinix AI - Autonomous UI & Design Tokens Infrastructure</title>
     <style>
         :root {
-            --bg-main: #0b0f19;
-            --bg-card: #1e293b;
-            --bg-input: #0f172a;
-            --text-main: #f1f5f9;
+            --bg-main: #060913;
+            --bg-card: #0f172a;
+            --bg-input: #020617;
+            --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent-cyan: #38bdf8;
             --accent-green: #22c55e;
-            --border-color: #334155;
+            --accent-pink: #ec4899;
+            --border-color: #1e293b;
+            --neon-glow: 0 0 20px rgba(56, 189, 248, 0.15);
         }
+        
         html { scroll-behavior: smooth; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-main); color: var(--text-main); margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
         
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; border-bottom: 1px solid var(--border-color); background: #111827; position: sticky; top: 0; z-index: 1000; }
-        .logo-text { font-size: 20px; font-weight: bold; color: var(--accent-cyan); letter-spacing: 1px; }
-        nav { display: flex; gap: 25px; align-items: center; }
-        nav a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.2s; }
+        /* Premium Header Navigation */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; border-bottom: 1px solid var(--border-color); background: #0b0f19; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        .logo-text { font-size: 24px; font-weight: 800; color: var(--text-main); letter-spacing: 1.5px; }
+        .logo-text span { color: var(--accent-cyan); }
+        nav { display: flex; gap: 35px; align-items: center; }
+        nav a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.3s; }
         nav a:hover { color: var(--accent-cyan); }
-        .launch-btn { background-color: var(--accent-cyan); color: #090d16; font-size: 13px; font-weight: bold; padding: 8px 18px; border-radius: 6px; text-decoration: none; transition: 0.2s; box-shadow: 0 4px 10px rgba(56, 189, 248, 0.2); }
-        .launch-btn:hover { background-color: #7dd3fc; }
+        .launch-btn { background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #060913; font-size: 13px; font-weight: 700; padding: 10px 22px; border-radius: 8px; text-decoration: none; transition: 0.3s; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
+        .launch-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5); }
         
-        .hero-section { max-width: 1200px; margin: 40px auto; padding: 0 20px; text-align: center; }
-        .hero-section h1 { font-size: 38px; color: var(--text-main); margin-bottom: 15px; line-height: 1.3; }
-        .hero-section h1 span { color: var(--accent-cyan); }
-        .hero-section p { color: var(--text-muted); font-size: 16px; max-width: 800px; margin: 0 auto 40px auto; line-height: 1.6; }
+        /* Hero Section Styling */
+        .hero-section { max-width: 1200px; margin: 60px auto 40px auto; padding: 0 30px; text-align: center; }
+        .hero-section h1 { font-size: 46px; font-weight: 800; color: var(--text-main); margin-bottom: 20px; line-height: 1.2; letter-spacing: -0.5px; }
+        .hero-section h1 span.cyan { color: var(--accent-cyan); }
+        .hero-section h1 span.pink { color: var(--accent-pink); }
+        .hero-section p { color: var(--text-muted); font-size: 18px; max-width: 850px; margin: 0 auto 50px auto; line-height: 1.6; }
         
-        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; text-align: left; margin-bottom: 40px; }
-        .widget-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 25px; transition: transform 0.2s, box-shadow 0.2s; }
-        .widget-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(56, 189, 248, 0.08); border-color: var(--accent-cyan); }
-        .widget-card h3 { color: var(--accent-cyan); margin-top: 0; margin-bottom: 12px; font-size: 18px; }
-        .widget-card p { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; margin: 0; }
-        .full-width-card { grid-column: 1 / -1; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px dashed var(--accent-cyan); }
+        /* Advanced SaaS Grid Layout (Screen Layout Replica) */
+        .dashboard-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 25px; margin-bottom: 50px; }
         
-        .main-cta { background-color: var(--accent-cyan); color: #090d16; font-size: 18px; font-weight: bold; padding: 16px 38px; border: none; border-radius: 8px; cursor: pointer; text-decoration: none; display: inline-block; transition: 0.2s; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
-        .main-cta:hover { background-color: #7dd3fc; transform: scale(1.02); }
+        .widget-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 30px; position: relative; transition: all 0.3s ease; box-shadow: var(--neon-glow); }
+        .widget-card:hover { transform: translateY(-5px); border-color: var(--accent-cyan); box-shadow: 0 10px 30px rgba(56, 189, 248, 0.15); }
         
-        /* 🛠️ वर्कस्पेस / जेनरेटर फॉर्म सेक्शन */
-        .workspace-section { padding: 60px 20px; border-top: 1px solid var(--border-color); background: #111827; }
-        .form-container { max-width: 800px; margin: 0 auto; background: var(--bg-card); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); text-align: left; }
-        label { font-weight: 600; color: #cbd5e1; display: block; margin-top: 15px; }
-        input, select, textarea { width: 100%; padding: 12px; background: var(--bg-input); color: #f8fafc; border: 1px solid #475569; border-radius: 8px; box-sizing: border-box; font-size: 14px; margin-top: 5px; }
-        button.gen-btn { background-color: var(--accent-cyan); color: #090d16; border: none; padding: 14px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 25px; }
-        button.gen-btn:hover { background-color: #7dd3fc; }
+        .widget-card h3 { color: #ffffff; margin-top: 0; margin-bottom: 15px; font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .widget-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin: 0 0 20px 0; }
         
-        .result-box { margin-top: 25px; padding: 20px; border-radius: 8px; display: none; background: var(--bg-input); border: 1px solid #334155; }
-        .tab-container { display: flex; gap: 10px; margin-bottom: 12px; }
-        .tab { background: #1e293b; color: #94a3b8; padding: 8px 16px; border-radius: 6px; cursor: pointer; border: 1px solid #334155; font-size: 13px; font-weight: bold; }
-        .tab.active { background: var(--accent-cyan); color: #090d16; border-color: var(--accent-cyan); }
-        pre { background: #030712; padding: 15px; border-radius: 6px; border: 1px solid #1f2937; color: #4ade80; overflow-x: auto; font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 1.5; margin: 0; }
-        .export-actions { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
-        .exp-btn { background-color: #1e293b; color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 11px 18px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.2s; }
-        .exp-btn:hover { background-color: var(--accent-cyan); color: #090d16; }
-        .pdf-btn { background-color: var(--accent-green) !important; color: white !important; border: none !important; }
-        .pdf-btn:hover { background-color: #16a34a !important; }
+        /* Custom Neon Tag Labels */
+        .tag-badge { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; display: inline-block; position: absolute; top: 25px; right: 25px; }
+        .tag-cyan { background: rgba(56, 189, 248, 0.1); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); }
+        .tag-pink { background: rgba(236, 72, 153, 0.1); color: var(--accent-pink); border: 1px solid var(--accent-pink); }
         
-        /* 💰 प्राइसिंग सेक्शन */
-        .pricing-section { padding: 60px 20px; text-align: center; border-top: 1px solid var(--border-color); background: #0f172a; }
-        .pricing-container { display: flex; justify-content: center; gap: 30px; margin-top: 30px; flex-wrap: wrap; }
-        .price-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px; width: 260px; text-align: center; position: relative; }
+        /* Specific Grid Assignments for High-End Layout */
+        .w-col-6-left { grid-column: span 4; }
+        .w-col-6-right { grid-column: span 4; }
+        .w-center-preview { grid-column: span 4; display: flex; flex-direction: column; justify-content: center; align-items: center; background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); border: 2px solid var(--border-color); }
+        .full-width-card { grid-column: span 12; background: linear-gradient(135deg, #0f172a 0%, #030712 100%); border: 1px dashed var(--accent-cyan); }
+        
+        /* Simulated Dynamic Component Preview Inside Center Box */
+        .mock-ui-preview { width: 100%; border: 1px solid var(--border-color); background: var(--bg-input); border-radius: 8px; padding: 15px; box-sizing: border-box; font-family: monospace; font-size: 11px; color: var(--accent-cyan); }
+        
+        .main-cta { background: linear-gradient(135deg, #38bdf8 0%, #ec4899 100%); color: #ffffff; font-size: 18px; font-weight: 700; padding: 16px 44px; border: none; border-radius: 10px; cursor: pointer; text-decoration: none; display: inline-block; transition: 0.3s; box-shadow: 0 4px 20px rgba(236, 72, 153, 0.3); }
+        .main-cta:hover { transform: scale(1.03); box-shadow: 0 6px 25px rgba(236, 72, 153, 0.5); }
+        
+        /* Form Workspace Styling */
+        .workspace-section { padding: 80px 20px; border-top: 1px solid var(--border-color); background: #090d16; }
+        .form-container { max-width: 800px; margin: 0 auto; background: var(--bg-card); padding: 40px; border-radius: 20px; border: 1px solid var(--border-color); box-shadow: var(--neon-glow); }
+        .form-container h2 { font-size: 28px; font-weight: 800; margin-top: 0; color: #ffffff; }
+        
+        /* Form Inputs Layout */
+        .form-group { margin-bottom: 20px; text-align: left; }
+        label { font-weight: 600; color: #cbd5e1; display: block; margin-bottom: 8px; font-size: 14px; }
+        input, select, textarea { width: 100%; padding: 14px; background: var(--bg-input); color: #f8fafc; border: 1px solid #334155; border-radius: 10px; box-sizing: border-box; font-size: 14px; transition: 0.3s; }
+        input:focus, select:focus, textarea:focus { border-color: var(--accent-cyan); outline: none; box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
+        
+        button.gen-btn { background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #060913; border: none; padding: 16px; width: 100%; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 25px; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
+        button.gen-btn:hover { background: #7dd3fc; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5); }
+        
+        /* Outputs & Tabs Layout */
+        .result-box { margin-top: 35px; padding: 25px; border-radius: 12px; display: none; background: var(--bg-input); border: 1px solid #334155; text-align: left; }
+        .tab-container { display: flex; gap: 12px; margin-bottom: 15px; }
+        .tab { background: #1e293b; color: #94a3b8; padding: 10px 20px; border-radius: 8px; cursor: pointer; border: 1px solid #334155; font-size: 13px; font-weight: 700; transition: 0.3s; }
+        .tab.active { background: var(--accent-cyan); color: #060913; border-color: var(--accent-cyan); }
+        pre { background: #020617; padding: 20px; border-radius: 8px; border: 1px solid #1e293b; color: #4ade80; overflow-x: auto; font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 1.6; margin: 0; }
+        
+        /* Export Buttons Tier */
+        .export-actions { display: flex; gap: 15px; margin-top: 25px; flex-wrap: wrap; }
+        .exp-btn { background-color: #1e293b; color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 12px 22px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 700; transition: 0.3s; flex: 1; min-width: 160px; }
+        .exp-btn:hover { background-color: var(--accent-cyan); color: #060913; }
+        .pdf-btn { background-color: var(--accent-green) !important; color: white !important; border: none !important; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3); }
+        .pdf-btn:hover { background-color: #16a34a !important; box-shadow: 0 6px 20px rgba(34, 197, 94, 0.5); }
+        
+        /* Pricing Component Layout */
+        .pricing-section { padding: 80px 20px; text-align: center; border-top: 1px solid var(--border-color); background: #0b0f19; }
+        .pricing-container { display: flex; justify-content: center; gap: 40px; margin-top: 40px; flex-wrap: wrap; }
+        .price-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 40px; width: 280px; text-align: center; position: relative; box-shadow: var(--neon-glow); }
         .price-card.premium { border: 2px solid var(--accent-cyan); }
-        .price-card h3 { color: #fff; margin-top: 0; }
-        .price { font-size: 32px; font-weight: bold; color: var(--accent-cyan); margin: 15px 0; }
-        .price-btn { background: transparent; color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; text-decoration: none; display: inline-block; width: 80%; margin-top: 15px; }
-        .price-card.premium .price-btn { background: var(--accent-cyan); color: #090d16; }
+        .price-card h3 { color: #ffffff; margin-top: 0; font-size: 22px; }
+        .price { font-size: 42px; font-weight: 800; color: var(--accent-cyan); margin: 20px 0; }
+        .price-btn { background: transparent; color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 12px 28px; border-radius: 8px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; width: 85%; margin-top: 20px; transition: 0.3s; }
+        .price-card.premium .price-btn { background: var(--accent-cyan); color: #060913; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
+        .price-btn:hover { transform: translateY(-2px); }
         
-        footer { text-align: center; padding: 30px; font-size: 11px; color: #64748b; border-top: 1px solid var(--border-color); }
+        footer { text-align: center; padding: 40px; font-size: 12px; color: #64748b; border-top: 1px solid var(--border-color); background: #060913; }
     </style>
 </head>
 <body>
 
-    <!-- हेडर नेविगेशन -->
+    <!-- Header Navigation Section -->
     <header>
-        <div class="logo-text">SCRUTINIX AI</div>
+        <div class="logo-text">SCRUTINIX <span>AI</span></div>
         <nav>
             <a href="#features">Features</a>
             <a href="#pricing">Pricing</a>
-            <a href="#generator" class="launch-btn">Launch Generator ➔</a>
+            <a href="#workspace" class="launch-btn">Launch Generator ➔</a>
         </nav>
     </header>
-
-    <!-- हीरो सेक्शन -->
-    <div class="hero-section">
-        <h1>Compile UI Parameters & Design Tokens into <span>Infrastructure Ready-to-Dev</span></h1>
-        <p>Skip heavy, slow local installations. Instantly generate production-ready codebases, structural variables, and detailed architecture specification assets for engineers and agencies in 1-click.</p>
-        
-        <!-- 5-विजेट्स प्रीमियम डैशबोर्ड ग्रिड -->
-        <div class="dashboard-grid" id="features">
-            <div class="widget-card">
-                <h3>🎨 1. Global Design Tokens Compiler</h3>
-                <p>Provide your target system identifier and color profiles. The platform compiles standardized configuration roots instantly.</p>
-            </div>
-            <div class="widget-card">
-                <h3>🔤 2. Multi-Framework Typography Engine</h3>
-                <p>Inject global typography tokens like Inter or Roboto directly into your application baseline parameters seamlessly.</p>
-            </div>
-            <div class="widget-card">
-                <h3>⚡ 3. Framework Architecture Logic</h3>
-                <p>Processes structural parameters in real-time to render copy-pasteable styling scripts ready for framework integration.</p>
-            </div>
-            <div class="widget-card">
-                <h3>📥 4. 1-Click Code Base Exporter</h3>
-                <p>Download natively compiled variables.css and tailwind.config.js structural documents completely free of charge.</p>
-            </div>
-            <div class="widget-card">
-                <h3>📄 5. Certified Technical Spec Suite</h3>
-                <p>Generate highly structured, secure technical specification reports for architecture logging and system alignment.</p>
-            </div>
-            <div class="widget-card full-width-card">
-                <h3 style="color: #fff;">⚡ Zero-Installation Cloud Infrastructure Advantage</h3>
-                <p>Scrutinix AI operates completely serverless. Built directly over light, highly secure cloud infrastructure networks, the system guarantees 100% processing sandboxing and data isolation without local data footprint tracking.</p>
-            </div>
-        </div>
-
-        <div class="cta-container">
-            <a href="#generator" class="main-cta">⚡ Launch System Generator ➔</a>
-        </div>
-    </div>
-
-    <!-- 🛠️ लाइव काम करने वाला टूल सेक्शन (जेनरेटर फॉर्म) -->
-    <div class="workspace-section" id="generator">
-        <div class="form-container">
-            <h2 style="color: var(--accent-cyan); margin-top: 0;">Scrutinix AI // Engine_Dashboard</h2>
-            <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Enter your configuration parameters below to generate design tokens.</p>
-            
-            <label>1️⃣ Project Name:</label>
-            <input type="text" id="projectName" placeholder="e.g., Grocery App">
