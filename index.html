@@ -3,201 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - One-Click Design System Generator</title>
+    <title>Scrutinix AI - Autonomous UI & Design Tokens Infrastructure</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0b0f19; color: #f1f5f9; padding: 20px; margin: 0; }
-        .container { max-width: 850px; margin: 40px auto; background: #1e293b; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); border: 1px solid #334155; }
-        h2 { color: #38bdf8; margin-top: 0; margin-bottom: 5px; }
-        p { color: #94a3b8; font-size: 14px; margin-bottom: 25px; }
+        :root {
+            --bg-main: #0b0f19;
+            --bg-card: #1e293b;
+            --bg-input: #0f172a;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-cyan: #38bdf8;
+            --accent-green: #22c55e;
+            --border-color: #334155;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-main); color: var(--text-main); margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; border-bottom: 1px solid var(--border-color); background: #111827; position: sticky; top: 0; z-index: 1000; }
+        .logo-text { font-size: 20px; font-weight: bold; color: var(--accent-cyan); letter-spacing: 1px; }
+        nav { display: flex; gap: 25px; align-items: center; }
+        nav a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.2s; }
+        nav a:hover { color: var(--accent-cyan); }
+        .launch-btn { background-color: var(--accent-cyan); color: #090d16; font-size: 13px; font-weight: bold; padding: 8px 18px; border-radius: 6px; text-decoration: none; transition: 0.2s; box-shadow: 0 4px 10px rgba(56, 189, 248, 0.2); }
+        .launch-btn:hover { background-color: #7dd3fc; }
+        
+        .hero-section { max-width: 1200px; margin: 40px auto; padding: 0 20px; text-align: center; }
+        .hero-section h1 { font-size: 38px; color: var(--text-main); margin-bottom: 15px; line-height: 1.3; }
+        .hero-section h1 span { color: var(--accent-cyan); }
+        .hero-section p { color: var(--text-muted); font-size: 16px; max-width: 800px; margin: 0 auto 40px auto; line-height: 1.6; }
+        
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; text-align: left; margin-bottom: 40px; }
+        .widget-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 25px; transition: transform 0.2s, box-shadow 0.2s; }
+        .widget-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(56, 189, 248, 0.08); border-color: var(--accent-cyan); }
+        .widget-card h3 { color: var(--accent-cyan); margin-top: 0; margin-bottom: 12px; font-size: 18px; }
+        .widget-card p { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; margin: 0; }
+        .full-width-card { grid-column: 1 / -1; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px dashed var(--accent-cyan); }
+        
+        .main-cta { background-color: var(--accent-cyan); color: #090d16; font-size: 18px; font-weight: bold; padding: 16px 38px; border: none; border-radius: 8px; cursor: pointer; text-decoration: none; display: inline-block; transition: 0.2s; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
+        .main-cta:hover { background-color: #7dd3fc; transform: scale(1.02); }
+        
+        /* 🛠️ वर्कस्पेस / जेनरेटर फॉर्म सेक्शन */
+        .workspace-section { padding: 60px 20px; border-top: 1px solid var(--border-color); background: #111827; }
+        .form-container { max-width: 800px; margin: 0 auto; background: var(--bg-card); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); text-align: left; }
         label { font-weight: 600; color: #cbd5e1; display: block; margin-top: 15px; }
-        input, select, textarea { width: 100%; padding: 12px; background: #0f172a; color: #f8fafc; border: 1px solid #475569; border-radius: 8px; box-sizing: border-box; font-size: 14px; margin-top: 5px; }
-        .flex-row { display: flex; gap: 15px; }
-        .flex-child { flex: 1; }
-        button.primary-btn { background-color: #38bdf8; color: #090d16; border: none; padding: 14px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 25px; }
-        button.primary-btn:hover { background-color: #7dd3fc; }
-        .result-box { margin-top: 25px; padding: 20px; border-radius: 8px; display: none; background: #0f172a; border: 1px solid #334155; }
-        .tab-container { display: flex; gap: 10px; margin-bottom: 10px; }
+        input, select, textarea { width: 100%; padding: 12px; background: var(--bg-input); color: #f8fafc; border: 1px solid #475569; border-radius: 8px; box-sizing: border-box; font-size: 14px; margin-top: 5px; }
+        button.gen-btn { background-color: var(--accent-cyan); color: #090d16; border: none; padding: 14px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 25px; }
+        button.gen-btn:hover { background-color: #7dd3fc; }
+        
+        .result-box { margin-top: 25px; padding: 20px; border-radius: 8px; display: none; background: var(--bg-input); border: 1px solid #334155; }
+        .tab-container { display: flex; gap: 10px; margin-bottom: 12px; }
         .tab { background: #1e293b; color: #94a3b8; padding: 8px 16px; border-radius: 6px; cursor: pointer; border: 1px solid #334155; font-size: 13px; font-weight: bold; }
-        .tab.active { background: #38bdf8; color: #090d16; border-color: #38bdf8; }
+        .tab.active { background: var(--accent-cyan); color: #090d16; border-color: var(--accent-cyan); }
         pre { background: #030712; padding: 15px; border-radius: 6px; border: 1px solid #1f2937; color: #4ade80; overflow-x: auto; font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 1.5; margin: 0; }
-        .export-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
-        .exp-btn { background-color: #1e293b; color: #38bdf8; border: 1px solid #38bdf8; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.2s; }
-        .exp-btn:hover { background-color: #38bdf8; color: #090d16; }
-        .pdf-btn { background-color: #22c55e !important; color: white !important; border: none !important; }
+        .export-actions { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+        .exp-btn { background-color: #1e293b; color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 11px 18px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.2s; }
+        .exp-btn:hover { background-color: var(--accent-cyan); color: #090d16; }
+        .pdf-btn { background-color: var(--accent-green) !important; color: white !important; border: none !important; }
         .pdf-btn:hover { background-color: #16a34a !important; }
-        .disclaimer { font-size: 11px; color: #64748b; text-align: center; margin-top: 25px; }
+        
+        /* 💰 प्राइसिंग सेक्शन */
+        .pricing-section { padding: 60px 20px; text-align: center; border-top: 1px solid var(--border-color); background: #0f172a; }
+        .pricing-container { display: flex; justify-content: center; gap: 30px; margin-top: 30px; flex-wrap: wrap; }
+        .price-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px; width: 260px; text-align: center; position: relative; }
+        .price-card.premium { border: 2px solid var(--accent-cyan); }
+        .price-card h3 { color: #fff; margin-top: 0; }
+        .price { font-size: 32px; font-weight: bold; color: var(--accent-cyan); margin: 15px 0; }
+        .price-btn { background: transparent; color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; text-decoration: none; display: inline-block; width: 80%; margin-top: 15px; }
+        .price-card.premium .price-btn { background: var(--accent-cyan); color: #090d16; }
+        
+        footer { text-align: center; padding: 30px; font-size: 11px; color: #64748b; border-top: 1px solid var(--border-color); }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Scrutinix AI // One-Click Design System Generator</h2>
-    <p>व्यवसायिक उपयोग के लिए तत्काल प्रोडक्शन-रेडी टोकन्स, CSS, Tailwind कॉन्फ़िगरेशन कोड और आर्किटेक्चर स्पेक शीट पीडीएफ जेनरेट करें।</p>
-    
-    <!-- 1️⃣ प्रोजेक्ट का नाम -->
-    <label>1️⃣ Project Name (प्रोजेक्ट का नाम):</label>
-    <input type="text" id="projectName" placeholder="जैसे: Grocery App">
+    <!-- हेडर नेविगेशन -->
+    <header>
+        <div class="logo-text">SCRUTINIX AI</div>
+        <nav>
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#generator" class="launch-btn">Launch Generator ➔</a>
+        </nav>
+    </header>
 
-    <div class="flex-row">
-        <!-- 2️⃣ ब्रांड का मुख्य रंग -->
-        <div class="flex-child">
-            <label>2️⃣ Brand Primary Color (HEX):</label>
-            <input type="text" id="brandColor" placeholder="जैसे: #38BDF8">
-        </div>
-        <!-- 3️⃣ टाइपोग्राफी फ़ॉन्ट का चुनाव -->
-        <div class="flex-child">
-            <label>3️⃣ Typography (फ़ॉन्ट चुनें):</label>
-            <select id="fontFamily">
-                <option value="'Roboto', sans-serif">Roboto</option>
-                <option value="'Inter', sans-serif">Inter</option>
-                <option value="'Open Sans', sans-serif">Open Sans</option>
-            </select>
-        </div>
-    </div>
-
-    <label>Additional Component Directives (वैकल्पिक लेआउट नियम):</label>
-    <textarea id="uiDetails" rows="3" placeholder="जैसे: Buttons corner-radius: 8px, Container width: 1200px..."></textarea>
-    
-    <!-- 4️⃣ जनरेट डिज़ाइन सिस्टम बटन -->
-    <button class="primary-btn" id="genBtn" onclick="generateDesignSystem()">⚡ 4️⃣ GENERATE DESIGN SYSTEM</button>
-    
-    <!-- 5️⃣ आउटपुट और एक्सपोर्ट सेक्शन -->
-    <div id="resultBox" class="result-box">
-        <h3 style="color: #38bdf8; margin-top: 0; font-size: 16px;">🚀 Generated Production-Ready Output</h3>
-        <div class="tab-container">
-            <div id="cssTab" class="tab active" onclick="switchTab('css')">CSS Variables (:root)</div>
-            <div id="twTab" class="tab" onclick="switchTab('tw')">Tailwind Config Extend</div>
-        </div>
+    <!-- हीरो सेक्शन -->
+    <div class="hero-section">
+        <h1>Compile UI Parameters & Design Tokens into <span>Infrastructure Ready-to-Dev</span></h1>
+        <p>Skip heavy, slow local installations. Instantly generate production-ready codebases, structural variables, and detailed architecture specification assets for engineers and agencies in 1-click.</p>
         
-        <pre id="codeOutput"></pre>
-        
-        <div class="export-actions">
-            <button class="exp-btn" onclick="downloadCodeFile('css')">📥 Export variables.css</button>
-            <button class="exp-btn" onclick="downloadCodeFile('tailwind')">📥 Export tailwind.config.js</button>
-            <button class="exp-btn pdf-btn" id="pdfBtn" onclick="downloadSpecPDF()">📥 5️⃣ Export Spec PDF</button>
+        <!-- 5-विजेट्स प्रीमियम डैशबोर्ड ग्रिड -->
+        <div class="dashboard-grid" id="features">
+            <div class="widget-card">
+                <h3>🎨 1. Global Design Tokens Compiler</h3>
+                <p>Provide your target system identifier and color profiles. The platform compiles standardized configuration roots instantly.</p>
+            </div>
+            <div class="widget-card">
+                <h3>🔤 2. Multi-Framework Typography Engine</h3>
+                <p>Inject global typography tokens like Inter or Roboto directly into your application baseline parameters seamlessly.</p>
+            </div>
+            <div class="widget-card">
+                <h3>⚡ 3. Framework Architecture Logic</h3>
+                <p>Processes structural parameters in real-time to render copy-pasteable styling scripts ready for framework integration.</p>
+            </div>
+            <div class="widget-card">
+                <h3>📥 4. 1-Click Code Base Exporter</h3>
+                <p>Download natively compiled variables.css and tailwind.config.js structural documents completely free of charge.</p>
+            </div>
+            <div class="widget-card">
+                <h3>📄 5. Certified Technical Spec Suite</h3>
+                <p>Generate highly structured, secure technical specification reports for architecture logging and system alignment.</p>
+            </div>
+            <div class="widget-card full-width-card">
+                <h3 style="color: #fff;">⚡ Zero-Installation Cloud Infrastructure Advantage</h3>
+                <p>Scrutinix AI operates completely serverless. Built directly over light, highly secure cloud infrastructure networks, the system guarantees 100% processing sandboxing and data isolation without local data footprint tracking.</p>
+            </div>
+        </div>
+
+        <div class="cta-container">
+            <a href="#generator" class="main-cta">⚡ Launch System Generator ➔</a>
         </div>
     </div>
-    
-    <div class="disclaimer">
-        Disclaimer: Scrutinix AI compiles automated design specifications directly mapping to standardized W3C framework protocols.
-    </div>
-</div>
 
-<script>
-let systemPayload = {};
-let generatedCSS = "";
-let generatedTW = "";
-
-function generateDesignSystem() {
-    const pName = document.getElementById('projectName').value;
-    const bColor = document.getElementById('brandColor').value || "#38BDF8";
-    const font = document.getElementById('fontFamily').value;
-    const details = document.getElementById('uiDetails').value || "Standard architecture constraints enforced.";
-    
-    if(!pName.trim()) {
-        alert("Please enter a Project Name to compile tokens!");
-        return;
-    }
-
-    // 1. शुद्ध W3C विनिर्देशों के अनुसार CSS Variables बनाना
-    generatedCSS = `:root {\n` +
-                   `  /* Project Identity: ${pName} */\n` +
-                   `  --primary-brand: ${bColor};\n` +
-                   `  --primary-brand-rgb: ${hexToRgb(bColor)};\n` +
-                   `  --main-font-stack: ${font};\n` +
-                   `  --heading-font-stack: ${font};\n` +
-                   `  \n` +
-                   `  /* Custom Configuration Constraints */\n` +
-                   `  --base-padding: 16px;\n` +
-                   `  --border-radius-md: 8px;\n` +
-                   `}`;
-
-    // 2. मॉडर्न वेब फ्रेमवर्क के लिए Tailwind CSS JSON Config Extension बनाना
-    generatedTW = `/** @type {import('tailwindcss').Config} */\n` +
-                  `module.exports = {\n` +
-                  `  theme: {\n` +
-                  `    extend: {\n` +
-                  `      colors: {\n` +
-                  `        brand: '${bColor}',\n` +
-                  `      },\n` +
-                  `      fontFamily: {\n` +
-                  `        sans: [${font.split(',')[0]}, 'sans-serif'],\n` +
-                  `      }\n` +
-                  `    }\n` +
-                  `  }\n` +
-                  `}`;
-
-    document.getElementById('resultBox').style.display = "block";
-    switchTab('css');
-
-    systemPayload = { projectName: pName, color: bColor, font: font, details: details, cssTokens: generatedCSS };
-}
-
-function switchTab(type) {
-    const cssTab = document.getElementById('cssTab');
-    const twTab = document.getElementById('twTab');
-    const output = document.getElementById('codeOutput');
-    
-    if(type === 'css') {
-        cssTab.className = "tab active";
-        twTab.className = "tab";
-        output.innerText = generatedCSS;
-    } else {
-        cssTab.className = "tab";
-        twTab.className = "tab active";
-        output.innerText = generatedTW;
-    }
-}
-
-function hexToRgb(hex) {
-    hex = hex.replace('#', '');
-    if(hex.length === 3) hex = hex.split('').map(x => x + x).join('');
-    const r = parseInt(hex.substring(0, 2), 16);
-    const g = parseInt(hex.substring(2, 4), 16);
-    const b = parseInt(hex.substring(4, 6), 16);
-    return `${r}, ${g}, ${b}`;
-}
-
-// 📂 ब्राउज़र में सीधे .css और .js फ़ाइल जनरेट करके तुरंत डाउनलोड कराना
-function downloadCodeFile(type) {
-    let textContent = type === 'css' ? generatedCSS : generatedTW;
-    let fileName = type === 'css' ? 'variables.css' : 'tailwind.config.js';
-    let mimeType = type === 'css' ? 'text/css' : 'application/javascript';
-    
-    let blob = new Blob([textContent], { type: mimeType });
-    let link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = fileName;
-    link.click();
-}
-
-// 📥 आपका लाइव Google Apps Script ट्रिगर करने वाला फंक्शन
-async function downloadSpecPDF() {
-    const pdfBtn = document.getElementById('pdfBtn');
-    pdfBtn.innerText = "Processing certified Technical Spec PDF...";
-    pdfBtn.disabled = true;
-
-    // आपका मुफ़्त और लाइव डिप्लॉयड Google Apps Script URL यहाँ एम्बेड कर दिया गया है
-    const gasUrl = "https://google.com";
-
-    try {
-        const response = await fetch(gasUrl, {
-            method: 'POST',
-            body: JSON.stringify(systemPayload)
-        });
-        const result = await response.json();
-        if(result.success) {
-            window.location.href = result.pdfUrl; // गूगल ड्राइव से सीधे पीडीएफ फाइल डाउनलोड शुरू
-        } else {
-            alert("Error compiling configuration document: " + result.error);
-        }
-    } catch (e) {
-        alert("Failed to communicate with the processing server architecture log.");
-    } finally {
-        pdfBtn.innerText = "📥 5️⃣ Export Spec PDF";
-        pdfBtn.disabled = false;
-    }
-}
-</script>
-</body>
-</html>
+    <!-- 🛠️ लाइव काम करने वाला टूल सेक्शन (जेनरेटर फॉर्म) -->
+    <div class="workspace-section" id="generator">
+        <div class="form-container">
+            <h2 style="color: var(--accent-cyan); margin-top: 0;">Scrutinix AI // Engine_Dashboard</h2>
+            <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Enter your configuration parameters below to generate design tokens.</p>
+            
+            <label>1️⃣ Project Name:</label>
+            <input type="text" id="projectName" placeholder="e.g., Grocery App">
