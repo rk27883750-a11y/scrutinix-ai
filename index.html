@@ -290,6 +290,9 @@
   </div>
 
   <script>
+    // Google Apps Script Web App URL
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbzD-c4wR31W2fYpcWuEAz-FP8W65poygAm1kmIwP-dFrVAqoaVcIMOLPhy5nRYyGnVMDg/exec";
+
     let generatedCssCode = '';
     let generatedTailwindCode = '';
     let currentTab = 'css';
@@ -342,6 +345,25 @@
       updateCodeDisplay();
       
       document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+
+      // Send data to Google Sheet
+      fetch(GOOGLE_SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          projectName: name,
+          brandColor: color,
+          fontSelect: font,
+          customRules: rules
+        })
+      })
+      .then(() => {
+        console.log("Data successfully logged to Google Sheet!");
+      })
+      .catch(error => console.error('Sheet Error:', error));
     });
 
     function switchTab(tab) {
