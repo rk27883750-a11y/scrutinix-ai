@@ -1,203 +1,361 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrutinix AI - One-Click Design System Generator</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0b0f19; color: #f1f5f9; padding: 20px; margin: 0; }
-        .container { max-width: 850px; margin: 40px auto; background: #1e293b; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); border: 1px solid #334155; }
-        h2 { color: #38bdf8; margin-top: 0; margin-bottom: 5px; }
-        p { color: #94a3b8; font-size: 14px; margin-bottom: 25px; }
-        label { font-weight: 600; color: #cbd5e1; display: block; margin-top: 15px; }
-        input, select, textarea { width: 100%; padding: 12px; background: #0f172a; color: #f8fafc; border: 1px solid #475569; border-radius: 8px; box-sizing: border-box; font-size: 14px; margin-top: 5px; }
-        .flex-row { display: flex; gap: 15px; }
-        .flex-child { flex: 1; }
-        button.primary-btn { background-color: #38bdf8; color: #090d16; border: none; padding: 14px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 25px; }
-        button.primary-btn:hover { background-color: #7dd3fc; }
-        .result-box { margin-top: 25px; padding: 20px; border-radius: 8px; display: none; background: #0f172a; border: 1px solid #334155; }
-        .tab-container { display: flex; gap: 10px; margin-bottom: 10px; }
-        .tab { background: #1e293b; color: #94a3b8; padding: 8px 16px; border-radius: 6px; cursor: pointer; border: 1px solid #334155; font-size: 13px; font-weight: bold; }
-        .tab.active { background: #38bdf8; color: #090d16; border-color: #38bdf8; }
-        pre { background: #030712; padding: 15px; border-radius: 6px; border: 1px solid #1f2937; color: #4ade80; overflow-x: auto; font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 1.5; margin: 0; }
-        .export-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
-        .exp-btn { background-color: #1e293b; color: #38bdf8; border: 1px solid #38bdf8; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.2s; }
-        .exp-btn:hover { background-color: #38bdf8; color: #090d16; }
-        .pdf-btn { background-color: #22c55e !important; color: white !important; border: none !important; }
-        .pdf-btn:hover { background-color: #16a34a !important; }
-        .disclaimer { font-size: 11px; color: #64748b; text-align: center; margin-top: 25px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrutinix AI // System_Generator</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://googleapis.com">
+  <link rel="preconnect" href="https://gstatic.com" crossorigin>
+  <link href="https://googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #0a0f1d;
+      --card-bg: #111827;
+      --input-bg: #1f2937;
+      --border-color: #374151;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent-blue: #38bdf8;
+      --accent-teal: #10b981;
+      --font-inter: 'Inter', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-inter);
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 700px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 32px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .header-title {
+      color: var(--accent-blue);
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .header-subtitle {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.4;
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+      margin-bottom: 0;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    input[type="text"], select, textarea {
+      width: 100%;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 12px;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      font-family: var(--font-inter);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus, select:focus, textarea:focus {
+      border-color: var(--accent-blue);
+    }
+
+    textarea {
+      resize: vertical;
+      height: 70px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background-color: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-submit:hover {
+      background-color: #0ea5e9;
+    }
+
+    .btn-submit:disabled {
+      background-color: #4b5563;
+      cursor: not-allowed;
+    }
+
+    .disclaimer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #4b5563;
+      margin-top: 14px;
+    }
+
+    .output-area {
+      margin-top: 32px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 24px;
+      display: none;
+    }
+
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .status-badge {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--accent-teal);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-badge .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent-teal);
+      border-radius: 50%;
+    }
+
+    .code-container-wrapper {
+      position: relative;
+    }
+
+    .code-window {
+      background: #070b14;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 16px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+      max-height: 250px;
+    }
+
+    pre code {
+      color: #38bdf8;
+      font-family: monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .btn-copy {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #1f2937;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-copy:hover {
+      background-color: #374151;
+      border-color: var(--accent-blue);
+    }
+
+    .action-footer {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-action {
+      background: #1f2937;
+      color: white;
+      border: 1px solid var(--border-color);
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-action:hover {
+      background: #374151;
+    }
+
+    .btn-highlight {
+      background: #0369a1;
+      border-color: #0284c7;
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Scrutinix AI // One-Click Design System Generator</h2>
-    <p>व्यवसायिक उपयोग के लिए तत्काल प्रोडक्शन-रेडी टोकन्स, CSS, Tailwind कॉन्फ़िगरेशन कोड और आर्किटेक्चर स्पेक शीट पीडीएफ जेनरेट करें।</p>
-    
-    <!-- 1️⃣ प्रोजेक्ट का नाम -->
-    <label>1️⃣ Project Name (प्रोजेक्ट का नाम):</label>
-    <input type="text" id="projectName" placeholder="जैसे: Grocery App">
+  <div class="wrapper">
+    <div class="header-title">Scrutinix AI // System_Generator</div>
+    <div class="header-subtitle">Skip manual Figma asset hunting. Enter core parameters to generate production-ready CSS Tokens and Tailwind Config structure instantly.</div>
 
-    <div class="flex-row">
-        <!-- 2️⃣ ब्रांड का मुख्य रंग -->
-        <div class="flex-child">
-            <label>2️⃣ Brand Primary Color (HEX):</label>
-            <input type="text" id="brandColor" placeholder="जैसे: #38BDF8">
+    <form id="generatorForm">
+      <div class="form-group">
+        <label>Project Name:</label>
+        <input type="text" id="projectName" placeholder="e.g., groovey app" required>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Brand Primary Color (HEX):</label>
+          <input type="text" id="primaryColor" placeholder="e.g., #011116" required>
         </div>
-        <!-- 3️⃣ टाइपोग्राफी फ़ॉन्ट का चुनाव -->
-        <div class="flex-child">
-            <label>3️⃣ Typography (फ़ॉन्ट चुनें):</label>
-            <select id="fontFamily">
-                <option value="'Roboto', sans-serif">Roboto</option>
-                <option value="'Inter', sans-serif">Inter</option>
-                <option value="'Open Sans', sans-serif">Open Sans</option>
-            </select>
+        <div class="form-group">
+          <label>Select Typography Font:</label>
+          <select id="textFont">
+            <option value="Roboto">Roboto</option>
+            <option value="Inter">Inter</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="Poppins">Poppins</option>
+          </select>
         </div>
+      </div>
+
+      <div class="form-group">
+        <label>Additional Layout / Component Rules:</label>
+        <textarea id="customRules" placeholder="e.g., Custom configuration constraints, base-padding: 16px..."></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submitBtn">⚡ Generate Tokens & Architecture</button>
+    </form>
+    
+    <div class="disclaimer">Disclaimer: Scrutinix AI provides automation utilities for developers.</div>
+
+    <!-- Output Box Area matched to your screenshot layout -->
+    <div class="output-area" id="outputWorkspace">
+      <div class="output-header">
+        <div class="status-badge"><span class="dot"></span> Generated Production-Ready Output</div>
+      </div>
+      
+      <div class="code-container-wrapper">
+        <button class="btn-copy" id="btnCopyCode">📋 Copy Code</button>
+        <div class="code-window">
+          <pre><code id="codeDisplay"></code></pre>
+        </div>
+      </div>
+
+      <div class="action-footer">
+        <button class="btn-action" id="exportVariables">📦 Export variables.css</button>
+        <button class="btn-action" id="exportTailwind">⚙️ Export tailwind.config.js</button>
+        <button class="btn-action btn-highlight" id="exportPdf">📄 Export to PDF</button>
+      </div>
     </div>
+  </div>
 
-    <label>Additional Component Directives (वैकल्पिक लेआउट नियम):</label>
-    <textarea id="uiDetails" rows="3" placeholder="जैसे: Buttons corner-radius: 8px, Container width: 1200px..."></textarea>
-    
-    <!-- 4️⃣ जनरेट डिज़ाइन सिस्टम बटन -->
-    <button class="primary-btn" id="genBtn" onclick="generateDesignSystem()">⚡ 4️⃣ GENERATE DESIGN SYSTEM</button>
-    
-    <!-- 5️⃣ आउटपुट और एक्सपोर्ट सेक्शन -->
-    <div id="resultBox" class="result-box">
-        <h3 style="color: #38bdf8; margin-top: 0; font-size: 16px;">🚀 Generated Production-Ready Output</h3>
-        <div class="tab-container">
-            <div id="cssTab" class="tab active" onclick="switchTab('css')">CSS Variables (:root)</div>
-            <div id="twTab" class="tab" onclick="switchTab('tw')">Tailwind Config Extend</div>
-        </div>
-        
-        <pre id="codeOutput"></pre>
-        
-        <div class="export-actions">
-            <button class="exp-btn" onclick="downloadCodeFile('css')">📥 Export variables.css</button>
-            <button class="exp-btn" onclick="downloadCodeFile('tailwind')">📥 Export tailwind.config.js</button>
-            <button class="exp-btn pdf-btn" id="pdfBtn" onclick="downloadSpecPDF()">📥 5️⃣ Export Spec PDF</button>
-        </div>
-    </div>
-    
-    <div class="disclaimer">
-        Disclaimer: Scrutinix AI compiles automated design specifications directly mapping to standardized W3C framework protocols.
-    </div>
-</div>
+  <script>
+    // 🌍 आपका लाइव Google Apps Script Web App URL यहाँ जुड़ चुका है:
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzMADoRxht0U0jBu-FpO0QnHMnhpM6idifHMj0Gi1dHFv_vHwFKYIxzQHFM_ClFs1w-ZA/exec';
 
-<script>
-let systemPayload = {};
-let generatedCSS = "";
-let generatedTW = "";
+    let generatedCSS = "";
+    let generatedTailwind = "";
 
-function generateDesignSystem() {
-    const pName = document.getElementById('projectName').value;
-    const bColor = document.getElementById('brandColor').value || "#38BDF8";
-    const font = document.getElementById('fontFamily').value;
-    const details = document.getElementById('uiDetails').value || "Standard architecture constraints enforced.";
-    
-    if(!pName.trim()) {
-        alert("Please enter a Project Name to compile tokens!");
-        return;
-    }
+    document.getElementById('generatorForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Syncing with Database...";
 
-    // 1. शुद्ध W3C विनिर्देशों के अनुसार CSS Variables बनाना
-    generatedCSS = :root {\n +
-                   `  /* Project Identity: ${pName} */\n` +
-                   `  --primary-brand: ${bColor};\n` +
-                   `  --primary-brand-rgb: ${hexToRgb(bColor)};\n` +
-                   `  --main-font-stack: ${font};\n` +
-                   `  --heading-font-stack: ${font};\n` +
-                   `  \n` +
-                   `  /* Custom Configuration Constraints */\n` +
-                   `  --base-padding: 16px;\n` +
-                   `  --border-radius-md: 8px;\n` +
-                   };
+      const formData = {
+        projectName: document.getElementById('projectName').value,
+        primaryColor: document.getElementById('primaryColor').value,
+        textFont: document.getElementById('textFont').value,
+        customRules: document.getElementById('customRules').value || "None"
+      };
 
-    // 2. मॉडर्न वेब फ्रेमवर्क के लिए Tailwind CSS JSON Config Extension बनाना
-    generatedTW = /** @type {import('tailwindcss').Config} */\n +
-                  module.exports = {\n +
-                  `  theme: {\n` +
-                  `    extend: {\n` +
-                  `      colors: {\n` +
-                  `        brand: '${bColor}',\n` +
-                  `      },\n` +
-                  `      fontFamily: {\n` +
-                  `        sans: [${font.split(',')[0]}, 'sans-serif'],\n` +
-                  `      }\n` +
-                  `    }\n` +
-                  `  }\n` +
-                  };
+      generatedCSS = `/* Project Identity: ${formData.projectName.toLowerCase()} */
+:root {
+  --primary-brand: ${formData.primaryColor};
+  --main-hint-stack: '${formData.textFont}', sans-serif;
+  --heading-font-stack: '${formData.textFont}', sans-serif;
 
-    document.getElementById('resultBox').style.display = "block";
-    switchTab('css');
+  /* Custom Configuration Constraints */
+  /* ${formData.customRules} */
+  --base-padding: 16px;
+  --border-radius-xl: 8px;
+}`;
 
-    systemPayload = { projectName: pName, color: bColor, font: font, details: details, cssTokens: generatedCSS };
-}
+      generatedTailwind = /** @type {import('tailwindcss').Config} */\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: {\n        brand: 'var(--primary-brand)',\n      },\n      fontFamily: {\n        sans: ['var(--main-hint-stack)'],\n        heading: ['var(--heading-font-stack)'],\n      }\n    },\n  },\n};;
 
-function switchTab(type) {
-    const cssTab = document.getElementById('cssTab');
-    const twTab = document.getElementById('twTab');
-    const output = document.getElementById('codeOutput');
-    
-    if(type === 'css') {
-        cssTab.className = "tab active";
-        twTab.className = "tab";
-        output.innerText = generatedCSS;
-    } else {
-        cssTab.className = "tab";
-        twTab.className = "tab active";
-        output.innerText = generatedTW;
-    }
-}
+      document.getElementById('codeDisplay').textContent = generatedCSS;
+      document.getElementById('outputWorkspace').style.display = 'block';
+      document.getElementById('btnCopyCode').innerHTML = "📋 Copy Code";
 
-function hexToRgb(hex) {
-    hex = hex.replace('#', '');
-    if(hex.length === 3) hex = hex.split('').map(x => x + x).join('');
-    const r = parseInt(hex.substring(0, 2), 16);
-    const g = parseInt(hex.substring(2, 4), 16);
-    const b = parseInt(hex.substring(4, 6), 16);
-    return ${r}, ${g}, ${b};
-}
-
-// 📂 ब्राउज़र में सीधे .css और .js फ़ाइल जनरेट करके तुरंत डाउनलोड कराना
-function downloadCodeFile(type) {
-    let textContent = type === 'css' ? generatedCSS : generatedTW;
-    let fileName = type === 'css' ? 'variables.css' : 'tailwind.config.js';
-    let mimeType = type === 'css' ? 'text/css' : 'application/javascript';
-    
-    let blob = new Blob([textContent], { type: mimeType });
-    let link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = fileName;
-    link.click();
-}
-
-// 📥 आपका लाइव Google Apps Script ट्रिगर करने वाला फंक्शन
-async function downloadSpecPDF() {
-    const pdfBtn = document.getElementById('pdfBtn');
-    pdfBtn.innerText = "Processing certified Technical Spec PDF...";
-    pdfBtn.disabled = true;
-
-    // आपका मुफ़्त और लाइव डिप्लॉयड Google Apps Script URL यहाँ एम्बेड कर दिया गया है
-    const gasUrl = "https://google.com";
-
-    try {
-        const response = await fetch(gasUrl, {
-            method: 'POST',
-            body: JSON.stringify(systemPayload)
-        });
-        const result = await response.json();
-        if(result.success) {
-            window.location.href = result.pdfUrl; // गूगल ड्राइव से सीधे पीडीएफ फाइल डाउनलोड शुरू
-        } else {
-            alert("Error compiling configuration document: " + result.error);
-        }
-    } catch (e) {
-        alert("Failed to communicate with the processing server architecture log.");
-    } finally {
-        pdfBtn.innerText = "📥 5️⃣ Export Spec PDF";
-        pdfBtn.disabled = false;
-    }
-}
-</script>
-</body>
-</html>
+      // Google Apps Script को डेटा सबमिट करना
+      fetch(scriptURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        cache: 'no-cache',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
+      .then(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "⚡ Generate Tokens & Architecture";
+        document.getElementById('outputWorkspace').scrollIntoView({ behavior: 'smooth' });
+      })
+      .catch(error => {
+        console.error('Error!', error.message);
+        submitBtn.disabled = false;
