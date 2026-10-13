@@ -57,14 +57,7 @@
       color: var(--accent-color);
       font-size: 1.5rem;
       font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .description {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-bottom: 24px;
-      line-height: 1.5;
+      margin-bottom: 16px;
     }
 
     .form-group {
@@ -224,9 +217,6 @@
     <!-- Top Section: Form -->
     <div class="card">
       <h1 class="title">Scrutinix AI // System_Generator</h1>
-      <p class="description">
-        Skip manual Figma asset hunting. Enter core parameters to generate production-ready CSS Tokens and Tailwind Config structure instantly.
-      </p>
 
       <form id="generatorForm">
         <div class="form-group">
@@ -290,8 +280,8 @@
   </div>
 
   <script>
-    // Google Apps Script Web App URL
-    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbzD-c4wR31W2fYpcWuEAz-FP8W65poygAm1kmIwP-dFrVAqoaVcIMOLPhy5nRYyGnVMDg/exec";
+    // Updated Google Apps Script Web App URL
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbz6b0nN5ajW2UnmGKyd5k3WE5pZl59dqtcCeDGu_-m-ZBaEeaNNlPGvT_8CyGWSVMCF/exec";
 
     let generatedCssCode = '';
     let generatedTailwindCode = '';
@@ -346,22 +336,20 @@
       
       document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
 
-      // Send data to Google Sheet
+      // Send data to Google Sheet using FormData
+      const formData = new FormData();
+      formData.append('projectName', name);
+      formData.append('brandColor', color);
+      formData.append('fontSelect', font);
+      formData.append('customRules', rules);
+
       fetch(GOOGLE_SHEET_URL, {
         method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          projectName: name,
-          brandColor: color,
-          fontSelect: font,
-          customRules: rules
-        })
+        body: formData
       })
-      .then(() => {
-        console.log("Data successfully logged to Google Sheet!");
+      .then(response => response.text())
+      .then(result => {
+        console.log("Data successfully logged to Google Sheet!", result);
       })
       .catch(error => console.error('Sheet Error:', error));
     });
@@ -399,7 +387,6 @@
       URL.revokeObjectURL(url);
     }
 
-    // Working PDF Download Function
     function downloadPdf() {
       const element = document.getElementById('pdfPrintArea');
       const projectName = document.getElementById('projectName').value.trim() || 'Design_System';
