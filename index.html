@@ -278,7 +278,7 @@
     
     <div class="disclaimer">Disclaimer: Scrutinix AI provides automation utilities for developers.</div>
 
-    <!-- Output Box Area Matched To Your Screenshot Layout -->
+    <!-- Output Box Area matched to your screenshot layout -->
     <div class="output-area" id="outputWorkspace">
       <div class="output-header">
         <div class="status-badge"><span class="dot"></span> Generated Production-Ready Output</div>
@@ -300,14 +300,14 @@
   </div>
 
   <script>
-    // 🌍 आपका लाइव Google Apps Script URL यहाँ बिल्कुल सही जगह जुड़ चुका है:
+    // 🌍 आपका लाइव Google Apps Script Web App URL यहाँ बिल्कुल सही जुड़ चुका है:
     const scriptURL = 'https://google.com';
 
     let generatedCSS = "";
     let generatedTailwind = "";
 
     document.getElementById('generatorForm').addEventListener('submit', function(e) {
-      e.preventDefault(); // फॉर्म को रिफ्रेश होने से रोकना
+      e.preventDefault();
 
       const formData = {
         projectName: document.getElementById('projectName').value,
@@ -336,7 +336,7 @@
       document.getElementById('btnCopyCode').innerHTML = "📋 Copy Code";
       document.getElementById('outputWorkspace').scrollIntoView({ behavior: 'smooth' });
 
-      // 2. बैकग्राउंड में शांत तरीके से डेटा Google Sheets पर भेजना (ताकि एरर आने पर भी UI न रुके)
+      // 2. बैकग्राउंड में शांत तरीके से डेटा Google Sheets पर भेजना
       fetch(scriptURL, {
         method: 'POST',
         mode: 'no-cors',
@@ -349,3 +349,5 @@
     // 📋 Copy to Clipboard function
     document.getElementById('btnCopyCode').addEventListener('click', function() {
       const codeText = document.getElementById('codeDisplay').textContent;
+      navigator.clipboard.writeText(codeText).then(() => {
+        this.innerHTML = "✅ Copied!";
