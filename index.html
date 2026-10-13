@@ -1,26 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // System_Generator</title>
-  
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://googleapis.com">
-  <link rel="preconnect" href="https://gstatic.com" crossorigin>
-  <link href="https://googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scrutinix AI // System Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- html2pdf Library for PDF Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     :root {
-      --bg-dark: #0a0f1d;
+      --bg-color: #0b0f17;
       --card-bg: #111827;
       --input-bg: #1f2937;
       --border-color: #374151;
-      --text-main: #f3f4f6;
+      --accent-color: #00f2fe;
+      --accent-hover: #00c6ff;
+      --text-main: #f9fafb;
       --text-muted: #9ca3af;
-      --accent-blue: #38bdf8;
-      --accent-teal: #10b981;
-      --font-inter: 'Inter', sans-serif;
+      --code-bg: #030712;
     }
 
     * {
@@ -30,9 +27,9 @@
     }
 
     body {
-      font-family: var(--font-inter);
-      background-color: var(--bg-dark);
+      background-color: var(--bg-color);
       color: var(--text-main);
+      font-family: 'Inter', sans-serif;
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -40,188 +37,173 @@
       padding: 20px;
     }
 
-    .wrapper {
+    .container {
       width: 100%;
-      max-width: 700px;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .card {
       background-color: var(--card-bg);
       border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 32px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
     }
 
-    .header-title {
-      color: var(--accent-blue);
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 6px;
+    .title {
+      color: var(--accent-color);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
     }
 
-    .header-subtitle {
+    .description {
       color: var(--text-muted);
-      font-size: 0.85rem;
-      line-height: 1.4;
+      font-size: 0.9rem;
       margin-bottom: 24px;
+      line-height: 1.5;
     }
 
     .form-group {
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     .form-row {
       display: flex;
       gap: 16px;
-      margin-bottom: 16px;
     }
 
     .form-row .form-group {
       flex: 1;
-      margin-bottom: 0;
     }
 
     label {
       display: block;
       font-size: 0.85rem;
-      font-weight: 500;
+      font-weight: 600;
       margin-bottom: 8px;
       color: var(--text-main);
     }
 
-    input[type="text"], select, textarea {
+    input[type="text"], textarea, select {
       width: 100%;
+      padding: 12px 14px;
       background-color: var(--input-bg);
       border: 1px solid var(--border-color);
-      border-radius: 6px;
-      padding: 12px;
+      border-radius: 8px;
       color: var(--text-main);
       font-size: 0.9rem;
-      font-family: var(--font-inter);
       outline: none;
       transition: border-color 0.2s;
     }
 
-    input[type="text"]:focus, select:focus, textarea:focus {
-      border-color: var(--accent-blue);
+    input[type="text"]:focus, textarea:focus, select:focus {
+      border-color: var(--accent-color);
     }
 
     textarea {
       resize: vertical;
-      height: 70px;
+      min-height: 80px;
     }
 
     .btn-submit {
       width: 100%;
-      background-color: #38bdf8;
-      color: #0f172a;
-      border: none;
       padding: 14px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 0.9rem;
+      background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-weight: 700;
+      font-size: 0.95rem;
       cursor: pointer;
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 8px;
-      margin-top: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      transition: opacity 0.2s;
+      margin-top: 10px;
     }
 
     .btn-submit:hover {
-      background-color: #0ea5e9;
+      opacity: 0.9;
     }
 
     .disclaimer {
       text-align: center;
       font-size: 0.75rem;
-      color: #4b5563;
-      margin-top: 14px;
+      color: var(--text-muted);
+      margin-top: 12px;
     }
 
-    .output-area {
-      margin-top: 32px;
-      border-top: 1px solid var(--border-color);
-      padding-top: 24px;
+    /* Output Section */
+    .output-section {
       display: none;
     }
 
     .output-header {
+      color: var(--accent-color);
+      font-weight: 600;
+      margin-bottom: 16px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      gap: 8px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
       margin-bottom: 12px;
     }
 
-    .status-badge {
-      background: rgba(16, 185, 129, 0.1);
-      color: var(--accent-teal);
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .status-badge .dot {
-      width: 6px;
-      height: 6px;
-      background: var(--accent-teal);
-      border-radius: 50%;
-    }
-
-    .code-container-wrapper {
-      position: relative;
-    }
-
-    .code-window {
-      background: #070b14;
+    .tab-btn {
+      padding: 8px 16px;
+      background-color: var(--input-bg);
       border: 1px solid var(--border-color);
+      color: var(--text-muted);
       border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .tab-btn.active {
+      background-color: var(--accent-color);
+      color: #000;
+      border-color: var(--accent-color);
+      font-weight: 600;
+    }
+
+    .code-container {
+      background-color: var(--code-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
       padding: 16px;
       overflow-x: auto;
       margin-bottom: 16px;
-      max-height: 250px;
     }
 
-    pre code {
-      color: #38bdf8;
-      font-family: monospace;
+    pre {
+      font-family: 'Fira Code', monospace;
       font-size: 0.85rem;
-      line-height: 1.5;
+      color: #38bdf8;
+      line-height: 1.6;
+      white-space: pre-wrap;
     }
 
-    .btn-copy {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: #1f2937;
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 5px 10px;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-copy:hover {
-      background-color: #374151;
-      border-color: var(--accent-blue);
-    }
-
-    .action-footer {
+    .actions {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
     }
 
-    .btn-action {
-      background: #1f2937;
-      color: white;
-      border: 1px solid var(--border-color);
+    .btn-secondary {
       padding: 10px 16px;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
       border-radius: 6px;
       cursor: pointer;
       font-size: 0.85rem;
@@ -230,124 +212,191 @@
       gap: 6px;
     }
 
-    .btn-action:hover {
-      background: #374151;
-    }
-
-    .btn-highlight {
-      background: #0369a1;
-      border-color: #0284c7;
+    .btn-secondary:hover {
+      border-color: var(--accent-color);
     }
   </style>
 </head>
 <body>
 
-  <div class="wrapper">
-    <div class="header-title">Scrutinix AI // System_Generator</div>
-    <div class="header-subtitle">Skip manual Figma asset hunting. Enter core parameters to generate production-ready CSS Tokens and Tailwind Config structure instantly.</div>
-
-    <form id="generatorForm">
-      <div class="form-group">
-        <label>Project Name:</label>
-        <input type="text" id="projectName" placeholder="e.g., groovey app" required>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label>Brand Primary Color (HEX):</label>
-          <input type="text" id="primaryColor" placeholder="e.g., #011116" required>
-        </div>
-        <div class="form-group">
-          <label>Select Typography Font:</label>
-          <select id="textFont">
-            <option value="Roboto">Roboto</option>
-            <option value="Inter">Inter</option>
-            <option value="Open Sans">Open Sans</option>
-            <option value="Poppins">Poppins</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>Additional Layout / Component Rules:</label>
-        <textarea id="customRules" placeholder="e.g., Custom configuration constraints, base-padding: 16px..."></textarea>
-      </div>
-
-      <button type="submit" class="btn-submit" id="submitBtn">⚡ Generate Tokens & Architecture</button>
-    </form>
+  <div class="container">
     
-    <div class="disclaimer">Disclaimer: Scrutinix AI provides automation utilities for developers.</div>
+    <!-- Top Section: Form -->
+    <div class="card">
+      <h1 class="title">Scrutinix AI // System_Generator</h1>
+      <p class="description">
+        Skip manual Figma asset hunting. Enter core parameters to generate production-ready CSS Tokens and Tailwind Config structure instantly.
+      </p>
 
-    <!-- Output Box Area matched to your screenshot layout -->
-    <div class="output-area" id="outputWorkspace">
-      <div class="output-header">
-        <div class="status-badge"><span class="dot"></span> Generated Production-Ready Output</div>
-      </div>
-      
-      <div class="code-container-wrapper">
-        <button class="btn-copy" id="btnCopyCode">📋 Copy Code</button>
-        <div class="code-window">
-          <pre><code id="codeDisplay"></code></pre>
+      <form id="generatorForm">
+        <div class="form-group">
+          <label for="projectName">Project Name:</label>
+          <input type="text" id="projectName" placeholder="e.g., grocery app" value="grocery app" required>
         </div>
-      </div>
 
-      <div class="action-footer">
-        <button class="btn-action" id="exportVariables">📦 Export variables.css</button>
-        <button class="btn-action" id="exportTailwind">⚙️ Export tailwind.config.js</button>
-        <button class="btn-action btn-highlight" id="exportPdf">📄 Export to PDF</button>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="brandColor">Brand Primary Color (HEX):</label>
+            <input type="text" id="brandColor" placeholder="e.g., #351156" value="#351156" required>
+          </div>
+          <div class="form-group">
+            <label for="fontSelect">Select Typography Font:</label>
+            <select id="fontSelect">
+              <option value="Roboto" selected>Roboto</option>
+              <option value="Inter">Inter</option>
+              <option value="Poppins">Poppins</option>
+              <option value="Open Sans">Open Sans</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="customRules">Additional Layout / Component Rules:</label>
+          <textarea id="customRules" placeholder="e.g., Custom configuration constraints, base-padding: 16px...">base-padding: 16px, border-radius-md: 8px</textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          ⚡ GENERATE TOKENS & ARCHITECTURE
+        </button>
+      </form>
+
+      <div class="disclaimer">
+        Disclaimer: Scrutinix AI provides automation utilities for developers
       </div>
     </div>
+
+    <!-- Bottom Section: Generated Output -->
+    <div class="card output-section" id="outputSection">
+      <div class="output-header">
+        ⚡ Generated Production-Ready Output
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" id="tabCss" onclick="switchTab('css')">CSS Variables (:root)</button>
+        <button class="tab-btn" id="tabTailwind" onclick="switchTab('tailwind')">Tailwind Config Extend</button>
+      </div>
+
+      <div class="code-container" id="pdfPrintArea">
+        <pre><code id="codeOutput"></code></pre>
+      </div>
+
+      <div class="actions">
+        <button class="btn-secondary" onclick="downloadFile('css')">📥 Export variables.css</button>
+        <button class="btn-secondary" onclick="downloadFile('tailwind')">📥 Export tailwind.config.js</button>
+        <button class="btn-secondary" onclick="downloadPdf()">📄 Export Spec PDF</button>
+      </div>
+    </div>
+
   </div>
 
   <script>
-    // 🌍 आपका लाइव Google Apps Script Web App URL यहाँ बिल्कुल सही जुड़ चुका है:
-    const scriptURL = 'https://google.com';
+    let generatedCssCode = '';
+    let generatedTailwindCode = '';
+    let currentTab = 'css';
 
-    let generatedCSS = "";
-    let generatedTailwind = "";
+    function hexToRgb(hex) {
+      hex = hex.replace('#', '');
+      if (hex.length === 3) {
+        hex = hex.split('').map(char => char + char).join('');
+      }
+      const num = parseInt(hex, 16);
+      if (isNaN(num)) return '53, 17, 86';
+      return `${(num >> 16) & 255}, ${(num >> 8) & 255}, ${num & 255}`;
+    }
 
     document.getElementById('generatorForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
-      const formData = {
-        projectName: document.getElementById('projectName').value,
-        primaryColor: document.getElementById('primaryColor').value,
-        textFont: document.getElementById('textFont').value,
-        customRules: document.getElementById('customRules').value || "None"
-      };
+      const name = document.getElementById('projectName').value.trim() || 'app';
+      const color = document.getElementById('brandColor').value.trim() || '#351156';
+      const font = document.getElementById('fontSelect').value;
+      const rules = document.getElementById('customRules').value.trim();
 
-      // 1. स्क्रीन पर नीचे डार्क कोड बॉक्स तुरंत दिखाएं (बिना किसी नेटवर्क डिले के)
-      generatedCSS = `/* Project Identity: ${formData.projectName.toLowerCase()} */
-:root {
-  --primary-brand: ${formData.primaryColor};
-  --main-hint-stack: '${formData.textFont}', sans-serif;
-  --heading-font-stack: '${formData.textFont}', sans-serif;
+      const rgbColor = hexToRgb(color);
 
-  /* Custom Configuration Constraints */
-  /* ${formData.customRules} */
-  --base-padding: 16px;
-  --border-radius-xl: 8px;
-}`;
+      let customCssRules = '';
+      let customTailwindRules = '';
 
-      generatedTailwind = /** @type {import('tailwindcss').Config} */\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: {\n        brand: 'var(--primary-brand)',\n      },\n      fontFamily: {\n        sans: ['var(--main-hint-stack)'],\n        heading: ['var(--heading-font-stack)'],\n      }\n    },\n  },\n};;
+      if (rules) {
+        const parts = rules.split(',');
+        parts.forEach(part => {
+          const [key, val] = part.split(':').map(s => s.trim());
+          if (key && val) {
+            const cleanKey = key.replace(/\s+/g, '-').toLowerCase();
+            customCssRules += `  --${cleanKey}: ${val};\n`;
+            customTailwindRules += `        '${cleanKey}': '${val}',\n`;
+          }
+        });
+      }
 
-      document.getElementById('codeDisplay').textContent = generatedCSS;
-      document.getElementById('outputWorkspace').style.display = 'block';
-      document.getElementById('btnCopyCode').innerHTML = "📋 Copy Code";
-      document.getElementById('outputWorkspace').scrollIntoView({ behavior: 'smooth' });
+      if (!customCssRules) {
+        customCssRules = '  --base-padding: 16px;\n  --border-radius-md: 8px;\n';
+        customTailwindRules = "        'base-padding': '16px',\n        'border-radius-md': '8px',\n";
+      }
 
-      // 2. बैकग्राउंड में शांत तरीके से डेटा Google Sheets पर भेजना
-      fetch(scriptURL, {
-        method: 'POST',
-        mode: 'no-cors',
-        cache: 'no-cache',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      }).catch(err => console.log("Database Sync Log:", err.message));
+      generatedCssCode = `:root {\n  /* Project Identity: ${name} */\n  --primary-brand: ${color};\n  --primary-brand-rgb: ${rgbColor};\n  --main-font-stack: '${font}', sans-serif;\n  --heading-font-stack: '${font}', sans-serif;\n\n  /* Custom Configuration Constraints */\n${customCssRules}}`;
+
+      generatedTailwindCode = `// tailwind.config.js - Project: ${name}\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: {\n        'primary-brand': '${color}',\n      },\n      fontFamily: {\n        sans: ['${font}', 'sans-serif'],\n      },\n      spacing: {\n${customTailwindRules}      }\n    },\n  },\n};`;
+
+      document.getElementById('outputSection').style.display = 'block';
+      updateCodeDisplay();
+      
+      document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
     });
 
-    // 📋 Copy to Clipboard function
-    document.getElementById('btnCopyCode').addEventListener('click', function() {
-      const codeText = document.getElementById('codeDisplay').textContent;
-      navigator.clipboard.writeText(codeText).then(() => {
-        this.innerHTML = "✅ Copied!";
+    function switchTab(tab) {
+      currentTab = tab;
+      document.getElementById('tabCss').classList.toggle('active', tab === 'css');
+      document.getElementById('tabTailwind').classList.toggle('active', tab === 'tailwind');
+      updateCodeDisplay();
+    }
+
+    function updateCodeDisplay() {
+      const codeElement = document.getElementById('codeOutput');
+      codeElement.textContent = currentTab === 'css' ? generatedCssCode : generatedTailwindCode;
+    }
+
+    function downloadFile(type) {
+      let content = type === 'css' ? generatedCssCode : generatedTailwindCode;
+      let filename = type === 'css' ? 'variables.css' : 'tailwind.config.js';
+      let mimeType = type === 'css' ? 'text/css' : 'text/javascript';
+
+      if (!content) {
+        alert('Pehle tokens generate kijiye!');
+        return;
+      }
+
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // Working PDF Download Function
+    function downloadPdf() {
+      const element = document.getElementById('pdfPrintArea');
+      const projectName = document.getElementById('projectName').value.trim() || 'Design_System';
+
+      if (!generatedCssCode) {
+        alert('Pehle tokens generate kijiye!');
+        return;
+      }
+
+      const opt = {
+        margin:       10,
+        filename:     `${projectName}_Spec.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      html2pdf().set(opt).from(element).save();
+    }
+  </script>
+</body>
+</html>
