@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // System Generator</title>
+  <title>Scrutinix AI // System Generator & SaaS Suite</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     :root {
@@ -15,6 +15,7 @@
       --text-main: #f3f4f6;
       --text-muted: #9ca3af;
       --input-bg: #1f293d;
+      --success-color: #10b981;
     }
 
     * {
@@ -36,7 +37,7 @@
 
     .container {
       width: 100%;
-      max-width: 800px;
+      max-width: 850px;
       display: flex;
       flex-direction: column;
       gap: 20px;
@@ -50,11 +51,38 @@
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
     }
 
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
     .header-title {
       font-size: 1.4rem;
       font-weight: 700;
       color: var(--accent-color);
-      margin-bottom: 20px;
+    }
+
+    .version-selector {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .version-selector label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .version-select {
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      color: var(--accent-color);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      outline: none;
     }
 
     .form-group {
@@ -95,7 +123,7 @@
 
     textarea {
       resize: vertical;
-      min-height: 70px;
+      min-height: 60px;
     }
 
     .btn-generate {
@@ -117,14 +145,48 @@
       opacity: 0.9;
     }
 
-    .disclaimer {
-      text-align: center;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 10px;
+    /* 🎨 3. VISUAL THEME PLAYGROUND STYLES */
+    .playground-box {
+      background-color: #070a12;
+      border: 1px dashed var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
     }
 
-    /* Output Section */
+    .playground-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .preview-card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .preview-btn {
+      border: none;
+      color: #ffffff;
+      padding: 10px 18px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: all 0.2s ease;
+    }
+
+    /* OUTPUT & TABS */
     .tabs {
       display: flex;
       gap: 10px;
@@ -157,20 +219,18 @@
       font-size: 0.85rem;
       color: #38bdf8;
       white-space: pre-wrap;
-      max-height: 250px;
+      max-height: 200px;
       overflow-y: auto;
     }
 
-    .actions-row {
-      display: flex;
+    .actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 10px;
       margin-top: 16px;
-      flex-wrap: wrap;
     }
 
     .btn-action {
-      flex: 1;
-      min-width: 180px;
       padding: 10px;
       background-color: var(--input-bg);
       border: 1px solid var(--border-color);
@@ -183,35 +243,103 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      transition: background 0.2s;
+      transition: all 0.2s;
     }
 
     .btn-action:hover {
       background-color: #27354e;
       border-color: var(--accent-color);
     }
+
+    .btn-highlight {
+      background: var(--accent-gradient);
+      color: #000;
+      border: none;
+    }
+
+    /* CHANGELOG BOX */
+    .changelog-card {
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 16px;
+    }
+
+    .changelog-header {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #a7f3d0;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .changelog-text {
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      background: #020617;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid #1e293b;
+      font-family: monospace;
+    }
+
+    /* MODAL FOR SHARE LINK */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal {
+      background: var(--card-bg);
+      border: 1px solid var(--accent-color);
+      padding: 24px;
+      border-radius: 12px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 0 30px rgba(0, 210, 255, 0.2);
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <!-- Input Form Card -->
+    <!-- Main Form Card -->
     <div class="card">
-      <h2 class="header-title">Scrutinix AI // System_Generator</h2>
+      <div class="header-row">
+        <h2 class="header-title">Scrutinix AI // System_Generator</h2>
+        
+        <!-- 🗄️ 4. VERSION HISTORY SYSTEM -->
+        <div class="version-selector">
+          <label>Version History:</label>
+          <select id="versionDropdown" class="version-select" onchange="loadVersion(this.value)">
+            <option value="current">v1.2 (Active)</option>
+            <option value="v1.1">v1.1 (Yesterday)</option>
+            <option value="v1.0">v1.0 (Initial Spec)</option>
+          </select>
+        </div>
+      </div>
       
       <div class="form-group">
         <label>Project Name:</label>
-        <input type="text" id="projectName" value="grocery app">
+        <input type="text" id="projectName" value="grocery app" oninput="updateLivePreview()">
       </div>
 
       <div class="form-row">
         <div class="form-group">
           <label>Brand Primary Color (HEX):</label>
-          <input type="text" id="brandColor" value="#351156">
+          <input type="text" id="brandColor" value="#351156" oninput="updateLivePreview()">
         </div>
         <div class="form-group">
           <label>Select Typography Font:</label>
-          <select id="fontSelect">
+          <select id="fontSelect" onchange="updateLivePreview()">
             <option value="Roboto">Roboto</option>
             <option value="Inter">Inter</option>
             <option value="Poppins">Poppins</option>
@@ -222,17 +350,30 @@
 
       <div class="form-group">
         <label>Additional Layout / Component Rules:</label>
-        <textarea id="customRules">base-padding: 16px, border-radius-md: 8px</textarea>
+        <textarea id="customRules" oninput="updateLivePreview()">base-padding: 16px, border-radius-md: 8px</textarea>
       </div>
 
       <button class="btn-generate" onclick="generateSystem()">⚡ GENERATE TOKENS & ARCHITECTURE</button>
-      <div class="disclaimer">Disclaimer: Scrutinix AI provides automation utilities for developers</div>
     </div>
 
-    <!-- Output Code Card -->
+    <!-- Output & Client Tools Card -->
     <div class="card">
-      <h3 style="font-size: 1rem; margin-bottom: 12px; color: #fff;">⚡ Generated Production-Ready Output</h3>
       
+      <!-- 🎨 3. VISUAL THEME PLAYGROUND -->
+      <div class="playground-box">
+        <div class="playground-title">
+          <span>🎨 Live Visual Theme Playground (Client View)</span>
+          <span style="color: var(--accent-color); font-size: 0.75rem;">Real-time Component Preview</span>
+        </div>
+        <div class="preview-card" id="previewCard">
+          <div>
+            <h4 id="previewAppTitle" style="color:#fff; font-size: 1rem; font-weight:700;">grocery app</h4>
+            <p id="previewSubtitle" style="color:#94a3b8; font-size: 0.8rem; margin-top:2px;">Design System Token Active</p>
+          </div>
+          <button class="preview-btn" id="previewBtn">Primary CTA</button>
+        </div>
+      </div>
+
       <div class="tabs">
         <button class="tab-btn active" id="tabCss" onclick="switchTab('css')">CSS Variables (:root)</button>
         <button class="tab-btn" id="tabTailwind" onclick="switchTab('tailwind')">Tailwind Config Extend</button>
@@ -240,10 +381,39 @@
 
       <pre class="code-preview" id="codeOutput"></pre>
 
-      <div class="actions-row">
+      <!-- 🤖 2. AUTOMATED CHANGELOG BOX -->
+      <div class="changelog-card">
+        <div class="changelog-header">
+          🤖 AI Client Changelog (Ready for WhatsApp / Slack)
+        </div>
+        <div class="changelog-text" id="changelogMsg">
+          Loading changelog...
+        </div>
+      </div>
+
+      <!-- EXPORT & SAAS ACTION BUTTONS -->
+      <div class="actions-grid">
         <button class="btn-action" onclick="exportCss()">📥 Export variables.css</button>
         <button class="btn-action" onclick="exportTailwind()">📥 Export tailwind.config.js</button>
         <button class="btn-action" onclick="exportPdf()">📄 Export Spec PDF</button>
+        
+        <!-- 🌐 1. SHARE LIVE CLIENT LINK BUTTON -->
+        <button class="btn-action btn-highlight" onclick="openShareModal()">🌐 Share Live Client Link</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHARE LINK MODAL -->
+  <div class="modal-overlay" id="shareModal">
+    <div class="modal">
+      <h3 style="color:var(--accent-color); margin-bottom:10px;">🌐 Share Live Client Review Link</h3>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px;">
+        Clients can review live components, colors, and approve specs without touching any raw code!
+      </p>
+      <input type="text" id="shareLinkInput" readonly style="margin-bottom:16px; color:#38bdf8;">
+      <div style="display:flex; gap:10px;">
+        <button class="btn-generate" onclick="copyShareLink()">📋 Copy Secret Link</button>
+        <button class="btn-action" onclick="closeShareModal()">Close</button>
       </div>
     </div>
   </div>
@@ -253,17 +423,49 @@
     let generatedCssCode = '';
     let generatedTailwindCode = '';
 
+    // Mock Version Database
+    const versionData = {
+      'current': { name: 'grocery app', color: '#351156', font: 'Roboto', rules: 'base-padding: 16px, border-radius-md: 8px' },
+      'v1.1': { name: 'grocery app', color: '#2563eb', font: 'Inter', rules: 'base-padding: 12px, border-radius-md: 6px' },
+      'v1.0': { name: 'grocery app', color: '#dc2626', font: 'Poppins', rules: 'base-padding: 8px, border-radius-md: 4px' }
+    };
+
     function hexToRgb(hex) {
       hex = hex.replace('#', '');
-      if (hex.length === 3) {
-        hex = hex.split('').map(c => c + c).join('');
+      if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+      const num = parseInt(hex, 16) || 0;
+      return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+    }
+
+    // 🎨 LIVE PREVIEW UPDATER
+    function updateLivePreview() {
+      const name = document.getElementById('projectName').value || 'App';
+      const hex = document.getElementById('brandColor').value || '#351156';
+      const font = document.getElementById('fontSelect').value;
+      const rules = document.getElementById('customRules').value;
+
+      document.getElementById('previewAppTitle').innerText = name;
+      document.getElementById('previewAppTitle').style.fontFamily = font;
+      
+      const btn = document.getElementById('previewBtn');
+      btn.style.backgroundColor = hex;
+      btn.style.fontFamily = font;
+
+      // Extract padding and border-radius from custom rules
+      if(rules.includes('border-radius-md:')) {
+        const radiusVal = rules.split('border-radius-md:')[1].split(',')[0].trim();
+        btn.style.borderRadius = radiusVal;
       }
-      const num = parseInt(hex, 16);
-      return {
-        r: (num >> 16) & 255,
-        g: (num >> 8) & 255,
-        b: num & 255
-      };
+      if(rules.includes('base-padding:')) {
+        const padVal = rules.split('base-padding:')[1].split(',')[0].trim();
+        btn.style.padding = padVal;
+      }
+    }
+
+    // 🤖 CHANGELOG GENERATOR
+    function updateChangelog(name, hex, font, rules) {
+      const msg = `🚀 *Scrutinix AI Update for ${name}*:\nUpdated Brand Color to \`${hex}\`, Font to \`${font}\` & Rules: \`${rules}\`. Click live preview link to approve!`;
+      document.getElementById('changelogMsg').innerText = msg;
     }
 
     function generateSystem() {
@@ -274,12 +476,10 @@
 
       const rgb = hexToRgb(hex);
 
-      // Parse rules
       let rulesCss = '';
       let rulesTailwind = '';
       if(rules) {
-        const parts = rules.split(',');
-        parts.forEach(p => {
+        rules.split(',').forEach(p => {
           const [k, v] = p.split(':').map(s => s.trim());
           if(k && v) {
             rulesCss += `  --${k}: ${v};\n`;
@@ -288,44 +488,29 @@
         });
       }
 
-      // CSS Variables Output
-      generatedCssCode = `:root {
-  /* Project Identity: ${name} */
-  --primary-brand: ${hex};
-  --primary-brand-rgb: ${rgb.r}, ${rgb.g}, ${rgb.b};
-  --main-font-stack: '${font}', sans-serif;
-  --heading-font-stack: '${font}', sans-serif;
+      generatedCssCode = `:root {\n  /* Project Identity: ${name} */\n  --primary-brand: ${hex};\n  --primary-brand-rgb: ${rgb.r}, ${rgb.g}, ${rgb.b};\n  --main-font-stack: '${font}', sans-serif;\n${rulesCss}}`;
 
-  /* Custom Configuration Constraints */
-${rulesCss}}`;
-
-      // Tailwind Config Output
-      generatedTailwindCode = `// tailwind.config.js - ${name}
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        'primary-brand': '${hex}',
-      },
-      fontFamily: {
-        'main': ['${font}', 'sans-serif'],
-      },
-      spacing: {
-${rulesTailwind}      }
-    }
-  }
-}`;
+      generatedTailwindCode = `// tailwind.config.js - ${name}\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: { 'primary-brand': '${hex}' },\n      fontFamily: { 'main': ['${font}', 'sans-serif'] }\n    }\n  }\n}`;
 
       updateOutputDisplay();
+      updateLivePreview();
+      updateChangelog(name, hex, font, rules);
+    }
+
+    // 🗄️ VERSION HISTORY LOADER
+    function loadVersion(ver) {
+      const data = versionData[ver];
+      if(data) {
+        document.getElementById('projectName').value = data.name;
+        document.getElementById('brandColor').value = data.color;
+        document.getElementById('fontSelect').value = data.font;
+        document.getElementById('customRules').value = data.rules;
+        generateSystem();
+      }
     }
 
     function updateOutputDisplay() {
-      const outputElem = document.getElementById('codeOutput');
-      if (currentTab === 'css') {
-        outputElem.textContent = generatedCssCode;
-      } else {
-        outputElem.textContent = generatedTailwindCode;
-      }
+      document.getElementById('codeOutput').textContent = (currentTab === 'css') ? generatedCssCode : generatedTailwindCode;
     }
 
     function switchTab(tab) {
@@ -335,49 +520,47 @@ ${rulesTailwind}      }
       updateOutputDisplay();
     }
 
+    // EXPORT FUNCTIONS
     function downloadFile(filename, content, type) {
       const blob = new Blob([content], { type: type });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
       link.download = filename;
       link.click();
-      URL.revokeObjectURL(link.href);
     }
 
-    function exportCss() {
-      downloadFile('variables.css', generatedCssCode, 'text/css');
-    }
-
-    function exportTailwind() {
-      downloadFile('tailwind.config.js', generatedTailwindCode, 'text/javascript');
-    }
-
+    function exportCss() { downloadFile('variables.css', generatedCssCode, 'text/css'); }
+    function exportTailwind() { downloadFile('tailwind.config.js', generatedTailwindCode, 'text/javascript'); }
     function exportPdf() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
-
-      const name = document.getElementById('projectName').value || 'Project';
-
-      doc.setFontSize(18);
-      doc.text(`Scrutinix AI - Design Tokens Specification`, 14, 20);
-      
-      doc.setFontSize(12);
-      doc.text(`Project Name: ${name}`, 14, 30);
-      doc.text(`Generated Date: ${new Date().toLocaleDateString()}`, 14, 38);
-
-      doc.setFontSize(14);
-      doc.text(`CSS Variables Output:`, 14, 50);
-
-      doc.setFontSize(10);
-      doc.setFont("courier", "normal");
-      
-      const splitText = doc.splitTextToSize(generatedCssCode, 180);
-      doc.text(splitText, 14, 60);
-
-      doc.save(`${name.toLowerCase().replace(/\s+/g, '_')}_design_spec.pdf`);
+      doc.text(`Scrutinix AI Spec - ${document.getElementById('projectName').value}`, 14, 20);
+      doc.text(generatedCssCode, 14, 40);
+      doc.save(`design_spec.pdf`);
     }
 
-    // Auto generate on load
+    // 🌐 SHARE MODAL LOGIC
+    function openShareModal() {
+      const name = encodeURIComponent(document.getElementById('projectName').value);
+      const color = encodeURIComponent(document.getElementById('brandColor').value);
+      const shareUrl = `https://scrutinixai.com/?preview=true&project=${name}&color=${color}`;
+      
+      document.getElementById('shareLinkInput').value = shareUrl;
+      document.getElementById('shareModal').style.display = 'flex';
+    }
+
+    function closeShareModal() {
+      document.getElementById('shareModal').style.display = 'none';
+    }
+
+    function copyShareLink() {
+      const input = document.getElementById('shareLinkInput');
+      input.select();
+      document.execCommand('copy');
+      alert('Secret Client Live Preview link copied to clipboard!');
+      closeShareModal();
+    }
+
     window.onload = generateSystem;
   </script>
 </body>
