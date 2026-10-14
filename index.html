@@ -1,357 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scrutinix AI // System Generator</title>
-  <link href="https://googleapis.com" rel="stylesheet">
-  <!-- html2pdf Library for PDF Generation -->
-  <script src="https://cloudflare.com"></script>
-  <style>
-    :root {
-      --bg-color: #0b0f17;
-      --card-bg: #111827;
-      --input-bg: #1f2937;
-      --border-color: #374151;
-      --accent-color: #00f2fe;
-      --accent-hover: #00c6ff;
-      --text-main: #f9fafb;
-      --text-muted: #9ca3af;
-      --code-bg: #030712;
-      
-      /* Dynamic Preview Variables */
-      --preview-brand: #351156;
-      --preview-radius: 8px;
-      --preview-font: 'Roboto', sans-serif;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      font-family: 'Inter', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 800px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    .card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 28px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-      position: relative;
-    }
-
-    .title-wrapper {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .title {
-      color: var(--accent-color);
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
-
-    /* ⭐ CLIENT VIEW TOGGLE BUTTON */
-    .btn-toggle-view {
-      padding: 6px 12px;
-      background-color: #3b82f6;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .btn-toggle-view:hover {
-      background-color: #2563eb;
-    }
-
-    .form-group {
-      margin-bottom: 18px;
-    }
-
-    .form-row {
-      display: flex;
-      gap: 16px;
-    }
-
-    .form-row .form-group {
-      flex: 1;
-    }
-
-    label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: var(--text-main);
-    }
-
-    input[type="text"], textarea, select {
-      width: 100%;
-      padding: 12px 14px;
-      background-color: var(--input-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      color: var(--text-main);
-      font-size: 0.9rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    input[type="text"]:focus, textarea:focus, select:focus {
-      border-color: var(--accent-color);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
-
-    .btn-submit {
-      width: 100%;
-      padding: 14px;
-      background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
-      border: none;
-      border-radius: 8px;
-      color: #000;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      transition: opacity 0.2s;
-      margin-top: 10px;
-    }
-
-    .btn-submit:hover {
-      opacity: 0.9;
-    }
-
-    .disclaimer {
-      text-align: center;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 12px;
-    }
-
-    /* ⭐ VISUAL THEME PLAYGROUND */
-    .playground-box {
-      margin-top: 20px;
-      padding: 16px;
-      background-color: #0d131f;
-      border: 1px dashed var(--border-color);
-      border-radius: 8px;
-    }
-    .playground-title {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-    .preview-component {
-      background-color: #1e293b;
-      padding: 16px;
-      border-radius: var(--preview-radius);
-      font-family: var(--preview-font);
-      transition: all 0.3s;
-    }
-    .preview-btn {
-      background-color: var(--preview-brand);
-      color: white;
-      padding: 8px 16px;
-      border: none;
-      border-radius: var(--preview-radius);
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    /* Output Section */
-    .output-section {
-      display: none;
-    }
-
-    .output-header {
-      color: var(--accent-color);
-      font-weight: 600;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .tab-btn {
-      padding: 8px 16px;
-      background-color: var(--input-bg);
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
-
-    .tab-btn.active {
-      background-color: var(--accent-color);
-      color: #000;
-      border-color: var(--accent-color);
-      font-weight: 600;
-    }
-
-    .code-container {
-      background-color: var(--code-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 16px;
-      overflow-x: auto;
-      margin-bottom: 16px;
-    }
-
-    pre {
-      font-family: 'Fira Code', monospace;
-      font-size: 0.85rem;
-      color: #38bdf8;
-      line-height: 1.6;
-      white-space: pre-wrap;
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .btn-secondary {
-      padding: 10px 16px;
-      background-color: var(--input-bg);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--accent-color);
-    }
-
-    /* Client Portal Hidden States */
-    .client-hidden {
-      display: none !important;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrutinix AI // System_Generator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex items-center justify-center p-4">
 
-  <div class="container">
-    
-    <!-- Top Section: Form -->
-    <div class="card" id="formCard">
-      <div class="title-wrapper">
-        <h1 class="title" id="mainTitle">Scrutinix AI // System_Generator</h1>
-        <!-- Client View Toggle Switch Button -->
-        <button type="button" class="btn-toggle-view" id="viewToggleBtn" onclick="toggleClientMode()">👁️ Switch to Client View</button>
-      </div>
-
-      <form id="generatorForm">
-        <div class="form-group">
-          <label for="projectName">Project Name:</label>
-          <input type="text" id="projectName" placeholder="e.g., grocery app" value="grocery app" required>
+    <!-- MAIN CARD CONTAINER -->
+    <div class="w-full max-w-3xl bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-6">
+        
+        <!-- HEADER SECTION -->
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <h1 class="text-xl font-bold tracking-wide text-cyan-400">
+                Scrutinix AI <span class="text-slate-400 font-light">// System_Generator</span>
+            </h1>
+            <!-- 👁️ SWITCH TO CLIENT VIEW BUTTON -->
+            <button id="switchViewBtn" class="bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs px-3 py-1.5 rounded transition shadow shadow-blue-900/50 flex items-center gap-1">
+                👁️ <span>Switch to Client View</span>
+            </button>
         </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="brandColor">Brand Primary Color (HEX):</label>
-            <input type="text" id="brandColor" oninput="updateLivePreview()" placeholder="e.g., #351156" value="#351156" required>
-          </div>
-          <div class="form-group">
-            <label for="fontSelect">Select Typography Font:</label>
-            <select id="fontSelect" onchange="updateLivePreview()">
-              <option value="Roboto" selected>Roboto</option>
-              <option value="Inter">Inter</option>
-              <option value="Poppins">Poppins</option>
-              <option value="Open Sans">Open Sans</option>
-            </select>
-          </div>
+        <!-- TECHNICAL INPUT FORM (यह क्लाइंट मोड में छिप जाएगा) -->
+        <div id="designerForm" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-400 mb-1.5">Project Name:</label>
+                <input id="projectNameInput" type="text" value="grocery app" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-slate-200">
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1.5">Brand Primary Color (HEX):</label>
+                    <input id="primaryColorInput" type="text" value="#351156" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 font-mono text-slate-200">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1.5">Select Typography Font:</label>
+                    <select id="fontSelect" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-slate-200">
+                        <option value="Roboto">Roboto</option>
+                        <option value="Inter">Inter</option>
+                        <option value="Poppins">Poppins</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-slate-400 mb-1.5">Additional Layout / Component Rules:</label>
+                <textarea id="componentRulesInput" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 font-mono text-slate-200 resize-none">base-padding: 16px, border-radius-md: 8px</textarea>
+            </div>
+
+            <!-- ⚡ GENERATE TOKENS BUTTON -->
+            <button id="generateTokensBtn" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs py-3 rounded-lg tracking-wider uppercase transition shadow-lg shadow-cyan-500/10">
+                ⚡ Generate Tokens & Architecture
+            </button>
         </div>
 
-        <div class="form-group (developer-only)" id="rulesContainer">
-          <label for="customRules">Additional Layout / Component Rules:</label>
-          <textarea id="customRules" placeholder="e.g., Custom configuration constraints, base-padding: 16px...">base-padding: 16px, border-radius-md: 8px</textarea>
+        <!-- 🎨 LIVE THEME PLAYGROUND (दोनों व्यू में दिखेगा) -->
+        <div class="bg-slate-950 p-5 rounded-lg border border-slate-800 space-y-4">
+            <div class="flex items-center justify-between">
+                <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase flex items-center gap-1">
+                    🎨 Live Theme Playground
+                </h3>
+                <span id="clientBadge" class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20 hidden">
+                    Client Mode Active
+                </span>
+            </div>
+
+            <div class="p-6 bg-slate-900/40 border border-slate-800/60 rounded-xl space-y-3">
+                <h4 id="previewTitle" class="text-lg font-bold text-white capitalize">Grocery App UI</h4>
+                <p class="text-xs text-slate-400">
+                    This is a live component preview using your architecture.
+                </p>
+                <!-- यह बटन इनपुट कलर के हिसाब से लाइव रंग बदलेगा -->
+                <button id="playgroundBtn" style="background-color: #351156;" class="text-white font-medium text-xs px-5 py-2.5 rounded-md transition shadow-md hover:opacity-90 mt-2">
+                    Interactive Button
+                </button>
+            </div>
         </div>
 
-        <button type="submit" class="btn-submit" id="submitBtn">
-          ⚡ GENERATE TOKENS & ARCHITECTURE
-        </button>
-      </form>
-
-      <!-- ⭐ FEATURE 1: VISUAL THEME PLAYGROUND (क्लाइंट के लिए लाइव प्रीव्यू) -->
-      <div class="playground-box">
-        <div class="playground-title">🎨 Live Theme Playground</div>
-        <div class="preview-component" id="previewComponent">
-          <h3 style="margin-bottom: 8px; font-size: 1.1rem;" id="previewAppName">Grocery App UI</h3>
-          <p style="font-size: 0.85rem; color: #9ca3af; margin-bottom: 12px;">This is a live component preview using your architecture.</p>
-          <button class="preview-btn" id="previewBtn">Interactive Button</button>
+        <!-- ✨ GENERATED CODE OUTPUT PANEL (क्लाइंट व्यू में छिप जाएगा) -->
+        <div id="outputSection" class="bg-slate-950 border border-slate-800 rounded-lg p-4 space-y-3 hidden">
+            <div class="text-xs font-semibold text-amber-400 flex items-center gap-1">📍 Generated Production-Ready Output:</div>
+            <pre id="codeBlock" class="text-xs font-mono text-cyan-400 bg-slate-900 p-3 rounded overflow-x-auto border border-slate-800/50"></pre>
+            
+            <!-- EXPORT BUTTONS (जो आपकी दूसरी इमेज में थे) -->
+            <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-800/60">
+                <button class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-medium py-1.5 px-3 rounded border border-slate-700">💾 Export variables.css</button>
+                <button class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-medium py-1.5 px-3 rounded border border-slate-700">💾 Export tailwind.config.js</button>
+                <button class="bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-medium py-1.5 px-3 rounded shadow">📄 Export Spec PDF</button>
+            </div>
         </div>
-      </div>
 
-      <div class="disclaimer">
-        Disclaimer: Scrutinix AI provides automation utilities for developers
-      </div>
+        <!-- FOOTER DISCLAIMER -->
+        <div class="text-[10px] text-center text-slate-600 pt-2 border-t border-slate-800/40">
+            Disclaimer: Scrutinix AI provides automation utilities for developers.
+        </div>
     </div>
 
-    <!-- Bottom Section: Generated Output -->
-    <div class="card output-section" id="outputSection">
-      <div class="output-header">
-        ⚡ Generated Production-Ready Output
-      </div>
+    <!-- 🛠️ JAVASCRIPT LOGIC (सभी बटन्स को चालू करने के लिए) -->
+    <script>
+        // DOM Elements को सेलेक्ट करना
+        const switchViewBtn = document.getElementById('switchViewBtn');
+        const designerForm = document.getElementById('designerForm');
+        const outputSection = document.getElementById('outputSection');
+        const clientBadge = document.getElementById('clientBadge');
+        
+        const generateTokensBtn = document.getElementById('generateTokensBtn');
+        const projectNameInput = document.getElementById('projectNameInput');
+        const primaryColorInput = document.getElementById('primaryColorInput');
+        const fontSelect = document.getElementById('fontSelect');
+        const previewTitle = document.getElementById('previewTitle');
+        const playgroundBtn = document.getElementById('playgroundBtn');
+        const codeBlock = document.getElementById('codeBlock');
 
-      <div class="tabs" id="codeTabs">
-        <button class="tab-btn active" id="tabCss" onclick="switchTab('css')">CSS Variables (:root)</button>
-        <button class="tab-btn" id="tabTailwind" onclick="switchTab('tailwind')">Tailwind Config Extend</button>
-      </div>
+        let isClientView = false;
 
-      <div class="code-container" id="pdfPrintArea">
-        <pre><code id="codeOutput"></code></pre>
-      </div>
+        // 1. SWITCH TO CLIENT VIEW बटन का काम
+        switchViewBtn.addEventListener('click', () => {
+            isClientView = !isClientView;
+            
+            if (isClientView) {
+                // क्लाइंट व्यू: इनपुट और कोड छुपाएं
+                designerForm.classList.add('hidden');
+                outputSection.classList.add('hidden');
+                clientBadge.classList.remove('hidden');
+                
+                switchViewBtn.querySelector('span').innerText = 'Switch to Designer View';
+                switchViewBtn.className = "bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs px-3 py-1.5 rounded transition shadow shadow-emerald-900/50 flex items-center gap-1";
+            } else {
+                // डिज़ाइनर व्यू: सब कुछ वापस दिखाएं
+                designerForm.classList.remove('hidden');
+                clientBadge.classList.add('hidden');
+                
+                // अगर टोकन पहले जनरेट हो चुके थे तो कोड सेक्शन दिखाएं
+                if (codeBlock.innerText !== "") {
+                    outputSection.classList.remove('hidden');
+                }
+                
+                switchViewBtn.querySelector('span').innerText = 'Switch to Client View';
+                switchViewBtn.className = "bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs px-3 py-1.5 rounded transition shadow shadow-blue-900/50 flex items-center gap-1";
+            }
+        });
 
-      <div class="actions">
-        <button class="btn-secondary (developer-only)" id="btnExpCss" onclick="downloadFile('css')">📥 Export variables.css</button>
-        <button class="btn-secondary (developer-only)" id="btnExpTw" onclick="downloadFile('tailwind')">📥 Export tailwind.config.js</button>
-        <button class="btn-secondary" onclick="downloadPdf()">📄 Export Spec PDF</button>
-        <!-- ⭐ FEATURE 2: SHARE PORTAL LINKS & CHANGELOG -->
-        <button class="btn-secondary" style="border-color: #3b82f6;" onclick="shareClientLink()">🔗 Share Client Link</button>
+        // 2. GENERATE TOKENS बटन का काम
+        generateTokensBtn.addEventListener('click', () => {
+            const name = projectNameInput.value;
+            const color = primaryColorInput.value;
+            const font = fontSelect.value;
+
+            // प्लेग्राउंड को लाइव अपडेट करें
+            previewTitle.innerText = `${name} UI`;
+            playgroundBtn.style.backgroundColor = color;
+
+            // CSS Variables कोड जनरेट करें
+            const generatedCode = `:root {\n  /* Project Identity: ${name} */\n  --primary-brand: ${color};\n  --main-font-stack: '${font}', sans-serif;\n  \n  /* Custom Configuration Constraints */\n  --base-padding: 16px;\n  --border-radius-md: 8px;\n}`;
+            
+            codeBlock.innerText = generatedCode;
+            
+            // कोड वाले डिब्बे को स्क्रीन पर दिखाएं
+            outputSection.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
