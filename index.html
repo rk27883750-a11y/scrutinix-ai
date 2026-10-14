@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Scrutinix AI // System Generator</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://googleapis.com" rel="stylesheet">
   <!-- html2pdf Library for PDF Generation -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cloudflare.com"></script>
   <style>
     :root {
       --bg-color: #0b0f17;
@@ -18,6 +18,11 @@
       --text-main: #f9fafb;
       --text-muted: #9ca3af;
       --code-bg: #030712;
+      
+      /* Dynamic Preview Variables */
+      --preview-brand: #351156;
+      --preview-radius: 8px;
+      --preview-font: 'Roboto', sans-serif;
     }
 
     * {
@@ -51,13 +56,36 @@
       border-radius: 12px;
       padding: 28px;
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .title-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
     }
 
     .title {
       color: var(--accent-color);
       font-size: 1.5rem;
       font-weight: 700;
-      margin-bottom: 16px;
+    }
+
+    /* ⭐ CLIENT VIEW TOGGLE BUTTON */
+    .btn-toggle-view {
+      padding: 6px 12px;
+      background-color: #3b82f6;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-toggle-view:hover {
+      background-color: #2563eb;
     }
 
     .form-group {
@@ -129,6 +157,38 @@
       font-size: 0.75rem;
       color: var(--text-muted);
       margin-top: 12px;
+    }
+
+    /* ⭐ VISUAL THEME PLAYGROUND */
+    .playground-box {
+      margin-top: 20px;
+      padding: 16px;
+      background-color: #0d131f;
+      border: 1px dashed var(--border-color);
+      border-radius: 8px;
+    }
+    .playground-title {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .preview-component {
+      background-color: #1e293b;
+      padding: 16px;
+      border-radius: var(--preview-radius);
+      font-family: var(--preview-font);
+      transition: all 0.3s;
+    }
+    .preview-btn {
+      background-color: var(--preview-brand);
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: var(--preview-radius);
+      cursor: pointer;
+      font-weight: 600;
     }
 
     /* Output Section */
@@ -208,6 +268,11 @@
     .btn-secondary:hover {
       border-color: var(--accent-color);
     }
+
+    /* Client Portal Hidden States */
+    .client-hidden {
+      display: none !important;
+    }
   </style>
 </head>
 <body>
@@ -215,8 +280,12 @@
   <div class="container">
     
     <!-- Top Section: Form -->
-    <div class="card">
-      <h1 class="title">Scrutinix AI // System_Generator</h1>
+    <div class="card" id="formCard">
+      <div class="title-wrapper">
+        <h1 class="title" id="mainTitle">Scrutinix AI // System_Generator</h1>
+        <!-- Client View Toggle Switch Button -->
+        <button type="button" class="btn-toggle-view" id="viewToggleBtn" onclick="toggleClientMode()">👁️ Switch to Client View</button>
+      </div>
 
       <form id="generatorForm">
         <div class="form-group">
@@ -227,11 +296,11 @@
         <div class="form-row">
           <div class="form-group">
             <label for="brandColor">Brand Primary Color (HEX):</label>
-            <input type="text" id="brandColor" placeholder="e.g., #351156" value="#351156" required>
+            <input type="text" id="brandColor" oninput="updateLivePreview()" placeholder="e.g., #351156" value="#351156" required>
           </div>
           <div class="form-group">
             <label for="fontSelect">Select Typography Font:</label>
-            <select id="fontSelect">
+            <select id="fontSelect" onchange="updateLivePreview()">
               <option value="Roboto" selected>Roboto</option>
               <option value="Inter">Inter</option>
               <option value="Poppins">Poppins</option>
@@ -240,15 +309,25 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group (developer-only)" id="rulesContainer">
           <label for="customRules">Additional Layout / Component Rules:</label>
           <textarea id="customRules" placeholder="e.g., Custom configuration constraints, base-padding: 16px...">base-padding: 16px, border-radius-md: 8px</textarea>
         </div>
 
-        <button type="submit" class="btn-submit">
+        <button type="submit" class="btn-submit" id="submitBtn">
           ⚡ GENERATE TOKENS & ARCHITECTURE
         </button>
       </form>
+
+      <!-- ⭐ FEATURE 1: VISUAL THEME PLAYGROUND (क्लाइंट के लिए लाइव प्रीव्यू) -->
+      <div class="playground-box">
+        <div class="playground-title">🎨 Live Theme Playground</div>
+        <div class="preview-component" id="previewComponent">
+          <h3 style="margin-bottom: 8px; font-size: 1.1rem;" id="previewAppName">Grocery App UI</h3>
+          <p style="font-size: 0.85rem; color: #9ca3af; margin-bottom: 12px;">This is a live component preview using your architecture.</p>
+          <button class="preview-btn" id="previewBtn">Interactive Button</button>
+        </div>
+      </div>
 
       <div class="disclaimer">
         Disclaimer: Scrutinix AI provides automation utilities for developers
@@ -261,7 +340,7 @@
         ⚡ Generated Production-Ready Output
       </div>
 
-      <div class="tabs">
+      <div class="tabs" id="codeTabs">
         <button class="tab-btn active" id="tabCss" onclick="switchTab('css')">CSS Variables (:root)</button>
         <button class="tab-btn" id="tabTailwind" onclick="switchTab('tailwind')">Tailwind Config Extend</button>
       </div>
@@ -271,141 +350,8 @@
       </div>
 
       <div class="actions">
-        <button class="btn-secondary" onclick="downloadFile('css')">📥 Export variables.css</button>
-        <button class="btn-secondary" onclick="downloadFile('tailwind')">📥 Export tailwind.config.js</button>
+        <button class="btn-secondary (developer-only)" id="btnExpCss" onclick="downloadFile('css')">📥 Export variables.css</button>
+        <button class="btn-secondary (developer-only)" id="btnExpTw" onclick="downloadFile('tailwind')">📥 Export tailwind.config.js</button>
         <button class="btn-secondary" onclick="downloadPdf()">📄 Export Spec PDF</button>
-      </div>
-    </div>
-
-  </div>
-
-  <script>
-    // Updated Google Apps Script Web App URL
-    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbz6b0nN5ajW2UnmGKyd5k3WE5pZl59dqtcCeDGu_-m-ZBaEeaNNlPGvT_8CyGWSVMCF/exec";
-
-    let generatedCssCode = '';
-    let generatedTailwindCode = '';
-    let currentTab = 'css';
-
-    function hexToRgb(hex) {
-      hex = hex.replace('#', '');
-      if (hex.length === 3) {
-        hex = hex.split('').map(char => char + char).join('');
-      }
-      const num = parseInt(hex, 16);
-      if (isNaN(num)) return '53, 17, 86';
-      return `${(num >> 16) & 255}, ${(num >> 8) & 255}, ${num & 255}`;
-    }
-
-    document.getElementById('generatorForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const name = document.getElementById('projectName').value.trim() || 'app';
-      const color = document.getElementById('brandColor').value.trim() || '#351156';
-      const font = document.getElementById('fontSelect').value;
-      const rules = document.getElementById('customRules').value.trim();
-
-      const rgbColor = hexToRgb(color);
-
-      let customCssRules = '';
-      let customTailwindRules = '';
-
-      if (rules) {
-        const parts = rules.split(',');
-        parts.forEach(part => {
-          const [key, val] = part.split(':').map(s => s.trim());
-          if (key && val) {
-            const cleanKey = key.replace(/\s+/g, '-').toLowerCase();
-            customCssRules += `  --${cleanKey}: ${val};\n`;
-            customTailwindRules += `        '${cleanKey}': '${val}',\n`;
-          }
-        });
-      }
-
-      if (!customCssRules) {
-        customCssRules = '  --base-padding: 16px;\n  --border-radius-md: 8px;\n';
-        customTailwindRules = "        'base-padding': '16px',\n        'border-radius-md': '8px',\n";
-      }
-
-      generatedCssCode = `:root {\n  /* Project Identity: ${name} */\n  --primary-brand: ${color};\n  --primary-brand-rgb: ${rgbColor};\n  --main-font-stack: '${font}', sans-serif;\n  --heading-font-stack: '${font}', sans-serif;\n\n  /* Custom Configuration Constraints */\n${customCssRules}}`;
-
-      generatedTailwindCode = `// tailwind.config.js - Project: ${name}\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: {\n        'primary-brand': '${color}',\n      },\n      fontFamily: {\n        sans: ['${font}', 'sans-serif'],\n      },\n      spacing: {\n${customTailwindRules}      }\n    },\n  },\n};`;
-
-      document.getElementById('outputSection').style.display = 'block';
-      updateCodeDisplay();
-      
-      document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
-
-      // Send data to Google Sheet using FormData
-      const formData = new FormData();
-      formData.append('projectName', name);
-      formData.append('brandColor', color);
-      formData.append('fontSelect', font);
-      formData.append('customRules', rules);
-
-      fetch(GOOGLE_SHEET_URL, {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.text())
-      .then(result => {
-        console.log("Data successfully logged to Google Sheet!", result);
-      })
-      .catch(error => console.error('Sheet Error:', error));
-    });
-
-    function switchTab(tab) {
-      currentTab = tab;
-      document.getElementById('tabCss').classList.toggle('active', tab === 'css');
-      document.getElementById('tabTailwind').classList.toggle('active', tab === 'tailwind');
-      updateCodeDisplay();
-    }
-
-    function updateCodeDisplay() {
-      const codeElement = document.getElementById('codeOutput');
-      codeElement.textContent = currentTab === 'css' ? generatedCssCode : generatedTailwindCode;
-    }
-
-    function downloadFile(type) {
-      let content = type === 'css' ? generatedCssCode : generatedTailwindCode;
-      let filename = type === 'css' ? 'variables.css' : 'tailwind.config.js';
-      let mimeType = type === 'css' ? 'text/css' : 'text/javascript';
-
-      if (!content) {
-        alert('Pehle tokens generate kijiye!');
-        return;
-      }
-
-      const blob = new Blob([content], { type: mimeType });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-
-    function downloadPdf() {
-      const element = document.getElementById('pdfPrintArea');
-      const projectName = document.getElementById('projectName').value.trim() || 'Design_System';
-
-      if (!generatedCssCode) {
-        alert('Pehle tokens generate kijiye!');
-        return;
-      }
-
-      const opt = {
-        margin:       10,
-        filename:     `${projectName}_Spec.pdf`,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
-
-      html2pdf().set(opt).from(element).save();
-    }
-  </script>
-</body>
-</html>
+        <!-- ⭐ FEATURE 2: SHARE PORTAL LINKS & CHANGELOG -->
+        <button class="btn-secondary" style="border-color: #3b82f6;" onclick="shareClientLink()">🔗 Share Client Link</button>
