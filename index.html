@@ -145,13 +145,14 @@
       opacity: 0.9;
     }
 
-    /* 🎨 3. VISUAL THEME PLAYGROUND STYLES */
+    /* 🎨 VISUAL THEME PLAYGROUND STYLES */
     .playground-box {
       background-color: #070a12;
       border: 1px dashed var(--border-color);
       border-radius: 8px;
       padding: 16px;
       margin-bottom: 16px;
+      transition: all 0.3s ease;
     }
 
     .playground-title {
@@ -311,12 +312,12 @@
 <body>
 
   <div class="container">
-    <!-- Main Form Card -->
-    <div class="card">
+    <!-- Main Form Card (Hidden in Client View) -->
+    <div class="card" id="editorCard">
       <div class="header-row">
         <h2 class="header-title">Scrutinix AI // System_Generator</h2>
         
-        <!-- 🗄️ 4. VERSION HISTORY SYSTEM -->
+        <!-- 🗄️ VERSION HISTORY SYSTEM -->
         <div class="version-selector">
           <label>Version History:</label>
           <select id="versionDropdown" class="version-select" onchange="loadVersion(this.value)">
@@ -359,8 +360,8 @@
     <!-- Output & Client Tools Card -->
     <div class="card">
       
-      <!-- 🎨 3. VISUAL THEME PLAYGROUND -->
-      <div class="playground-box">
+      <!-- 🎨 VISUAL THEME PLAYGROUND -->
+      <div class="playground-box" id="playgroundBox">
         <div class="playground-title">
           <span>🎨 Live Visual Theme Playground (Client View)</span>
           <span style="color: var(--accent-color); font-size: 0.75rem;">Real-time Component Preview</span>
@@ -381,7 +382,7 @@
 
       <pre class="code-preview" id="codeOutput"></pre>
 
-      <!-- 🤖 2. AUTOMATED CHANGELOG BOX -->
+      <!-- 🤖 AUTOMATED CHANGELOG BOX -->
       <div class="changelog-card">
         <div class="changelog-header">
           🤖 AI Client Changelog (Ready for WhatsApp / Slack)
@@ -397,8 +398,8 @@
         <button class="btn-action" onclick="exportTailwind()">📥 Export tailwind.config.js</button>
         <button class="btn-action" onclick="exportPdf()">📄 Export Spec PDF</button>
         
-        <!-- 🌐 1. SHARE LIVE CLIENT LINK BUTTON -->
-        <button class="btn-action btn-highlight" onclick="openShareModal()">🌐 Share Live Client Link</button>
+        <!-- 🌐 SHARE LIVE CLIENT LINK BUTTON -->
+        <button class="btn-action btn-highlight" id="shareBtn" onclick="openShareModal()">🌐 Share Live Client Link</button>
       </div>
     </div>
   </div>
@@ -423,7 +424,6 @@
     let generatedCssCode = '';
     let generatedTailwindCode = '';
 
-    // Mock Version Database
     const versionData = {
       'current': { name: 'grocery app', color: '#351156', font: 'Roboto', rules: 'base-padding: 16px, border-radius-md: 8px' },
       'v1.1': { name: 'grocery app', color: '#2563eb', font: 'Inter', rules: 'base-padding: 12px, border-radius-md: 6px' },
@@ -437,7 +437,6 @@
       return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
     }
 
-    // 🎨 LIVE PREVIEW UPDATER
     function updateLivePreview() {
       const name = document.getElementById('projectName').value || 'App';
       const hex = document.getElementById('brandColor').value || '#351156';
@@ -451,7 +450,6 @@
       btn.style.backgroundColor = hex;
       btn.style.fontFamily = font;
 
-      // Extract padding and border-radius from custom rules
       if(rules.includes('border-radius-md:')) {
         const radiusVal = rules.split('border-radius-md:')[1].split(',')[0].trim();
         btn.style.borderRadius = radiusVal;
@@ -462,7 +460,6 @@
       }
     }
 
-    // 🤖 CHANGELOG GENERATOR
     function updateChangelog(name, hex, font, rules) {
       const msg = `🚀 *Scrutinix AI Update for ${name}*:\nUpdated Brand Color to \`${hex}\`, Font to \`${font}\` & Rules: \`${rules}\`. Click live preview link to approve!`;
       document.getElementById('changelogMsg').innerText = msg;
@@ -497,7 +494,6 @@
       updateChangelog(name, hex, font, rules);
     }
 
-    // 🗄️ VERSION HISTORY LOADER
     function loadVersion(ver) {
       const data = versionData[ver];
       if(data) {
@@ -520,7 +516,6 @@
       updateOutputDisplay();
     }
 
-    // EXPORT FUNCTIONS
     function downloadFile(filename, content, type) {
       const blob = new Blob([content], { type: type });
       const link = document.createElement('a');
@@ -539,11 +534,12 @@
       doc.save(`design_spec.pdf`);
     }
 
-    // 🌐 SHARE MODAL LOGIC
+    // 🌐 SHARE LINK WITH AUTO-CLIENT VIEW (?view=client)
     function openShareModal() {
       const name = encodeURIComponent(document.getElementById('projectName').value);
       const color = encodeURIComponent(document.getElementById('brandColor').value);
-      const shareUrl = `https://scrutinixai.com/?preview=true&project=${name}&color=${color}`;
+      
+      const shareUrl = `${window.location.origin}${window.location.pathname}?view=client&project=${name}&color=${color}`;
       
       document.getElementById('shareLinkInput').value = shareUrl;
       document.getElementById('shareModal').style.display = 'flex';
@@ -561,7 +557,29 @@
       closeShareModal();
     }
 
-    window.onload = generateSystem;
+    // 🔗 AUTO-CLIENT VIEW TRIGGER ON LOAD
+    window.addEventListener('DOMContentLoaded', () => {
+      generateSystem();
+
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('view') === 'client') {
+        if(urlParams.get('project')) {
+          document.getElementById('projectName').value = decodeURIComponent(urlParams.get('project'));
+        }
+        if(urlParams.get('color')) {
+          document.getElementById('brandColor').value = decodeURIComponent(urlParams.get('color'));
+        }
+        
+        generateSystem();
+
+        // Auto-scroll & Highlight Visual Theme Playground for Client
+        const playgroundBox = document.getElementById('playgroundBox');
+        if(playgroundBox) {
+          playgroundBox.scrollIntoView({ behavior: 'smooth' });
+          playgroundBox.style.border = '2px solid var(--accent-color)';
+        }
+      }
+    });
   </script>
 </body>
 </html>
