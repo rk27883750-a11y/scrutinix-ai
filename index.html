@@ -54,14 +54,40 @@
     .header-row {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       margin-bottom: 20px;
     }
 
+    .header-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
     .header-title {
-      font-size: 1.4rem;
-      font-weight: 700;
+      font-size: 1.5rem;
+      font-weight: 800;
       color: var(--accent-color);
+      letter-spacing: -0.5px;
+    }
+
+    .header-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .feature-tags-bar {
+      font-size: 0.78rem;
+      color: var(--accent-color);
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      margin-top: 2px;
+    }
+
+    .feature-tags-bar span {
+      color: var(--text-muted);
+      margin: 0 4px;
     }
 
     .version-selector {
@@ -284,10 +310,18 @@
     }
 
     /* OUTPUT & TABS */
-    .tabs {
+    .tabs-container {
       display: flex;
-      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .main-tabs, .sub-tabs {
+      display: flex;
+      gap: 8px;
     }
 
     .tab-btn {
@@ -305,6 +339,23 @@
       color: #000;
       font-weight: 600;
       border-color: var(--accent-color);
+    }
+
+    .sub-tab-btn {
+      padding: 5px 10px;
+      background-color: #070a12;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    .sub-tab-btn.active {
+      background-color: #38bdf8;
+      color: #000;
+      font-weight: 600;
+      border-color: #38bdf8;
     }
 
     .code-preview {
@@ -408,12 +459,16 @@
 <body>
 
   <div class="container">
-    <!-- Main Form Card (Hidden in Client View) -->
+    <!-- Main Form Card -->
     <div class="card" id="editorCard">
       <div class="header-row">
-        <h2 class="header-title">Scrutinix AI // System_Generator</h2>
+        <div class="header-titles">
+          <h2 class="header-title">Scrutinix AI // System_Generator</h2>
+          <p class="header-subtitle">Turn your ideas into developer-ready files in seconds</p>
+          <p class="feature-tags-bar">CSS Tokens <span>•</span> Tailwind Config <span>•</span> Design Preview <span>•</span> Spec PDF</p>
+        </div>
         
-        <!-- 🗄️ VERSION HISTORY SYSTEM -->
+        <!-- VERSION HISTORY SYSTEM -->
         <div class="version-selector">
           <label>Version History:</label>
           <select id="versionDropdown" class="version-select" onchange="loadVersion(this.value)">
@@ -424,7 +479,7 @@
         </div>
       </div>
 
-      <!-- 🔗 DESIGN FILE IMPORT BOX -->
+      <!-- DESIGN FILE IMPORT BOX -->
       <div class="design-import-box">
         <input type="text" id="designUrlInput" class="design-input" placeholder="Paste Design File Link (Optional)...">
         <button class="btn-fetch" onclick="fetchDesignData()">⚡ Fetch</button>
@@ -462,7 +517,7 @@
     <!-- Output & Client Tools Card -->
     <div class="card">
       
-      <!-- 🎨 VISUAL THEME PLAYGROUND -->
+      <!-- VISUAL THEME PLAYGROUND -->
       <div class="playground-box" id="playgroundBox">
         <div class="playground-title">
           <span>🎨 Live Visual Theme Playground (Client View)</span>
@@ -476,7 +531,7 @@
           <button class="preview-btn" id="previewBtn">Primary CTA</button>
         </div>
 
-        <!-- 🔒 CLIENT APPROVAL SIGNATURE BOX -->
+        <!-- CLIENT APPROVAL SIGNATURE BOX -->
         <div class="approval-section" id="approvalSection">
           <div class="approval-title">🔒 Client Review & Approval Portal</div>
           <div class="approval-controls" id="approvalControls">
@@ -489,14 +544,21 @@
         </div>
       </div>
 
-      <div class="tabs">
-        <button class="tab-btn active" id="tabCss" onclick="switchTab('css')">CSS Variables (:root)</button>
-        <button class="tab-btn" id="tabTailwind" onclick="switchTab('tailwind')">Tailwind Config Extend</button>
+      <!-- MAIN TABS & LIGHT/DARK SUB-TABS -->
+      <div class="tabs-container">
+        <div class="main-tabs">
+          <button class="tab-btn active" id="tabCss" onclick="switchTab('css')">CSS Variables (:root)</button>
+          <button class="tab-btn" id="tabTailwind" onclick="switchTab('tailwind')">Tailwind Config Extend</button>
+        </div>
+        <div class="sub-tabs" id="modeSubTabs">
+          <button class="sub-tab-btn active" id="subTabLight" onclick="switchMode('light')">☀️ Light Mode</button>
+          <button class="sub-tab-btn" id="subTabDark" onclick="switchMode('dark')">🌙 Dark Mode</button>
+        </div>
       </div>
 
       <pre class="code-preview" id="codeOutput"></pre>
 
-      <!-- 🤖 AUTOMATED CHANGELOG BOX -->
+      <!-- AUTOMATED CHANGELOG BOX -->
       <div class="changelog-card">
         <div class="changelog-header">
           🤖 AI Client Changelog (Ready for WhatsApp / Slack)
@@ -511,8 +573,6 @@
         <button class="btn-action" onclick="exportCss()">📥 Export variables.css</button>
         <button class="btn-action" onclick="exportTailwind()">📥 Export tailwind.config.js</button>
         <button class="btn-action" onclick="exportPdf()">📄 Export Spec PDF</button>
-        
-        <!-- 🌐 SHARE LIVE CLIENT LINK BUTTON -->
         <button class="btn-action btn-highlight" id="shareBtn" onclick="openShareModal()">🌐 Share Live Client Link</button>
       </div>
     </div>
@@ -535,7 +595,9 @@
 
   <script>
     let currentTab = 'css';
-    let generatedCssCode = '';
+    let currentMode = 'light';
+    let generatedCssLight = '';
+    let generatedCssDark = '';
     let generatedTailwindCode = '';
 
     const versionData = {
@@ -603,18 +665,18 @@
       const rgb = hexToRgb(hex);
 
       let rulesCss = '';
-      let rulesTailwind = '';
       if(rules) {
         rules.split(',').forEach(p => {
           const [k, v] = p.split(':').map(s => s.trim());
           if(k && v) {
             rulesCss += `  --${k}: ${v};\n`;
-            rulesTailwind += `        '${k}': '${v}',\n`;
           }
         });
       }
 
-      generatedCssCode = `:root {\n  /* Project Identity: ${name} */\n  --primary-brand: ${hex};\n  --primary-brand-rgb: ${rgb.r}, ${rgb.g}, ${rgb.b};\n  --main-font-stack: '${font}', sans-serif;\n${rulesCss}}`;
+      generatedCssLight = `:root {\n  /* Project Identity: ${name} (Light Mode) */\n  --bg-primary: #ffffff;\n  --text-primary: #0f172a;\n  --primary-brand: ${hex};\n  --primary-brand-rgb: ${rgb.r}, ${rgb.g}, ${rgb.b};\n  --main-font-stack: '${font}', sans-serif;\n${rulesCss}}`;
+
+      generatedCssDark = `:root {\n  /* Project Identity: ${name} (Dark Mode) */\n  --bg-primary: #0b0f19;\n  --text-primary: #f3f4f6;\n  --primary-brand: ${hex};\n  --primary-brand-rgb: ${rgb.r}, ${rgb.g}, ${rgb.b};\n  --main-font-stack: '${font}', sans-serif;\n${rulesCss}}`;
 
       generatedTailwindCode = `// tailwind.config.js - ${name}\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: { 'primary-brand': '${hex}' },\n      fontFamily: { 'main': ['${font}', 'sans-serif'] }\n    }\n  }\n}`;
 
@@ -635,13 +697,26 @@
     }
 
     function updateOutputDisplay() {
-      document.getElementById('codeOutput').textContent = (currentTab === 'css') ? generatedCssCode : generatedTailwindCode;
+      if (currentTab === 'css') {
+        document.getElementById('codeOutput').textContent = (currentMode === 'light') ? generatedCssLight : generatedCssDark;
+        document.getElementById('modeSubTabs').style.display = 'flex';
+      } else {
+        document.getElementById('codeOutput').textContent = generatedTailwindCode;
+        document.getElementById('modeSubTabs').style.display = 'none';
+      }
     }
 
     function switchTab(tab) {
       currentTab = tab;
       document.getElementById('tabCss').classList.toggle('active', tab === 'css');
       document.getElementById('tabTailwind').classList.toggle('active', tab === 'tailwind');
+      updateOutputDisplay();
+    }
+
+    function switchMode(mode) {
+      currentMode = mode;
+      document.getElementById('subTabLight').classList.toggle('active', mode === 'light');
+      document.getElementById('subTabDark').classList.toggle('active', mode === 'dark');
       updateOutputDisplay();
     }
 
@@ -653,17 +728,21 @@
       link.click();
     }
 
-    function exportCss() { downloadFile('variables.css', generatedCssCode, 'text/css'); }
+    function exportCss() { 
+      const content = (currentMode === 'light') ? generatedCssLight : generatedCssDark;
+      downloadFile(`variables-${currentMode}.css`, content, 'text/css'); 
+    }
+    
     function exportTailwind() { downloadFile('tailwind.config.js', generatedTailwindCode, 'text/javascript'); }
+    
     function exportPdf() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
       doc.text(`Scrutinix AI Spec - ${document.getElementById('projectName').value}`, 14, 20);
-      doc.text(generatedCssCode, 14, 40);
+      doc.text(generatedCssLight, 14, 40);
       doc.save(`design_spec.pdf`);
     }
 
-    // 🔒 CLIENT APPROVAL ACTION
     function approveDesign() {
       const clientName = document.getElementById('clientNameInput').value.trim();
       if(!clientName) {
@@ -675,7 +754,6 @@
       document.getElementById('approvalStatus').style.display = 'block';
     }
 
-    // 🌐 SHARE LINK WITH AUTO-CLIENT VIEW (?view=client)
     function openShareModal() {
       const name = encodeURIComponent(document.getElementById('projectName').value);
       const color = encodeURIComponent(document.getElementById('brandColor').value);
@@ -698,7 +776,6 @@
       closeShareModal();
     }
 
-    // 🔗 AUTO-CLIENT VIEW TRIGGER ON LOAD
     window.addEventListener('DOMContentLoaded', () => {
       generateSystem();
 
@@ -713,7 +790,6 @@
         
         generateSystem();
 
-        // Auto-scroll & Highlight Visual Theme Playground for Client
         const playgroundBox = document.getElementById('playgroundBox');
         if(playgroundBox) {
           playgroundBox.scrollIntoView({ behavior: 'smooth' });
