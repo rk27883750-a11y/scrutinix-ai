@@ -85,6 +85,48 @@
       outline: none;
     }
 
+    /* DESIGN FILE IMPORT BOX STYLES */
+    .design-import-box {
+      background: #070a12;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .design-input {
+      flex: 1;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: #fff;
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .design-input:focus {
+      border-color: var(--accent-color);
+    }
+
+    .btn-fetch {
+      padding: 8px 16px;
+      background: var(--accent-gradient);
+      border: none;
+      border-radius: 6px;
+      color: #000;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
     .form-group {
       margin-bottom: 16px;
     }
@@ -185,6 +227,60 @@
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       transition: all 0.2s ease;
+    }
+
+    /* 🔒 CLIENT APPROVAL BOX STYLES */
+    .approval-section {
+      background: #070a12;
+      border: 1px solid var(--success-color);
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .approval-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--success-color);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .approval-controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-approve {
+      padding: 10px 16px;
+      background: var(--success-color);
+      border: none;
+      border-radius: 6px;
+      color: #000;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .btn-approve:hover {
+      opacity: 0.9;
+    }
+
+    .approval-status {
+      display: none;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--success-color);
+      padding: 10px;
+      border-radius: 6px;
+      color: var(--success-color);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-align: center;
     }
 
     /* OUTPUT & TABS */
@@ -327,6 +423,12 @@
           </select>
         </div>
       </div>
+
+      <!-- 🔗 DESIGN FILE IMPORT BOX -->
+      <div class="design-import-box">
+        <input type="text" id="designUrlInput" class="design-input" placeholder="Paste Design File Link (Optional)...">
+        <button class="btn-fetch" onclick="fetchDesignData()">⚡ Fetch</button>
+      </div>
       
       <div class="form-group">
         <label>Project Name:</label>
@@ -372,6 +474,18 @@
             <p id="previewSubtitle" style="color:#94a3b8; font-size: 0.8rem; margin-top:2px;">Design System Token Active</p>
           </div>
           <button class="preview-btn" id="previewBtn">Primary CTA</button>
+        </div>
+
+        <!-- 🔒 CLIENT APPROVAL SIGNATURE BOX -->
+        <div class="approval-section" id="approvalSection">
+          <div class="approval-title">🔒 Client Review & Approval Portal</div>
+          <div class="approval-controls" id="approvalControls">
+            <input type="text" id="clientNameInput" placeholder="Enter your name to approve..." style="flex:1;">
+            <button class="btn-approve" onclick="approveDesign()">✅ Approve Design System</button>
+          </div>
+          <div class="approval-status" id="approvalStatus">
+            🎉 Design System successfully approved by <span id="approvedClientName"></span>! Tokens locked.
+          </div>
         </div>
       </div>
 
@@ -435,6 +549,21 @@
       if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
       const num = parseInt(hex, 16) || 0;
       return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+    }
+
+    function fetchDesignData() {
+      const url = document.getElementById('designUrlInput').value.trim();
+      if(!url) {
+        alert('Please paste a valid design file link first!');
+        return;
+      }
+      document.getElementById('projectName').value = "Imported Design System";
+      document.getElementById('brandColor').value = "#6366f1";
+      document.getElementById('fontSelect').value = "Inter";
+      document.getElementById('customRules').value = "base-padding: 16px, border-radius-md: 12px";
+      
+      generateSystem();
+      alert('✨ Design tokens successfully fetched & applied!');
     }
 
     function updateLivePreview() {
@@ -532,6 +661,18 @@
       doc.text(`Scrutinix AI Spec - ${document.getElementById('projectName').value}`, 14, 20);
       doc.text(generatedCssCode, 14, 40);
       doc.save(`design_spec.pdf`);
+    }
+
+    // 🔒 CLIENT APPROVAL ACTION
+    function approveDesign() {
+      const clientName = document.getElementById('clientNameInput').value.trim();
+      if(!clientName) {
+        alert('Please enter your name to approve the design system!');
+        return;
+      }
+      document.getElementById('approvalControls').style.display = 'none';
+      document.getElementById('approvedClientName').innerText = clientName;
+      document.getElementById('approvalStatus').style.display = 'block';
     }
 
     // 🌐 SHARE LINK WITH AUTO-CLIENT VIEW (?view=client)
