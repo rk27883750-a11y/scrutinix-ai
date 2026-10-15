@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // System Generator & SaaS Suite</title>
+  <title>Scrutinix AI // One-Click Design System Generator</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     :root {
@@ -463,9 +463,9 @@
     <div class="card" id="editorCard">
       <div class="header-row">
         <div class="header-titles">
-          <h2 class="header-title">Scrutinix AI // System_Generator</h2>
-          <p class="header-subtitle">Turn your ideas into developer-ready files in seconds</p>
-          <p class="feature-tags-bar">CSS Tokens <span>•</span> Tailwind Config <span>•</span> Design Preview <span>•</span> Spec PDF</p>
+          <h2 class="header-title">One-Click Design System Generator</h2>
+          <p class="header-subtitle">Turn your ideas into developer-ready files in seconds[cite: 9]</p>
+          <p class="feature-tags-bar">CSS Tokens <span>•</span> Tailwind Config <span>•</span> Design Preview <span>•</span> Spec PDF[cite: 9]</p>
         </div>
         
         <!-- VERSION HISTORY SYSTEM -->
@@ -481,7 +481,7 @@
 
       <!-- DESIGN FILE IMPORT BOX -->
       <div class="design-import-box">
-        <input type="text" id="designUrlInput" class="design-input" placeholder="Paste Design File Link (Optional)...">
+        <input type="text" id="designUrlInput" class="design-input" placeholder="Paste Design File Link (Optional)...[cite: 9]">
         <button class="btn-fetch" onclick="fetchDesignData()">⚡ Fetch</button>
       </div>
       
@@ -652,7 +652,7 @@
     }
 
     function updateChangelog(name, hex, font, rules) {
-      const msg = `🚀 *Scrutinix AI Update for ${name}*:\nUpdated Brand Color to \`${hex}\`, Font to \`${font}\` & Rules: \`${rules}\`. Click live preview link to approve!`;
+      const msg = `🚀 *One-Click Design System Update for ${name}*:\nUpdated Brand Color to \`${hex}\`, Font to \`${font}\` & Rules: \`${rules}\`. Click live preview link to approve!`;
       document.getElementById('changelogMsg').innerText = msg;
     }
 
@@ -738,7 +738,7 @@
     function exportPdf() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
-      doc.text(`Scrutinix AI Spec - ${document.getElementById('projectName').value}`, 14, 20);
+      doc.text(`Design System Spec - ${document.getElementById('projectName').value}`, 14, 20);
       doc.text(generatedCssLight, 14, 40);
       doc.save(`design_spec.pdf`);
     }
