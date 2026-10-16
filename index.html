@@ -364,10 +364,48 @@
       border-color: #38bdf8;
     }
 
-    .code-preview {
+    /* CODE BOX HEADER WITH COPY BUTTON */
+    .code-box-wrapper {
       background-color: #070a12;
       border: 1px solid var(--border-color);
       border-radius: 6px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #111827;
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .copy-btn {
+      background-color: #2ea44f;
+      color: #fff;
+      border: none;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .copy-btn:hover {
+      background-color: #2c974b;
+    }
+
+    .copy-btn.copied {
+      background-color: #1f883d;
+    }
+
+    .code-preview {
+      background-color: #070a12;
       padding: 16px;
       font-family: 'Courier New', Courier, monospace;
       font-size: 0.85rem;
@@ -375,11 +413,12 @@
       white-space: pre-wrap;
       max-height: 200px;
       overflow-y: auto;
+      border: none;
     }
 
     .actions-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 10px;
       margin-top: 16px;
     }
@@ -390,7 +429,7 @@
       border: 1px solid var(--border-color);
       border-radius: 6px;
       color: #fff;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
       display: flex;
@@ -426,8 +465,8 @@
       color: #a7f3d0;
       margin-bottom: 6px;
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 6px;
     }
 
     .changelog-text {
@@ -438,6 +477,7 @@
       border-radius: 6px;
       border: 1px solid #1e293b;
       font-family: monospace;
+      white-space: pre-wrap;
     }
 
     /* MODAL FOR SHARE LINK */
@@ -471,7 +511,7 @@
         <div class="header-titles">
           <h2 class="header-title">One-Click Design System Generator</h2>
           <p class="header-subtitle">Turn your ideas into developer-ready files in seconds</p>
-          <p class="feature-tags-bar">CSS Tokens <span>•</span> Tailwind Config <span>•</span> Design Preview <span>•</span> Spec PDF</p>
+          <p class="feature-tags-bar">CSS Tokens <span>•</span> Tailwind Config <span>•</span> Style Dictionary JSON <span>•</span> Spec PDF</p>
         </div>
         
         <!-- VERSION HISTORY SYSTEM -->
@@ -555,6 +595,7 @@
         <div class="main-tabs">
           <button class="tab-btn active" id="tabCss" onclick="switchTab('css')">CSS Variables (:root)</button>
           <button class="tab-btn" id="tabTailwind" onclick="switchTab('tailwind')">Tailwind Config Extend</button>
+          <button class="tab-btn" id="tabJson" onclick="switchTab('json')">Style Dictionary JSON</button>
         </div>
         <div class="sub-tabs" id="modeSubTabs">
           <button class="sub-tab-btn active" id="subTabLight" onclick="switchMode('light')">☀️ Light Mode</button>
@@ -562,12 +603,20 @@
         </div>
       </div>
 
-      <pre class="code-preview" id="codeOutput"></pre>
+      <!-- CODE OUTPUT WRAPPER WITH ONE-CLICK COPY -->
+      <div class="code-box-wrapper">
+        <div class="box-header">
+          <span id="codeBoxTitle">variables.css</span>
+          <button class="copy-btn" onclick="copyCodeOutput()">📄 Copy Code</button>
+        </div>
+        <pre class="code-preview" id="codeOutput"></pre>
+      </div>
 
       <!-- AUTOMATED CHANGELOG BOX -->
       <div class="changelog-card">
         <div class="changelog-header">
-          🤖 AI Client Changelog (Ready for WhatsApp / Slack)
+          <span>🤖 AI Client Changelog (Ready for WhatsApp / Slack)</span>
+          <button class="copy-btn" onclick="copyChangelogMsg()">📋 Copy Message</button>
         </div>
         <div class="changelog-text" id="changelogMsg">
           Loading changelog...
@@ -578,6 +627,7 @@
       <div class="actions-grid">
         <button class="btn-action" onclick="exportCss()">📥 Export variables.css</button>
         <button class="btn-action" onclick="exportTailwind()">📥 Export tailwind.config.js</button>
+        <button class="btn-action" onclick="exportJson()">📥 Export style-dictionary.json</button>
         <button class="btn-action" onclick="exportPdf()">📄 Export Spec PDF</button>
         <button class="btn-action btn-highlight" id="shareBtn" onclick="openShareModal()">🌐 Share Live Client Link</button>
       </div>
@@ -605,6 +655,7 @@
     let generatedCssLight = '';
     let generatedCssDark = '';
     let generatedTailwindCode = '';
+    let generatedJsonCode = '';
 
     const versionData = {
       'current': { name: 'grocery app', color: '#351156', font: 'Roboto', rules: 'base-padding: 16px, border-radius-md: 8px' },
@@ -686,6 +737,28 @@
 
       generatedTailwindCode = `// tailwind.config.js - ${name}\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: { 'primary-brand': '${hex}' },\n      fontFamily: { 'main': ['${font}', 'sans-serif'] }\n    }\n  }\n}`;
 
+      // Style Dictionary JSON Generation Logic
+      let jsonTokens = {
+        "global": {
+          "project": { "value": name },
+          "color": {
+            "primary": { "value": hex }
+          },
+          "font": {
+            "family": { "value": font }
+          }
+        }
+      };
+      if(rules) {
+        rules.split(',').forEach(p => {
+          const [k, v] = p.split(':').map(s => s.trim());
+          if(k && v) {
+            jsonTokens.global[k.replace(/-/g, '_')] = { "value": v };
+          }
+        });
+      }
+      generatedJsonCode = JSON.stringify(jsonTokens, null, 2);
+
       updateOutputDisplay();
       updateLivePreview();
       updateChangelog(name, hex, font, rules);
@@ -703,11 +776,18 @@
     }
 
     function updateOutputDisplay() {
+      const titleElem = document.getElementById('codeBoxTitle');
       if (currentTab === 'css') {
         document.getElementById('codeOutput').textContent = (currentMode === 'light') ? generatedCssLight : generatedCssDark;
+        titleElem.textContent = `variables-${currentMode}.css`;
         document.getElementById('modeSubTabs').style.display = 'flex';
-      } else {
+      } else if (currentTab === 'tailwind') {
         document.getElementById('codeOutput').textContent = generatedTailwindCode;
+        titleElem.textContent = 'tailwind.config.js';
+        document.getElementById('modeSubTabs').style.display = 'none';
+      } else if (currentTab === 'json') {
+        document.getElementById('codeOutput').textContent = generatedJsonCode;
+        titleElem.textContent = 'style-dictionary.json';
         document.getElementById('modeSubTabs').style.display = 'none';
       }
     }
@@ -716,6 +796,7 @@
       currentTab = tab;
       document.getElementById('tabCss').classList.toggle('active', tab === 'css');
       document.getElementById('tabTailwind').classList.toggle('active', tab === 'tailwind');
+      document.getElementById('tabJson').classList.toggle('active', tab === 'json');
       updateOutputDisplay();
     }
 
@@ -724,6 +805,36 @@
       document.getElementById('subTabLight').classList.toggle('active', mode === 'light');
       document.getElementById('subTabDark').classList.toggle('active', mode === 'dark');
       updateOutputDisplay();
+    }
+
+    // Universal Copy Function for Code Box
+    function copyCodeOutput() {
+      const textToCopy = document.getElementById('codeOutput').textContent;
+      const btn = event.target;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "✓ Copied!";
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.classList.remove("copied");
+        }, 2000);
+      });
+    }
+
+    // Copy Function for WhatsApp Changelog
+    function copyChangelogMsg() {
+      const textToCopy = document.getElementById('changelogMsg').innerText;
+      const btn = event.target;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "✓ Copied!";
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.classList.remove("copied");
+        }, 2000);
+      });
     }
 
     function downloadFile(filename, content, type) {
@@ -740,6 +851,7 @@
     }
     
     function exportTailwind() { downloadFile('tailwind.config.js', generatedTailwindCode, 'text/javascript'); }
+    function exportJson() { downloadFile('style-dictionary.json', generatedJsonCode, 'application/json'); }
     
     function exportPdf() {
       const { jsPDF } = window.jspdf;
