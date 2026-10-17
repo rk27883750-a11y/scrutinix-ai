@@ -56,7 +56,7 @@
       </div>
       <div class="text-left md:text-right">
         <p class="text-sm font-bold text-cyan-400">Turn Design Choices Into Developer-Ready Files</p>
-        <p class="text-xs text-slate-400">Zero Figma Setup • 1-Click Code & Client Review</p>
+        <p class="text-xs text-slate-400">Zero Setup • 1-Click Code & Client Review</p>
       </div>
       <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-2">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live Active Mode
@@ -89,12 +89,22 @@
             </select>
           </div>
 
-          <!-- Figma / Link Import -->
-          <div class="flex gap-2 bg-slate-950 p-2 border border-slate-800 rounded-lg">
-            <input type="text" id="designUrlInput" placeholder="Paste Design File Link (Optional)..." class="flex-1 bg-transparent text-xs text-white px-2 outline-none">
-            <button onclick="fetchDesignData()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-3.5 py-1.5 rounded-md transition">
-              ⚡ Fetch
-            </button>
+          <!-- ONE-CLICK AI THEME PRESETS (Replaced Figma Link Box) -->
+          <div class="bg-slate-950 p-3 border border-slate-800 rounded-lg space-y-2">
+            <label class="block text-[11px] font-bold text-cyan-400 flex items-center gap-1.5">
+              <span>✨</span> One-Click AI Theme Presets
+            </label>
+            <div class="grid grid-cols-3 gap-2">
+              <button onclick="applyPreset('#00d2ff', 'Roboto')" class="bg-slate-900 hover:bg-slate-800 border border-cyan-500/30 text-cyan-300 text-[11px] font-bold py-1.5 px-2 rounded transition">
+                ⚡ Cyber Neon
+              </button>
+              <button onclick="applyPreset('#10b981', 'Inter')" class="bg-slate-900 hover:bg-slate-800 border border-emerald-500/30 text-emerald-300 text-[11px] font-bold py-1.5 px-2 rounded transition">
+                🌿 Emerald SaaS
+              </button>
+              <button onclick="applyPreset('#6366f1', 'Poppins')" class="bg-slate-900 hover:bg-slate-800 border border-indigo-500/30 text-indigo-300 text-[11px] font-bold py-1.5 px-2 rounded transition">
+                👑 Royal Indigo
+              </button>
+            </div>
           </div>
 
           <!-- Inputs Form -->
@@ -267,6 +277,13 @@
       updateLivePreview();
     }
 
+    function applyPreset(hex, fontName) {
+      document.getElementById('brandColor').value = hex;
+      document.getElementById('brandColorPicker').value = hex;
+      document.getElementById('fontSelect').value = fontName;
+      generateSystem();
+    }
+
     function updateLivePreview() {
       const name = document.getElementById('projectName').value || 'grocery app';
       const hex = document.getElementById('brandColor').value || '#351156';
@@ -364,13 +381,6 @@
       const subject = encodeURIComponent(`[Scrutinix AI] Design System Update: ${projectName}`);
       const body = encodeURIComponent(`${changelogText}\n\nLive Link: ${window.location.href}`);
       window.open(`https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=${subject}&body=${body}`, '_blank');
-    }
-
-    function fetchDesignData() {
-      if(!document.getElementById('designUrlInput').value.trim()) return alert('Paste a valid design link!');
-      document.getElementById('projectName').value = "imported app";
-      generateSystem();
-      alert('✨ Tokens fetched successfully!');
     }
 
     function approveDesign() {
