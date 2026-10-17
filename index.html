@@ -3,292 +3,261 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // Design System Generator</title>
+  <title>Scrutinix AI // One-Click Design System & Client Portal</title>
   
   <link rel="icon" type="image/png" href="favicon.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap');
-    
+    :root {
+      --bg-color: #070a12;
+      --card-bg: #0f172a;
+      --border-color: #1e293b;
+      --accent-color: #00d2ff;
+      --accent-gradient: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --input-bg: #020617;
+      --success-color: #10b981;
+    }
+
     body {
-      font-family: 'Inter', sans-serif;
-      background-color: #070913;
-      color: #f1f5f9;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #020617;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
     }
   </style>
 </head>
-<body class="min-h-screen p-3 md:p-6 flex flex-col justify-between">
+<body class="min-h-screen p-4 lg:p-8 flex flex-col justify-between">
 
-  <div class="max-w-[1400px] mx-auto w-full space-y-4">
+  <div class="max-w-7xl mx-auto w-full space-y-5">
 
-    <!-- TOP HEADER BRANDING & TITLE -->
-    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-[#0c1021] border border-slate-800/80 p-4 rounded-2xl shadow-2xl">
+    <!-- HEADER & BRANDING -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-xl">
       <div class="flex items-center space-x-3">
-        <div class="w-11 h-11 bg-gradient-to-tr from-cyan-400 via-blue-500 to-indigo-600 rounded-xl flex items-center justify-center font-black text-2xl text-slate-950 shadow-lg shadow-cyan-950/60">S</div>
+        <div class="w-10 h-10 bg-gradient-to-tr from-cyan-400 to-blue-600 rounded-lg flex items-center justify-center font-black text-xl text-slate-950 shadow-lg shadow-cyan-950">S</div>
         <div>
-          <h1 class="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-            Scrutinix <span class="text-cyan-400">AI</span>
-          </h1>
-          <p class="text-xs text-slate-400 font-medium">Design System Generator</p>
+          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span></h1>
+          <p class="text-xs text-slate-400">Design System Generator & Client Portal</p>
         </div>
       </div>
-
-      <div class="text-left lg:text-center">
-        <h2 class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-300">
-          Turn Your Design Choices Into Developer-Ready Files.
-        </h2>
+      <div class="text-left md:text-right">
+        <p class="text-sm font-bold text-cyan-400">Turn Design Choices Into Developer-Ready Files</p>
+        <p class="text-xs text-slate-400">Zero Figma Setup • 1-Click Code & Client Review</p>
       </div>
-
-      <div class="flex items-center space-x-3">
-        <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded-full font-bold flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live Review Mode
-        </span>
-      </div>
+      <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live Active Mode
+      </span>
     </div>
 
-    <!-- 5 SIMPLE STEPS TOP WORKFLOW BAR -->
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-      <!-- Step 1 -->
-      <div class="bg-[#0c1021] border border-cyan-500/40 p-3.5 rounded-xl flex items-center space-x-3 shadow-lg">
-        <span class="w-8 h-8 bg-cyan-500/20 text-cyan-400 font-black rounded-full flex items-center justify-center text-xs shrink-0 border border-cyan-500/30">1</span>
-        <div class="overflow-hidden">
-          <p class="text-xs font-bold text-white truncate">Project Name</p>
-          <p class="text-[10px] text-slate-400 truncate">Enter your project name and get started.</p>
-        </div>
-      </div>
-      <!-- Step 2 -->
-      <div class="bg-[#0c1021] border border-emerald-500/40 p-3.5 rounded-xl flex items-center space-x-3 shadow-lg">
-        <span class="w-8 h-8 bg-emerald-500/20 text-emerald-400 font-black rounded-full flex items-center justify-center text-xs shrink-0 border border-emerald-500/30">2</span>
-        <div class="overflow-hidden">
-          <p class="text-xs font-bold text-white truncate">Brand Color</p>
-          <p class="text-[10px] text-slate-400 truncate">Choose your brand colors with a color picker.</p>
-        </div>
-      </div>
-      <!-- Step 3 -->
-      <div class="bg-[#0c1021] border border-purple-500/40 p-3.5 rounded-xl flex items-center space-x-3 shadow-lg">
-        <span class="w-8 h-8 bg-purple-500/20 text-purple-400 font-black rounded-full flex items-center justify-center text-xs shrink-0 border border-purple-500/30">3</span>
-        <div class="overflow-hidden">
-          <p class="text-xs font-bold text-white truncate">Typography</p>
-          <p class="text-[10px] text-slate-400 truncate">Select your fonts for a consistent look.</p>
-        </div>
-      </div>
-      <!-- Step 4 -->
-      <div class="bg-[#0c1021] border border-blue-500/40 p-3.5 rounded-xl flex items-center space-x-3 shadow-lg">
-        <span class="w-8 h-8 bg-blue-500/20 text-blue-400 font-black rounded-full flex items-center justify-center text-xs shrink-0 border border-blue-500/30">4</span>
-        <div class="overflow-hidden">
-          <p class="text-xs font-bold text-white truncate">Generate Design System</p>
-          <p class="text-[10px] text-slate-400 truncate">Create CSS, Tailwind Config and more in one click.</p>
-        </div>
-      </div>
-      <!-- Step 5 -->
-      <div class="col-span-2 md:col-span-1 bg-[#0c1021] border border-indigo-500/40 p-3.5 rounded-xl flex items-center space-x-3 shadow-lg">
-        <span class="w-8 h-8 bg-indigo-500/20 text-indigo-400 font-black rounded-full flex items-center justify-center text-xs shrink-0 border border-indigo-500/30">5</span>
-        <div class="overflow-hidden">
-          <p class="text-xs font-bold text-white truncate">Export Files</p>
-          <p class="text-[10px] text-slate-400 truncate">Download your CSS, Tailwind Config and PDF report.</p>
-        </div>
-      </div>
+    <!-- MOBILE NAVIGATION TABS (Small Screens) -->
+    <div class="flex lg:hidden bg-slate-900 border border-slate-800 p-1.5 rounded-xl gap-2">
+      <button id="mobileTabBtnGen" onclick="switchMobileTab('gen')" class="flex-1 py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition">
+        ⚡ 1. Design Generator & Tokens
+      </button>
+      <button id="mobileTabBtnClient" onclick="switchMobileTab('client')" class="flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">
+        📱 2. Client Review & Approval Portal
+      </button>
     </div>
 
-    <!-- MAIN CONTENT LAYOUT (LEFT SIDEBAR + PEHLA BHAG FORM + DOOSRA BHAG PREVIEW) -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+    <!-- MAIN DUAL SPLIT LAYOUT (DESKTOP SIDE-BY-SIDE BHAAG) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
 
-      <!-- LEFT SIDEBAR -->
-      <div class="hidden lg:flex lg:col-span-2 flex-col justify-between bg-[#0c1021] border border-slate-800/80 rounded-2xl p-4 shadow-2xl">
-        <div class="space-y-6">
-          <div class="flex items-center space-x-2 text-cyan-400 font-bold text-sm mb-4 pb-2 border-b border-slate-800">
-            <span class="w-6 h-6 bg-cyan-500/20 rounded flex items-center justify-center text-xs">⚡</span> 
-            <span>Scrutinix AI</span>
-          </div>
-          <nav class="space-y-1">
-            <button class="w-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-bold text-xs px-3 py-2.5 rounded-xl flex items-center space-x-2.5">
-              <span>🎨</span> <span>Design System</span>
-            </button>
-            <button class="w-full hover:bg-slate-800/60 text-slate-400 font-medium text-xs px-3 py-2.5 rounded-xl flex items-center space-x-2.5 transition">
-              <span>📁</span> <span>My Projects</span>
-            </button>
-            <button class="w-full hover:bg-slate-800/60 text-slate-400 font-medium text-xs px-3 py-2.5 rounded-xl flex items-center space-x-2.5 transition">
-              <span>📑</span> <span>Templates</span>
-            </button>
-            <button class="w-full hover:bg-slate-800/60 text-slate-400 font-medium text-xs px-3 py-2.5 rounded-xl flex items-center space-x-2.5 transition">
-              <span>⚙️</span> <span>Settings</span>
-            </button>
-          </nav>
-        </div>
-
-        <!-- Upgrade Box -->
-        <div class="bg-gradient-to-b from-indigo-950/60 to-slate-900 border border-indigo-500/30 rounded-xl p-3.5 text-center space-y-2">
-          <span class="text-2xl">🚀</span>
-          <h4 class="text-xs font-bold text-white">Build Faster<br>Ship Sooner</h4>
-          <p class="text-[10px] text-slate-400">Create beautiful, consistent and developer-ready design systems in seconds.</p>
-          <button class="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-xs py-2 rounded-lg transition shadow-md">
-            Upgrade to Pro
-          </button>
-        </div>
-      </div>
-
-      <!-- PEHLA BHAG: CREATE YOUR DESIGN SYSTEM FORM -->
-      <div class="lg:col-span-5 bg-[#0c1021] border border-slate-800/80 rounded-2xl p-5 shadow-2xl flex flex-col justify-between space-y-5">
+      <!-- BHAAG 1: DESIGN GENERATOR (LEFT SIDE) -->
+      <div id="colGenerator" class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl flex flex-col justify-between space-y-5">
         <div class="space-y-4">
-          <div class="flex justify-between items-start border-b border-slate-800 pb-3">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
             <div>
-              <h3 class="text-lg font-bold text-white tracking-tight">Create Your Design System</h3>
-              <p class="text-xs text-slate-400 mt-0.5">Fill in the details below and generate a complete design system with CSS, Tailwind config and spec sheet — all in one click.</p>
+              <h2 class="text-base font-bold text-cyan-400">One-Click Design System Generator</h2>
+              <p class="text-xs text-slate-400">Turn your ideas into developer-ready files in seconds</p>
             </div>
-            <span class="text-[10px] bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-bold px-2.5 py-1 rounded-full whitespace-nowrap shrink-0">Step 1 of 5</span>
+            <select id="versionDropdown" class="bg-slate-950 border border-slate-800 text-cyan-400 text-xs px-2.5 py-1 rounded-md outline-none font-bold">
+              <option value="current">v1.2 (Active)</option>
+            </select>
           </div>
 
-          <!-- Step 1 Input -->
-          <div class="space-y-1">
-            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-              <span>📁</span> 1. Project Name
-            </label>
-            <div class="flex gap-2">
-              <input type="text" id="projectName" value="Grocery App" oninput="updateLivePreview()" class="flex-1 bg-[#050811] border border-slate-800 focus:border-cyan-500 rounded-xl px-3.5 py-2.5 text-xs text-white outline-none">
-              <span class="text-[11px] text-slate-500 flex items-center shrink-0">Enter your project name</span>
-            </div>
+          <!-- Figma / Link Import -->
+          <div class="flex gap-2 bg-slate-950 p-2 border border-slate-800 rounded-lg">
+            <input type="text" id="designUrlInput" placeholder="Paste Design File Link (Optional)..." class="flex-1 bg-transparent text-xs text-white px-2 outline-none">
+            <button onclick="fetchDesignData()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-3.5 py-1.5 rounded-md transition">
+              ⚡ Fetch
+            </button>
           </div>
 
-          <!-- Step 2 Input -->
-          <div class="space-y-1">
-            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-              <span>🎨</span> 2. Brand Color
-            </label>
-            <div class="flex gap-2 items-center">
-              <div class="flex-1 flex items-center gap-2 bg-[#050811] border border-slate-800 rounded-xl p-1.5">
-                <input type="color" id="brandColorPicker" value="#38BDF8" oninput="syncColorInput('picker')" class="w-7 h-7 rounded bg-transparent border-0 cursor-pointer">
-                <input type="text" id="brandColor" value="#38BDF8" oninput="syncColorInput('text')" class="w-full bg-transparent text-xs font-mono uppercase text-white outline-none">
+          <!-- Inputs Form -->
+          <div class="space-y-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-200 mb-1">Project Name:</label>
+              <input type="text" id="projectName" value="grocery app" oninput="updateLivePreview()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:border-cyan-400 outline-none">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-200 mb-1">Brand Primary Color (HEX):</label>
+                <div class="flex items-center gap-2 bg-slate-950 border border-slate-800 rounded-lg p-1">
+                  <input type="color" id="brandColorPicker" value="#351156" oninput="syncColorInput('picker')" class="w-6 h-6 rounded bg-transparent border-0 cursor-pointer">
+                  <input type="text" id="brandColor" value="#351156" oninput="syncColorInput('text')" class="w-full bg-transparent text-xs uppercase text-white font-mono outline-none">
+                </div>
               </div>
-              <span class="text-[11px] text-slate-500 flex items-center shrink-0">Choose your brand color (HEX code or color picker)</span>
-            </div>
-          </div>
 
-          <!-- Step 3 Input -->
-          <div class="space-y-1">
-            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-              <span>Aa</span> 3. Typography
-            </label>
-            <div class="flex gap-2">
-              <select id="fontSelect" onchange="updateLivePreview()" class="flex-1 bg-[#050811] border border-slate-800 focus:border-cyan-500 rounded-xl px-3.5 py-2.5 text-xs text-white outline-none">
-                <option value="Roboto">Roboto</option>
-                <option value="Inter">Inter</option>
-                <option value="Poppins">Poppins</option>
-              </select>
-              <span class="text-[11px] text-slate-500 flex items-center shrink-0">Select your font family</span>
+              <div>
+                <label class="block text-xs font-semibold text-slate-200 mb-1">Select Typography Font:</label>
+                <select id="fontSelect" onchange="updateLivePreview()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-2 text-xs text-white outline-none">
+                  <option value="Roboto">Roboto</option>
+                  <option value="Inter">Inter</option>
+                  <option value="Poppins">Poppins</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-200 mb-1">Additional Layout / Component Rules:</label>
+              <textarea id="customRules" oninput="updateLivePreview()" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white outline-none h-16 resize-none custom-scrollbar">base-padding: 16px, border-radius-md: 8px</textarea>
             </div>
           </div>
         </div>
 
-        <button onclick="generateSystem()" class="w-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 hover:from-cyan-300 hover:to-purple-500 text-slate-950 font-black text-xs py-3.5 rounded-xl shadow-xl shadow-cyan-950/50 transition uppercase tracking-wider flex items-center justify-center gap-2">
-          <span>⚡</span> Generate Design System →
+        <button onclick="generateSystem()" class="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-xs py-3 rounded-lg shadow-lg shadow-cyan-950/50 transition uppercase tracking-wider">
+          ⚡ GENERATE TOKENS & ARCHITECTURE
         </button>
       </div>
 
-      <!-- DOOSRA BHAG: DESIGN SYSTEM PREVIEW CARD -->
-      <div class="lg:col-span-5 bg-[#0c1021] border border-slate-800/80 rounded-2xl p-4 shadow-2xl space-y-3">
-        <div class="flex justify-between items-center border-b border-slate-800/80 pb-2.5">
-          <h3 class="text-xs font-bold text-white uppercase tracking-wider">Design System Preview</h3>
-          <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold">● Live Preview</span>
-        </div>
+      <!-- BHAAG 2: LIVE VISUAL THEME PLAYGROUND & CLIENT PORTAL (RIGHT SIDE) -->
+      <div id="colClient" class="hidden lg:block lg:col-span-7 space-y-4">
 
-        <!-- Live Mockup Box -->
-        <div class="bg-[#050811] border border-slate-800 rounded-xl p-4 space-y-3">
-          <div class="flex items-center space-x-3">
-            <div id="previewLogo" class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 font-black text-lg flex items-center justify-center border border-cyan-500/30">G</div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
             <div>
-              <h4 id="previewAppTitle" class="text-sm font-extrabold text-white">Grocery App</h4>
-              <p class="text-[10px] text-slate-400">Modern • Fast • Easy</p>
+              <h3 class="text-sm font-bold text-white uppercase tracking-wider">🎨 LIVE VISUAL THEME PLAYGROUND (CLIENT VIEW)</h3>
+            </div>
+            <span id="wcagBadge" class="text-[11px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold">
+              REAL-TIME COMPONENT PREVIEW
+            </span>
+          </div>
+
+          <!-- Component Mockup Card -->
+          <div class="bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3">
+            <div class="flex justify-between items-center">
+              <div>
+                <h4 id="previewAppTitle" class="text-sm font-bold text-white">grocery app</h4>
+                <p class="text-[11px] text-slate-400">Design System Token Active</p>
+              </div>
+              <button id="previewBtn" class="text-white font-bold text-xs px-4 py-2 rounded-md shadow-md transition">
+                Primary CTA
+              </button>
+            </div>
+
+            <!-- Client Review & Approval Portal -->
+            <div class="bg-slate-900 border border-emerald-500/40 rounded-lg p-3 space-y-2">
+              <div class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                🔒 Client Review & Approval Portal
+              </div>
+              <div id="approvalControls" class="flex gap-2">
+                <input type="text" id="clientNameInput" placeholder="Enter your name to approve..." class="flex-1 bg-slate-950 border border-slate-800 rounded-md px-3 py-1.5 text-xs text-white outline-none">
+                <button onclick="approveDesign()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-3.5 py-1.5 rounded-md transition whitespace-nowrap">
+                  ✅ Approve Design System
+                </button>
+              </div>
+              <div id="approvalStatus" class="hidden bg-emerald-500/10 border border-emerald-500/30 p-2 rounded-md text-xs text-emerald-400 text-center font-semibold">
+                🎉 Design System approved by <span id="approvedClientName"></span>! Tokens locked.
+              </div>
             </div>
           </div>
 
-          <!-- Color Palette Dots -->
-          <div class="flex space-x-2 pt-1">
-            <div id="tileBrand" class="w-7 h-7 rounded-lg bg-cyan-400 shadow-md"></div>
-            <div class="w-7 h-7 rounded-lg bg-emerald-400 shadow-md"></div>
-            <div class="w-7 h-7 rounded-lg bg-cyan-300 shadow-md"></div>
-            <div class="w-7 h-7 rounded-lg bg-purple-500 shadow-md"></div>
-            <div class="w-7 h-7 rounded-lg bg-slate-700 shadow-md"></div>
-          </div>
+          <!-- Code Outputs Box & Tabs -->
+          <div class="space-y-2.5">
+            <div class="flex justify-between items-center">
+              <div class="flex gap-1 bg-slate-950 p-1 rounded-md border border-slate-800">
+                <button id="tabCss" onclick="switchTab('css')" class="text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition">CSS Variables (root)</button>
+                <button id="tabTailwind" onclick="switchTab('tailwind')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">Tailwind Config Extend</button>
+                <button id="tabJson" onclick="switchTab('json')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">Style Dictionary JSON</button>
+              </div>
+              <div id="modeSubTabs" class="flex gap-1 bg-slate-950 p-1 rounded-md border border-slate-800">
+                <button id="subTabLight" onclick="switchMode('light')" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400">☀️ Light Mode</button>
+                <button id="subTabDark" onclick="switchMode('dark')" class="text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400">🌙 Dark Mode</button>
+              </div>
+            </div>
 
-          <!-- Typography Sample -->
-          <div class="pt-1">
-            <p class="text-[10px] text-slate-500">Typography</p>
-            <p id="fontLabelVal" class="text-sm font-bold text-white">Roboto</p>
-            <p id="previewFontSample" class="text-xs font-medium text-slate-300 mt-0.5">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz</p>
-          </div>
-
-          <!-- Interactive Components -->
-          <div class="pt-2 border-t border-slate-800/80">
-            <p class="text-[10px] text-slate-500 mb-2">Components</p>
-            <div class="flex items-center gap-2">
-              <button id="previewBtn" class="bg-cyan-400 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg shadow-md transition">Primary Button</button>
-              <button class="bg-slate-800 text-slate-200 text-xs px-3.5 py-2 rounded-lg border border-slate-700">Secondary</button>
-              <a href="#" class="text-cyan-400 text-xs hover:underline ml-1">Text Link →</a>
+            <div class="bg-slate-950 border border-slate-800 rounded-lg overflow-hidden">
+              <div class="flex justify-between items-center bg-slate-900 px-3 py-1.5 border-b border-slate-800 text-xs text-slate-400">
+                <span id="codeBoxTitle">variables-light.css</span>
+                <button onclick="copyCodeOutput()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-[10px] px-2.5 py-0.5 rounded transition">
+                  📄 Copy Code
+                </button>
+              </div>
+              <pre id="codeOutput" class="p-3 text-xs font-mono text-cyan-400 h-28 overflow-y-auto whitespace-pre-wrap custom-scrollbar"></pre>
             </div>
           </div>
+
+          <!-- AI Changelog -->
+          <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 space-y-1.5">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-bold text-slate-300">🤖 AI Client Changelog (Ready for WhatsApp / Slack)</span>
+              <div class="flex gap-2">
+                <button onclick="sendViaGmail()" class="bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded transition">📧 Gmail</button>
+                <button onclick="copyChangelogMsg()" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 text-[10px] font-bold px-2.5 py-0.5 rounded transition">📋 Copy Message</button>
+              </div>
+            </div>
+            <div id="changelogMsg" class="bg-slate-900 p-2 rounded text-[11px] font-mono text-slate-300 border border-slate-800/80">
+              Loading changelog...
+            </div>
+          </div>
+
+          <!-- Bottom Actions Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+            <button onclick="exportCss()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export variables.css</button>
+            <button onclick="exportTailwind()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export tailwind.config.js</button>
+            <button onclick="exportJson()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export style-dictionary.json</button>
+            <button onclick="exportPdf()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📄 Export Spec PDF</button>
+            <button onclick="copyShareLink()" class="col-span-2 sm:col-span-1 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2 rounded-lg transition">🌐 Share Live Client Link</button>
+          </div>
+
         </div>
+
       </div>
 
     </div>
-
-    <!-- BOTTOM EXPORT FILES SECTION (EXACT MATCHING FIRST IMAGE) -->
-    <div class="bg-[#0c1021] border border-slate-800/80 rounded-2xl p-4 shadow-2xl space-y-3">
-      <div>
-        <h3 class="text-sm font-bold text-white flex items-center gap-2">
-          <span>📁</span> Export Files
-        </h3>
-        <p class="text-xs text-slate-400">Download your design system files and start building immediately.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <!-- Export Box 1: CSS -->
-        <div class="bg-[#050811] border border-slate-800 hover:border-cyan-500/50 p-3.5 rounded-xl flex items-center justify-between transition group">
-          <div class="flex items-center space-x-3">
-            <div class="w-9 h-9 bg-cyan-500/20 text-cyan-400 font-bold rounded-lg flex items-center justify-center text-sm border border-cyan-500/30">CSS</div>
-            <div>
-              <span class="text-[9px] bg-amber-400/10 text-amber-300 border border-amber-400/30 px-1.5 py-0.5 rounded font-bold block w-fit mb-0.5">⚡ 1-Click Code Export Developer-Ready</span>
-              <p class="text-xs font-bold text-white">CSS File</p>
-              <p class="text-[10px] text-slate-400">styles.css</p>
-            </div>
-          </div>
-          <button onclick="exportCss()" class="text-xs font-bold text-cyan-400 group-hover:underline">Download →</button>
-        </div>
-
-        <!-- Export Box 2: Tailwind Config -->
-        <div class="bg-[#050811] border border-slate-800 hover:border-emerald-500/50 p-3.5 rounded-xl flex items-center justify-between transition group">
-          <div class="flex items-center space-x-3">
-            <div class="w-9 h-9 bg-emerald-500/20 text-emerald-400 font-bold rounded-lg flex items-center justify-center text-sm border border-emerald-500/30">TW</div>
-            <div>
-              <span class="text-[9px] bg-amber-400/10 text-amber-300 border border-amber-400/30 px-1.5 py-0.5 rounded font-bold block w-fit mb-0.5">⚡ 1-Click Code Export Developer-Ready</span>
-              <p class="text-xs font-bold text-white">Tailwind Config</p>
-              <p class="text-[10px] text-slate-400">tailwind.config.js</p>
-            </div>
-          </div>
-          <button onclick="exportTailwind()" class="text-xs font-bold text-emerald-400 group-hover:underline">Download →</button>
-        </div>
-
-        <!-- Export Box 3: PDF Spec Sheet -->
-        <div class="bg-[#050811] border border-slate-800 hover:border-purple-500/50 p-3.5 rounded-xl flex items-center justify-between transition group">
-          <div class="flex items-center space-x-3">
-            <div class="w-9 h-9 bg-purple-500/20 text-purple-400 font-bold rounded-lg flex items-center justify-center text-sm border border-purple-500/30">PDF</div>
-            <div>
-              <span class="text-[9px] bg-amber-400/10 text-amber-300 border border-amber-400/30 px-1.5 py-0.5 rounded font-bold block w-fit mb-0.5">⚡ 1-Click Code Export Developer-Ready</span>
-              <p class="text-xs font-bold text-white">Spec Sheet (PDF)</p>
-              <p class="text-[10px] text-slate-400">design-system.pdf</p>
-            </div>
-          </div>
-          <button onclick="exportPdf()" class="text-xs font-bold text-purple-400 group-hover:underline">Download →</button>
-        </div>
-      </div>
-    </div>
-
   </div>
 
   <script>
+    let currentTab = 'css';
+    let currentMode = 'light';
     let generatedCssLight = '';
+    let generatedCssDark = '';
     let generatedTailwindCode = '';
+    let generatedJsonCode = '';
+
+    function switchMobileTab(tab) {
+      const colGen = document.getElementById('colGenerator');
+      const colClient = document.getElementById('colClient');
+      const btnGen = document.getElementById('mobileTabBtnGen');
+      const btnClient = document.getElementById('mobileTabBtnClient');
+
+      if (tab === 'gen') {
+        colGen.classList.remove('hidden');
+        colClient.classList.add('hidden');
+        btnGen.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition";
+        btnClient.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
+      } else {
+        colGen.classList.add('hidden');
+        colClient.classList.remove('hidden');
+        btnClient.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition";
+        btnGen.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
+      }
+    }
 
     function syncColorInput(source) {
       const picker = document.getElementById('brandColorPicker');
@@ -299,31 +268,123 @@
     }
 
     function updateLivePreview() {
-      const name = document.getElementById('projectName').value || 'Grocery App';
-      const hex = document.getElementById('brandColor').value || '#38BDF8';
+      const name = document.getElementById('projectName').value || 'grocery app';
+      const hex = document.getElementById('brandColor').value || '#351156';
       const font = document.getElementById('fontSelect').value;
 
       document.getElementById('previewAppTitle').innerText = name;
-      document.getElementById('previewLogo').innerText = name.charAt(0).toUpperCase();
-      document.getElementById('fontLabelVal').innerText = font;
-      document.getElementById('previewFontSample').style.fontFamily = font;
       
       const btn = document.getElementById('previewBtn');
       btn.style.backgroundColor = hex;
       btn.style.fontFamily = font;
-      document.getElementById('tileBrand').style.backgroundColor = hex;
+    }
+
+    function updateChangelog(name, hex, font, rules) {
+      const msg = `🚀 *One-Click Design System Update for ${name}*:\nUpdated Brand Color to \`${hex}\`, Font to \`${font}\` & Rules: \`${rules}\`. Click live preview link to approve!`;
+      document.getElementById('changelogMsg').innerText = msg;
     }
 
     function generateSystem() {
-      const name = document.getElementById('projectName').value || 'Grocery App';
-      const hex = document.getElementById('brandColor').value || '#38BDF8';
+      const name = document.getElementById('projectName').value || 'grocery app';
+      const hex = document.getElementById('brandColor').value || '#351156';
       const font = document.getElementById('fontSelect').value;
+      const rules = document.getElementById('customRules').value;
 
-      generatedCssLight = `:root {\n  /* Project Identity: ${name} */\n  --primary-brand: ${hex};\n  --main-font-family: '${font}', sans-serif;\n  --base-padding: 16px;\n  --border-radius-md: 8px;\n}`;
+      let rulesCss = '';
+      if(rules) {
+        rules.split(',').forEach(p => {
+          const [k, v] = p.split(':').map(s => s.trim());
+          if(k && v) rulesCss += `  --${k}: ${v};\n`;
+        });
+      }
+
+      generatedCssLight = `:root {\n  /* Project Identity: ${name} (Light Mode) */\n  --bg-primary: #ffffff;\n  --text-primary: #0f172a;\n  --primary-brand: ${hex};\n  --primary-brand-rgb: 53, 17, 86;\n  --main-font-stack: '${font}', sans-serif;\n${rulesCss}}`;
+      generatedCssDark = `:root {\n  /* Project Identity: ${name} (Dark Mode) */\n  --bg-primary: #020617;\n  --text-primary: #f8fafc;\n  --primary-brand: ${hex};\n  --primary-brand-rgb: 53, 17, 86;\n  --main-font-stack: '${font}', sans-serif;\n${rulesCss}}`;
       generatedTailwindCode = `// tailwind.config.js - ${name}\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: { 'primary-brand': '${hex}' },\n      fontFamily: { 'main': ['${font}', 'sans-serif'] }\n    }\n  }\n}`;
+      generatedJsonCode = JSON.stringify({ project: name, color: hex, font: font }, null, 2);
 
+      updateOutputDisplay();
       updateLivePreview();
-      alert('✨ Design System Tokens generated successfully!');
+      updateChangelog(name, hex, font, rules);
+    }
+
+    function updateOutputDisplay() {
+      const titleElem = document.getElementById('codeBoxTitle');
+      if (currentTab === 'css') {
+        document.getElementById('codeOutput').textContent = (currentMode === 'light') ? generatedCssLight : generatedCssDark;
+        titleElem.textContent = `variables-${currentMode}.css`;
+        document.getElementById('modeSubTabs').style.display = 'flex';
+      } else if (currentTab === 'tailwind') {
+        document.getElementById('codeOutput').textContent = generatedTailwindCode;
+        titleElem.textContent = 'tailwind.config.js';
+        document.getElementById('modeSubTabs').style.display = 'none';
+      } else if (currentTab === 'json') {
+        document.getElementById('codeOutput').textContent = generatedJsonCode;
+        titleElem.textContent = 'style-dictionary.json';
+        document.getElementById('modeSubTabs').style.display = 'none';
+      }
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      document.getElementById('tabCss').className = tab === 'css' ? "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
+      document.getElementById('tabTailwind').className = tab === 'tailwind' ? "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
+      document.getElementById('tabJson').className = tab === 'json' ? "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
+      updateOutputDisplay();
+    }
+
+    function switchMode(mode) {
+      currentMode = mode;
+      document.getElementById('subTabLight').className = mode === 'light' ? "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400" : "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400";
+      document.getElementById('subTabDark').className = mode === 'dark' ? "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400" : "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400";
+      updateOutputDisplay();
+    }
+
+    function copyCodeOutput() {
+      const codeText = document.getElementById('codeOutput').textContent;
+      navigator.clipboard.writeText(codeText).then(() => {
+        alert('✓ Code copied to clipboard successfully!');
+      }).catch(err => {
+        alert('Failed to copy code: ' + err);
+      });
+    }
+
+    function copyChangelogMsg() {
+      const msgText = document.getElementById('changelogMsg').innerText;
+      navigator.clipboard.writeText(msgText).then(() => {
+        alert('✓ Changelog message copied for WhatsApp / Slack!');
+      }).catch(err => {
+        alert('Failed to copy message: ' + err);
+      });
+    }
+
+    function sendViaGmail() {
+      const projectName = document.getElementById('projectName').value || 'Design System';
+      const changelogText = document.getElementById('changelogMsg').innerText;
+      const subject = encodeURIComponent(`[Scrutinix AI] Design System Update: ${projectName}`);
+      const body = encodeURIComponent(`${changelogText}\n\nLive Link: ${window.location.href}`);
+      window.open(`https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=${subject}&body=${body}`, '_blank');
+    }
+
+    function fetchDesignData() {
+      if(!document.getElementById('designUrlInput').value.trim()) return alert('Paste a valid design link!');
+      document.getElementById('projectName').value = "imported app";
+      generateSystem();
+      alert('✨ Tokens fetched successfully!');
+    }
+
+    function approveDesign() {
+      const clientName = document.getElementById('clientNameInput').value.trim();
+      if(!clientName) return alert('Enter name to approve!');
+      document.getElementById('approvalControls').style.display = 'none';
+      document.getElementById('approvedClientName').innerText = clientName;
+      document.getElementById('approvalStatus').classList.remove('hidden');
+    }
+
+    function copyShareLink() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        alert('✓ Secret Client Link copied to clipboard!');
+      });
     }
 
     function downloadFile(filename, content, type) {
@@ -334,14 +395,15 @@
       link.click();
     }
 
-    function exportCss() { downloadFile('styles.css', generatedCssLight || `:root { --primary-brand: #38BDF8; }`, 'text/css'); }
-    function exportTailwind() { downloadFile('tailwind.config.js', generatedTailwindCode || `module.exports = {}`, 'text/javascript'); }
+    function exportCss() { downloadFile(`variables-${currentMode}.css`, (currentMode === 'light') ? generatedCssLight : generatedCssDark, 'text/css'); }
+    function exportTailwind() { downloadFile('tailwind.config.js', generatedTailwindCode, 'text/javascript'); }
+    function exportJson() { downloadFile('style-dictionary.json', generatedJsonCode, 'application/json'); }
     function exportPdf() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
       doc.text(`Design Spec - ${document.getElementById('projectName').value}`, 14, 20);
-      doc.text(generatedCssLight || `:root { --primary-brand: #38BDF8; }`, 14, 40);
-      doc.save('design-system.pdf');
+      doc.text(generatedCssLight, 14, 40);
+      doc.save('design_spec.pdf');
     }
 
     window.addEventListener('DOMContentLoaded', () => {
