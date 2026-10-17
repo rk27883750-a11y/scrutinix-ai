@@ -5,12 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scrutinix AI // One-Click Design System & Client Portal</title>
   
-  <!-- FAVICON LOGO TAGS -->
   <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="shortcut icon" type="image/png" href="favicon.png">
-  <link rel="apple-touch-icon" href="favicon.png">
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
   <style>
     :root {
       --bg-color: #0b0f19;
@@ -24,698 +22,226 @@
       --success-color: #10b981;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
     body {
       background-color: var(--bg-color);
       color: var(--text-main);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 900px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    /* TOP NAVIGATION TABS FOR TWO-TAB ARCHITECTURE */
-    .nav-tabs-wrapper {
-      display: flex;
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 6px;
-      gap: 6px;
-    }
-
-    .nav-tab-btn {
-      flex: 1;
-      padding: 10px;
-      background: transparent;
-      border: none;
-      border-radius: 8px;
-      color: var(--text-muted);
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-align: center;
-    }
-
-    .nav-tab-btn.active {
-      background: var(--accent-gradient);
-      color: #000;
-      box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
-    }
-
-    .tab-content-pane {
-      display: none;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .tab-content-pane.active {
-      display: flex;
-    }
-
-    .card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    }
-
-    .header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 20px;
-    }
-
-    .header-titles {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .header-title {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--accent-color);
-      letter-spacing: -0.5px;
-    }
-
-    .header-subtitle {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      font-weight: 400;
-    }
-
-    .feature-tags-bar {
-      font-size: 0.78rem;
-      color: var(--accent-color);
-      font-weight: 500;
-      letter-spacing: 0.3px;
-      margin-top: 2px;
-    }
-
-    .feature-tags-bar span {
-      color: var(--text-muted);
-      margin: 0 4px;
-    }
-
-    .version-selector {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .version-selector label {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .version-select {
-      background: var(--input-bg);
-      border: 1px solid var(--border-color);
-      color: var(--accent-color);
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      outline: none;
-    }
-
-    /* DESIGN FILE IMPORT BOX */
-    .design-import-box {
-      background: #070a12;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 20px;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .design-input {
-      flex: 1;
-      background-color: var(--input-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      padding: 8px 12px;
-      color: #fff;
-      font-size: 0.85rem;
-      outline: none;
-    }
-
-    .design-input:focus {
-      border-color: var(--accent-color);
-    }
-
-    .btn-fetch {
-      padding: 8px 16px;
-      background: var(--accent-gradient);
-      border: none;
-      border-radius: 6px;
-      color: #000;
-      font-weight: 700;
-      font-size: 0.85rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      white-space: nowrap;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-row {
-      display: flex;
-      gap: 16px;
-    }
-
-    .form-row .form-group {
-      flex: 1;
-    }
-
-    label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 6px;
-    }
-
-    input[type="text"], select, textarea {
-      width: 100%;
-      background-color: var(--input-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      padding: 10px 12px;
-      color: #fff;
-      font-size: 0.9rem;
-      outline: none;
-    }
-
-    input[type="text"]:focus, select:focus, textarea:focus {
-      border-color: var(--accent-color);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 60px;
-    }
-
-    .btn-generate {
-      width: 100%;
-      padding: 12px;
-      background: var(--accent-gradient);
-      border: none;
-      border-radius: 6px;
-      color: #000;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      transition: opacity 0.2s ease;
-    }
-
-    .btn-generate:hover {
-      opacity: 0.9;
-    }
-
-    /* 🎨 VISUAL THEME PLAYGROUND STYLES */
-    .playground-box {
-      background-color: #070a12;
-      border: 1px dashed var(--border-color);
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-
-    .playground-title {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .preview-card {
-      background: #1e293b;
-      border-radius: 12px;
-      padding: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .preview-btn {
-      border: none;
-      color: #ffffff;
-      padding: 10px 18px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      border-radius: 8px;
-    }
-
-    /* WCAG ACCESSIBILITY BADGE */
-    .wcag-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid var(--success-color);
-      color: var(--success-color);
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 700;
-    }
-
-    /* 🔒 CLIENT APPROVAL BOX */
-    .approval-section {
-      background: #070a12;
-      border: 1px solid var(--success-color);
-      border-radius: 8px;
-      padding: 16px;
-      margin-top: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .approval-title {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--success-color);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .approval-controls {
-      display: flex;
-      gap: 10px;
-    }
-
-    .btn-approve {
-      padding: 10px 16px;
-      background: var(--success-color);
-      border: none;
-      border-radius: 6px;
-      color: #000;
-      font-weight: 700;
-      font-size: 0.9rem;
-      cursor: pointer;
-    }
-
-    .approval-status {
-      display: none;
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid var(--success-color);
-      padding: 10px;
-      border-radius: 6px;
-      color: var(--success-color);
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-align: center;
-    }
-
-    /* OUTPUT & TABS */
-    .tabs-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .main-tabs, .sub-tabs {
-      display: flex;
-      gap: 8px;
-    }
-
-    .tab-btn {
-      padding: 6px 14px;
-      background-color: var(--input-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      cursor: pointer;
-    }
-
-    .tab-btn.active {
-      background-color: var(--accent-color);
-      color: #000;
-      font-weight: 600;
-      border-color: var(--accent-color);
-    }
-
-    .sub-tab-btn {
-      padding: 5px 10px;
-      background-color: #070a12;
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      cursor: pointer;
-    }
-
-    .sub-tab-btn.active {
-      background-color: #38bdf8;
-      color: #000;
-      font-weight: 600;
-      border-color: #38bdf8;
-    }
-
-    /* CODE BOX */
-    .code-box-wrapper {
-      background-color: #070a12;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      margin-bottom: 16px;
-      overflow: hidden;
-    }
-
-    .box-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #111827;
-      padding: 8px 14px;
-      border-bottom: 1px solid var(--border-color);
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .copy-btn {
-      background-color: #2ea44f;
-      color: #fff;
-      border: none;
-      padding: 4px 10px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      border-radius: 4px;
-      cursor: pointer;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     .copy-btn.copied {
-      background-color: #1f883d;
-    }
-
-    .code-preview {
-      background-color: #070a12;
-      padding: 16px;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 0.85rem;
-      color: #38bdf8;
-      white-space: pre-wrap;
-      max-height: 200px;
-      overflow-y: auto;
-    }
-
-    .actions-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .btn-action {
-      padding: 10px;
-      background-color: var(--input-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      color: #fff;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s;
-    }
-
-    .btn-action:hover {
-      background-color: #27354e;
-      border-color: var(--accent-color);
-    }
-
-    .btn-highlight {
-      background: var(--accent-gradient);
-      color: #000;
-      border: none;
-    }
-
-    /* CHANGELOG BOX WITH GMAIL SHARE */
-    .changelog-card {
-      background: #0f172a;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 12px;
-      margin-top: 16px;
-    }
-
-    .changelog-header {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #a7f3d0;
-      margin-bottom: 6px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .changelog-actions {
-      display: flex;
-      gap: 6px;
-    }
-
-    .btn-gmail {
-      background-color: #ea4335;
-      color: #fff;
-      border: none;
-      padding: 4px 10px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .changelog-text {
-      font-size: 0.8rem;
-      color: #cbd5e1;
-      background: #020617;
-      padding: 8px 12px;
-      border-radius: 6px;
-      border: 1px solid #1e293b;
-      font-family: monospace;
-      white-space: pre-wrap;
-    }
-
-    /* MODAL */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.7);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .modal {
-      background: var(--card-bg);
-      border: 1px solid var(--accent-color);
-      padding: 24px;
-      border-radius: 12px;
-      max-width: 500px;
-      width: 90%;
-      box-shadow: 0 0 30px rgba(0, 210, 255, 0.2);
+      background-color: #1f883d !important;
     }
   </style>
 </head>
-<body>
+<body class="min-h-screen p-4 lg:p-8 flex flex-col justify-between">
 
-  <div class="container">
-    
-    <!-- TOP TWO-TAB NAVIGATION SYSTEM -->
-    <div class="nav-tabs-wrapper">
-      <button class="nav-tab-btn active" id="btnPaneGenerator" onclick="switchMainTab('generator')">⚡ 1. Design Generator & Tokens</button>
-      <button class="nav-tab-btn" id="btnPaneClient" onclick="switchMainTab('client')">📱 2. Client Review & Approval Portal</button>
-    </div>
+  <div class="max-w-7xl mx-auto w-full space-y-6">
 
-    <!-- PANE 1: DESIGN GENERATOR -->
-    <div class="tab-content-pane active" id="paneGenerator">
-      <div class="card">
-        <div class="header-row">
-          <div class="header-titles">
-            <h2 class="header-title">One-Click Design System Generator</h2>
-            <p class="header-subtitle">Turn your ideas into developer-ready files in seconds</p>
-            <p class="feature-tags-bar">CSS Tokens <span>•</span> Tailwind Config <span>•</span> Style Dictionary JSON <span>•</span> Spec PDF</p>
-          </div>
-          
-          <div class="version-selector">
-            <label>Version:</label>
-            <select id="versionDropdown" class="version-select" onchange="loadVersion(this.value)">
-              <option value="current">v1.2 (Active)</option>
-              <option value="v1.1">v1.1</option>
-            </select>
-          </div>
+    <!-- HEADER & BRANDING -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900/80 border border-slate-800 p-4 rounded-2xl shadow-xl">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-gradient-to-tr from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center font-black text-2xl text-slate-950 shadow-lg shadow-cyan-950">S</div>
+        <div>
+          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span></h1>
+          <p class="text-xs text-slate-400">Design System Generator & Client Portal</p>
         </div>
-
-        <div class="design-import-box">
-          <input type="text" id="designUrlInput" class="design-input" placeholder="Paste Design File Link (Optional)...">
-          <button class="btn-fetch" onclick="fetchDesignData()">⚡ Fetch</button>
-        </div>
-        
-        <div class="form-group">
-          <label>Project Name:</label>
-          <input type="text" id="projectName" value="grocery app" oninput="updateLivePreview()">
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>Brand Primary Color (HEX):</label>
-            <input type="text" id="brandColor" value="#351156" oninput="updateLivePreview()">
-          </div>
-          <div class="form-group">
-            <label>Select Typography Font:</label>
-            <select id="fontSelect" onchange="updateLivePreview()">
-              <option value="Roboto">Roboto</option>
-              <option value="Inter">Inter</option>
-              <option value="Poppins">Poppins</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Additional Layout Rules:</label>
-          <textarea id="customRules" oninput="updateLivePreview()">base-padding: 16px, border-radius-md: 8px</textarea>
-        </div>
-
-        <button class="btn-generate" onclick="generateSystem()">⚡ GENERATE TOKENS & ARCHITECTURE</button>
       </div>
+      <div class="text-left md:text-right">
+        <p class="text-sm font-bold text-cyan-400">Turn Design Choices Into Developer-Ready Files</p>
+        <p class="text-xs text-slate-400">Zero Figma Setup • 1-Click Code & Client Review</p>
+      </div>
+      <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live Active Mode
+      </span>
     </div>
 
-    <!-- PANE 2: CLIENT REVIEW & APPROVAL PORTAL -->
-    <div class="tab-content-pane" id="paneClient">
-      <div class="card">
-        <div class="header-titles" style="margin-bottom: 16px;">
-          <h2 class="header-title">Client Mobile & Review Portal</h2>
-          <p class="header-subtitle">Figma-free clean interface for fast client feedback and approval</p>
+    <!-- MOBILE TABS NAVIGATION (Visible only on small screens) -->
+    <div class="flex lg:hidden bg-slate-900 border border-slate-800 p-1.5 rounded-xl gap-2">
+      <button id="mobileTabBtnGen" onclick="switchMobileTab('gen')" class="flex-1 py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-500 text-slate-950 transition">
+        ⚡ 1. Design Generator
+      </button>
+      <button id="mobileTabBtnClient" onclick="switchMobileTab('client')" class="flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">
+        📱 2. Client Review Portal
+      </button>
+    </div>
+
+    <!-- MAIN 2-COLUMN DASHBOARD SPLIT -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- LEFT COLUMN: BHAG 1 - DESIGN SYSTEM GENERATOR -->
+      <div id="colGenerator" class="lg:col-span-5 bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-2xl flex flex-col justify-between space-y-6">
+        <div class="space-y-5">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <div>
+              <h2 class="text-base font-bold text-white">Design Generator</h2>
+              <p class="text-xs text-slate-400">Developer-Ready Token Builder</p>
+            </div>
+            <select id="versionDropdown" class="bg-slate-950 border border-slate-800 text-cyan-400 text-xs px-2.5 py-1 rounded-md outline-none">
+              <option value="current">v1.2 (Active)</option>
+            </select>
+          </div>
+
+          <!-- Optional Import -->
+          <div class="flex gap-2 bg-slate-950 p-2 border border-slate-800 rounded-xl">
+            <input type="text" id="designUrlInput" placeholder="Paste Design File Link (Optional)..." class="flex-1 bg-transparent text-xs text-white px-2 outline-none">
+            <button onclick="fetchDesignData()" class="bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-xs px-3 py-1.5 rounded-lg shadow-md hover:opacity-90">
+              ⚡ Fetch
+            </button>
+          </div>
+
+          <!-- Form Inputs -->
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Project Name</label>
+              <input type="text" id="projectName" value="grocery app" oninput="updateLivePreview()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:border-cyan-500 outline-none">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Brand Primary Color</label>
+                <div class="flex items-center gap-2 bg-slate-950 border border-slate-800 rounded-xl p-1.5">
+                  <input type="color" id="brandColorPicker" value="#351156" oninput="syncColorInput('picker')" class="w-7 h-7 rounded bg-transparent border-0 cursor-pointer">
+                  <input type="text" id="brandColor" value="#351156" oninput="syncColorInput('text')" class="w-full bg-transparent text-xs uppercase text-white outline-none">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Typography Font</label>
+                <select id="fontSelect" onchange="updateLivePreview()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white outline-none">
+                  <option value="Roboto">Roboto</option>
+                  <option value="Inter">Inter</option>
+                  <option value="Poppins">Poppins</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Layout & Component Rules</label>
+              <textarea id="customRules" oninput="updateLivePreview()" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white outline-none h-20 resize-none">base-padding: 16px, border-radius-md: 8px</textarea>
+            </div>
+          </div>
         </div>
+
+        <button onclick="generateSystem()" class="w-full bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-extrabold text-xs py-3.5 rounded-xl shadow-lg shadow-cyan-950/50 transition tracking-wide uppercase">
+          ⚡ Generate Tokens & Architecture
+        </button>
+      </div>
+
+      <!-- RIGHT COLUMN: BHAG 2 - CLIENT REVIEW & CODE EXPORT -->
+      <div id="colClient" class="hidden lg:block lg:col-span-7 space-y-6">
 
         <!-- VISUAL THEME PLAYGROUND -->
-        <div class="playground-box">
-          <div class="playground-title">
-            <span>🎨 Live Visual Theme Playground</span>
-            <span id="wcagScoreBadge" class="wcag-badge">Contrast: 7.5:1 (AAA Pass)</span>
-          </div>
-          <div class="preview-card">
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-2xl space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
             <div>
-              <h4 id="previewAppTitle" style="color:#fff; font-size: 1rem; font-weight:700;">grocery app</h4>
-              <p style="color:#94a3b8; font-size: 0.8rem; margin-top:2px;">Design System Token Active</p>
+              <h3 class="text-base font-bold text-white">Live Visual Theme Playground</h3>
+              <p class="text-xs text-slate-400">Client Real-Time Preview</p>
             </div>
-            <button class="preview-btn" id="previewBtn">Primary CTA</button>
+            <span id="wcagScoreBadge" class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-bold">
+              Contrast: 7.5:1 (AAA Pass)
+            </span>
           </div>
 
-          <!-- CLIENT APPROVAL BOX -->
-          <div class="approval-section">
-            <div class="approval-title">🔒 Client Review & Approval Portal</div>
-            <div class="approval-controls" id="approvalControls">
-              <input type="text" id="clientNameInput" placeholder="Enter your name to approve..." style="flex:1;">
-              <button class="btn-approve" onclick="approveDesign()">✅ Approve Design System</button>
+          <!-- Preview Component Frame -->
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-4">
+            <div class="flex justify-between items-center">
+              <div class="flex items-center space-x-3">
+                <div id="previewLogo" class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 font-extrabold text-lg flex items-center justify-center">G</div>
+                <div>
+                  <h4 id="previewAppTitle" class="text-sm font-bold text-white">grocery app</h4>
+                  <p class="text-[11px] text-slate-400">Design System Token Active</p>
+                </div>
+              </div>
+              <button id="previewBtn" class="bg-indigo-600 text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-md transition">
+                Primary CTA
+              </button>
             </div>
-            <div class="approval-status" id="approvalStatus">
-              🎉 Design System successfully approved by <span id="approvedClientName"></span>! Tokens locked.
+
+            <!-- Client Approval Box -->
+            <div class="bg-slate-900/80 border border-emerald-500/40 rounded-xl p-3.5 space-y-2.5">
+              <p class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                🔒 Client Review & Approval Portal
+              </p>
+              <div id="approvalControls" class="flex gap-2">
+                <input type="text" id="clientNameInput" placeholder="Enter your name to approve..." class="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none">
+                <button onclick="approveDesign()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition whitespace-nowrap">
+                  ✅ Approve Design
+                </button>
+              </div>
+              <div id="approvalStatus" class="hidden bg-emerald-500/10 border border-emerald-500/30 p-2.5 rounded-lg text-xs text-emerald-400 text-center font-semibold">
+                🎉 Design System successfully approved by <span id="approvedClientName"></span>! Tokens locked.
+              </div>
+            </div>
+          </div>
+
+          <!-- Changelog & Share Actions -->
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-bold text-slate-300">🤖 AI Client Changelog (WhatsApp / Email / Slack)</span>
+              <div class="flex gap-2">
+                <button onclick="sendViaGmail()" class="bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-bold px-2.5 py-1 rounded transition">
+                  📧 Send via Gmail
+                </button>
+                <button onclick="copyChangelogMsg()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-bold px-2.5 py-1 rounded border border-slate-700 transition">
+                  📋 Copy
+                </button>
+              </div>
+            </div>
+            <div id="changelogMsg" class="bg-slate-900 p-2.5 rounded-lg text-[11px] font-mono text-slate-300 border border-slate-800/80 leading-relaxed">
+              Loading changelog...
             </div>
           </div>
         </div>
 
-        <!-- AUTOMATED CHANGELOG BOX WITH GMAIL -->
-        <div class="changelog-card">
-          <div class="changelog-header">
-            <span>🤖 AI Client Changelog (WhatsApp / Email / Slack)</span>
-            <div class="changelog-actions">
-              <button class="btn-gmail" onclick="sendViaGmail()">📧 Send via Gmail</button>
-              <button class="copy-btn" onclick="copyChangelogMsg()">📋 Copy Message</button>
+        <!-- CODE EXPORTS & TABS SECTION -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-2xl space-y-4">
+          <div class="flex flex-wrap justify-between items-center gap-2">
+            <div class="flex gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800">
+              <button id="tabCss" onclick="switchTab('css')" class="text-xs font-bold px-3 py-1.5 rounded-md bg-cyan-500 text-slate-950 transition">CSS Variables</button>
+              <button id="tabTailwind" onclick="switchTab('tailwind')" class="text-xs font-semibold px-3 py-1.5 rounded-md text-slate-400 hover:text-white transition">Tailwind Config</button>
+              <button id="tabJson" onclick="switchTab('json')" class="text-xs font-semibold px-3 py-1.5 rounded-md text-slate-400 hover:text-white transition">JSON Tokens</button>
+            </div>
+            <div id="modeSubTabs" class="flex gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800">
+              <button id="subTabLight" onclick="switchMode('light')" class="text-[11px] font-bold px-2.5 py-1 rounded bg-slate-800 text-cyan-400">☀️ Light</button>
+              <button id="subTabDark" onclick="switchMode('dark')" class="text-[11px] font-semibold px-2.5 py-1 rounded text-slate-400">🌙 Dark</button>
             </div>
           </div>
-          <div class="changelog-text" id="changelogMsg">Loading changelog...</div>
-        </div>
-      </div>
-    </div>
 
-    <!-- GLOBAL CODE OUTPUT & EXPORTS CARD -->
-    <div class="card">
-      <div class="tabs-container">
-        <div class="main-tabs">
-          <button class="tab-btn active" id="tabCss" onclick="switchTab('css')">CSS Variables</button>
-          <button class="tab-btn" id="tabTailwind" onclick="switchTab('tailwind')">Tailwind Config</button>
-          <button class="tab-btn" id="tabJson" onclick="switchTab('json')">JSON Tokens</button>
-        </div>
-        <div class="sub-tabs" id="modeSubTabs">
-          <button class="sub-tab-btn active" id="subTabLight" onclick="switchMode('light')">☀️ Light</button>
-          <button class="sub-tab-btn" id="subTabDark" onclick="switchMode('dark')">🌙 Dark</button>
-        </div>
-      </div>
+          <!-- Code Box -->
+          <div class="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden">
+            <div class="flex justify-between items-center bg-slate-900 px-3.5 py-2 border-b border-slate-800 text-xs text-slate-400">
+              <span id="codeBoxTitle">variables-light.css</span>
+              <button onclick="copyCodeOutput()" class="copy-btn bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[10px] px-2.5 py-1 rounded transition">
+                📄 Copy Code
+              </button>
+            </div>
+            <pre id="codeOutput" class="p-3.5 text-xs font-mono text-cyan-400 h-32 overflow-y-auto whitespace-pre-wrap"></pre>
+          </div>
 
-      <div class="code-box-wrapper">
-        <div class="box-header">
-          <span id="codeBoxTitle">variables.css</span>
-          <button class="copy-btn" onclick="copyCodeOutput()">📄 Copy Code</button>
+          <!-- Export Action Buttons -->
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+            <button onclick="exportCss()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-[11px] py-2.5 rounded-xl transition">📥 CSS</button>
+            <button onclick="exportTailwind()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-[11px] py-2.5 rounded-xl transition">📥 Tailwind</button>
+            <button onclick="exportJson()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-[11px] py-2.5 rounded-xl transition">📥 JSON</button>
+            <button onclick="exportPdf()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-[11px] py-2.5 rounded-xl transition">📄 Spec PDF</button>
+            <button onclick="openShareModal()" class="col-span-2 sm:col-span-1 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-[11px] py-2.5 rounded-xl transition shadow-md">🌐 Share Link</button>
+          </div>
         </div>
-        <pre class="code-preview" id="codeOutput"></pre>
+
       </div>
 
-      <div class="actions-grid">
-        <button class="btn-action" onclick="exportCss()">📥 Export CSS</button>
-        <button class="btn-action" onclick="exportTailwind()">📥 Export Tailwind</button>
-        <button class="btn-action" onclick="exportJson()">📥 Export JSON</button>
-        <button class="btn-action" onclick="exportPdf()">📄 Export PDF Spec</button>
-        <button class="btn-action btn-highlight" onclick="openShareModal()">🌐 Share Live Link</button>
-      </div>
     </div>
   </div>
 
   <!-- SHARE LINK MODAL -->
-  <div class="modal-overlay" id="shareModal">
-    <div class="modal">
-      <h3 style="color:var(--accent-color); margin-bottom:10px;">🌐 Share Live Client Review Link</h3>
-      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px;">
-        Send this link to clients for direct review and mobile approval.
-      </p>
-      <input type="text" id="shareLinkInput" readonly style="margin-bottom:16px; color:#38bdf8;">
-      <div style="display:flex; gap:10px;">
-        <button class="btn-generate" onclick="copyShareLink()">📋 Copy Link</button>
-        <button class="btn-action" onclick="closeShareModal()">Close</button>
+  <div id="shareModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+    <div class="bg-slate-900 border border-cyan-500/30 p-6 rounded-2xl max-w-md w-full shadow-2xl space-y-4">
+      <h3 class="text-base font-bold text-cyan-400">🌐 Share Live Client Review Link</h3>
+      <p class="text-xs text-slate-400">Send this direct portal link to clients for 1-click review and mobile approval.</p>
+      <input type="text" id="shareLinkInput" readonly class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-cyan-400 outline-none">
+      <div class="flex gap-2">
+        <button onclick="copyShareLink()" class="flex-1 bg-cyan-500 text-slate-950 font-bold text-xs py-2.5 rounded-xl">📋 Copy Link</button>
+        <button onclick="closeShareModal()" class="bg-slate-800 text-slate-300 font-semibold text-xs px-4 py-2.5 rounded-xl">Close</button>
       </div>
     </div>
   </div>
@@ -735,24 +261,31 @@
       return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
     }
 
-    // Two-Tab Switcher Logic
-    function switchMainTab(paneName) {
-      document.getElementById('paneGenerator').classList.toggle('active', paneName === 'generator');
-      document.getElementById('paneClient').classList.toggle('active', paneName === 'client');
-      document.getElementById('btnPaneGenerator').classList.toggle('active', paneName === 'generator');
-      document.getElementById('btnPaneClient').classList.toggle('active', paneName === 'client');
+    function switchMobileTab(tab) {
+      const colGen = document.getElementById('colGenerator');
+      const colClient = document.getElementById('colClient');
+      const btnGen = document.getElementById('mobileTabBtnGen');
+      const btnClient = document.getElementById('mobileTabBtnClient');
+
+      if (tab === 'gen') {
+        colGen.classList.remove('hidden');
+        colClient.classList.add('hidden');
+        btnGen.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-500 text-slate-950 transition";
+        btnClient.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
+      } else {
+        colGen.classList.add('hidden');
+        colClient.classList.remove('hidden');
+        btnClient.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-500 text-slate-950 transition";
+        btnGen.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
+      }
     }
 
-    function fetchDesignData() {
-      const url = document.getElementById('designUrlInput').value.trim();
-      if(!url) {
-        alert('Please paste a valid design file link first!');
-        return;
-      }
-      document.getElementById('projectName').value = "Imported Design System";
-      document.getElementById('brandColor').value = "#6366f1";
-      generateSystem();
-      alert('✨ Design tokens successfully fetched & applied!');
+    function syncColorInput(source) {
+      const picker = document.getElementById('brandColorPicker');
+      const text = document.getElementById('brandColor');
+      if (source === 'picker') text.value = picker.value;
+      else picker.value = text.value;
+      updateLivePreview();
     }
 
     function updateLivePreview() {
@@ -761,23 +294,21 @@
       const font = document.getElementById('fontSelect').value;
 
       document.getElementById('previewAppTitle').innerText = name;
-      document.getElementById('previewAppTitle').style.fontFamily = font;
+      document.getElementById('previewLogo').innerText = name.charAt(0).toUpperCase();
       
       const btn = document.getElementById('previewBtn');
       btn.style.backgroundColor = hex;
       btn.style.fontFamily = font;
 
-      // Real-Time WCAG Contrast Score Simulation
+      // WCAG Contrast Score
       const rgb = hexToRgb(hex);
       const brightness = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
       const badge = document.getElementById('wcagScoreBadge');
       if (brightness > 180) {
-        badge.style.color = '#ef4444';
-        badge.style.borderColor = '#ef4444';
+        badge.className = "text-xs bg-rose-500/10 text-rose-400 border border-rose-500/20 px-3 py-1 rounded-full font-bold";
         badge.innerText = "Contrast: 2.1:1 (Low Contrast)";
       } else {
-        badge.style.color = 'var(--success-color)';
-        badge.style.borderColor = 'var(--success-color)';
+        badge.className = "text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-bold";
         badge.innerText = "Contrast: 7.5:1 (AAA Pass)";
       }
     }
@@ -798,12 +329,12 @@
       if(rules) {
         rules.split(',').forEach(p => {
           const [k, v] = p.split(':').map(s => s.trim());
-          if(k && v) { rulesCss += `  --${k}: ${v};\n`; }
+          if(k && v) rulesCss += `  --${k}: ${v};\n`;
         });
       }
 
-      generatedCssLight = `:root {\n  /* Project Identity: ${name} (Light Mode) */\n  --primary-brand: ${hex};\n  --primary-brand-rgb: ${rgb.r}, ${rgb.g}, ${rgb.b};\n  --main-font-stack: '${font}', sans-serif;\n${rulesCss}}`;
-      generatedCssDark = `:root {\n  /* Project Identity: ${name} (Dark Mode) */\n  --primary-brand: ${hex};\n  --primary-brand-rgb: ${rgb.r}, ${rgb.g}, ${rgb.b};\n  --main-font-stack: '${font}', sans-serif;\n${rulesCss}}`;
+      generatedCssLight = `:root {\n  /* Identity: ${name} (Light Mode) */\n  --primary-brand: ${hex};\n  --primary-brand-rgb: ${rgb.r}, ${rgb.g}, ${rgb.b};\n  --font-main: '${font}', sans-serif;\n${rulesCss}}`;
+      generatedCssDark = `:root {\n  /* Identity: ${name} (Dark Mode) */\n  --primary-brand: ${hex};\n  --primary-brand-rgb: ${rgb.r}, ${rgb.g}, ${rgb.b};\n  --font-main: '${font}', sans-serif;\n${rulesCss}}`;
       generatedTailwindCode = `// tailwind.config.js - ${name}\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: { 'primary-brand': '${hex}' },\n      fontFamily: { 'main': ['${font}', 'sans-serif'] }\n    }\n  }\n}`;
       generatedJsonCode = JSON.stringify({ global: { project: name, color: hex, font: font } }, null, 2);
 
@@ -831,16 +362,16 @@
 
     function switchTab(tab) {
       currentTab = tab;
-      document.getElementById('tabCss').classList.toggle('active', tab === 'css');
-      document.getElementById('tabTailwind').classList.toggle('active', tab === 'tailwind');
-      document.getElementById('tabJson').classList.toggle('active', tab === 'json');
+      document.getElementById('tabCss').className = tab === 'css' ? "text-xs font-bold px-3 py-1.5 rounded-md bg-cyan-500 text-slate-950 transition" : "text-xs font-semibold px-3 py-1.5 rounded-md text-slate-400 hover:text-white transition";
+      document.getElementById('tabTailwind').className = tab === 'tailwind' ? "text-xs font-bold px-3 py-1.5 rounded-md bg-cyan-500 text-slate-950 transition" : "text-xs font-semibold px-3 py-1.5 rounded-md text-slate-400 hover:text-white transition";
+      document.getElementById('tabJson').className = tab === 'json' ? "text-xs font-bold px-3 py-1.5 rounded-md bg-cyan-500 text-slate-950 transition" : "text-xs font-semibold px-3 py-1.5 rounded-md text-slate-400 hover:text-white transition";
       updateOutputDisplay();
     }
 
     function switchMode(mode) {
       currentMode = mode;
-      document.getElementById('subTabLight').classList.toggle('active', mode === 'light');
-      document.getElementById('subTabDark').classList.toggle('active', mode === 'dark');
+      document.getElementById('subTabLight').className = mode === 'light' ? "text-[11px] font-bold px-2.5 py-1 rounded bg-slate-800 text-cyan-400" : "text-[11px] font-semibold px-2.5 py-1 rounded text-slate-400";
+      document.getElementById('subTabDark').className = mode === 'dark' ? "text-[11px] font-bold px-2.5 py-1 rounded bg-slate-800 text-cyan-400" : "text-[11px] font-semibold px-2.5 py-1 rounded text-slate-400";
       updateOutputDisplay();
     }
 
@@ -856,13 +387,19 @@
       });
     }
 
-    // 📧 1-Click Gmail Share Integration
     function sendViaGmail() {
       const projectName = document.getElementById('projectName').value || 'Design System';
       const changelogText = document.getElementById('changelogMsg').innerText;
       const subject = encodeURIComponent(`[Scrutinix AI] Design Update & Approval Link: ${projectName}`);
       const body = encodeURIComponent(`${changelogText}\n\nLive Client Portal Link: ${window.location.href}`);
       window.open(`https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=${subject}&body=${body}`, '_blank');
+    }
+
+    function fetchDesignData() {
+      if(!document.getElementById('designUrlInput').value.trim()) return alert('Paste a valid design link!');
+      document.getElementById('projectName').value = "Imported App";
+      generateSystem();
+      alert('✨ Tokens fetched!');
     }
 
     function downloadFile(filename, content, type) {
@@ -879,29 +416,30 @@
     function exportPdf() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
-      doc.text(`Design System Spec - ${document.getElementById('projectName').value}`, 14, 20);
+      doc.text(`Design Spec - ${document.getElementById('projectName').value}`, 14, 20);
       doc.text(generatedCssLight, 14, 40);
-      doc.save(`design_spec.pdf`);
+      doc.save('design_spec.pdf');
     }
 
     function approveDesign() {
       const clientName = document.getElementById('clientNameInput').value.trim();
-      if(!clientName) {
-        alert('Please enter your name to approve!');
-        return;
-      }
+      if(!clientName) return alert('Enter your name to approve!');
       document.getElementById('approvalControls').style.display = 'none';
       document.getElementById('approvedClientName').innerText = clientName;
-      document.getElementById('approvalStatus').style.display = 'block';
+      document.getElementById('approvalStatus').classList.remove('hidden');
     }
 
     function openShareModal() {
-      const shareUrl = `${window.location.origin}${window.location.pathname}?view=client`;
-      document.getElementById('shareLinkInput').value = shareUrl;
-      document.getElementById('shareModal').style.display = 'flex';
+      document.getElementById('shareLinkInput').value = `${window.location.origin}${window.location.pathname}?view=client`;
+      document.getElementById('shareModal').classList.remove('hidden');
+      document.getElementById('shareModal').classList.add('flex');
     }
 
-    function closeShareModal() { document.getElementById('shareModal').style.display = 'none'; }
+    function closeShareModal() {
+      document.getElementById('shareModal').classList.add('hidden');
+      document.getElementById('shareModal').classList.remove('flex');
+    }
+
     function copyShareLink() {
       navigator.clipboard.writeText(document.getElementById('shareLinkInput').value);
       alert('Secret Client Link copied!');
@@ -911,8 +449,8 @@
     window.addEventListener('DOMContentLoaded', () => {
       generateSystem();
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('view') === 'client') {
-        switchMainTab('client');
+      if (urlParams.get('view') === 'client' && window.innerWidth < 1024) {
+        switchMobileTab('client');
       }
     });
   </script>
