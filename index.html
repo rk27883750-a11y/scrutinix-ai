@@ -73,7 +73,7 @@
       </button>
     </div>
 
-    <!-- MAIN DUAL SPLIT LAYOUT (DESKTOP SIDE-BY-SIDE BHAAG) -->
+    <!-- MAIN DUAL SPLIT LAYOUT -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
 
       <!-- BHAAG 1: DESIGN GENERATOR (LEFT SIDE) -->
@@ -89,7 +89,7 @@
             </select>
           </div>
 
-          <!-- ONE-CLICK AI THEME PRESETS (Replaced Figma Link Box) -->
+          <!-- ONE-CLICK AI THEME PRESETS -->
           <div class="bg-slate-950 p-3 border border-slate-800 rounded-lg space-y-2">
             <label class="block text-[11px] font-bold text-cyan-400 flex items-center gap-1.5">
               <span>✨</span> One-Click AI Theme Presets
@@ -104,6 +104,21 @@
               <button onclick="applyPreset('#6366f1', 'Poppins')" class="bg-slate-900 hover:bg-slate-800 border border-indigo-500/30 text-indigo-300 text-[11px] font-bold py-1.5 px-2 rounded transition">
                 👑 Royal Indigo
               </button>
+            </div>
+          </div>
+
+          <!-- QUICK COLOR PALETTES (6 Popular Colors) -->
+          <div class="bg-slate-950 p-3 border border-slate-800 rounded-lg space-y-2">
+            <label class="block text-[11px] font-bold text-slate-300 flex items-center gap-1.5">
+              <span>🎨</span> Quick Brand Color Palettes
+            </label>
+            <div class="flex items-center justify-between gap-1.5 pt-1">
+              <button onclick="setColor('#0066FF')" title="Tech Blue" class="w-7 h-7 rounded-full bg-[#0066FF] border-2 border-slate-700 hover:scale-110 transition shadow-md"></button>
+              <button onclick="setColor('#351156')" title="Royal Purple" class="w-7 h-7 rounded-full bg-[#351156] border-2 border-slate-700 hover:scale-110 transition shadow-md"></button>
+              <button onclick="setColor('#10B981')" title="Fresh Mint" class="w-7 h-7 rounded-full bg-[#10B981] border-2 border-slate-700 hover:scale-110 transition shadow-md"></button>
+              <button onclick="setColor('#F59E0B')" title="Warm Amber" class="w-7 h-7 rounded-full bg-[#F59E0B] border-2 border-slate-700 hover:scale-110 transition shadow-md"></button>
+              <button onclick="setColor('#EF4444')" title="Crimson Red" class="w-7 h-7 rounded-full bg-[#EF4444] border-2 border-slate-700 hover:scale-110 transition shadow-md"></button>
+              <button onclick="setColor('#00D2FF')" title="Cyber Cyan" class="w-7 h-7 rounded-full bg-[#00D2FF] border-2 border-slate-700 hover:scale-110 transition shadow-md"></button>
             </div>
           </div>
 
@@ -171,16 +186,28 @@
             </div>
 
             <!-- Client Review & Approval Portal -->
-            <div class="bg-slate-900 border border-emerald-500/40 rounded-lg p-3 space-y-2">
-              <div class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
-                🔒 Client Review & Approval Portal
+            <div class="bg-slate-900 border border-emerald-500/40 rounded-lg p-3 space-y-3">
+              <div class="text-xs font-bold text-emerald-400 flex items-center justify-between">
+                <span>🔒 Client Review & Approval Portal</span>
+                <span id="portalStateBadge" class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30">🟡 In Review</span>
               </div>
+
+              <!-- Approval Input -->
               <div id="approvalControls" class="flex gap-2">
                 <input type="text" id="clientNameInput" placeholder="Enter your name to approve..." class="flex-1 bg-slate-950 border border-slate-800 rounded-md px-3 py-1.5 text-xs text-white outline-none">
                 <button onclick="approveDesign()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-3.5 py-1.5 rounded-md transition whitespace-nowrap">
                   ✅ Approve Design System
                 </button>
               </div>
+
+              <!-- Revision Request Box -->
+              <div id="revisionControls" class="flex gap-2 pt-1 border-t border-slate-800/60">
+                <input type="text" id="feedbackInput" placeholder="Request changes (e.g. Primary color thoda dark karo)..." class="flex-1 bg-slate-950 border border-slate-800 rounded-md px-3 py-1.5 text-xs text-white outline-none">
+                <button onclick="submitFeedback()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-3 py-1.5 rounded-md transition whitespace-nowrap">
+                  📝 Request Changes
+                </button>
+              </div>
+
               <div id="approvalStatus" class="hidden bg-emerald-500/10 border border-emerald-500/30 p-2 rounded-md text-xs text-emerald-400 text-center font-semibold">
                 🎉 Design System approved by <span id="approvedClientName"></span>! Tokens locked.
               </div>
@@ -231,7 +258,7 @@
             <button onclick="exportCss()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export variables.css</button>
             <button onclick="exportTailwind()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export tailwind.config.js</button>
             <button onclick="exportJson()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export style-dictionary.json</button>
-            <button onclick="exportPdf()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📄 Export Spec PDF</button>
+            <button onclick="exportPdf()" class="bg-slate-950 hover:bg-slate-800 border border-cyan-500/30 text-cyan-400 font-bold text-xs py-2 rounded-lg transition">📄 Export Spec PDF</button>
             <button onclick="copyShareLink()" class="col-span-2 sm:col-span-1 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2 rounded-lg transition">🌐 Share Live Client Link</button>
           </div>
 
@@ -275,6 +302,13 @@
       if (source === 'picker') text.value = picker.value.toUpperCase();
       else picker.value = text.value;
       updateLivePreview();
+      generateSystem();
+    }
+
+    function setColor(hex) {
+      document.getElementById('brandColor').value = hex;
+      document.getElementById('brandColorPicker').value = hex;
+      generateSystem();
     }
 
     function applyPreset(hex, fontName) {
@@ -296,8 +330,13 @@
       btn.style.fontFamily = font;
     }
 
-    function updateChangelog(name, hex, font, rules) {
-      const msg = `🚀 *One-Click Design System Update for ${name}*:\nUpdated Brand Color to \`${hex}\`, Font to \`${font}\` & Rules: \`${rules}\`. Click live preview link to approve!`;
+    function updateChangelog(name, hex, font, rules, extraNote = "") {
+      let msg = `🚀 *One-Click Design System Update for ${name}*:\nUpdated Brand Color to \`${hex}\`, Font to \`${font}\` & Rules: \`${rules}\`.`;
+      if(extraNote) {
+        msg += `\n💬 *Client Note:* ${extraNote}`;
+      } else {
+        msg += ` Click live preview link to approve!`;
+      }
       document.getElementById('changelogMsg').innerText = msg;
     }
 
@@ -387,8 +426,25 @@
       const clientName = document.getElementById('clientNameInput').value.trim();
       if(!clientName) return alert('Enter name to approve!');
       document.getElementById('approvalControls').style.display = 'none';
+      document.getElementById('revisionControls').style.display = 'none';
       document.getElementById('approvedClientName').innerText = clientName;
       document.getElementById('approvalStatus').classList.remove('hidden');
+      document.getElementById('portalStateBadge').className = "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30";
+      document.getElementById('portalStateBadge').innerText = "🟢 Approved & Locked";
+    }
+
+    function submitFeedback() {
+      const note = document.getElementById('feedbackInput').value.trim();
+      if(!note) return alert('Kripya change request note likhein!');
+      const name = document.getElementById('projectName').value || 'grocery app';
+      const hex = document.getElementById('brandColor').value || '#351156';
+      const font = document.getElementById('fontSelect').value;
+      const rules = document.getElementById('customRules').value;
+
+      updateChangelog(name, hex, font, rules, note);
+      document.getElementById('portalStateBadge').className = "text-[10px] bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded border border-rose-500/30";
+      document.getElementById('portalStateBadge').innerText = "🔴 Revision Requested";
+      alert('✓ Feedback added to Changelog!');
     }
 
     function copyShareLink() {
@@ -408,12 +464,38 @@
     function exportCss() { downloadFile(`variables-${currentMode}.css`, (currentMode === 'light') ? generatedCssLight : generatedCssDark, 'text/css'); }
     function exportTailwind() { downloadFile('tailwind.config.js', generatedTailwindCode, 'text/javascript'); }
     function exportJson() { downloadFile('style-dictionary.json', generatedJsonCode, 'application/json'); }
+    
     function exportPdf() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
-      doc.text(`Design Spec - ${document.getElementById('projectName').value}`, 14, 20);
-      doc.text(generatedCssLight, 14, 40);
-      doc.save('design_spec.pdf');
+      const pName = document.getElementById('projectName').value || 'Project';
+      const hex = document.getElementById('brandColor').value || '#351156';
+      const font = document.getElementById('fontSelect').value;
+      const rules = document.getElementById('customRules').value;
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(18);
+      doc.text(`Scrutinix AI // Brand Spec Document`, 14, 20);
+
+      doc.setFontSize(12);
+      doc.setFont("helvetica", "normal");
+      doc.text(`Project Name: ${pName}`, 14, 32);
+      doc.text(`Primary Brand Color: ${hex}`, 14, 40);
+      doc.text(`Typography Font: ${font}`, 14, 48);
+      doc.text(`Layout Rules: ${rules}`, 14, 56);
+
+      doc.setLineWidth(0.5);
+      doc.line(14, 62, 196, 62);
+
+      doc.setFont("helvetica", "bold");
+      doc.text(`CSS Tokens (Root):`, 14, 72);
+      doc.setFont("courier", "normal");
+      doc.setFontSize(10);
+      
+      const splitCss = doc.splitTextToSize(generatedCssLight, 180);
+      doc.text(splitCss, 14, 80);
+
+      doc.save(`${pName.replace(/\s+/g, '_')}_Brand_Spec.pdf`);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
