@@ -85,7 +85,7 @@
               <p class="text-xs text-slate-400">Turn your ideas into developer-ready files in seconds</p>
             </div>
             <select id="versionDropdown" class="bg-slate-950 border border-slate-800 text-cyan-400 text-xs px-2.5 py-1 rounded-md outline-none font-bold">
-              <option value="current">v1.2 (Active)</option>
+              <option value="current">v1.3 (Active)</option>
             </select>
           </div>
 
@@ -169,7 +169,7 @@
               <h3 class="text-sm font-bold text-white uppercase tracking-wider">🎨 LIVE VISUAL THEME PLAYGROUND (CLIENT VIEW)</h3>
             </div>
             <span id="wcagBadge" class="text-[11px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold">
-              REAL-TIME COMPONENT PREVIEW
+              ✓ WCAG AA Pass (4.8:1)
             </span>
           </div>
 
@@ -183,6 +183,15 @@
               <button id="previewBtn" class="text-white font-bold text-xs px-4 py-2 rounded-md shadow-md transition">
                 Primary CTA
               </button>
+            </div>
+
+            <!-- NEW FEATURE 2: TYPOGRAPHY SCALE VISUALIZER PREVIEW -->
+            <div class="bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1">
+              <p class="text-[10px] font-bold text-cyan-400 uppercase tracking-wider">📐 Typography Scale Preview</p>
+              <div id="previewTypography" class="text-white space-y-0.5">
+                <div class="text-base font-bold">H1 Heading - Core Display</div>
+                <div class="text-xs text-slate-300">Body text - Standard interface interface preview typography.</div>
+              </div>
             </div>
 
             <!-- Client Review & Approval Portal -->
@@ -318,6 +327,37 @@
       generateSystem();
     }
 
+    // Helper to calculate WCAG Contrast & update UI features
+    function calculateContrastAndBadge(hex) {
+      // Remove '#' if present
+      let cleanHex = hex.replace('#', '');
+      if(cleanHex.length === 3) {
+        cleanHex = cleanHex.split('').map(c => c + c).join('');
+      }
+      const r = parseInt(cleanHex.substr(0,2), 16) || 0;
+      const g = parseInt(cleanHex.substr(2,2), 16) || 0;
+      const b = parseInt(cleanHex.substr(4,2), 16) || 0;
+      
+      // Relative luminance formula for sRGB
+      const a = [r, g, b].map(v => {
+        v /= 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+      });
+      const luminance = 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
+      
+      // Contrast ratio against white (#ffffff -> lum 1.0)
+      const ratio = (1.0 + 0.05) / (luminance + 0.05);
+      const badge = document.getElementById('wcagBadge');
+      
+      if(ratio >= 4.5) {
+        badge.className = "text-[11px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold";
+        badge.innerText = `✓ WCAG AA Pass (${ratio.toFixed(1)}:1)`;
+      } else {
+        badge.className = "text-[11px] bg-amber-500/15 text-amber-400 border border-amber-500/30 px-2.5 py-0.5 rounded-full font-bold";
+        badge.innerText = `⚠ Low Contrast (${ratio.toFixed(1)}:1)`;
+      }
+    }
+
     function updateLivePreview() {
       const name = document.getElementById('projectName').value || 'grocery app';
       const hex = document.getElementById('brandColor').value || '#351156';
@@ -328,6 +368,12 @@
       const btn = document.getElementById('previewBtn');
       btn.style.backgroundColor = hex;
       btn.style.fontFamily = font;
+
+      // Update Typography Preview font family & scale style
+      const typoPreview = document.getElementById('previewTypography');
+      typoPreview.style.fontFamily = font;
+
+      calculateContrastAndBadge(hex);
     }
 
     function updateChangelog(name, hex, font, rules, extraNote = "") {
