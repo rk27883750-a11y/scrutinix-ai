@@ -207,7 +207,7 @@
               </div>
             </div>
 
-            <!-- Client Review & Approval Portal (Fully Responsive Flex-Col on Mobile) -->
+            <!-- Client Review & Approval Portal -->
             <div class="bg-slate-900 border border-emerald-500/40 rounded-lg p-3 space-y-3">
               <div class="text-xs font-bold text-emerald-400 flex items-center justify-between">
                 <span>🔒 Client Review & Approval Portal</span>
@@ -264,11 +264,9 @@
                   📄 Copy Code
                 </button>
               </div>
-              <!-- Code or Visualizer Container -->
               <div id="codeOutputContainer">
                 <pre id="codeOutput" class="p-3 text-xs font-mono text-cyan-400 h-32 overflow-y-auto whitespace-pre-wrap custom-scrollbar"></pre>
               </div>
-              <!-- v1.5 Visualizer Interactive Panel (Hidden by default until tab clicked) -->
               <div id="visualizerPanel" class="hidden p-4 space-y-3 h-32 overflow-y-auto custom-scrollbar bg-slate-950 text-xs">
                 <div class="grid grid-cols-2 gap-4">
                   <div class="space-y-2">
@@ -350,7 +348,7 @@
       }
     }
 
-    // Voice-to-Text Speech Recognition Integration (Free Browser API)
+    // Voice-to-Text Speech Recognition & AI Color Command Parser Integration
     function startVoiceRecognition() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRecognition) {
@@ -358,7 +356,7 @@
         return;
       }
       const recognition = new SpeechRecognition();
-      recognition.lang = 'en-US'; // Supports multi-language or English voice commands
+      recognition.lang = 'en-US';
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
 
@@ -370,6 +368,9 @@
         const speechResult = event.results[0][0].transcript;
         document.getElementById('feedbackInput').value = speechResult;
         document.getElementById('feedbackInput').placeholder = "Request changes (e.g. Primary color thoda dark karo)...";
+        
+        // ⚡ AI Voice Command Parser Logic Added Here
+        parseVoiceCommand(speechResult);
       };
 
       recognition.onerror = function(event) {
@@ -378,6 +379,30 @@
       };
 
       recognition.start();
+    }
+
+    // AI Voice Command Parser to auto-update color
+    function parseVoiceCommand(text) {
+      const lowerText = text.toLowerCase();
+      let newColor = '';
+      
+      if (lowerText.includes('blue')) {
+        newColor = '#0066FF';
+      } else if (lowerText.includes('red')) {
+        newColor = '#EF4444';
+      } else if (lowerText.includes('green') || lowerText.includes('mint')) {
+        newColor = '#10B981';
+      } else if (lowerText.includes('purple') || lowerText.includes('violet')) {
+        newColor = '#351156';
+      } else if (lowerText.includes('amber') || lowerText.includes('yellow')) {
+        newColor = '#F59E0B';
+      } else if (lowerText.includes('cyan')) {
+        newColor = '#00D2FF';
+      }
+
+      if (newColor) {
+        setColor(newColor);
+      }
     }
 
     function fetchDesignLink() {
@@ -557,104 +582,95 @@
         codeText = document.getElementById('codeOutput').textContent;
       }
       navigator.clipboard.writeText(codeText).then(() => {
-        alert('✓ Code copied to clipboard successfully!');
+        alert('📋 Code copied to clipboard successfully!');
       });
-    }
-
-    function copyChangelogMsg() {
-      const msgText = document.getElementById('changelogMsg').innerText;
-      navigator.clipboard.writeText(msgText).then(() => {
-        alert('✓ Changelog message copied for WhatsApp / Slack!');
-      });
-    }
-
-    function sendViaGmail() {
-      const projectName = document.getElementById('projectName').value || 'Design System';
-      const changelogText = document.getElementById('changelogMsg').innerText;
-      const subject = encodeURIComponent(`[Scrutinix AI v1.5] Update: ${projectName}`);
-      const body = encodeURIComponent(`${changelogText}\n\nLive Link: ${window.location.href}`);
-      window.open(`https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=${subject}&body=${body}`, '_blank');
     }
 
     function approveDesign() {
       const clientName = document.getElementById('clientNameInput').value.trim();
-      if(!clientName) return alert('Enter name to approve!');
-      document.getElementById('approvalControls').style.display = 'none';
-      document.getElementById('revisionControls').style.display = 'none';
-      document.getElementById('approvedClientName').innerText = clientName;
-      document.getElementById('approvalStatus').classList.remove('hidden');
+      if(!clientName) {
+        return alert('Kripya approval ke liye apna naam enter karein!');
+      }
+      document.getElementById('portalStateBadgeclassName') = '';
       document.getElementById('portalStateBadge').className = "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30";
       document.getElementById('portalStateBadge').innerText = "🟢 Approved & Locked v1.5";
+      document.getElementById('approvedClientName').innerText = clientName;
+      document.getElementById('approvalStatus').classList.remove('hidden');
+      document.getElementById('approvalControls').style.display = 'none';
+      document.getElementById('revisionControls').style.display = 'none';
     }
 
     function submitFeedback() {
-      const note = document.getElementById('feedbackInput').value.trim();
-      if(!note) return alert('Kripya change request note likhein!');
-      const name = document.getElementById('projectName').value || 'grocery app';
-      const hex = document.getElementById('brandColor').value || '#351156';
-      const font = document.getElementById('fontSelect').value;
-      const rules = document.getElementById('customRules').value;
-
-      updateChangelog(name, hex, font, rules, note);
+      const feedback = document.getElementById('feedbackInput').value.trim();
+      if(!feedback) {
+        return alert('Kripya revision feedback enter ya speak karein!');
+      }
       document.getElementById('portalStateBadge').className = "text-[10px] bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded border border-rose-500/30";
       document.getElementById('portalStateBadge').innerText = "🔴 Revision Requested";
-      alert('✓ Feedback added to Changelog!');
+      
+      const name = document.getElementById('projectName').value;
+      const hex = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+      const rules = document.getElementById('customRules').value;
+      updateChangelog(name, hex, font, rules, feedback);
+      alert('📝 Revision request submitted successfully!');
+    }
+
+    function copyChangelogMsg() {
+      const msg = document.getElementById('changelogMsg').innerText;
+      navigator.clipboard.writeText(msg).then(() => {
+        alert('📋 AI Changelog message copied for WhatsApp/Slack!');
+      });
+    }
+
+    function sendViaGmail() {
+      const msg = encodeURIComponent(document.getElementById('changelogMsg').innerText);
+      window.open(`https://mail.google.com/mail/?view=cm&fs=1&body=${msg}`, '_blank');
+    }
+
+    function exportCss() {
+      const blob = new Blob([generatedCssLight], { type: 'text/css' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'variables.css';
+      link.click();
+    }
+
+    function exportTailwind() {
+      const blob = new Blob([generatedTailwindCode], { type: 'text/javascript' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'tailwind.config.js';
+      link.click();
+    }
+
+    function exportJson() {
+      const blob = new Blob([generatedJsonCode], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'style-dictionary.json';
+      link.click();
+    }
+
+    function exportPdf() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.text("Scrutinix AI v1.5 - Design System Spec", 10, 10);
+      doc.text(`Project Name: ${document.getElementById('projectName').value}`, 10, 20);
+      doc.text(`Brand Color: ${document.getElementById('brandColor').value}`, 10, 30);
+      doc.text(`Typography: ${document.getElementById('fontSelect').value}`, 10, 40);
+      doc.save("scrutinix-design-spec.pdf");
     }
 
     function copyShareLink() {
       navigator.clipboard.writeText(window.location.href).then(() => {
-        alert('✓ Secret Client Link copied to clipboard!');
+        alert('🌐 Live preview link copied to clipboard!');
       });
     }
 
-    function downloadFile(filename, content, type) {
-      const blob = new Blob([content], { type: type });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = filename;
-      link.click();
-    }
-
-    function exportCss() { downloadFile(`variables-${currentMode}.css`, (currentMode === 'light') ? generatedCssLight : generatedCssDark, 'text/css'); }
-    function exportTailwind() { downloadFile('tailwind.config.js', generatedTailwindCode, 'text/javascript'); }
-    function exportJson() { downloadFile('style-dictionary.json', generatedJsonCode, 'application/json'); }
-    
-    function exportPdf() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      const pName = document.getElementById('projectName').value || 'Project';
-      const hex = document.getElementById('brandColor').value || '#351156';
-      const font = document.getElementById('fontSelect').value;
-      const rules = document.getElementById('customRules').value;
-
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(18);
-      doc.text(`Scrutinix AI v1.5 // Brand Spec Document`, 14, 20);
-
-      doc.setFontSize(12);
-      doc.setFont("helvetica", "normal");
-      doc.text(`Project Name: ${pName}`, 14, 32);
-      doc.text(`Primary Brand Color: ${hex}`, 14, 40);
-      doc.text(`Typography Font: ${font}`, 14, 48);
-      doc.text(`Layout Rules: ${rules}`, 14, 56);
-
-      doc.setLineWidth(0.5);
-      doc.line(14, 62, 196, 62);
-
-      doc.setFont("helvetica", "bold");
-      doc.text(`CSS Tokens (Root):`, 14, 72);
-      doc.setFont("courier", "normal");
-      doc.setFontSize(10);
-      
-      const splitCss = doc.splitTextToSize(generatedCssLight, 180);
-      doc.text(splitCss, 14, 80);
-
-      doc.save(`${pName.replace(/\s+/g, '_')}_v1.5_Spec.pdf`);
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
+    window.onload = function() {
       generateSystem();
-    });
+    };
   </script>
 </body>
 </html>
