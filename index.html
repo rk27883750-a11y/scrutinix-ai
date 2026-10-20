@@ -8,6 +8,15 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- Microsoft Clarity Tracking Code -->
+  <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "z0izx81cd2");
+  </script>
   
   <style>
     :root {
@@ -369,7 +378,6 @@
         document.getElementById('feedbackInput').value = speechResult;
         document.getElementById('feedbackInput').placeholder = "Request changes (e.g. Primary color thoda dark karo)...";
         
-        // ⚡ AI Voice Command Parser Logic Added Here
         parseVoiceCommand(speechResult);
       };
 
@@ -591,7 +599,6 @@
       if(!clientName) {
         return alert('Kripya approval ke liye apna naam enter karein!');
       }
-      document.getElementById('portalStateBadgeclassName') = '';
       document.getElementById('portalStateBadge').className = "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30";
       document.getElementById('portalStateBadge').innerText = "🟢 Approved & Locked v1.5";
       document.getElementById('approvedClientName').innerText = clientName;
