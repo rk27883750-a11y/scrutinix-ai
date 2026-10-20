@@ -59,7 +59,7 @@
         <p class="text-xs text-slate-400">Zero Setup • 1-Click Code & Client Review</p>
       </div>
       <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live Active Mode
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live Active Mode v1.5
       </span>
     </div>
 
@@ -69,7 +69,10 @@
         ⚡ 1. Design Generator & Tokens
       </button>
       <button id="mobileTabBtnClient" onclick="switchMobileTab('client')" class="flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">
-        📱 2. Client Review & Approval Portal
+        📱 2. Client Review & Portal
+      </button>
+      <button id="mobileTabBtnVisualizer" onclick="switchMobileTab('visualizer')" class="flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">
+        🎨 3. Shadow & Radius
       </button>
     </div>
 
@@ -85,7 +88,7 @@
               <p class="text-xs text-slate-400">Turn your ideas into developer-ready files in seconds</p>
             </div>
             <select id="versionDropdown" class="bg-slate-950 border border-slate-800 text-cyan-400 text-xs px-2.5 py-1 rounded-md outline-none font-bold">
-              <option value="current">v1.4 (Active)</option>
+              <option value="current">v1.5 (Active)</option>
             </select>
           </div>
 
@@ -107,7 +110,7 @@
             </div>
           </div>
 
-          <!-- QUICK COLOR PALETTES (6 Popular Colors) -->
+          <!-- QUICK COLOR PALETTES -->
           <div class="bg-slate-950 p-3 border border-slate-800 rounded-lg space-y-2">
             <label class="block text-[11px] font-bold text-slate-300 flex items-center gap-1.5">
               <span>🎨</span> Quick Brand Color Palettes
@@ -124,7 +127,6 @@
 
           <!-- Inputs Form -->
           <div class="space-y-3">
-            <!-- PASTE DESIGN FILE LINK (PROJECT NAME KE UPAR) -->
             <div class="bg-slate-950 p-3 border border-slate-800 rounded-lg space-y-1.5">
               <label class="block text-[11px] font-semibold text-slate-300">Paste Design Spec / URL Link (Optional):</label>
               <div class="flex gap-2">
@@ -205,25 +207,31 @@
               </div>
             </div>
 
-            <!-- Client Review & Approval Portal -->
+            <!-- Client Review & Approval Portal (Fully Responsive Flex-Col on Mobile) -->
             <div class="bg-slate-900 border border-emerald-500/40 rounded-lg p-3 space-y-3">
               <div class="text-xs font-bold text-emerald-400 flex items-center justify-between">
                 <span>🔒 Client Review & Approval Portal</span>
                 <span id="portalStateBadge" class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30">🟡 In Review</span>
               </div>
 
-              <!-- Approval Input -->
-              <div id="approvalControls" class="flex gap-2">
-                <input type="text" id="clientNameInput" placeholder="Enter your name to approve..." class="flex-1 bg-slate-950 border border-slate-800 rounded-md px-3 py-1.5 text-xs text-white outline-none">
-                <button onclick="approveDesign()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-3.5 py-1.5 rounded-md transition whitespace-nowrap">
+              <!-- Approval Input Container -->
+              <div id="approvalControls" class="flex flex-col sm:flex-row gap-2 w-full">
+                <input type="text" id="clientNameInput" placeholder="Enter your name to approve..." class="w-full sm:flex-1 bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
+                <button onclick="approveDesign()" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-4 py-2 rounded-md transition whitespace-nowrap">
                   ✅ Approve Design System
                 </button>
               </div>
 
-              <!-- Revision Request Box -->
-              <div id="revisionControls" class="flex gap-2 pt-1 border-t border-slate-800/60">
-                <input type="text" id="feedbackInput" placeholder="Request changes (e.g. Primary color thoda dark karo)..." class="flex-1 bg-slate-950 border border-slate-800 rounded-md px-3 py-1.5 text-xs text-white outline-none">
-                <button onclick="submitFeedback()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-3 py-1.5 rounded-md transition whitespace-nowrap">
+              <!-- Revision Request Box with Voice Mic Integration -->
+              <div id="revisionControls" class="flex flex-col sm:flex-row gap-2 pt-1 border-t border-slate-800/60 w-full">
+                <div class="relative w-full sm:flex-1">
+                  <input type="text" id="feedbackInput" placeholder="Request changes (e.g. Primary color thoda dark karo)..." class="w-full bg-slate-950 border border-slate-800 rounded-md pl-3 pr-9 py-2 text-xs text-white outline-none">
+                  <!-- Mic Button for Speech-to-Text -->
+                  <button onclick="startVoiceRecognition()" title="Voice Feedback" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition text-sm">
+                    🎙️
+                  </button>
+                </div>
+                <button onclick="submitFeedback()" class="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-4 py-2 rounded-md transition whitespace-nowrap">
                   📝 Request Changes
                 </button>
               </div>
@@ -236,15 +244,16 @@
 
           <!-- Code Outputs Box & Tabs -->
           <div class="space-y-2.5">
-            <div class="flex justify-between items-center">
-              <div class="flex gap-1 bg-slate-950 p-1 rounded-md border border-slate-800">
-                <button id="tabCss" onclick="switchTab('css')" class="text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition">CSS Variables (root)</button>
-                <button id="tabTailwind" onclick="switchTab('tailwind')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">Tailwind Config Extend</button>
-                <button id="tabJson" onclick="switchTab('json')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">Style Dictionary JSON</button>
+            <div class="flex flex-wrap justify-between items-center gap-2">
+              <div class="flex flex-wrap gap-1 bg-slate-950 p-1 rounded-md border border-slate-800">
+                <button id="tabCss" onclick="switchTab('css')" class="text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition">CSS Variables</button>
+                <button id="tabTailwind" onclick="switchTab('tailwind')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">Tailwind Config</button>
+                <button id="tabJson" onclick="switchTab('json')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">Style Dictionary</button>
+                <button id="tabVisualizer" onclick="switchTab('visualizer')" class="text-xs font-semibold px-3 py-1 rounded text-cyan-300 hover:text-white transition">🎨 v1.5 Visualizer</button>
               </div>
               <div id="modeSubTabs" class="flex gap-1 bg-slate-950 p-1 rounded-md border border-slate-800">
-                <button id="subTabLight" onclick="switchMode('light')" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400">☀️ Light Mode</button>
-                <button id="subTabDark" onclick="switchMode('dark')" class="text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400">🌙 Dark Mode</button>
+                <button id="subTabLight" onclick="switchMode('light')" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400">☀️ Light</button>
+                <button id="subTabDark" onclick="switchMode('dark')" class="text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400">🌙 Dark</button>
               </div>
             </div>
 
@@ -255,7 +264,24 @@
                   📄 Copy Code
                 </button>
               </div>
-              <pre id="codeOutput" class="p-3 text-xs font-mono text-cyan-400 h-28 overflow-y-auto whitespace-pre-wrap custom-scrollbar"></pre>
+              <!-- Code or Visualizer Container -->
+              <div id="codeOutputContainer">
+                <pre id="codeOutput" class="p-3 text-xs font-mono text-cyan-400 h-32 overflow-y-auto whitespace-pre-wrap custom-scrollbar"></pre>
+              </div>
+              <!-- v1.5 Visualizer Interactive Panel (Hidden by default until tab clicked) -->
+              <div id="visualizerPanel" class="hidden p-4 space-y-3 h-32 overflow-y-auto custom-scrollbar bg-slate-950 text-xs">
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="space-y-2">
+                    <label class="block font-semibold text-cyan-400">Box Shadow Blur: <span id="blurVal">10px</span></label>
+                    <input type="range" id="shadowBlurRange" min="0" max="40" value="10" oninput="updateVisualizerPreview()" class="w-full accent-cyan-400">
+                  </div>
+                  <div class="space-y-2">
+                    <label class="block font-semibold text-cyan-400">Border Radius: <span id="radiusVal">8px</span></label>
+                    <input type="range" id="borderRadiusRange" min="0" max="30" value="8" oninput="updateVisualizerPreview()" class="w-full accent-cyan-400">
+                  </div>
+                </div>
+                <p class="text-[11px] text-slate-400 pt-1">💡 Interactive v1.5 visualizer adjusts live container styles instantly.</p>
+              </div>
             </div>
           </div>
 
@@ -279,7 +305,7 @@
             <button onclick="exportTailwind()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export tailwind.config.js</button>
             <button onclick="exportJson()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export style-dictionary.json</button>
             <button onclick="exportPdf()" class="bg-slate-950 hover:bg-slate-800 border border-cyan-500/30 text-cyan-400 font-bold text-xs py-2 rounded-lg transition">📄 Export Spec PDF</button>
-            <button onclick="copyShareLink()" class="col-span-2 sm:col-span-1 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2 rounded-lg transition">🌐 Share Live Client Link</button>
+            <button onclick="copyShareLink()" class="col-span-2 sm:col-span-1 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2 rounded-lg transition">🌐 Share Live Link</button>
           </div>
 
         </div>
@@ -302,18 +328,56 @@
       const colClient = document.getElementById('colClient');
       const btnGen = document.getElementById('mobileTabBtnGen');
       const btnClient = document.getElementById('mobileTabBtnClient');
+      const btnVisualizer = document.getElementById('mobileTabBtnVisualizer');
+
+      colGen.classList.add('hidden');
+      colClient.classList.add('hidden');
+      btnGen.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
+      btnClient.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
+      btnVisualizer.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
 
       if (tab === 'gen') {
         colGen.classList.remove('hidden');
-        colClient.classList.add('hidden');
         btnGen.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition";
-        btnClient.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
       } else {
-        colGen.classList.add('hidden');
         colClient.classList.remove('hidden');
-        btnClient.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition";
-        btnGen.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
+        if(tab === 'client') {
+          btnClient.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition";
+        } else {
+          btnVisualizer.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition";
+          switchTab('visualizer');
+        }
       }
+    }
+
+    // Voice-to-Text Speech Recognition Integration (Free Browser API)
+    function startVoiceRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert('Speech recognition is not supported in this browser. Try Chrome or Edge.');
+        return;
+      }
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US'; // Supports multi-language or English voice commands
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = function() {
+        document.getElementById('feedbackInput').placeholder = "Listening... Speak your feedback now 🎙️";
+      };
+
+      recognition.onresult = function(event) {
+        const speechResult = event.results[0][0].transcript;
+        document.getElementById('feedbackInput').value = speechResult;
+        document.getElementById('feedbackInput').placeholder = "Request changes (e.g. Primary color thoda dark karo)...";
+      };
+
+      recognition.onerror = function(event) {
+        alert('Voice recognition error occurred: ' + event.error);
+        document.getElementById('feedbackInput').placeholder = "Request changes (e.g. Primary color thoda dark karo)...";
+      };
+
+      recognition.start();
     }
 
     function fetchDesignLink() {
@@ -391,10 +455,22 @@
       calculateContrastAndBadge(hex);
     }
 
+    function updateVisualizerPreview() {
+      const blur = document.getElementById('shadowBlurRange').value + 'px';
+      const radius = document.getElementById('borderRadiusRange').value + 'px';
+      
+      document.getElementById('blurVal').innerText = blur;
+      document.getElementById('radiusVal').innerText = radius;
+
+      const btn = document.getElementById('previewBtn');
+      btn.style.borderRadius = radius;
+      btn.style.boxShadow = `0 10px ${blur} rgba(0,0,0,0.3)`;
+    }
+
     function updateChangelog(name, hex, font, rules, extraNote = "") {
-      let msg = `🚀 *One-Click Design System Update for ${name}*:\nUpdated Brand Color to \`${hex}\`, Font to \`${font}\` & Rules: \`${rules}\`.`;
+      let msg = `🚀 *Scrutinix v1.5 Update for ${name}*:\nUpdated Brand Color to \`${hex}\`, Font to \`${font}\` & Rules: \`${rules}\`.`;
       if(extraNote) {
-        msg += `\n💬 *Client Note:* ${extraNote}`;
+        msg += `\n💬 *Voice/Client Feedback:* ${extraNote}`;
       } else {
         msg += ` Click live preview link to approve!`;
       }
@@ -415,10 +491,10 @@
         });
       }
 
-      generatedCssLight = `:root {\n  /* Project Identity: ${name} (Light Mode) */\n  --bg-primary: #ffffff;\n  --text-primary: #0f172a;\n  --primary-brand: ${hex};\n  --primary-brand-rgb: 53, 17, 86;\n  --main-font-stack: '${font}', sans-serif;\n${rulesCss}}`;
-      generatedCssDark = `:root {\n  /* Project Identity: ${name} (Dark Mode) */\n  --bg-primary: #020617;\n  --text-primary: #f8fafc;\n  --primary-brand: ${hex};\n  --primary-brand-rgb: 53, 17, 86;\n  --main-font-stack: '${font}', sans-serif;\n${rulesCss}}`;
-      generatedTailwindCode = `// tailwind.config.js - ${name}\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: { 'primary-brand': '${hex}' },\n      fontFamily: { 'main': ['${font}', 'sans-serif'] }\n    }\n  }\n}`;
-      generatedJsonCode = JSON.stringify({ project: name, color: hex, font: font }, null, 2);
+      generatedCssLight = `:root {\n  /* Project Identity: ${name} (v1.5 Light Mode) */\n  --bg-primary: #ffffff;\n  --text-primary: #0f172a;\n  --primary-brand: ${hex};\n  --primary-brand-rgb: 53, 17, 86;\n  --main-font-stack: '${font}', sans-serif;\n${rulesCss}}`;
+      generatedCssDark = `:root {\n  /* Project Identity: ${name} (v1.5 Dark Mode) */\n  --bg-primary: #020617;\n  --text-primary: #f8fafc;\n  --primary-brand: ${hex};\n  --primary-brand-rgb: 53, 17, 86;\n  --main-font-stack: '${font}', sans-serif;\n${rulesCss}}`;
+      generatedTailwindCode = `// tailwind.config.js - ${name} (v1.5)\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: { 'primary-brand': '${hex}' },\n      fontFamily: { 'main': ['${font}', 'sans-serif'] }\n    }\n  }\n}`;
+      generatedJsonCode = JSON.stringify({ project: name, color: hex, font: font, version: "1.5" }, null, 2);
 
       updateOutputDisplay();
       updateLivePreview();
@@ -427,16 +503,31 @@
 
     function updateOutputDisplay() {
       const titleElem = document.getElementById('codeBoxTitle');
+      const codeOutputElem = document.getElementById('codeOutput');
+      const codeOutputContainer = document.getElementById('codeOutputContainer');
+      const visualizerPanel = document.getElementById('visualizerPanel');
+
+      if (currentTab === 'visualizer') {
+        codeOutputContainer.style.display = 'none';
+        visualizerPanel.style.display = 'block';
+        titleElem.textContent = 'shadow-and-radius-visualizer.css';
+        document.getElementById('modeSubTabs').style.display = 'none';
+        return;
+      }
+
+      codeOutputContainer.style.display = 'block';
+      visualizerPanel.style.display = 'none';
+
       if (currentTab === 'css') {
-        document.getElementById('codeOutput').textContent = (currentMode === 'light') ? generatedCssLight : generatedCssDark;
+        codeOutputElem.textContent = (currentMode === 'light') ? generatedCssLight : generatedCssDark;
         titleElem.textContent = `variables-${currentMode}.css`;
         document.getElementById('modeSubTabs').style.display = 'flex';
       } else if (currentTab === 'tailwind') {
-        document.getElementById('codeOutput').textContent = generatedTailwindCode;
+        codeOutputElem.textContent = generatedTailwindCode;
         titleElem.textContent = 'tailwind.config.js';
         document.getElementById('modeSubTabs').style.display = 'none';
       } else if (currentTab === 'json') {
-        document.getElementById('codeOutput').textContent = generatedJsonCode;
+        codeOutputElem.textContent = generatedJsonCode;
         titleElem.textContent = 'style-dictionary.json';
         document.getElementById('modeSubTabs').style.display = 'none';
       }
@@ -447,6 +538,7 @@
       document.getElementById('tabCss').className = tab === 'css' ? "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
       document.getElementById('tabTailwind').className = tab === 'tailwind' ? "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
       document.getElementById('tabJson').className = tab === 'json' ? "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
+      document.getElementById('tabVisualizer').className = tab === 'visualizer' ? "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-xs font-semibold px-3 py-1 rounded text-cyan-300 hover:text-white transition";
       updateOutputDisplay();
     }
 
@@ -458,11 +550,14 @@
     }
 
     function copyCodeOutput() {
-      const codeText = document.getElementById('codeOutput').textContent;
+      let codeText = '';
+      if(currentTab === 'visualizer') {
+        codeText = `/* v1.5 Visualizer Output */\nbox-shadow: 0 10px ${document.getElementById('shadowBlurRange').value}px rgba(0,0,0,0.3);\nborder-radius: ${document.getElementById('borderRadiusRange').value}px;`;
+      } else {
+        codeText = document.getElementById('codeOutput').textContent;
+      }
       navigator.clipboard.writeText(codeText).then(() => {
         alert('✓ Code copied to clipboard successfully!');
-      }).catch(err => {
-        alert('Failed to copy code: ' + err);
       });
     }
 
@@ -470,15 +565,13 @@
       const msgText = document.getElementById('changelogMsg').innerText;
       navigator.clipboard.writeText(msgText).then(() => {
         alert('✓ Changelog message copied for WhatsApp / Slack!');
-      }).catch(err => {
-        alert('Failed to copy message: ' + err);
       });
     }
 
     function sendViaGmail() {
       const projectName = document.getElementById('projectName').value || 'Design System';
       const changelogText = document.getElementById('changelogMsg').innerText;
-      const subject = encodeURIComponent(`[Scrutinix AI] Design System Update: ${projectName}`);
+      const subject = encodeURIComponent(`[Scrutinix AI v1.5] Update: ${projectName}`);
       const body = encodeURIComponent(`${changelogText}\n\nLive Link: ${window.location.href}`);
       window.open(`https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=${subject}&body=${body}`, '_blank');
     }
@@ -491,7 +584,7 @@
       document.getElementById('approvedClientName').innerText = clientName;
       document.getElementById('approvalStatus').classList.remove('hidden');
       document.getElementById('portalStateBadge').className = "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30";
-      document.getElementById('portalStateBadge').innerText = "🟢 Approved & Locked";
+      document.getElementById('portalStateBadge').innerText = "🟢 Approved & Locked v1.5";
     }
 
     function submitFeedback() {
@@ -536,7 +629,7 @@
 
       doc.setFont("helvetica", "bold");
       doc.setFontSize(18);
-      doc.text(`Scrutinix AI // Brand Spec Document`, 14, 20);
+      doc.text(`Scrutinix AI v1.5 // Brand Spec Document`, 14, 20);
 
       doc.setFontSize(12);
       doc.setFont("helvetica", "normal");
@@ -556,7 +649,7 @@
       const splitCss = doc.splitTextToSize(generatedCssLight, 180);
       doc.text(splitCss, 14, 80);
 
-      doc.save(`${pName.replace(/\s+/g, '_')}_Brand_Spec.pdf`);
+      doc.save(`${pName.replace(/\s+/g, '_')}_v1.5_Spec.pdf`);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
