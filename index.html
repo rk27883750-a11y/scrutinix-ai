@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // One-Click Design System & Client Portal</title>
+  <title>Scrutinix AI // System Generator & Client Portal v1.5</title>
   
   <link rel="icon" type="image/png" href="favicon.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-  <!-- Microsoft Clarity Tracking Code -->
+  <!-- Microsoft Clarity Analytics Script -->
   <script type="text/javascript">
       (function(c,l,a,r,i,t,y){
           c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -24,11 +24,8 @@
       --card-bg: #0f172a;
       --border-color: #1e293b;
       --accent-color: #00d2ff;
-      --accent-gradient: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --input-bg: #020617;
-      --success-color: #10b981;
     }
 
     body {
@@ -187,20 +184,31 @@
 
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
           <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-            <div>
-              <h3 class="text-sm font-bold text-white uppercase tracking-wider">🎨 LIVE VISUAL THEME PLAYGROUND (CLIENT VIEW)</h3>
-            </div>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">🎨 LIVE VISUAL THEME PLAYGROUND (CLIENT VIEW)</h3>
             <span id="wcagBadge" class="text-[11px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold">
               ✓ WCAG AA Pass (4.8:1)
             </span>
           </div>
 
+          <!-- NEW FEATURE 1: Client Light/Dark Mode Live Card Switcher -->
+          <div class="flex justify-between items-center bg-slate-950 p-2 rounded-lg border border-slate-800">
+            <span class="text-xs font-semibold text-slate-300">Client Theme Mode Preview:</span>
+            <div class="flex gap-1">
+              <button id="previewLightBtn" onclick="switchPreviewTheme('light')" class="text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition">
+                ☀️ Preview Light
+              </button>
+              <button id="previewDarkBtn" onclick="switchPreviewTheme('dark')" class="text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition">
+                🌙 Preview Dark
+              </button>
+            </div>
+          </div>
+
           <!-- Component Mockup Card -->
-          <div class="bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3">
+          <div id="mockupCard" class="bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-colors duration-300">
             <div class="flex justify-between items-center">
               <div>
                 <h4 id="previewAppTitle" class="text-sm font-bold text-white">grocery app</h4>
-                <p class="text-[11px] text-slate-400">Design System Token Active</p>
+                <p id="previewSubtitle" class="text-[11px] text-slate-400">Design System Token Active</p>
               </div>
               <button id="previewBtn" class="text-white font-bold text-xs px-4 py-2 rounded-md shadow-md transition">
                 Primary CTA
@@ -208,16 +216,27 @@
             </div>
 
             <!-- TYPOGRAPHY SCALE VISUALIZER PREVIEW -->
-            <div class="bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1">
+            <div id="typoCard" class="bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 transition-colors">
               <p class="text-[10px] font-bold text-cyan-400 uppercase tracking-wider">📐 Typography Scale Preview</p>
               <div id="previewTypography" class="text-white space-y-0.5">
                 <div class="text-base font-bold">H1 Heading - Core Display</div>
-                <div class="text-xs text-slate-300">Body text - Standard interface preview typography.</div>
+                <div id="typoSubtext" class="text-xs text-slate-300">Body text - Standard interface preview typography.</div>
               </div>
             </div>
 
+            <!-- NEW FEATURE 2: Quick Developer Tailwind Snippet Copy Bar -->
+            <div class="bg-slate-900 border border-slate-800/80 p-2 rounded-lg flex justify-between items-center gap-2">
+              <div class="truncate text-[11px] font-mono text-cyan-300">
+                <span class="text-slate-400">Tailwind Snippet: </span>
+                <span id="tailwindSnippetText">bg-[#351156] text-white font-roboto rounded-md</span>
+              </div>
+              <button onclick="copyTailwindSnippet()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-[10px] px-2.5 py-1 rounded transition whitespace-nowrap">
+                📋 Copy Snippet
+              </button>
+            </div>
+
             <!-- Client Review & Approval Portal -->
-            <div class="bg-slate-900 border border-emerald-500/40 rounded-lg p-3 space-y-3">
+            <div id="portalCard" class="bg-slate-900 border border-emerald-500/40 rounded-lg p-3 space-y-3 transition-colors">
               <div class="text-xs font-bold text-emerald-400 flex items-center justify-between">
                 <span>🔒 Client Review & Approval Portal</span>
                 <span id="portalStateBadge" class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30">🟡 In Review</span>
@@ -231,12 +250,11 @@
                 </button>
               </div>
 
-              <!-- Revision Request Box with Voice Mic Integration -->
+              <!-- Revision Request Box with Mic Integration -->
               <div id="revisionControls" class="flex flex-col sm:flex-row gap-2 pt-1 border-t border-slate-800/60 w-full">
                 <div class="relative w-full sm:flex-1">
-                  <input type="text" id="feedbackInput" placeholder="Request changes (e.g. Primary color thoda dark karo)..." class="w-full bg-slate-950 border border-slate-800 rounded-md pl-3 pr-9 py-2 text-xs text-white outline-none">
-                  <!-- Mic Button for Speech-to-Text -->
-                  <button onclick="startVoiceRecognition()" title="Voice Feedback" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition text-sm">
+                  <input type="text" id="feedbackInput" placeholder="Request changes or speak voice command..." class="w-full bg-slate-950 border border-slate-800 rounded-md pl-3 pr-9 py-2 text-xs text-white outline-none">
+                  <button onclick="startVoiceRecognition()" title="Voice Feedback & Controls" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition text-sm">
                     🎙️
                   </button>
                 </div>
@@ -325,6 +343,7 @@
   <script>
     let currentTab = 'css';
     let currentMode = 'light';
+    let cardPreviewTheme = 'dark';
     let generatedCssLight = '';
     let generatedCssDark = '';
     let generatedTailwindCode = '';
@@ -357,7 +376,43 @@
       }
     }
 
-    // Voice-to-Text Speech Recognition & AI Color Command Parser Integration
+    // Switch Client Mockup Card Theme (Light/Dark)
+    function switchPreviewTheme(theme) {
+      cardPreviewTheme = theme;
+      const mockupCard = document.getElementById('mockupCard');
+      const typoCard = document.getElementById('typoCard');
+      const portalCard = document.getElementById('portalCard');
+      const appTitle = document.getElementById('previewAppTitle');
+      const appSubtitle = document.getElementById('previewSubtitle');
+      const typoSubtext = document.getElementById('typoSubtext');
+
+      const btnLight = document.getElementById('previewLightBtn');
+      const btnDark = document.getElementById('previewDarkBtn');
+
+      if (theme === 'light') {
+        mockupCard.className = "bg-slate-100 border border-slate-300 rounded-lg p-3.5 space-y-3 transition-colors duration-300";
+        typoCard.className = "bg-white border border-slate-200 p-2.5 rounded-lg space-y-1 transition-colors";
+        portalCard.className = "bg-white border border-emerald-500/40 rounded-lg p-3 space-y-3 transition-colors";
+        appTitle.className = "text-sm font-bold text-slate-900";
+        appSubtitle.className = "text-[11px] text-slate-500";
+        typoSubtext.className = "text-xs text-slate-600";
+
+        btnLight.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        btnDark.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
+      } else {
+        mockupCard.className = "bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-colors duration-300";
+        typoCard.className = "bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 transition-colors";
+        portalCard.className = "bg-slate-900 border border-emerald-500/40 rounded-lg p-3 space-y-3 transition-colors";
+        appTitle.className = "text-sm font-bold text-white";
+        appSubtitle.className = "text-[11px] text-slate-400";
+        typoSubtext.className = "text-xs text-slate-300";
+
+        btnDark.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        btnLight.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
+      }
+    }
+
+    // Voice Recognition with Expanded Commands
     function startVoiceRecognition() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRecognition) {
@@ -370,54 +425,74 @@
       recognition.maxAlternatives = 1;
 
       recognition.onstart = function() {
-        document.getElementById('feedbackInput').placeholder = "Listening... Speak your feedback now 🎙️";
+        document.getElementById('feedbackInput').placeholder = "Listening... Speak now 🎙️";
       };
 
       recognition.onresult = function(event) {
         const speechResult = event.results[0][0].transcript;
         document.getElementById('feedbackInput').value = speechResult;
-        document.getElementById('feedbackInput').placeholder = "Request changes (e.g. Primary color thoda dark karo)...";
-        
+        document.getElementById('feedbackInput').placeholder = "Request changes or speak voice command...";
         parseVoiceCommand(speechResult);
       };
 
       recognition.onerror = function(event) {
         alert('Voice recognition error occurred: ' + event.error);
-        document.getElementById('feedbackInput').placeholder = "Request changes (e.g. Primary color thoda dark karo)...";
+        document.getElementById('feedbackInput').placeholder = "Request changes or speak voice command...";
       };
 
       recognition.start();
     }
 
-    // AI Voice Command Parser to auto-update color
+    // AI Voice Command Parser (Colors, Fonts, Project Names, Presets)
     function parseVoiceCommand(text) {
       const lowerText = text.toLowerCase();
-      let newColor = '';
       
-      if (lowerText.includes('blue')) {
-        newColor = '#0066FF';
-      } else if (lowerText.includes('red')) {
-        newColor = '#EF4444';
-      } else if (lowerText.includes('green') || lowerText.includes('mint')) {
-        newColor = '#10B981';
-      } else if (lowerText.includes('purple') || lowerText.includes('violet')) {
-        newColor = '#351156';
-      } else if (lowerText.includes('amber') || lowerText.includes('yellow')) {
-        newColor = '#F59E0B';
-      } else if (lowerText.includes('cyan')) {
-        newColor = '#00D2FF';
+      // Color Detection
+      let newColor = '';
+      if (lowerText.includes('blue')) newColor = '#0066FF';
+      else if (lowerText.includes('red')) newColor = '#EF4444';
+      else if (lowerText.includes('green') || lowerText.includes('mint')) newColor = '#10B981';
+      else if (lowerText.includes('purple') || lowerText.includes('violet')) newColor = '#351156';
+      else if (lowerText.includes('amber') || lowerText.includes('yellow')) newColor = '#F59E0B';
+      else if (lowerText.includes('cyan')) newColor = '#00D2FF';
+
+      if (newColor) setColor(newColor);
+
+      // Font Detection
+      if (lowerText.includes('inter')) {
+        document.getElementById('fontSelect').value = 'Inter';
+        generateSystem();
+      } else if (lowerText.includes('poppins')) {
+        document.getElementById('fontSelect').value = 'Poppins';
+        generateSystem();
+      } else if (lowerText.includes('roboto')) {
+        document.getElementById('fontSelect').value = 'Roboto';
+        generateSystem();
       }
 
-      if (newColor) {
-        setColor(newColor);
+      // Presets Detection
+      if (lowerText.includes('cyber') || lowerText.includes('neon')) {
+        applyPreset('#00d2ff', 'Roboto');
+      } else if (lowerText.includes('emerald') || lowerText.includes('saas')) {
+        applyPreset('#10b981', 'Inter');
+      } else if (lowerText.includes('royal') || lowerText.includes('indigo')) {
+        applyPreset('#6366f1', 'Poppins');
+      }
+
+      // Project Name Detection ("set project name to ...")
+      if (lowerText.includes('project name') || lowerText.includes('call it') || lowerText.includes('named')) {
+        const parts = text.split(/project name|call it|named/i);
+        if (parts[1]) {
+          const newProjectName = parts[1].trim();
+          document.getElementById('projectName').value = newProjectName;
+          generateSystem();
+        }
       }
     }
 
     function fetchDesignLink() {
       const url = document.getElementById('designFileUrl').value.trim();
-      if(!url) {
-        return alert('Kripya koi design spec link paste karein!');
-      }
+      if(!url) return alert('Kripya koi design spec link paste karein!');
       applyPreset('#00d2ff', 'Inter');
       alert('⚡ Design Spec tokens fetched successfully!');
     }
@@ -446,9 +521,7 @@
 
     function calculateContrastAndBadge(hex) {
       let cleanHex = hex.replace('#', '');
-      if(cleanHex.length === 3) {
-        cleanHex = cleanHex.split('').map(c => c + c).join('');
-      }
+      if(cleanHex.length === 3) cleanHex = cleanHex.split('').map(c => c + c).join('');
       const r = parseInt(cleanHex.substr(0,2), 16) || 0;
       const g = parseInt(cleanHex.substr(2,2), 16) || 0;
       const b = parseInt(cleanHex.substr(4,2), 16) || 0;
@@ -458,7 +531,6 @@
         return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
       });
       const luminance = 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
-      
       const ratio = (1.0 + 0.05) / (luminance + 0.05);
       const badge = document.getElementById('wcagBadge');
       
@@ -482,16 +554,22 @@
       btn.style.backgroundColor = hex;
       btn.style.fontFamily = font;
 
-      const typoPreview = document.getElementById('previewTypography');
-      typoPreview.style.fontFamily = font;
+      document.getElementById('previewTypography').style.fontFamily = font;
+      document.getElementById('tailwindSnippetText').innerText = `bg-[${hex}] text-white font-${font.toLowerCase()} rounded-md`;
 
       calculateContrastAndBadge(hex);
+    }
+
+    function copyTailwindSnippet() {
+      const snippet = document.getElementById('tailwindSnippetText').innerText;
+      navigator.clipboard.writeText(snippet).then(() => {
+        alert('📋 Tailwind Class Snippet copied: ' + snippet);
+      });
     }
 
     function updateVisualizerPreview() {
       const blur = document.getElementById('shadowBlurRange').value + 'px';
       const radius = document.getElementById('borderRadiusRange').value + 'px';
-      
       document.getElementById('blurVal').innerText = blur;
       document.getElementById('radiusVal').innerText = radius;
 
@@ -502,11 +580,8 @@
 
     function updateChangelog(name, hex, font, rules, extraNote = "") {
       let msg = `🚀 *Scrutinix v1.5 Update for ${name}*:\nUpdated Brand Color to \`${hex}\`, Font to \`${font}\` & Rules: \`${rules}\`.`;
-      if(extraNote) {
-        msg += `\n💬 *Voice/Client Feedback:* ${extraNote}`;
-      } else {
-        msg += ` Click live preview link to approve!`;
-      }
+      if(extraNote) msg += `\n💬 *Voice/Client Feedback:* ${extraNote}`;
+      else msg += ` Click live preview link to approve!`;
       document.getElementById('changelogMsg').innerText = msg;
     }
 
@@ -596,9 +671,7 @@
 
     function approveDesign() {
       const clientName = document.getElementById('clientNameInput').value.trim();
-      if(!clientName) {
-        return alert('Kripya approval ke liye apna naam enter karein!');
-      }
+      if(!clientName) return alert('Kripya approval ke liye apna naam enter karein!');
       document.getElementById('portalStateBadge').className = "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30";
       document.getElementById('portalStateBadge').innerText = "🟢 Approved & Locked v1.5";
       document.getElementById('approvedClientName').innerText = clientName;
@@ -609,9 +682,7 @@
 
     function submitFeedback() {
       const feedback = document.getElementById('feedbackInput').value.trim();
-      if(!feedback) {
-        return alert('Kripya revision feedback enter ya speak karein!');
-      }
+      if(!feedback) return alert('Kripya revision feedback enter ya speak karein!');
       document.getElementById('portalStateBadge').className = "text-[10px] bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded border border-rose-500/30";
       document.getElementById('portalStateBadge').innerText = "🔴 Revision Requested";
       
