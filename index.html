@@ -190,7 +190,7 @@
             </span>
           </div>
 
-          <!-- NEW FEATURE 1: Client Light/Dark Mode Live Card Switcher -->
+          <!-- Client Light/Dark Mode Live Card Switcher -->
           <div class="flex justify-between items-center bg-slate-950 p-2 rounded-lg border border-slate-800">
             <span class="text-xs font-semibold text-slate-300">Client Theme Mode Preview:</span>
             <div class="flex gap-1">
@@ -224,13 +224,13 @@
               </div>
             </div>
 
-            <!-- NEW FEATURE 2: Quick Developer Tailwind Snippet Copy Bar -->
+            <!-- Quick Developer Tailwind Snippet Copy Bar -->
             <div class="bg-slate-900 border border-slate-800/80 p-2 rounded-lg flex justify-between items-center gap-2">
               <div class="truncate text-[11px] font-mono text-cyan-300">
                 <span class="text-slate-400">Tailwind Snippet: </span>
                 <span id="tailwindSnippetText">bg-[#351156] text-white font-roboto rounded-md</span>
               </div>
-              <button onclick="copyTailwindSnippet()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-[10px] px-2.5 py-1 rounded transition whitespace-nowrap">
+              <button onclick="copyTailwindSnippet(this)" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-[10px] px-2.5 py-1 rounded transition whitespace-nowrap">
                 📋 Copy Snippet
               </button>
             </div>
@@ -244,7 +244,7 @@
 
               <!-- Approval Input Container -->
               <div id="approvalControls" class="flex flex-col sm:flex-row gap-2 w-full">
-                <input type="text" id="clientNameInput" placeholder="Enter your name to approve..." class="w-full sm:flex-1 bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
+                <input type="text" id="clientNameInput" placeholder="Enter your full name to approve..." class="w-full sm:flex-1 bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
                 <button onclick="approveDesign()" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-4 py-2 rounded-md transition whitespace-nowrap">
                   ✅ Approve Design System
                 </button>
@@ -287,7 +287,7 @@
             <div class="bg-slate-950 border border-slate-800 rounded-lg overflow-hidden">
               <div class="flex justify-between items-center bg-slate-900 px-3 py-1.5 border-b border-slate-800 text-xs text-slate-400">
                 <span id="codeBoxTitle">variables-light.css</span>
-                <button onclick="copyCodeOutput()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-[10px] px-2.5 py-0.5 rounded transition">
+                <button onclick="copyCodeOutput(this)" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-[10px] px-2.5 py-0.5 rounded transition">
                   📄 Copy Code
                 </button>
               </div>
@@ -316,7 +316,7 @@
               <span class="text-xs font-bold text-slate-300">🤖 AI Client Changelog (Ready for WhatsApp / Slack)</span>
               <div class="flex gap-2">
                 <button onclick="sendViaGmail()" class="bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded transition">📧 Gmail</button>
-                <button onclick="copyChangelogMsg()" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 text-[10px] font-bold px-2.5 py-0.5 rounded transition">📋 Copy Message</button>
+                <button onclick="copyChangelogMsg(this)" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 text-[10px] font-bold px-2.5 py-0.5 rounded transition">📋 Copy Message</button>
               </div>
             </div>
             <div id="changelogMsg" class="bg-slate-900 p-2 rounded text-[11px] font-mono text-slate-300 border border-slate-800/80">
@@ -330,7 +330,7 @@
             <button onclick="exportTailwind()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export tailwind.config.js</button>
             <button onclick="exportJson()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export style-dictionary.json</button>
             <button onclick="exportPdf()" class="bg-slate-950 hover:bg-slate-800 border border-cyan-500/30 text-cyan-400 font-bold text-xs py-2 rounded-lg transition">📄 Export Spec PDF</button>
-            <button onclick="copyShareLink()" class="col-span-2 sm:col-span-1 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2 rounded-lg transition">🌐 Share Live Link</button>
+            <button onclick="copyShareLink(this)" class="col-span-2 sm:col-span-1 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2 rounded-lg transition">🌐 Share Live Link</button>
           </div>
 
         </div>
@@ -348,6 +348,63 @@
     let generatedCssDark = '';
     let generatedTailwindCode = '';
     let generatedJsonCode = '';
+
+    // Silent Copy Helper (Bina alert popup ke button feedback deta hai)
+    function copyToClipboardSilent(textToCopy, btn, originalText) {
+      if(!textToCopy) return;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        if(btn) {
+          const prevText = btn.innerText;
+          btn.innerText = "✓ Copied!";
+          btn.classList.add("bg-emerald-400", "text-slate-950");
+          setTimeout(() => {
+            btn.innerText = originalText || prevText;
+            btn.classList.remove("bg-emerald-400", "text-slate-950");
+          }, 2000);
+        }
+      }).catch(err => {
+        console.error('Copy failed', err);
+      });
+    }
+
+    function copyTailwindSnippet(btn) {
+      const text = document.getElementById('tailwindSnippetText').innerText;
+      copyToClipboardSilent(text, btn, "📋 Copy Snippet");
+    }
+
+    function copyCodeOutput(btn) {
+      const text = document.getElementById('codeOutput').innerText;
+      copyToClipboardSilent(text, btn, "📄 Copy Code");
+    }
+
+    function copyChangelogMsg(btn) {
+      const text = document.getElementById('changelogMsg').innerText;
+      copyToClipboardSilent(text, btn, "📋 Copy Message");
+    }
+
+    function copyShareLink(btn) {
+      copyToClipboardSilent(window.location.href, btn, "🌐 Share Live Link");
+    }
+
+    // Dynamic Approval Portal Handler
+    function approveDesign() {
+      const input = document.getElementById('clientNameInput');
+      const clientName = input.value.trim() || 'Client';
+
+      document.getElementById('approvedClientName').innerText = clientName;
+      document.getElementById('approvalControls').classList.add('hidden');
+      document.getElementById('revisionControls').classList.add('hidden');
+      document.getElementById('approvalStatus').classList.remove('hidden');
+      document.getElementById('portalStateBadge').className = "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30";
+      document.getElementById('portalStateBadge').innerText = "✅ Approved & Locked v1.5";
+    }
+
+    function submitFeedback() {
+      const input = document.getElementById('feedbackInput');
+      if(!input.value.trim()) return;
+      alert('Feedback submitted: ' + input.value);
+      input.value = '';
+    }
 
     function switchMobileTab(tab) {
       const colGen = document.getElementById('colGenerator');
@@ -376,7 +433,6 @@
       }
     }
 
-    // Switch Client Mockup Card Theme (Light/Dark)
     function switchPreviewTheme(theme) {
       cardPreviewTheme = theme;
       const mockupCard = document.getElementById('mockupCard');
@@ -412,11 +468,9 @@
       }
     }
 
-    // Voice Recognition with Expanded Commands
     function startVoiceRecognition() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRecognition) {
-        alert('Speech recognition is not supported in this browser. Try Chrome or Edge.');
         return;
       }
       const recognition = new SpeechRecognition();
@@ -435,19 +489,15 @@
         parseVoiceCommand(speechResult);
       };
 
-      recognition.onerror = function(event) {
-        alert('Voice recognition error occurred: ' + event.error);
+      recognition.onerror = function() {
         document.getElementById('feedbackInput').placeholder = "Request changes or speak voice command...";
       };
 
       recognition.start();
     }
 
-    // AI Voice Command Parser (Colors, Fonts, Project Names, Presets)
     function parseVoiceCommand(text) {
       const lowerText = text.toLowerCase();
-      
-      // Color Detection
       let newColor = '';
       if (lowerText.includes('blue')) newColor = '#0066FF';
       else if (lowerText.includes('red')) newColor = '#EF4444';
@@ -458,7 +508,6 @@
 
       if (newColor) setColor(newColor);
 
-      // Font Detection
       if (lowerText.includes('inter')) {
         document.getElementById('fontSelect').value = 'Inter';
         generateSystem();
@@ -470,7 +519,6 @@
         generateSystem();
       }
 
-      // Presets Detection
       if (lowerText.includes('cyber') || lowerText.includes('neon')) {
         applyPreset('#00d2ff', 'Roboto');
       } else if (lowerText.includes('emerald') || lowerText.includes('saas')) {
@@ -479,7 +527,6 @@
         applyPreset('#6366f1', 'Poppins');
       }
 
-      // Project Name Detection ("set project name to ...")
       if (lowerText.includes('project name') || lowerText.includes('call it') || lowerText.includes('named')) {
         const parts = text.split(/project name|call it|named/i);
         if (parts[1]) {
@@ -492,9 +539,8 @@
 
     function fetchDesignLink() {
       const url = document.getElementById('designFileUrl').value.trim();
-      if(!url) return alert('Kripya koi design spec link paste karein!');
+      if(!url) return;
       applyPreset('#00d2ff', 'Inter');
-      alert('⚡ Design Spec tokens fetched successfully!');
     }
 
     function syncColorInput(source) {
@@ -560,195 +606,95 @@
       calculateContrastAndBadge(hex);
     }
 
-    function copyTailwindSnippet() {
-      const snippet = document.getElementById('tailwindSnippetText').innerText;
-      navigator.clipboard.writeText(snippet).then(() => {
-        alert('📋 Tailwind Class Snippet copied: ' + snippet);
-      });
-    }
-
-    function updateVisualizerPreview() {
-      const blur = document.getElementById('shadowBlurRange').value + 'px';
-      const radius = document.getElementById('borderRadiusRange').value + 'px';
-      document.getElementById('blurVal').innerText = blur;
-      document.getElementById('radiusVal').innerText = radius;
-
-      const btn = document.getElementById('previewBtn');
-      btn.style.borderRadius = radius;
-      btn.style.boxShadow = `0 10px ${blur} rgba(0,0,0,0.3)`;
-    }
-
-    function updateChangelog(name, hex, font, rules, extraNote = "") {
-      let msg = `🚀 *Scrutinix v1.5 Update for ${name}*:\nUpdated Brand Color to \`${hex}\`, Font to \`${font}\` & Rules: \`${rules}\`.`;
-      if(extraNote) msg += `\n💬 *Voice/Client Feedback:* ${extraNote}`;
-      else msg += ` Click live preview link to approve!`;
-      document.getElementById('changelogMsg').innerText = msg;
-    }
-
     function generateSystem() {
+      updateLivePreview();
       const name = document.getElementById('projectName').value || 'grocery app';
       const hex = document.getElementById('brandColor').value || '#351156';
       const font = document.getElementById('fontSelect').value;
       const rules = document.getElementById('customRules').value;
 
-      let rulesCss = '';
-      if(rules) {
-        rules.split(',').forEach(p => {
-          const [k, v] = p.split(':').map(s => s.trim());
-          if(k && v) rulesCss += `  --${k}: ${v};\n`;
-        });
-      }
+      generatedCssLight = `:root {\n  /* Project Identity: ${name} (v1.5 Light Mode) */\n  --bg-primary: #ffffff;\n  --text-primary: #0f172a;\n  --primary-brand: ${hex};\n  --main-font-stack: '${font}', sans-serif;\n  ${rules}\n}`;
+      generatedCssDark = `:root {\n  /* Project Identity: ${name} (v1.5 Dark Mode) */\n  --bg-primary: #070a12;\n  --text-primary: #f8fafc;\n  --primary-brand: ${hex};\n  --main-font-stack: '${font}', sans-serif;\n  ${rules}\n}`;
 
-      generatedCssLight = `:root {\n  /* Project Identity: ${name} (v1.5 Light Mode) */\n  --bg-primary: #ffffff;\n  --text-primary: #0f172a;\n  --primary-brand: ${hex};\n  --primary-brand-rgb: 53, 17, 86;\n  --main-font-stack: '${font}', sans-serif;\n${rulesCss}}`;
-      generatedCssDark = `:root {\n  /* Project Identity: ${name} (v1.5 Dark Mode) */\n  --bg-primary: #020617;\n  --text-primary: #f8fafc;\n  --primary-brand: ${hex};\n  --primary-brand-rgb: 53, 17, 86;\n  --main-font-stack: '${font}', sans-serif;\n${rulesCss}}`;
-      generatedTailwindCode = `// tailwind.config.js - ${name} (v1.5)\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: { 'primary-brand': '${hex}' },\n      fontFamily: { 'main': ['${font}', 'sans-serif'] }\n    }\n  }\n}`;
-      generatedJsonCode = JSON.stringify({ project: name, color: hex, font: font, version: "1.5" }, null, 2);
+      document.getElementById('changelogMsg').innerText = `🚀 *Scrutinix v1.5 Update for ${name}*:\nUpdated Brand Color to \`${hex}\`, Font to \`${font}\` & Rules: \`${rules}\`.\nClick live preview link to approve!`;
 
-      updateOutputDisplay();
-      updateLivePreview();
-      updateChangelog(name, hex, font, rules);
-    }
-
-    function updateOutputDisplay() {
-      const titleElem = document.getElementById('codeBoxTitle');
-      const codeOutputElem = document.getElementById('codeOutput');
-      const codeOutputContainer = document.getElementById('codeOutputContainer');
-      const visualizerPanel = document.getElementById('visualizerPanel');
-
-      if (currentTab === 'visualizer') {
-        codeOutputContainer.style.display = 'none';
-        visualizerPanel.style.display = 'block';
-        titleElem.textContent = 'shadow-and-radius-visualizer.css';
-        document.getElementById('modeSubTabs').style.display = 'none';
-        return;
-      }
-
-      codeOutputContainer.style.display = 'block';
-      visualizerPanel.style.display = 'none';
-
-      if (currentTab === 'css') {
-        codeOutputElem.textContent = (currentMode === 'light') ? generatedCssLight : generatedCssDark;
-        titleElem.textContent = `variables-${currentMode}.css`;
-        document.getElementById('modeSubTabs').style.display = 'flex';
-      } else if (currentTab === 'tailwind') {
-        codeOutputElem.textContent = generatedTailwindCode;
-        titleElem.textContent = 'tailwind.config.js';
-        document.getElementById('modeSubTabs').style.display = 'none';
-      } else if (currentTab === 'json') {
-        codeOutputElem.textContent = generatedJsonCode;
-        titleElem.textContent = 'style-dictionary.json';
-        document.getElementById('modeSubTabs').style.display = 'none';
-      }
+      switchMode(currentMode);
     }
 
     function switchTab(tab) {
       currentTab = tab;
-      document.getElementById('tabCss').className = tab === 'css' ? "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
-      document.getElementById('tabTailwind').className = tab === 'tailwind' ? "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
-      document.getElementById('tabJson').className = tab === 'json' ? "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
-      document.getElementById('tabVisualizer').className = tab === 'visualizer' ? "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-xs font-semibold px-3 py-1 rounded text-cyan-300 hover:text-white transition";
-      updateOutputDisplay();
+      const visualizerPanel = document.getElementById('visualizerPanel');
+      const codeOutputContainer = document.getElementById('codeOutputContainer');
+
+      if(tab === 'visualizer') {
+        visualizerPanel.classList.remove('hidden');
+        codeOutputContainer.classList.add('hidden');
+      } else {
+        visualizerPanel.classList.add('hidden');
+        codeOutputContainer.classList.remove('hidden');
+      }
+      switchMode(currentMode);
     }
 
     function switchMode(mode) {
       currentMode = mode;
-      document.getElementById('subTabLight').className = mode === 'light' ? "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400" : "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400";
-      document.getElementById('subTabDark').className = mode === 'dark' ? "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400" : "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400";
-      updateOutputDisplay();
-    }
+      const pre = document.getElementById('codeOutput');
+      const title = document.getElementById('codeBoxTitle');
 
-    function copyCodeOutput() {
-      let codeText = '';
-      if(currentTab === 'visualizer') {
-        codeText = `/* v1.5 Visualizer Output */\nbox-shadow: 0 10px ${document.getElementById('shadowBlurRange').value}px rgba(0,0,0,0.3);\nborder-radius: ${document.getElementById('borderRadiusRange').value}px;`;
-      } else {
-        codeText = document.getElementById('codeOutput').textContent;
+      if (currentTab === 'css') {
+        pre.innerText = mode === 'light' ? generatedCssLight : generatedCssDark;
+        title.innerText = `variables-${mode}.css`;
+      } else if (currentTab === 'tailwind') {
+        pre.innerText = `module.exports = {\n  theme: {\n    extend: {\n      colors: {\n        brand: '${document.getElementById('brandColor').value}'\n      }\n    }\n  }\n}`;
+        title.innerText = 'tailwind.config.js';
+      } else if (currentTab === 'json') {
+        pre.innerText = `{\n  "color": {\n    "brand": { "value": "${document.getElementById('brandColor').value}" }\n  }\n}`;
+        title.innerText = 'style-dictionary.json';
       }
-      navigator.clipboard.writeText(codeText).then(() => {
-        alert('📋 Code copied to clipboard successfully!');
-      });
     }
 
-    function approveDesign() {
-      const clientName = document.getElementById('clientNameInput').value.trim();
-      if(!clientName) return alert('Kripya approval ke liye apna naam enter karein!');
-      document.getElementById('portalStateBadge').className = "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30";
-      document.getElementById('portalStateBadge').innerText = "🟢 Approved & Locked v1.5";
-      document.getElementById('approvedClientName').innerText = clientName;
-      document.getElementById('approvalStatus').classList.remove('hidden');
-      document.getElementById('approvalControls').style.display = 'none';
-      document.getElementById('revisionControls').style.display = 'none';
-    }
+    function updateVisualizerPreview() {
+      const blur = document.getElementById('shadowBlurRange').value;
+      const radius = document.getElementById('borderRadiusRange').value;
+      document.getElementById('blurVal').innerText = blur + 'px';
+      document.getElementById('radiusVal').innerText = radius + 'px';
 
-    function submitFeedback() {
-      const feedback = document.getElementById('feedbackInput').value.trim();
-      if(!feedback) return alert('Kripya revision feedback enter ya speak karein!');
-      document.getElementById('portalStateBadge').className = "text-[10px] bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded border border-rose-500/30";
-      document.getElementById('portalStateBadge').innerText = "🔴 Revision Requested";
-      
-      const name = document.getElementById('projectName').value;
-      const hex = document.getElementById('brandColor').value;
-      const font = document.getElementById('fontSelect').value;
-      const rules = document.getElementById('customRules').value;
-      updateChangelog(name, hex, font, rules, feedback);
-      alert('📝 Revision request submitted successfully!');
-    }
-
-    function copyChangelogMsg() {
-      const msg = document.getElementById('changelogMsg').innerText;
-      navigator.clipboard.writeText(msg).then(() => {
-        alert('📋 AI Changelog message copied for WhatsApp/Slack!');
-      });
+      const mockup = document.getElementById('mockupCard');
+      mockup.style.boxShadow = `0px 4px ${blur}px rgba(0,210,255,0.15)`;
+      mockup.style.borderRadius = `${radius}px`;
     }
 
     function sendViaGmail() {
-      const msg = encodeURIComponent(document.getElementById('changelogMsg').innerText);
-      window.open(`https://mail.google.com/mail/?view=cm&fs=1&body=${msg}`, '_blank');
+      const text = document.getElementById('changelogMsg').innerText;
+      window.open(`https://mail.google.com/mail/?view=cm&fs=1&body=${encodeURIComponent(text)}`, '_blank');
     }
 
-    function exportCss() {
-      const blob = new Blob([generatedCssLight], { type: 'text/css' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'variables.css';
-      link.click();
-    }
-
-    function exportTailwind() {
-      const blob = new Blob([generatedTailwindCode], { type: 'text/javascript' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'tailwind.config.js';
-      link.click();
-    }
-
-    function exportJson() {
-      const blob = new Blob([generatedJsonCode], { type: 'application/json' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'style-dictionary.json';
-      link.click();
+    function exportCss() { downloadFile('variables.css', currentMode === 'light' ? generatedCssLight : generatedCssDark); }
+    function exportTailwind() { downloadFile('tailwind.config.js', document.getElementById('codeOutput').innerText); }
+    function exportJson() { downloadFile('style-dictionary.json', document.getElementById('codeOutput').innerText); }
+    
+    function downloadFile(filename, content) {
+      const element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+      element.setAttribute('download', filename);
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
     }
 
     function exportPdf() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
-      doc.text("Scrutinix AI v1.5 - Design System Spec", 10, 10);
-      doc.text(`Project Name: ${document.getElementById('projectName').value}`, 10, 20);
+      doc.text("Scrutinix AI Design Spec", 10, 10);
+      doc.text(`Project: ${document.getElementById('projectName').value}`, 10, 20);
       doc.text(`Brand Color: ${document.getElementById('brandColor').value}`, 10, 30);
       doc.text(`Typography: ${document.getElementById('fontSelect').value}`, 10, 40);
-      doc.save("scrutinix-design-spec.pdf");
+      doc.save("design-spec.pdf");
     }
 
-    function copyShareLink() {
-      navigator.clipboard.writeText(window.location.href).then(() => {
-        alert('🌐 Live preview link copied to clipboard!');
-      });
-    }
-
-    window.onload = function() {
-      generateSystem();
-    };
+    // Initialize
+    generateSystem();
   </script>
 </body>
 </html>
