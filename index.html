@@ -242,10 +242,13 @@
                 <span id="portalStateBadge" class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30">🟡 In Review</span>
               </div>
 
-              <!-- Approval Input Container -->
-              <div id="approvalControls" class="flex flex-col sm:flex-row gap-2 w-full">
-                <input type="text" id="clientNameInput" autocomplete="off" placeholder="Enter your full name to approve..." class="w-full sm:flex-1 bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
-                <button onclick="approveDesign()" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-4 py-2 rounded-md transition whitespace-nowrap">
+              <!-- Approval Input Container with Name & WhatsApp Number -->
+              <div id="approvalControls" class="space-y-2 w-full">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <input type="text" id="clientNameInput" autocomplete="off" placeholder="Enter your full name..." class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
+                  <input type="text" id="clientPhoneInput" autocomplete="off" placeholder="Your WhatsApp No (e.g. 91...)" class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
+                </div>
+                <button onclick="approveDesign()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs py-2.5 rounded-md transition uppercase tracking-wide">
                   ✅ Approve Design System
                 </button>
               </div>
@@ -253,7 +256,7 @@
               <!-- WhatsApp Approval Share Banner (Hidden until approved) -->
               <div id="whatsappShareBanner" class="hidden bg-emerald-950/50 border border-emerald-800/80 p-2.5 rounded-md flex items-center justify-between gap-2">
                 <div class="text-xs text-emerald-300">
-                  <span>✓ Approved by <strong id="displayClientName" class="text-white"></strong></span>
+                  <span>✓ Approved by <strong id="displayClientName" class="text-white"></strong> (<span id="displayClientPhone" class="text-cyan-300"></span>)</span>
                 </div>
                 <button onclick="sendWhatsAppApproval()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-3 py-1 rounded text-xs transition flex items-center gap-1 shadow">
                   <span>💬</span> Send on WhatsApp
@@ -356,6 +359,7 @@
     let currentMode = 'light';
     let cardPreviewTheme = 'dark';
     let currentApprovalClient = "";
+    let currentApprovalPhone = "";
 
     function copyToClipboardSilent(textToCopy, btn, originalText) {
       if(!textToCopy) return;
@@ -388,18 +392,30 @@
     }
 
     function copyShareLink(btn) {
-      copyToClipboardSilent(window.location.href, btn, "🌐 Share Live Link");
+      const customDomainUrl = "https://www.scrutinixai.com/";
+      copyToClipboardSilent(customDomainUrl, btn, "🌐 Share Live Link");
     }
 
     function approveDesign() {
-      const input = document.getElementById('clientNameInput');
-      const clientName = input.value.trim();
+      const nameInput = document.getElementById('clientNameInput');
+      const phoneInput = document.getElementById('clientPhoneInput');
+      const clientName = nameInput.value.trim();
+      const clientPhone = phoneInput.value.trim();
+
       if (!clientName) {
         alert('Kripya apna naam enter karein!');
         return;
       }
+      if (!clientPhone) {
+        alert('Kripya apna WhatsApp number enter karein!');
+        return;
+      }
+
       currentApprovalClient = clientName;
+      currentApprovalPhone = clientPhone;
+
       document.getElementById('displayClientName').innerText = clientName;
+      document.getElementById('displayClientPhone').innerText = clientPhone;
       document.getElementById('whatsappShareBanner').classList.remove('hidden');
       document.getElementById('approvalControls').classList.add('hidden');
       document.getElementById('portalStateBadge').className = "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30";
@@ -408,8 +424,8 @@
 
     function sendWhatsAppApproval() {
       const projectName = document.getElementById('projectName').value.trim() || 'Scrutinix AI Project';
-      const targetPhone = "919876543210";
-      const message = `Hello! The design system for *${projectName}* has been officially reviewed and approved by *${currentApprovalClient}*. 🚀\n\nGenerated via Scrutinix AI Client Portal.`;
+      const targetPhone = "917304111280"; // Aapka official developer WhatsApp number
+      const message = `Hello Rahul! The design system for *${projectName}* has been officially approved by *${currentApprovalClient}*.\n📱 Client WhatsApp: ${currentApprovalPhone}\n\nGenerated via Scrutinix AI Client Portal (https://www.scrutinixai.com/).`;
       window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(message)}`, '_blank');
     }
 
@@ -475,11 +491,11 @@
       const codeOutput = document.getElementById('codeOutput');
 
       if (currentTab === 'css') {
-        codeOutput.innerText = `/* Scrutinix AI CSS Variables (${currentMode.toUpperCase()}) */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --mode: "${currentMode}";\n}`;
+        codeOutput.innerText = `/* Scrutinix AI CSS Variables (${currentMode.toUpperCase()}) - https://www.scrutinixai.com/ */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --mode: "${currentMode}";\n}`;
       } else if (currentTab === 'tailwind') {
-        codeOutput.innerText = `// Scrutinix AI Tailwind Config\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: {\n        brand: '${color}',\n      },\n      fontFamily: {\n        sans: ['${font}', 'sans-serif'],\n      }\n    }\n  }\n}`;
+        codeOutput.innerText = `// Scrutinix AI Tailwind Config - https://www.scrutinixai.com/\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: {\n        brand: '${color}',\n      },\n      fontFamily: {\n        sans: ['${font}', 'sans-serif'],\n      }\n    }\n  }\n}`;
       } else if (currentTab === 'json') {
-        codeOutput.innerText = `{\n  "color": {\n    "brand": { "value": "${color}" }\n  },\n  "font": {\n    "family": { "value": "${font}" }\n  }\n}`;
+        codeOutput.innerText = `{\n  "platform": "https://www.scrutinixai.com/",\n  "color": {\n    "brand": { "value": "${color}" }\n  },\n  "font": {\n    "family": { "value": "${font}" }\n  }\n}`;
       }
     }
 
@@ -501,7 +517,7 @@
       const brandColor = document.getElementById('brandColor').value;
       const fontFamily = document.getElementById('fontSelect').value;
 
-      const combinedSpecsContent = `/* Project: ${projectName} - Scrutinix AI */\n:root {\n  --primary-brand: ${brandColor};\n  --main-font: '${fontFamily}', sans-serif;\n}\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: { brand: '${brandColor}' },\n      fontFamily: { sans: ['${fontFamily}', 'sans-serif'] }\n    }\n  }\n};`;
+      const combinedSpecsContent = `/* Project: ${projectName} | Generated via https://www.scrutinixai.com/ */\n:root {\n  --primary-brand: ${brandColor};\n  --main-font: '${fontFamily}', sans-serif;\n}\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: { brand: '${brandColor}' },\n      fontFamily: { sans: ['${fontFamily}', 'sans-serif'] }\n    }\n  }\n};`;
 
       const blob = new Blob([combinedSpecsContent], { type: 'text/css;charset=utf-8;' });
       const link = document.createElement('a');
@@ -512,7 +528,7 @@
 
     function exportCss() {
       const color = document.getElementById('brandColor').value;
-      const blob = new Blob([`:root { --primary-brand: ${color}; }`], { type: 'text/css' });
+      const blob = new Blob([`:root { --primary-brand: ${color}; } /* https://www.scrutinixai.com/ */`], { type: 'text/css' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
       link.download = "variables.css";
@@ -521,21 +537,10 @@
 
     function exportTailwind() {
       const color = document.getElementById('brandColor').value;
-      const blob = new Blob([`module.exports = { theme: { extend: { colors: { brand: '${color}' } } } }`], { type: 'text/javascript' });
+      const blob = new Blob([`module.exports = { theme: { extend: { colors: { brand: '${color}' } } } } // https://www.scrutinixai.com/`], { type: 'text/javascript' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
       link.download = "tailwind.config.js";
-      link.click();
-    }
-
-    function exportJson() {
-      const color = document.getElementById('brandColor').value;
-      const font = document.getElementById('fontSelect').value;
-      const content = JSON.stringify({ color: { brand: { value: color } }, font: { family: { value: font } } }, null, 2);
-      const blob = new Blob([content], { type: 'application/json' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = "style-dictionary.json";
       link.click();
     }
 
@@ -553,9 +558,10 @@
       doc.setFontSize(18);
       doc.text(`Scrutinix AI Design Spec - ${proj}`, 10, 20);
       doc.setFontSize(12);
-      doc.text(`Brand Color: ${color}`, 10, 35);
-      doc.text(`Primary Font: ${font}`, 10, 45);
-      doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 10, 55);
+      doc.text(`Platform: https://www.scrutinixai.com/`, 10, 30);
+      doc.text(`Brand Color: ${color}`, 10, 42);
+      doc.text(`Primary Font: ${font}`, 10, 52);
+      doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 10, 62);
 
       doc.save(`${proj.toLowerCase().replace(/\s+/g, '-')}-spec.pdf`);
     }
@@ -564,7 +570,7 @@
       const proj = document.getElementById('projectName').value.trim() || 'Scrutinix AI Project';
       const msg = document.getElementById('changelogMsg').innerText;
       const subject = encodeURIComponent(`Design System Changelog - ${proj}`);
-      const body = encodeURIComponent(msg);
+      const body = encodeURIComponent(msg + "\n\nPowered by https://www.scrutinixai.com/");
       window.open(`https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=${subject}&body=${body}`, '_blank');
     }
 
@@ -663,7 +669,7 @@
 
       const changelog = document.getElementById('changelogMsg');
       if(changelog) {
-        changelog.innerText = `[${new Date().toLocaleTimeString()}] Updated system tokens: Brand=${color}, Font=${font}, Project=${proj}`;
+        changelog.innerText = `[${new Date().toLocaleTimeString()}] Updated system tokens: Brand=${color}, Font=${font}, Project=${proj} (https://www.scrutinixai.com/)`;
       }
     }
 
