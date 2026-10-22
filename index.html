@@ -145,7 +145,7 @@
 
             <div>
               <label class="block text-xs font-semibold text-slate-200 mb-1">Project Name:</label>
-              <input type="text" id="projectName" value="grocery app" oninput="updateLivePreview()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:border-cyan-400 outline-none">
+              <input type="text" id="projectName" value="grocery app" oninput="generateSystem()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:border-cyan-400 outline-none">
             </div>
 
             <div class="grid grid-cols-2 gap-3">
@@ -159,7 +159,7 @@
 
               <div>
                 <label class="block text-xs font-semibold text-slate-200 mb-1">Select Typography Font:</label>
-                <select id="fontSelect" onchange="updateLivePreview()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-2 text-xs text-white outline-none">
+                <select id="fontSelect" onchange="generateSystem()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-2 text-xs text-white outline-none">
                   <option value="Roboto">Roboto</option>
                   <option value="Inter">Inter</option>
                   <option value="Poppins">Poppins</option>
@@ -169,7 +169,7 @@
 
             <div>
               <label class="block text-xs font-semibold text-slate-200 mb-1">Additional Layout / Component Rules:</label>
-              <textarea id="customRules" oninput="updateLivePreview()" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white outline-none h-16 resize-none custom-scrollbar">base-padding: 16px, border-radius-md: 8px</textarea>
+              <textarea id="customRules" oninput="generateSystem()" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white outline-none h-16 resize-none custom-scrollbar">base-padding: 16px, border-radius-md: 8px</textarea>
             </div>
           </div>
         </div>
@@ -334,10 +334,10 @@
             </div>
           </div>
 
-          <!-- Bottom Actions Grid (Includes Combined Specs Export) -->
+          <!-- Bottom Actions Grid -->
           <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
             <button onclick="exportCss()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export variables.css</button>
-            <button onclick="exportTailwind()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export Tailwind</button>
+            <button onclick="exportTailwind()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export tailwind.config.js</button>
             <button onclick="downloadCombinedSpecs()" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs py-2 rounded-lg transition">📦 Combined Specs</button>
             <button onclick="exportPdf()" class="bg-slate-950 hover:bg-slate-800 border border-cyan-500/30 text-cyan-400 font-bold text-xs py-2 rounded-lg transition">📄 Export Spec PDF</button>
             <button onclick="copyShareLink(this)" class="col-span-2 sm:col-span-1 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2 rounded-lg transition">🌐 Share Live Link</button>
@@ -349,7 +349,7 @@
 
     </div>
 
-    <!-- Complete Features & Value Proposition Section -->
+    <!-- Cleaned 2-Card Features & Value Proposition Section -->
     <section style="max-width: 1200px; margin: 40px auto 20px auto; padding: 0 15px; font-family: system-ui, -apple-system, sans-serif;">
       
       <div style="text-align: center; margin-bottom: 35px;">
@@ -357,53 +357,31 @@
           Why Designers & Developers Choose Scrutinix AI
         </h2>
         <p style="color: #94A3B8; font-size: 1rem; max-width: 700px; margin: 0 auto;">
-          Streamline your entire UI/UX design handoff. No API keys required, zero-login client portals, and 1-click code exports.
+          Streamline your entire UI/UX design handoff. Zero setup required, zero-login client portals, and 1-click code exports.
         </p>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto;">
         
-        <!-- Feature Card 1 -->
-        <div style="background-color: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);">
-          <div style="font-size: 1.8rem; margin-bottom: 12px;">🎨</div>
-          <h3 style="color: #F8FAFC; font-size: 1.15rem; font-weight: 600; margin-bottom: 8px;">
-            1-Click Design System
+        <!-- Feature Card 1: All-in-One Fast Workflow -->
+        <div style="background-color: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);">
+          <div style="font-size: 2rem; margin-bottom: 12px;">⚡</div>
+          <h3 style="color: #F8FAFC; font-size: 1.25rem; font-weight: 600; margin-bottom: 10px;">
+            All-in-One Fast Workflow
           </h3>
-          <p style="color: #94A3B8; font-size: 0.9rem; line-height: 1.5;">
-            Generate color tokens, typography scales, border-radius, and box shadows instantly with AI theme presets.
+          <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.6;">
+            No more switching between Figma, token generators, and chat apps. Adjust colors, fonts, and borders live on our visual playground in seconds.
           </p>
         </div>
 
-        <!-- Feature Card 2 -->
-        <div style="background-color: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);">
-          <div style="font-size: 1.8rem; margin-bottom: 12px;">👥</div>
-          <h3 style="color: #F8FAFC; font-size: 1.15rem; font-weight: 600; margin-bottom: 8px;">
-            Zero-Login Client Portal
+        <!-- Feature Card 2: Instant Client Approval & Handoff -->
+        <div style="background-color: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);">
+          <div style="font-size: 2rem; margin-bottom: 12px;">🤝</div>
+          <h3 style="color: #F8FAFC; font-size: 1.25rem; font-weight: 600; margin-bottom: 10px;">
+            Instant Client Review & Handoff
           </h3>
-          <p style="color: #94A3B8; font-size: 0.9rem; line-height: 1.5;">
-            Share live visual preview links. Clients can review, approve, or request changes without creating an account.
-          </p>
-        </div>
-
-        <!-- Feature Card 3 -->
-        <div style="background-color: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);">
-          <div style="font-size: 1.8rem; margin-bottom: 12px;">⚡</div>
-          <h3 style="color: #F8FAFC; font-size: 1.15rem; font-weight: 600; margin-bottom: 8px;">
-            Developer-Ready Export
-          </h3>
-          <p style="color: #94A3B8; font-size: 0.9rem; line-height: 1.5;">
-            Export production-ready CSS Variables, tailwind.config.js, Style Dictionary JSON, and PDF design specs.
-          </p>
-        </div>
-
-        <!-- Feature Card 4 -->
-        <div style="background-color: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);">
-          <div style="font-size: 1.8rem; margin-bottom: 12px;">🤖</div>
-          <h3 style="color: #F8FAFC; font-size: 1.15rem; font-weight: 600; margin-bottom: 8px;">
-            AI Client Changelog
-          </h3>
-          <p style="color: #94A3B8; font-size: 0.9rem; line-height: 1.5;">
-            Auto-generate formatted design update notes ready to copy and send directly via WhatsApp, Slack, or Email.
+          <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.6;">
+            Share zero-login approval links. Clients review visual themes and sign off with 1-click WhatsApp approvals, generating instant Tailwind & CSS code.
           </p>
         </div>
 
@@ -430,8 +408,6 @@
             btn.classList.remove("bg-emerald-400", "text-slate-950");
           }, 2000);
         }
-      }).catch(err => {
-        console.error('Copy failed', err);
       });
     }
 
@@ -454,7 +430,6 @@
       copyToClipboardSilent(window.location.href, btn, "🌐 Share Live Link");
     }
 
-    // Dynamic Approval Portal & WhatsApp Handler
     function approveDesign() {
       const input = document.getElementById('clientNameInput');
       const clientName = input.value.trim();
@@ -477,34 +452,118 @@
       window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(message)}`, '_blank');
     }
 
-    // Combined CSS & Specs Download Generator
+    function switchTab(tabName) {
+      currentTab = tabName;
+      const codeOutputContainer = document.getElementById('codeOutputContainer');
+      const visualizerPanel = document.getElementById('visualizerPanel');
+      const titleSpan = document.getElementById('codeBoxTitle');
+
+      ['tabCss', 'tabTailwind', 'tabJson', 'tabVisualizer'].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) {
+          el.className = "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
+        }
+      });
+
+      if (tabName === 'visualizer') {
+        codeOutputContainer.classList.add('hidden');
+        visualizerPanel.classList.remove('hidden');
+        document.getElementById('tabVisualizer').className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        titleSpan.innerText = "Interactive v1.5 Visualizer Settings";
+      } else {
+        codeOutputContainer.classList.remove('hidden');
+        visualizerPanel.classList.add('hidden');
+
+        if (tabName === 'css') {
+          document.getElementById('tabCss').className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+          titleSpan.innerText = `variables-${currentMode}.css`;
+        } else if (tabName === 'tailwind') {
+          document.getElementById('tabTailwind').className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+          titleSpan.innerText = "tailwind.config.js";
+        } else if (tabName === 'json') {
+          document.getElementById('tabJson').className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+          titleSpan.innerText = "style-dictionary.json";
+        }
+        updateCodeOutputText();
+      }
+    }
+
+    function switchMode(mode) {
+      currentMode = mode;
+      const btnLight = document.getElementById('subTabLight');
+      const btnDark = document.getElementById('subTabDark');
+
+      if (mode === 'light') {
+        btnLight.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400";
+        btnDark.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400";
+      } else {
+        btnDark.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400";
+        btnLight.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400";
+      }
+
+      if (currentTab === 'css') {
+        document.getElementById('codeBoxTitle').innerText = `variables-${mode}.css`;
+      }
+      updateCodeOutputText();
+    }
+
+    function updateCodeOutputText() {
+      const color = document.getElementById('brandColor').value;
+      const proj = document.getElementById('projectName').value.trim() || 'project';
+      const font = document.getElementById('fontSelect').value;
+      const codeOutput = document.getElementById('codeOutput');
+
+      if (currentTab === 'css') {
+        codeOutput.innerText = `/* Scrutinix AI CSS Variables (${currentMode.toUpperCase()}) */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --mode: "${currentMode}";\n}`;
+      } else if (currentTab === 'tailwind') {
+        codeOutput.innerText = `// Scrutinix AI Tailwind Config\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: {\n        brand: '${color}',\n      },\n      fontFamily: {\n        sans: ['${font}', 'sans-serif'],\n      }\n    }\n  }\n}`;
+      } else if (currentTab === 'json') {
+        codeOutput.innerText = `{\n  "color": {\n    "brand": { "value": "${color}" }\n  },\n  "font": {\n    "family": { "value": "${font}" }\n  }\n}`;
+      }
+    }
+
+    function updateVisualizerPreview() {
+      const blur = document.getElementById('shadowBlurRange').value;
+      const radius = document.getElementById('borderRadiusRange').value;
+      document.getElementById('blurVal').innerText = blur + 'px';
+      document.getElementById('radiusVal').innerText = radius + 'px';
+
+      const mockup = document.getElementById('mockupCard');
+      if (mockup) {
+        mockup.style.borderRadius = radius + 'px';
+        mockup.style.boxShadow = `0 10px ${blur}px rgba(0,210,255,0.15)`;
+      }
+    }
+
     function downloadCombinedSpecs() {
       const projectName = document.getElementById('projectName').value.trim() || 'scrutinix-design-system';
       const brandColor = document.getElementById('brandColor').value;
       const fontFamily = document.getElementById('fontSelect').value;
 
-      const combinedSpecsContent = `/* 
- * Project Identity: ${projectName}
- * Generated via Scrutinix AI Design System Tool v1.5
- */
-:root {
-  --primary-brand: ${brandColor};
-  --main-font-stack: '${fontFamily}', sans-serif;
-}
-/* Tailwind Configuration Snippet */
-module.exports = {
-  theme: {
-    extend: {
-      colors: { brand: '${brandColor}' },
-      fontFamily: { sans: ['${fontFamily}', 'sans-serif'] }
-    }
-  }
-};`;
+      const combinedSpecsContent = `/* Project: ${projectName} - Scrutinix AI */\n:root {\n  --primary-brand: ${brandColor};\n  --main-font: '${fontFamily}', sans-serif;\n}\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: { brand: '${brandColor}' },\n      fontFamily: { sans: ['${fontFamily}', 'sans-serif'] }\n    }\n  }\n};`;
 
       const blob = new Blob([combinedSpecsContent], { type: 'text/css;charset=utf-8;' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = `${projectName.toLowerCase().replace(/\s+/g, '-')}-design-tokens.css`;
+      link.download = `${projectName.toLowerCase().replace(/\s+/g, '-')}-specs.css`;
+      link.click();
+    }
+
+    function exportCss() {
+      const color = document.getElementById('brandColor').value;
+      const blob = new Blob([`:root { --primary-brand: ${color}; }`], { type: 'text/css' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = "variables.css";
+      link.click();
+    }
+
+    function exportTailwind() {
+      const color = document.getElementById('brandColor').value;
+      const blob = new Blob([`module.exports = { theme: { extend: { colors: { brand: '${color}' } } } }`], { type: 'text/javascript' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = "tailwind.config.js";
       link.click();
     }
 
@@ -518,26 +577,14 @@ module.exports = {
     function switchMobileTab(tab) {
       const colGen = document.getElementById('colGenerator');
       const colClient = document.getElementById('colClient');
-      const btnGen = document.getElementById('mobileTabBtnGen');
-      const btnClient = document.getElementById('mobileTabBtnClient');
-      const btnVisualizer = document.getElementById('mobileTabBtnVisualizer');
-
       colGen.classList.add('hidden');
       colClient.classList.add('hidden');
-      btnGen.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
-      btnClient.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
-      btnVisualizer.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
 
       if (tab === 'gen') {
         colGen.classList.remove('hidden');
-        btnGen.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition";
       } else {
         colClient.classList.remove('hidden');
-        if(tab === 'client') {
-          btnClient.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition";
-        } else {
-          btnVisualizer.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition";
-        }
+        if(tab === 'visualizer') switchTab('visualizer');
       }
     }
 
@@ -546,33 +593,15 @@ module.exports = {
       const mockupCard = document.getElementById('mockupCard');
       const typoCard = document.getElementById('typoCard');
       const portalCard = document.getElementById('portalCard');
-      const appTitle = document.getElementById('previewAppTitle');
-      const appSubtitle = document.getElementById('previewSubtitle');
-      const typoSubtext = document.getElementById('typoSubtext');
-
-      const btnLight = document.getElementById('previewLightBtn');
-      const btnDark = document.getElementById('previewDarkBtn');
 
       if (theme === 'light') {
         mockupCard.className = "bg-slate-100 border border-slate-300 rounded-lg p-3.5 space-y-3 transition-colors duration-300";
         typoCard.className = "bg-white border border-slate-200 p-2.5 rounded-lg space-y-1 transition-colors";
         portalCard.className = "bg-white border border-emerald-500/40 rounded-lg p-3 space-y-3 transition-colors";
-        appTitle.className = "text-sm font-bold text-slate-900";
-        appSubtitle.className = "text-[11px] text-slate-500";
-        typoSubtext.className = "text-xs text-slate-600";
-
-        btnLight.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
-        btnDark.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
       } else {
         mockupCard.className = "bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-colors duration-300";
         typoCard.className = "bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 transition-colors";
         portalCard.className = "bg-slate-900 border border-emerald-500/40 rounded-lg p-3 space-y-3 transition-colors";
-        appTitle.className = "text-sm font-bold text-white";
-        appSubtitle.className = "text-[11px] text-slate-400";
-        typoSubtext.className = "text-xs text-slate-300";
-
-        btnDark.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
-        btnLight.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
       }
     }
 
@@ -581,23 +610,9 @@ module.exports = {
       if (!SpeechRecognition) return;
       const recognition = new SpeechRecognition();
       recognition.lang = 'en-US';
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
-
-      recognition.onstart = function() {
-        document.getElementById('feedbackInput').placeholder = "Listening... Speak now 🎙️";
-      };
-
       recognition.onresult = function(event) {
-        const speechResult = event.results[0][0].transcript;
-        document.getElementById('feedbackInput').value = speechResult;
-        document.getElementById('feedbackInput').placeholder = "Request changes or speak voice command...";
+        document.getElementById('feedbackInput').value = event.results[0][0].transcript;
       };
-
-      recognition.onerror = function() {
-        document.getElementById('feedbackInput').placeholder = "Request changes or speak voice command...";
-      };
-
       recognition.start();
     }
 
@@ -612,7 +627,6 @@ module.exports = {
       const text = document.getElementById('brandColor');
       if (source === 'picker') text.value = picker.value.toUpperCase();
       else picker.value = text.value;
-      updateLivePreview();
       generateSystem();
     }
 
@@ -629,36 +643,27 @@ module.exports = {
       generateSystem();
     }
 
-    function calculateContrastAndBadge(hex) {
-      let cleanHex = hex.replace('#', '');
-      if(cleanHex.length === 3) cleanHex = cleanHex.split('').map(c => c + c).join('');
-      const r = parseInt(cleanHex.substr(0,2), 16) || 0;
-      const g = parseInt(cleanHex.substr(2,2), 16) || 0;
-      const b = parseInt(cleanHex.substr(4,2), 16) || 0;
-      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-      const badge = document.getElementById('wcagBadge');
-      if(badge) {
-        if(brightness > 125) {
-          badge.className = "text-[11px] bg-amber-500/15 text-amber-400 border border-amber-500/30 px-2.5 py-0.5 rounded-full font-bold";
-          badge.innerText = "⚠ WCAG AA Check";
-        } else {
-          badge.className = "text-[11px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold";
-          badge.innerText = "✓ WCAG AA Pass (4.8:1)";
-        }
-      }
-    }
-
-    function updateLivePreview() {
+    function generateSystem() {
       const color = document.getElementById('brandColor').value;
-      const proj = document.getElementById('projectName').value;
+      const proj = document.getElementById('projectName').value.trim() || 'grocery app';
+      const font = document.getElementById('fontSelect').value;
+
+      document.documentElement.style.setProperty('--primary-brand', color);
       const btn = document.getElementById('previewBtn');
       if(btn) btn.style.backgroundColor = color;
-      document.getElementById('codeOutput').innerText = `:root {\n  --primary-brand: ${color};\n  --project-name: "${proj}";\n}`;
-    }
+      
+      const snippet = document.getElementById('tailwindSnippetText');
+      if(snippet) snippet.innerText = `bg-[${color}] text-white font-${font.toLowerCase()} rounded-md`;
 
-    function generateSystem() {
-      updateLivePreview();
-      calculateContrastAndBadge(document.getElementById('brandColor').value);
+      const title = document.getElementById('previewAppTitle');
+      if(title) title.innerText = proj;
+
+      updateCodeOutputText();
+
+      const changelog = document.getElementById('changelogMsg');
+      if(changelog) {
+        changelog.innerText = `[${new Date().toLocaleTimeString()}] Updated system tokens: Brand=${color}, Font=${font}, Project=${proj}`;
+      }
     }
 
     window.onload = function() {
