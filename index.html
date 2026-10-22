@@ -349,45 +349,6 @@
 
     </div>
 
-    <!-- Cleaned 2-Card Features & Value Proposition Section -->
-    <section style="max-width: 1200px; margin: 40px auto 20px auto; padding: 0 15px; font-family: system-ui, -apple-system, sans-serif;">
-      
-      <div style="text-align: center; margin-bottom: 35px;">
-        <h2 style="color: #38BDF8; font-size: 1.8rem; font-weight: 700; margin-bottom: 10px;">
-          Why Designers & Developers Choose Scrutinix AI
-        </h2>
-        <p style="color: #94A3B8; font-size: 1rem; max-width: 700px; margin: 0 auto;">
-          Streamline your entire UI/UX design handoff. Zero setup required, zero-login client portals, and 1-click code exports.
-        </p>
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto;">
-        
-        <!-- Feature Card 1: All-in-One Fast Workflow -->
-        <div style="background-color: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);">
-          <div style="font-size: 2rem; margin-bottom: 12px;">⚡</div>
-          <h3 style="color: #F8FAFC; font-size: 1.25rem; font-weight: 600; margin-bottom: 10px;">
-            All-in-One Fast Workflow
-          </h3>
-          <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.6;">
-            No more switching between Figma, token generators, and chat apps. Adjust colors, fonts, and borders live on our visual playground in seconds.
-          </p>
-        </div>
-
-        <!-- Feature Card 2: Instant Client Approval & Handoff -->
-        <div style="background-color: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);">
-          <div style="font-size: 2rem; margin-bottom: 12px;">🤝</div>
-          <h3 style="color: #F8FAFC; font-size: 1.25rem; font-weight: 600; margin-bottom: 10px;">
-            Instant Client Review & Handoff
-          </h3>
-          <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.6;">
-            Share zero-login approval links. Clients review visual themes and sign off with 1-click WhatsApp approvals, generating instant Tailwind & CSS code.
-          </p>
-        </div>
-
-      </div>
-    </section>
-
   </div>
 
   <script>
@@ -565,6 +526,46 @@
       link.href = URL.createObjectURL(blob);
       link.download = "tailwind.config.js";
       link.click();
+    }
+
+    function exportJson() {
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+      const content = JSON.stringify({ color: { brand: { value: color } }, font: { family: { value: font } } }, null, 2);
+      const blob = new Blob([content], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = "style-dictionary.json";
+      link.click();
+    }
+
+    function exportPdf() {
+      if (!window.jspdf) {
+        alert("jspdf library not loaded yet!");
+        return;
+      }
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const proj = document.getElementById('projectName').value.trim() || 'Design System';
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+
+      doc.setFontSize(18);
+      doc.text(`Scrutinix AI Design Spec - ${proj}`, 10, 20);
+      doc.setFontSize(12);
+      doc.text(`Brand Color: ${color}`, 10, 35);
+      doc.text(`Primary Font: ${font}`, 10, 45);
+      doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 10, 55);
+
+      doc.save(`${proj.toLowerCase().replace(/\s+/g, '-')}-spec.pdf`);
+    }
+
+    function sendViaGmail() {
+      const proj = document.getElementById('projectName').value.trim() || 'Scrutinix AI Project';
+      const msg = document.getElementById('changelogMsg').innerText;
+      const subject = encodeURIComponent(`Design System Changelog - ${proj}`);
+      const body = encodeURIComponent(msg);
+      window.open(`https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=${subject}&body=${body}`, '_blank');
     }
 
     function submitFeedback() {
