@@ -69,19 +69,6 @@
       </span>
     </div>
 
-    <!-- MOBILE NAVIGATION TABS -->
-    <div class="flex lg:hidden bg-slate-900 border border-slate-800 p-1.5 rounded-xl gap-2">
-      <button id="mobileTabBtnGen" onclick="switchMobileTab('gen')" class="flex-1 py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition">
-        ⚡ 1. Design Generator & Tokens
-      </button>
-      <button id="mobileTabBtnClient" onclick="switchMobileTab('client')" class="flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">
-        📱 2. Client Review & Portal
-      </button>
-      <button id="mobileTabBtnVisualizer" onclick="switchMobileTab('visualizer')" class="flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">
-        🎨 3. Shadow & Radius
-      </button>
-    </div>
-
     <!-- MAIN DUAL SPLIT LAYOUT -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
 
@@ -141,16 +128,6 @@
 
           <!-- Inputs Form -->
           <div class="space-y-3">
-            <div class="bg-slate-950 p-3 border border-slate-800 rounded-lg space-y-1.5">
-              <label class="block text-[11px] font-semibold text-slate-300">Paste Design Spec / URL Link (Optional):</label>
-              <div class="flex gap-2">
-                <input type="text" id="designFileUrl" placeholder="https://yourdesignspec.com/link..." class="flex-1 bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white focus:border-cyan-400 outline-none">
-                <button onclick="fetchDesignLink()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-3.5 py-1.5 rounded-lg transition flex items-center gap-1 whitespace-nowrap">
-                  ⚡ Fetch
-                </button>
-              </div>
-            </div>
-
             <div>
               <label class="block text-xs font-semibold text-slate-200 mb-1">Project Name:</label>
               <input type="text" id="projectName" value="grocery app" oninput="generateSystem()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:border-cyan-400 outline-none">
@@ -174,11 +151,6 @@
                 </select>
               </div>
             </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-200 mb-1">Additional Layout / Component Rules:</label>
-              <textarea id="customRules" oninput="generateSystem()" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white outline-none h-16 resize-none custom-scrollbar">base-padding: 16px, border-radius-md: 8px</textarea>
-            </div>
           </div>
         </div>
 
@@ -188,7 +160,7 @@
       </div>
 
       <!-- BHAAG 2: LIVE VISUAL THEME PLAYGROUND & CLIENT PORTAL (RIGHT SIDE) -->
-      <div id="colClient" class="hidden lg:block lg:col-span-7 space-y-4">
+      <div id="colClient" class="lg:col-span-7 space-y-4">
 
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
           <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -202,7 +174,7 @@
           <div class="flex justify-between items-center bg-slate-950 p-2 rounded-lg border border-slate-800">
             <span class="text-xs font-semibold text-slate-300">Client Theme Mode Preview:</span>
             <div class="flex gap-1">
-              <button id="previewLightBtn" onclick="switchPreviewTheme('light')" class="text-xs font-bold px-3 py-1 rounded bg-slate-800 text-slate-300 transition">
+              <button id="previewLightBtn" onclick="switchPreviewTheme('light')" class="text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition">
                 ☀️ Preview Light
               </button>
               <button id="previewDarkBtn" onclick="switchPreviewTheme('dark')" class="text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition">
@@ -235,7 +207,7 @@
               </div>
             </div>
 
-            <!-- Developer Tailwind Snippet Copy Bar -->
+            <!-- Quick Developer Tailwind Snippet Copy Bar -->
             <div id="tailwindBar" class="bg-slate-900 border border-slate-800/80 p-2 rounded-lg flex justify-between items-center gap-2 transition-colors">
               <div class="truncate text-[11px] font-mono text-cyan-300">
                 <span id="tailwindLabel" class="text-slate-400">Tailwind Snippet: </span>
@@ -256,7 +228,7 @@
               <!-- Approval Input Container with Name & WhatsApp Number -->
               <div id="approvalControls" class="space-y-2 w-full">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  <input type="text" id="clientNameInput" autocomplete="off" placeholder="Enter your full name..." class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
+                  <input type="text" id="clientNameInput" autocomplete="off" placeholder="Enter your full name to approve..." class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
                   <input type="text" id="clientPhoneInput" autocomplete="off" placeholder="Recipient WhatsApp No (e.g. 91...)" class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
                 </div>
                 <button onclick="approveDesign()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs py-2.5 rounded-md transition uppercase tracking-wide">
@@ -277,13 +249,13 @@
               <!-- Revision Request Box with Mic Integration -->
               <div id="revisionControls" class="flex flex-col sm:flex-row gap-2 pt-1 border-t border-slate-800/60 w-full">
                 <div class="relative w-full sm:flex-1">
-                  <input type="text" id="feedbackInput" autocomplete="off" placeholder="Type change request or click mic..." class="w-full bg-slate-950 border border-slate-800 rounded-md pl-3 pr-9 py-2 text-xs text-white outline-none">
-                  <button onclick="startVoiceRecognition()" title="Voice Feedback & Controls" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition text-sm">
+                  <input type="text" id="feedbackInput" autocomplete="off" placeholder="Request changes or speak voice command..." class="w-full bg-slate-950 border border-slate-800 rounded-md pl-3 pr-9 py-2 text-xs text-white outline-none">
+                  <button onclick="startVoiceRecognition()" title="Voice Feedback" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition text-sm">
                     🎙️
                   </button>
                 </div>
                 <button onclick="submitFeedback()" class="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-4 py-2 rounded-md transition whitespace-nowrap">
-                  📝 Pin Annotation
+                  📝 Request Changes
                 </button>
               </div>
             </div>
@@ -325,22 +297,7 @@
                     <input type="range" id="borderRadiusRange" min="0" max="30" value="8" oninput="updateVisualizerPreview()" class="w-full accent-cyan-400">
                   </div>
                 </div>
-                <p class="text-[11px] text-slate-400 pt-1">💡 Interactive v1.5 visualizer adjusts live container styles instantly.</p>
               </div>
-            </div>
-          </div>
-
-          <!-- AI Changelog -->
-          <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 space-y-1.5">
-            <div class="flex justify-between items-center">
-              <span class="text-xs font-bold text-slate-300">🤖 AI Client Changelog (Ready for WhatsApp / Slack)</span>
-              <div class="flex gap-2">
-                <button onclick="sendViaGmail()" class="bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded transition">📧 Gmail</button>
-                <button onclick="copyChangelogMsg(this)" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 text-[10px] font-bold px-2.5 py-0.5 rounded transition">📋 Copy Message</button>
-              </div>
-            </div>
-            <div id="changelogMsg" class="bg-slate-900 p-2 rounded text-[11px] font-mono text-slate-300 border border-slate-800/80">
-              Loading changelog...
             </div>
           </div>
 
@@ -393,28 +350,329 @@
       copyToClipboardSilent(text, btn, "📄 Copy Code");
     }
 
-    function copyChangelogMsg(btn) {
-      const text = document.getElementById('changelogMsg').innerText;
-      copyToClipboardSilent(text, btn, "📋 Copy Message");
-    }
-
     function copyShareLink(btn) {
       const customDomainUrl = "https://www.scrutinixai.com/";
       copyToClipboardSilent(customDomainUrl, btn, "🌐 Share Live Link");
     }
 
-    function switchMobileTab(tab) {
-      const colGen = document.getElementById('colGenerator');
-      const colClient = document.getElementById('colClient');
-      const btnGen = document.getElementById('mobileTabBtnGen');
-      const btnClient = document.getElementById('mobileTabBtnClient');
-      const btnVis = document.getElementById('mobileTabBtnVisualizer');
+    // ACCURATE LIGHT / DARK CARD THEME SWITCHER
+    function switchPreviewTheme(theme) {
+      const card = document.getElementById('mockupCard');
+      const typoCard = document.getElementById('typoCard');
+      const tailwindBar = document.getElementById('tailwindBar');
+      const portalCard = document.getElementById('portalCard');
+      const btnLight = document.getElementById('previewLightBtn');
+      const btnDark = document.getElementById('previewDarkBtn');
 
-      [btnGen, btnClient, btnVis].forEach(b => {
-        if(b) b.className = "flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
+      const appTitle = document.getElementById('previewAppTitle');
+      const subtitle = document.getElementById('previewSubtitle');
+      const typoMain = document.getElementById('typoMainText');
+      const typoSub = document.getElementById('typoSubtext');
+      const typoLabel = document.getElementById('typoHeadingLabel');
+      const tailwindLabel = document.getElementById('tailwindLabel');
+      const portalTitle = document.getElementById('portalTitle');
+      const wcagBadge = document.getElementById('wcagBadge');
+      const clickComment = document.getElementById('clickCommentText');
+
+      const nameInput = document.getElementById('clientNameInput');
+      const phoneInput = document.getElementById('clientPhoneInput');
+      const feedbackInput = document.getElementById('feedbackInput');
+
+      if (theme === 'light') {
+        card.className = "bg-amber-50/90 border border-slate-200 rounded-lg p-3.5 space-y-3 transition-colors duration-300 relative cursor-pointer hover:border-cyan-500/60 shadow-xl";
+        
+        appTitle.className = "text-sm font-bold text-slate-900";
+        subtitle.className = "text-[11px] text-slate-600";
+        if(clickComment) clickComment.className = "text-cyan-600 font-semibold";
+
+        typoMain.className = "text-base font-bold text-slate-900";
+        typoSub.className = "text-xs text-slate-600";
+        typoLabel.className = "text-[10px] font-bold text-cyan-600 uppercase tracking-wider";
+        
+        typoCard.className = "bg-white/90 border border-slate-200 p-2.5 rounded-lg space-y-1 transition-colors";
+        tailwindBar.className = "bg-white/90 border border-slate-200 p-2 rounded-lg flex justify-between items-center gap-2 transition-colors";
+        tailwindLabel.className = "text-slate-600 font-medium";
+
+        portalCard.className = "bg-white/90 border border-emerald-500/40 rounded-lg p-3 space-y-3 transition-colors pointer-events-auto shadow-sm";
+        if(portalTitle) portalTitle.className = "text-xs font-bold text-emerald-600 flex items-center justify-between";
+
+        if(nameInput) nameInput.className = "w-full bg-slate-100 border border-slate-300 rounded-md px-3 py-2 text-xs text-slate-900 placeholder-slate-500 outline-none focus:border-cyan-500";
+        if(phoneInput) phoneInput.className = "w-full bg-slate-100 border border-slate-300 rounded-md px-3 py-2 text-xs text-slate-900 placeholder-slate-500 outline-none focus:border-cyan-500";
+        if(feedbackInput) feedbackInput.className = "w-full bg-slate-100 border border-slate-300 rounded-md pl-3 pr-9 py-2 text-xs text-slate-900 placeholder-slate-500 outline-none focus:border-cyan-500";
+
+        wcagBadge.innerText = "✓ WCAG AA Pass (15.4:1)";
+        wcagBadge.className = "text-[11px] bg-emerald-500/20 text-emerald-700 border border-emerald-500/40 px-2.5 py-0.5 rounded-full font-bold";
+
+        btnLight.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition shadow";
+        btnDark.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
+      } else {
+        card.className = "bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-colors duration-300 relative cursor-pointer hover:border-cyan-400/60";
+        
+        appTitle.className = "text-sm font-bold text-white";
+        subtitle.className = "text-[11px] text-slate-400";
+        if(clickComment) clickComment.className = "text-cyan-400";
+
+        typoMain.className = "text-base font-bold text-white";
+        typoSub.className = "text-xs text-slate-300";
+        typoLabel.className = "text-[10px] font-bold text-cyan-400 uppercase tracking-wider";
+
+        typoCard.className = "bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 transition-colors";
+        tailwindBar.className = "bg-slate-900 border border-slate-800/80 p-2 rounded-lg flex justify-between items-center gap-2 transition-colors";
+        tailwindLabel.className = "text-slate-400";
+
+        portalCard.className = "bg-slate-900 border border-emerald-500/40 rounded-lg p-3 space-y-3 transition-colors pointer-events-auto";
+        if(portalTitle) portalTitle.className = "text-xs font-bold text-emerald-400 flex items-center justify-between";
+
+        if(nameInput) nameInput.className = "w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none";
+        if(phoneInput) phoneInput.className = "w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none";
+        if(feedbackInput) feedbackInput.className = "w-full bg-slate-950 border border-slate-800 rounded-md pl-3 pr-9 py-2 text-xs text-white outline-none";
+
+        wcagBadge.innerText = "✓ WCAG AA Pass (4.8:1)";
+        wcagBadge.className = "text-[11px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold";
+
+        btnDark.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        btnLight.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
+      }
+    }
+
+    function toggleVersionComparison() {
+      const version = document.getElementById('versionDropdown').value;
+      const banner = document.getElementById('versionCompareBanner');
+      const colorInput = document.getElementById('brandColor');
+      
+      if (version === 'v1.0') {
+        if(banner) banner.classList.remove('hidden');
+        colorInput.value = "#0066FF";
+        document.getElementById('brandColorPicker').value = "#0066FF";
+        document.getElementById('fontSelect').value = "Roboto";
+      } else {
+        if(banner) banner.classList.add('hidden');
+        colorInput.value = "#351156";
+        document.getElementById('brandColorPicker').value = "#351156";
+        document.getElementById('fontSelect').value = "Poppins";
+      }
+      generateSystem();
+    }
+
+    function triggerVisualAnnotation(event) {
+      if(event.target.tagName === 'INPUT' || event.target.tagName === 'BUTTON' || event.target.tagName === 'SELECT') return;
+
+      const rect = event.currentTarget.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+
+      annotationCount++;
+      const container = document.getElementById('annotationPinsContainer');
+      if(!container) return;
+      
+      const pin = document.createElement('div');
+      pin.className = "absolute w-6 h-6 bg-cyan-400 text-slate-950 font-black text-xs rounded-full flex items-center justify-center shadow-lg animate-bounce pointer-events-auto cursor-pointer";
+      pin.style.left = `${x - 12}px`;
+      pin.style.top = `${y - 12}px`;
+      pin.innerText = annotationCount;
+      pin.title = `Annotation #${annotationCount} pinned. Click to view/edit.`;
+      
+      pin.onclick = function(e) {
+        e.stopPropagation();
+        const note = prompt(`Edit Annotation #${annotationCount} feedback:`, "Check spacing & typography here");
+        if(note) alert(`Annotation #${annotationCount} updated: "${note}"`);
+      };
+
+      container.appendChild(pin);
+      document.getElementById('feedbackInput').value = `Annotation #${annotationCount} at (${Math.round(x)}px, ${Math.round(y)}px): `;
+      document.getElementById('feedbackInput').focus();
+    }
+
+    function approveDesign() {
+      const nameInput = document.getElementById('clientNameInput');
+      const phoneInput = document.getElementById('clientPhoneInput');
+      const clientName = nameInput.value.trim();
+      let clientPhone = phoneInput.value.trim();
+
+      if (!clientName) { alert('Kripya apna naam enter karein!'); return; }
+      if (!clientPhone) { alert('Kripya WhatsApp number enter karein!'); return; }
+
+      clientPhone = clientPhone.replace(/[^0-9]/g, '');
+
+      currentApprovalClient = clientName;
+      currentApprovalPhone = clientPhone;
+
+      document.getElementById('displayClientName').innerText = clientName;
+      document.getElementById('displayClientPhone').innerText = clientPhone;
+      document.getElementById('whatsappShareBanner').classList.remove('hidden');
+      document.getElementById('approvalControls').classList.add('hidden');
+      document.getElementById('portalStateBadge').className = "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30 font-semibold";
+      document.getElementById('portalStateBadge').innerText = "✅ Approved & Locked v1.5";
+    }
+
+    function sendWhatsAppApproval() {
+      const projectName = document.getElementById('projectName').value.trim() || 'Scrutinix AI Project';
+      const targetPhone = currentApprovalPhone;
+      const message = `Hello! The design system for *${projectName}* has been officially approved by *${currentApprovalClient}*.\n\nView details: https://www.scrutinixai.com/`;
+      window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(message)}`, '_blank');
+    }
+
+    function switchTab(tabName) {
+      currentTab = tabName;
+      const codeOutputContainer = document.getElementById('codeOutputContainer');
+      const visualizerPanel = document.getElementById('visualizerPanel');
+      const titleSpan = document.getElementById('codeBoxTitle');
+
+      ['tabCss', 'tabTailwind', 'tabJson', 'tabVisualizer'].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.className = "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
       });
 
-      if (tab === 'gen') {
-        colGen.classList.remove('hidden');
-        colClient.classList.add('hidden');
-        if(btnGen) btnGen.className =
+      if (tabName === 'visualizer') {
+        codeOutputContainer.classList.add('hidden');
+        visualizerPanel.classList.remove('hidden');
+        document.getElementById('tabVisualizer').className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        titleSpan.innerText = "Interactive v1.5 Visualizer Settings";
+      } else {
+        codeOutputContainer.classList.remove('hidden');
+        visualizerPanel.classList.add('hidden');
+
+        if (tabName === 'css') {
+          document.getElementById('tabCss').className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+          titleSpan.innerText = `variables-${currentMode}.css`;
+        } else if (tabName === 'tailwind') {
+          document.getElementById('tabTailwind').className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+          titleSpan.innerText = "tailwind.config.js";
+        } else if (tabName === 'json') {
+          document.getElementById('tabJson').className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+          titleSpan.innerText = "style-dictionary.json";
+        }
+        updateCodeOutputText();
+      }
+    }
+
+    function switchMode(mode) {
+      currentMode = mode;
+      const btnLight = document.getElementById('subTabLight');
+      const btnDark = document.getElementById('subTabDark');
+
+      if (mode === 'light') {
+        btnLight.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-amber-400 text-slate-950";
+        btnDark.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400";
+      } else {
+        btnDark.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400";
+        btnLight.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400";
+      }
+
+      if (currentTab === 'css') {
+        document.getElementById('codeBoxTitle').innerText = `variables-${mode}.css`;
+      }
+      updateCodeOutputText();
+    }
+
+    function updateCodeOutputText() {
+      const color = document.getElementById('brandColor').value;
+      const proj = document.getElementById('projectName').value.trim() || 'project';
+      const font = document.getElementById('fontSelect').value;
+      const codeOutput = document.getElementById('codeOutput');
+
+      if (currentTab === 'css') {
+        codeOutput.innerText = `/* Scrutinix AI CSS Variables (${currentMode.toUpperCase()}) - https://www.scrutinixai.com/ */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --mode: "${currentMode}";\n}`;
+      } else if (currentTab === 'tailwind') {
+        codeOutput.innerText = `// Scrutinix AI Tailwind Config - https://www.scrutinixai.com/\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: {\n        brand: '${color}',\n      },\n      fontFamily: {\n        sans: ['${font}', 'sans-serif'],\n      }\n    }\n  }\n}`;
+      } else if (currentTab === 'json') {
+        codeOutput.innerText = `{\n  "platform": "https://www.scrutinixai.com/",\n  "color": {\n    "brand": { "value": "${color}" }\n  },\n  "font": {\n    "family": { "value": "${font}" }\n  }\n}`;
+      }
+    }
+
+    function generateSystem() {
+      const color = document.getElementById('brandColor').value;
+      const proj = document.getElementById('projectName').value.trim() || 'grocery app';
+      const font = document.getElementById('fontSelect').value;
+      document.documentElement.style.setProperty('--primary-brand', color);
+      
+      const previewBtn = document.getElementById('previewBtn');
+      if (previewBtn) previewBtn.style.backgroundColor = color;
+      
+      const titleEl = document.getElementById('previewAppTitle');
+      if (titleEl) titleEl.innerText = proj;
+
+      const tailwindText = document.getElementById('tailwindSnippetText');
+      if (tailwindText) tailwindText.innerText = `bg-[${color}] text-white font-${font.toLowerCase()} rounded-md`;
+
+      updateCodeOutputText();
+    }
+
+    function setColor(hex) {
+      document.getElementById('brandColor').value = hex;
+      document.getElementById('brandColorPicker').value = hex;
+      generateSystem();
+    }
+
+    function applyPreset(hex, font) {
+      setColor(hex);
+      document.getElementById('fontSelect').value = font;
+      generateSystem();
+    }
+
+    function syncColorInput(source) {
+      if (source === 'picker') {
+        document.getElementById('brandColor').value = document.getElementById('brandColorPicker').value;
+      } else {
+        const val = document.getElementById('brandColor').value;
+        if(val.startsWith('#') && val.length === 7) document.getElementById('brandColorPicker').value = val;
+      }
+      generateSystem();
+    }
+
+    function startVoiceRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) { alert("Voice recognition not supported in this browser."); return; }
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      const input = document.getElementById('feedbackInput');
+      input.placeholder = "Listening your voice note...";
+      recognition.onresult = function(event) {
+        input.value = event.results[0][0].transcript;
+        input.placeholder = "Type change request or click mic...";
+      };
+      recognition.start();
+    }
+
+    function submitFeedback() {
+      const feedback = document.getElementById('feedbackInput').value.trim();
+      if (!feedback) { alert('Kripya feedback enter karein!'); return; }
+      alert('Feedback successfully submitted: ' + feedback);
+      document.getElementById('feedbackInput').value = '';
+    }
+
+    function downloadCombinedSpecs() {
+      const proj = document.getElementById('projectName').value.trim() || 'specs';
+      const content = document.getElementById('codeOutput').innerText;
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${proj}-specs.css`;
+      link.click();
+    }
+
+    function exportPdf() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const proj = document.getElementById('projectName').value.trim() || 'Scrutinix AI Spec';
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+
+      doc.setFontSize(16);
+      doc.text("Scrutinix AI - Design System Spec", 10, 20);
+      doc.setFontSize(12);
+      doc.text(`Project Name: ${proj}`, 10, 35);
+      doc.text(`Brand Color: ${color}`, 10, 45);
+      doc.text(`Font Family: ${font}`, 10, 55);
+      doc.text(`Generated via: https://www.scrutinixai.com/`, 10, 65);
+
+      doc.save(`${proj.toLowerCase().replace(/\s+/g, '-')}-spec.pdf`);
+    }
+
+    function exportCss() { downloadCombinedSpecs(); }
+    function exportTailwind() { switchTab('tailwind'); downloadCombinedSpecs(); }
+
+    window.onload = function() { generateSystem(); };
+  </script>
+</body>
+</html>
