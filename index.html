@@ -544,97 +544,27 @@
       link.click();
     }
 
-    function exportPdf() {
-      if (!window.jspdf) {
-        alert("jspdf library not loaded yet!");
-        return;
-      }
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      const proj = document.getElementById('projectName').value.trim() || 'Design System';
+    function generateSystem() {
       const color = document.getElementById('brandColor').value;
+      const proj = document.getElementById('projectName').value.trim() || 'grocery app';
       const font = document.getElementById('fontSelect').value;
 
-      doc.setFontSize(18);
-      doc.text(`Scrutinix AI Design Spec - ${proj}`, 10, 20);
-      doc.setFontSize(12);
-      doc.text(`Platform: https://www.scrutinixai.com/`, 10, 30);
-      doc.text(`Brand Color: ${color}`, 10, 42);
-      doc.text(`Primary Font: ${font}`, 10, 52);
-      doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 10, 62);
+      document.documentElement.style.setProperty('--primary-brand', color);
+      const previewBtn = document.getElementById('previewBtn');
+      if (previewBtn) previewBtn.style.backgroundColor = color;
 
-      doc.save(`${proj.toLowerCase().replace(/\s+/g, '-')}-spec.pdf`);
-    }
+      const titleEl = document.getElementById('previewAppTitle');
+      if (titleEl) titleEl.innerText = proj;
 
-    function sendViaGmail() {
-      const proj = document.getElementById('projectName').value.trim() || 'Scrutinix AI Project';
-      const msg = document.getElementById('changelogMsg').innerText;
-      const subject = encodeURIComponent(`Design System Changelog - ${proj}`);
-      const body = encodeURIComponent(msg + "\n\nPowered by https://www.scrutinixai.com/");
-      window.open(`https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=${subject}&body=${body}`, '_blank');
-    }
+      const snippetEl = document.getElementById('tailwindSnippetText');
+      if (snippetEl) snippetEl.innerText = `bg-[${color}] text-white font-${font.toLowerCase()} rounded-md`;
 
-    function submitFeedback() {
-      const input = document.getElementById('feedbackInput');
-      if(!input.value.trim()) return;
-      alert('Feedback submitted: ' + input.value);
-      input.value = '';
-    }
-
-    function switchMobileTab(tab) {
-      const colGen = document.getElementById('colGenerator');
-      const colClient = document.getElementById('colClient');
-      colGen.classList.add('hidden');
-      colClient.classList.add('hidden');
-
-      if (tab === 'gen') {
-        colGen.classList.remove('hidden');
-      } else {
-        colClient.classList.remove('hidden');
-        if(tab === 'visualizer') switchTab('visualizer');
+      const timeStr = new Date().toLocaleTimeString();
+      const changelog = document.getElementById('changelogMsg');
+      if (changelog) {
+        changelog.innerText = `[${timeStr}] Updated system tokens: Brand=${color}, Font=${font}, Project=${proj} (https://www.scrutinixai.com/)`;
       }
-    }
-
-    function switchPreviewTheme(theme) {
-      cardPreviewTheme = theme;
-      const mockupCard = document.getElementById('mockupCard');
-      const typoCard = document.getElementById('typoCard');
-      const portalCard = document.getElementById('portalCard');
-
-      if (theme === 'light') {
-        mockupCard.className = "bg-slate-100 border border-slate-300 rounded-lg p-3.5 space-y-3 transition-colors duration-300";
-        typoCard.className = "bg-white border border-slate-200 p-2.5 rounded-lg space-y-1 transition-colors";
-        portalCard.className = "bg-white border border-emerald-500/40 rounded-lg p-3 space-y-3 transition-colors";
-      } else {
-        mockupCard.className = "bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-colors duration-300";
-        typoCard.className = "bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 transition-colors";
-        portalCard.className = "bg-slate-900 border border-emerald-500/40 rounded-lg p-3 space-y-3 transition-colors";
-      }
-    }
-
-    function startVoiceRecognition() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) return;
-      const recognition = new SpeechRecognition();
-      recognition.lang = 'en-US';
-      recognition.onresult = function(event) {
-        document.getElementById('feedbackInput').value = event.results[0][0].transcript;
-      };
-      recognition.start();
-    }
-
-    function fetchDesignLink() {
-      const url = document.getElementById('designFileUrl').value.trim();
-      if(!url) return;
-      applyPreset('#00d2ff', 'Inter');
-    }
-
-    function syncColorInput(source) {
-      const picker = document.getElementById('brandColorPicker');
-      const text = document.getElementById('brandColor');
-      if (source === 'picker') text.value = picker.value.toUpperCase();
-      else picker.value = text.value;
-      generateSystem();
+      updateCodeOutputText();
     }
 
     function setColor(hex) {
@@ -643,34 +573,80 @@
       generateSystem();
     }
 
-    function applyPreset(hex, fontName) {
-      document.getElementById('brandColor').value = hex;
-      document.getElementById('brandColorPicker').value = hex;
-      document.getElementById('fontSelect').value = fontName;
+    function applyPreset(hex, font) {
+      setColor(hex);
+      document.getElementById('fontSelect').value = font;
       generateSystem();
     }
 
-    function generateSystem() {
-      const color = document.getElementById('brandColor').value;
-      const proj = document.getElementById('projectName').value.trim() || 'grocery app';
-      const font = document.getElementById('fontSelect').value;
-
-      document.documentElement.style.setProperty('--primary-brand', color);
-      const btn = document.getElementById('previewBtn');
-      if(btn) btn.style.backgroundColor = color;
-      
-      const snippet = document.getElementById('tailwindSnippetText');
-      if(snippet) snippet.innerText = `bg-[${color}] text-white font-${font.toLowerCase()} rounded-md`;
-
-      const title = document.getElementById('previewAppTitle');
-      if(title) title.innerText = proj;
-
-      updateCodeOutputText();
-
-      const changelog = document.getElementById('changelogMsg');
-      if(changelog) {
-        changelog.innerText = `[${new Date().toLocaleTimeString()}] Updated system tokens: Brand=${color}, Font=${font}, Project=${proj} (https://www.scrutinixai.com/)`;
+    function syncColorInput(source) {
+      if (source === 'picker') {
+        const val = document.getElementById('brandColorPicker').value;
+        document.getElementById('brandColor').value = val;
+      } else {
+        const val = document.getElementById('brandColor').value;
+        if(val.startsWith('#') && val.length === 7) {
+          document.getElementById('brandColorPicker').value = val;
+        }
       }
+      generateSystem();
+    }
+
+    function switchPreviewTheme(theme) {
+      cardPreviewTheme = theme;
+      const btnLight = document.getElementById('previewLightBtn');
+      const btnDark = document.getElementById('previewDarkBtn');
+      const mockup = document.getElementById('mockupCard');
+      const typoCard = document.getElementById('typoCard');
+
+      if (theme === 'light') {
+        btnLight.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        btnDark.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
+        if(mockup) mockup.className = "bg-slate-100 border border-slate-300 rounded-lg p-3.5 space-y-3 transition-colors duration-300 text-slate-900";
+        if(typoCard) typoCard.className = "bg-white border border-slate-200 p-2.5 rounded-lg space-y-1 text-slate-900";
+      } else {
+        btnDark.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        btnLight.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
+        if(mockup) mockup.className = "bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-colors duration-300 text-white";
+        if(typoCard) typoCard.className = "bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 text-white";
+      }
+    }
+
+    function startVoiceRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert("Voice recognition is not supported in this browser.");
+        return;
+      }
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      const input = document.getElementById('feedbackInput');
+      input.placeholder = "Listening your voice command...";
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        input.value = transcript;
+        input.placeholder = "Request changes or speak voice command...";
+      };
+      recognition.onerror = function() {
+        input.placeholder = "Request changes or speak voice command...";
+      };
+      recognition.start();
+    }
+
+    function submitFeedback() {
+      const feedback = document.getElementById('feedbackInput').value.trim();
+      if (!feedback) {
+        alert('Kripya feedback ya change request enter karein!');
+        return;
+      }
+      alert('Feedback successfully submitted to developer: ' + feedback);
+      document.getElementById('feedbackInput').value = '';
+    }
+
+    function sendViaGmail() {
+      const msg = document.getElementById('changelogMsg').innerText;
+      window.location.href = `mailto:?subject=Scrutinix AI Design Changelog&body=${encodeURIComponent(msg)}`;
     }
 
     window.onload = function() {
