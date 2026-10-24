@@ -180,7 +180,7 @@
       </div>
 
       <!-- BHAAG 2: LIVE VISUAL THEME PLAYGROUND & CLIENT PORTAL (RIGHT SIDE) -->
-      <div id="colClient" class="hidden lg:block lg:col-span-7 space-y-4">
+      <div id="colClient" class="lg:col-span-7 space-y-4">
 
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
           <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -194,10 +194,10 @@
           <div class="flex justify-between items-center bg-slate-950 p-2 rounded-lg border border-slate-800">
             <span class="text-xs font-semibold text-slate-300">Client Theme Mode Preview:</span>
             <div class="flex gap-1">
-              <button id="previewLightBtn" onclick="switchPreviewTheme('light')" class="text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition">
+              <button id="previewLightBtn" onclick="switchPreviewTheme('light')" class="text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition">
                 ☀️ Preview Light
               </button>
-              <button id="previewDarkBtn" onclick="switchPreviewTheme('dark')" class="text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition">
+              <button id="previewDarkBtn" onclick="switchPreviewTheme('dark')" class="text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition">
                 🌙 Preview Dark
               </button>
             </div>
@@ -215,7 +215,7 @@
               </button>
             </div>
 
-            <!-- TYPOGRAPHY SCALE VISUALIZER PREVIEW -->
+            <!-- TYPOGRAPHY PREVIEW -->
             <div id="typoCard" class="bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 transition-colors">
               <p class="text-[10px] font-bold text-cyan-400 uppercase tracking-wider">📐 Typography Scale Preview</p>
               <div id="previewTypography" class="text-white space-y-0.5">
@@ -224,7 +224,7 @@
               </div>
             </div>
 
-            <!-- Quick Developer Tailwind Snippet Copy Bar -->
+            <!-- Developer Tailwind Snippet -->
             <div class="bg-slate-900 border border-slate-800/80 p-2 rounded-lg flex justify-between items-center gap-2">
               <div class="truncate text-[11px] font-mono text-cyan-300">
                 <span class="text-slate-400">Tailwind Snippet: </span>
@@ -242,7 +242,7 @@
                 <span id="portalStateBadge" class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30">🟡 In Review</span>
               </div>
 
-              <!-- Approval Input Container with Name & WhatsApp Number -->
+              <!-- Approval Input Container -->
               <div id="approvalControls" class="space-y-2 w-full">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <input type="text" id="clientNameInput" autocomplete="off" placeholder="Enter your full name..." class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
@@ -253,7 +253,7 @@
                 </button>
               </div>
 
-              <!-- WhatsApp Approval Share Banner (Hidden until approved) -->
+              <!-- WhatsApp Approval Banner -->
               <div id="whatsappShareBanner" class="hidden bg-emerald-950/50 border border-emerald-800/80 p-2.5 rounded-md flex items-center justify-between gap-2">
                 <div class="text-xs text-emerald-300">
                   <span>✓ Approved by <strong id="displayClientName" class="text-white"></strong> (<span id="displayClientPhone" class="text-cyan-300"></span>)</span>
@@ -263,21 +263,17 @@
                 </button>
               </div>
 
-              <!-- Revision Request Box with Mic Integration -->
+              <!-- Revision Box -->
               <div id="revisionControls" class="flex flex-col sm:flex-row gap-2 pt-1 border-t border-slate-800/60 w-full">
                 <div class="relative w-full sm:flex-1">
                   <input type="text" id="feedbackInput" autocomplete="off" placeholder="Request changes or speak voice command..." class="w-full bg-slate-950 border border-slate-800 rounded-md pl-3 pr-9 py-2 text-xs text-white outline-none">
-                  <button onclick="startVoiceRecognition()" title="Voice Feedback & Controls" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition text-sm">
+                  <button onclick="startVoiceRecognition()" title="Voice Feedback" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition text-sm">
                     🎙️
                   </button>
                 </div>
                 <button onclick="submitFeedback()" class="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-4 py-2 rounded-md transition whitespace-nowrap">
                   📝 Request Changes
                 </button>
-              </div>
-
-              <div id="approvalStatus" class="hidden bg-emerald-500/10 border border-emerald-500/30 p-2 rounded-md text-xs text-emerald-400 text-center font-semibold">
-                🎉 Design System approved by <span id="approvedClientName"></span>! Tokens locked.
               </div>
             </div>
           </div>
@@ -292,14 +288,14 @@
                 <button id="tabVisualizer" onclick="switchTab('visualizer')" class="text-xs font-semibold px-3 py-1 rounded text-cyan-300 hover:text-white transition">🎨 v1.5 Visualizer</button>
               </div>
               <div id="modeSubTabs" class="flex gap-1 bg-slate-950 p-1 rounded-md border border-slate-800">
-                <button id="subTabLight" onclick="switchMode('light')" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400">☀️ Light</button>
-                <button id="subTabDark" onclick="switchMode('dark')" class="text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400">🌙 Dark</button>
+                <button id="subTabLight" onclick="switchMode('light')" class="text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400">☀️ Light</button>
+                <button id="subTabDark" onclick="switchMode('dark')" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400">🌙 Dark</button>
               </div>
             </div>
 
             <div class="bg-slate-950 border border-slate-800 rounded-lg overflow-hidden">
               <div class="flex justify-between items-center bg-slate-900 px-3 py-1.5 border-b border-slate-800 text-xs text-slate-400">
-                <span id="codeBoxTitle">variables-light.css</span>
+                <span id="codeBoxTitle">variables-dark.css</span>
                 <button onclick="copyCodeOutput(this)" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-[10px] px-2.5 py-0.5 rounded transition">
                   📄 Copy Code
                 </button>
@@ -318,7 +314,6 @@
                     <input type="range" id="borderRadiusRange" min="0" max="30" value="8" oninput="updateVisualizerPreview()" class="w-full accent-cyan-400">
                   </div>
                 </div>
-                <p class="text-[11px] text-slate-400 pt-1">💡 Interactive v1.5 visualizer adjusts live container styles instantly.</p>
               </div>
             </div>
           </div>
@@ -328,7 +323,7 @@
             <div class="flex justify-between items-center">
               <span class="text-xs font-bold text-slate-300">🤖 AI Client Changelog (Ready for WhatsApp / Slack)</span>
               <div class="flex gap-2">
-                <button onclick="sendViaGmail()" class="bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded transition">📧 Gmail</button>
+                <button onclick="sendViaGmail()" class="bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded transition">📧 Open Gmail</button>
                 <button onclick="copyChangelogMsg(this)" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 text-[10px] font-bold px-2.5 py-0.5 rounded transition">📋 Copy Message</button>
               </div>
             </div>
@@ -356,8 +351,7 @@
 
   <script>
     let currentTab = 'css';
-    let currentMode = 'light';
-    let cardPreviewTheme = 'dark';
+    let currentMode = 'dark';
     let currentApprovalClient = "";
     let currentApprovalPhone = "";
 
@@ -400,16 +394,19 @@
       const nameInput = document.getElementById('clientNameInput');
       const phoneInput = document.getElementById('clientPhoneInput');
       const clientName = nameInput.value.trim();
-      const clientPhone = phoneInput.value.trim();
+      let clientPhone = phoneInput.value.trim();
 
       if (!clientName) {
-        alert('Kripya apna naam enter karein!');
+        alert('Kripya client ka full name enter karein!');
         return;
       }
       if (!clientPhone) {
-        alert('Kripya apna WhatsApp number enter karein!');
+        alert('Kripya client ka WhatsApp number enter karein!');
         return;
       }
+
+      // Clean phone number (keep digits only)
+      clientPhone = clientPhone.replace(/[^0-9]/g, '');
 
       currentApprovalClient = clientName;
       currentApprovalPhone = clientPhone;
@@ -418,15 +415,35 @@
       document.getElementById('displayClientPhone').innerText = clientPhone;
       document.getElementById('whatsappShareBanner').classList.remove('hidden');
       document.getElementById('approvalControls').classList.add('hidden');
-      document.getElementById('portalStateBadge').className = "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30";
+      document.getElementById('portalStateBadge').className = "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30 font-semibold";
       document.getElementById('portalStateBadge').innerText = "✅ Approved & Locked v1.5";
     }
 
+    // 1. DYNAMIC CLIENT WHATSAPP MESSAGE SENDER (SENDS TO ENTERED NUMBER)
     function sendWhatsAppApproval() {
       const projectName = document.getElementById('projectName').value.trim() || 'Scrutinix AI Project';
-      const targetPhone = "917304111280"; // Aapka official developer WhatsApp number
-      const message = `Hello Rahul! The design system for *${projectName}* has been officially approved by *${currentApprovalClient}*.\n📱 Client WhatsApp: ${currentApprovalPhone}\n\nGenerated via Scrutinix AI Client Portal (https://www.scrutinixai.com/).`;
+      
+      // Target phone is now strictly the number entered in the input box by the client / friend
+      let targetPhone = currentApprovalPhone;
+      
+      if (!targetPhone) {
+        alert('Client WhatsApp number not found!');
+        return;
+      }
+
+      const message = `Hello! The design system for *${projectName}* has been officially approved by *${currentApprovalClient}*.\n\nView details: https://www.scrutinixai.com/`;
+      
       window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(message)}`, '_blank');
+    }
+
+    // 2. DIRECT GMAIL WEB COMPOSE OPENER
+    function sendViaGmail() {
+      const proj = document.getElementById('projectName').value.trim() || 'Project';
+      const bodyText = document.getElementById('changelogMsg').innerText;
+      const subjectText = "Scrutinix AI Design Tokens - " + proj;
+      
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`;
+      window.open(gmailUrl, '_blank');
     }
 
     function switchTab(tabName) {
@@ -471,7 +488,7 @@
       const btnDark = document.getElementById('subTabDark');
 
       if (mode === 'light') {
-        btnLight.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400";
+        btnLight.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-amber-400 text-slate-950";
         btnDark.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400";
       } else {
         btnDark.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400";
@@ -549,6 +566,7 @@
       link.click();
     }
 
+    // 3. RELIABLE PDF SPEC EXPORTER
     function exportPdf() {
       const proj = document.getElementById('projectName').value.trim() || 'Scrutinix AI Spec';
       const color = document.getElementById('brandColor').value;
@@ -568,7 +586,7 @@
           return;
         }
       } catch (e) {
-        console.log("jsPDF failed, switching to fallback...", e);
+        console.log("jsPDF fallback triggered...", e);
       }
 
       const pdfTextContent = `%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj 2 0 obj<</Type/Pages/Count 1/Kids[3 0 R]>>endobj 3 0 obj<</Type/Page/MediaBox[0 0 612 792]/Parent 2 0 R/Resources<</Font<</F1 4 0 R>>>>/Contents 5 0 R>>endobj 4 0 obj<</Type/Font/Subtype/Type1/BaseFont/Helvetica>>endobj 5 0 obj<</Length 120>>stream\nBT\n/F1 16 Tf\n50 720 Td\n(Scrutinix AI - Design Spec) Tj\n/F1 12 Tf\n0 -30 Td\n(Project Name: ${proj}) Tj\n0 -20 Td\n(Brand Color: ${color}) Tj\n0 -20 Td\n(Font Family: ${font}) Tj\n0 -20 Td\n(Website: https://www.scrutinixai.com/) Tj\nET\nendstream\nendobj\nxref\n0 6\n0000000000 65535 f\n0000000009 00000 n\n0000000056 00000 n\n0000000111 00000 n\n0000000212 00000 n\n0000000281 00000 n\ntrailer<</Size 6/Root 1 0 R>>\nstartxref\n450\n%%EOF`;
@@ -578,13 +596,6 @@
       link.href = URL.createObjectURL(blob);
       link.download = `${proj.toLowerCase().replace(/\s+/g, '-')}-spec.pdf`;
       link.click();
-    }
-
-    function sendViaGmail() {
-      const proj = document.getElementById('projectName').value.trim() || 'Project';
-      const body = encodeURIComponent(document.getElementById('changelogMsg').innerText);
-      const subject = encodeURIComponent("Scrutinix AI Design Tokens - " + proj);
-      window.location.href = `mailto:?subject=${subject}&body=${body}`;
     }
 
     function generateSystem() {
@@ -646,6 +657,33 @@
       if (!feedback) { alert('Kripya feedback enter karein!'); return; }
       alert('Feedback successfully submitted: ' + feedback);
       document.getElementById('feedbackInput').value = '';
+    }
+
+    function switchPreviewTheme(theme) {
+      const card = document.getElementById('mockupCard');
+      const typoCard = document.getElementById('typoCard');
+      const btnLight = document.getElementById('previewLightBtn');
+      const btnDark = document.getElementById('previewDarkBtn');
+      const appTitle = document.getElementById('previewAppTitle');
+      const subtitle = document.getElementById('previewSubtitle');
+
+      if (theme === 'light') {
+        card.className = "bg-amber-50/90 border border-slate-200 rounded-lg p-3.5 space-y-3 transition-colors duration-300 shadow-xl";
+        if(appTitle) appTitle.className = "text-sm font-bold text-slate-900";
+        if(subtitle) subtitle.className = "text-[11px] text-slate-600";
+        if(typoCard) typoCard.className = "bg-white/90 border border-slate-200 p-2.5 rounded-lg space-y-1 transition-colors";
+
+        if(btnLight) btnLight.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition shadow";
+        if(btnDark) btnDark.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
+      } else {
+        card.className = "bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-colors duration-300";
+        if(appTitle) appTitle.className = "text-sm font-bold text-white";
+        if(subtitle) subtitle.className = "text-[11px] text-slate-400";
+        if(typoCard) typoCard.className = "bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 transition-colors";
+
+        if(btnDark) btnDark.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        if(btnLight) btnLight.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
+      }
     }
 
     window.onload = function() { generateSystem(); };
