@@ -489,6 +489,7 @@
       const proj = document.getElementById('projectName').value.trim() || 'project';
       const font = document.getElementById('fontSelect').value;
       const codeOutput = document.getElementById('codeOutput');
+      const changelogMsg = document.getElementById('changelogMsg');
 
       if (currentTab === 'css') {
         codeOutput.innerText = `/* Scrutinix AI CSS Variables (${currentMode.toUpperCase()}) - https://www.scrutinixai.com/ */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --mode: "${currentMode}";\n}`;
@@ -496,6 +497,10 @@
         codeOutput.innerText = `// Scrutinix AI Tailwind Config - https://www.scrutinixai.com/\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: {\n        brand: '${color}',\n      },\n      fontFamily: {\n        sans: ['${font}', 'sans-serif'],\n      }\n    }\n  }\n}`;
       } else if (currentTab === 'json') {
         codeOutput.innerText = `{\n  "platform": "https://www.scrutinixai.com/",\n  "color": {\n    "brand": { "value": "${color}" }\n  },\n  "font": {\n    "family": { "value": "${font}" }\n  }\n}`;
+      }
+
+      if (changelogMsg) {
+        changelogMsg.innerText = `🚀 Scrutinix AI Update: Design tokens generated for "${proj}". Primary brand color set to ${color} with ${font} typography. Live link: https://www.scrutinixai.com/`;
       }
     }
 
@@ -544,26 +549,59 @@
       link.click();
     }
 
+    function exportPdf() {
+      const proj = document.getElementById('projectName').value.trim() || 'Scrutinix AI Spec';
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+
+      try {
+        if (window.jspdf && window.jspdf.jsPDF) {
+          const doc = new window.jspdf.jsPDF();
+          doc.setFontSize(16);
+          doc.text("Scrutinix AI - Design System Spec", 10, 20);
+          doc.setFontSize(12);
+          doc.text(`Project Name: ${proj}`, 10, 35);
+          doc.text(`Brand Color: ${color}`, 10, 45);
+          doc.text(`Font Family: ${font}`, 10, 55);
+          doc.text(`Generated via: https://www.scrutinixai.com/`, 10, 65);
+          doc.save(`${proj.toLowerCase().replace(/\s+/g, '-')}-spec.pdf`);
+          return;
+        }
+      } catch (e) {
+        console.log("jsPDF failed, switching to fallback...", e);
+      }
+
+      const pdfTextContent = `%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj 2 0 obj<</Type/Pages/Count 1/Kids[3 0 R]>>endobj 3 0 obj<</Type/Page/MediaBox[0 0 612 792]/Parent 2 0 R/Resources<</Font<</F1 4 0 R>>>>/Contents 5 0 R>>endobj 4 0 obj<</Type/Font/Subtype/Type1/BaseFont/Helvetica>>endobj 5 0 obj<</Length 120>>stream\nBT\n/F1 16 Tf\n50 720 Td\n(Scrutinix AI - Design Spec) Tj\n/F1 12 Tf\n0 -30 Td\n(Project Name: ${proj}) Tj\n0 -20 Td\n(Brand Color: ${color}) Tj\n0 -20 Td\n(Font Family: ${font}) Tj\n0 -20 Td\n(Website: https://www.scrutinixai.com/) Tj\nET\nendstream\nendobj\nxref\n0 6\n0000000000 65535 f\n0000000009 00000 n\n0000000056 00000 n\n0000000111 00000 n\n0000000212 00000 n\n0000000281 00000 n\ntrailer<</Size 6/Root 1 0 R>>\nstartxref\n450\n%%EOF`;
+      
+      const blob = new Blob([pdfTextContent], { type: 'application/pdf' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${proj.toLowerCase().replace(/\s+/g, '-')}-spec.pdf`;
+      link.click();
+    }
+
+    function sendViaGmail() {
+      const proj = document.getElementById('projectName').value.trim() || 'Project';
+      const body = encodeURIComponent(document.getElementById('changelogMsg').innerText);
+      const subject = encodeURIComponent("Scrutinix AI Design Tokens - " + proj);
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    }
+
     function generateSystem() {
       const color = document.getElementById('brandColor').value;
       const proj = document.getElementById('projectName').value.trim() || 'grocery app';
       const font = document.getElementById('fontSelect').value;
-
       document.documentElement.style.setProperty('--primary-brand', color);
+      
       const previewBtn = document.getElementById('previewBtn');
       if (previewBtn) previewBtn.style.backgroundColor = color;
-
+      
       const titleEl = document.getElementById('previewAppTitle');
       if (titleEl) titleEl.innerText = proj;
 
-      const snippetEl = document.getElementById('tailwindSnippetText');
-      if (snippetEl) snippetEl.innerText = `bg-[${color}] text-white font-${font.toLowerCase()} rounded-md`;
+      const tailwindText = document.getElementById('tailwindSnippetText');
+      if (tailwindText) tailwindText.innerText = `bg-[${color}] text-white font-${font.toLowerCase()} rounded-md`;
 
-      const timeStr = new Date().toLocaleTimeString();
-      const changelog = document.getElementById('changelogMsg');
-      if (changelog) {
-        changelog.innerText = `[${timeStr}] Updated system tokens: Brand=${color}, Font=${font}, Project=${proj} (https://www.scrutinixai.com/)`;
-      }
       updateCodeOutputText();
     }
 
@@ -581,77 +619,36 @@
 
     function syncColorInput(source) {
       if (source === 'picker') {
-        const val = document.getElementById('brandColorPicker').value;
-        document.getElementById('brandColor').value = val;
+        document.getElementById('brandColor').value = document.getElementById('brandColorPicker').value;
       } else {
         const val = document.getElementById('brandColor').value;
-        if(val.startsWith('#') && val.length === 7) {
-          document.getElementById('brandColorPicker').value = val;
-        }
+        if(val.startsWith('#') && val.length === 7) document.getElementById('brandColorPicker').value = val;
       }
       generateSystem();
     }
 
-    function switchPreviewTheme(theme) {
-      cardPreviewTheme = theme;
-      const btnLight = document.getElementById('previewLightBtn');
-      const btnDark = document.getElementById('previewDarkBtn');
-      const mockup = document.getElementById('mockupCard');
-      const typoCard = document.getElementById('typoCard');
-
-      if (theme === 'light') {
-        btnLight.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
-        btnDark.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
-        if(mockup) mockup.className = "bg-slate-100 border border-slate-300 rounded-lg p-3.5 space-y-3 transition-colors duration-300 text-slate-900";
-        if(typoCard) typoCard.className = "bg-white border border-slate-200 p-2.5 rounded-lg space-y-1 text-slate-900";
-      } else {
-        btnDark.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
-        btnLight.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
-        if(mockup) mockup.className = "bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-colors duration-300 text-white";
-        if(typoCard) typoCard.className = "bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 text-white";
-      }
-    }
-
     function startVoiceRecognition() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        alert("Voice recognition is not supported in this browser.");
-        return;
-      }
+      if (!SpeechRecognition) { alert("Voice recognition not supported in this browser."); return; }
       const recognition = new SpeechRecognition();
       recognition.lang = 'en-US';
       const input = document.getElementById('feedbackInput');
-      input.placeholder = "Listening your voice command...";
-
+      input.placeholder = "Listening your voice note...";
       recognition.onresult = function(event) {
-        const transcript = event.results[0][0].transcript;
-        input.value = transcript;
-        input.placeholder = "Request changes or speak voice command...";
-      };
-      recognition.onerror = function() {
-        input.placeholder = "Request changes or speak voice command...";
+        input.value = event.results[0][0].transcript;
+        input.placeholder = "Type change request or click mic...";
       };
       recognition.start();
     }
 
     function submitFeedback() {
       const feedback = document.getElementById('feedbackInput').value.trim();
-      if (!feedback) {
-        alert('Kripya feedback ya change request enter karein!');
-        return;
-      }
-      alert('Feedback successfully submitted to developer: ' + feedback);
+      if (!feedback) { alert('Kripya feedback enter karein!'); return; }
+      alert('Feedback successfully submitted: ' + feedback);
       document.getElementById('feedbackInput').value = '';
     }
 
-    function sendViaGmail() {
-      const msg = document.getElementById('changelogMsg').innerText;
-      window.location.href = `mailto:?subject=Scrutinix AI Design Changelog&body=${encodeURIComponent(msg)}`;
-    }
-
-    window.onload = function() {
-      generateSystem();
-    };
+    window.onload = function() { generateSystem(); };
   </script>
 </body>
 </html>
