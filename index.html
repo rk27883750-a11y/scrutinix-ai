@@ -184,8 +184,8 @@
               <!-- Approval Input Container -->
               <div id="approvalControls" class="space-y-2 w-full">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  <input type="text" id="clientNameInput" autocomplete="off" placeholder="Enter name (e.g. Bikram)..." class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
-                  <input type="text" id="clientPhoneInput" autocomplete="off" placeholder="WhatsApp No (e.g. 9173...)" class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
+                  <input type="text" id="clientNameInput" autocomplete="off" placeholder="Enter full name (e.g. Bikram)..." class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
+                  <input type="text" id="clientPhoneInput" autocomplete="off" placeholder="WhatsApp No (e.g. 917304...)" class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
                 </div>
                 <button onclick="approveDesign()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs py-2.5 rounded-md transition uppercase tracking-wide">
                   ✅ Approve Design System
@@ -198,7 +198,7 @@
                   <span>✓ Approved by <strong id="displayClientName" class="text-white"></strong> (WhatsApp: <span id="displayClientPhone" class="text-cyan-300"></span>)</span>
                 </div>
                 <button onclick="sendWhatsAppApproval()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-3 py-1 rounded text-xs transition flex items-center gap-1 shadow">
-                  <span>💬</span> Send on WhatsApp
+                  <span>💬</span> Open Client WhatsApp Chat
                 </button>
               </div>
             </div>
@@ -300,6 +300,7 @@
         return;
       }
 
+      // Clean phone number (remove spaces, plus sign, or dashes)
       clientPhone = clientPhone.replace(/[^0-9]/g, '');
 
       currentApprovalClient = clientName;
@@ -317,7 +318,7 @@
       }
     }
 
-    // Target client / friend WhatsApp chat opener using WhatsApp API format
+    // Target client / friend WhatsApp chat opener with API format
     function sendWhatsAppApproval() {
       const projectName = document.getElementById('projectName').value.trim() || 'Scrutinix AI Project';
       
@@ -328,17 +329,20 @@
         return;
       }
 
+      // If phone number is 10 digits, prefix country code 91 automatically for India
       if (targetPhone.length === 10) {
         targetPhone = '91' + targetPhone;
       }
 
       const message = `Hello ${currentApprovalClient}! The design system for *${projectName}* has been officially approved.\n\nView details: https://www.scrutinixai.com/`;
       
+      // Using official WhatsApp API web link pointing directly to the target recipient phone number
       const whatsappUrl = `https://api.whatsapp.com/send?phone=${targetPhone}&text=${encodeURIComponent(message)}`;
       
       window.open(whatsappUrl, '_blank');
     }
 
+    // Direct Gmail Web Compose Opener
     function sendViaGmail() {
       const proj = document.getElementById('projectName').value.trim() || 'Project';
       const bodyText = document.getElementById('changelogMsg').innerText;
