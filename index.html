@@ -69,6 +69,19 @@
       </span>
     </div>
 
+    <!-- MOBILE NAVIGATION TABS -->
+    <div class="flex lg:hidden bg-slate-900 border border-slate-800 p-1.5 rounded-xl gap-2">
+      <button id="mobileTabBtnGen" onclick="switchMobileTab('gen')" class="flex-1 py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition">
+        ⚡ 1. Design Generator & Tokens
+      </button>
+      <button id="mobileTabBtnClient" onclick="switchMobileTab('client')" class="flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">
+        📱 2. Client Review & Portal
+      </button>
+      <button id="mobileTabBtnVisualizer" onclick="switchMobileTab('visualizer')" class="flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">
+        🎨 3. Shadow & Radius
+      </button>
+    </div>
+
     <!-- MAIN DUAL SPLIT LAYOUT -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
 
@@ -120,6 +133,16 @@
 
           <!-- Inputs Form -->
           <div class="space-y-3">
+            <div class="bg-slate-950 p-3 border border-slate-800 rounded-lg space-y-1.5">
+              <label class="block text-[11px] font-semibold text-slate-300">Paste Design Spec / URL Link (Optional):</label>
+              <div class="flex gap-2">
+                <input type="text" id="designFileUrl" placeholder="https://yourdesignspec.com/link..." class="flex-1 bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white focus:border-cyan-400 outline-none">
+                <button onclick="fetchDesignLink()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-3.5 py-1.5 rounded-lg transition flex items-center gap-1 whitespace-nowrap">
+                  ⚡ Fetch
+                </button>
+              </div>
+            </div>
+
             <div>
               <label class="block text-xs font-semibold text-slate-200 mb-1">Project Name:</label>
               <input type="text" id="projectName" value="grocery app" oninput="generateSystem()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:border-cyan-400 outline-none">
@@ -143,6 +166,11 @@
                 </select>
               </div>
             </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-200 mb-1">Additional Layout / Component Rules:</label>
+              <textarea id="customRules" oninput="generateSystem()" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white outline-none h-16 resize-none custom-scrollbar">base-padding: 16px, border-radius-md: 8px</textarea>
+            </div>
           </div>
         </div>
 
@@ -162,6 +190,19 @@
             </span>
           </div>
 
+          <!-- Client Light/Dark Mode Live Card Switcher -->
+          <div class="flex justify-between items-center bg-slate-950 p-2 rounded-lg border border-slate-800">
+            <span class="text-xs font-semibold text-slate-300">Client Theme Mode Preview:</span>
+            <div class="flex gap-1">
+              <button id="previewLightBtn" onclick="switchPreviewTheme('light')" class="text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition">
+                ☀️ Preview Light
+              </button>
+              <button id="previewDarkBtn" onclick="switchPreviewTheme('dark')" class="text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition">
+                🌙 Preview Dark
+              </button>
+            </div>
+          </div>
+
           <!-- Component Mockup Card -->
           <div id="mockupCard" class="bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-colors duration-300">
             <div class="flex justify-between items-center">
@@ -171,6 +212,26 @@
               </div>
               <button id="previewBtn" class="text-white font-bold text-xs px-4 py-2 rounded-md shadow-md transition" style="background-color: var(--primary-brand, #351156);">
                 Primary CTA
+              </button>
+            </div>
+
+            <!-- TYPOGRAPHY PREVIEW -->
+            <div id="typoCard" class="bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 transition-colors">
+              <p class="text-[10px] font-bold text-cyan-400 uppercase tracking-wider">📐 Typography Scale Preview</p>
+              <div id="previewTypography" class="text-white space-y-0.5">
+                <div class="text-base font-bold">H1 Heading - Core Display</div>
+                <div id="typoSubtext" class="text-xs text-slate-300">Body text - Standard interface preview typography.</div>
+              </div>
+            </div>
+
+            <!-- Developer Tailwind Snippet -->
+            <div class="bg-slate-900 border border-slate-800/80 p-2 rounded-lg flex justify-between items-center gap-2">
+              <div class="truncate text-[11px] font-mono text-cyan-300">
+                <span class="text-slate-400">Tailwind Snippet: </span>
+                <span id="tailwindSnippetText">bg-[#351156] text-white font-roboto rounded-md</span>
+              </div>
+              <button onclick="copyTailwindSnippet(this)" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-[10px] px-2.5 py-1 rounded transition whitespace-nowrap">
+                📋 Copy Snippet
               </button>
             </div>
 
@@ -185,7 +246,7 @@
               <div id="approvalControls" class="space-y-2 w-full">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <input type="text" id="clientNameInput" autocomplete="off" placeholder="Enter your full name..." class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
-                  <input type="text" id="clientPhoneInput" autocomplete="off" placeholder="Client WhatsApp No (e.g. 9173...) " class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
+                  <input type="text" id="clientPhoneInput" autocomplete="off" placeholder="Your WhatsApp No (e.g. 91...)" class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
                 </div>
                 <button onclick="approveDesign()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs py-2.5 rounded-md transition uppercase tracking-wide">
                   ✅ Approve Design System
@@ -195,10 +256,23 @@
               <!-- WhatsApp Approval Banner -->
               <div id="whatsappShareBanner" class="hidden bg-emerald-950/50 border border-emerald-800/80 p-2.5 rounded-md flex items-center justify-between gap-2">
                 <div class="text-xs text-emerald-300">
-                  <span>✓ Approved by <strong id="displayClientName" class="text-white"></strong> (WhatsApp: <span id="displayClientPhone" class="text-cyan-300"></span>)</span>
+                  <span>✓ Approved by <strong id="displayClientName" class="text-white"></strong> (<span id="displayClientPhone" class="text-cyan-300"></span>)</span>
                 </div>
                 <button onclick="sendWhatsAppApproval()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-3 py-1 rounded text-xs transition flex items-center gap-1 shadow">
-                  <span>💬</span> Open WhatsApp Chat
+                  <span>💬</span> Send on WhatsApp
+                </button>
+              </div>
+
+              <!-- Revision Box -->
+              <div id="revisionControls" class="flex flex-col sm:flex-row gap-2 pt-1 border-t border-slate-800/60 w-full">
+                <div class="relative w-full sm:flex-1">
+                  <input type="text" id="feedbackInput" autocomplete="off" placeholder="Request changes or speak voice command..." class="w-full bg-slate-950 border border-slate-800 rounded-md pl-3 pr-9 py-2 text-xs text-white outline-none">
+                  <button onclick="startVoiceRecognition()" title="Voice Feedback" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition text-sm">
+                    🎙️
+                  </button>
+                </div>
+                <button onclick="submitFeedback()" class="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-4 py-2 rounded-md transition whitespace-nowrap">
+                  📝 Request Changes
                 </button>
               </div>
             </div>
@@ -206,6 +280,19 @@
 
           <!-- Code Outputs Box & Tabs -->
           <div class="space-y-2.5">
+            <div class="flex flex-wrap justify-between items-center gap-2">
+              <div class="flex flex-wrap gap-1 bg-slate-950 p-1 rounded-md border border-slate-800">
+                <button id="tabCss" onclick="switchTab('css')" class="text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition">CSS Variables</button>
+                <button id="tabTailwind" onclick="switchTab('tailwind')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">Tailwind Config</button>
+                <button id="tabJson" onclick="switchTab('json')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">Style Dictionary</button>
+                <button id="tabVisualizer" onclick="switchTab('visualizer')" class="text-xs font-semibold px-3 py-1 rounded text-cyan-300 hover:text-white transition">🎨 v1.5 Visualizer</button>
+              </div>
+              <div id="modeSubTabs" class="flex gap-1 bg-slate-950 p-1 rounded-md border border-slate-800">
+                <button id="subTabLight" onclick="switchMode('light')" class="text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400">☀️ Light</button>
+                <button id="subTabDark" onclick="switchMode('dark')" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400">🌙 Dark</button>
+              </div>
+            </div>
+
             <div class="bg-slate-950 border border-slate-800 rounded-lg overflow-hidden">
               <div class="flex justify-between items-center bg-slate-900 px-3 py-1.5 border-b border-slate-800 text-xs text-slate-400">
                 <span id="codeBoxTitle">variables-dark.css</span>
@@ -215,6 +302,18 @@
               </div>
               <div id="codeOutputContainer">
                 <pre id="codeOutput" class="p-3 text-xs font-mono text-cyan-400 h-32 overflow-y-auto whitespace-pre-wrap custom-scrollbar"></pre>
+              </div>
+              <div id="visualizerPanel" class="hidden p-4 space-y-3 h-32 overflow-y-auto custom-scrollbar bg-slate-950 text-xs">
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="space-y-2">
+                    <label class="block font-semibold text-cyan-400">Box Shadow Blur: <span id="blurVal">10px</span></label>
+                    <input type="range" id="shadowBlurRange" min="0" max="40" value="10" oninput="updateVisualizerPreview()" class="w-full accent-cyan-400">
+                  </div>
+                  <div class="space-y-2">
+                    <label class="block font-semibold text-cyan-400">Border Radius: <span id="radiusVal">8px</span></label>
+                    <input type="range" id="borderRadiusRange" min="0" max="30" value="8" oninput="updateVisualizerPreview()" class="w-full accent-cyan-400">
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -234,11 +333,12 @@
           </div>
 
           <!-- Bottom Actions Grid -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
             <button onclick="exportCss()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export variables.css</button>
             <button onclick="exportTailwind()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export tailwind.config.js</button>
+            <button onclick="downloadCombinedSpecs()" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs py-2 rounded-lg transition">📦 Combined Specs</button>
             <button onclick="exportPdf()" class="bg-slate-950 hover:bg-slate-800 border border-cyan-500/30 text-cyan-400 font-bold text-xs py-2 rounded-lg transition">📄 Export Spec PDF</button>
-            <button onclick="copyShareLink(this)" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2 rounded-lg transition">🌐 Share Live Link</button>
+            <button onclick="copyShareLink(this)" class="col-span-2 sm:col-span-1 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2 rounded-lg transition">🌐 Share Live Link</button>
           </div>
 
         </div>
@@ -268,6 +368,11 @@
           }, 2000);
         }
       });
+    }
+
+    function copyTailwindSnippet(btn) {
+      const text = document.getElementById('tailwindSnippetText').innerText;
+      copyToClipboardSilent(text, btn, "📋 Copy Snippet");
     }
 
     function copyCodeOutput(btn) {
@@ -300,7 +405,7 @@
         return;
       }
 
-      // Clean phone number (remove spaces, plus sign, or dashes)
+      // Clean phone number (keep digits only)
       clientPhone = clientPhone.replace(/[^0-9]/g, '');
 
       currentApprovalClient = clientName;
@@ -310,14 +415,15 @@
       document.getElementById('displayClientPhone').innerText = clientPhone;
       document.getElementById('whatsappShareBanner').classList.remove('hidden');
       document.getElementById('approvalControls').classList.add('hidden');
-      document.getElementById('portalStateBadgeclassName') = "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30 font-semibold";
+      document.getElementById('portalStateBadge').className = "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30 font-semibold";
       document.getElementById('portalStateBadge').innerText = "✅ Approved & Locked v1.5";
     }
 
-    // Opens WhatsApp chat window for the entered client or friend number
+    // 1. DYNAMIC CLIENT WHATSAPP MESSAGE SENDER (SENDS TO ENTERED NUMBER)
     function sendWhatsAppApproval() {
       const projectName = document.getElementById('projectName').value.trim() || 'Scrutinix AI Project';
       
+      // Target phone is now strictly the number entered in the input box by the client / friend
       let targetPhone = currentApprovalPhone;
       
       if (!targetPhone) {
@@ -327,11 +433,10 @@
 
       const message = `Hello! The design system for *${projectName}* has been officially approved by *${currentApprovalClient}*.\n\nView details: https://www.scrutinixai.com/`;
       
-      // This will open WhatsApp chat targeting the exact number entered in the input box
       window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(message)}`, '_blank');
     }
 
-    // Direct Gmail Web Compose Opener
+    // 2. DIRECT GMAIL WEB COMPOSE OPENER
     function sendViaGmail() {
       const proj = document.getElementById('projectName').value.trim() || 'Project';
       const bodyText = document.getElementById('changelogMsg').innerText;
@@ -341,6 +446,61 @@
       window.open(gmailUrl, '_blank');
     }
 
+    function switchTab(tabName) {
+      currentTab = tabName;
+      const codeOutputContainer = document.getElementById('codeOutputContainer');
+      const visualizerPanel = document.getElementById('visualizerPanel');
+      const titleSpan = document.getElementById('codeBoxTitle');
+
+      ['tabCss', 'tabTailwind', 'tabJson', 'tabVisualizer'].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) {
+          el.className = "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
+        }
+      });
+
+      if (tabName === 'visualizer') {
+        codeOutputContainer.classList.add('hidden');
+        visualizerPanel.classList.remove('hidden');
+        document.getElementById('tabVisualizer').className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        titleSpan.innerText = "Interactive v1.5 Visualizer Settings";
+      } else {
+        codeOutputContainer.classList.remove('hidden');
+        visualizerPanel.classList.add('hidden');
+
+        if (tabName === 'css') {
+          document.getElementById('tabCss').className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+          titleSpan.innerText = `variables-${currentMode}.css`;
+        } else if (tabName === 'tailwind') {
+          document.getElementById('tabTailwind').className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+          titleSpan.innerText = "tailwind.config.js";
+        } else if (tabName === 'json') {
+          document.getElementById('tabJson').className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+          titleSpan.innerText = "style-dictionary.json";
+        }
+        updateCodeOutputText();
+      }
+    }
+
+    function switchMode(mode) {
+      currentMode = mode;
+      const btnLight = document.getElementById('subTabLight');
+      const btnDark = document.getElementById('subTabDark');
+
+      if (mode === 'light') {
+        btnLight.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-amber-400 text-slate-950";
+        btnDark.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400";
+      } else {
+        btnDark.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400";
+        btnLight.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400";
+      }
+
+      if (currentTab === 'css') {
+        document.getElementById('codeBoxTitle').innerText = `variables-${mode}.css`;
+      }
+      updateCodeOutputText();
+    }
+
     function updateCodeOutputText() {
       const color = document.getElementById('brandColor').value;
       const proj = document.getElementById('projectName').value.trim() || 'project';
@@ -348,11 +508,44 @@
       const codeOutput = document.getElementById('codeOutput');
       const changelogMsg = document.getElementById('changelogMsg');
 
-      codeOutput.innerText = `/* Scrutinix AI CSS Variables - https://www.scrutinixai.com/ */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n}`;
+      if (currentTab === 'css') {
+        codeOutput.innerText = `/* Scrutinix AI CSS Variables (${currentMode.toUpperCase()}) - https://www.scrutinixai.com/ */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --mode: "${currentMode}";\n}`;
+      } else if (currentTab === 'tailwind') {
+        codeOutput.innerText = `// Scrutinix AI Tailwind Config - https://www.scrutinixai.com/\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: {\n        brand: '${color}',\n      },\n      fontFamily: {\n        sans: ['${font}', 'sans-serif'],\n      }\n    }\n  }\n}`;
+      } else if (currentTab === 'json') {
+        codeOutput.innerText = `{\n  "platform": "https://www.scrutinixai.com/",\n  "color": {\n    "brand": { "value": "${color}" }\n  },\n  "font": {\n    "family": { "value": "${font}" }\n  }\n}`;
+      }
 
       if (changelogMsg) {
         changelogMsg.innerText = `🚀 Scrutinix AI Update: Design tokens generated for "${proj}". Primary brand color set to ${color} with ${font} typography. Live link: https://www.scrutinixai.com/`;
       }
+    }
+
+    function updateVisualizerPreview() {
+      const blur = document.getElementById('shadowBlurRange').value;
+      const radius = document.getElementById('borderRadiusRange').value;
+      document.getElementById('blurVal').innerText = blur + 'px';
+      document.getElementById('radiusVal').innerText = radius + 'px';
+
+      const mockup = document.getElementById('mockupCard');
+      if (mockup) {
+        mockup.style.borderRadius = radius + 'px';
+        mockup.style.boxShadow = `0 10px ${blur}px rgba(0,210,255,0.15)`;
+      }
+    }
+
+    function downloadCombinedSpecs() {
+      const projectName = document.getElementById('projectName').value.trim() || 'scrutinix-design-system';
+      const brandColor = document.getElementById('brandColor').value;
+      const fontFamily = document.getElementById('fontSelect').value;
+
+      const combinedSpecsContent = `/* Project: ${projectName} | Generated via https://www.scrutinixai.com/ */\n:root {\n  --primary-brand: ${brandColor};\n  --main-font: '${fontFamily}', sans-serif;\n}\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: { brand: '${brandColor}' },\n      fontFamily: { sans: ['${fontFamily}', 'sans-serif'] }\n    }\n  }\n};`;
+
+      const blob = new Blob([combinedSpecsContent], { type: 'text/css;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${projectName.toLowerCase().replace(/\s+/g, '-')}-specs.css`;
+      link.click();
     }
 
     function exportCss() {
@@ -373,6 +566,7 @@
       link.click();
     }
 
+    // 3. RELIABLE PDF SPEC EXPORTER
     function exportPdf() {
       const proj = document.getElementById('projectName').value.trim() || 'Scrutinix AI Spec';
       const color = document.getElementById('brandColor').value;
@@ -392,8 +586,16 @@
           return;
         }
       } catch (e) {
-        console.log("jsPDF fallback...", e);
+        console.log("jsPDF fallback triggered...", e);
       }
+
+      const pdfTextContent = `%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj 2 0 obj<</Type/Pages/Count 1/Kids[3 0 R]>>endobj 3 0 obj<</Type/Page/MediaBox[0 0 612 792]/Parent 2 0 R/Resources<</Font<</F1 4 0 R>>>>/Contents 5 0 R>>endobj 4 0 obj<</Type/Font/Subtype/Type1/BaseFont/Helvetica>>endobj 5 0 obj<</Length 120>>stream\nBT\n/F1 16 Tf\n50 720 Td\n(Scrutinix AI - Design Spec) Tj\n/F1 12 Tf\n0 -30 Td\n(Project Name: ${proj}) Tj\n0 -20 Td\n(Brand Color: ${color}) Tj\n0 -20 Td\n(Font Family: ${font}) Tj\n0 -20 Td\n(Website: https://www.scrutinixai.com/) Tj\nET\nendstream\nendobj\nxref\n0 6\n0000000000 65535 f\n0000000009 00000 n\n0000000056 00000 n\n0000000111 00000 n\n0000000212 00000 n\n0000000281 00000 n\ntrailer<</Size 6/Root 1 0 R>>\nstartxref\n450\n%%EOF`;
+      
+      const blob = new Blob([pdfTextContent], { type: 'application/pdf' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${proj.toLowerCase().replace(/\s+/g, '-')}-spec.pdf`;
+      link.click();
     }
 
     function generateSystem() {
@@ -407,6 +609,9 @@
       
       const titleEl = document.getElementById('previewAppTitle');
       if (titleEl) titleEl.innerText = proj;
+
+      const tailwindText = document.getElementById('tailwindSnippetText');
+      if (tailwindText) tailwindText.innerText = `bg-[${color}] text-white font-${font.toLowerCase()} rounded-md`;
 
       updateCodeOutputText();
     }
@@ -431,6 +636,54 @@
         if(val.startsWith('#') && val.length === 7) document.getElementById('brandColorPicker').value = val;
       }
       generateSystem();
+    }
+
+    function startVoiceRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) { alert("Voice recognition not supported in this browser."); return; }
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      const input = document.getElementById('feedbackInput');
+      input.placeholder = "Listening your voice note...";
+      recognition.onresult = function(event) {
+        input.value = event.results[0][0].transcript;
+        input.placeholder = "Type change request or click mic...";
+      };
+      recognition.start();
+    }
+
+    function submitFeedback() {
+      const feedback = document.getElementById('feedbackInput').value.trim();
+      if (!feedback) { alert('Kripya feedback enter karein!'); return; }
+      alert('Feedback successfully submitted: ' + feedback);
+      document.getElementById('feedbackInput').value = '';
+    }
+
+    function switchPreviewTheme(theme) {
+      const card = document.getElementById('mockupCard');
+      const typoCard = document.getElementById('typoCard');
+      const btnLight = document.getElementById('previewLightBtn');
+      const btnDark = document.getElementById('previewDarkBtn');
+      const appTitle = document.getElementById('previewAppTitle');
+      const subtitle = document.getElementById('previewSubtitle');
+
+      if (theme === 'light') {
+        card.className = "bg-amber-50/90 border border-slate-200 rounded-lg p-3.5 space-y-3 transition-colors duration-300 shadow-xl";
+        if(appTitle) appTitle.className = "text-sm font-bold text-slate-900";
+        if(subtitle) subtitle.className = "text-[11px] text-slate-600";
+        if(typoCard) typoCard.className = "bg-white/90 border border-slate-200 p-2.5 rounded-lg space-y-1 transition-colors";
+
+        if(btnLight) btnLight.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition shadow";
+        if(btnDark) btnDark.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
+      } else {
+        card.className = "bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-colors duration-300";
+        if(appTitle) appTitle.className = "text-sm font-bold text-white";
+        if(subtitle) subtitle.className = "text-[11px] text-slate-400";
+        if(typoCard) typoCard.className = "bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 transition-colors";
+
+        if(btnDark) btnDark.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        if(btnLight) btnLight.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
+      }
     }
 
     window.onload = function() { generateSystem(); };
