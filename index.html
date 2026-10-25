@@ -190,7 +190,7 @@
             </span>
           </div>
 
-          <!-- NEW FEATURE 1: Client Guest Mode View Toggle Bar -->
+          <!-- Client Guest Mode Toggle Bar -->
           <div class="flex justify-between items-center bg-cyan-950/40 border border-cyan-800/60 p-2.5 rounded-lg text-xs">
             <div class="flex items-center gap-2 text-cyan-300 font-semibold">
               <span>🌐 Client Guest Mode:</span>
@@ -274,7 +274,7 @@
                 </button>
               </div>
 
-              <!-- NEW FEATURE 2: Pinpoint Feedback Marker Box -->
+              <!-- Pinpoint Feedback Marker Box -->
               <div class="bg-slate-950 border border-cyan-500/30 p-2.5 rounded-lg space-y-2">
                 <div class="flex justify-between items-center text-[11px] font-bold text-cyan-300">
                   <span>📍 Pinpoint Component Note / Marker</span>
@@ -285,6 +285,17 @@
                   <button onclick="submitPinpointNote()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs px-3 py-1.5 rounded transition">
                     Pin Note
                   </button>
+                </div>
+              </div>
+
+              <!-- Pinned Feedback Notes Log Box -->
+              <div class="bg-slate-950 border border-slate-800 rounded-lg p-2.5 space-y-1.5">
+                <div class="text-[11px] font-bold text-slate-300 flex justify-between items-center">
+                  <span>📋 Client Feedback & Notes Log</span>
+                  <span id="noteCountBadge" class="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded">0 Notes</span>
+                </div>
+                <div id="feedbackLogContainer" class="space-y-1 max-h-24 overflow-y-auto custom-scrollbar text-[11px] font-mono text-slate-400">
+                  <p class="text-slate-500 italic">No pinned notes yet. Add one above!</p>
                 </div>
               </div>
 
@@ -380,6 +391,7 @@
     let currentApprovalClient = "";
     let currentApprovalPhone = "";
     let isGuestViewActive = false;
+    let pinnedNotesList = [];
 
     // Toggle Guest View Mode function
     function toggleGuestModeView() {
@@ -389,14 +401,13 @@
       if (isGuestViewActive) {
         statusSpan.innerText = "Guest Mode Enabled (Simplified UI)";
         toggleBtn.innerText = "Exit Guest View";
-        alert("🌐 Guest View Mode Activated! Clients can now review without designer clutter.");
       } else {
         statusSpan.innerText = "Active (No Login Needed)";
         toggleBtn.innerText = "Switch Guest View";
       }
     }
 
-    // Submit Pinpoint Note function
+    // Submit & Log Pinpoint Note function
     function submitPinpointNote() {
       const noteInput = document.getElementById('pinpointNoteInput');
       const noteText = noteInput.value.trim();
@@ -404,8 +415,52 @@
         alert("Please enter a pinpoint note for this component!");
         return;
       }
-      alert(`📍 Pinpoint Note successfully pinned to component: "${noteText}"`);
+      
+      pinnedNotesList.push(noteText);
+      updateFeedbackLogUI();
       noteInput.value = "";
+    }
+
+    function updateFeedbackLogUI() {
+      const container = document.getElementById('feedbackLogContainer');
+      const badge = document.getElementById('noteCountBadge');
+      badge.innerText = `${pinnedNotesList.length} Notes`;
+
+      if (pinnedNotesList.length === 0) {
+        container.innerHTML = `<p class="text-slate-500 italic">No pinned notes yet. Add one above!</p>`;
+        return;
+      }
+
+      let html = '';
+      pinnedNotesList.forEach((note, index) => {
+        html += `<div class="bg-slate-900 border border-slate-800 p-1.5 rounded flex items-center justify-between gap-2">
+          <span>📍 <strong class="text-cyan-300">#${index + 1}:</strong> ${note}</span>
+        </div>`;
+      });
+      container.innerHTML = html;
+    }
+
+    // Fixed Preview Light / Dark Theme Switcher
+    function switchPreviewTheme(mode) {
+      const mockup = document.getElementById('mockupCard');
+      const lightBtn = document.getElementById('previewLightBtn');
+      const darkBtn = document.getElementById('previewDarkBtn');
+
+      if (mode === 'light') {
+        mockup.style.backgroundColor = '#ffffff';
+        mockup.style.color = '#0f172a';
+        document.getElementById('previewAppTitle').style.color = '#0f172a';
+        document.getElementById('previewSubtitle').style.color = '#475569';
+        lightBtn.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        darkBtn.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
+      } else {
+        mockup.style.backgroundColor = '#020617';
+        mockup.style.color = '#f8fafc';
+        document.getElementById('previewAppTitle').style.color = '#f8fafc';
+        document.getElementById('previewSubtitle').style.color = '#94a3b8';
+        darkBtn.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        lightBtn.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
+      }
     }
 
     function copyToClipboardSilent(textToCopy, btn, originalText) {
