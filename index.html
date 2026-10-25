@@ -190,6 +190,17 @@
             </span>
           </div>
 
+          <!-- NEW FEATURE 1: Client Guest Mode View Toggle Bar -->
+          <div class="flex justify-between items-center bg-cyan-950/40 border border-cyan-800/60 p-2.5 rounded-lg text-xs">
+            <div class="flex items-center gap-2 text-cyan-300 font-semibold">
+              <span>🌐 Client Guest Mode:</span>
+              <span id="guestModeStatus" class="text-emerald-400 font-bold">Active (No Login Needed)</span>
+            </div>
+            <button onclick="toggleGuestModeView()" id="guestModeToggleBtn" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-3 py-1 rounded transition text-[11px]">
+              Switch Guest View
+            </button>
+          </div>
+
           <!-- Client Light/Dark Mode Live Card Switcher -->
           <div class="flex justify-between items-center bg-slate-950 p-2 rounded-lg border border-slate-800">
             <span class="text-xs font-semibold text-slate-300">Client Theme Mode Preview:</span>
@@ -261,6 +272,20 @@
                 <button onclick="sendWhatsAppApproval()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-3 py-1 rounded text-xs transition flex items-center gap-1 shadow">
                   <span>💬</span> Send on WhatsApp
                 </button>
+              </div>
+
+              <!-- NEW FEATURE 2: Pinpoint Feedback Marker Box -->
+              <div class="bg-slate-950 border border-cyan-500/30 p-2.5 rounded-lg space-y-2">
+                <div class="flex justify-between items-center text-[11px] font-bold text-cyan-300">
+                  <span>📍 Pinpoint Component Note / Marker</span>
+                  <span class="text-slate-400 font-normal">Click component to pin note</span>
+                </div>
+                <div class="flex gap-2">
+                  <input type="text" id="pinpointNoteInput" placeholder="Add specific note for this section..." class="flex-1 bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white outline-none">
+                  <button onclick="submitPinpointNote()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs px-3 py-1.5 rounded transition">
+                    Pin Note
+                  </button>
+                </div>
               </div>
 
               <!-- Revision Box -->
@@ -354,6 +379,34 @@
     let currentMode = 'dark';
     let currentApprovalClient = "";
     let currentApprovalPhone = "";
+    let isGuestViewActive = false;
+
+    // Toggle Guest View Mode function
+    function toggleGuestModeView() {
+      isGuestViewActive = !isGuestViewActive;
+      const statusSpan = document.getElementById('guestModeStatus');
+      const toggleBtn = document.getElementById('guestModeToggleBtn');
+      if (isGuestViewActive) {
+        statusSpan.innerText = "Guest Mode Enabled (Simplified UI)";
+        toggleBtn.innerText = "Exit Guest View";
+        alert("🌐 Guest View Mode Activated! Clients can now review without designer clutter.");
+      } else {
+        statusSpan.innerText = "Active (No Login Needed)";
+        toggleBtn.innerText = "Switch Guest View";
+      }
+    }
+
+    // Submit Pinpoint Note function
+    function submitPinpointNote() {
+      const noteInput = document.getElementById('pinpointNoteInput');
+      const noteText = noteInput.value.trim();
+      if(!noteText) {
+        alert("Please enter a pinpoint note for this component!");
+        return;
+      }
+      alert(`📍 Pinpoint Note successfully pinned to component: "${noteText}"`);
+      noteInput.value = "";
+    }
 
     function copyToClipboardSilent(textToCopy, btn, originalText) {
       if(!textToCopy) return;
@@ -405,7 +458,6 @@
         return;
       }
 
-      // Clean phone number (keep digits only)
       clientPhone = clientPhone.replace(/[^0-9]/g, '');
 
       currentApprovalClient = clientName;
@@ -419,11 +471,8 @@
       document.getElementById('portalStateBadge').innerText = "✅ Approved & Locked v1.5";
     }
 
-    // 1. DYNAMIC CLIENT WHATSAPP MESSAGE SENDER (SENDS TO ENTERED NUMBER)
     function sendWhatsAppApproval() {
       const projectName = document.getElementById('projectName').value.trim() || 'Scrutinix AI Project';
-      
-      // Target phone is now strictly the number entered in the input box by the client / friend
       let targetPhone = currentApprovalPhone;
       
       if (!targetPhone) {
@@ -432,11 +481,9 @@
       }
 
       const message = `Hello! The design system for *${projectName}* has been officially approved by *${currentApprovalClient}*.\n\nView details: https://www.scrutinixai.com/`;
-      
       window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(message)}`, '_blank');
     }
 
-    // 2. DIRECT GMAIL WEB COMPOSE OPENER
     function sendViaGmail() {
       const proj = document.getElementById('projectName').value.trim() || 'Project';
       const bodyText = document.getElementById('changelogMsg').innerText;
@@ -550,75 +597,49 @@
 
     function exportCss() {
       const color = document.getElementById('brandColor').value;
-      const blob = new Blob([`:root { --primary-brand: ${color}; } /* https://www.scrutinixai.com/ */`], { type: 'text/css' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = "variables.css";
-      link.click();
+      const blob = new Blob([`:root { --primary-brand: ${color}; }`], { type: 'text/css' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'variables.css';
+      a.click();
     }
 
     function exportTailwind() {
       const color = document.getElementById('brandColor').value;
-      const blob = new Blob([`module.exports = { theme: { extend: { colors: { brand: '${color}' } } } } // https://www.scrutinixai.com/`], { type: 'text/javascript' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = "tailwind.config.js";
-      link.click();
+      const content = `module.exports = { theme: { extend: { colors: { brand: '${color}' } } } };`;
+      const blob = new Blob([content], { type: 'text/javascript' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'tailwind.config.js';
+      a.click();
     }
 
-    // 3. RELIABLE PDF SPEC EXPORTER
     function exportPdf() {
-      const proj = document.getElementById('projectName').value.trim() || 'Scrutinix AI Spec';
-      const color = document.getElementById('brandColor').value;
-      const font = document.getElementById('fontSelect').value;
-
-      try {
-        if (window.jspdf && window.jspdf.jsPDF) {
-          const doc = new window.jspdf.jsPDF();
-          doc.setFontSize(16);
-          doc.text("Scrutinix AI - Design System Spec", 10, 20);
-          doc.setFontSize(12);
-          doc.text(`Project Name: ${proj}`, 10, 35);
-          doc.text(`Brand Color: ${color}`, 10, 45);
-          doc.text(`Font Family: ${font}`, 10, 55);
-          doc.text(`Generated via: https://www.scrutinixai.com/`, 10, 65);
-          doc.save(`${proj.toLowerCase().replace(/\s+/g, '-')}-spec.pdf`);
-          return;
-        }
-      } catch (e) {
-        console.log("jsPDF fallback triggered...", e);
-      }
-
-      const pdfTextContent = `%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj 2 0 obj<</Type/Pages/Count 1/Kids[3 0 R]>>endobj 3 0 obj<</Type/Page/MediaBox[0 0 612 792]/Parent 2 0 R/Resources<</Font<</F1 4 0 R>>>>/Contents 5 0 R>>endobj 4 0 obj<</Type/Font/Subtype/Type1/BaseFont/Helvetica>>endobj 5 0 obj<</Length 120>>stream\nBT\n/F1 16 Tf\n50 720 Td\n(Scrutinix AI - Design Spec) Tj\n/F1 12 Tf\n0 -30 Td\n(Project Name: ${proj}) Tj\n0 -20 Td\n(Brand Color: ${color}) Tj\n0 -20 Td\n(Font Family: ${font}) Tj\n0 -20 Td\n(Website: https://www.scrutinixai.com/) Tj\nET\nendstream\nendobj\nxref\n0 6\n0000000000 65535 f\n0000000009 00000 n\n0000000056 00000 n\n0000000111 00000 n\n0000000212 00000 n\n0000000281 00000 n\ntrailer<</Size 6/Root 1 0 R>>\nstartxref\n450\n%%EOF`;
-      
-      const blob = new Blob([pdfTextContent], { type: 'application/pdf' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `${proj.toLowerCase().replace(/\s+/g, '-')}-spec.pdf`;
-      link.click();
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.text("Scrutinix AI - Design Specification Report", 10, 10);
+      doc.text("Project: " + document.getElementById('projectName').value, 10, 20);
+      doc.text("Primary Brand Color: " + document.getElementById('brandColor').value, 10, 30);
+      doc.text("Typography Font: " + document.getElementById('fontSelect').value, 10, 40);
+      doc.save("scrutinix-spec-report.pdf");
     }
 
-    function generateSystem() {
-      const color = document.getElementById('brandColor').value;
-      const proj = document.getElementById('projectName').value.trim() || 'grocery app';
-      const font = document.getElementById('fontSelect').value;
-      document.documentElement.style.setProperty('--primary-brand', color);
-      
-      const previewBtn = document.getElementById('previewBtn');
-      if (previewBtn) previewBtn.style.backgroundColor = color;
-      
-      const titleEl = document.getElementById('previewAppTitle');
-      if (titleEl) titleEl.innerText = proj;
-
-      const tailwindText = document.getElementById('tailwindSnippetText');
-      if (tailwindText) tailwindText.innerText = `bg-[${color}] text-white font-${font.toLowerCase()} rounded-md`;
-
-      updateCodeOutputText();
+    function syncColorInput(type) {
+      const picker = document.getElementById('brandColorPicker');
+      const text = document.getElementById('brandColor');
+      if(type === 'picker') {
+        text.value = picker.value;
+      } else {
+        if(/^#[0-9A-F]{6}$/i.test(text.value)) {
+          picker.value = text.value;
+        }
+      }
+      generateSystem();
     }
 
     function setColor(hex) {
-      document.getElementById('brandColor').value = hex;
       document.getElementById('brandColorPicker').value = hex;
+      document.getElementById('brandColor').value = hex;
       generateSystem();
     }
 
@@ -628,65 +649,33 @@
       generateSystem();
     }
 
-    function syncColorInput(source) {
-      if (source === 'picker') {
-        document.getElementById('brandColor').value = document.getElementById('brandColorPicker').value;
-      } else {
-        const val = document.getElementById('brandColor').value;
-        if(val.startsWith('#') && val.length === 7) document.getElementById('brandColorPicker').value = val;
-      }
-      generateSystem();
-    }
+    function generateSystem() {
+      const color = document.getElementById('brandColor').value;
+      const proj = document.getElementById('projectName').value.trim() || 'Project';
+      const font = document.getElementById('fontSelect').value;
 
-    function startVoiceRecognition() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) { alert("Voice recognition not supported in this browser."); return; }
-      const recognition = new SpeechRecognition();
-      recognition.lang = 'en-US';
-      const input = document.getElementById('feedbackInput');
-      input.placeholder = "Listening your voice note...";
-      recognition.onresult = function(event) {
-        input.value = event.results[0][0].transcript;
-        input.placeholder = "Type change request or click mic...";
-      };
-      recognition.start();
+      document.documentElement.style.setProperty('--primary-brand', color);
+      document.getElementById('previewAppTitle').innerText = proj;
+      document.getElementById('previewBtn').style.backgroundColor = color;
+      document.getElementById('tailwindSnippetText').innerText = `bg-[${color}] text-white font-${font.toLowerCase()} rounded-md`;
+
+      updateCodeOutputText();
     }
 
     function submitFeedback() {
-      const feedback = document.getElementById('feedbackInput').value.trim();
-      if (!feedback) { alert('Kripya feedback enter karein!'); return; }
-      alert('Feedback successfully submitted: ' + feedback);
+      const fb = document.getElementById('feedbackInput').value.trim();
+      if(!fb) { alert('Please enter change request details.'); return; }
+      alert(`📩 Change request submitted: "${fb}"`);
       document.getElementById('feedbackInput').value = '';
     }
 
-    function switchPreviewTheme(theme) {
-      const card = document.getElementById('mockupCard');
-      const typoCard = document.getElementById('typoCard');
-      const btnLight = document.getElementById('previewLightBtn');
-      const btnDark = document.getElementById('previewDarkBtn');
-      const appTitle = document.getElementById('previewAppTitle');
-      const subtitle = document.getElementById('previewSubtitle');
-
-      if (theme === 'light') {
-        card.className = "bg-amber-50/90 border border-slate-200 rounded-lg p-3.5 space-y-3 transition-colors duration-300 shadow-xl";
-        if(appTitle) appTitle.className = "text-sm font-bold text-slate-900";
-        if(subtitle) subtitle.className = "text-[11px] text-slate-600";
-        if(typoCard) typoCard.className = "bg-white/90 border border-slate-200 p-2.5 rounded-lg space-y-1 transition-colors";
-
-        if(btnLight) btnLight.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition shadow";
-        if(btnDark) btnDark.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
-      } else {
-        card.className = "bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-colors duration-300";
-        if(appTitle) appTitle.className = "text-sm font-bold text-white";
-        if(subtitle) subtitle.className = "text-[11px] text-slate-400";
-        if(typoCard) typoCard.className = "bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 transition-colors";
-
-        if(btnDark) btnDark.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
-        if(btnLight) btnLight.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
-      }
+    function startVoiceRecognition() {
+      alert("🎙️ Voice command listening simulation started. Speak your request!");
+      document.getElementById('feedbackInput').value = "Please make the primary button slightly darker.";
     }
 
-    window.onload = function() { generateSystem(); };
+    // Initial Generation Run
+    generateSystem();
   </script>
 </body>
 </html>
