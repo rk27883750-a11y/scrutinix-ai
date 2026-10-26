@@ -1,296 +1,561 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // System Generator & Client Portal v1.5</title>
-  
-  <link rel="icon" type="image/png" href="favicon.png">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrutinix AI // System Generator & Client Portal v1.5</title>
+  
+  <link rel="icon" type="image/png" href="favicon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-  <!-- Microsoft Clarity Analytics Script -->
-  <script type="text/javascript">
-      (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "z0izx81cd2");
-  </script>
-  
-  <style>
-    :root {
-      --bg-color: #070a12;
-      --card-bg: #0f172a;
-      --border-color: #1e293b;
-      --accent-color: #00d2ff;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-    }
+  <!-- Microsoft Clarity Analytics Script -->
+  <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "z0izx81cd2");
+  </script>
+  
+  <style>
+    :root {
+      --bg-color: #070a12;
+      --card-bg: #0f172a;
+      --border-color: #1e293b;
+      --accent-color: #00d2ff;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
 
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #020617;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #1e293b;
-      border-radius: 4px;
-    }
-  </style>
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #020617;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+  </style>
 </head>
 <body class="min-h-screen p-4 lg:p-8 flex flex-col justify-between">
 
-  <div class="max-w-7xl mx-auto w-full space-y-5">
+  <div class="max-w-7xl mx-auto w-full space-y-5">
 
-    <!-- HEADER & BRANDING -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-xl">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 bg-gradient-to-tr from-cyan-400 to-blue-600 rounded-lg flex items-center justify-center font-black text-xl text-slate-950 shadow-lg shadow-cyan-950">S</div>
-        <div>
-          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span></h1>
-          <p class="text-xs text-slate-400">Design System Generator & Client Portal</p>
-        </div>
-      </div>
-      <div class="text-left md:text-right">
-        <p class="text-sm font-bold text-cyan-400">Turn Design Choices Into Developer-Ready Files</p>
-        <p class="text-xs text-slate-400">Zero Setup • 1-Click Code & Client Review</p>
-      </div>
-      <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live Active Mode v1.5
-      </span>
-    </div>
+    <!-- HEADER & BRANDING -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-xl">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-gradient-to-tr from-cyan-400 to-blue-600 rounded-lg flex items-center justify-center font-black text-xl text-slate-950 shadow-lg shadow-cyan-950">S</div>
+        <div>
+          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span></h1>
+          <p class="text-xs text-slate-400">Design System Generator & Client Portal</p>
+        </div>
+      </div>
+      <div class="text-left md:text-right">
+        <p class="text-sm font-bold text-cyan-400">Turn Design Choices Into Developer-Ready Files</p>
+        <p class="text-xs text-slate-400">Zero Setup • 1-Click Code & Client Review</p>
+      </div>
+      <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live Active Mode v1.5
+      </span>
+    </div>
 
-    <!-- MAIN DUAL SPLIT LAYOUT -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+    <!-- MOBILE NAVIGATION TABS -->
+    <div class="flex lg:hidden bg-slate-900 border border-slate-800 p-1.5 rounded-xl gap-2">
+      <button id="mobileTabBtnGen" onclick="switchMobileTab('gen')" class="flex-1 py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition">
+        ⚡ 1. Design Generator & Tokens
+      </button>
+      <button id="mobileTabBtnClient" onclick="switchMobileTab('client')" class="flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">
+        📱 2. Client Review & Portal
+      </button>
+      <button id="mobileTabBtnVisualizer" onclick="switchMobileTab('visualizer')" class="flex-1 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">
+        🎨 3. Shadow & Radius
+      </button>
+    </div>
 
-      <!-- BHAAG 1: DESIGN GENERATOR (LEFT SIDE) -->
-      <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl flex flex-col justify-between space-y-5">
-        <div class="space-y-4">
-          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-            <div>
-              <h2 class="text-base font-bold text-cyan-400">One-Click Design System Generator</h2>
-              <p class="text-xs text-slate-400">Turn your ideas into developer-ready files in seconds</p>
-            </div>
-          </div>
+    <!-- MAIN DUAL SPLIT LAYOUT -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
 
-          <!-- ONE-CLICK AI THEME PRESETS -->
-          <div class="bg-slate-950 p-3 border border-slate-800 rounded-lg space-y-2">
-            <label class="block text-[11px] font-bold text-cyan-400 flex items-center gap-1.5">
-              <span>✨</span> One-Click AI Theme Presets
-            </label>
-            <div class="grid grid-cols-3 gap-2">
-              <button onclick="applyPreset('#00d2ff', 'Roboto')" class="bg-slate-900 hover:bg-slate-800 border border-cyan-500/30 text-cyan-300 text-[11px] font-bold py-1.5 px-2 rounded transition">
-                ⚡ Cyber Neon
-              </button>
-              <button onclick="applyPreset('#10b981', 'Inter')" class="bg-slate-900 hover:bg-slate-800 border border-emerald-500/30 text-emerald-300 text-[11px] font-bold py-1.5 px-2 rounded transition">
-                🌿 Emerald SaaS
-              </button>
-              <button onclick="applyPreset('#6366f1', 'Poppins')" class="bg-slate-900 hover:bg-slate-800 border border-indigo-500/30 text-indigo-300 text-[11px] font-bold py-1.5 px-2 rounded transition">
-                👑 Royal Indigo
-              </button>
-            </div>
-          </div>
+      <!-- BHAAG 1: DESIGN GENERATOR (LEFT SIDE) -->
+      <div id="colGenerator" class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl flex flex-col justify-between space-y-5">
+        <div class="space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <div>
+              <h2 class="text-base font-bold text-cyan-400">One-Click Design System Generator</h2>
+              <p class="text-xs text-slate-400">Turn your ideas into developer-ready files in seconds</p>
+            </div>
+            <select id="versionDropdown" class="bg-slate-950 border border-slate-800 text-cyan-400 text-xs px-2.5 py-1 rounded-md outline-none font-bold">
+              <option value="current">v1.5 (Active)</option>
+            </select>
+          </div>
 
-          <!-- Inputs Form -->
-          <div class="space-y-3">
-            <div>
-              <label class="block text-xs font-semibold text-slate-200 mb-1">Project Name:</label>
-              <input type="text" id="projectName" value="grocery app" oninput="generateSystem()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:border-cyan-400 outline-none">
-            </div>
+          <!-- ONE-CLICK AI THEME PRESETS -->
+          <div class="bg-slate-950 p-3 border border-slate-800 rounded-lg space-y-2">
+            <label class="block text-[11px] font-bold text-cyan-400 flex items-center gap-1.5">
+              <span>✨</span> One-Click AI Theme Presets
+            </label>
+            <div class="grid grid-cols-3 gap-2">
+              <button onclick="applyPreset('#00d2ff', 'Roboto')" class="bg-slate-900 hover:bg-slate-800 border border-cyan-500/30 text-cyan-300 text-[11px] font-bold py-1.5 px-2 rounded transition">
+                ⚡ Cyber Neon
+              </button>
+              <button onclick="applyPreset('#10b981', 'Inter')" class="bg-slate-900 hover:bg-slate-800 border border-emerald-500/30 text-emerald-300 text-[11px] font-bold py-1.5 px-2 rounded transition">
+                🌿 Emerald SaaS
+              </button>
+              <button onclick="applyPreset('#6366f1', 'Poppins')" class="bg-slate-900 hover:bg-slate-800 border border-indigo-500/30 text-indigo-300 text-[11px] font-bold py-1.5 px-2 rounded transition">
+                👑 Royal Indigo
+              </button>
+            </div>
+          </div>
 
-            <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs font-semibold text-slate-200 mb-1">Brand Primary Color (HEX):</label>
-                <div class="flex items-center gap-2 bg-slate-950 border border-slate-800 rounded-lg p-1">
-                  <input type="color" id="brandColorPicker" value="#351156" oninput="syncColorInput('picker')" class="w-6 h-6 rounded bg-transparent border-0 cursor-pointer">
-                  <input type="text" id="brandColor" value="#351156" oninput="syncColorInput('text')" class="w-full bg-transparent text-xs uppercase text-white font-mono outline-none">
-                </div>
-              </div>
+          <!-- QUICK COLOR PALETTES -->
+          <div class="bg-slate-950 p-3 border border-slate-800 rounded-lg space-y-2">
+            <label class="block text-[11px] font-bold text-slate-300 flex items-center gap-1.5">
+              <span>🎨</span> Quick Brand Color Palettes
+            </label>
+            <div class="flex items-center justify-between gap-1.5 pt-1">
+              <button onclick="setColor('#0066FF')" title="Tech Blue" class="w-7 h-7 rounded-full bg-[#0066FF] border-2 border-slate-700 hover:scale-110 transition shadow-md"></button>
+              <button onclick="setColor('#351156')" title="Royal Purple" class="w-7 h-7 rounded-full bg-[#351156] border-2 border-slate-700 hover:scale-110 transition shadow-md"></button>
+              <button onclick="setColor('#10B981')" title="Fresh Mint" class="w-7 h-7 rounded-full bg-[#10B981] border-2 border-slate-700 hover:scale-110 transition shadow-md"></button>
+              <button onclick="setColor('#F59E0B')" title="Warm Amber" class="w-7 h-7 rounded-full bg-[#F59E0B] border-2 border-slate-700 hover:scale-110 transition shadow-md"></button>
+              <button onclick="setColor('#EF4444')" title="Crimson Red" class="w-7 h-7 rounded-full bg-[#EF4444] border-2 border-slate-700 hover:scale-110 transition shadow-md"></button>
+              <button onclick="setColor('#00D2FF')" title="Cyber Cyan" class="w-7 h-7 rounded-full bg-[#00D2FF] border-2 border-slate-700 hover:scale-110 transition shadow-md"></button>
+            </div>
+          </div>
 
-              <div>
-                <label class="block text-xs font-semibold text-slate-200 mb-1">Select Typography Font:</label>
-                <select id="fontSelect" onchange="generateSystem()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-2 text-xs text-white outline-none">
-                  <option value="Roboto">Roboto</option>
-                  <option value="Inter">Inter</option>
-                  <option value="Poppins">Poppins</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
+          <!-- Inputs Form -->
+          <div class="space-y-3">
+            <div class="bg-slate-950 p-3 border border-slate-800 rounded-lg space-y-1.5">
+              <label class="block text-[11px] font-semibold text-slate-300">Paste Design Spec / URL Link (Optional):</label>
+              <div class="flex gap-2">
+                <input type="text" id="designFileUrl" placeholder="https://yourdesignspec.com/link..." class="flex-1 bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white focus:border-cyan-400 outline-none">
+                <button onclick="fetchDesignLink()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-3.5 py-1.5 rounded-lg transition flex items-center gap-1 whitespace-nowrap">
+                  ⚡ Fetch
+                </button>
+              </div>
+            </div>
 
-        <button onclick="generateSystem()" class="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-xs py-3 rounded-lg shadow-lg shadow-cyan-950/50 transition uppercase tracking-wider">
-          ⚡ GENERATE TOKENS & ARCHITECTURE
-        </button>
-      </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-200 mb-1">Project Name:</label>
+              <input type="text" id="projectName" value="grocery app" oninput="generateSystem()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:border-cyan-400 outline-none">
+            </div>
 
-      <!-- BHAAG 2: LIVE VISUAL THEME PLAYGROUND & CLIENT PORTAL (RIGHT SIDE) -->
-      <div class="lg:col-span-7 space-y-4">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-200 mb-1">Brand Primary Color (HEX):</label>
+                <div class="flex items-center gap-2 bg-slate-950 border border-slate-800 rounded-lg p-1">
+                  <input type="color" id="brandColorPicker" value="#351156" oninput="syncColorInput('picker')" class="w-6 h-6 rounded bg-transparent border-0 cursor-pointer">
+                  <input type="text" id="brandColor" value="#351156" oninput="syncColorInput('text')" class="w-full bg-transparent text-xs uppercase text-white font-mono outline-none">
+                </div>
+              </div>
 
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
-          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">🎨 LIVE VISUAL THEME PLAYGROUND (CLIENT VIEW)</h3>
-            <span class="text-[11px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold">
-              ✓ WCAG AA Pass (4.8:1)
-            </span>
-          </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-200 mb-1">Select Typography Font:</label>
+                <select id="fontSelect" onchange="generateSystem()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-2 text-xs text-white outline-none">
+                  <option value="Roboto">Roboto</option>
+                  <option value="Inter">Inter</option>
+                  <option value="Poppins">Poppins</option>
+                </select>
+              </div>
+            </div>
 
-          <!-- 🛠️ INTERACTIVE LIVE THEME CUSTOMIZER (ADDED) -->
-          <div class="bg-slate-950 border border-cyan-500/30 rounded-lg p-4 space-y-3">
-            <div class="text-xs font-bold text-cyan-400 flex items-center justify-between">
-              <span>🛠️ Interactive Live Theme Customizer (No API Needed)</span>
-              <span class="text-[10px] text-slate-400">Instant Client Control</span>
-            </div>
-            
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
-              <div>
-                <label class="block text-[11px] text-slate-300 mb-1">Primary Custom Color:</label>
-                <input type="color" id="pickerColor" value="#3b82f6" onchange="updateLiveTheme()" class="w-full h-8 bg-slate-900 border border-slate-800 rounded cursor-pointer">
-              </div>
-              <div>
-                <div class="flex justify-between text-[11px] text-slate-300 mb-1">
-                  <span>Component Roundness:</span>
-                  <span id="radiusValue">8px</span>
-                </div>
-                <input type="range" id="sliderRadius" min="0" max="24" value="8" oninput="updateLiveTheme()" class="w-full accent-cyan-400 cursor-pointer">
-              </div>
-            </div>
-          </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-200 mb-1">Additional Layout / Component Rules:</label>
+              <textarea id="customRules" oninput="generateSystem()" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white outline-none h-16 resize-none custom-scrollbar">base-padding: 16px, border-radius-md: 8px</textarea>
+            </div>
+          </div>
+        </div>
 
-          <!-- 🤖 SMART AI ASSISTANT BOX (ADDED) -->
-          <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 space-y-2">
-            <div class="text-xs font-bold text-cyan-300">🤖 Scrutinix AI Design Assistant</div>
-            <div class="relative">
-              <input type="text" id="aiPromptInput" placeholder="Ask for design changes (e.g., Make primary color darker)..." class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none pr-16">
-              <button onclick="askSmartAI()" class="absolute right-1 top-1 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-3 py-1.5 rounded transition">Ask AI</button>
-            </div>
-            <div id="aiResponseBox" class="text-xs text-emerald-400 bg-slate-900 p-2 rounded hidden"></div>
-          </div>
+        <button onclick="generateSystem()" class="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-xs py-3 rounded-lg shadow-lg shadow-cyan-950/50 transition uppercase tracking-wider">
+          ⚡ GENERATE TOKENS & ARCHITECTURE
+        </button>
+      </div>
 
-          <!-- Component Mockup Card -->
-          <div id="mockupCard" class="bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-colors duration-300">
-            <div class="flex justify-between items-center">
-              <div>
-                <h4 id="previewAppTitle" class="text-sm font-bold text-white">grocery app</h4>
-                <p id="previewSubtitle" class="text-[11px] text-slate-400">Design System Token Active</p>
-              </div>
-              <button id="previewBtn" class="text-white font-bold text-xs px-4 py-2 rounded-md shadow-md transition" style="background-color: var(--primary-brand, #351156);">
-                Primary CTA
-              </button>
-            </div>
-          </div>
+      <!-- BHAAG 2: LIVE VISUAL THEME PLAYGROUND & CLIENT PORTAL (RIGHT SIDE) -->
+      <div id="colClient" class="lg:col-span-7 space-y-4">
 
-          <!-- Client Review & Approval Portal -->
-          <div class="bg-slate-900 border border-emerald-500/40 rounded-lg p-3 space-y-3">
-            <div class="text-xs font-bold text-emerald-400 flex items-center justify-between">
-              <span>🔒 Client Review & Approval Portal</span>
-              <span id="portalStateBadge" class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30">🟡 In Review</span>
-            </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">🎨 LIVE VISUAL THEME PLAYGROUND (CLIENT VIEW)</h3>
+            <span id="wcagBadge" class="text-[11px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold">
+              ✓ WCAG AA Pass (4.8:1)
+            </span>
+          </div>
 
-            <div id="approvalControls" class="space-y-2 w-full">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <input type="text" id="clientNameInput" placeholder="Enter your full name..." class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
-                <input type="text" id="clientPhoneInput" placeholder="Your WhatsApp No (e.g. 91...)" class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
-              </div>
-              <button onclick="approveDesign()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs py-2.5 rounded-md transition uppercase tracking-wide">
-                ✅ Approve Design System
-              </button>
-            </div>
+          <!-- Client Guest Mode Toggle Bar -->
+          <div class="flex justify-between items-center bg-cyan-950/40 border border-cyan-800/60 p-2.5 rounded-lg text-xs">
+            <div class="flex items-center gap-2 text-cyan-300 font-semibold">
+              <span>🌐 Client Guest Mode:</span>
+              <span id="guestModeStatus" class="text-emerald-400 font-bold">Active (No Login Needed)</span>
+            </div>
+            <button onclick="toggleGuestModeView()" id="guestModeToggleBtn" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-3 py-1 rounded transition text-[11px]">
+              Switch Guest View
+            </button>
+          </div>
 
-            <div id="whatsappShareBanner" class="hidden bg-emerald-950/50 border border-emerald-800/80 p-2.5 rounded-md flex items-center justify-between gap-2">
-              <div class="text-xs text-emerald-300">
-                <span>✓ Approved by <strong id="displayClientName" class="text-white"></strong> (<span id="displayClientPhone" class="text-cyan-300"></span>)</span>
-              </div>
-              <button onclick="sendWhatsAppApproval()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-3 py-1 rounded text-xs transition">
-                💬 Send on WhatsApp
-              </button>
-            </div>
-          </div>
+          <!-- Client Light/Dark Mode Live Card Switcher -->
+          <div class="flex justify-between items-center bg-slate-950 p-2 rounded-lg border border-slate-800">
+            <span class="text-xs font-semibold text-slate-300">Client Theme Mode Preview:</span>
+            <div class="flex gap-1">
+              <button id="previewLightBtn" onclick="switchPreviewTheme('light')" class="text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition">
+                ☀️ Preview Light
+              </button>
+              <button id="previewDarkBtn" onclick="switchPreviewTheme('dark')" class="text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition">
+                🌙 Preview Dark
+              </button>
+            </div>
+          </div>
 
-        </div>
+          <!-- Component Mockup Card -->
+          <div id="mockupCard" class="bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-colors duration-300">
+            <div class="flex justify-between items-center">
+              <div>
+                <h4 id="previewAppTitle" class="text-sm font-bold text-white">grocery app</h4>
+                <p id="previewSubtitle" class="text-[11px] text-slate-400">Design System Token Active</p>
+              </div>
+              <button id="previewBtn" class="text-white font-bold text-xs px-4 py-2 rounded-md shadow-md transition" style="background-color: var(--primary-brand, #351156);">
+                Primary CTA
+              </button>
+            </div>
 
-      </div>
+            <!-- TYPOGRAPHY PREVIEW -->
+            <div id="typoCard" class="bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 transition-colors">
+              <p class="text-[10px] font-bold text-cyan-400 uppercase tracking-wider">📐 Typography Scale Preview</p>
+              <div id="previewTypography" class="text-white space-y-0.5">
+                <div class="text-base font-bold">H1 Heading - Core Display</div>
+                <div id="typoSubtext" class="text-xs text-slate-300">Body text - Standard interface preview typography.</div>
+              </div>
+            </div>
 
-    </div>
+            <!-- Developer Tailwind Snippet -->
+            <div class="bg-slate-900 border border-slate-800/80 p-2 rounded-lg flex justify-between items-center gap-2">
+              <div class="truncate text-[11px] font-mono text-cyan-300">
+                <span class="text-slate-400">Tailwind Snippet: </span>
+                <span id="tailwindSnippetText">bg-[#351156] text-white font-roboto rounded-md</span>
+              </div>
+              <button onclick="copyTailwindSnippet(this)" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-[10px] px-2.5 py-1 rounded transition whitespace-nowrap">
+                📋 Copy Snippet
+              </button>
+            </div>
 
-  </div>
+            <!-- Client Review & Approval Portal -->
+            <div id="portalCard" class="bg-slate-900 border border-emerald-500/40 rounded-lg p-3 space-y-3 transition-colors">
+              <div class="text-xs font-bold text-emerald-400 flex items-center justify-between">
+                <span>🔒 Client Review & Approval Portal</span>
+                <span id="portalStateBadge" class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30">🟡 In Review</span>
+              </div>
 
-  <script>
-    let currentApprovalClient = "";
-    let currentApprovalPhone = "";
+              <!-- Approval Input Container -->
+              <div id="approvalControls" class="space-y-2 w-full">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <input type="text" id="clientNameInput" autocomplete="off" placeholder="Enter your full name..." class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
+                  <input type="text" id="clientPhoneInput" autocomplete="off" placeholder="Your WhatsApp No (e.g. 91...)" class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
+                </div>
+                <button onclick="approveDesign()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs py-2.5 rounded-md transition uppercase tracking-wide">
+                  ✅ Approve Design System
+                </button>
+              </div>
 
-    // Live Theme Customizer Logic (No API Needed)
-    function updateLiveTheme() {
-      const color = document.getElementById('pickerColor').value;
-      const radius = document.getElementById('sliderRadius').value;
-      const mockup = document.getElementById('mockupCard');
-      const previewBtn = document.getElementById('previewBtn');
-      
-      previewBtn.style.backgroundColor = color;
-      mockup.style.borderRadius = radius + 'px';
-      document.getElementById('radiusValue').innerText = radius + 'px';
-    }
+              <!-- WhatsApp Approval Banner -->
+              <div id="whatsappShareBanner" class="hidden bg-emerald-950/50 border border-emerald-800/80 p-2.5 rounded-md flex items-center justify-between gap-2">
+                <div class="text-xs text-emerald-300">
+                  <span>✓ Approved by <strong id="displayClientName" class="text-white"></strong> (<span id="displayClientPhone" class="text-cyan-300"></span>)</span>
+                </div>
+                <button onclick="sendWhatsAppApproval()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-3 py-1 rounded text-xs transition flex items-center gap-1 shadow">
+                  <span>💬</span> Send on WhatsApp
+                </button>
+              </div>
 
-    // Smart AI Assistant Logic
-    function askSmartAI() {
-      const prompt = document.getElementById('aiPromptInput').value.trim();
-      const responseBox = document.getElementById('aiResponseBox');
-      
-      if(!prompt) {
-        alert('Pehle kuch type karein!');
-        return;
-      }
+              <!-- Pinpoint Feedback Marker Box -->
+              <div class="bg-slate-950 border border-cyan-500/30 p-2.5 rounded-lg space-y-2">
+                <div class="flex justify-between items-center text-[11px] font-bold text-cyan-300">
+                  <span>📍 Pinpoint Component Note / Marker</span>
+                  <span class="text-slate-400 font-normal">Click component to pin note</span>
+                </div>
+                <div class="flex gap-2">
+                  <input type="text" id="pinpointNoteInput" placeholder="Add specific note for this section..." class="flex-1 bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white outline-none">
+                  <button onclick="submitPinpointNote()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs px-3 py-1.5 rounded transition">
+                    Pin Note
+                  </button>
+                </div>
+              </div>
 
-      responseBox.classList.remove('hidden');
-      responseBox.innerText = '🤖 Analyzing design layout & generating tokens...';
+              <!-- Pinned Feedback Notes Log Box -->
+              <div class="bg-slate-950 border border-slate-800 rounded-lg p-2.5 space-y-1.5">
+                <div class="text-[11px] font-bold text-slate-300 flex justify-between items-center">
+                  <span>📋 Client Feedback & Notes Log</span>
+                  <span id="noteCountBadge" class="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded">0 Notes</span>
+                </div>
+                <div id="feedbackLogContainer" class="space-y-1 max-h-24 overflow-y-auto custom-scrollbar text-[11px] font-mono text-slate-400">
+                  <p class="text-slate-500 italic">No pinned notes yet. Add one above!</p>
+                </div>
+              </div>
 
-      setTimeout(() => {
-        responseBox.innerHTML = `<b>Scrutinix AI:</b> Applied changes for "${prompt}". Custom tokens updated successfully!`;
-      }, 800);
-    }
+              <!-- Revision Box -->
+              <div id="revisionControls" class="flex flex-col sm:flex-row gap-2 pt-1 border-t border-slate-800/60 w-full">
+                <div class="relative w-full sm:flex-1">
+                  <input type="text" id="feedbackInput" autocomplete="off" placeholder="Request changes or speak voice command..." class="w-full bg-slate-950 border border-slate-800 rounded-md pl-3 pr-9 py-2 text-xs text-white outline-none">
+                  <button onclick="startVoiceRecognition()" title="Voice Feedback" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition text-sm">
+                    🎙️
+                  </button>
+                </div>
+                <button onclick="submitFeedback()" class="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-4 py-2 rounded-md transition whitespace-nowrap">
+                  📝 Request Changes
+                </button>
+              </div>
+            </div>
+          </div>
 
-    function generateSystem() {
-      const projName = document.getElementById('projectName').value;
-      document.getElementById('previewAppTitle').innerText = projName;
-    }
+          <!-- Code Outputs Box & Tabs -->
+          <div class="space-y-2.5">
+            <div class="flex flex-wrap justify-between items-center gap-2">
+              <div class="flex flex-wrap gap-1 bg-slate-950 p-1 rounded-md border border-slate-800">
+                <button id="tabCss" onclick="switchTab('css')" class="text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition">CSS Variables</button>
+                <button id="tabTailwind" onclick="switchTab('tailwind')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">Tailwind Config</button>
+                <button id="tabJson" onclick="switchTab('json')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">Style Dictionary</button>
+                <button id="tabVisualizer" onclick="switchTab('visualizer')" class="text-xs font-semibold px-3 py-1 rounded text-cyan-300 hover:text-white transition">🎨 v1.5 Visualizer</button>
+              </div>
+              <div id="modeSubTabs" class="flex gap-1 bg-slate-950 p-1 rounded-md border border-slate-800">
+                <button id="subTabLight" onclick="switchMode('light')" class="text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400">☀️ Light</button>
+                <button id="subTabDark" onclick="switchMode('dark')" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400">🌙 Dark</button>
+              </div>
+            </div>
 
-    function applyPreset(color, font) {
-      document.getElementById('brandColor').value = color;
-      document.getElementById('brandColorPicker').value = color;
-      document.getElementById('previewBtn').style.backgroundColor = color;
-    }
+            <div class="bg-slate-950 border border-slate-800 rounded-lg overflow-hidden">
+              <div class="flex justify-between items-center bg-slate-900 px-3 py-1.5 border-b border-slate-800 text-xs text-slate-400">
+                <span id="codeBoxTitle">variables-dark.css</span>
+                <button onclick="copyCodeOutput(this)" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-[10px] px-2.5 py-0.5 rounded transition">
+                  📄 Copy Code
+                </button>
+              </div>
+              <div id="codeOutputContainer">
+                <pre id="codeOutput" class="p-3 text-xs font-mono text-cyan-400 h-32 overflow-y-auto whitespace-pre-wrap custom-scrollbar"></pre>
+              </div>
+              <div id="visualizerPanel" class="hidden p-4 space-y-3 h-32 overflow-y-auto custom-scrollbar bg-slate-950 text-xs">
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="space-y-2">
+                    <label class="block font-semibold text-cyan-400">Box Shadow Blur: <span id="blurVal">10px</span></label>
+                    <input type="range" id="shadowBlurRange" min="0" max="40" value="10" oninput="updateVisualizerPreview()" class="w-full accent-cyan-400">
+                  </div>
+                  <div class="space-y-2">
+                    <label class="block font-semibold text-cyan-400">Border Radius: <span id="radiusVal">8px</span></label>
+                    <input type="range" id="borderRadiusRange" min="0" max="30" value="8" oninput="updateVisualizerPreview()" class="w-full accent-cyan-400">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-    function approveDesign() {
-      const name = document.getElementById('clientNameInput').value.trim();
-      const phone = document.getElementById('clientPhoneInput').value.trim();
-      if(!name || !phone) {
-        alert('Kripya apna naam aur WhatsApp number bharein!');
-        return;
-      }
-      currentApprovalClient = name;
-      currentApprovalPhone = phone.replace(/[^0-9]/g, '');
-      
-      document.getElementById('displayClientName').innerText = name;
-      document.getElementById('displayClientPhone').innerText = currentApprovalPhone;
-      document.getElementById('approvalControls').classList.add('hidden');
-      document.getElementById('whatsappShareBanner').classList.remove('hidden');
-      document.getElementById('portalStateBadge').innerText = '✅ Approved';
-    }
+          <!-- AI Changelog -->
+          <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 space-y-1.5">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-bold text-slate-300">🤖 AI Client Changelog (Ready for WhatsApp / Slack)</span>
+              <div class="flex gap-2">
+                <button onclick="sendViaGmail()" class="bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded transition">📧 Open Gmail</button>
+                <button onclick="copyChangelogMsg(this)" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 text-[10px] font-bold px-2.5 py-0.5 rounded transition">📋 Copy Message</button>
+              </div>
+            </div>
+            <div id="changelogMsg" class="bg-slate-900 p-2 rounded text-[11px] font-mono text-slate-300 border border-slate-800/80">
+              Loading changelog...
+            </div>
+          </div>
 
-    function sendWhatsAppApproval() {
-      const projectName = document.getElementById('projectName').value.trim() || 'Scrutinix Project';
-      const message = `Hello! The design system for *${projectName}* has been officially approved by *${currentApprovalClient}*.\n\nView details: https://www.scrutinixai.com/`;
-      window.open(`https://wa.me/${currentApprovalPhone}?text=${encodeURIComponent(message)}`, '_blank');
-    }
-  </script>
-</body>
-</html>
+          <!-- Bottom Actions Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+            <button onclick="exportCss()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export variables.css</button>
+            <button onclick="exportTailwind()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export tailwind.config.js</button>
+            <button onclick="downloadCombinedSpecs()" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs py-2 rounded-lg transition">📦 Combined Specs</button>
+            <button onclick="exportPdf()" class="bg-slate-950 hover:bg-slate-800 border border-cyan-500/30 text-cyan-400 font-bold text-xs py-2 rounded-lg transition">📄 Export Spec PDF</button>
+            <button onclick="copyShareLink(this)" class="col-span-2 sm:col-span-1 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2 rounded-lg transition">🌐 Share Live Link</button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    let currentTab = 'css';
+    let currentMode = 'dark';
+    let currentApprovalClient = "";
+    let currentApprovalPhone = "";
+    let isGuestViewActive = false;
+    let pinnedNotesList = [];
+
+    // Toggle Guest View Mode function
+    function toggleGuestModeView() {
+      isGuestViewActive = !isGuestViewActive;
+      const statusSpan = document.getElementById('guestModeStatus');
+      const toggleBtn = document.getElementById('guestModeToggleBtn');
+      if (isGuestViewActive) {
+        statusSpan.innerText = "Guest Mode Enabled (Simplified UI)";
+        toggleBtn.innerText = "Exit Guest View";
+      } else {
+        statusSpan.innerText = "Active (No Login Needed)";
+        toggleBtn.innerText = "Switch Guest View";
+      }
+    }
+
+    // Submit & Log Pinpoint Note function
+    function submitPinpointNote() {
+      const noteInput = document.getElementById('pinpointNoteInput');
+      const noteText = noteInput.value.trim();
+      if(!noteText) {
+        alert("Please enter a pinpoint note for this component!");
+        return;
+      }
+      
+      pinnedNotesList.push(noteText);
+      updateFeedbackLogUI();
+      noteInput.value = "";
+    }
+
+    function updateFeedbackLogUI() {
+      const container = document.getElementById('feedbackLogContainer');
+      const badge = document.getElementById('noteCountBadge');
+      badge.innerText = `${pinnedNotesList.length} Notes`;
+
+      if (pinnedNotesList.length === 0) {
+        container.innerHTML = `<p class="text-slate-500 italic">No pinned notes yet. Add one above!</p>`;
+        return;
+      }
+
+      let html = '';
+      pinnedNotesList.forEach((note, index) => {
+        html += `<div class="bg-slate-900 border border-slate-800 p-1.5 rounded flex items-center justify-between gap-2">
+          <span>📍 <strong class="text-cyan-300">#${index + 1}:</strong> ${note}</span>
+        </div>`;
+      });
+      container.innerHTML = html;
+    }
+
+    // Fixed Preview Light / Dark Theme Switcher
+    function switchPreviewTheme(mode) {
+      const mockup = document.getElementById('mockupCard');
+      const lightBtn = document.getElementById('previewLightBtn');
+      const darkBtn = document.getElementById('previewDarkBtn');
+
+      if (mode === 'light') {
+        mockup.style.backgroundColor = '#ffffff';
+        mockup.style.color = '#0f172a';
+        document.getElementById('previewAppTitle').style.color = '#0f172a';
+        document.getElementById('previewSubtitle').style.color = '#475569';
+        lightBtn.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        darkBtn.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
+      } else {
+        mockup.style.backgroundColor = '#020617';
+        mockup.style.color = '#f8fafc';
+        document.getElementById('previewAppTitle').style.color = '#f8fafc';
+        document.getElementById('previewSubtitle').style.color = '#94a3b8';
+        darkBtn.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        lightBtn.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
+      }
+    }
+
+    function copyToClipboardSilent(textToCopy, btn, originalText) {
+      if(!textToCopy) return;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        if(btn) {
+          const prevText = btn.innerText;
+          btn.innerText = "✓ Copied!";
+          btn.classList.add("bg-emerald-400", "text-slate-950");
+          setTimeout(() => {
+            btn.innerText = originalText || prevText;
+            btn.classList.remove("bg-emerald-400", "text-slate-950");
+          }, 2000);
+        }
+      });
+    }
+
+    function copyTailwindSnippet(btn) {
+      const text = document.getElementById('tailwindSnippetText').innerText;
+      copyToClipboardSilent(text, btn, "📋 Copy Snippet");
+    }
+
+    function copyCodeOutput(btn) {
+      const text = document.getElementById('codeOutput').innerText;
+      copyToClipboardSilent(text, btn, "📄 Copy Code");
+    }
+
+    function copyChangelogMsg(btn) {
+      const text = document.getElementById('changelogMsg').innerText;
+      copyToClipboardSilent(text, btn, "📋 Copy Message");
+    }
+
+    function copyShareLink(btn) {
+      const customDomainUrl = "https://www.scrutinixai.com/";
+      copyToClipboardSilent(customDomainUrl, btn, "🌐 Share Live Link");
+    }
+
+    function approveDesign() {
+      const nameInput = document.getElementById('clientNameInput');
+      const phoneInput = document.getElementById('clientPhoneInput');
+      const clientName = nameInput.value.trim();
+      let clientPhone = phoneInput.value.trim();
+
+      if (!clientName) {
+        alert('Kripya client ka full name enter karein!');
+        return;
+      }
+      if (!clientPhone) {
+        alert('Kripya client ka WhatsApp number enter karein!');
+        return;
+      }
+
+      clientPhone = clientPhone.replace(/[^0-9]/g, '');
+
+      currentApprovalClient = clientName;
+      currentApprovalPhone = clientPhone;
+
+      document.getElementById('displayClientName').innerText = clientName;
+      document.getElementById('displayClientPhone').innerText = clientPhone;
+      document.getElementById('whatsappShareBanner').classList.remove('hidden');
+      document.getElementById('approvalControls').classList.add('hidden');
+      document.getElementById('portalStateBadge').className = "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30 font-semibold";
+      document.getElementById('portalStateBadge').innerText = "✅ Approved & Locked v1.5";
+    }
+
+    function sendWhatsAppApproval() {
+      const projectName = document.getElementById('projectName').value.trim() || 'Scrutinix AI Project';
+      let targetPhone = currentApprovalPhone;
+      
+      if (!targetPhone) {
+        alert('Client WhatsApp number not found!');
+        return;
+      }
+
+      const message = `Hello! The design system for *${projectName}* has been officially approved by *${currentApprovalClient}*.\n\nView details: https://www.scrutinixai.com/`;
+      window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(message)}`, '_blank');
+    }
+
+    function sendViaGmail() {
+      const proj = document.getElementById('projectName').value.trim() || 'Project';
+      const bodyText = document.getElementById('changelogMsg').innerText;
+      const subjectText = "Scrutinix AI Design Tokens - " + proj;
+      
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`;
+      window.open(gmailUrl, '_blank');
+    }
+
+    function switchTab(tabName) {
+      currentTab = tabName;
+      const codeOutputContainer = document.getElementById('codeOutputContainer');
+      const visualizerPanel = document.getElementById('visualizerPanel');
+      const titleSpan = document.getElementById('codeBoxTitle');
+
+      ['tabCss', 'tabTailwind', 'tabJson', 'tabVisualizer'].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) {
+          el.className = "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
+    
