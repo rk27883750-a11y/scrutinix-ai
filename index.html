@@ -299,6 +299,12 @@
                 <button id="tabJson" onclick="switchTab('json')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">Style Dictionary</button>
                 <button id="tabVisualizer" onclick="switchTab('visualizer')" class="text-xs font-semibold px-3 py-1 rounded text-cyan-300 hover:text-white transition">🎨 v1.5 Visualizer</button>
               </div>
+
+              <!-- LIGHT / DARK MODE SUB-TABS (RESTORED) -->
+              <div id="modeSubTabs" class="flex gap-1 bg-slate-950 p-1 rounded-md border border-slate-800">
+                <button id="subTabLight" onclick="switchMode('light')" class="text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400 hover:text-white transition">☀️ Light</button>
+                <button id="subTabDark" onclick="switchMode('dark')" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400 transition">🌙 Dark</button>
+              </div>
             </div>
 
             <div class="bg-slate-950 border border-slate-800 rounded-lg overflow-hidden">
@@ -403,6 +409,7 @@
       currentTab = tab;
       const codeOutputContainer = document.getElementById('codeOutputContainer');
       const visualizerPanel = document.getElementById('visualizerPanel');
+      const modeSubTabs = document.getElementById('modeSubTabs');
       
       ['tabCss', 'tabTailwind', 'tabJson', 'tabVisualizer'].forEach(id => {
         document.getElementById(id).className = "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
@@ -412,35 +419,52 @@
         document.getElementById('tabVisualizer').className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
         codeOutputContainer.classList.add('hidden');
         visualizerPanel.classList.remove('hidden');
+        modeSubTabs.classList.add('hidden');
         document.getElementById('codeBoxTitle').innerText = "visualizer-preview.css";
       } else {
         document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
         codeOutputContainer.classList.remove('hidden');
         visualizerPanel.classList.add('hidden');
+        modeSubTabs.classList.remove('hidden');
         updateCodeOutput();
       }
+    }
+
+    function switchMode(mode) {
+      currentMode = mode;
+      const lightBtn = document.getElementById('subTabLight');
+      const darkBtn = document.getElementById('subTabDark');
+
+      if (mode === 'light') {
+        lightBtn.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400 transition";
+        darkBtn.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400 transition";
+      } else {
+        darkBtn.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400 transition";
+        lightBtn.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400 transition";
+      }
+      updateCodeOutput();
     }
 
     function updateCodeOutput() {
       const color = document.getElementById('brandColor').value;
       const font = document.getElementById('fontSelect').value;
+      const proj = document.getElementById('projectName').value;
       const codeEl = document.getElementById('codeOutput');
       
       if(currentTab === 'css') {
         document.getElementById('codeBoxTitle').innerText = `variables-${currentMode}.css`;
-        codeEl.innerText = `:root {\n  --primary-color: ${color};\n  --font-family: '${font}', sans-serif;\n  --border-radius: 8px;\n}`;
+        codeEl.innerText = `/* Scrutinix AI CSS Variables (${currentMode.toUpperCase()}) - https://www.scrutinixai.com/ */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --mode: "${currentMode}";\n}`;
       } else if(currentTab === 'tailwind') {
         document.getElementById('codeBoxTitle').innerText = `tailwind.config.js`;
         codeEl.innerText = `module.exports = {\n  theme: {\n    extend: {\n      colors: { primary: '${color}' },\n      fontFamily: { sans: ['${font}', 'sans-serif'] }\n    }\n  }\n}`;
       } else if(currentTab === 'json') {
         document.getElementById('codeBoxTitle').innerText = `tokens.json`;
-        codeEl.innerText = JSON.stringify({ color, font, radius: "8px" }, null, 2);
+        codeEl.innerText = JSON.stringify({ project: proj, color, font, mode: currentMode, radius: "8px" }, null, 2);
       }
-      document.getElementById('changelogMsg').innerText = `Updated design tokens: Primary color set to ${color}, Font set to ${font}.`;
+      document.getElementById('changelogMsg').innerText = `Updated design tokens: Primary color set to ${color}, Font set to ${font}. Mode: ${currentMode}.`;
     }
 
     function switchPreviewTheme(mode) {
-      currentMode = mode;
       const mockup = document.getElementById('mockupCard');
       const lightBtn = document.getElementById('previewLightBtn');
       const darkBtn = document.getElementById('previewDarkBtn');
@@ -460,7 +484,6 @@
         darkBtn.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
         lightBtn.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
       }
-      updateCodeOutput();
     }
 
     function updateVisualizerPreview() {
