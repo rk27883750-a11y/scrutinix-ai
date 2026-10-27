@@ -407,7 +407,41 @@
     let currentApprovalPhone = "";
     let pinnedNotesList = [];
 
-    // --- WORKING EXPORT & GMAIL FUNCTIONS ---
+    // --- WORKING CLIPBOARD & SHARE FUNCTIONS ---
+    function copyCodeOutput(btn) {
+      const codeText = document.getElementById('codeOutput').innerText;
+      navigator.clipboard.writeText(codeText).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "✓ Copied!";
+        setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+      }).catch(err => {
+        alert("Failed to copy code.");
+      });
+    }
+
+    function copyChangelogMsg(btn) {
+      const msgText = document.getElementById('changelogMsg').innerText;
+      navigator.clipboard.writeText(msgText).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "✓ Copied!";
+        setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+      }).catch(err => {
+        alert("Failed to copy message.");
+      });
+    }
+
+    function copyShareLink(btn) {
+      const shareUrl = window.location.href.includes('http') ? window.location.href : "https://www.scrutinixai.com/";
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "✓ Link Copied!";
+        setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+      }).catch(err => {
+        alert("Failed to copy link.");
+      });
+    }
+
+    // --- WORKING EXPORTS & GMAIL FUNCTIONS ---
     function downloadFile(filename, content) {
       const element = document.createElement('a');
       const file = new Blob([content], { type: 'text/plain' });
@@ -662,9 +696,6 @@
     function startVoiceRecognition() { alert("Voice feedback active!"); }
     function submitFeedback() { alert("Feedback requested!"); }
     function copyTailwindSnippet(btn) { alert("Snippet copied!"); }
-    function copyCodeOutput(btn) { alert("Code copied!"); }
-    function copyShareLink(btn) { alert("Live link copied to clipboard!"); }
-    function copyChangelogMsg(btn) { alert("Changelog message copied!"); }
     function updateVisualizerPreview() {}
   </script>
 </body>
