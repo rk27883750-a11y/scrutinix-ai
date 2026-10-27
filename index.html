@@ -85,18 +85,18 @@
             </select>
           </div>
 
-          <!-- SMART SEARCH BOX WITH MIC BUTTON -->
+          <!-- SMART COMMAND SEARCH BOX WITH MIC BUTTON -->
           <div class="bg-slate-950 p-3 border border-cyan-500/30 rounded-lg space-y-2">
             <label class="block text-[11px] font-bold text-cyan-400 flex items-center gap-1.5">
-              <span>🔍</span> Smart Component & Feature Search (Voice Enabled)
+              <span>🎙️</span> AI Smart Voice & Command Search
             </label>
             <div class="relative">
-              <input type="text" id="siteSearchInput" oninput="filterComponents()" placeholder="Search tokens, components or features..." class="w-full bg-slate-900 border border-slate-800 rounded-lg pl-3 pr-10 py-2 text-xs text-white focus:border-cyan-400 outline-none">
+              <input type="text" id="siteSearchInput" oninput="handleSmartSearch()" placeholder="Type/Speak: 'blue', 'red', 'green'..." class="w-full bg-slate-900 border border-slate-800 rounded-lg pl-3 pr-10 py-2 text-xs text-white focus:border-cyan-400 outline-none">
               <button onclick="startMainVoiceSearch()" title="Voice Search" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition text-sm">
                 🎙️
               </button>
             </div>
-            <div id="searchResultsHint" class="text-[10px] text-slate-400 italic">Type or speak to filter UI features instantly...</div>
+            <div id="searchResultsHint" class="text-[10px] text-cyan-300 italic">Type a color name to change theme instantly!</div>
           </div>
 
           <!-- ONE-CLICK AI THEME PRESETS -->
@@ -407,7 +407,70 @@
     let currentApprovalPhone = "";
     let pinnedNotesList = [];
 
-    // --- VOICE SEARCH & SMART COMPONENT FILTER (NO API KEY NEEDED) ---
+    // --- WORKING EXPORT & GMAIL FUNCTIONS ---
+    function downloadFile(filename, content) {
+      const element = document.createElement('a');
+      const file = new Blob([content], { type: 'text/plain' });
+      element.href = URL.createObjectURL(file);
+      element.download = filename;
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    }
+
+    function exportCss() {
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+      const proj = document.getElementById('projectName').value;
+      const cssContent = `/* Scrutinix AI CSS Variables (${currentMode.toUpperCase()}) - https://www.scrutinixai.com/ */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --mode: "${currentMode}";\n}`;
+      downloadFile(`variables-${currentMode}.css`, cssContent);
+    }
+
+    function exportTailwind() {
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+      const twContent = `module.exports = {\n  theme: {\n    extend: {\n      colors: { primary: '${color}' },\n      fontFamily: { sans: ['${font}', 'sans-serif'] }\n    }\n  }\n}`;
+      downloadFile('tailwind.config.js', twContent);
+    }
+
+    function exportPdf() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const proj = document.getElementById('projectName').value;
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(20);
+      doc.text("Scrutinix AI - Design System Spec", 20, 20);
+
+      doc.setFontSize(12);
+      doc.setFont("helvetica", "normal");
+      doc.text(`Project Name: ${proj}`, 20, 35);
+      doc.text(`Primary Color: ${color}`, 20, 45);
+      doc.text(`Typography Font: ${font}`, 20, 55);
+      doc.text(`Theme Mode: ${currentMode}`, 20, 65);
+      doc.text(`Generated via Scrutinix AI Portal`, 20, 80);
+
+      doc.save(`${proj}-design-spec.pdf`);
+    }
+
+    function sendViaGmail() {
+      const proj = document.getElementById('projectName').value;
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+      const subject = encodeURIComponent(`Design System Update: ${proj}`);
+      const body = encodeURIComponent(`Hello Client,\n\nHere are the updated design tokens for ${proj}:\n- Primary Color: ${color}\n- Font: ${font}\n- Mode: ${currentMode}\n\nPlease review via Scrutinix AI Live Portal.`);
+      window.open(`https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`, '_blank');
+    }
+
+    function downloadAllBundle() {
+      exportCss();
+      setTimeout(exportTailwind, 500);
+      setTimeout(exportPdf, 1000);
+    }
+
+    // --- SMART VOICE & COMMAND SEARCH ---
     function startMainVoiceSearch() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRecognition) {
@@ -417,13 +480,12 @@
       const recognition = new SpeechRecognition();
       recognition.lang = 'en-US';
       recognition.onstart = () => {
-        document.getElementById('searchResultsHint').innerText = "🎙️ Listening to your voice search...";
+        document.getElementById('searchResultsHint').innerText = "🎙️ Listening to command...";
       };
       recognition.onresult = (event) => {
         const query = event.results[0][0].transcript;
         document.getElementById('siteSearchInput').value = query;
-        filterComponents();
-        document.getElementById('searchResultsHint').innerText = `Results for: "${query}"`;
+        handleSmartSearch();
       };
       recognition.onerror = () => {
         document.getElementById('searchResultsHint').innerText = "Voice recognition error. Try typing instead.";
@@ -431,15 +493,28 @@
       recognition.start();
     }
 
-    function filterComponents() {
-      const q = document.getElementById('siteSearchInput').value.toLowerCase();
+    function handleSmartSearch() {
+      const text = document.getElementById('siteSearchInput').value.toLowerCase();
       const hint = document.getElementById('searchResultsHint');
-      if(q.trim() === "") {
-        hint.innerText = "Type or speak to filter UI features instantly...";
-        return;
+
+      if (text.includes('blue') || text.includes('neela')) {
+        setColor('#0066FF');
+        hint.innerText = "✨ Applied Blue Theme instantly!";
+      } else if (text.includes('red') || text.includes('laal') || text.includes('crimson')) {
+        setColor('#EF4444');
+        hint.innerText = "✨ Applied Red Theme instantly!";
+      } else if (text.includes('green') || text.includes('hara') || text.includes('mint')) {
+        setColor('#10B981');
+        hint.innerText = "✨ Applied Green Theme instantly!";
+      } else if (text.includes('purple') || text.includes('indigo') || text.includes('baingani')) {
+        setColor('#351156');
+        hint.innerText = "✨ Applied Purple/Indigo Theme instantly!";
+      } else if (text.includes('amber') || text.includes('yellow') || text.includes('orange')) {
+        setColor('#F59E0B');
+        hint.innerText = "✨ Applied Amber Theme instantly!";
+      } else {
+        hint.innerText = `Filtering components matching "${text}"...`;
       }
-      // Example local filtering feedback without server/API
-      hint.innerText = `Filtering components & tokens matching "${q}"...`;
     }
 
     // Interactive Live Theme Customizer Logic
@@ -581,8 +656,6 @@
       }
     }
 
-    // Dummy placeholder functions for other controls
-    function fetchDesignLink() { alert("Design spec link fetched successfully!"); }
     function approveDesign() { alert("Design system approved!"); }
     function sendWhatsAppApproval() { alert("Redirecting to WhatsApp..."); }
     function submitPinpointNote() { alert("Pinpoint note added!"); }
@@ -590,12 +663,7 @@
     function submitFeedback() { alert("Feedback requested!"); }
     function copyTailwindSnippet(btn) { alert("Snippet copied!"); }
     function copyCodeOutput(btn) { alert("Code copied!"); }
-    function exportCss() { alert("Exporting CSS variables..."); }
-    function exportTailwind() { alert("Exporting Tailwind config..."); }
-    function downloadAllBundle() { alert("Master bundle downloaded!"); }
-    function exportPdf() { alert("Exporting PDF spec..."); }
     function copyShareLink(btn) { alert("Live link copied to clipboard!"); }
-    function sendViaGmail() { alert("Opening Gmail client..."); }
     function copyChangelogMsg(btn) { alert("Changelog message copied!"); }
     function updateVisualizerPreview() {}
   </script>
