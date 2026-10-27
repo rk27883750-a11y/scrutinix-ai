@@ -190,6 +190,27 @@
             </div>
           </div>
 
+          <!-- 🛠️ INTERACTIVE LIVE THEME CUSTOMIZER -->
+          <div class="bg-slate-950 border border-cyan-500/30 rounded-lg p-3 space-y-2">
+            <div class="text-xs font-bold text-cyan-400 flex items-center justify-between">
+              <span>🛠️ Interactive Live Theme Customizer (No API Needed)</span>
+              <span class="text-[10px] text-slate-400">Instant Real-time Control</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+              <div>
+                <label class="block text-[11px] text-slate-300 mb-1">Live Primary Color:</label>
+                <input type="color" id="interactiveColorPicker" value="#351156" onchange="updateInteractiveTheme()" class="w-full h-8 bg-slate-900 border border-slate-800 rounded cursor-pointer">
+              </div>
+              <div>
+                <div class="flex justify-between text-[11px] text-slate-300 mb-1">
+                  <span>Component Roundness:</span>
+                  <span id="interactiveRadiusVal">8px</span>
+                </div>
+                <input type="range" id="interactiveRadiusRange" min="0" max="24" value="8" oninput="updateInteractiveTheme()" class="w-full accent-cyan-400 cursor-pointer">
+              </div>
+            </div>
+          </div>
+
           <!-- Component Mockup Card -->
           <div id="mockupCard" class="bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-colors duration-300">
             <div class="flex justify-between items-center">
@@ -296,11 +317,13 @@
               <div class="flex flex-wrap gap-1 bg-slate-950 p-1 rounded-md border border-slate-800">
                 <button id="tabCss" onclick="switchTab('css')" class="text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition">CSS Variables</button>
                 <button id="tabTailwind" onclick="switchTab('tailwind')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">Tailwind Config</button>
+                <button id="tabReact" onclick="switchTab('react')" class="text-xs font-semibold px-3 py-1 rounded text-cyan-300 hover:text-white transition">⚛️ React</button>
+                <button id="tabFlutter" onclick="switchTab('flutter')" class="text-xs font-semibold px-3 py-1 rounded text-sky-300 hover:text-white transition">📱 Flutter</button>
                 <button id="tabJson" onclick="switchTab('json')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">Style Dictionary</button>
                 <button id="tabVisualizer" onclick="switchTab('visualizer')" class="text-xs font-semibold px-3 py-1 rounded text-cyan-300 hover:text-white transition">🎨 v1.5 Visualizer</button>
               </div>
 
-              <!-- LIGHT / DARK MODE SUB-TABS (RESTORED) -->
+              <!-- LIGHT / DARK MODE SUB-TABS -->
               <div id="modeSubTabs" class="flex gap-1 bg-slate-950 p-1 rounded-md border border-slate-800">
                 <button id="subTabLight" onclick="switchMode('light')" class="text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400 hover:text-white transition">☀️ Light</button>
                 <button id="subTabDark" onclick="switchMode('dark')" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400 transition">🌙 Dark</button>
@@ -350,7 +373,7 @@
           <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
             <button onclick="exportCss()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export variables.css</button>
             <button onclick="exportTailwind()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export tailwind.config.js</button>
-            <button onclick="downloadCombinedSpecs()" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs py-2 rounded-lg transition">📦 Combined Specs</button>
+            <button onclick="downloadAllBundle()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs py-2 rounded-lg transition shadow-md">📦 Download All</button>
             <button onclick="exportPdf()" class="bg-slate-950 hover:bg-slate-800 border border-cyan-500/30 text-cyan-400 font-bold text-xs py-2 rounded-lg transition">📄 Export Spec PDF</button>
             <button onclick="copyShareLink(this)" class="col-span-2 sm:col-span-1 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2 rounded-lg transition">🌐 Share Live Link</button>
           </div>
@@ -369,6 +392,21 @@
     let currentApprovalClient = "";
     let currentApprovalPhone = "";
     let pinnedNotesList = [];
+
+    // Interactive Live Theme Customizer Logic
+    function updateInteractiveTheme() {
+      const color = document.getElementById('interactiveColorPicker').value;
+      const radius = document.getElementById('interactiveRadiusRange').value;
+      const mockup = document.getElementById('mockupCard');
+      const previewBtn = document.getElementById('previewBtn');
+      
+      previewBtn.style.backgroundColor = color;
+      mockup.style.borderRadius = radius + 'px';
+      document.getElementById('interactiveRadiusVal').innerText = radius + 'px';
+      document.getElementById('brandColor').value = color;
+      document.getElementById('brandColorPicker').value = color;
+      updateCodeOutput();
+    }
 
     function generateSystem() {
       const proj = document.getElementById('projectName').value;
@@ -389,6 +427,7 @@
       const val = picker.value;
       document.documentElement.style.setProperty('--primary-brand', val);
       document.getElementById('previewBtn').style.backgroundColor = val;
+      document.getElementById('interactiveColorPicker').value = val;
       document.getElementById('tailwindSnippetText').innerText = `bg-[${val}] text-white font-roboto rounded-md`;
       updateCodeOutput();
     }
@@ -411,8 +450,9 @@
       const visualizerPanel = document.getElementById('visualizerPanel');
       const modeSubTabs = document.getElementById('modeSubTabs');
       
-      ['tabCss', 'tabTailwind', 'tabJson', 'tabVisualizer'].forEach(id => {
-        document.getElementById(id).className = "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
+      ['tabCss', 'tabTailwind', 'tabReact', 'tabFlutter', 'tabJson', 'tabVisualizer'].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.className = "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
       });
 
       if(tab === 'visualizer') {
@@ -457,6 +497,12 @@
       } else if(currentTab === 'tailwind') {
         document.getElementById('codeBoxTitle').innerText = `tailwind.config.js`;
         codeEl.innerText = `module.exports = {\n  theme: {\n    extend: {\n      colors: { primary: '${color}' },\n      fontFamily: { sans: ['${font}', 'sans-serif'] }\n    }\n  }\n}`;
+      } else if(currentTab === 'react') {
+        document.getElementById('codeBoxTitle').innerText = `Component.jsx (React)`;
+        codeEl.innerText = `export default function PrimaryButton() {\n  return (\n    <button style={{ backgroundColor: '${color}', fontFamily: '${font}' }}\n      className="text-white px-4 py-2 rounded-md shadow-md">\n      Primary CTA\n    </button>\n  );\n}`;
+      } else if(currentTab === 'flutter') {
+        document.getElementById('codeBoxTitle').innerText = `component.dart (Flutter)`;
+        codeEl.innerText = `ElevatedButton(\n  style: ElevatedButton.styleFrom(\n    primary: Color(0xFF${color.replace('#','')}),\n    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),\n  ),\n  onPressed: () {},\n  child: Text('${proj}'),\n);`;
       } else if(currentTab === 'json') {
         document.getElementById('codeBoxTitle').innerText = `tokens.json`;
         codeEl.innerText = JSON.stringify({ project: proj, color, font, mode: currentMode, radius: "8px" }, null, 2);
@@ -568,7 +614,6 @@
       input.value = '';
     }
 
-    // Fixed Gmail Export function
     function sendViaGmail() {
       const proj = document.getElementById('projectName').value || 'Project';
       const bodyText = document.getElementById('changelogMsg').innerText;
@@ -577,18 +622,51 @@
       window.open(gmailUrl, '_blank');
     }
 
-    // Fixed Combined Specs Download function
-    function downloadCombinedSpecs() {
-      const proj = document.getElementById('projectName').value || 'project';
+    function exportCss() {
       const color = document.getElementById('brandColor').value;
       const font = document.getElementById('fontSelect').value;
-      const combinedText = `/* Scrutinix AI Combined Specs for ${proj} */\nProject: ${proj}\nPrimary Color: ${color}\nFont: ${font}\nMode: ${currentMode}\n\n[CSS Variables]\n:root { --primary-brand: ${color}; --font-family: '${font}'; }\n\n[Tailwind Config]\nmodule.exports = { theme: { extend: { colors: { primary: '${color}' } } } };`;
+      const proj = document.getElementById('projectName').value || 'project';
+      const cssContent = `/* Scrutinix AI CSS Variables (${currentMode.toUpperCase()}) */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --mode: "${currentMode}";\n}`;
       
-      const blob = new Blob([combinedText], { type: 'text/plain' });
+      const blob = new Blob([cssContent], { type: 'text/css' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${proj}-combined-specs.txt`;
+      a.download = `${proj}-variables-${currentMode}.css`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function exportTailwind() {
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+      const tailwindContent = `module.exports = {\n  theme: {\n    extend: {\n      colors: { primary: '${color}' },\n      fontFamily: { sans: ['${font}', 'sans-serif'] }\n    }\n  }\n};`;
+      
+      const blob = new Blob([tailwindContent], { type: 'text/javascript' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `tailwind.config.js`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function downloadAllBundle() {
+      const proj = document.getElementById('projectName').value || 'project';
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+      
+      const bundleContent = `========================================\nSCRUTINIX AI // MASTER DESIGN BUNDLE\nProject: ${proj}\n========================================\n\n[1] VARIABLES (${currentMode.toUpperCase()})\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --mode: "${currentMode}";\n}\n\n[2] TAILWIND CONFIG\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: { primary: '${color}' },\n      fontFamily: { sans: ['${font}', 'sans-serif'] }\n    }\n  }\n};\n\n[3] REACT COMPONENT\nexport default function PrimaryButton() {\n  return <button style={{ backgroundColor: '${color}', fontFamily: '${font}' }}>Primary CTA</button>;\n}`;
+      
+      const blob = new Blob([bundleContent], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${proj}-scrutinix-complete-bundle.txt`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -619,16 +697,6 @@
 
     function copyShareLink(btn) {
       copyToClipboardSilent("https://www.scrutinixai.com/", btn, "🌐 Share Live Link");
-    }
-
-    function exportCss() {
-      switchTab('css');
-      alert('CSS exported successfully!');
-    }
-
-    function exportTailwind() {
-      switchTab('tailwind');
-      alert('Tailwind config exported successfully!');
     }
 
     function exportPdf() {
