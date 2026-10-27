@@ -177,7 +177,7 @@
             </span>
           </div>
 
-          <!-- Client Light/Dark Mode Live Card Switcher -->
+          <!-- Client Theme Mode Preview Switcher -->
           <div class="flex justify-between items-center bg-slate-950 p-2 rounded-lg border border-slate-800">
             <span class="text-xs font-semibold text-slate-300">Client Theme Mode Preview:</span>
             <div class="flex gap-1">
@@ -543,6 +543,58 @@
       window.open(`https://wa.me/${currentApprovalPhone}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
+    function startVoiceRecognition() {
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.onstart = function() {
+          document.getElementById('feedbackInput').placeholder = "Listening...";
+        };
+        recognition.onresult = function(event) {
+          document.getElementById('feedbackInput').value = event.results[0][0].transcript;
+        };
+        recognition.start();
+      } else {
+        alert('Voice recognition is not supported in this browser.');
+      }
+    }
+
+    function submitFeedback() {
+      const input = document.getElementById('feedbackInput');
+      if(!input.value.trim()) return alert('Kripya feedback enter karein!');
+      pinnedNotesList.push("Feedback: " + input.value.trim());
+      updateFeedbackLogUI();
+      input.value = '';
+    }
+
+    // Fixed Gmail Export function
+    function sendViaGmail() {
+      const proj = document.getElementById('projectName').value || 'Project';
+      const bodyText = document.getElementById('changelogMsg').innerText;
+      const subjectText = "Scrutinix AI Design Tokens - " + proj;
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`;
+      window.open(gmailUrl, '_blank');
+    }
+
+    // Fixed Combined Specs Download function
+    function downloadCombinedSpecs() {
+      const proj = document.getElementById('projectName').value || 'project';
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+      const combinedText = `/* Scrutinix AI Combined Specs for ${proj} */\nProject: ${proj}\nPrimary Color: ${color}\nFont: ${font}\nMode: ${currentMode}\n\n[CSS Variables]\n:root { --primary-brand: ${color}; --font-family: '${font}'; }\n\n[Tailwind Config]\nmodule.exports = { theme: { extend: { colors: { primary: '${color}' } } } };`;
+      
+      const blob = new Blob([combinedText], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${proj}-combined-specs.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
     function copyToClipboardSilent(text, btn, orig) {
       if(!text) return;
       navigator.clipboard.writeText(text).then(() => {
@@ -577,10 +629,6 @@
     function exportTailwind() {
       switchTab('tailwind');
       alert('Tailwind config exported successfully!');
-    }
-
-    function downloadCombinedSpecs() {
-      alert('Combined specs downloaded successfully!');
     }
 
     function exportPdf() {
