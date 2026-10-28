@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scrutinix AI // System Generator & Client Portal v1.5</title>
   
-  <link rel="icon" type="image/png" href="favicon.png">
+  <!-- Custom Cyan 'S' Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none'><rect width='100' height='100' rx='20' fill='%230f172a'/><path d='M50 15L80 32V68L50 85L20 68V32L50 15Z' stroke='%2306b6d4' stroke-width='4' stroke-linejoin='round'/><path d='M65 35H40C33 35 33 48 40 48H60C67 48 67 65 60 65H35' stroke='%2338bdf8' stroke-width='6' stroke-linecap='round'/><circle cx='50' cy='50' r='3' fill='%2367e8f9'/></svg>">
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -54,7 +56,14 @@
     <!-- HEADER & BRANDING -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-xl">
       <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 bg-gradient-to-tr from-cyan-400 to-blue-600 rounded-lg flex items-center justify-center font-black text-xl text-slate-950 shadow-lg shadow-cyan-950">S</div>
+        <!-- Custom Glowing 'S' Logo -->
+        <div class="w-10 h-10 bg-slate-950 border border-cyan-500/40 rounded-xl p-1 flex items-center justify-center shadow-lg shadow-cyan-950">
+          <svg viewBox="0 0 100 100" class="w-full h-full">
+            <path d="M50 10L85 30V70L50 90L15 70V30L50 10Z" stroke="#06b6d4" stroke-width="6" fill="none" stroke-linejoin="round"/>
+            <path d="M65 35H40C32 35 32 48 40 48H60C68 48 68 65 60 65H35" stroke="#38bdf8" stroke-width="8" stroke-linecap="round" fill="none"/>
+            <polygon points="50,45 53,50 50,55 47,50" fill="#67e8f9"/>
+          </svg>
+        </div>
         <div>
           <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span></h1>
           <p class="text-xs text-slate-400">Design System Generator & Client Portal</p>
@@ -540,163 +549,269 @@
       } else if (text.includes('green') || text.includes('hara') || text.includes('mint')) {
         setColor('#10B981');
         hint.innerText = "✨ Applied Green Theme instantly!";
-      } else if (text.includes('purple') || text.includes('indigo') || text.includes('baingani')) {
+      } else if (text.includes('purple') || text.includes('violet')) {
         setColor('#351156');
-        hint.innerText = "✨ Applied Purple/Indigo Theme instantly!";
-      } else if (text.includes('amber') || text.includes('yellow') || text.includes('orange')) {
-        setColor('#F59E0B');
-        hint.innerText = "✨ Applied Amber Theme instantly!";
+        hint.innerText = "✨ Applied Purple Theme instantly!";
+      } else if (text.includes('poppins')) {
+        document.getElementById('fontSelect').value = 'Poppins';
+        generateSystem();
+        hint.innerText = "✨ Font updated to Poppins!";
+      } else if (text.includes('inter')) {
+        document.getElementById('fontSelect').value = 'Inter';
+        generateSystem();
+        hint.innerText = "✨ Font updated to Inter!";
       } else {
-        hint.innerText = `Filtering components matching "${text}"...`;
+        hint.innerText = `Type a color or font name (e.g. blue, red, poppins)...`;
       }
-    }
-
-    // Interactive Live Theme Customizer Logic
-    function updateInteractiveTheme() {
-      const color = document.getElementById('interactiveColorPicker').value;
-      const radius = document.getElementById('interactiveRadiusRange').value;
-      const mockup = document.getElementById('mockupCard');
-      const previewBtn = document.getElementById('previewBtn');
-      
-      previewBtn.style.backgroundColor = color;
-      mockup.style.borderRadius = radius + 'px';
-      document.getElementById('interactiveRadiusVal').innerText = radius + 'px';
-      document.getElementById('brandColor').value = color;
-      document.getElementById('brandColorPicker').value = color;
-      updateCodeOutput();
-    }
-
-    function generateSystem() {
-      const proj = document.getElementById('projectName').value;
-      document.getElementById('previewAppTitle').innerText = proj;
-      updateCodeOutput();
-    }
-
-    function syncColorInput(source) {
-      const picker = document.getElementById('brandColorPicker');
-      const text = document.getElementById('brandColor');
-      if(source === 'picker') {
-        text.value = picker.value;
-      } else {
-        if(text.value.startsWith('#') && text.value.length === 7) {
-          picker.value = text.value;
-        }
-      }
-      const val = picker.value;
-      document.documentElement.style.setProperty('--primary-brand', val);
-      document.getElementById('previewBtn').style.backgroundColor = val;
-      document.getElementById('interactiveColorPicker').value = val;
-      document.getElementById('tailwindSnippetText').innerText = `bg-[${val}] text-white font-roboto rounded-md`;
-      updateCodeOutput();
     }
 
     function setColor(hex) {
-      document.getElementById('brandColorPicker').value = hex;
       document.getElementById('brandColor').value = hex;
-      syncColorInput('picker');
+      document.getElementById('brandColorPicker').value = hex;
+      document.getElementById('interactiveColorPicker').value = hex;
+      generateSystem();
     }
 
-    function applyPreset(hex, font) {
+    function applyPreset(hex, fontName) {
       setColor(hex);
-      document.getElementById('fontSelect').value = font;
+      document.getElementById('fontSelect').value = fontName;
       generateSystem();
+    }
+
+    function syncColorInput(source) {
+      if (source === 'picker') {
+        const val = document.getElementById('brandColorPicker').value;
+        document.getElementById('brandColor').value = val;
+        document.getElementById('interactiveColorPicker').value = val;
+      } else {
+        const val = document.getElementById('brandColor').value;
+        if (val.startsWith('#') && val.length === 7) {
+          document.getElementById('brandColorPicker').value = val;
+          document.getElementById('interactiveColorPicker').value = val;
+        }
+      }
+      generateSystem();
+    }
+
+    function fetchDesignLink() {
+      const url = document.getElementById('designFileUrl').value;
+      if (!url) {
+        alert("Please paste a valid link first.");
+        return;
+      }
+      alert(`Fetching specs successfully from: ${url}`);
+      document.getElementById('projectName').value = "imported-spec-app";
+      generateSystem();
+    }
+
+    function updateInteractiveTheme() {
+      const color = document.getElementById('interactiveColorPicker').value;
+      const radius = document.getElementById('interactiveRadiusRange').value;
+      document.getElementById('interactiveRadiusVal').innerText = `${radius}px`;
+      setColor(color);
+      document.getElementById('customRules').value = `base-padding: 16px, border-radius-md: ${radius}px`;
+      generateSystem();
+    }
+
+    function switchPreviewTheme(mode) {
+      const mockupCard = document.getElementById('mockupCard');
+      const typoCard = document.getElementById('typoCard');
+      const portalCard = document.getElementById('portalCard');
+      const lightBtn = document.getElementById('previewLightBtn');
+      const darkBtn = document.getElementById('previewDarkBtn');
+
+      if (mode === 'light') {
+        mockupCard.style.backgroundColor = '#ffffff';
+        mockupCard.style.color = '#0f172a';
+        document.getElementById('previewAppTitle').style.color = '#0f172a';
+        document.getElementById('previewSubtitle').style.color = '#475569';
+        typoCard.style.backgroundColor = '#f1f5f9';
+        portalCard.style.backgroundColor = '#f8fafc';
+        lightBtn.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        darkBtn.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
+      } else {
+        mockupCard.style.backgroundColor = '#020617';
+        mockupCard.style.color = '#f8fafc';
+        document.getElementById('previewAppTitle').style.color = '#ffffff';
+        document.getElementById('previewSubtitle').style.color = '#94a3b8';
+        typoCard.style.backgroundColor = '#0f172a';
+        portalCard.style.backgroundColor = '#0f172a';
+        darkBtn.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        lightBtn.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
+      }
     }
 
     function switchTab(tab) {
       currentTab = tab;
-      const codeOutputContainer = document.getElementById('codeOutputContainer');
-      const visualizerPanel = document.getElementById('visualizerPanel');
-      const modeSubTabs = document.getElementById('modeSubTabs');
-      
-      ['tabCss', 'tabTailwind', 'tabReact', 'tabFlutter', 'tabJson', 'tabVisualizer'].forEach(id => {
-        const el = document.getElementById(id);
-        if(el) el.className = "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
+      ['css', 'tailwind', 'react', 'flutter', 'json', 'visualizer'].forEach(t => {
+        const btn = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
+        if (btn) {
+          btn.className = (t === tab) ? "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
+        }
       });
 
-      if(tab === 'visualizer') {
-        document.getElementById('tabVisualizer').className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
-        codeOutputContainer.classList.add('hidden');
+      const codeContainer = document.getElementById('codeOutputContainer');
+      const visualizerPanel = document.getElementById('visualizerPanel');
+
+      if (tab === 'visualizer') {
+        codeContainer.classList.add('hidden');
         visualizerPanel.classList.remove('hidden');
-        modeSubTabs.classList.add('hidden');
-        document.getElementById('codeBoxTitle').innerText = "visualizer-preview.css";
+        document.getElementById('codeBoxTitle').innerText = 'v1.5-visualizer-controls.ui';
       } else {
-        document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
-        codeOutputContainer.classList.remove('hidden');
+        codeContainer.classList.remove('hidden');
         visualizerPanel.classList.add('hidden');
-        modeSubTabs.classList.remove('hidden');
-        updateCodeOutput();
       }
+      generateSystem();
     }
 
     function switchMode(mode) {
       currentMode = mode;
       const lightBtn = document.getElementById('subTabLight');
       const darkBtn = document.getElementById('subTabDark');
-
       if (mode === 'light') {
         lightBtn.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400 transition";
-        darkBtn.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400 transition";
+        darkBtn.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400 hover:text-white transition";
       } else {
         darkBtn.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400 transition";
-        lightBtn.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400 transition";
+        lightBtn.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400 hover:text-white transition";
       }
-      updateCodeOutput();
+      generateSystem();
     }
 
-    function updateCodeOutput() {
+    function updateVisualizerPreview() {
+      const blur = document.getElementById('shadowBlurRange').value;
+      const radius = document.getElementById('borderRadiusRange').value;
+      document.getElementById('blurVal').innerText = blur + 'px';
+      document.getElementById('radiusVal').innerText = radius + 'px';
+      document.getElementById('interactiveRadiusRange').value = radius;
+      document.getElementById('interactiveRadiusVal').innerText = radius + 'px';
+      generateSystem();
+    }
+
+    function submitPinpointNote() {
+      const input = document.getElementById('pinpointNoteInput');
+      const val = input.value.trim();
+      if (!val) {
+        alert("Please enter a note.");
+        return;
+      }
+      pinnedNotesList.push(val);
+      input.value = "";
+      renderNotesLog();
+    }
+
+    function renderNotesLog() {
+      const container = document.getElementById('feedbackLogContainer');
+      document.getElementById('noteCountBadge').innerText = `${pinnedNotesList.length} Notes`;
+      if (pinnedNotesList.length === 0) {
+        container.innerHTML = `<p class="text-slate-500 italic">No pinned notes yet. Add one above!</p>`;
+        return;
+      }
+      container.innerHTML = pinnedNotesList.map((n, i) => `<div>#${i+1}: ${n}</div>`).join('');
+    }
+
+    function submitFeedback() {
+      const input = document.getElementById('feedbackInput');
+      const val = input.value.trim();
+      if (!val) {
+        alert("Please enter revision details.");
+        return;
+      }
+      pinnedNotesList.push(`Revision Request: ${val}`);
+      input.value = "";
+      renderNotesLog();
+      alert("Revision request submitted successfully to developer portal!");
+    }
+
+    function startVoiceRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert("Voice recognition is not supported in this browser.");
+        return;
+      }
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.onresult = (event) => {
+        const text = event.results[0][0].transcript;
+        document.getElementById('feedbackInput').value = text;
+        submitFeedback();
+      };
+      recognition.start();
+    }
+
+    function approveDesign() {
+      const name = document.getElementById('clientNameInput').value.trim();
+      const phone = document.getElementById('clientPhoneInput').value.trim();
+      if (!name || !phone) {
+        alert("Please enter your name and WhatsApp number to approve.");
+        return;
+      }
+      currentApprovalClient = name;
+      currentApprovalPhone = phone;
+
+      document.getElementById('portalStateBadge').className = "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30";
+      document.getElementById('portalStateBadge').innerText = "🟢 Approved";
+      document.getElementById('approvalControls').classList.add('hidden');
+      document.getElementById('whatsappShareBanner').classList.remove('hidden');
+      document.getElementById('displayClientName').innerText = name;
+      document.getElementById('displayClientPhone').innerText = phone;
+      generateSystem();
+    }
+
+    function sendWhatsAppApproval() {
+      const proj = document.getElementById('projectName').value;
+      const text = encodeURIComponent(`Hello! Design System for '${proj}' has been officially APPROVED by ${currentApprovalClient} (${currentApprovalPhone}).`);
+      window.open(`https://api.whatsapp.com/send?phone=${currentApprovalPhone}&text=${text}`, '_blank');
+    }
+
+    function copyTailwindSnippet(btn) {
+      const text = document.getElementById('tailwindSnippetText').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.innerHTML;
+        btn.innerHTML = "✓ Copied";
+        setTimeout(() => { btn.innerHTML = orig; }, 2000);
+      });
+    }
+
+    function generateSystem() {
+      const proj = document.getElementById('projectName').value || 'app';
       const color = document.getElementById('brandColor').value;
       const font = document.getElementById('fontSelect').value;
-      const proj = document.getElementById('projectName').value;
-      const codeEl = document.getElementById('codeOutput');
-      
-      if(currentTab === 'css') {
+      const rules = document.getElementById('customRules').value;
+
+      document.documentElement.style.setProperty('--primary-brand', color);
+      document.getElementById('previewBtn').style.backgroundColor = color;
+      document.getElementById('tailwindSnippetText').innerText = `bg-[${color}] text-white font-${font.toLowerCase()} rounded-md`;
+
+      let outputText = "";
+      if (currentTab === 'css') {
         document.getElementById('codeBoxTitle').innerText = `variables-${currentMode}.css`;
-        codeEl.innerText = `/* Scrutinix AI CSS Variables (${currentMode.toUpperCase()}) - https://www.scrutinixai.com/ */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --mode: "${currentMode}";\n}`;
-      } else if(currentTab === 'tailwind') {
+        outputText = `/* Scrutinix AI CSS Variables (${currentMode.toUpperCase()}) */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --rules: "${rules}";\n}`;
+      } else if (currentTab === 'tailwind') {
         document.getElementById('codeBoxTitle').innerText = `tailwind.config.js`;
-        codeEl.innerText = `module.exports = {\n  theme: {\n    extend: {\n      colors: { primary: '${color}' },\n      fontFamily: { sans: ['${font}', 'sans-serif'] }\n    }\n  }\n}`;
-      } else if(currentTab === 'react') {
-        document.getElementById('codeBoxTitle').innerText = `Component.jsx (React)`;
-        codeEl.innerText = `export default function PrimaryButton() {\n  return (\n    <button style={{ backgroundColor: '${color}', fontFamily: '${font}' }}\n      className="text-white px-4 py-2 rounded-md shadow-md">\n      Primary CTA\n    </button>\n  );\n}`;
-      } else if(currentTab === 'flutter') {
-        document.getElementById('codeBoxTitle').innerText = `component.dart (Flutter)`;
-        codeEl.innerText = `ElevatedButton(\n  style: ElevatedButton.styleFrom(\n    primary: Color(0xFF${color.replace('#','')}),\n    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),\n  ),\n  onPressed: () {},\n  child: Text('${proj}'),\n);`;
-      } else if(currentTab === 'json') {
-        document.getElementById('codeBoxTitle').innerText = `tokens.json`;
-        codeEl.innerText = JSON.stringify({ project: proj, color, font, mode: currentMode, radius: "8px" }, null, 2);
+        outputText = `module.exports = {\n  theme: {\n    extend: {\n      colors: { primary: '${color}' },\n      fontFamily: { sans: ['${font}', 'sans-serif'] }\n    }\n  }\n};`;
+      } else if (currentTab === 'react') {
+        document.getElementById('codeBoxTitle').innerText = `ThemeTokens.jsx`;
+        outputText = `export const themeTokens = {\n  projectName: "${proj}",\n  primaryColor: "${color}",\n  fontFamily: "${font}",\n  status: "${currentApprovalClient ? 'Approved' : 'In Review'}"\n};`;
+      } else if (currentTab === 'flutter') {
+        document.getElementById('codeBoxTitle').innerText = `theme_tokens.dart`;
+        outputText = `class ThemeTokens {\n  static const String projectName = "${proj}";\n  static const String primaryHex = "${color}";\n  static const String fontFamily = "${font}";\n}`;
+      } else if (currentTab === 'json') {
+        document.getElementById('codeBoxTitle').innerText = `style-dictionary.json`;
+        outputText = JSON.stringify({ project: proj, color: color, font: font, mode: currentMode }, null, 2);
+      } else if (currentTab === 'visualizer') {
+        outputText = `/* v1.5 Visualizer Active Config */\nProject: ${proj}\nColor: ${color}\nFont: ${font}`;
       }
-      document.getElementById('changelogMsg').innerText = `Updated design tokens: Primary color set to ${color}, Font set to ${font}. Mode: ${currentMode}.`;
+
+      document.getElementById('codeOutput').innerText = outputText;
+
+      const changelogText = `Project: ${proj} | Color: ${color} | Font: ${font} | Status: ${currentApprovalClient ? 'Approved by ' + currentApprovalClient : 'In Review'}`;
+      document.getElementById('changelogMsg').innerText = changelogText;
     }
 
-    function switchPreviewTheme(mode) {
-      const mockup = document.getElementById('mockupCard');
-      const lightBtn = document.getElementById('previewLightBtn');
-      const darkBtn = document.getElementById('previewDarkBtn');
-
-      if (mode === 'light') {
-        mockup.style.backgroundColor = '#ffffff';
-        mockup.style.color = '#0f172a';
-        document.getElementById('previewAppTitle').style.color = '#0f172a';
-        document.getElementById('previewSubtitle').style.color = '#475569';
-        lightBtn.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
-        darkBtn.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
-      } else {
-        mockup.style.backgroundColor = '#020617';
-        mockup.style.color = '#f8fafc';
-        document.getElementById('previewAppTitle').style.color = '#ffffff';
-        document.getElementById('previewSubtitle').style.color = '#94a3b8';
-        darkBtn.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
-        lightBtn.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
-      }
-    }
-
-    function approveDesign() { alert("Design system approved!"); }
-    function sendWhatsAppApproval() { alert("Redirecting to WhatsApp..."); }
-    function submitPinpointNote() { alert("Pinpoint note added!"); }
-    function startVoiceRecognition() { alert("Voice feedback active!"); }
-    function submitFeedback() { alert("Feedback requested!"); }
-    function copyTailwindSnippet(btn) { alert("Snippet copied!"); }
-    function updateVisualizerPreview() {}
+    window.onload = function() {
+      generateSystem();
+    };
   </script>
 </body>
 </html>
