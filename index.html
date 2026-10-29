@@ -213,8 +213,47 @@
             </div>
           </div>
 
+          <!-- ADVANCED FIGMA HANDOFF INSPECTORS (Asset Fallback & Spacing Tokens) -->
+          <div class="bg-slate-950 border border-cyan-500/30 rounded-lg p-3 space-y-3">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+              <span class="text-xs font-bold text-cyan-400">🔍 Advanced Figma Handoff Inspectors</span>
+              <div class="flex gap-1">
+                <button onclick="switchInspector('fonts')" id="inspFontBtn" class="text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition">Font Fallback</button>
+                <button onclick="switchInspector('spacing')" id="inspSpaceBtn" class="text-[10px] font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition">Spacing Token</button>
+              </div>
+            </div>
+
+            <!-- Inspector Panel 1: Font & Asset Fallback -->
+            <div id="inspectorFontPanel" class="space-y-2 text-xs">
+              <div class="flex justify-between items-center bg-slate-900 p-2 rounded border border-slate-800">
+                <span class="text-slate-300">Selected Font: <strong id="activeFontLabel" class="text-cyan-300">Roboto</strong></span>
+                <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded">✓ Fallback Ready: sans-serif</span>
+              </div>
+              <p class="text-[11px] text-slate-400 italic">Prevents missing font errors by injecting clean web-safe fallbacks automatically.</p>
+            </div>
+
+            <!-- Inspector Panel 2: Spacing & Padding Token (px / rem) -->
+            <div id="inspectorSpacingPanel" class="hidden space-y-2 text-xs">
+              <div class="grid grid-cols-3 gap-2 text-center">
+                <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                  <div class="text-[10px] text-slate-400">Base Padding</div>
+                  <div class="font-bold text-cyan-400">16px / 1rem</div>
+                </div>
+                <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                  <div class="text-[10px] text-slate-400">Component Gap</div>
+                  <div class="font-bold text-cyan-400">8px / 0.5rem</div>
+                </div>
+                <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                  <div class="text-[10px] text-slate-400">Section Stack</div>
+                  <div class="font-bold text-cyan-400">24px / 1.5rem</div>
+                </div>
+              </div>
+              <p class="text-[11px] text-slate-400 italic">Exact token values translated instantly for developers and clients.</p>
+            </div>
+          </div>
+
           <!-- 🛠️ INTERACTIVE LIVE THEME CUSTOMIZER -->
-          <div class="bg-slate-950 border border-cyan-500/30 rounded-lg p-3 space-y-2">
+          <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 space-y-2">
             <div class="text-xs font-bold text-cyan-400 flex items-center justify-between">
               <span>🛠️ Interactive Live Theme Customizer (No API Needed)</span>
               <span class="text-[10px] text-slate-400">Instant Real-time Control</span>
@@ -416,6 +455,25 @@
     let currentApprovalPhone = "";
     let pinnedNotesList = [];
 
+    function switchInspector(type) {
+      const fontBtn = document.getElementById('inspFontBtn');
+      const spaceBtn = document.getElementById('inspSpaceBtn');
+      const fontPanel = document.getElementById('inspectorFontPanel');
+      const spacePanel = document.getElementById('inspectorSpacingPanel');
+
+      if (type === 'fonts') {
+        fontBtn.className = "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        spaceBtn.className = "text-[10px] font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition";
+        fontPanel.classList.remove('hidden');
+        spacePanel.classList.add('hidden');
+      } else {
+        spaceBtn.className = "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        fontBtn.className = "text-[10px] font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition";
+        spacePanel.classList.remove('hidden');
+        fontPanel.classList.add('hidden');
+      }
+    }
+
     // --- UNIVERSAL COLOR PARSER FOR ANY COLOR NAME OR HEX ---
     function parseAnyColor(inputStr) {
       const s = inputStr.trim().toLowerCase();
@@ -474,6 +532,7 @@
     function applyPreset(hex, fontName) {
       setColor(hex);
       document.getElementById('fontSelect').value = fontName;
+      document.getElementById('activeFontLabel').innerText = fontName;
       generateSystem();
     }
 
@@ -649,6 +708,7 @@
       const proj = document.getElementById('projectName').value || 'Your Project Name';
       const color = document.getElementById('brandColor').value;
       const font = document.getElementById('fontSelect').value;
+      document.getElementById('activeFontLabel').innerText = font;
       const rules = document.getElementById('customRules').value;
 
       document.getElementById('previewAppTitle').innerText = proj;
@@ -659,13 +719,13 @@
       let outputText = "";
       if (currentTab === 'css') {
         document.getElementById('codeBoxTitle').innerText = `variables-${currentMode}.css`;
-        outputText = `/* Scrutinix AI CSS Variables (${currentMode} mode) */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --base-padding: 16px;\n}`;
+        outputText = `/* Scrutinix AI CSS Variables (${currentMode} mode) */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --base-padding: 16px;\n  --font-fallback: sans-serif;\n}`;
       } else if (currentTab === 'tailwind') {
         document.getElementById('codeBoxTitle').innerText = `tailwind.config.js`;
         outputText = `module.exports = {\n  theme: {\n    extend: {\n      colors: {\n        primary: '${color}',\n      },\n      fontFamily: {\n        sans: ['${font}', 'sans-serif'],\n      }\n    }\n  }\n};`;
       } else if (currentTab === 'react') {
         document.getElementById('codeBoxTitle').innerText = `ThemeComponent.jsx`;
-        outputText = `import React from 'react';\n\nexport default function ThemeComponent() {\n  return (\n    <div style={{ backgroundColor: '${color}', fontFamily: '${font}' }} className="p-4 rounded-lg text-white">\n      <h1>${proj}</h1>\n      <button>Primary CTA</button>\n    </div>\n  );\n}`;
+        outputText = `import React from 'react';\n\nexport default function ThemeComponent() {\n  return (\n    <div style={{ backgroundColor: '${color}', fontFamily: '${font}, sans-serif' }} className="p-4 rounded-lg text-white">\n      <h1>${proj}</h1>\n      <button>Primary CTA</button>\n    </div>\n  );\n}`;
       } else if (currentTab === 'flutter') {
         document.getElementById('codeBoxTitle').innerText = `theme_config.dart`;
         outputText = `import 'package:flutter/material.dart';\n\nclass AppTheme {\n  static const Color primaryColor = Color(0xFF${color.replace('#','')});\n  static const String fontFamily = '${font}';\n}`;
@@ -674,7 +734,8 @@
         outputText = JSON.stringify({
           project: proj,
           color: { primary: { value: color } },
-          typography: { fontFamily: font }
+          typography: { fontFamily: font, fallback: "sans-serif" },
+          spacing: { base: "16px", rem: "1rem" }
         }, null, 2);
       }
 
