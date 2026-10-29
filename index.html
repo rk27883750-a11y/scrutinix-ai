@@ -143,7 +143,7 @@
             </div>
           </div>
 
-          <!-- Inputs Form (BLANK BY DEFAULT) -->
+          <!-- Inputs Form -->
           <div class="space-y-3">
             <div class="bg-slate-950 p-3 border border-slate-800 rounded-lg space-y-1.5">
               <label class="block text-[11px] font-semibold text-slate-300">Paste Design Spec / URL Link (Optional):</label>
@@ -197,7 +197,6 @@
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
           <div class="flex justify-between items-center border-b border-slate-800 pb-3">
             <h3 class="text-sm font-bold text-white uppercase tracking-wider">🎨 LIVE VISUAL THEME PLAYGROUND (CLIENT VIEW)</h3>
-            <!-- FEATURE 2: LIVE WCAG ACCESSIBILITY BADGE & SCORE CARD -->
             <span id="wcagBadge" class="text-[11px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold">
               ✓ WCAG AA Pass (4.8:1)
             </span>
@@ -216,7 +215,7 @@
             </div>
           </div>
 
-          <!-- ADVANCED DESIGN HANDOFF INSPECTORS (Clean, No Figma Mention) -->
+          <!-- ADVANCED DESIGN HANDOFF INSPECTORS -->
           <div class="bg-slate-950 border border-cyan-500/30 rounded-lg p-3 space-y-3">
             <div class="flex justify-between items-center border-b border-slate-800 pb-2">
               <span class="text-xs font-bold text-cyan-400">🔍 Advanced Design Handoff Inspectors</span>
@@ -235,7 +234,7 @@
               <p class="text-[11px] text-slate-400 italic">Prevents missing font errors by injecting clean web-safe fallbacks automatically.</p>
             </div>
 
-            <!-- Inspector Panel 2: Spacing & Padding Token (px / rem) -->
+            <!-- Inspector Panel 2: Spacing & Padding Token -->
             <div id="inspectorSpacingPanel" class="hidden space-y-2 text-xs">
               <div class="grid grid-cols-3 gap-2 text-center">
                 <div class="bg-slate-900 p-2 rounded border border-slate-800">
@@ -255,7 +254,7 @@
             </div>
           </div>
 
-          <!-- 🛠️ INTERACTIVE LIVE THEME CUSTOMIZER -->
+          <!-- INTERACTIVE LIVE THEME CUSTOMIZER -->
           <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 space-y-2">
             <div class="text-xs font-bold text-cyan-400 flex items-center justify-between">
               <span>🛠️ Interactive Live Theme Customizer (No API Needed)</span>
@@ -321,7 +320,6 @@
                   <input type="text" id="clientNameInput" autocomplete="off" placeholder="Enter your full name..." class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
                   <input type="text" id="clientPhoneInput" autocomplete="off" placeholder="Your WhatsApp No (e.g. 91...)" class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
                 </div>
-                <!-- FEATURE 3: CUSTOMIZED CLIENT APPROVAL & SIGN-OFF PDF REPORT TRIGGER -->
                 <button onclick="approveDesign()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs py-2.5 rounded-md transition uppercase tracking-wide">
                   ✅ Approve Design System & Generate Report PDF
                 </button>
@@ -439,7 +437,6 @@
           <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
             <button onclick="exportCss()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export variables.css</button>
             <button onclick="exportTailwind()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export tailwind.config.js</button>
-            <!-- FEATURE 1: 1-CLICK ZIP PACKAGE DOWNLOAD -->
             <button onclick="downloadAllZipBundle()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs py-2 rounded-lg transition shadow-md">📦 Download ZIP Package</button>
             <button onclick="exportPdf()" class="bg-slate-950 hover:bg-slate-800 border border-cyan-500/30 text-cyan-400 font-bold text-xs py-2 rounded-lg transition">📄 Export Spec PDF</button>
             <button onclick="copyShareLink(this)" class="col-span-2 sm:col-span-1 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2 rounded-lg transition">🌐 Share Live Link</button>
@@ -479,7 +476,6 @@
       }
     }
 
-    // --- UNIVERSAL COLOR PARSER FOR ANY COLOR NAME OR HEX ---
     function parseAnyColor(inputStr) {
       const s = inputStr.trim().toLowerCase();
       if (s.startsWith('#') && (s.length === 4 || s.length === 7)) return s;
@@ -572,7 +568,6 @@
       generateSystem();
     }
 
-    // --- FEATURE 2: CALCULATE WCAG CONTRAST RATIO & UPDATE SCORE CARD ---
     function calculateContrastRatio(hexColor) {
       let cleanHex = hexColor.replace('#', '');
       if (cleanHex.length === 3) {
@@ -587,7 +582,7 @@
       };
 
       const L1 = 0.2126 * getLuminance(r) + 0.7152 * getLuminance(g) + 0.0722 * getLuminance(b);
-      const L2 = 0.05; // assuming dark background #020617 luminance approx
+      const L2 = 0.05;
       const ratio = (Math.max(L1, L2) + 0.05) / (Math.min(L1, L2) + 0.05);
       return ratio.toFixed(1);
     }
@@ -713,7 +708,6 @@
       recognition.start();
     }
 
-    // --- FEATURE 3: CUSTOMIZED CLIENT APPROVAL & SIGN-OFF PDF REPORT ---
     function approveDesign() {
       const name = document.getElementById('clientNameInput').value.trim();
       const phone = document.getElementById('clientPhoneInput').value.trim();
@@ -728,7 +722,6 @@
       document.getElementById('displayClientPhone').innerText = phone;
       generateSystem();
 
-      // Automatically Generate Custom Sign-off PDF Report
       generateSignOffPdfReport(name, phone);
     }
 
@@ -797,7 +790,7 @@
       const color = document.getElementById('brandColor').value;
       const font = document.getElementById('fontSelect').value;
       document.getElementById('activeFontLabel').innerText = font;
-      const rules = document.getElementById('customRules').value;
+      const rules = document.getElementById('customRules').value || 'Standard layout rules applied';
 
       document.getElementById('previewAppTitle').innerText = proj;
       document.documentElement.style.setProperty('--primary-brand', color);
@@ -809,13 +802,13 @@
       let outputText = "";
       if (currentTab === 'css') {
         document.getElementById('codeBoxTitle').innerText = `variables-${currentMode}.css`;
-        outputText = `/* Scrutinix AI CSS Variables (${currentMode} mode) */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --base-padding: 16px;\n  --font-fallback: sans-serif;\n}`;
+        outputText = `/* Scrutinix AI CSS Variables (${currentMode} mode) */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --component-rules: "${rules.replace(/\n/g, ' ')}";\n  --base-padding: 16px;\n  --font-fallback: sans-serif;\n}`;
       } else if (currentTab === 'tailwind') {
         document.getElementById('codeBoxTitle').innerText = `tailwind.config.js`;
         outputText = `module.exports = {\n  theme: {\n    extend: {\n      colors: {\n        primary: '${color}',\n      },\n      fontFamily: {\n        sans: ['${font}', 'sans-serif'],\n      }\n    }\n  }\n};`;
       } else if (currentTab === 'react') {
         document.getElementById('codeBoxTitle').innerText = `ThemeComponent.jsx`;
-        outputText = `import React from 'react';\n\nexport default function ThemeComponent() {\n  return (\n    <div style={{ backgroundColor: '${color}', fontFamily: '${font}, sans-serif' }} className="p-4 rounded-lg text-white">\n      <h1>${proj}</h1>\n      <button>Primary CTA</button>\n    </div>\n  );\n}`;
+        outputText = `import React from 'react';\n\nexport default function ThemeComponent() {\n  return (\n    <div style={{ backgroundColor: '${color}', fontFamily: '${font}, sans-serif' }} className="p-4 rounded-lg text-white">\n      <h1>${proj}</h1>\n      <p>Rules: ${rules}</p>\n      <button>Primary CTA</button>\n    </div>\n  );\n}`;
       } else if (currentTab === 'flutter') {
         document.getElementById('codeBoxTitle').innerText = `theme_config.dart`;
         outputText = `import 'package:flutter/material.dart';\n\nclass AppTheme {\n  static const Color primaryColor = Color(0xFF${color.replace('#','')});\n  static const String fontFamily = '${font}';\n}`;
@@ -823,6 +816,7 @@
         document.getElementById('codeBoxTitle').innerText = `style-dictionary.json`;
         outputText = JSON.stringify({
           project: proj,
+          rules: rules,
           color: { primary: { value: color } },
           typography: { fontFamily: font, fallback: "sans-serif" },
           spacing: { base: "16px", rem: "1rem" }
@@ -890,16 +884,16 @@
       window.open(`https://mail.google.com/mail/?view=cm&fs=1&su=Design Spec`, '_blank');
     }
 
-    // --- FEATURE 1 IMPLEMENTATION: 1-CLICK ZIP PACKAGE DOWNLOAD VIA JSZIP ---
     function downloadAllZipBundle() {
       const zip = new JSZip();
       const color = document.getElementById('brandColor').value;
       const font = document.getElementById('fontSelect').value;
       const proj = document.getElementById('projectName').value || 'scrutinix-project';
+      const rules = document.getElementById('customRules').value || 'Standard rules';
 
-      const cssContent = `:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --base-padding: 16px;\n}`;
+      const cssContent = `:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --base-padding: 16px;\n}`;
       const tailwindContent = `module.exports = {\n  theme: {\n    extend: {\n      colors: {\n        primary: '${color}',\n      },\n      fontFamily: {\n        sans: ['${font}', 'sans-serif'],\n      }\n    }\n  }\n};`;
-      const jsonContent = JSON.stringify({ project: proj, color: { primary: color }, typography: { font } }, null, 2);
+      const jsonContent = JSON.stringify({ project: proj, rules: rules, color: { primary: color }, typography: { font } }, null, 2);
 
       zip.file("variables.css", cssContent);
       zip.file("tailwind.config.js", tailwindContent);
