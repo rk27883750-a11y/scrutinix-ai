@@ -124,15 +124,15 @@
           <!-- SMART COMMAND SEARCH BOX WITH MIC BUTTON -->
           <div class="bg-slate-950 p-3 border border-cyan-500/30 rounded-lg space-y-2">
             <label class="block text-[11px] font-bold text-cyan-400 flex items-center gap-1.5">
-              <span>🎙️</span> AI Smart Voice & Command Search
+              <span>🎙️</span> AI Smart Voice & Any Color Command Search
             </label>
             <div class="relative">
-              <input type="text" id="siteSearchInput" oninput="handleSmartSearch()" placeholder="Type/Speak: 'blue', 'red', 'green'..." class="w-full bg-slate-900 border border-slate-800 rounded-lg pl-3 pr-10 py-2 text-xs text-white focus:border-cyan-400 outline-none">
+              <input type="text" id="siteSearchInput" oninput="handleSmartSearch()" placeholder="Type any color (e.g. orange, pink, #ff5733)..." class="w-full bg-slate-900 border border-slate-800 rounded-lg pl-3 pr-10 py-2 text-xs text-white focus:border-cyan-400 outline-none">
               <button onclick="startMainVoiceSearch()" title="Voice Search" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition text-sm">
                 🎙️
               </button>
             </div>
-            <div id="searchResultsHint" class="text-[10px] text-cyan-300 italic">Type a color name to change theme instantly!</div>
+            <div id="searchResultsHint" class="text-[10px] text-cyan-300 italic">Type any color name or HEX code to apply instantly!</div>
           </div>
 
           <!-- ONE-CLICK AI THEME PRESETS -->
@@ -168,7 +168,7 @@
             </div>
           </div>
 
-          <!-- Inputs Form -->
+          <!-- Inputs Form (BLANK BY DEFAULT) -->
           <div class="space-y-3">
             <div class="bg-slate-950 p-3 border border-slate-800 rounded-lg space-y-1.5">
               <label class="block text-[11px] font-semibold text-slate-300">Paste Design Spec / URL Link (Optional):</label>
@@ -182,15 +182,15 @@
 
             <div>
               <label class="block text-xs font-semibold text-slate-200 mb-1">Project Name:</label>
-              <input type="text" id="projectName" value="grocery app" oninput="generateSystem()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:border-cyan-400 outline-none">
+              <input type="text" id="projectName" value="" placeholder="Enter project name..." oninput="generateSystem()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:border-cyan-400 outline-none">
             </div>
 
             <div class="grid grid-cols-2 gap-3">
               <div>
                 <label class="block text-xs font-semibold text-slate-200 mb-1">Brand Primary Color (HEX):</label>
                 <div class="flex items-center gap-2 bg-slate-950 border border-slate-800 rounded-lg p-1">
-                  <input type="color" id="brandColorPicker" value="#351156" oninput="syncColorInput('picker')" class="w-6 h-6 rounded bg-transparent border-0 cursor-pointer">
-                  <input type="text" id="brandColor" value="#351156" oninput="syncColorInput('text')" class="w-full bg-transparent text-xs uppercase text-white font-mono outline-none">
+                  <input type="color" id="brandColorPicker" value="#00d2ff" oninput="syncColorInput('picker')" class="w-6 h-6 rounded bg-transparent border-0 cursor-pointer">
+                  <input type="text" id="brandColor" value="#00d2ff" oninput="syncColorInput('text')" class="w-full bg-transparent text-xs uppercase text-white font-mono outline-none">
                 </div>
               </div>
 
@@ -206,7 +206,7 @@
 
             <div>
               <label class="block text-xs font-semibold text-slate-200 mb-1">Additional Layout / Component Rules:</label>
-              <textarea id="customRules" oninput="generateSystem()" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white outline-none h-16 resize-none custom-scrollbar">base-padding: 16px, border-radius-md: 8px</textarea>
+              <textarea id="customRules" oninput="generateSystem()" placeholder="Leave blank or enter custom rules..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white outline-none h-16 resize-none custom-scrollbar"></textarea>
             </div>
           </div>
         </div>
@@ -249,7 +249,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
               <div>
                 <label class="block text-[11px] text-slate-300 mb-1">Live Primary Color:</label>
-                <input type="color" id="interactiveColorPicker" value="#351156" onchange="updateInteractiveTheme()" class="w-full h-8 bg-slate-900 border border-slate-800 rounded cursor-pointer">
+                <input type="color" id="interactiveColorPicker" value="#00d2ff" onchange="updateInteractiveTheme()" class="w-full h-8 bg-slate-900 border border-slate-800 rounded cursor-pointer">
               </div>
               <div>
                 <div class="flex justify-between text-[11px] text-slate-300 mb-1">
@@ -265,10 +265,10 @@
           <div id="mockupCard" class="bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-colors duration-300">
             <div class="flex justify-between items-center">
               <div>
-                <h4 id="previewAppTitle" class="text-sm font-bold text-white">grocery app</h4>
+                <h4 id="previewAppTitle" class="text-sm font-bold text-white">Your Project Name</h4>
                 <p id="previewSubtitle" class="text-[11px] text-slate-400">Design System Token Active</p>
               </div>
-              <button id="previewBtn" class="text-white font-bold text-xs px-4 py-2 rounded-md shadow-md transition" style="background-color: var(--primary-brand, #351156);">
+              <button id="previewBtn" class="text-slate-950 font-bold text-xs px-4 py-2 rounded-md shadow-md transition" style="background-color: var(--primary-brand, #00d2ff);">
                 Primary CTA
               </button>
             </div>
@@ -286,7 +286,7 @@
             <div class="bg-slate-900 border border-slate-800/80 p-2 rounded-lg flex justify-between items-center gap-2">
               <div class="truncate text-[11px] font-mono text-cyan-300">
                 <span class="text-slate-400">Tailwind Snippet: </span>
-                <span id="tailwindSnippetText">bg-[#351156] text-white font-roboto rounded-md</span>
+                <span id="tailwindSnippetText">bg-[#00d2ff] text-slate-950 font-roboto rounded-md</span>
               </div>
               <button onclick="copyTailwindSnippet(this)" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-[10px] px-2.5 py-1 rounded transition whitespace-nowrap">
                 📋 Copy Snippet
@@ -481,130 +481,53 @@
     let currentApprovalPhone = "";
     let pinnedNotesList = [];
 
-    // --- WORKING CLIPBOARD & SHARE FUNCTIONS ---
-    function copyCodeOutput(btn) {
-      const codeText = document.getElementById('codeOutput').innerText;
-      navigator.clipboard.writeText(codeText).then(() => {
-        const originalText = btn.innerHTML;
-        btn.innerHTML = "✓ Copied!";
-        setTimeout(() => { btn.innerHTML = originalText; }, 2000);
-      }).catch(err => {
-        alert("Failed to copy code.");
-      });
+    // --- UNIVERSAL COLOR PARSER FOR ANY COLOR NAME OR HEX ---
+    function parseAnyColor(inputStr) {
+      const s = inputStr.trim().toLowerCase();
+      if (s.startsWith('#') && (s.length === 4 || s.length === 7)) return s;
+      
+      const dummy = document.createElement('div');
+      dummy.style.color = s;
+      document.body.appendChild(dummy);
+      const rgb = window.getComputedStyle(dummy).color;
+      document.body.removeChild(dummy);
+
+      if (rgb && rgb !== 'rgba(0, 0, 0, 0)' && rgb !== 'transparent') {
+        const rgbValues = rgb.match(/\d+/g);
+        if (rgbValues && rgbValues.length >= 3) {
+          return "#" + ((1 << 24) + (parseInt(rgbValues[0]) << 16) + (parseInt(rgbValues[1]) << 8) + parseInt(rgbValues[2])).toString(16).slice(1);
+        }
+      }
+      return null;
     }
 
-    function copyChangelogMsg(btn) {
-      const msgText = document.getElementById('changelogMsg').innerText;
-      navigator.clipboard.writeText(msgText).then(() => {
-        const originalText = btn.innerHTML;
-        btn.innerHTML = "✓ Copied!";
-        setTimeout(() => { btn.innerHTML = originalText; }, 2000);
-      }).catch(err => {
-        alert("Failed to copy message.");
-      });
-    }
+    function handleSmartSearch() {
+      const text = document.getElementById('siteSearchInput').value;
+      const hint = document.getElementById('searchResultsHint');
+      if (!text) {
+        hint.innerText = "Type any color name or HEX code to apply instantly!";
+        return;
+      }
 
-    function copyShareLink(btn) {
-      const shareUrl = window.location.href.includes('http') ? window.location.href : "https://www.scrutinixai.com/";
-      navigator.clipboard.writeText(shareUrl).then(() => {
-        const originalText = btn.innerHTML;
-        btn.innerHTML = "✓ Link Copied!";
-        setTimeout(() => { btn.innerHTML = originalText; }, 2000);
-      }).catch(err => {
-        alert("Failed to copy link.");
-      });
-    }
-
-    // --- WORKING EXPORTS & GMAIL FUNCTIONS ---
-    function downloadFile(filename, content) {
-      const element = document.createElement('a');
-      const file = new Blob([content], { type: 'text/plain' });
-      element.href = URL.createObjectURL(file);
-      element.download = filename;
-      document.body.appendChild(element);
-      element.click();
-      document.body.removeChild(element);
-    }
-
-    function exportCss() {
-      const color = document.getElementById('brandColor').value;
-      const font = document.getElementById('fontSelect').value;
-      const proj = document.getElementById('projectName').value;
-      const cssContent = `/* Scrutinix AI CSS Variables (${currentMode.toUpperCase()}) - https://www.scrutinixai.com/ */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --mode: "${currentMode}";\n}`;
-      downloadFile(`variables-${currentMode}.css`, cssContent);
-    }
-
-    function exportTailwind() {
-      const color = document.getElementById('brandColor').value;
-      const font = document.getElementById('fontSelect').value;
-      const twContent = `module.exports = {\n  theme: {\n    extend: {\n      colors: { primary: '${color}' },\n      fontFamily: { sans: ['${font}', 'sans-serif'] }\n    }\n  }\n}`;
-      downloadFile('tailwind.config.js', twContent);
-    }
-
-    function exportPdf() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      const proj = document.getElementById('projectName').value;
-      const color = document.getElementById('brandColor').value;
-      const font = document.getElementById('fontSelect').value;
-
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(20);
-      doc.text("Scrutinix AI - Design System Spec", 20, 20);
-
-      doc.setFontSize(12);
-      doc.setFont("helvetica", "normal");
-      doc.text(`Project Name: ${proj}`, 20, 35);
-      doc.text(`Primary Color: ${color}`, 20, 45);
-      doc.text(`Typography Font: ${font}`, 20, 55);
-      doc.text(`Theme Mode: ${currentMode}`, 20, 65);
-      doc.text(`Generated via Scrutinix AI Portal`, 20, 80);
-
-      doc.save(`${proj}-design-spec.pdf`);
-    }
-
-    function sendViaGmail() {
-      const proj = document.getElementById('projectName').value;
-      const color = document.getElementById('brandColor').value;
-      const font = document.getElementById('fontSelect').value;
-      const subject = encodeURIComponent(`Design System Update: ${proj}`);
-      const body = encodeURIComponent(`Hello Client,\n\nHere are the updated design tokens for ${proj}:\n- Primary Color: ${color}\n- Font: ${font}\n- Mode: ${currentMode}\n\nPlease review via Scrutinix AI Live Portal.`);
-      window.open(`https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`, '_blank');
-    }
-
-    function downloadAllBundle() {
-      exportCss();
-      setTimeout(exportTailwind, 500);
-      setTimeout(exportPdf, 1000);
-    }
-
-    // --- FIGMA TOOLBAR & AI BOX LOGIC ---
-    function setFigmaTool(toolName) {
-      document.getElementById('activeFigmaIndicator').innerText = `Tool: ${toolName.charAt(0).toUpperCase() + toolName.slice(1)}`;
-    }
-
-    function toggleToolbarInspector() {
-      alert("📐 Spacing Inspector Mode: Padding = 16px (1rem), Border Radius = 8px (0.5rem).");
+      const hex = parseAnyColor(text);
+      if (hex) {
+        setColor(hex);
+        hint.innerText = `✨ Applied color '${text}' (${hex}) successfully!`;
+      } else {
+        hint.innerText = `Searching color...`;
+      }
     }
 
     function submitAiBoxChange() {
       const input = document.getElementById('floatingAiInput');
-      const val = input.value.trim().toLowerCase();
+      const val = input.value;
       if (!val) return;
 
-      if (val.includes('blue') || val.includes('neela')) {
-        setColor('#0066FF');
-      } else if (val.includes('red') || val.includes('laal')) {
-        setColor('#EF4444');
-      } else if (val.includes('green') || val.includes('hara')) {
-        setColor('#10B981');
-      } else if (val.includes('purple')) {
-        setColor('#351156');
-      } else if (val.includes('poppins')) {
-        document.getElementById('fontSelect').value = 'Poppins';
-        generateSystem();
+      const hex = parseAnyColor(val);
+      if (hex) {
+        setColor(hex);
       } else {
-        pinnedNotesList.push(`AI Assistant Request: ${val}`);
+        pinnedNotesList.push(`AI Request: ${val}`);
         renderNotesLog();
       }
       input.value = "";
@@ -612,12 +535,8 @@
 
     function startAiBoxVoice() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        alert("Voice recognition is not supported in this browser.");
-        return;
-      }
+      if (!SpeechRecognition) return alert("Speech recognition not supported in this browser.");
       const recognition = new SpeechRecognition();
-      recognition.lang = 'en-US';
       recognition.onresult = (event) => {
         document.getElementById('floatingAiInput').value = event.results[0][0].transcript;
         submitAiBoxChange();
@@ -625,53 +544,15 @@
       recognition.start();
     }
 
-    // --- SMART VOICE & COMMAND SEARCH ---
     function startMainVoiceSearch() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        alert("Voice recognition is not supported in this browser.");
-        return;
-      }
+      if (!SpeechRecognition) return alert("Speech recognition not supported in this browser.");
       const recognition = new SpeechRecognition();
-      recognition.lang = 'en-US';
-      recognition.onstart = () => {
-        document.getElementById('searchResultsHint').innerText = "🎙️ Listening to command...";
-      };
       recognition.onresult = (event) => {
-        const query = event.results[0][0].transcript;
-        document.getElementById('siteSearchInput').value = query;
+        document.getElementById('siteSearchInput').value = event.results[0][0].transcript;
         handleSmartSearch();
       };
       recognition.start();
-    }
-
-    function handleSmartSearch() {
-      const text = document.getElementById('siteSearchInput').value.toLowerCase();
-      const hint = document.getElementById('searchResultsHint');
-
-      if (text.includes('blue') || text.includes('neela')) {
-        setColor('#0066FF');
-        hint.innerText = "✨ Applied Blue Theme instantly!";
-      } else if (text.includes('red') || text.includes('laal') || text.includes('crimson')) {
-        setColor('#EF4444');
-        hint.innerText = "✨ Applied Red Theme instantly!";
-      } else if (text.includes('green') || text.includes('hara') || text.includes('mint')) {
-        setColor('#10B981');
-        hint.innerText = "✨ Applied Green Theme instantly!";
-      } else if (text.includes('purple') || text.includes('violet')) {
-        setColor('#351156');
-        hint.innerText = "✨ Applied Purple Theme instantly!";
-      } else if (text.includes('poppins')) {
-        document.getElementById('fontSelect').value = 'Poppins';
-        generateSystem();
-        hint.innerText = "✨ Font updated to Poppins!";
-      } else if (text.includes('inter')) {
-        document.getElementById('fontSelect').value = 'Inter';
-        generateSystem();
-        hint.innerText = "✨ Font updated to Inter!";
-      } else {
-        hint.innerText = `Type a color or font name (e.g. blue, red, poppins)...`;
-      }
     }
 
     function setColor(hex) {
@@ -704,12 +585,8 @@
 
     function fetchDesignLink() {
       const url = document.getElementById('designFileUrl').value;
-      if (!url) {
-        alert("Please paste a valid link first.");
-        return;
-      }
-      alert(`Fetching specs successfully from: ${url}`);
-      document.getElementById('projectName').value = "imported-spec-app";
+      if (!url) return alert("Please paste a valid link first.");
+      document.getElementById('projectName').value = "imported-app";
       generateSystem();
     }
 
@@ -718,7 +595,7 @@
       const radius = document.getElementById('interactiveRadiusRange').value;
       document.getElementById('interactiveRadiusVal').innerText = `${radius}px`;
       setColor(color);
-      document.getElementById('customRules').value = `base-padding: 16px, border-radius-md: ${radius}px`;
+      document.getElementById('customRules').value = `border-radius-md: ${radius}px`;
       generateSystem();
     }
 
@@ -758,14 +635,11 @@
           btn.className = (t === tab) ? "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
         }
       });
-
       const codeContainer = document.getElementById('codeOutputContainer');
       const visualizerPanel = document.getElementById('visualizerPanel');
-
       if (tab === 'visualizer') {
         codeContainer.classList.add('hidden');
         visualizerPanel.classList.remove('hidden');
-        document.getElementById('codeBoxTitle').innerText = 'v1.5-visualizer-controls.ui';
       } else {
         codeContainer.classList.remove('hidden');
         visualizerPanel.classList.add('hidden');
@@ -775,36 +649,17 @@
 
     function switchMode(mode) {
       currentMode = mode;
-      const lightBtn = document.getElementById('subTabLight');
-      const darkBtn = document.getElementById('subTabDark');
-      if (mode === 'light') {
-        lightBtn.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400 transition";
-        darkBtn.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400 hover:text-white transition";
-      } else {
-        darkBtn.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400 transition";
-        lightBtn.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400 hover:text-white transition";
-      }
       generateSystem();
     }
 
     function updateVisualizerPreview() {
-      const blur = document.getElementById('shadowBlurRange').value;
-      const radius = document.getElementById('borderRadiusRange').value;
-      document.getElementById('blurVal').innerText = blur + 'px';
-      document.getElementById('radiusVal').innerText = radius + 'px';
-      document.getElementById('interactiveRadiusRange').value = radius;
-      document.getElementById('interactiveRadiusVal').innerText = radius + 'px';
       generateSystem();
     }
 
     function submitPinpointNote() {
       const input = document.getElementById('pinpointNoteInput');
-      const val = input.value.trim();
-      if (!val) {
-        alert("Please enter a note.");
-        return;
-      }
-      pinnedNotesList.push(val);
+      if (!input.value.trim()) return;
+      pinnedNotesList.push(input.value.trim());
       input.value = "";
       renderNotesLog();
     }
@@ -821,27 +676,18 @@
 
     function submitFeedback() {
       const input = document.getElementById('feedbackInput');
-      const val = input.value.trim();
-      if (!val) {
-        alert("Please enter revision details.");
-        return;
-      }
-      pinnedNotesList.push(`Revision Request: ${val}`);
+      if (!input.value.trim()) return;
+      pinnedNotesList.push(`Revision: ${input.value.trim()}`);
       input.value = "";
       renderNotesLog();
     }
 
     function startVoiceRecognition() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        alert("Voice recognition is not supported in this browser.");
-        return;
-      }
+      if (!SpeechRecognition) return alert("Speech recognition not supported in this browser.");
       const recognition = new SpeechRecognition();
-      recognition.lang = 'en-US';
       recognition.onresult = (event) => {
-        const text = event.results[0][0].transcript;
-        document.getElementById('feedbackInput').value = text;
+        document.getElementById('feedbackInput').value = event.results[0][0].transcript;
         submitFeedback();
       };
       recognition.start();
@@ -850,13 +696,9 @@
     function approveDesign() {
       const name = document.getElementById('clientNameInput').value.trim();
       const phone = document.getElementById('clientPhoneInput').value.trim();
-      if (!name || !phone) {
-        alert("Please enter your name and WhatsApp number to approve.");
-        return;
-      }
+      if (!name || !phone) return alert("Please enter your name and WhatsApp number.");
       currentApprovalClient = name;
       currentApprovalPhone = phone;
-
       document.getElementById('portalStateBadge').className = "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30";
       document.getElementById('portalStateBadge').innerText = "🟢 Approved";
       document.getElementById('approvalControls').classList.add('hidden');
@@ -867,54 +709,109 @@
     }
 
     function sendWhatsAppApproval() {
-      const proj = document.getElementById('projectName').value;
-      const text = encodeURIComponent(`Hello! Design System for '${proj}' has been officially APPROVED by ${currentApprovalClient} (${currentApprovalPhone}).`);
-      window.open(`https://api.whatsapp.com/send?phone=${currentApprovalPhone}&text=${text}`, '_blank');
+      const proj = document.getElementById('projectName').value || 'Project';
+      window.open(`https://api.whatsapp.com/send?phone=${currentApprovalPhone}&text=Approved by ${currentApprovalClient} for ${proj}`, '_blank');
     }
 
     function copyTailwindSnippet(btn) {
-      const text = document.getElementById('tailwindSnippetText').innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        const orig = btn.innerHTML;
+      navigator.clipboard.writeText(document.getElementById('tailwindSnippetText').innerText).then(() => {
+        let orig = btn.innerHTML;
         btn.innerHTML = "✓ Copied";
         setTimeout(() => { btn.innerHTML = orig; }, 2000);
       });
     }
 
     function generateSystem() {
-      const proj = document.getElementById('projectName.value') || 'app';
+      const proj = document.getElementById('projectName').value || 'Your Project Name';
       const color = document.getElementById('brandColor').value;
       const font = document.getElementById('fontSelect').value;
       const rules = document.getElementById('customRules').value;
 
+      document.getElementById('previewAppTitle').innerText = proj;
       document.documentElement.style.setProperty('--primary-brand', color);
       document.getElementById('previewBtn').style.backgroundColor = color;
       document.getElementById('tailwindSnippetText').innerText = `bg-[${color}] text-white font-${font.toLowerCase()} rounded-md`;
 
-      let outputText = "";
-      if (currentTab === 'css') {
-        document.getElementById('codeBoxTitle').innerText = `variables-${currentMode}.css`;
-        outputText = `/* Scrutinix AI CSS Variables (${currentMode.toUpperCase()}) */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --rules: "${rules}";\n}`;
-      } else if (currentTab === 'tailwind') {
-        document.getElementById('codeBoxTitle').innerText = `tailwind.config.js`;
-        outputText = `module.exports = {\n  theme: {\n    extend: {\n      colors: { primary: '${color}' },\n      fontFamily: { sans: ['${font}', 'sans-serif'] }\n    }\n  }\n};`;
-      } else if (currentTab === 'react') {
-        document.getElementById('codeBoxTitle').innerText = `ThemeTokens.jsx`;
-        outputText = `export const themeTokens = {\n  projectName: "${proj}",\n  primaryColor: "${color}",\n  fontFamily: "${font}",\n  status: "${currentApprovalClient ? 'Approved' : 'In Review'}"\n};`;
-      } else if (currentTab === 'flutter') {
-        document.getElementById('codeBoxTitle').innerText = `theme_tokens.dart`;
-        outputText = `class ThemeTokens {\n  static const String projectName = "${proj}";\n  static const String primaryHex = "${color}";\n  static const String fontFamily = "${font}";\n}`;
-      } else if (currentTab === 'json') {
-        document.getElementById('codeBoxTitle').innerText = `style-dictionary.json`;
-        outputText = JSON.stringify({ project: proj, color: color, font: font, mode: currentMode }, null, 2);
-      } else if (currentTab === 'visualizer') {
-        outputText = `/* v1.5 Visualizer Active Config */\nProject: ${proj}\nColor: ${color}\nFont: ${font}`;
-      }
-
+      let outputText = `/* Scrutinix AI Tokens */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}';\n  --project: "${proj}";\n}`;
       document.getElementById('codeOutput').innerText = outputText;
+      document.getElementById('changelogMsg').innerText = `Project: ${proj} | Color: ${color} | Font: ${font} | Rules: ${rules || 'None'}`;
+    }
 
-      const changelogText = `Project: ${proj} | Color: ${color} | Font: ${font} | Status: ${currentApprovalClient ? 'Approved by ' + currentApprovalClient : 'In Review'}`;
-      document.getElementById('changelogMsg').innerText = changelogText;
+    // --- WORKING CLIPBOARD & SHARE FUNCTIONS ---
+    function copyCodeOutput(btn) {
+      const codeText = document.getElementById('codeOutput').innerText;
+      navigator.clipboard.writeText(codeText).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "✓ Copied!";
+        setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+      }).catch(err => {
+        alert("Failed to copy code.");
+      });
+    }
+
+    function copyChangelogMsg(btn) {
+      const msgText = document.getElementById('changelogMsg').innerText;
+      navigator.clipboard.writeText(msgText).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "✓ Copied!";
+        setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+      }).catch(err => {
+        alert("Failed to copy message.");
+      });
+    }
+
+    function copyShareLink(btn) {
+      const shareUrl = window.location.href.includes('http') ? window.location.href : "https://www.scrutinixai.com/";
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "✓ Link Copied!";
+        setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+      });
+    }
+
+    function exportCss() {
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+      downloadFile(`variables-${currentMode}.css`, `:root { --primary-brand: ${color}; --font-family: '${font}', sans-serif; }`);
+    }
+
+    function exportTailwind() {
+      const color = document.getElementById('brandColor').value;
+      downloadFile('tailwind.config.js', `module.exports = { theme: { extend: { colors: { primary: '${color}' } } } };`);
+    }
+
+    function exportPdf() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.text("Scrutinix AI - Design System Spec", 20, 20);
+      doc.save("design-spec.pdf");
+    }
+
+    function sendViaGmail() {
+      window.open(`https://mail.google.com/mail/?view=cm&fs=1&su=Design Spec`, '_blank');
+    }
+
+    function downloadAllBundle() {
+      exportCss();
+      setTimeout(exportTailwind, 500);
+    }
+
+    function downloadFile(filename, content) {
+      const element = document.createElement('a');
+      const file = new Blob([content], { type: 'text/plain' });
+      element.href = URL.createObjectURL(file);
+      element.download = filename;
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    }
+
+    function setFigmaTool(toolName) {
+      document.getElementById('activeFigmaIndicator').innerText = `Tool: ${toolName}`;
+    }
+
+    function toggleToolbarInspector() {
+      alert("📐 Spacing Scale Token Inspector Active.");
     }
 
     window.onload = function() {
