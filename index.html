@@ -47,36 +47,9 @@
       background: #1e293b;
       border-radius: 4px;
     }
-
-    /* Figma-style Floating Bottom Toolbar */
-    .figma-toolbar {
-      position: fixed;
-      bottom: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 9999;
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
-    }
-
-    /* Figma-style Floating AI Assistant / Change Request Box */
-    .figma-ai-box {
-      position: fixed;
-      bottom: 75px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 9998;
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(0, 210, 255, 0.3);
-      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.7);
-      width: 380px;
-    }
   </style>
 </head>
-<body class="min-h-screen p-4 lg:p-8 flex flex-col justify-between pb-40">
+<body class="min-h-screen p-4 lg:p-8 flex flex-col justify-between pb-12">
 
   <div class="max-w-7xl mx-auto w-full space-y-5">
 
@@ -367,10 +340,10 @@
               <div class="flex flex-wrap gap-1 bg-slate-950 p-1 rounded-md border border-slate-800">
                 <button id="tabCss" onclick="switchTab('css')" class="text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition">CSS Variables</button>
                 <button id="tabTailwind" onclick="switchTab('tailwind')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">Tailwind Config</button>
-                <button id="tabReact" onclick="switchTab('react')" class="text-xs font-semibold px-3 py-1 rounded text-cyan-300 hover:text-white transition">⚛️ React</button>
-                <button id="tabFlutter" onclick="switchTab('flutter')" class="text-xs font-semibold px-3 py-1 rounded text-sky-300 hover:text-white transition">📱 Flutter</button>
+                <button id="tabReact" onclick="switchTab('react')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">⚛️ React</button>
+                <button id="tabFlutter" onclick="switchTab('flutter')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">📱 Flutter</button>
                 <button id="tabJson" onclick="switchTab('json')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">Style Dictionary</button>
-                <button id="tabVisualizer" onclick="switchTab('visualizer')" class="text-xs font-semibold px-3 py-1 rounded text-cyan-300 hover:text-white transition">🎨 v1.5 Visualizer</button>
+                <button id="tabVisualizer" onclick="switchTab('visualizer')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">🎨 v1.5 Visualizer</button>
               </div>
 
               <!-- LIGHT / DARK MODE SUB-TABS -->
@@ -436,44 +409,6 @@
 
   </div>
 
-  <!-- FIGMA-STYLE FLOATING AI ASSISTANT / CHANGE REQUEST BOX -->
-  <div class="figma-ai-box p-3 rounded-xl space-y-2">
-    <div class="flex items-center justify-between">
-      <span class="text-[11px] font-bold text-cyan-400 flex items-center gap-1.5">
-        <span>✨</span> Ask for changes
-      </span>
-      <span id="selectedCountBadge" class="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded-full border border-cyan-500/30">5 selected</span>
-    </div>
-    <div class="relative">
-      <input type="text" id="floatingAiInput" placeholder="Ask for changes or speak command..." 
-        class="w-full bg-slate-900 border border-slate-700/80 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400 pr-14">
-      <div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
-        <button onclick="startAiBoxVoice()" class="p-1 hover:bg-slate-800 rounded text-slate-300 hover:text-cyan-400 transition" title="Voice Input">🎙️</button>
-        <button onclick="submitAiBoxChange()" class="p-1 hover:bg-slate-800 rounded text-cyan-400 hover:text-white transition font-bold text-xs" title="Send">⬆️</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- FIGMA-STYLE FLOATING BOTTOM TOOLBAR -->
-  <div class="figma-toolbar px-4 py-2 rounded-xl flex items-center gap-2 text-gray-300">
-    <button onclick="setFigmaTool('move')" class="p-1.5 hover:bg-slate-800 rounded transition-colors text-cyan-400" title="Move / Select">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 15l-6 5.5V3.5l12 12H15z"/></svg>
-    </button>
-    <button onclick="setFigmaTool('frame')" class="p-1.5 hover:bg-slate-800 rounded transition-colors hover:text-white text-xs font-bold" title="Frame">#</button>
-    <button onclick="setFigmaTool('rectangle')" class="p-1.5 hover:bg-slate-800 rounded transition-colors hover:text-white" title="Rectangle">
-      <div class="w-3.5 h-3.5 border-2 border-current rounded-sm"></div>
-    </button>
-    <button onclick="setFigmaTool('pen')" class="p-1.5 hover:bg-slate-800 rounded transition-colors hover:text-white" title="Pen / Pencil">✏️</button>
-    <button onclick="setFigmaTool('text')" class="p-1.5 hover:bg-slate-800 rounded transition-colors hover:text-white font-bold text-xs" title="Text">T</button>
-    <button onclick="setFigmaTool('comment')" class="p-1.5 hover:bg-slate-800 rounded transition-colors hover:text-white" title="Comment Pin">💬</button>
-    <div class="w-px h-4 bg-slate-700"></div>
-    <button onclick="toggleToolbarInspector()" class="px-2 py-1 hover:bg-slate-800 rounded transition-colors hover:text-white text-xs font-medium flex items-center gap-1" title="Spacing Inspector">
-      📐 Spacing
-    </button>
-    <div class="w-px h-4 bg-slate-700"></div>
-    <span id="activeFigmaIndicator" class="text-[11px] text-cyan-400 font-medium px-1">Tool: Select</span>
-  </div>
-
   <script>
     let currentTab = 'css';
     let currentMode = 'dark';
@@ -518,35 +453,9 @@
       }
     }
 
-    function submitAiBoxChange() {
-      const input = document.getElementById('floatingAiInput');
-      const val = input.value;
-      if (!val) return;
-
-      const hex = parseAnyColor(val);
-      if (hex) {
-        setColor(hex);
-      } else {
-        pinnedNotesList.push(`AI Request: ${val}`);
-        renderNotesLog();
-      }
-      input.value = "";
-    }
-
-    function startAiBoxVoice() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) return alert("Speech recognition not supported in this browser.");
-      const recognition = new SpeechRecognition();
-      recognition.onresult = (event) => {
-        document.getElementById('floatingAiInput').value = event.results[0][0].transcript;
-        submitAiBoxChange();
-      };
-      recognition.start();
-    }
-
     function startMainVoiceSearch() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) return alert("Speech recognition not supported in this browser.");
+      if (!SpeechRecognition) return alert("Speech recognition not supported.");
       const recognition = new SpeechRecognition();
       recognition.onresult = (event) => {
         document.getElementById('siteSearchInput').value = event.results[0][0].transcript;
@@ -629,10 +538,15 @@
 
     function switchTab(tab) {
       currentTab = tab;
-      ['css', 'tailwind', 'react', 'flutter', 'json', 'visualizer'].forEach(t => {
+      const tabs = ['css', 'tailwind', 'react', 'flutter', 'json', 'visualizer'];
+      tabs.forEach(t => {
         const btn = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
         if (btn) {
-          btn.className = (t === tab) ? "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
+          if (t === tab) {
+            btn.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+          } else {
+            btn.className = "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
+          }
         }
       });
       const codeContainer = document.getElementById('codeOutputContainer');
@@ -640,6 +554,7 @@
       if (tab === 'visualizer') {
         codeContainer.classList.add('hidden');
         visualizerPanel.classList.remove('hidden');
+        document.getElementById('codeBoxTitle').innerText = "v1.5-visualizer-settings.json";
       } else {
         codeContainer.classList.remove('hidden');
         visualizerPanel.classList.add('hidden');
@@ -649,6 +564,15 @@
 
     function switchMode(mode) {
       currentMode = mode;
+      const lightBtn = document.getElementById('subTabLight');
+      const darkBtn = document.getElementById('subTabDark');
+      if (mode === 'light') {
+        lightBtn.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400 transition";
+        darkBtn.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400 hover:text-white transition";
+      } else {
+        darkBtn.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400 transition";
+        lightBtn.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400 hover:text-white transition";
+      }
       generateSystem();
     }
 
@@ -684,7 +608,7 @@
 
     function startVoiceRecognition() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) return alert("Speech recognition not supported in this browser.");
+      if (!SpeechRecognition) return alert("Speech recognition not supported.");
       const recognition = new SpeechRecognition();
       recognition.onresult = (event) => {
         document.getElementById('feedbackInput').value = event.results[0][0].transcript;
@@ -732,31 +656,55 @@
       document.getElementById('previewBtn').style.backgroundColor = color;
       document.getElementById('tailwindSnippetText').innerText = `bg-[${color}] text-white font-${font.toLowerCase()} rounded-md`;
 
-      let outputText = `/* Scrutinix AI Tokens */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}';\n  --project: "${proj}";\n}`;
-      document.getElementById('codeOutput').innerText = outputText;
-      document.getElementById('changelogMsg').innerText = `Project: ${proj} | Color: ${color} | Font: ${font} | Rules: ${rules || 'None'}`;
+      let outputText = "";
+      if (currentTab === 'css') {
+        document.getElementById('codeBoxTitle').innerText = `variables-${currentMode}.css`;
+        outputText = `/* Scrutinix AI CSS Variables (${currentMode} mode) */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --base-padding: 16px;\n}`;
+      } else if (currentTab === 'tailwind') {
+        document.getElementById('codeBoxTitle').innerText = `tailwind.config.js`;
+        outputText = `module.exports = {\n  theme: {\n    extend: {\n      colors: {\n        primary: '${color}',\n      },\n      fontFamily: {\n        sans: ['${font}', 'sans-serif'],\n      }\n    }\n  }\n};`;
+      } else if (currentTab === 'react') {
+        document.getElementById('codeBoxTitle').innerText = `ThemeComponent.jsx`;
+        outputText = `import React from 'react';\n\nexport default function ThemeComponent() {\n  return (\n    <div style={{ backgroundColor: '${color}', fontFamily: '${font}' }} className="p-4 rounded-lg text-white">\n      <h1>${proj}</h1>\n      <button>Primary CTA</button>\n    </div>\n  );\n}`;
+      } else if (currentTab === 'flutter') {
+        document.getElementById('codeBoxTitle').innerText = `theme_config.dart`;
+        outputText = `import 'package:flutter/material.dart';\n\nclass AppTheme {\n  static const Color primaryColor = Color(0xFF${color.replace('#','')});\n  static const String fontFamily = '${font}';\n}`;
+      } else if (currentTab === 'json') {
+        document.getElementById('codeBoxTitle').innerText = `style-dictionary.json`;
+        outputText = JSON.stringify({
+          project: proj,
+          color: { primary: { value: color } },
+          typography: { fontFamily: font }
+        }, null, 2);
+      }
+
+      if (currentTab !== 'visualizer') {
+        document.getElementById('codeOutput').innerText = outputText;
+      }
+      document.getElementById('changelogMsg').innerText = `Project: ${proj} | Color: ${color} | Font: ${font} | Mode: ${currentMode}`;
     }
 
-    // --- WORKING CLIPBOARD & SHARE FUNCTIONS ---
     function copyCodeOutput(btn) {
-      const codeText = document.getElementById('codeOutput').innerText;
-      navigator.clipboard.writeText(codeText).then(() => {
+      let textToCopy = "";
+      if (currentTab === 'visualizer') {
+        const blur = document.getElementById('shadowBlurRange').value;
+        const radius = document.getElementById('borderRadiusRange').value;
+        textToCopy = JSON.stringify({ shadowBlur: blur + "px", borderRadius: radius + "px" }, null, 2);
+      } else {
+        textToCopy = document.getElementById('codeOutput').innerText;
+      }
+      navigator.clipboard.writeText(textToCopy).then(() => {
         const originalText = btn.innerHTML;
         btn.innerHTML = "✓ Copied!";
         setTimeout(() => { btn.innerHTML = originalText; }, 2000);
-      }).catch(err => {
-        alert("Failed to copy code.");
       });
     }
 
     function copyChangelogMsg(btn) {
-      const msgText = document.getElementById('changelogMsg').innerText;
-      navigator.clipboard.writeText(msgText).then(() => {
+      navigator.clipboard.writeText(document.getElementById('changelogMsg').innerText).then(() => {
         const originalText = btn.innerHTML;
         btn.innerHTML = "✓ Copied!";
         setTimeout(() => { btn.innerHTML = originalText; }, 2000);
-      }).catch(err => {
-        alert("Failed to copy message.");
       });
     }
 
@@ -804,14 +752,6 @@
       document.body.appendChild(element);
       element.click();
       document.body.removeChild(element);
-    }
-
-    function setFigmaTool(toolName) {
-      document.getElementById('activeFigmaIndicator').innerText = `Tool: ${toolName}`;
-    }
-
-    function toggleToolbarInspector() {
-      alert("📐 Spacing Scale Token Inspector Active.");
     }
 
     window.onload = function() {
