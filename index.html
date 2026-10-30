@@ -317,9 +317,9 @@
             </div>
           </div>
 
-          <!-- Component Mockup Card WITH DIRECT CLICK-TO-PIN CANVAS -->
+          <!-- Component Mockup Card WITH id="container" -->
           <div class="relative">
-            <div id="mockupCard" onclick="dropVisualPin(event)" class="relative bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-colors duration-300 cursor-crosshair">
+            <div id="container" onclick="dropVisualPin(event)" class="relative bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-colors duration-300 cursor-crosshair">
               <div class="flex justify-between items-center pointer-events-none">
                 <div>
                   <h4 id="previewAppTitle" class="text-sm font-bold text-white">Your Project Name</h4>
@@ -529,33 +529,50 @@
       }
     }
 
-    /* CLICK-TO-PIN VISUAL FEEDBACK LOGIC */
+    /* DIRECT INPUT & id="container" PINNING LOGIC */
     function dropVisualPin(e) {
-      const rect = e.currentTarget.getBoundingClientRect();
+      const container = document.getElementById('container');
+      const rect = container.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 100;
       const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-      const noteText = prompt("Drop Visual Pin Note:");
-      if (!noteText || !noteText.trim()) return;
+      const inputField = document.getElementById('pinpointNoteInput');
+      const noteText = inputField.value.trim() || `Visual Note at position (${Math.round(x)}%, ${Math.round(y)}%)`;
 
       const priority = document.getElementById('pinPriority').value;
       pinCount++;
 
       const pinEl = document.createElement('div');
+      const currentPinId = pinCount;
+      pinEl.id = `pin-element-${currentPinId}`;
       pinEl.className = `visual-pin ${priority}`;
       pinEl.style.left = `${x}%`;
       pinEl.style.top = `${y}%`;
-      pinEl.innerText = pinCount;
-      pinEl.title = noteText;
+      pinEl.innerText = currentPinId;
+      pinEl.title = `${noteText} (Double-click to remove)`;
+      
+      // Double click pin to delete
+      pinEl.ondblclick = (evt) => {
+        evt.stopPropagation();
+        deletePin(currentPinId);
+      };
 
       document.getElementById('pinsOverlayContainer').appendChild(pinEl);
 
       pinnedNotesList.push({
-        id: pinCount,
-        note: noteText.trim(),
+        id: currentPinId,
+        note: noteText,
         priority: priority.toUpperCase()
       });
 
+      inputField.value = "";
+      renderNotesLog();
+    }
+
+    function deletePin(id) {
+      pinnedNotesList = pinnedNotesList.filter(item => item.id !== id);
+      const el = document.getElementById(`pin-element-${id}`);
+      if (el) el.remove();
       renderNotesLog();
     }
 
@@ -590,7 +607,10 @@
 
         return `<div class="flex items-center justify-between bg-slate-900 p-1.5 rounded border border-slate-800 mb-1">
           <span><strong class="text-cyan-400">Pin #${item.id}:</strong> ${item.note}</span>
-          <span class="text-[9px] ${badgeColor} font-bold px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">${item.priority}</span>
+          <div class="flex items-center gap-2">
+            <span class="text-[9px] ${badgeColor} font-bold px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">${item.priority}</span>
+            <button onclick="deletePin(${item.id})" class="text-rose-400 hover:text-rose-300 font-bold text-[10px] px-1">✕</button>
+          </div>
         </div>`;
       }).join('');
     }
@@ -719,15 +739,15 @@
     }
 
     function switchPreviewTheme(mode) {
-      const mockupCard = document.getElementById('mockupCard');
+      const container = document.getElementById('container');
       const typoCard = document.getElementById('typoCard');
       const portalCard = document.getElementById('portalCard');
       const lightBtn = document.getElementById('previewLightBtn');
       const darkBtn = document.getElementById('previewDarkBtn');
 
       if (mode === 'light') {
-        mockupCard.style.backgroundColor = '#ffffff';
-        mockupCard.style.color = '#0f172a';
+        container.style.backgroundColor = '#ffffff';
+        container.style.color = '#0f172a';
         document.getElementById('previewAppTitle').style.color = '#0f172a';
         document.getElementById('previewSubtitle').style.color = '#475569';
         typoCard.style.backgroundColor = '#f1f5f9';
@@ -735,8 +755,8 @@
         lightBtn.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
         darkBtn.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
       } else {
-        mockupCard.style.backgroundColor = '#020617';
-        mockupCard.style.color = '#f8fafc';
+        container.style.backgroundColor = '#020617';
+        container.style.color = '#f8fafc';
         document.getElementById('previewAppTitle').style.color = '#ffffff';
         document.getElementById('previewSubtitle').style.color = '#94a3b8';
         typoCard.style.backgroundColor = '#0f172a';
