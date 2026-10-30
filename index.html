@@ -244,16 +244,19 @@
             </span>
           </div>
 
-          <!-- Client Theme Mode Preview Switcher -->
-          <div class="flex justify-between items-center bg-slate-950 p-2 rounded-lg border border-slate-800">
-            <span class="text-xs font-semibold text-slate-300">Client Theme Mode Preview:</span>
+          <!-- Client Theme Mode & Responsive Viewport Switcher -->
+          <div class="flex flex-col sm:flex-row justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800 gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold text-slate-300">Responsive Viewports:</span>
+              <div class="flex gap-1">
+                <button onclick="switchViewport('desktop')" id="vpDesk" class="text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition">🖥️ Desktop</button>
+                <button onclick="switchViewport('tablet')" id="vpTab" class="text-[10px] font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition">📟 Tablet</button>
+                <button onclick="switchViewport('mobile')" id="vpMob" class="text-[10px] font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition">📱 Mobile</button>
+              </div>
+            </div>
             <div class="flex gap-1">
-              <button id="previewLightBtn" onclick="switchPreviewTheme('light')" class="text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition">
-                ☀️ Preview Light
-              </button>
-              <button id="previewDarkBtn" onclick="switchPreviewTheme('dark')" class="text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition">
-                🌙 Preview Dark
-              </button>
+              <button id="previewLightBtn" onclick="switchPreviewTheme('light')" class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition">☀️ Light</button>
+              <button id="previewDarkBtn" onclick="switchPreviewTheme('dark')" class="text-xs font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition">🌙 Dark</button>
             </div>
           </div>
 
@@ -318,8 +321,8 @@
           </div>
 
           <!-- Component Mockup Card WITH id="container" -->
-          <div class="relative">
-            <div id="container" onclick="dropVisualPin(event)" class="relative bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-colors duration-300 cursor-crosshair">
+          <div class="relative flex justify-center">
+            <div id="container" onclick="dropVisualPin(event)" class="relative bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-all duration-300 cursor-crosshair w-full max-w-full">
               <div class="flex justify-between items-center pointer-events-none">
                 <div>
                   <h4 id="previewAppTitle" class="text-sm font-bold text-white">Your Project Name</h4>
@@ -402,13 +405,16 @@
               </div>
             </div>
 
-            <!-- Pinned Feedback Notes Log Box -->
-            <div class="bg-slate-950 border border-slate-800 rounded-lg p-2.5 space-y-1.5">
-              <div class="text-[11px] font-bold text-slate-300 flex justify-between items-center">
-                <span>📋 Visual Pins & Client Notes Log</span>
+            <!-- Pinned Feedback Notes Log Box with Active/Resolved Tabs -->
+            <div class="bg-slate-950 border border-slate-800 rounded-lg p-2.5 space-y-2">
+              <div class="flex justify-between items-center">
+                <div class="flex gap-1">
+                  <button onclick="switchLogTab('active')" id="logTabActive" class="text-[10px] font-bold px-2.5 py-0.5 rounded bg-cyan-400 text-slate-950 transition">Active Pins</button>
+                  <button onclick="switchLogTab('resolved')" id="logTabResolved" class="text-[10px] font-semibold px-2.5 py-0.5 rounded bg-slate-900 text-slate-400 hover:text-white transition">Resolved History</button>
+                </div>
                 <span id="noteCountBadge" class="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded">0 Notes</span>
               </div>
-              <div id="feedbackLogContainer" class="space-y-1 max-h-28 overflow-y-auto custom-scrollbar text-[11px] font-mono text-slate-400">
+              <div id="feedbackLogContainer" class="space-y-1 max-h-32 overflow-y-auto custom-scrollbar text-[11px] font-mono text-slate-400">
                 <p class="text-slate-500 italic">No pinned notes yet. Click the mockup above to drop a pin!</p>
               </div>
             </div>
@@ -509,6 +515,7 @@
     let currentApprovalPhone = "";
     let pinnedNotesList = [];
     let pinCount = 0;
+    let currentLogView = 'active'; // 'active' or 'resolved'
 
     function switchInspector(type) {
       const fontBtn = document.getElementById('inspFontBtn');
@@ -529,6 +536,29 @@
       }
     }
 
+    /* RESPONSIVE VIEWPORTS SWITCHER */
+    function switchViewport(mode) {
+      const container = document.getElementById('container');
+      const deskBtn = document.getElementById('vpDesk');
+      const tabBtn = document.getElementById('vpTab');
+      const mobBtn = document.getElementById('vpMob');
+
+      deskBtn.className = "text-[10px] font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition";
+      tabBtn.className = "text-[10px] font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition";
+      mobBtn.className = "text-[10px] font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition";
+
+      if (mode === 'desktop') {
+        container.style.maxWidth = '100%';
+        deskBtn.className = "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+      } else if (mode === 'tablet') {
+        container.style.maxWidth = '768px';
+        tabBtn.className = "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+      } else if (mode === 'mobile') {
+        container.style.maxWidth = '375px';
+        mobBtn.className = "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+      }
+    }
+
     /* DIRECT INPUT & id="container" PINNING LOGIC */
     function dropVisualPin(e) {
       const container = document.getElementById('container');
@@ -537,7 +567,7 @@
       const y = ((e.clientY - rect.top) / rect.height) * 100;
 
       const inputField = document.getElementById('pinpointNoteInput');
-      const noteText = inputField.value.trim() || `Visual Note at position (${Math.round(x)}%, ${Math.round(y)}%)`;
+      const noteText = inputField.value.trim() || `Visual Note at (${Math.round(x)}%, ${Math.round(y)}%)`;
 
       const priority = document.getElementById('pinPriority').value;
       pinCount++;
@@ -551,7 +581,6 @@
       pinEl.innerText = currentPinId;
       pinEl.title = `${noteText} (Double-click to remove)`;
       
-      // Double click pin to delete
       pinEl.ondblclick = (evt) => {
         evt.stopPropagation();
         deletePin(currentPinId);
@@ -562,7 +591,8 @@
       pinnedNotesList.push({
         id: currentPinId,
         note: noteText,
-        priority: priority.toUpperCase()
+        priority: priority.toUpperCase(),
+        status: 'active' // 'active' or 'resolved'
       });
 
       inputField.value = "";
@@ -576,6 +606,36 @@
       renderNotesLog();
     }
 
+    function toggleResolvePin(id) {
+      const pin = pinnedNotesList.find(item => item.id === id);
+      if (pin) {
+        pin.status = pin.status === 'active' ? 'resolved' : 'active';
+        const el = document.getElementById(`pin-element-${id}`);
+        if (el) {
+          if (pin.status === 'resolved') {
+            el.style.opacity = '0.4';
+          } else {
+            el.style.opacity = '1';
+          }
+        }
+        renderNotesLog();
+      }
+    }
+
+    function switchLogTab(tab) {
+      currentLogView = tab;
+      const actBtn = document.getElementById('logTabActive');
+      const resBtn = document.getElementById('logTabResolved');
+      if (tab === 'active') {
+        actBtn.className = "text-[10px] font-bold px-2.5 py-0.5 rounded bg-cyan-400 text-slate-950 transition";
+        resBtn.className = "text-[10px] font-semibold px-2.5 py-0.5 rounded bg-slate-900 text-slate-400 hover:text-white transition";
+      } else {
+        resBtn.className = "text-[10px] font-bold px-2.5 py-0.5 rounded bg-cyan-400 text-slate-950 transition";
+        actBtn.className = "text-[10px] font-semibold px-2.5 py-0.5 rounded bg-slate-900 text-slate-400 hover:text-white transition";
+      }
+      renderNotesLog();
+    }
+
     function submitManualPinNote() {
       const input = document.getElementById('pinpointNoteInput');
       if (!input.value.trim()) return;
@@ -586,7 +646,8 @@
       pinnedNotesList.push({
         id: pinCount,
         note: input.value.trim(),
-        priority: priority.toUpperCase()
+        priority: priority.toUpperCase(),
+        status: 'active'
       });
 
       input.value = "";
@@ -595,20 +656,27 @@
 
     function renderNotesLog() {
       const container = document.getElementById('feedbackLogContainer');
-      document.getElementById('noteCountBadge').innerText = `${pinnedNotesList.length} Pins / Notes`;
-      if (pinnedNotesList.length === 0) {
-        container.innerHTML = `<p class="text-slate-500 italic">No pinned notes yet. Click the mockup above to drop a pin!</p>`;
+      const filteredList = pinnedNotesList.filter(item => item.status === currentLogView);
+      document.getElementById('noteCountBadge').innerText = `${filteredList.length} ${currentLogView === 'active' ? 'Active' : 'Resolved'}`;
+
+      if (filteredList.length === 0) {
+        container.innerHTML = `<p class="text-slate-500 italic">No ${currentLogView} notes found.</p>`;
         return;
       }
-      container.innerHTML = pinnedNotesList.map((item) => {
+
+      container.innerHTML = filteredList.map((item) => {
         let badgeColor = "text-emerald-400";
         if (item.priority === "HIGH") badgeColor = "text-rose-400";
         if (item.priority === "MEDIUM") badgeColor = "text-amber-400";
+
+        const resolveBtnText = item.status === 'active' ? '✓ Resolve' : '↩ Reopen';
+        const resolveBtnColor = item.status === 'active' ? 'text-emerald-400 hover:text-emerald-300' : 'text-amber-400 hover:text-amber-300';
 
         return `<div class="flex items-center justify-between bg-slate-900 p-1.5 rounded border border-slate-800 mb-1">
           <span><strong class="text-cyan-400">Pin #${item.id}:</strong> ${item.note}</span>
           <div class="flex items-center gap-2">
             <span class="text-[9px] ${badgeColor} font-bold px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">${item.priority}</span>
+            <button onclick="toggleResolvePin(${item.id})" class="${resolveBtnColor} font-bold text-[10px] px-1">${resolveBtnText}</button>
             <button onclick="deletePin(${item.id})" class="text-rose-400 hover:text-rose-300 font-bold text-[10px] px-1">✕</button>
           </div>
         </div>`;
@@ -752,8 +820,8 @@
         document.getElementById('previewSubtitle').style.color = '#475569';
         typoCard.style.backgroundColor = '#f1f5f9';
         portalCard.style.backgroundColor = '#f8fafc';
-        lightBtn.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
-        darkBtn.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
+        lightBtn.className = "text-xs font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        darkBtn.className = "text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition";
       } else {
         container.style.backgroundColor = '#020617';
         container.style.color = '#f8fafc';
@@ -761,8 +829,8 @@
         document.getElementById('previewSubtitle').style.color = '#94a3b8';
         typoCard.style.backgroundColor = '#0f172a';
         portalCard.style.backgroundColor = '#0f172a';
-        darkBtn.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
-        lightBtn.className = "text-xs font-semibold px-3 py-1 rounded bg-slate-800 text-slate-300 transition";
+        darkBtn.className = "text-xs font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        lightBtn.className = "text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition";
       }
     }
 
@@ -817,7 +885,8 @@
       pinnedNotesList.push({
         id: pinCount,
         note: `Revision: ${input.value.trim()}`,
-        priority: 'MEDIUM'
+        priority: 'MEDIUM',
+        status: 'active'
       });
       input.value = "";
       renderNotesLog();
@@ -891,7 +960,7 @@
         doc.text("No specific visual revisions requested. Approved as-is.", 20, 145);
       } else {
         pinnedNotesList.forEach((item, idx) => {
-          doc.text(`Pin #${item.id} [${item.priority}]: ${item.note}`, 20, 145 + (idx * 10));
+          doc.text(`Pin #${item.id} [${item.priority}]: ${item.note} (${item.status})`, 20, 145 + (idx * 10));
         });
       }
 
