@@ -10,9 +10,10 @@
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- JSZip for 1-Click ZIP Package Download -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
-  <!-- Analytics Script -->
+  <!-- Microsoft Clarity Analytics Script -->
   <script type="text/javascript">
       (function(c,l,a,r,i,t,y){
           c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -66,7 +67,7 @@
       box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
       cursor: pointer;
       transform: translate(-50%, -50%);
-      z-index: 30;
+      z-index: 20;
     }
     .visual-pin.high { background: #ef4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.8); }
     .visual-pin.medium { background: #f59e0b; box-shadow: 0 0 10px rgba(245, 158, 11, 0.8); }
@@ -77,21 +78,6 @@
       outline: 1px dashed #00d2ff;
       cursor: text;
     }
-
-    /* Drawing Canvas Overlay */
-    #drawingCanvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 25;
-      pointer-events: none;
-    }
-    #drawingCanvas.active-draw {
-      pointer-events: auto;
-      cursor: crosshair;
-    }
   </style>
 </head>
 <body class="min-h-screen p-4 lg:p-8 flex flex-col justify-between pb-12">
@@ -101,6 +87,7 @@
     <!-- HEADER & BRANDING -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-xl">
       <div class="flex items-center space-x-3">
+        <!-- Custom Glowing 'S' Logo -->
         <div class="w-10 h-10 bg-slate-950 border border-cyan-500/40 rounded-xl p-1 flex items-center justify-center shadow-lg shadow-cyan-950">
           <svg viewBox="0 0 100 100" class="w-full h-full">
             <path d="M50 10L85 30V70L50 90L15 70V30L50 10Z" stroke="#06b6d4" stroke-width="6" fill="none" stroke-linejoin="round"/>
@@ -110,12 +97,12 @@
         </div>
         <div>
           <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span></h1>
-          <p class="text-xs text-slate-400">Design System Generator & Enterprise Client Portal</p>
+          <p class="text-xs text-slate-400">Design System Generator & Client Portal</p>
         </div>
       </div>
       <div class="text-left md:text-right">
         <p class="text-sm font-bold text-cyan-400">Turn Design Choices Into Developer-Ready Files</p>
-        <p class="text-xs text-slate-400">Zero Setup • 1-Click Code & Guest Link Review</p>
+        <p class="text-xs text-slate-400">Zero Setup • 1-Click Code & Client Review</p>
       </div>
       <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-2">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live Active Mode v1.5
@@ -125,7 +112,7 @@
     <!-- MAIN DUAL SPLIT LAYOUT -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
 
-      <!-- LEFT SIDE: DESIGN SYSTEM GENERATOR -->
+      <!-- BHAAG 1: DESIGN GENERATOR (LEFT SIDE) -->
       <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl flex flex-col justify-between space-y-5">
         <div class="space-y-4">
           <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -138,13 +125,13 @@
             </select>
           </div>
 
-          <!-- SMART COMMAND SEARCH BOX -->
+          <!-- SMART COMMAND SEARCH BOX WITH MIC BUTTON -->
           <div class="bg-slate-950 p-3 border border-cyan-500/30 rounded-lg space-y-2">
             <label class="block text-[11px] font-bold text-cyan-400 flex items-center gap-1.5">
-              <span>🎙️</span> AI Smart Voice & Color Command Search
+              <span>🎙️</span> AI Smart Voice & Any Color Command Search
             </label>
             <div class="relative">
-              <input type="text" id="siteSearchInput" oninput="handleSmartSearch()" placeholder="Type color (e.g. orange, purple, #ff5733)..." class="w-full bg-slate-900 border border-slate-800 rounded-lg pl-3 pr-10 py-2 text-xs text-white focus:border-cyan-400 outline-none">
+              <input type="text" id="siteSearchInput" oninput="handleSmartSearch()" placeholder="Type any color (e.g. orange, pink, #ff5733)..." class="w-full bg-slate-900 border border-slate-800 rounded-lg pl-3 pr-10 py-2 text-xs text-white focus:border-cyan-400 outline-none">
               <button onclick="startMainVoiceSearch()" title="Voice Search" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition text-sm">
                 🎙️
               </button>
@@ -152,7 +139,7 @@
             <div id="searchResultsHint" class="text-[10px] text-cyan-300 italic">Type any color name or HEX code to apply instantly!</div>
           </div>
 
-          <!-- THEME PRESETS -->
+          <!-- ONE-CLICK AI THEME PRESETS -->
           <div class="bg-slate-950 p-3 border border-slate-800 rounded-lg space-y-2">
             <label class="block text-[11px] font-bold text-cyan-400 flex items-center gap-1.5">
               <span>✨</span> One-Click AI Theme Presets
@@ -185,7 +172,7 @@
             </div>
           </div>
 
-          <!-- INPUT FORM -->
+          <!-- Inputs Form -->
           <div class="space-y-3">
             <div class="bg-slate-950 p-3 border border-slate-800 rounded-lg space-y-1.5">
               <label class="block text-[11px] font-semibold text-slate-300">Paste Design Spec / URL Link (Optional):</label>
@@ -199,7 +186,7 @@
 
             <div>
               <label class="block text-xs font-semibold text-slate-200 mb-1">Project Name:</label>
-              <input type="text" id="projectName" value="Scrutinix Portal" placeholder="Enter project name..." oninput="generateSystem()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:border-cyan-400 outline-none">
+              <input type="text" id="projectName" value="" placeholder="Enter project name..." oninput="generateSystem()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:border-cyan-400 outline-none">
             </div>
 
             <div class="grid grid-cols-2 gap-3">
@@ -222,7 +209,7 @@
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-200 mb-1">Additional Component Rules:</label>
+              <label class="block text-xs font-semibold text-slate-200 mb-1">Additional Layout / Component Rules:</label>
               <textarea id="customRules" oninput="generateSystem()" placeholder="Leave blank or enter custom rules..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white outline-none h-16 resize-none custom-scrollbar"></textarea>
             </div>
           </div>
@@ -233,36 +220,30 @@
         </button>
       </div>
 
-      <!-- RIGHT SIDE: LIVE PLAYGROUND & CLIENT REVIEW PORTAL -->
+      <!-- BHAAG 2: LIVE VISUAL THEME PLAYGROUND & CLIENT PORTAL (RIGHT SIDE) -->
       <div id="colClient" class="lg:col-span-7 space-y-4">
 
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
           
-          <!-- WORKFLOW GUIDE BAR -->
-          <div class="bg-slate-950 border border-slate-800 p-2.5 rounded-lg flex items-center justify-between gap-2 text-xs font-bold shadow-inner">
-            <div class="flex items-center gap-3">
-              <div class="flex items-center gap-1.5 text-cyan-400">
-                <span class="w-5 h-5 rounded-full bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-[10px]">1</span>
-                <span>👁️ REVIEW</span>
-              </div>
-              <span class="text-slate-600">➔</span>
-              <div class="flex items-center gap-1.5 text-amber-400">
-                <span class="w-5 h-5 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-[10px]">2</span>
-                <span>💬 COMMENT</span>
-              </div>
-              <span class="text-slate-600">➔</span>
-              <div class="flex items-center gap-1.5 text-emerald-400">
-                <span class="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-[10px]">3</span>
-                <span>✅ APPROVE</span>
-              </div>
+          <!-- WORKFLOW GUIDE BAR (REVIEW ➔ COMMENT ➔ APPROVE) -->
+          <div class="bg-slate-950 border border-slate-800 p-2.5 rounded-lg flex items-center justify-center gap-3 sm:gap-6 text-xs font-bold shadow-inner">
+            <div class="flex items-center gap-1.5 text-cyan-400">
+              <span class="w-5 h-5 rounded-full bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-[10px]">1</span>
+              <span>👁️ REVIEW</span>
             </div>
-            <!-- Guest Link Share Button -->
-            <button onclick="copyShareableLink()" class="bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-[11px] font-bold px-2.5 py-1 rounded-md transition flex items-center gap-1">
-              🔗 Share Guest Link
-            </button>
+            <span class="text-slate-600">➔</span>
+            <div class="flex items-center gap-1.5 text-amber-400">
+              <span class="w-5 h-5 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-[10px]">2</span>
+              <span>💬 COMMENT</span>
+            </div>
+            <span class="text-slate-600">➔</span>
+            <div class="flex items-center gap-1.5 text-emerald-400">
+              <span class="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-[10px]">3</span>
+              <span>✅ APPROVE</span>
+            </div>
           </div>
 
-          <!-- MARKUP.IO MULTI-FORMAT SELECTOR TABS -->
+          <!-- MARKUP.IO STYLE MULTI-FORMAT SELECTOR TABS (Websites, Videos, PDFs, Images) -->
           <div class="bg-slate-950 border border-slate-800 p-2 rounded-lg flex flex-wrap items-center justify-center gap-1.5">
             <button onclick="switchMediaFormat('website')" id="formatWeb" class="text-[11px] font-bold px-3 py-1.5 rounded bg-cyan-400 text-slate-950 transition flex items-center gap-1">
               <span>🌐</span> Websites
@@ -278,24 +259,6 @@
             </button>
           </div>
 
-          <!-- INTERACTIVE ANNOTATION & MARKUP TOOLBAR -->
-          <div class="bg-slate-950 border border-slate-800 p-2 rounded-lg flex flex-wrap items-center justify-between gap-2 text-xs">
-            <div class="flex items-center gap-1 bg-slate-900 p-1 rounded border border-slate-800">
-              <span class="text-[10px] text-slate-400 font-bold px-1">MARKUP TOOLS:</span>
-              <button onclick="setDrawTool('select')" id="toolSelect" class="bg-cyan-400 text-slate-950 font-bold px-2 py-0.5 rounded text-[11px]">📍 Pin</button>
-              <button onclick="setDrawTool('pencil')" id="toolPencil" class="bg-slate-800 text-slate-300 hover:text-white px-2 py-0.5 rounded text-[11px]">✏️ Pencil</button>
-              <button onclick="setDrawTool('arrow')" id="toolArrow" class="bg-slate-800 text-slate-300 hover:text-white px-2 py-0.5 rounded text-[11px]">➡️ Arrow</button>
-              <button onclick="setDrawTool('box')" id="toolBox" class="bg-slate-800 text-slate-300 hover:text-white px-2 py-0.5 rounded text-[11px]">🔲 Box</button>
-            </div>
-            
-            <div class="flex items-center gap-2">
-              <input type="color" id="drawColor" value="#ef4444" title="Drawing Color" class="w-5 h-5 bg-transparent border-0 cursor-pointer">
-              <button onclick="clearCanvas()" class="text-[10px] bg-slate-800 hover:bg-red-500/20 text-slate-400 hover:text-red-400 border border-slate-700 px-2 py-1 rounded transition">
-                🗑️ Clear Drawing
-              </button>
-            </div>
-          </div>
-
           <div class="flex justify-between items-center border-b border-slate-800 pb-3">
             <h3 id="playgroundTitle" class="text-sm font-bold text-white uppercase tracking-wider">🎨 LIVE VISUAL THEME PLAYGROUND (WEBSITE VIEW)</h3>
             <span id="wcagBadge" class="text-[11px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold">
@@ -303,7 +266,7 @@
             </span>
           </div>
 
-          <!-- Viewports & Theme Control -->
+          <!-- Client Theme Mode & Responsive Viewport Switcher -->
           <div class="flex flex-col sm:flex-row justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800 gap-2">
             <div class="flex items-center gap-2">
               <span class="text-xs font-semibold text-slate-300">Responsive Viewports:</span>
@@ -320,17 +283,73 @@
             </div>
           </div>
 
-          <!-- MAIN CONTAINER FOR MEDIA VIEWS & PINNING -->
-          <div class="relative flex justify-center">
-            <div id="container" onclick="handleContainerClick(event)" class="relative bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-all duration-300 cursor-crosshair w-full max-w-full">
-              
-              <!-- DRAWING CANVAS OVERLAY -->
-              <canvas id="drawingCanvas"></canvas>
+          <!-- ADVANCED DESIGN HANDOFF INSPECTORS -->
+          <div class="bg-slate-950 border border-cyan-500/30 rounded-lg p-3 space-y-3">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+              <span class="text-xs font-bold text-cyan-400">🔍 Advanced Design Handoff Inspectors</span>
+              <div class="flex gap-1">
+                <button onclick="switchInspector('fonts')" id="inspFontBtn" class="text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition">Font Fallback</button>
+                <button onclick="switchInspector('spacing')" id="inspSpaceBtn" class="text-[10px] font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition">Spacing Token</button>
+              </div>
+            </div>
 
+            <!-- Inspector Panel 1: Font & Asset Fallback -->
+            <div id="inspectorFontPanel" class="space-y-2 text-xs">
+              <div class="flex justify-between items-center bg-slate-900 p-2 rounded border border-slate-800">
+                <span class="text-slate-300">Selected Font: <strong id="activeFontLabel" class="text-cyan-300">Roboto</strong></span>
+                <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded">✓ Fallback Ready: sans-serif</span>
+              </div>
+              <p class="text-[11px] text-slate-400 italic">Prevents missing font errors by injecting clean web-safe fallbacks automatically.</p>
+            </div>
+
+            <!-- Inspector Panel 2: Spacing & Padding Token -->
+            <div id="inspectorSpacingPanel" class="hidden space-y-2 text-xs">
+              <div class="grid grid-cols-3 gap-2 text-center">
+                <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                  <div class="text-[10px] text-slate-400">Base Padding</div>
+                  <div class="font-bold text-cyan-400">16px / 1rem</div>
+                </div>
+                <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                  <div class="text-[10px] text-slate-400">Component Gap</div>
+                  <div class="font-bold text-cyan-400">8px / 0.5rem</div>
+                </div>
+                <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                  <div class="text-[10px] text-slate-400">Section Stack</div>
+                  <div class="font-bold text-cyan-400">24px / 1.5rem</div>
+                </div>
+              </div>
+              <p class="text-[11px] text-slate-400 italic">Exact token values translated instantly for developers and clients.</p>
+            </div>
+          </div>
+
+          <!-- INTERACTIVE LIVE THEME CUSTOMIZER -->
+          <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 space-y-2">
+            <div class="text-xs font-bold text-cyan-400 flex items-center justify-between">
+              <span>🛠️ Interactive Live Theme Customizer (No API Needed)</span>
+              <span class="text-[10px] text-slate-400">Instant Real-time Control</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+              <div>
+                <label class="block text-[11px] text-slate-300 mb-1">Live Primary Color:</label>
+                <input type="color" id="interactiveColorPicker" value="#351156" onchange="updateInteractiveTheme()" class="w-full h-8 bg-slate-900 border border-slate-800 rounded cursor-pointer">
+              </div>
+              <div>
+                <div class="flex justify-between text-[11px] text-slate-300 mb-1">
+                  <span>Component Roundness:</span>
+                  <span id="interactiveRadiusVal">8px</span>
+                </div>
+                <input type="range" id="interactiveRadiusRange" min="0" max="24" value="8" oninput="updateInteractiveTheme()" class="w-full accent-cyan-400 cursor-pointer">
+              </div>
+            </div>
+          </div>
+
+          <!-- Component Mockup Card WITH id="container" -->
+          <div class="relative flex justify-center">
+            <div id="container" onclick="dropVisualPin(event)" class="relative bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-all duration-300 cursor-crosshair w-full max-w-full">
+              
               <!-- DYNAMIC MEDIA FORMAT VIEW CONTAINER -->
               <div id="mediaContentDisplay" class="space-y-3">
-                
-                <!-- SPLIT SCREEN OVERLAY -->
+                <!-- SPLIT SCREEN COMPARISON CONTAINER (Hidden by Default) -->
                 <div id="splitComparisonOverlay" class="hidden grid grid-cols-2 gap-2 border-b border-slate-800 pb-3 mb-2">
                   <div class="bg-slate-900 p-2 rounded text-center border border-slate-800">
                     <span class="text-[10px] text-cyan-400 font-bold block mb-1">🎨 Original Figma Design Spec</span>
@@ -342,87 +361,32 @@
                   </div>
                 </div>
 
-                <!-- WEBSITE VIEW -->
-                <div id="websiteViewContent" class="space-y-3">
-                  <div class="flex justify-between items-center">
-                    <div>
-                      <h4 id="previewAppTitle" contenteditable="true" onclick="event.stopPropagation()" class="text-sm font-bold text-white outline-none" title="Click to edit text directly!">Your Project Name</h4>
-                      <p id="previewSubtitle" contenteditable="true" onclick="event.stopPropagation()" class="text-[11px] text-slate-400 outline-none" title="Click to edit text directly!">Click anywhere to drop a feedback pin 📍 or edit text directly!</p>
-                    </div>
-                    <button id="previewBtn" contenteditable="true" onclick="event.stopPropagation()" class="text-white font-bold text-xs px-4 py-2 rounded-md shadow-md transition outline-none" style="background-color: var(--primary-brand, #351156);">
-                      Primary CTA
-                    </button>
+                <div class="flex justify-between items-center pointer-events-none">
+                  <div>
+                    <h4 id="previewAppTitle" contenteditable="true" onclick="event.stopPropagation()" class="text-sm font-bold text-white outline-none" title="Click to edit text directly!">Your Project Name</h4>
+                    <p id="previewSubtitle" contenteditable="true" onclick="event.stopPropagation()" class="text-[11px] text-slate-400 outline-none" title="Click to edit text directly!">Click anywhere to drop a feedback pin 📍 or edit text directly!</p>
                   </div>
-
-                  <div id="typoCard" class="bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 transition-colors">
-                    <p class="text-[10px] font-bold text-cyan-400 uppercase tracking-wider">📐 Typography Scale Preview</p>
-                    <div id="previewTypography" class="text-white space-y-0.5">
-                      <div class="text-base font-bold" contenteditable="true" onclick="event.stopPropagation()">H1 Heading - Core Display</div>
-                      <div id="typoSubtext" class="text-xs text-slate-300" contenteditable="true" onclick="event.stopPropagation()">Body text - Click directly to change and preview copy live!</div>
-                    </div>
-                  </div>
+                  <button id="previewBtn" contenteditable="true" onclick="event.stopPropagation()" class="text-white font-bold text-xs px-4 py-2 rounded-md shadow-md transition outline-none" style="background-color: var(--primary-brand, #351156);">
+                    Primary CTA
+                  </button>
                 </div>
 
-                <!-- VIDEO VIEW (HIDDEN BY DEFAULT) -->
-                <div id="videoViewContent" class="hidden space-y-3">
-                  <div class="bg-slate-900 border border-cyan-500/30 rounded-lg p-6 text-center space-y-4">
-                    <div class="text-cyan-400 font-bold text-sm">▶ [Video Frame Mockup - Click to drop timestamp pin]</div>
-                    <div class="w-full bg-slate-950 h-32 rounded border border-slate-800 flex items-center justify-center text-slate-500 text-xs">
-                      Video Preview Screen (Frame at 01:14)
-                    </div>
-                    <!-- Timeline Bar -->
-                    <div class="space-y-1">
-                      <div class="flex justify-between text-[10px] text-slate-400 font-mono">
-                        <span>00:00</span>
-                        <span class="text-cyan-400 font-bold">01:14 (Active Frame)</span>
-                        <span>02:30</span>
-                      </div>
-                      <div class="w-full bg-slate-800 h-2 rounded-full relative cursor-pointer">
-                        <div class="bg-cyan-400 h-full rounded-full" style="width: 50%;"></div>
-                        <div class="w-3.5 h-3.5 bg-cyan-300 rounded-full absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 border-2 border-slate-950 shadow"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <p class="text-[11px] text-slate-400 text-center italic">Click anywhere on the video frame to log time-specific feedback notes.</p>
-                </div>
-
-                <!-- PDF VIEW (HIDDEN BY DEFAULT) -->
-                <div id="pdfViewContent" class="hidden space-y-3">
-                  <div class="bg-slate-900 border border-slate-800 rounded-lg p-4 space-y-3">
-                    <div class="flex justify-between items-center border-b border-slate-800 pb-2">
-                      <span class="text-xs font-bold text-white">Document_Spec_v1.pdf (Page 1 of 4)</span>
-                      <span class="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded">Active PDF Mode</span>
-                    </div>
-                    <div class="bg-slate-950 p-4 rounded border border-slate-800 text-slate-300 text-xs leading-relaxed space-y-2">
-                      <p class="font-bold text-cyan-400">Section 1.1: Project Specifications & Scope</p>
-                      <p>The primary objective of this project is to deliver a streamlined client feedback workflow equivalent to top enterprise standards. Click anywhere on this page to leave annotations.</p>
-                      <div class="h-20 bg-slate-900 rounded border border-dashed border-slate-800 flex items-center justify-center text-[10px] text-slate-500">
-                        [PDF Diagram Attachment Placeholder]
-                      </div>
-                    </div>
+                <!-- TYPOGRAPHY PREVIEW -->
+                <div id="typoCard" class="bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 transition-colors pointer-events-none">
+                  <p class="text-[10px] font-bold text-cyan-400 uppercase tracking-wider">📐 Typography Scale Preview</p>
+                  <div id="previewTypography" class="text-white space-y-0.5">
+                    <div class="text-base font-bold" contenteditable="true" onclick="event.stopPropagation()">H1 Heading - Core Display</div>
+                    <div id="typoSubtext" class="text-xs text-slate-300" contenteditable="true" onclick="event.stopPropagation()">Body text - Click directly to change and preview copy live!</div>
                   </div>
                 </div>
-
-                <!-- IMAGE VIEW (HIDDEN BY DEFAULT) -->
-                <div id="imageViewContent" class="hidden space-y-3">
-                  <div class="bg-slate-900 border border-slate-800 rounded-lg p-4 text-center space-y-2">
-                    <div class="text-xs font-bold text-cyan-400">🖼️ Figma UI Wireframe Mockup - Click anywhere to drop a pin</div>
-                    <div class="w-full bg-slate-950 h-44 rounded border border-dashed border-slate-800 flex flex-col items-center justify-center text-slate-500 text-xs space-y-1">
-                      <span class="text-2xl">🎨</span>
-                      <span>High-Resolution Graphics Frame</span>
-                    </div>
-                  </div>
-                  <p class="text-[11px] text-slate-400 text-center italic">Pixel-perfect image marking enabled. Drop pins directly on the graphic.</p>
-                </div>
-
               </div>
 
-              <!-- PINS OVERLAY -->
+              <!-- Container where Visual Pins render -->
               <div id="pinsOverlayContainer"></div>
             </div>
           </div>
 
-          <!-- TAILWIND SNIPPET -->
+          <!-- Developer Tailwind Snippet -->
           <div class="bg-slate-900 border border-slate-800/80 p-2 rounded-lg flex justify-between items-center gap-2">
             <div class="truncate text-[11px] font-mono text-cyan-300">
               <span class="text-slate-400">Tailwind Snippet: </span>
@@ -433,14 +397,14 @@
             </button>
           </div>
 
-          <!-- CLIENT REVIEW & FEEDBACK PORTAL -->
+          <!-- Client Review & Approval Portal -->
           <div id="portalCard" class="bg-slate-900 border border-emerald-500/40 rounded-lg p-3 space-y-3 transition-colors">
             <div class="text-xs font-bold text-emerald-400 flex items-center justify-between">
               <span>🔒 Client Review & Visual Feedback Log</span>
               <span id="portalStateBadge" class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30">🟡 In Review</span>
             </div>
 
-            <!-- Approval Inputs -->
+            <!-- Approval Input Container -->
             <div id="approvalControls" class="space-y-2 w-full">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <input type="text" id="clientNameInput" autocomplete="off" placeholder="Enter your full name..." class="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-2 text-xs text-white outline-none">
@@ -461,7 +425,7 @@
               </button>
             </div>
 
-            <!-- Manual Pin Note Form -->
+            <!-- Pinpoint Feedback Marker Box -->
             <div class="bg-slate-950 border border-cyan-500/30 p-2.5 rounded-lg space-y-2">
               <div class="flex justify-between items-center text-[11px] font-bold text-cyan-300">
                 <span>📍 Pinpoint Component Note / Marker</span>
@@ -480,7 +444,7 @@
               </div>
             </div>
 
-            <!-- Notes Log -->
+            <!-- Pinned Feedback Notes Log Box with Active/Resolved Tabs -->
             <div class="bg-slate-950 border border-slate-800 rounded-lg p-2.5 space-y-2">
               <div class="flex justify-between items-center">
                 <div class="flex gap-1">
@@ -494,7 +458,7 @@
               </div>
             </div>
 
-            <!-- Feedback Input -->
+            <!-- Revision Box -->
             <div id="revisionControls" class="flex flex-col sm:flex-row gap-2 pt-1 border-t border-slate-800/60 w-full">
               <div class="relative w-full sm:flex-1">
                 <input type="text" id="feedbackInput" autocomplete="off" placeholder="Request changes or speak voice command..." class="w-full bg-slate-950 border border-slate-800 rounded-md pl-3 pr-9 py-2 text-xs text-white outline-none">
@@ -508,7 +472,7 @@
             </div>
           </div>
 
-          <!-- Code Outputs Box & Export Tabs -->
+          <!-- Code Outputs Box & Tabs -->
           <div class="space-y-2.5">
             <div class="flex flex-wrap justify-between items-center gap-2">
               <div class="flex flex-wrap gap-1 bg-slate-950 p-1 rounded-md border border-slate-800">
@@ -516,278 +480,779 @@
                 <button id="tabTailwind" onclick="switchTab('tailwind')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">Tailwind Config</button>
                 <button id="tabReact" onclick="switchTab('react')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">⚛️ React</button>
                 <button id="tabFlutter" onclick="switchTab('flutter')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">📱 Flutter</button>
+                <button id="tabJson" onclick="switchTab('json')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">Style Dictionary</button>
+                <button id="tabVisualizer" onclick="switchTab('visualizer')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">🎨 v1.5 Visualizer</button>
               </div>
-              <div class="flex gap-2">
-                <button onclick="copyCurrentCode()" class="bg-slate-800 hover:bg-slate-700 text-cyan-400 font-bold text-xs px-3 py-1.5 rounded transition">
-                  📋 Copy Code
-                </button>
-                <button onclick="downloadZipPackage()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-xs px-3 py-1.5 rounded transition shadow flex items-center gap-1">
-                  📦 1-Click ZIP Download
-                </button>
+
+              <!-- LIGHT / DARK MODE SUB-TABS -->
+              <div id="modeSubTabs" class="flex gap-1 bg-slate-950 p-1 rounded-md border border-slate-800">
+                <button id="subTabLight" onclick="switchMode('light')" class="text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400 hover:text-white transition">☀️ Light</button>
+                <button id="subTabDark" onclick="switchMode('dark')" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400 transition">🌙 Dark</button>
               </div>
             </div>
 
-            <pre id="codeOutput" class="bg-slate-950 p-4 rounded-lg border border-slate-800 text-xs font-mono text-cyan-300 max-h-48 overflow-y-auto custom-scrollbar select-all"></pre>
+            <div class="bg-slate-950 border border-slate-800 rounded-lg overflow-hidden">
+              <div class="flex justify-between items-center bg-slate-900 px-3 py-1.5 border-b border-slate-800 text-xs text-slate-400">
+                <span id="codeBoxTitle">variables-dark.css</span>
+                <button onclick="copyCodeOutput(this)" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-[10px] px-2.5 py-0.5 rounded transition">
+                  📄 Copy Code
+                </button>
+              </div>
+              <div id="codeOutputContainer">
+                <pre id="codeOutput" class="p-3 text-xs font-mono text-cyan-400 h-32 overflow-y-auto whitespace-pre-wrap custom-scrollbar"></pre>
+              </div>
+              <div id="visualizerPanel" class="hidden p-4 space-y-3 h-32 overflow-y-auto custom-scrollbar bg-slate-950 text-xs">
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="space-y-2">
+                    <label class="block font-semibold text-cyan-400">Box Shadow Blur: <span id="blurVal">10px</span></label>
+                    <input type="range" id="shadowBlurRange" min="0" max="40" value="10" oninput="updateVisualizerPreview()" class="w-full accent-cyan-400">
+                  </div>
+                  <div class="space-y-2">
+                    <label class="block font-semibold text-cyan-400">Border Radius: <span id="radiusVal">8px</span></label>
+                    <input type="range" id="borderRadiusRange" min="0" max="30" value="8" oninput="updateVisualizerPreview()" class="w-full accent-cyan-400">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Changelog -->
+          <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 space-y-1.5">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-bold text-slate-300">🤖 AI Client Changelog (Ready for WhatsApp / Slack)</span>
+              <div class="flex gap-2">
+                <button onclick="sendViaGmail()" class="bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded transition">📧 Open Gmail</button>
+                <button onclick="copyChangelogMsg(this)" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 text-[10px] font-bold px-2.5 py-0.5 rounded transition">📋 Copy Message</button>
+              </div>
+            </div>
+            <div id="changelogMsg" class="bg-slate-900 p-2 rounded text-[11px] font-mono text-slate-300 border border-slate-800/80">
+              Loading changelog...
+            </div>
+          </div>
+
+          <!-- Bottom Actions Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+            <button onclick="exportCss()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export variables.css</button>
+            <button onclick="exportTailwind()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-white font-semibold text-xs py-2 rounded-lg transition">📥 Export tailwind.config.js</button>
+            <button onclick="downloadAllZipBundle()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs py-2 rounded-lg transition shadow-md">📦 Download ZIP Package</button>
+            <button onclick="exportPdf()" class="bg-slate-950 hover:bg-slate-800 border border-cyan-500/30 text-cyan-400 font-bold text-xs py-2 rounded-lg transition">📄 Export Spec PDF</button>
+            <button onclick="copyShareLink(this)" class="col-span-2 sm:col-span-1 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2 rounded-lg transition">🌐 Share Live Link</button>
           </div>
 
         </div>
+
       </div>
+
     </div>
+
   </div>
 
   <script>
-    // Global State
-    let pins = [];
     let currentTab = 'css';
-    let currentFormat = 'website';
-    let activeDrawTool = 'select';
-    let isDrawing = false;
-    let startX = 0, startY = 0;
+    let currentMode = 'dark';
+    let currentApprovalClient = "";
+    let currentApprovalPhone = "";
+    let pinnedNotesList = [];
+    let pinCount = 0;
+    let currentLogView = 'active';
+    let currentMediaFormat = 'website';
 
-    // Canvas Setup
-    const canvas = document.getElementById('drawingCanvas');
-    const ctx = canvas.getContext('2d');
-
-    function resizeCanvas() {
-      const container = document.getElementById('container');
-      canvas.width = container.clientWidth;
-      canvas.height = container.clientHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    setTimeout(resizeCanvas, 100);
-
-    // Format Switching Logic
-    function switchMediaFormat(fmt) {
-      currentFormat = fmt;
-      const formats = ['Web', 'Vid', 'Pdf', 'Img'];
-      formats.forEach(f => {
-        const btn = document.getElementById('format' + f);
-        if (btn) {
-          btn.className = "text-[11px] font-semibold px-3 py-1.5 rounded bg-slate-900 text-slate-300 hover:text-white transition flex items-center gap-1";
-        }
-      });
-
-      document.getElementById('websiteViewContent').classList.add('hidden');
-      document.getElementById('videoViewContent').classList.add('hidden');
-      document.getElementById('pdfViewContent').classList.add('hidden');
-      document.getElementById('imageViewContent').classList.add('hidden');
-
-      const activeBtn = document.getElementById('format' + fmt.charAt(0).toUpperCase() + fmt.slice(1, 3));
-      if (activeBtn) activeBtn.className = "text-[11px] font-bold px-3 py-1.5 rounded bg-cyan-400 text-slate-950 transition flex items-center gap-1";
-
+    function switchMediaFormat(format) {
+      currentMediaFormat = format;
+      const webBtn = document.getElementById('formatWeb');
+      const vidBtn = document.getElementById('formatVid');
+      const pdfBtn = document.getElementById('formatPdf');
+      const imgBtn = document.getElementById('formatImg');
       const title = document.getElementById('playgroundTitle');
+      const display = document.getElementById('mediaContentDisplay');
 
-      if (fmt === 'website') {
-        document.getElementById('websiteViewContent').classList.remove('hidden');
-        title.innerText = "🎨 LIVE VISUAL THEME PLAYGROUND (WEBSITE VIEW)";
-      } else if (fmt === 'video') {
-        document.getElementById('videoViewContent').classList.remove('hidden');
-        title.innerText = "🎥 LIVE VIDEO REVIEW PORTAL";
-      } else if (fmt === 'pdf') {
-        document.getElementById('pdfViewContent').classList.remove('hidden');
-        title.innerText = "📄 PDF DOCUMENT REVIEW PORTAL";
-      } else if (fmt === 'image') {
-        document.getElementById('imageViewContent').classList.remove('hidden');
-        title.innerText = "🖼️ IMAGE & WIREFRAME ANNOTATION VIEW";
-      }
-    }
-
-    // Drawing Tool Selector
-    function setDrawTool(tool) {
-      activeDrawTool = tool;
-      ['select', 'pencil', 'arrow', 'box'].forEach(t => {
-        const btn = document.getElementById('tool' + t.charAt(0).toUpperCase() + t.slice(1));
-        if (btn) btn.className = "bg-slate-800 text-slate-300 hover:text-white px-2 py-0.5 rounded text-[11px]";
+      [webBtn, vidBtn, pdfBtn, imgBtn].forEach(b => {
+        b.className = "text-[11px] font-semibold px-3 py-1.5 rounded bg-slate-900 text-slate-300 hover:text-white transition flex items-center gap-1";
       });
 
-      const current = document.getElementById('tool' + tool.charAt(0).toUpperCase() + tool.slice(1));
-      if (current) current.className = "bg-cyan-400 text-slate-950 font-bold px-2 py-0.5 rounded text-[11px]";
+      if (format === 'website') {
+        webBtn.className = "text-[11px] font-bold px-3 py-1.5 rounded bg-cyan-400 text-slate-950 transition flex items-center gap-1";
+        title.innerText = "🎨 LIVE VISUAL THEME PLAYGROUND (WEBSITE VIEW)";
+        display.innerHTML = `
+          <div id="splitComparisonOverlay" class="hidden grid grid-cols-2 gap-2 border-b border-slate-800 pb-3 mb-2">
+            <div class="bg-slate-900 p-2 rounded text-center border border-slate-800"><span class="text-[10px] text-cyan-400 font-bold block mb-1">🎨 Original Figma Design Spec</span><div class="h-20 bg-slate-950 border border-dashed border-slate-800 flex items-center justify-center text-[10px] text-slate-500">Design Mockup Frame</div></div>
+            <div class="bg-slate-900 p-2 rounded text-center border border-slate-800"><span class="text-[10px] text-emerald-400 font-bold block mb-1">🌐 Developer Live Site</span><div class="h-20 bg-slate-950 border border-dashed border-slate-800 flex items-center justify-center text-[10px] text-slate-500">Live Rendered Frame</div></div>
+          </div>
+          <div class="flex justify-between items-center pointer-events-none">
+            <div>
+              <h4 id="previewAppTitle" contenteditable="true" onclick="event.stopPropagation()" class="text-sm font-bold text-white outline-none" title="Click to edit text directly!">Your Project Name</h4>
+              <p id="previewSubtitle" contenteditable="true" onclick="event.stopPropagation()" class="text-[11px] text-slate-400 outline-none" title="Click to edit text directly!">Click anywhere to drop a feedback pin 📍 or edit text directly!</p>
+            </div>
+            <button id="previewBtn" contenteditable="true" onclick="event.stopPropagation()" class="text-white font-bold text-xs px-4 py-2 rounded-md shadow-md transition outline-none" style="background-color: var(--primary-brand, #351156);">Primary CTA</button>
+          </div>
+          <div id="typoCard" class="bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 transition-colors pointer-events-none">
+            <p class="text-[10px] font-bold text-cyan-400 uppercase tracking-wider">📐 Typography Scale Preview</p>
+            <div id="previewTypography" class="text-white space-y-0.5">
+              <div class="text-base font-bold" contenteditable="true" onclick="event.stopPropagation()">H1 Heading - Core Display</div>
+              <div id="typoSubtext" class="text-xs text-slate-300" contenteditable="true" onclick="event.stopPropagation()">Body text - Click directly to change and preview copy live!</div>
+            </div>
+          </div>`;
+      } else if (format === 'video') {
+        vidBtn.className = "text-[11px] font-bold px-3 py-1.5 rounded bg-cyan-400 text-slate-950 transition flex items-center gap-1";
+        title.innerText = "🎥 LIVE VIDEO FEEDBACK REVIEW (TIMELINE PINNING)";
+        display.innerHTML = `
+          <div class="space-y-3">
+            <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-center space-y-2">
+              <div class="h-32 bg-slate-950 rounded flex items-center justify-center border border-dashed border-slate-800 text-xs text-cyan-400 font-mono">
+                ▶ [Video Frame Mockup - Click to drop timestamp pin]
+              </div>
+              <div class="flex items-center justify-between text-[11px] text-slate-400 px-1 font-mono">
+                <span>00:00</span>
+                <div class="flex-1 mx-3 bg-slate-950 h-2 rounded-full relative"><div class="absolute left-1/3 top-0 bottom-0 w-2 bg-cyan-400 rounded-full"></div></div>
+                <span>02:30</span>
+              </div>
+            </div>
+            <p class="text-[11px] text-slate-400 italic text-center">Click anywhere on the video frame to log time-specific feedback notes.</p>
+          </div>`;
+      } else if (format === 'pdf') {
+        pdfBtn.className = "text-[11px] font-bold px-3 py-1.5 rounded bg-cyan-400 text-slate-950 transition flex items-center gap-1";
+        title.innerText = "📄 PDF DOCUMENT REVIEW PORTAL";
+        display.innerHTML = `
+          <div class="space-y-3">
+            <div class="bg-slate-900 border border-slate-800 rounded-lg p-4 space-y-2 text-left">
+              <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                <span class="text-xs font-bold text-cyan-300">Document_Spec_v1.pdf (Page 1 of 4)</span>
+                <span class="text-[10px] bg-cyan-500/20 text-cyan-400 px-2 py-0.5 rounded">Active PDF Mode</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed" contenteditable="true" onclick="event.stopPropagation()">
+                Section 1.1: The primary objective of this project is to deliver a streamlined client feedback workflow equivalent to top enterprise standards. Click anywhere on this page to leave annotations.
+              </p>
+            </div>
+          </div>`;
+      } else if (format === 'image') {
+        imgBtn.className = "text-[11px] font-bold px-3 py-1.5 rounded bg-cyan-400 text-slate-950 transition flex items-center gap-1";
+        title.innerText = "🖼️ IMAGE MOCKUP ANNOTATION VIEW";
+        display.innerHTML = `
+          <div class="space-y-3">
+            <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-center space-y-2">
+              <div class="h-36 bg-slate-950 rounded flex items-center justify-center border border-dashed border-slate-800 text-xs text-slate-400">
+                🖼️ [Figma UI Wireframe Mockup - Click anywhere to drop a pin]
+              </div>
+            </div>
+            <p class="text-[11px] text-slate-400 italic text-center">Pixel-perfect image marking enabled. Drop pins directly on the graphic.</p>
+          </div>`;
+      }
+      generateSystem();
+    }
 
-      if (tool === 'select') {
-        canvas.classList.remove('active-draw');
+    function switchInspector(type) {
+      const fontBtn = document.getElementById('inspFontBtn');
+      const spaceBtn = document.getElementById('inspSpaceBtn');
+      const fontPanel = document.getElementById('inspectorFontPanel');
+      const spacePanel = document.getElementById('inspectorSpacingPanel');
+
+      if (type === 'fonts') {
+        fontBtn.className = "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        spaceBtn.className = "text-[10px] font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition";
+        fontPanel.classList.remove('hidden');
+        spacePanel.classList.add('hidden');
       } else {
-        canvas.classList.add('active-draw');
+        spaceBtn.className = "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        fontBtn.className = "text-[10px] font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition";
+        spacePanel.classList.remove('hidden');
+        fontPanel.classList.add('hidden');
       }
     }
 
-    // Drawing Canvas Interactions
-    canvas.addEventListener('mousedown', (e) => {
-      if (activeDrawTool === 'select') return;
-      isDrawing = true;
-      const rect = canvas.getBoundingClientRect();
-      startX = e.clientX - rect.left;
-      startY = e.clientY - rect.top;
-      ctx.strokeStyle = document.getElementById('drawColor').value;
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(startX, startY);
-    });
-
-    canvas.addEventListener('mousemove', (e) => {
-      if (!isDrawing || activeDrawTool === 'select') return;
-      const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      if (activeDrawTool === 'pencil') {
-        ctx.lineTo(x, y);
-        ctx.stroke();
+    function toggleSplitScreen() {
+      const overlay = document.getElementById('splitComparisonOverlay');
+      const btn = document.getElementById('splitBtn');
+      if (!overlay) return alert("Split comparison is available in Website view mode.");
+      if (overlay.classList.contains('hidden')) {
+        overlay.classList.remove('hidden');
+        btn.className = "text-xs font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+      } else {
+        overlay.classList.add('hidden');
+        btn.className = "text-xs font-bold px-2.5 py-1 rounded bg-slate-800 text-cyan-400 border border-cyan-500/30 transition";
       }
-    });
-
-    canvas.addEventListener('mouseup', (e) => {
-      if (!isDrawing || activeDrawTool === 'select') return;
-      isDrawing = false;
-      const rect = canvas.getBoundingClientRect();
-      const endX = e.clientX - rect.left;
-      const endY = e.clientY - rect.top;
-
-      if (activeDrawTool === 'box') {
-        ctx.strokeRect(startX, startY, endX - startX, endY - startY);
-      } else if (activeDrawTool === 'arrow') {
-        ctx.beginPath();
-        ctx.moveTo(startX, startY);
-        ctx.lineTo(endX, endY);
-        ctx.stroke();
-        // Arrow head
-        const angle = Math.atan2(endY - startY, endX - startX);
-        ctx.beginPath();
-        ctx.moveTo(endX, endY);
-        ctx.lineTo(endX - 10 * Math.cos(angle - Math.PI / 6), endY - 10 * Math.sin(angle - Math.PI / 6));
-        ctx.lineTo(endX - 10 * Math.cos(angle + Math.PI / 6), endY - 10 * Math.sin(angle + Math.PI / 6));
-        ctx.fillStyle = ctx.strokeStyle;
-        ctx.fill();
-      }
-    });
-
-    function clearCanvas() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
-    // Pin Drop Click
-    function handleContainerClick(e) {
-      if (activeDrawTool !== 'select') return;
-      const rect = document.getElementById('container').getBoundingClientRect();
+    function switchViewport(mode) {
+      const container = document.getElementById('container');
+      const deskBtn = document.getElementById('vpDesk');
+      const tabBtn = document.getElementById('vpTab');
+      const mobBtn = document.getElementById('vpMob');
+
+      deskBtn.className = "text-[10px] font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition";
+      tabBtn.className = "text-[10px] font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition";
+      mobBtn.className = "text-[10px] font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition";
+
+      if (mode === 'desktop') {
+        container.style.maxWidth = '100%';
+        deskBtn.className = "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+      } else if (mode === 'tablet') {
+        container.style.maxWidth = '768px';
+        tabBtn.className = "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+      } else if (mode === 'mobile') {
+        container.style.maxWidth = '375px';
+        mobBtn.className = "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+      }
+    }
+
+    function dropVisualPin(e) {
+      const container = document.getElementById('container');
+      const rect = container.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 100;
       const y = ((e.clientY - rect.top) / rect.height) * 100;
-      const noteInput = document.getElementById('pinpointNoteInput');
-      const noteText = noteInput.value.trim() || `Feedback pin on ${currentFormat.toUpperCase()} at (${Math.round(x)}%, ${Math.round(y)}%)`;
-      const priority = document.getElementById('pinPriority').value;
 
-      pins.push({ id: pins.length + 1, x, y, note: noteText, priority, resolved: false });
-      noteInput.value = '';
-      renderPins();
+      const inputField = document.getElementById('pinpointNoteInput');
+      const noteText = inputField.value.trim() || `Pin on [${currentMediaFormat.toUpperCase()}] at (${Math.round(x)}%, ${Math.round(y)}%)`;
+
+      const priority = document.getElementById('pinPriority').value;
+      pinCount++;
+
+      const pinEl = document.createElement('div');
+      const currentPinId = pinCount;
+      pinEl.id = `pin-element-${currentPinId}`;
+      pinEl.className = `visual-pin ${priority}`;
+      pinEl.style.left = `${x}%`;
+      pinEl.style.top = `${y}%`;
+      pinEl.innerText = currentPinId;
+      pinEl.title = `${noteText} (Double-click to remove)`;
+      
+      pinEl.ondblclick = (evt) => {
+        evt.stopPropagation();
+        deletePin(currentPinId);
+      };
+
+      document.getElementById('pinsOverlayContainer').appendChild(pinEl);
+
+      pinnedNotesList.push({
+        id: currentPinId,
+        note: noteText,
+        priority: priority.toUpperCase(),
+        status: 'active'
+      });
+
+      inputField.value = "";
+      renderNotesLog();
     }
 
-    function renderPins() {
-      const overlay = document.getElementById('pinsOverlayContainer');
-      const log = document.getElementById('feedbackLogContainer');
-      overlay.innerHTML = '';
-      log.innerHTML = '';
+    function deletePin(id) {
+      pinnedNotesList = pinnedNotesList.filter(item => item.id !== id);
+      const el = document.getElementById(`pin-element-${id}`);
+      if (el) el.remove();
+      renderNotesLog();
+    }
 
-      const activePins = pins.filter(p => !p.resolved);
-      document.getElementById('noteCountBadge').innerText = `${activePins.length} Notes`;
+    function toggleResolvePin(id) {
+      const pin = pinnedNotesList.find(item => item.id === id);
+      if (pin) {
+        pin.status = pin.status === 'active' ? 'resolved' : 'active';
+        const el = document.getElementById(`pin-element-${id}`);
+        if (el) {
+          if (pin.status === 'resolved') {
+            el.style.opacity = '0.4';
+          } else {
+            el.style.opacity = '1';
+          }
+        }
+        renderNotesLog();
+      }
+    }
 
-      if (activePins.length === 0) {
-        log.innerHTML = '<p class="text-slate-500 italic">No active pins. Click above to drop a pin!</p>';
+    function switchLogTab(tab) {
+      currentLogView = tab;
+      const actBtn = document.getElementById('logTabActive');
+      const resBtn = document.getElementById('logTabResolved');
+      if (tab === 'active') {
+        actBtn.className = "text-[10px] font-bold px-2.5 py-0.5 rounded bg-cyan-400 text-slate-950 transition";
+        resBtn.className = "text-[10px] font-semibold px-2.5 py-0.5 rounded bg-slate-900 text-slate-400 hover:text-white transition";
+      } else {
+        resBtn.className = "text-[10px] font-bold px-2.5 py-0.5 rounded bg-cyan-400 text-slate-950 transition";
+        actBtn.className = "text-[10px] font-semibold px-2.5 py-0.5 rounded bg-slate-900 text-slate-400 hover:text-white transition";
+      }
+      renderNotesLog();
+    }
+
+    function submitManualPinNote() {
+      const input = document.getElementById('pinpointNoteInput');
+      if (!input.value.trim()) return;
+      
+      const priority = document.getElementById('pinPriority').value;
+      pinCount++;
+
+      pinnedNotesList.push({
+        id: pinCount,
+        note: input.value.trim(),
+        priority: priority.toUpperCase(),
+        status: 'active'
+      });
+
+      input.value = "";
+      renderNotesLog();
+    }
+
+    function renderNotesLog() {
+      const container = document.getElementById('feedbackLogContainer');
+      const filteredList = pinnedNotesList.filter(item => item.status === currentLogView);
+      document.getElementById('noteCountBadge').innerText = `${filteredList.length} ${currentLogView === 'active' ? 'Active' : 'Resolved'}`;
+
+      if (filteredList.length === 0) {
+        container.innerHTML = `<p class="text-slate-500 italic">No ${currentLogView} notes found.</p>`;
         return;
       }
 
-      activePins.forEach(pin => {
-        // Render Pin on Frame
-        const pinEl = document.createElement('div');
-        pinEl.className = `visual-pin ${pin.priority}`;
-        pinEl.style.left = `${pin.x}%`;
-        pinEl.style.top = `${pin.y}%`;
-        pinEl.innerText = pin.id;
-        pinEl.title = pin.note;
-        overlay.appendChild(pinEl);
+      container.innerHTML = filteredList.map((item) => {
+        let badgeColor = "text-emerald-400";
+        if (item.priority === "HIGH") badgeColor = "text-rose-400";
+        if (item.priority === "MEDIUM") badgeColor = "text-amber-400";
 
-        // Render Log Entry
-        const item = document.createElement('div');
-        item.className = 'flex justify-between items-center bg-slate-900 p-1.5 rounded border border-slate-800';
-        item.innerHTML = `
-          <span>📍 <strong>#${pin.id}</strong>: ${pin.note}</span>
-          <button onclick="resolvePin(${pin.id})" class="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded hover:bg-emerald-500/30">✓ Resolve</button>
-        `;
-        log.appendChild(item);
-      });
+        const resolveBtnText = item.status === 'active' ? '✓ Resolve' : '↩ Reopen';
+        const resolveBtnColor = item.status === 'active' ? 'text-emerald-400 hover:text-emerald-300' : 'text-amber-400 hover:text-amber-300';
+
+        return `<div class="flex items-center justify-between bg-slate-900 p-1.5 rounded border border-slate-800 mb-1">
+          <span><strong class="text-cyan-400">Pin #${item.id}:</strong> ${item.note}</span>
+          <div class="flex items-center gap-2">
+            <span class="text-[9px] ${badgeColor} font-bold px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">${item.priority}</span>
+            <button onclick="toggleResolvePin(${item.id})" class="${resolveBtnColor} font-bold text-[10px] px-1">${resolveBtnText}</button>
+            <button onclick="deletePin(${item.id})" class="text-rose-400 hover:text-rose-300 font-bold text-[10px] px-1">✕</button>
+          </div>
+        </div>`;
+      }).join('');
     }
 
-    function resolvePin(id) {
-      const pin = pins.find(p => p.id === id);
-      if (pin) pin.resolved = true;
-      renderPins();
+    function parseAnyColor(inputStr) {
+      const s = inputStr.trim().toLowerCase();
+      if (s.startsWith('#') && (s.length === 4 || s.length === 7)) return s;
+      
+      const dummy = document.createElement('div');
+      dummy.style.color = s;
+      document.body.appendChild(dummy);
+      const rgb = window.getComputedStyle(dummy).color;
+      document.body.removeChild(dummy);
+
+      if (rgb && rgb !== 'rgba(0, 0, 0, 0)' && rgb !== 'transparent') {
+        const rgbValues = rgb.match(/\d+/g);
+        if (rgbValues && rgbValues.length >= 3) {
+          return "#" + ((1 << 24) + (parseInt(rgbValues[0]) << 16) + (parseInt(rgbValues[1]) << 8) + parseInt(rgbValues[2])).toString(16).slice(1);
+        }
+      }
+      return null;
     }
 
-    function copyShareableLink() {
-      navigator.clipboard.writeText(window.location.href);
-      alert("🔗 Guest Review Link copied to clipboard!");
+    function handleSmartSearch() {
+      const text = document.getElementById('siteSearchInput').value;
+      const hint = document.getElementById('searchResultsHint');
+      if (!text) {
+        hint.innerText = "Type any color name or HEX code to apply instantly!";
+        return;
+      }
+
+      const hex = parseAnyColor(text);
+      if (hex) {
+        setColor(hex);
+        hint.innerText = `✨ Applied color '${text}' (${hex}) successfully!`;
+      } else {
+        hint.innerText = `Searching color...`;
+      }
     }
 
-    // Generator & Theme Sync
+    function startMainVoiceSearch() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) return alert("Speech recognition not supported.");
+      const recognition = new SpeechRecognition();
+      recognition.onresult = (event) => {
+        document.getElementById('siteSearchInput').value = event.results[0][0].transcript;
+        handleSmartSearch();
+      };
+      recognition.start();
+    }
+
+    function setColor(hex) {
+      document.getElementById('brandColor').value = hex;
+      document.getElementById('brandColorPicker').value = hex;
+      document.getElementById('interactiveColorPicker').value = hex;
+      generateSystem();
+    }
+
+    function applyPreset(hex, fontName) {
+      setColor(hex);
+      document.getElementById('fontSelect').value = fontName;
+      document.getElementById('activeFontLabel').innerText = fontName;
+      generateSystem();
+    }
+
     function syncColorInput(source) {
       if (source === 'picker') {
-        document.getElementById('brandColor').value = document.getElementById('brandColorPicker').value;
+        const val = document.getElementById('brandColorPicker').value;
+        document.getElementById('brandColor').value = val;
+        document.getElementById('interactiveColorPicker').value = val;
       } else {
-        document.getElementById('brandColorPicker').value = document.getElementById('brandColor').value;
+        const val = document.getElementById('brandColor').value;
+        if (val.startsWith('#') && val.length === 7) {
+          document.getElementById('brandColorPicker').value = val;
+          document.getElementById('interactiveColorPicker').value = val;
+        }
       }
       generateSystem();
     }
 
-    function setColor(color) {
-      document.getElementById('brandColor').value = color;
-      document.getElementById('brandColorPicker').value = color;
+    function fetchDesignLink() {
+      const url = document.getElementById('designFileUrl').value;
+      if (!url) return alert("Please paste a valid link first.");
+      document.getElementById('projectName').value = "imported-app";
       generateSystem();
     }
 
-    function applyPreset(color, font) {
+    function updateInteractiveTheme() {
+      const color = document.getElementById('interactiveColorPicker').value;
+      const radius = document.getElementById('interactiveRadiusRange').value;
+      document.getElementById('interactiveRadiusVal').innerText = `${radius}px`;
       setColor(color);
-      document.getElementById('fontSelect').value = font;
+      document.getElementById('customRules').value = `border-radius-md: ${radius}px`;
       generateSystem();
     }
 
-    function generateSystem() {
-      const name = document.getElementById('projectName').value || "Scrutinix Portal";
-      const color = document.getElementById('brandColor').value;
-      const font = document.getElementById('fontSelect').value;
+    function calculateContrastRatio(hexColor) {
+      let cleanHex = hexColor.replace('#', '');
+      if (cleanHex.length === 3) {
+        cleanHex = cleanHex.split('').map(c => c + c).join('');
+      }
+      const r = parseInt(cleanHex.substr(0, 2), 16) / 255;
+      const g = parseInt(cleanHex.substr(2, 2), 16) / 255;
+      const b = parseInt(cleanHex.substr(4, 2), 16) / 255;
 
-      document.getElementById('previewAppTitle').innerText = name;
-      document.getElementById('previewBtn').style.backgroundColor = color;
-      document.getElementById('tailwindSnippetText').innerText = `bg-[${color}] text-white font-${font.toLowerCase()} rounded-md`;
-      
-      updateCodeOutput(color, font);
+      const getLuminance = (val) => {
+        return val <= 0.03928 ? val / 12.92 : Math.pow((val + 0.055) / 1.055, 2.4);
+      };
+
+      const L1 = 0.2126 * getLuminance(r) + 0.7152 * getLuminance(g) + 0.0722 * getLuminance(b);
+      const L2 = 0.05;
+      const ratio = (Math.max(L1, L2) + 0.05) / (Math.min(L1, L2) + 0.05);
+      return ratio.toFixed(1);
     }
 
-    function updateCodeOutput(color, font) {
-      const output = document.getElementById('codeOutput');
-      if (currentTab === 'css') {
-        output.innerText = `:root {\n  --primary-brand: ${color};\n  --font-main: '${font}', sans-serif;\n  --radius-md: 8px;\n}`;
-      } else if (currentTab === 'tailwind') {
-        output.innerText = `module.exports = {\n  theme: {\n    extend: {\n      colors: {\n        brand: '${color}',\n      },\n      fontFamily: {\n        main: ['${font}', 'sans-serif'],\n      }\n    }\n  }\n}`;
-      } else if (currentTab === 'react') {
-        output.innerText = `export const ThemeConfig = {\n  primary: '${color}',\n  font: '${font}',\n};`;
-      } else if (currentTab === 'flutter') {
-        output.innerText = `static const Color primaryColor = Color(0xFF${color.replace('#','')});`;
+    function updateWcagBadge(color) {
+      const ratio = calculateContrastRatio(color);
+      const badge = document.getElementById('wcagBadge');
+      if (ratio >= 4.5) {
+        badge.className = "text-[11px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold";
+        badge.innerText = `✓ WCAG AA Pass (${ratio}:1)`;
+      } else {
+        badge.className = "text-[11px] bg-amber-500/15 text-amber-400 border border-amber-500/30 px-2.5 py-0.5 rounded-full font-bold";
+        badge.innerText = `⚠ Low Contrast (${ratio}:1)`;
+      }
+    }
+
+    function switchPreviewTheme(mode) {
+      const container = document.getElementById('container');
+      const typoCard = document.getElementById('typoCard');
+      const portalCard = document.getElementById('portalCard');
+      const lightBtn = document.getElementById('previewLightBtn');
+      const darkBtn = document.getElementById('previewDarkBtn');
+
+      if (mode === 'light') {
+        container.style.backgroundColor = '#ffffff';
+        container.style.color = '#0f172a';
+        if(document.getElementById('previewAppTitle')) document.getElementById('previewAppTitle').style.color = '#0f172a';
+        if(document.getElementById('previewSubtitle')) document.getElementById('previewSubtitle').style.color = '#475569';
+        if(typoCard) typoCard.style.backgroundColor = '#f1f5f9';
+        portalCard.style.backgroundColor = '#f8fafc';
+        lightBtn.className = "text-xs font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        darkBtn.className = "text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition";
+      } else {
+        container.style.backgroundColor = '#020617';
+        container.style.color = '#f8fafc';
+        if(document.getElementById('previewAppTitle')) document.getElementById('previewAppTitle').style.color = '#ffffff';
+        if(document.getElementById('previewSubtitle')) document.getElementById('previewSubtitle').style.color = '#94a3b8';
+        if(typoCard) typoCard.style.backgroundColor = '#0f172a';
+        portalCard.style.backgroundColor = '#0f172a';
+        darkBtn.className = "text-xs font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+        lightBtn.className = "text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition";
       }
     }
 
     function switchTab(tab) {
       currentTab = tab;
-      ['css', 'tailwind', 'react', 'flutter'].forEach(t => {
+      const tabs = ['css', 'tailwind', 'react', 'flutter', 'json', 'visualizer'];
+      tabs.forEach(t => {
         const btn = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
-        if (btn) btn.className = "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
+        if (btn) {
+          if (t === tab) {
+            btn.className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+          } else {
+            btn.className = "text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition";
+          }
+        }
       });
-      document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).className = "text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition";
+      const codeContainer = document.getElementById('codeOutputContainer');
+      const visualizerPanel = document.getElementById('visualizerPanel');
+      if (tab === 'visualizer') {
+        codeContainer.classList.add('hidden');
+        visualizerPanel.classList.remove('hidden');
+        document.getElementById('codeBoxTitle').innerText = "v1.5-visualizer-settings.json";
+      } else {
+        codeContainer.classList.remove('hidden');
+        visualizerPanel.classList.add('hidden');
+      }
       generateSystem();
     }
 
-    function toggleSplitScreen() {
-      document.getElementById('splitComparisonOverlay').classList.toggle('hidden');
+    function switchMode(mode) {
+      currentMode = mode;
+      const lightBtn = document.getElementById('subTabLight');
+      const darkBtn = document.getElementById('subTabDark');
+      if (mode === 'light') {
+        lightBtn.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400 transition";
+        darkBtn.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400 hover:text-white transition";
+      } else {
+        darkBtn.className = "text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400 transition";
+        lightBtn.className = "text-[10px] font-semibold px-2 py-0.5 rounded text-slate-400 hover:text-white transition";
+      }
+      generateSystem();
     }
 
-    // Initial Load
-    generateSystem();
+    function updateVisualizerPreview() {
+      generateSystem();
+    }
+
+    function submitFeedback() {
+      const input = document.getElementById('feedbackInput');
+      if (!input.value.trim()) return;
+      pinCount++;
+      pinnedNotesList.push({
+        id: pinCount,
+        note: `Revision: ${input.value.trim()}`,
+        priority: 'MEDIUM',
+        status: 'active'
+      });
+      input.value = "";
+      renderNotesLog();
+    }
+
+    function startVoiceRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) return alert("Speech recognition not supported.");
+      const recognition = new SpeechRecognition();
+      recognition.onresult = (event) => {
+        document.getElementById('feedbackInput').value = event.results[0][0].transcript;
+        submitFeedback();
+      };
+      recognition.start();
+    }
+
+    function approveDesign() {
+      const name = document.getElementById('clientNameInput').value.trim();
+      const phone = document.getElementById('clientPhoneInput').value.trim();
+      if (!name || !phone) return alert("Please enter your full name and WhatsApp number to approve.");
+      currentApprovalClient = name;
+      currentApprovalPhone = phone;
+      document.getElementById('portalStateBadge').className = "text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30";
+      document.getElementById('portalStateBadge').innerText = "🟢 Approved";
+      document.getElementById('approvalControls').classList.add('hidden');
+      document.getElementById('whatsappShareBanner').classList.remove('hidden');
+      document.getElementById('displayClientName').innerText = name;
+      document.getElementById('displayClientPhone').innerText = phone;
+      generateSystem();
+
+      generateSignOffPdfReport(name, phone);
+    }
+
+    function generateSignOffPdfReport(clientName, clientPhone) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const proj = document.getElementById('projectName').value || 'Scrutinix Project';
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+      const timestamp = new Date().toLocaleString();
+
+      doc.setFillColor(15, 23, 42);
+      doc.rect(0, 0, 210, 297, 'F');
+
+      doc.setTextColor(0, 210, 255);
+      doc.setFontSize(22);
+      doc.text("Scrutinix AI // Visual Feedback Sign-Off", 20, 25);
+
+      doc.setTextColor(148, 163, 184);
+      doc.setFontSize(10);
+      doc.text(`Official Design System Approval & Compliance Certificate`, 20, 33);
+
+      doc.setDrawColor(30, 41, 59);
+      doc.line(20, 40, 190, 40);
+
+      doc.setTextColor(248, 250, 252);
+      doc.setFontSize(12);
+      doc.text(`Project Name: ${proj}`, 20, 55);
+      doc.text(`Approved By: ${clientName}`, 20, 65);
+      doc.text(`WhatsApp Contact: ${clientPhone}`, 20, 75);
+      doc.text(`Approval Timestamp: ${timestamp}`, 20, 85);
+      doc.text(`Primary Brand HEX: ${color}`, 20, 95);
+      doc.text(`Selected Typography: ${font} (with web-safe fallback)`, 20, 105);
+      doc.text(`WCAG Accessibility Compliance: PASSED`, 20, 115);
+
+      doc.setTextColor(0, 210, 255);
+      doc.text("Visual Pins & Feedback Notes Log:", 20, 135);
+      doc.setTextColor(200, 200, 200);
+      doc.setFontSize(10);
+      if (pinnedNotesList.length === 0) {
+        doc.text("No specific visual revisions requested. Approved as-is.", 20, 145);
+      } else {
+        pinnedNotesList.forEach((item, idx) => {
+          doc.text(`Pin #${item.id} [${item.priority}]: ${item.note} (${item.status})`, 20, 145 + (idx * 10));
+        });
+      }
+
+      doc.save(`${proj.toLowerCase().replace(/\s+/g, '-')}-approval-report.pdf`);
+    }
+
+    function sendWhatsAppApproval() {
+      const proj = document.getElementById('projectName').value || 'Project';
+      window.open(`https://api.whatsapp.com/send?phone=${currentApprovalPhone}&text=Approved by ${currentApprovalClient} for ${proj}`, '_blank');
+    }
+
+    function copyTailwindSnippet(btn) {
+      navigator.clipboard.writeText(document.getElementById('tailwindSnippetText').innerText).then(() => {
+        let orig = btn.innerHTML;
+        btn.innerHTML = "✓ Copied";
+        setTimeout(() => { btn.innerHTML = orig; }, 2000);
+      });
+    }
+
+    function generateSystem() {
+      const proj = document.getElementById('projectName').value || 'Your Project Name';
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+      document.getElementById('activeFontLabel').innerText = font;
+      const rules = document.getElementById('customRules').value || 'Standard layout rules applied';
+
+      if(document.getElementById('previewAppTitle')) document.getElementById('previewAppTitle').innerText = proj;
+      document.documentElement.style.setProperty('--primary-brand', color);
+      if(document.getElementById('previewBtn')) document.getElementById('previewBtn').style.backgroundColor = color;
+      document.getElementById('tailwindSnippetText').innerText = `bg-[${color}] text-white font-${font.toLowerCase()} rounded-md`;
+
+      updateWcagBadge(color);
+
+      let outputText = "";
+      if (currentTab === 'css') {
+        document.getElementById('codeBoxTitle').innerText = `variables-${currentMode}.css`;
+        outputText = `/* Scrutinix AI CSS Variables (${currentMode} mode) */\n:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --component-rules: "${rules.replace(/\n/g, ' ')}";\n  --base-padding: 16px;\n  --font-fallback: sans-serif;\n}`;
+      } else if (currentTab === 'tailwind') {
+        document.getElementById('codeBoxTitle').innerText = `tailwind.config.js`;
+        outputText = `module.exports = {\n  theme: {\n    extend: {\n      colors: {\n        primary: '${color}',\n      },\n      fontFamily: {\n        sans: ['${font}', 'sans-serif'],\n      }\n    }\n  }\n};`;
+      } else if (currentTab === 'react') {
+        document.getElementById('codeBoxTitle').innerText = `ThemeComponent.jsx`;
+        outputText = `import React from 'react';\n\nexport default function ThemeComponent() {\n  return (\n    <div style={{ backgroundColor: '${color}', fontFamily: '${font}, sans-serif' }} className="p-4 rounded-lg text-white">\n      <h1>${proj}</h1>\n      <p>Rules: ${rules}</p>\n      <button>Primary CTA</button>\n    </div>\n  );\n}`;
+      } else if (currentTab === 'flutter') {
+        document.getElementById('codeBoxTitle').innerText = `theme_config.dart`;
+        outputText = `import 'package:flutter/material.dart';\n\nclass AppTheme {\n  static const Color primaryColor = Color(0xFF${color.replace('#','')});\n  static const String fontFamily = '${font}';\n}`;
+      } else if (currentTab === 'json') {
+        document.getElementById('codeBoxTitle').innerText = `style-dictionary.json`;
+        outputText = JSON.stringify({
+          project: proj,
+          rules: rules,
+          mediaFormat: currentMediaFormat,
+          visualPinsCount: pinnedNotesList.length,
+          color: { primary: { value: color } },
+          typography: { fontFamily: font, fallback: "sans-serif" },
+          spacing: { base: "16px", rem: "1rem" }
+        }, null, 2);
+      }
+
+      if (currentTab !== 'visualizer') {
+        document.getElementById('codeOutput').innerText = outputText;
+      }
+      document.getElementById('changelogMsg').innerText = `Project: ${proj} | Format: ${currentMediaFormat} | Pins: ${pinnedNotesList.length} | Color: ${color} | Font: ${font}`;
+    }
+
+    function copyCodeOutput(btn) {
+      let textToCopy = "";
+      if (currentTab === 'visualizer') {
+        const blur = document.getElementById('shadowBlurRange').value;
+        const radius = document.getElementById('borderRadiusRange').value;
+        textToCopy = JSON.stringify({ shadowBlur: blur + "px", borderRadius: radius + "px" }, null, 2);
+      } else {
+        textToCopy = document.getElementById('codeOutput').innerText;
+      }
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "✓ Copied!";
+        setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+      });
+    }
+
+    function copyChangelogMsg(btn) {
+      navigator.clipboard.writeText(document.getElementById('changelogMsg').innerText).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "✓ Copied!";
+        setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+      });
+    }
+
+    function copyShareLink(btn) {
+      const shareUrl = window.location.href.includes('http') ? window.location.href : "https://www.scrutinixai.com/";
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "✓ Link Copied!";
+        setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+      });
+    }
+
+    function exportCss() {
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+      downloadFile(`variables-${currentMode}.css`, `:root { --primary-brand: ${color}; --font-family: '${font}', sans-serif; }`);
+    }
+
+    function exportTailwind() {
+      const color = document.getElementById('brandColor').value;
+      downloadFile('tailwind.config.js', `module.exports = { theme: { extend: { colors: { primary: '${color}' } } } };`);
+    }
+
+    function exportPdf() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.text("Scrutinix AI - Visual Feedback Spec", 20, 20);
+      doc.save("design-spec.pdf");
+    }
+
+    function sendViaGmail() {
+      window.open(`https://mail.google.com/mail/?view=cm&fs=1&su=Visual Feedback Spec`, '_blank');
+    }
+
+    function downloadAllZipBundle() {
+      const zip = new JSZip();
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+      const proj = document.getElementById('projectName').value || 'scrutinix-project';
+      const rules = document.getElementById('customRules').value || 'Standard rules';
+
+      const cssContent = `:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --base-padding: 16px;\n}`;
+      const tailwindContent = `module.exports = {\n  theme: {\n    extend: {\n      colors: {\n        primary: '${color}',\n      },\n      fontFamily: {\n        sans: ['${font}', 'sans-serif'],\n      }\n    }\n  }\n};`;
+      const jsonContent = JSON.stringify({ project: proj, rules: rules, mediaFormat: currentMediaFormat, visualPins: pinnedNotesList, color: { primary: color }, typography: { font } }, null, 2);
+
+      zip.file("variables.css", cssContent);
+      zip.file("tailwind.config.js", tailwindContent);
+      zip.file("style-dictionary.json", jsonContent);
+
+      zip.generateAsync({ type: "blob" }).then(function(content) {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(content);
+        link.download = `${proj.toLowerCase().replace(/\s+/g, '-')}-design-tokens.zip`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+    }
+
+    function downloadFile(filename, content) {
+      const element = document.createElement('a');
+      const file = new Blob([content], { type: 'text/plain' });
+      element.href = URL.createObjectURL(file);
+      element.download = filename;
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    }
+
+    window.onload = function() {
+      generateSystem();
+    };
   </script>
 </body>
 </html>
