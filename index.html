@@ -72,6 +72,12 @@
     .visual-pin.high { background: #ef4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.8); }
     .visual-pin.medium { background: #f59e0b; box-shadow: 0 0 10px rgba(245, 158, 11, 0.8); }
     .visual-pin.low { background: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.8); }
+
+    /* Editable Text Hover Effect */
+    [contenteditable="true"]:hover {
+      outline: 1px dashed #00d2ff;
+      cursor: text;
+    }
   </style>
 </head>
 <body class="min-h-screen p-4 lg:p-8 flex flex-col justify-between pb-12">
@@ -145,8 +151,8 @@
               <button onclick="applyPreset('#10b981', 'Inter')" class="bg-slate-900 hover:bg-slate-800 border border-emerald-500/30 text-emerald-300 text-[11px] font-bold py-1.5 px-2 rounded transition">
                 🌿 Emerald SaaS
               </button>
-              <button onclick="applyPreset('#6366f1', 'Poppins')" class="bg-slate-900 hover:bg-slate-800 border border-indigo-500/30 text-indigo-300 text-[11px] font-bold py-1.5 px-2 rounded transition">
-                👑 Royal Indigo
+              <button onclick="applyPreset('#351156', 'Poppins')" class="bg-slate-900 hover:bg-slate-800 border border-purple-500/30 text-purple-300 text-[11px] font-bold py-1.5 px-2 rounded transition">
+                👑 Royal Purple
               </button>
             </div>
           </div>
@@ -187,8 +193,8 @@
               <div>
                 <label class="block text-xs font-semibold text-slate-200 mb-1">Brand Primary Color (HEX):</label>
                 <div class="flex items-center gap-2 bg-slate-950 border border-slate-800 rounded-lg p-1">
-                  <input type="color" id="brandColorPicker" value="#00d2ff" oninput="syncColorInput('picker')" class="w-6 h-6 rounded bg-transparent border-0 cursor-pointer">
-                  <input type="text" id="brandColor" value="#00d2ff" oninput="syncColorInput('text')" class="w-full bg-transparent text-xs uppercase text-white font-mono outline-none">
+                  <input type="color" id="brandColorPicker" value="#351156" oninput="syncColorInput('picker')" class="w-6 h-6 rounded bg-transparent border-0 cursor-pointer">
+                  <input type="text" id="brandColor" value="#351156" oninput="syncColorInput('text')" class="w-full bg-transparent text-xs uppercase text-white font-mono outline-none">
                 </div>
               </div>
 
@@ -237,8 +243,24 @@
             </div>
           </div>
 
+          <!-- MARKUP.IO STYLE MULTI-FORMAT SELECTOR TABS (Websites, Videos, PDFs, Images) -->
+          <div class="bg-slate-950 border border-slate-800 p-2 rounded-lg flex flex-wrap items-center justify-center gap-1.5">
+            <button onclick="switchMediaFormat('website')" id="formatWeb" class="text-[11px] font-bold px-3 py-1.5 rounded bg-cyan-400 text-slate-950 transition flex items-center gap-1">
+              <span>🌐</span> Websites
+            </button>
+            <button onclick="switchMediaFormat('video')" id="formatVid" class="text-[11px] font-semibold px-3 py-1.5 rounded bg-slate-900 text-slate-300 hover:text-white transition flex items-center gap-1">
+              <span>🎥</span> Videos
+            </button>
+            <button onclick="switchMediaFormat('pdf')" id="formatPdf" class="text-[11px] font-semibold px-3 py-1.5 rounded bg-slate-900 text-slate-300 hover:text-white transition flex items-center gap-1">
+              <span>📄</span> PDFs
+            </button>
+            <button onclick="switchMediaFormat('image')" id="formatImg" class="text-[11px] font-semibold px-3 py-1.5 rounded bg-slate-900 text-slate-300 hover:text-white transition flex items-center gap-1">
+              <span>🖼️</span> Images
+            </button>
+          </div>
+
           <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">🎨 LIVE VISUAL THEME PLAYGROUND (CLIENT VIEW)</h3>
+            <h3 id="playgroundTitle" class="text-sm font-bold text-white uppercase tracking-wider">🎨 LIVE VISUAL THEME PLAYGROUND (WEBSITE VIEW)</h3>
             <span id="wcagBadge" class="text-[11px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold">
               ✓ WCAG AA Pass (4.8:1)
             </span>
@@ -255,6 +277,7 @@
               </div>
             </div>
             <div class="flex gap-1">
+              <button onclick="toggleSplitScreen()" id="splitBtn" class="text-xs font-bold px-2.5 py-1 rounded bg-slate-800 text-cyan-400 border border-cyan-500/30 transition">↔️ Split Comparison</button>
               <button id="previewLightBtn" onclick="switchPreviewTheme('light')" class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition">☀️ Light</button>
               <button id="previewDarkBtn" onclick="switchPreviewTheme('dark')" class="text-xs font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition">🌙 Dark</button>
             </div>
@@ -308,7 +331,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
               <div>
                 <label class="block text-[11px] text-slate-300 mb-1">Live Primary Color:</label>
-                <input type="color" id="interactiveColorPicker" value="#00d2ff" onchange="updateInteractiveTheme()" class="w-full h-8 bg-slate-900 border border-slate-800 rounded cursor-pointer">
+                <input type="color" id="interactiveColorPicker" value="#351156" onchange="updateInteractiveTheme()" class="w-full h-8 bg-slate-900 border border-slate-800 rounded cursor-pointer">
               </div>
               <div>
                 <div class="flex justify-between text-[11px] text-slate-300 mb-1">
@@ -323,22 +346,38 @@
           <!-- Component Mockup Card WITH id="container" -->
           <div class="relative flex justify-center">
             <div id="container" onclick="dropVisualPin(event)" class="relative bg-slate-950 border border-slate-800 rounded-lg p-3.5 space-y-3 transition-all duration-300 cursor-crosshair w-full max-w-full">
-              <div class="flex justify-between items-center pointer-events-none">
-                <div>
-                  <h4 id="previewAppTitle" class="text-sm font-bold text-white">Your Project Name</h4>
-                  <p id="previewSubtitle" class="text-[11px] text-slate-400">Click anywhere to drop a feedback pin 📍</p>
+              
+              <!-- DYNAMIC MEDIA FORMAT VIEW CONTAINER -->
+              <div id="mediaContentDisplay" class="space-y-3">
+                <!-- SPLIT SCREEN COMPARISON CONTAINER (Hidden by Default) -->
+                <div id="splitComparisonOverlay" class="hidden grid grid-cols-2 gap-2 border-b border-slate-800 pb-3 mb-2">
+                  <div class="bg-slate-900 p-2 rounded text-center border border-slate-800">
+                    <span class="text-[10px] text-cyan-400 font-bold block mb-1">🎨 Original Figma Design Spec</span>
+                    <div class="h-20 bg-slate-950 border border-dashed border-slate-800 flex items-center justify-center text-[10px] text-slate-500">Design Mockup Frame</div>
+                  </div>
+                  <div class="bg-slate-900 p-2 rounded text-center border border-slate-800">
+                    <span class="text-[10px] text-emerald-400 font-bold block mb-1">🌐 Developer Live Site</span>
+                    <div class="h-20 bg-slate-950 border border-dashed border-slate-800 flex items-center justify-center text-[10px] text-slate-500">Live Rendered Frame</div>
+                  </div>
                 </div>
-                <button id="previewBtn" class="text-slate-950 font-bold text-xs px-4 py-2 rounded-md shadow-md transition" style="background-color: var(--primary-brand, #00d2ff);">
-                  Primary CTA
-                </button>
-              </div>
 
-              <!-- TYPOGRAPHY PREVIEW -->
-              <div id="typoCard" class="bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 transition-colors pointer-events-none">
-                <p class="text-[10px] font-bold text-cyan-400 uppercase tracking-wider">📐 Typography Scale Preview</p>
-                <div id="previewTypography" class="text-white space-y-0.5">
-                  <div class="text-base font-bold">H1 Heading - Core Display</div>
-                  <div id="typoSubtext" class="text-xs text-slate-300">Body text - Standard interface preview typography.</div>
+                <div class="flex justify-between items-center pointer-events-none">
+                  <div>
+                    <h4 id="previewAppTitle" contenteditable="true" onclick="event.stopPropagation()" class="text-sm font-bold text-white outline-none" title="Click to edit text directly!">Your Project Name</h4>
+                    <p id="previewSubtitle" contenteditable="true" onclick="event.stopPropagation()" class="text-[11px] text-slate-400 outline-none" title="Click to edit text directly!">Click anywhere to drop a feedback pin 📍 or edit text directly!</p>
+                  </div>
+                  <button id="previewBtn" contenteditable="true" onclick="event.stopPropagation()" class="text-white font-bold text-xs px-4 py-2 rounded-md shadow-md transition outline-none" style="background-color: var(--primary-brand, #351156);">
+                    Primary CTA
+                  </button>
+                </div>
+
+                <!-- TYPOGRAPHY PREVIEW -->
+                <div id="typoCard" class="bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 transition-colors pointer-events-none">
+                  <p class="text-[10px] font-bold text-cyan-400 uppercase tracking-wider">📐 Typography Scale Preview</p>
+                  <div id="previewTypography" class="text-white space-y-0.5">
+                    <div class="text-base font-bold" contenteditable="true" onclick="event.stopPropagation()">H1 Heading - Core Display</div>
+                    <div id="typoSubtext" class="text-xs text-slate-300" contenteditable="true" onclick="event.stopPropagation()">Body text - Click directly to change and preview copy live!</div>
+                  </div>
                 </div>
               </div>
 
@@ -351,7 +390,7 @@
           <div class="bg-slate-900 border border-slate-800/80 p-2 rounded-lg flex justify-between items-center gap-2">
             <div class="truncate text-[11px] font-mono text-cyan-300">
               <span class="text-slate-400">Tailwind Snippet: </span>
-              <span id="tailwindSnippetText">bg-[#00d2ff] text-slate-950 font-roboto rounded-md</span>
+              <span id="tailwindSnippetText">bg-[#351156] text-white font-roboto rounded-md</span>
             </div>
             <button onclick="copyTailwindSnippet(this)" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-[10px] px-2.5 py-1 rounded transition whitespace-nowrap">
               📋 Copy Snippet
@@ -515,7 +554,92 @@
     let currentApprovalPhone = "";
     let pinnedNotesList = [];
     let pinCount = 0;
-    let currentLogView = 'active'; // 'active' or 'resolved'
+    let currentLogView = 'active';
+    let currentMediaFormat = 'website';
+
+    function switchMediaFormat(format) {
+      currentMediaFormat = format;
+      const webBtn = document.getElementById('formatWeb');
+      const vidBtn = document.getElementById('formatVid');
+      const pdfBtn = document.getElementById('formatPdf');
+      const imgBtn = document.getElementById('formatImg');
+      const title = document.getElementById('playgroundTitle');
+      const display = document.getElementById('mediaContentDisplay');
+
+      // Reset all format buttons
+      [webBtn, vidBtn, pdfBtn, imgBtn].forEach(b => {
+        b.className = "text-[11px] font-semibold px-3 py-1.5 rounded bg-slate-900 text-slate-300 hover:text-white transition flex items-center gap-1";
+      });
+
+      if (format === 'website') {
+        webBtn.className = "text-[11px] font-bold px-3 py-1.5 rounded bg-cyan-400 text-slate-950 transition flex items-center gap-1";
+        title.innerText = "🎨 LIVE VISUAL THEME PLAYGROUND (WEBSITE VIEW)";
+        display.innerHTML = `
+          <div id="splitComparisonOverlay" class="hidden grid grid-cols-2 gap-2 border-b border-slate-800 pb-3 mb-2">
+            <div class="bg-slate-900 p-2 rounded text-center border border-slate-800"><span class="text-[10px] text-cyan-400 font-bold block mb-1">🎨 Original Figma Design Spec</span><div class="h-20 bg-slate-950 border border-dashed border-slate-800 flex items-center justify-center text-[10px] text-slate-500">Design Mockup Frame</div></div>
+            <div class="bg-slate-900 p-2 rounded text-center border border-slate-800"><span class="text-[10px] text-emerald-400 font-bold block mb-1">🌐 Developer Live Site</span><div class="h-20 bg-slate-950 border border-dashed border-slate-800 flex items-center justify-center text-[10px] text-slate-500">Live Rendered Frame</div></div>
+          </div>
+          <div class="flex justify-between items-center pointer-events-none">
+            <div>
+              <h4 id="previewAppTitle" contenteditable="true" onclick="event.stopPropagation()" class="text-sm font-bold text-white outline-none" title="Click to edit text directly!">Your Project Name</h4>
+              <p id="previewSubtitle" contenteditable="true" onclick="event.stopPropagation()" class="text-[11px] text-slate-400 outline-none" title="Click to edit text directly!">Click anywhere to drop a feedback pin 📍 or edit text directly!</p>
+            </div>
+            <button id="previewBtn" contenteditable="true" onclick="event.stopPropagation()" class="text-white font-bold text-xs px-4 py-2 rounded-md shadow-md transition outline-none" style="background-color: var(--primary-brand, #351156);">Primary CTA</button>
+          </div>
+          <div id="typoCard" class="bg-slate-900/80 border border-slate-800 p-2.5 rounded-lg space-y-1 transition-colors pointer-events-none">
+            <p class="text-[10px] font-bold text-cyan-400 uppercase tracking-wider">📐 Typography Scale Preview</p>
+            <div id="previewTypography" class="text-white space-y-0.5">
+              <div class="text-base font-bold" contenteditable="true" onclick="event.stopPropagation()">H1 Heading - Core Display</div>
+              <div id="typoSubtext" class="text-xs text-slate-300" contenteditable="true" onclick="event.stopPropagation()">Body text - Click directly to change and preview copy live!</div>
+            </div>
+          </div>`;
+      } else if (format === 'video') {
+        vidBtn.className = "text-[11px] font-bold px-3 py-1.5 rounded bg-cyan-400 text-slate-950 transition flex items-center gap-1";
+        title.innerText = "🎥 LIVE VIDEO FEEDBACK REVIEW (TIMELINE PINNING)";
+        display.innerHTML = `
+          <div class="space-y-3">
+            <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-center space-y-2">
+              <div class="h-32 bg-slate-950 rounded flex items-center justify-center border border-dashed border-slate-800 text-xs text-cyan-400 font-mono">
+                ▶ [Video Frame Mockup - Click to drop timestamp pin]
+              </div>
+              <div class="flex items-center justify-between text-[11px] text-slate-400 px-1 font-mono">
+                <span>00:00</span>
+                <div class="flex-1 mx-3 bg-slate-950 h-2 rounded-full relative"><div class="absolute left-1/3 top-0 bottom-0 w-2 bg-cyan-400 rounded-full"></div></div>
+                <span>02:30</span>
+              </div>
+            </div>
+            <p class="text-[11px] text-slate-400 italic text-center">Click anywhere on the video frame to log time-specific feedback notes.</p>
+          </div>`;
+      } else if (format === 'pdf') {
+        pdfBtn.className = "text-[11px] font-bold px-3 py-1.5 rounded bg-cyan-400 text-slate-950 transition flex items-center gap-1";
+        title.innerText = "📄 PDF DOCUMENT REVIEW PORTAL";
+        display.innerHTML = `
+          <div class="space-y-3">
+            <div class="bg-slate-900 border border-slate-800 rounded-lg p-4 space-y-2 text-left">
+              <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                <span class="text-xs font-bold text-cyan-300">Document_Spec_v1.pdf (Page 1 of 4)</span>
+                <span class="text-[10px] bg-cyan-500/20 text-cyan-400 px-2 py-0.5 rounded">Active PDF Mode</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed" contenteditable="true" onclick="event.stopPropagation()">
+                Section 1.1: The primary objective of this project is to deliver a streamlined client feedback workflow equivalent to top enterprise standards. Click anywhere on this page to leave annotations.
+              </p>
+            </div>
+          </div>`;
+      } else if (format === 'image') {
+        imgBtn.className = "text-[11px] font-bold px-3 py-1.5 rounded bg-cyan-400 text-slate-950 transition flex items-center gap-1";
+        title.innerText = "🖼️ IMAGE MOCKUP ANNOTATION VIEW";
+        display.innerHTML = `
+          <div class="space-y-3">
+            <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-center space-y-2">
+              <div class="h-36 bg-slate-950 rounded flex items-center justify-center border border-dashed border-slate-800 text-xs text-slate-400">
+                🖼️ [Figma UI Wireframe Mockup - Click anywhere to drop a pin]
+              </div>
+            </div>
+            <p class="text-[11px] text-slate-400 italic text-center">Pixel-perfect image marking enabled. Drop pins directly on the graphic.</p>
+          </div>`;
+      }
+      generateSystem();
+    }
 
     function switchInspector(type) {
       const fontBtn = document.getElementById('inspFontBtn');
@@ -536,7 +660,19 @@
       }
     }
 
-    /* RESPONSIVE VIEWPORTS SWITCHER */
+    function toggleSplitScreen() {
+      const overlay = document.getElementById('splitComparisonOverlay');
+      const btn = document.getElementById('splitBtn');
+      if (!overlay) return alert("Split comparison is available in Website view mode.");
+      if (overlay.classList.contains('hidden')) {
+        overlay.classList.remove('hidden');
+        btn.className = "text-xs font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+      } else {
+        overlay.classList.add('hidden');
+        btn.className = "text-xs font-bold px-2.5 py-1 rounded bg-slate-800 text-cyan-400 border border-cyan-500/30 transition";
+      }
+    }
+
     function switchViewport(mode) {
       const container = document.getElementById('container');
       const deskBtn = document.getElementById('vpDesk');
@@ -559,7 +695,6 @@
       }
     }
 
-    /* DIRECT INPUT & id="container" PINNING LOGIC */
     function dropVisualPin(e) {
       const container = document.getElementById('container');
       const rect = container.getBoundingClientRect();
@@ -567,7 +702,7 @@
       const y = ((e.clientY - rect.top) / rect.height) * 100;
 
       const inputField = document.getElementById('pinpointNoteInput');
-      const noteText = inputField.value.trim() || `Visual Note at (${Math.round(x)}%, ${Math.round(y)}%)`;
+      const noteText = inputField.value.trim() || `Pin on [${currentMediaFormat.toUpperCase()}] at (${Math.round(x)}%, ${Math.round(y)}%)`;
 
       const priority = document.getElementById('pinPriority').value;
       pinCount++;
@@ -592,7 +727,7 @@
         id: currentPinId,
         note: noteText,
         priority: priority.toUpperCase(),
-        status: 'active' // 'active' or 'resolved'
+        status: 'active'
       });
 
       inputField.value = "";
@@ -816,18 +951,18 @@
       if (mode === 'light') {
         container.style.backgroundColor = '#ffffff';
         container.style.color = '#0f172a';
-        document.getElementById('previewAppTitle').style.color = '#0f172a';
-        document.getElementById('previewSubtitle').style.color = '#475569';
-        typoCard.style.backgroundColor = '#f1f5f9';
+        if(document.getElementById('previewAppTitle')) document.getElementById('previewAppTitle').style.color = '#0f172a';
+        if(document.getElementById('previewSubtitle')) document.getElementById('previewSubtitle').style.color = '#475569';
+        if(typoCard) typoCard.style.backgroundColor = '#f1f5f9';
         portalCard.style.backgroundColor = '#f8fafc';
         lightBtn.className = "text-xs font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
         darkBtn.className = "text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition";
       } else {
         container.style.backgroundColor = '#020617';
         container.style.color = '#f8fafc';
-        document.getElementById('previewAppTitle').style.color = '#ffffff';
-        document.getElementById('previewSubtitle').style.color = '#94a3b8';
-        typoCard.style.backgroundColor = '#0f172a';
+        if(document.getElementById('previewAppTitle')) document.getElementById('previewAppTitle').style.color = '#ffffff';
+        if(document.getElementById('previewSubtitle')) document.getElementById('previewSubtitle').style.color = '#94a3b8';
+        if(typoCard) typoCard.style.backgroundColor = '#0f172a';
         portalCard.style.backgroundColor = '#0f172a';
         darkBtn.className = "text-xs font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
         lightBtn.className = "text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 transition";
@@ -987,10 +1122,10 @@
       document.getElementById('activeFontLabel').innerText = font;
       const rules = document.getElementById('customRules').value || 'Standard layout rules applied';
 
-      document.getElementById('previewAppTitle').innerText = proj;
+      if(document.getElementById('previewAppTitle')) document.getElementById('previewAppTitle').innerText = proj;
       document.documentElement.style.setProperty('--primary-brand', color);
-      document.getElementById('previewBtn').style.backgroundColor = color;
-      document.getElementById('tailwindSnippetText').innerText = `bg-[${color}] text-slate-950 font-${font.toLowerCase()} rounded-md`;
+      if(document.getElementById('previewBtn')) document.getElementById('previewBtn').style.backgroundColor = color;
+      document.getElementById('tailwindSnippetText').innerText = `bg-[${color}] text-white font-${font.toLowerCase()} rounded-md`;
 
       updateWcagBadge(color);
 
@@ -1012,6 +1147,7 @@
         outputText = JSON.stringify({
           project: proj,
           rules: rules,
+          mediaFormat: currentMediaFormat,
           visualPinsCount: pinnedNotesList.length,
           color: { primary: { value: color } },
           typography: { fontFamily: font, fallback: "sans-serif" },
@@ -1022,7 +1158,7 @@
       if (currentTab !== 'visualizer') {
         document.getElementById('codeOutput').innerText = outputText;
       }
-      document.getElementById('changelogMsg').innerText = `Project: ${proj} | Pins: ${pinnedNotesList.length} | Color: ${color} | Font: ${font} | Mode: ${currentMode}`;
+      document.getElementById('changelogMsg').innerText = `Project: ${proj} | Format: ${currentMediaFormat} | Pins: ${pinnedNotesList.length} | Color: ${color} | Font: ${font}`;
     }
 
     function copyCodeOutput(btn) {
@@ -1089,7 +1225,7 @@
 
       const cssContent = `:root {\n  --primary-brand: ${color};\n  --font-family: '${font}', sans-serif;\n  --project-name: "${proj}";\n  --base-padding: 16px;\n}`;
       const tailwindContent = `module.exports = {\n  theme: {\n    extend: {\n      colors: {\n        primary: '${color}',\n      },\n      fontFamily: {\n        sans: ['${font}', 'sans-serif'],\n      }\n    }\n  }\n};`;
-      const jsonContent = JSON.stringify({ project: proj, rules: rules, visualPins: pinnedNotesList, color: { primary: color }, typography: { font } }, null, 2);
+      const jsonContent = JSON.stringify({ project: proj, rules: rules, mediaFormat: currentMediaFormat, visualPins: pinnedNotesList, color: { primary: color }, typography: { font } }, null, 2);
 
       zip.file("variables.css", cssContent);
       zip.file("tailwind.config.js", tailwindContent);
