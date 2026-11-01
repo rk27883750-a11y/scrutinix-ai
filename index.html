@@ -367,6 +367,64 @@
             </div>
           </div>
 
+          <!-- CODE OUTPUTS BOX & TABS (Niche ke sabhi options included) -->
+          <div class="space-y-2.5">
+            <div class="flex flex-wrap justify-between items-center gap-2">
+              <div class="flex flex-wrap gap-1 bg-slate-950 p-1 rounded-md border border-slate-800">
+                <button id="tabCss" onclick="switchTab('css')" class="text-xs font-bold px-3 py-1 rounded bg-cyan-400 text-slate-950 transition">CSS Variables</button>
+                <button id="tabTailwind" onclick="switchTab('tailwind')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">Tailwind Config</button>
+                <button id="tabReact" onclick="switchTab('react')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">⚛️ React</button>
+                <button id="tabFlutter" onclick="switchTab('flutter')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">📱 Flutter</button>
+                <button id="tabStyleDict" onclick="switchTab('styledict')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">📚 Style Dictionary</button>
+                <button id="tabVisualizer" onclick="switchTab('visualizer')" class="text-xs font-semibold px-3 py-1 rounded text-slate-400 hover:text-white transition">v1.5 Visualizer</button>
+              </div>
+              <div class="flex items-center gap-1">
+                <button id="previewLightBtnCode" onclick="switchCodeTheme('light')" class="text-[10px] font-semibold px-2 py-1 rounded bg-slate-800 text-slate-300 transition">☀️ Light</button>
+                <button id="previewDarkBtnCode" onclick="switchCodeTheme('dark')" class="text-[10px] font-bold px-2 py-1 rounded bg-cyan-400 text-slate-950 transition">🌙 Dark</button>
+              </div>
+            </div>
+
+            <!-- Code Output Display Box -->
+            <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 relative">
+              <div class="flex justify-between items-center mb-2 pb-1.5 border-b border-slate-800/80">
+                <span id="codeOutputFilename" class="text-[11px] font-mono text-cyan-400">variables-dark.css</span>
+                <button onclick="copyGeneratedCode(this)" class="bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-[10px] px-2.5 py-1 rounded transition flex items-center gap-1">
+                  📋 Copy Code
+                </button>
+              </div>
+              <pre id="codeOutputBox" class="text-[11px] font-mono text-slate-300 overflow-x-auto max-h-48 custom-scrollbar">/* Scrutinix AI CSS Variables (Dark mode) */
+:root {
+  --primary-brand: #351156;
+  --font-family: "Roboto", sans-serif;
+  --project-name: "Your Project Name";
+  --component-rules: "Standard layout rules applied";
+  --base-padding: 16px;
+}</pre>
+            </div>
+
+            <!-- Bottom Action Buttons: ZIP Package, PDF Spec, Live Link -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2">
+              <button onclick="exportVariablesCSS()" class="bg-slate-900 hover:bg-slate-800 text-cyan-400 border border-cyan-500/30 font-bold text-xs py-2 px-3 rounded-lg transition flex items-center justify-center gap-1.5">
+                <span>📄</span> Export variables.css
+              </button>
+              <button onclick="exportTailwindConfigJS()" class="bg-slate-900 hover:bg-slate-800 text-cyan-400 border border-cyan-500/30 font-bold text-xs py-2 px-3 rounded-lg transition flex items-center justify-center gap-1.5">
+                <span>⚙️</span> Export tailwind.config.js
+              </button>
+              <button onclick="downloadZipPackage()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs py-2 px-3 rounded-lg transition flex items-center justify-center gap-1.5 shadow-md">
+                <span>📦</span> Download ZIP Package
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <button onclick="exportSpecPDF()" class="bg-slate-900 hover:bg-slate-800 text-purple-400 border border-purple-500/30 font-bold text-xs py-2 px-3 rounded-lg transition flex items-center justify-center gap-1.5">
+                <span>📑</span> Export Spec PDF
+              </button>
+              <button onclick="shareLiveLink()" class="bg-slate-900 hover:bg-slate-800 text-emerald-400 border border-emerald-500/30 font-bold text-xs py-2 px-3 rounded-lg transition flex items-center justify-center gap-1.5">
+                <span>🔗</span> Share Live Link
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -500,7 +558,9 @@
     function switchViewport(vp) {}
     function toggleSplitScreen() {}
     function switchPreviewTheme(theme) {}
+    function switchCodeTheme(theme) {}
     function copyTailwindSnippet() {}
+    function copyGeneratedCode() {}
     function approveDesign() {}
     function sendWhatsAppApproval() {}
     function submitFeedback() {}
@@ -508,7 +568,12 @@
     function handleSmartSearch() {}
     function startMainVoiceSearch() {}
     function updateInteractiveTheme() {}
-    function switchTab() {}
+    function switchTab(t) {}
+    function exportVariablesCSS() {}
+    function exportTailwindConfigJS() {}
+    function downloadZipPackage() {}
+    function exportSpecPDF() {}
+    function shareLiveLink() {}
   </script>
 </body>
 </html>
