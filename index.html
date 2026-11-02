@@ -83,7 +83,7 @@
 
   <div class="max-w-7xl mx-auto w-full space-y-5">
 
-    <!-- HEADER & BRANDING -->
+    <!-- HEADER & BRANDING WITH SHARE LINK BUTTON -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-xl">
       <div class="flex items-center space-x-3">
         <div class="w-10 h-10 bg-slate-950 border border-cyan-500/40 rounded-xl p-1 flex items-center justify-center shadow-lg shadow-cyan-950">
@@ -98,13 +98,16 @@
           <p class="text-xs text-slate-400">Live URL Review & Client Handoff Portal v1.6</p>
         </div>
       </div>
-      <div class="text-left md:text-right">
-        <p class="text-sm font-bold text-cyan-400">Markup.io Style Live Staging & DOM Pinning</p>
-        <p class="text-xs text-slate-400">Zero Figma Load • Instant Code Handoff</p>
+
+      <!-- SHARE PORTAL LINK BUTTON -->
+      <div class="flex items-center gap-3">
+        <button onclick="sharePortalLink(this)" class="bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-cyan-500/30 font-bold text-xs px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 shadow">
+          <span>🔗</span> Share Portal Link
+        </button>
+        <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> v1.6 Active Mode
+        </span>
       </div>
-      <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> v1.6 Active Mode
-      </span>
     </div>
 
     <!-- MAIN DUAL SPLIT LAYOUT -->
@@ -266,8 +269,8 @@
             </div>
 
             <div class="grid grid-cols-2 gap-2">
-              <button onclick="exportVariablesCSS()" class="bg-slate-900 hover:bg-slate-800 text-cyan-400 border border-cyan-500/30 font-bold text-xs py-2 rounded-lg transition flex items-center justify-center gap-1">
-                <span>📄</span> Download variables.css
+              <button onclick="exportPDFReport()" class="bg-slate-900 hover:bg-slate-800 text-cyan-400 border border-cyan-500/30 font-bold text-xs py-2 rounded-lg transition flex items-center justify-center gap-1">
+                <span>📄</span> Download PDF Audit Report
               </button>
               <button onclick="downloadZipPackage()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2 rounded-lg transition flex items-center justify-center gap-1 shadow">
                 <span>📦</span> Download ZIP Bundle
@@ -428,36 +431,88 @@
       setTimeout(() => btn.innerText = originalText, 2000);
     }
 
-    function exportVariablesCSS() {
-      const color = document.getElementById('brandColor').value;
-      const blob = new Blob([`:root { --primary-brand: ${color}; }`], {type: 'text/css'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'variables.css';
-      a.click();
+    // Share Portal Link Function
+    function sharePortalLink(btn) {
+      const currentUrl = window.location.href;
+      navigator.clipboard.writeText(currentUrl);
+      const originalText = btn.innerHTML;
+      btn.innerHTML = "<span>✓</span> Link Copied!";
+      setTimeout(() => btn.innerHTML = originalText, 2000);
     }
 
-    // Direct JSZip Bundle Generation & Download without any alert popups
+    // Professional PDF Report Generator (Audit Trail)
+    function exportPDFReport() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      doc.setFillColor(15, 23, 42);
+      doc.rect(0, 0, 210, 297, "F");
+
+      doc.setTextColor(6, 182, 212);
+      doc.setFontSize(22);
+      doc.text("SCRUTINIX AI", 20, 25);
+      
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(12);
+      doc.text("Official Client Review & Audit Trail Report", 20, 33);
+      
+      doc.setDrawColor(30, 41, 59);
+      doc.line(20, 40, 190, 40);
+
+      doc.setFontSize(10);
+      doc.setTextColor(148, 163, 184);
+      doc.text(`Generated On: ${new Date().toLocaleString()}`, 20, 48);
+      doc.text(`Brand Color: ${document.getElementById('brandColor').value}`, 20, 55);
+      doc.text(`Typography: ${document.getElementById('fontSelect').value}`, 20, 62);
+
+      doc.setFontSize(14);
+      doc.setTextColor(255, 255, 255);
+      doc.text("Pinned Feedback & Change Requests:", 20, 75);
+
+      let yPos = 85;
+      const activePins = pinsList.filter(p => p.status === 'active');
+      
+      if (activePins.length === 0) {
+        doc.setFontSize(10);
+        doc.setTextColor(148, 163, 184);
+        doc.text("No active pins recorded for this session.", 20, yPos);
+      } else {
+        activePins.forEach((pin, idx) => {
+          if (yPos > 270) {
+            doc.addPage();
+            doc.setFillColor(15, 23, 42);
+            doc.rect(0, 0, 210, 297, "F");
+            yPos = 25;
+          }
+          doc.setFontSize(10);
+          doc.setTextColor(6, 182, 212);
+          doc.text(`Pin #${idx + 1} [Element: <${pin.targetTag}>] - Priority: ${pin.priority.toUpperCase()}`, 20, yPos);
+          doc.setTextColor(255, 255, 255);
+          doc.text(`Note: ${pin.note}`, 25, yPos + 6);
+          doc.setTextColor(148, 163, 184);
+          doc.text(`Coordinates: X: ${Math.round(pin.x)}, Y: ${Math.round(pin.y)}`, 25, yPos + 12);
+          
+          yPos += 22;
+        });
+      }
+
+      doc.save("Scrutinix-Audit-Report.pdf");
+    }
+
     function downloadZipPackage() {
       const zip = new JSZip();
       const color = document.getElementById('brandColor').value || '#351156';
       const font = document.getElementById('fontSelect').value || 'Roboto';
 
-      // Add CSS tokens file
       zip.file("variables.css", `:root {\n  --primary-brand: ${color};\n  --font-family: "${font}", sans-serif;\n}`);
-      
-      // Add Tailwind config file
       zip.file("tailwind.config.js", `module.exports = {\n  theme: {\n    extend: { colors: { brand: '${color}' } }\n  }\n};`);
 
-      // Add Pinned Feedback text report if pins exist
       let feedbackText = "SCRUTINIX AI - PINNED FEEDBACK REPORT\n=====================================\n\n";
       pinsList.forEach((p, idx) => {
         feedbackText += `Pin #${idx+1} [${p.targetTag.toUpperCase()}] Priority: ${p.priority.toUpperCase()}\nNote: ${p.note}\nCoordinates: x:${Math.round(p.x)}, y:${Math.round(p.y)}\n-------------------------------------\n`;
       });
       zip.file("feedback-report.txt", feedbackText);
 
-      // Generate and trigger direct download
       zip.generateAsync({type:"blob"}).then(function(content) {
         const url = URL.createObjectURL(content);
         const a = document.createElement('a');
@@ -468,7 +523,7 @@
     }
 
     function approveAndExportBundle() {
-      exportVariablesCSS();
+      exportPDFReport();
     }
   </script>
 </body>
