@@ -301,7 +301,6 @@
       iframe.src = formattedUrl;
       iframeWrapper.classList.remove('hidden');
       badge.innerText = "Mode: Live Staging URL Active";
-      alert("Live URL successfully embedded into review engine!");
     }
 
     function generateSystem() {
@@ -439,12 +438,36 @@
       a.click();
     }
 
+    // Direct JSZip Bundle Generation & Download without any alert popups
     function downloadZipPackage() {
-      alert("ZIP developer bundle generated successfully!");
+      const zip = new JSZip();
+      const color = document.getElementById('brandColor').value || '#351156';
+      const font = document.getElementById('fontSelect').value || 'Roboto';
+
+      // Add CSS tokens file
+      zip.file("variables.css", `:root {\n  --primary-brand: ${color};\n  --font-family: "${font}", sans-serif;\n}`);
+      
+      // Add Tailwind config file
+      zip.file("tailwind.config.js", `module.exports = {\n  theme: {\n    extend: { colors: { brand: '${color}' } }\n  }\n};`);
+
+      // Add Pinned Feedback text report if pins exist
+      let feedbackText = "SCRUTINIX AI - PINNED FEEDBACK REPORT\n=====================================\n\n";
+      pinsList.forEach((p, idx) => {
+        feedbackText += `Pin #${idx+1} [${p.targetTag.toUpperCase()}] Priority: ${p.priority.toUpperCase()}\nNote: ${p.note}\nCoordinates: x:${Math.round(p.x)}, y:${Math.round(p.y)}\n-------------------------------------\n`;
+      });
+      zip.file("feedback-report.txt", feedbackText);
+
+      // Generate and trigger direct download
+      zip.generateAsync({type:"blob"}).then(function(content) {
+        const url = URL.createObjectURL(content);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Scrutinix-Developer-Bundle.zip';
+        a.click();
+      });
     }
 
     function approveAndExportBundle() {
-      alert("Design and pinned feedback approved! Code bundle downloading now.");
       exportVariablesCSS();
     }
   </script>
