@@ -454,6 +454,7 @@
       }
     }
 
+    // Enhanced URL Loader with CORS Proxy Fallback for Restricted Links (Figma, etc.)
     function loadLiveStagingUrl() {
       const urlInput = document.getElementById('targetLiveUrlInput').value.trim();
       const iframeWrapper = document.getElementById('iframeWrapper');
@@ -469,7 +470,15 @@
         formattedUrl = 'https://' + formattedUrl;
       }
 
-      iframe.src = formattedUrl;
+      // Check if URL is Figma or restricted domain that blocks standard iframes
+      if (formattedUrl.includes('figma.com')) {
+        // Use AllOrigins CORS Proxy to bypass X-Frame restrictions for external mockups/prototypes
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(formattedUrl)}`;
+        iframe.src = proxyUrl;
+      } else {
+        iframe.src = formattedUrl;
+      }
+
       iframeWrapper.classList.remove('hidden');
     }
 
