@@ -104,6 +104,28 @@
     </div>
   </div>
 
+  <!-- DESIGN TOKEN AUDIT MODAL -->
+  <div id="auditModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden">
+    <div class="bg-slate-900 border border-purple-500/40 p-6 rounded-xl max-w-lg w-full space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-3">
+          <div class="w-9 h-9 bg-purple-950 border border-purple-500/40 rounded-lg flex items-center justify-center text-purple-400 font-bold text-base">📊</div>
+          <div>
+            <h3 class="text-base font-bold text-white">Design Token Audit Report</h3>
+            <p class="text-xs text-slate-400">Real-time system health & compliance summary</p>
+          </div>
+        </div>
+        <button onclick="closeAuditModal()" class="text-slate-400 hover:text-white font-bold text-sm">✕</button>
+      </div>
+      <div id="auditReportBody" class="space-y-2 text-xs text-slate-300 font-mono bg-slate-950 p-4 rounded-lg border border-slate-800">
+        <!-- Rendered via JS -->
+      </div>
+      <button onclick="closeAuditModal()" class="w-full bg-purple-500 hover:bg-purple-400 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition uppercase tracking-wider">
+        Close Audit View
+      </button>
+    </div>
+  </div>
+
   <div class="max-w-7xl mx-auto w-full space-y-5">
 
     <!-- HEADER & BRANDING WITH TOP WORKFLOW BAR -->
@@ -351,7 +373,6 @@
       const newPass = prompt("Set a new password for client review link:", portalPassword);
       if(newPass) {
         portalPassword = newPass;
-        alert("🔒 Secure Password Updated Successfully!\nPassword: " + portalPassword);
       }
     }
 
@@ -364,25 +385,54 @@
       }
     }
 
-    // Client Approval System Status Management
+    // Client Approval System Status Management (Live Dynamic UI Update)
+    let currentTabState = 'css';
     function updateClientApproval(status) {
       const badge = document.getElementById('portalStatusBadge');
       if (status === 'approved') {
-        badge.className = "text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3 py-1 rounded-full flex items-center gap-2 font-bold";
+        badge.className = "text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3 py-1 rounded-full flex items-center gap-2 font-bold animate-pulse shadow-lg shadow-emerald-950";
         badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> APPROVED BY CLIENT`;
-        alert("🎉 Client Approved this Design Session!");
       } else {
-        badge.className = "text-xs bg-amber-500/20 text-amber-300 border border-amber-500/40 px-3 py-1 rounded-full flex items-center gap-2 font-bold";
+        badge.className = "text-xs bg-amber-500/20 text-amber-300 border border-amber-500/40 px-3 py-1 rounded-full flex items-center gap-2 font-bold animate-pulse shadow-lg shadow-amber-950";
         badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400"></span> CHANGES REQUESTED`;
-        alert("⚠️ Status updated: Changes Requested by Client!");
       }
     }
 
-    // Design Token Audit Report Generator
+    // Design Token Audit Report Generator (In-UI Modal Render)
     function generateTokenAuditReport() {
       const color = document.getElementById('brandColor').value || '#351156';
       const font = document.getElementById('fontSelect').value || 'Roboto';
-      alert(`📊 SCRUTINIX DESIGN TOKEN AUDIT REPORT:\n-------------------------------------\n• Primary Brand Color: ${color}\n• Typography: ${font}\n• Base Spacing Scale: 4px / 8px / 16px / 24px\n• Contrast Rating: PASS (AAA Standard)\n• Total Active Pins: ${pinsList.filter(p => p.status === 'active').length}`);
+      const activePinsCount = pinsList.filter(p => p.status === 'active').length;
+
+      const reportHtml = `
+        <div class="flex justify-between py-1 border-b border-slate-800">
+          <span class="text-slate-400">Primary Brand Color:</span>
+          <span class="text-cyan-400 font-bold">${color}</span>
+        </div>
+        <div class="flex justify-between py-1 border-b border-slate-800">
+          <span class="text-slate-400">Typography Font:</span>
+          <span class="text-white font-bold">${font}</span>
+        </div>
+        <div class="flex justify-between py-1 border-b border-slate-800">
+          <span class="text-slate-400">Base Spacing Scale:</span>
+          <span class="text-slate-300">4px / 8px / 16px / 24px</span>
+        </div>
+        <div class="flex justify-between py-1 border-b border-slate-800">
+          <span class="text-slate-400">Contrast Compliance:</span>
+          <span class="text-emerald-400 font-bold">PASS (AAA Standard)</span>
+        </div>
+        <div class="flex justify-between py-1">
+          <span class="text-slate-400">Total Active Feedback Pins:</span>
+          <span class="text-amber-400 font-bold">${activePinsCount} Pins</span>
+        </div>
+      `;
+      
+      document.getElementById('auditReportBody').innerHTML = reportHtml;
+      document.getElementById('auditModal').classList.remove('hidden');
+    }
+
+    function closeAuditModal() {
+      document.getElementById('auditModal').classList.add('hidden');
     }
 
     // Speech-to-Text Dictation & Voice MediaRecorder Integration
@@ -528,6 +578,7 @@
     function generateSystem() {
       const color = document.getElementById('brandColor').value || '#351156';
       document.documentElement.style.setProperty('--primary-brand', color);
+      switchTab(currentTabState);
     }
 
     function syncColorInput(type) {
@@ -614,6 +665,7 @@
     }
 
     function switchTab(tab) {
+      currentTabState = tab;
       ['css', 'tailwind', 'react'].forEach(t => {
         const btn = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
         if(btn) {
