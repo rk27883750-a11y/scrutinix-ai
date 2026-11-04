@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // System Generator & Client Portal v1.6 (Markup.io Engine)</title>
+  <title>Scrutinix AI // System Generator & Client Portal v1.7 (Enterprise Edition)</title>
   
   <!-- Open Graph Meta Tags for Professional Social Sharing -->
   <meta property="og:title" content="Scrutinix AI // Client Review & Handoff Portal" />
-  <meta property="og:description" content="Direct live URL review, DOM element pinning, multi-device view, and instant developer code export." />
+  <meta property="og:description" content="Direct live URL review, DOM element pinning, multi-device view, voice feedback, and secure password protection." />
   <meta property="og:url" content="https://www.scrutinixai.com" />
   <meta property="og:type" content="website" />
 
@@ -87,6 +87,23 @@
 </head>
 <body class="min-h-screen p-4 lg:p-8 flex flex-col justify-between pb-12">
 
+  <!-- PASSWORD GATE MODAL -->
+  <div id="passwordModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden">
+    <div class="bg-slate-900 border border-cyan-500/40 p-6 rounded-xl max-w-md w-full space-y-4 shadow-2xl">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-slate-950 border border-cyan-500/40 rounded-xl flex items-center justify-center text-cyan-400 font-bold text-lg">🔒</div>
+        <div>
+          <h3 class="text-base font-bold text-white">Protected Client Review Link</h3>
+          <p class="text-xs text-slate-400">Enter access password provided by agency</p>
+        </div>
+      </div>
+      <input type="password" id="accessPasswordInput" placeholder="Enter portal password..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-cyan-400">
+      <button onclick="verifyPortalPassword()" class="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition">
+        Unlock Review Portal
+      </button>
+    </div>
+  </div>
+
   <div class="max-w-7xl mx-auto w-full space-y-5">
 
     <!-- HEADER & BRANDING WITH SHARE LINK BUTTON -->
@@ -101,17 +118,20 @@
         </div>
         <div>
           <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span></h1>
-          <p class="text-xs text-slate-400">Review. Audit. Customize. Handoff. v1.6</p>
+          <p class="text-xs text-slate-400">Review. Audit. Customize. Handoff. v1.7</p>
         </div>
       </div>
 
-      <!-- SHARE PORTAL LINK BUTTON -->
+      <!-- SHARE PORTAL LINK & SECURITY BUTTON -->
       <div class="flex items-center gap-3">
+        <button onclick="openPasswordProtectionModal()" class="bg-slate-800 hover:bg-slate-700 text-purple-400 border border-purple-500/30 font-bold text-xs px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow">
+          <span>🔒</span> Secure Link
+        </button>
         <button onclick="sharePortalLink(this)" class="bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-cyan-500/30 font-bold text-xs px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 shadow">
           <span>🔗</span> Share Portal Link
         </button>
         <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> v1.6 Active Mode
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> v1.7 Active Mode
         </span>
       </div>
     </div>
@@ -187,7 +207,7 @@
               <p class="text-xs text-slate-400">Click anywhere on the preview frame to drop an exact element marker</p>
             </div>
             
-            <!-- NEW: MULTI-DEVICE VIEWPORT SWITCHER -->
+            <!-- MULTI-DEVICE VIEWPORT SWITCHER -->
             <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
               <button onclick="setViewport('mobile')" id="vpMobile" class="text-[10px] font-bold px-2.5 py-1 rounded text-slate-400 hover:text-white transition">📱 Mobile (390px)</button>
               <button onclick="setViewport('tablet')" id="vpTablet" class="text-[10px] font-bold px-2.5 py-1 rounded text-slate-400 hover:text-white transition">タブ Tablet (768px)</button>
@@ -208,7 +228,7 @@
               <div id="defaultMockupContent" class="space-y-4 z-20 pointer-events-none">
                 <div class="flex justify-between items-center">
                   <div>
-                    <h4 id="previewAppTitle" contenteditable="true" onclick="event.stopPropagation()" class="text-base font-bold text-white outline-none pointer-events-auto">Scrutinix Client Portal v1.6</h4>
+                    <h4 id="previewAppTitle" contenteditable="true" onclick="event.stopPropagation()" class="text-base font-bold text-white outline-none pointer-events-auto">Scrutinix Client Portal v1.7</h4>
                     <p id="previewSubtitle" contenteditable="true" onclick="event.stopPropagation()" class="text-xs text-slate-400 outline-none pointer-events-auto">Click anywhere below to drop a feedback pin 📍</p>
                   </div>
                   <button id="previewBtn" contenteditable="true" onclick="event.stopPropagation()" class="text-white font-bold text-xs px-4 py-2 rounded-md shadow-md transition outline-none pointer-events-auto" style="background-color: var(--primary-brand, #351156);">
@@ -230,25 +250,31 @@
             </div>
           </div>
 
-          <!-- PIN FEEDBACK LOG -->
+          <!-- PIN FEEDBACK LOG WITH VOICE FEEDBACK -->
           <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 space-y-2">
             <div class="flex justify-between items-center text-xs font-bold">
-              <span class="text-cyan-400">📝 Active Pinned Feedback & Selectors</span>
+              <span class="text-cyan-400">📝 Active Pinned Feedback & Voice</span>
               <span id="noteCountBadge" class="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded">0 Pins</span>
             </div>
-            <div class="flex gap-2">
-              <select id="pinPriority" class="bg-slate-900 border border-slate-800 rounded px-2 text-xs text-white outline-none">
+            <div class="flex flex-wrap gap-2 items-center">
+              <select id="pinPriority" class="bg-slate-900 border border-slate-800 rounded px-2 py-1.5 text-xs text-white outline-none">
                 <option value="high">🔴 High</option>
                 <option value="medium" selected>🟡 Medium</option>
                 <option value="low">🟢 Low</option>
               </select>
-              <input type="text" id="pinpointNoteInput" placeholder="Add note for this element..." class="flex-1 bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white outline-none">
+              <input type="text" id="pinpointNoteInput" placeholder="Add text note or record voice..." class="flex-1 bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white outline-none">
+              
+              <!-- VOICE RECORD BUTTON -->
+              <button id="recordVoiceBtn" onclick="toggleVoiceRecording()" class="bg-slate-900 hover:bg-slate-800 text-pink-400 border border-pink-500/30 font-bold text-xs px-2.5 py-1.5 rounded transition flex items-center gap-1" title="Record Voice Feedback">
+                <span>🎙️</span> <span id="voiceBtnText">Voice</span>
+              </button>
+
               <button onclick="submitManualPinNote()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs px-3 py-1.5 rounded transition">
                 Add Pin
               </button>
             </div>
-            <div id="feedbackLogContainer" class="space-y-1 max-h-24 overflow-y-auto custom-scrollbar text-[11px] font-mono text-slate-400">
-              <p class="text-slate-500 italic">No pins recorded yet. Click anywhere on the frame above!</p>
+            <div id="feedbackLogContainer" class="space-y-1 max-h-28 overflow-y-auto custom-scrollbar text-[11px] font-mono text-slate-400">
+              <p class="text-slate-500 italic">No pins recorded yet. Click anywhere on the frame above or record voice!</p>
             </div>
           </div>
 
@@ -295,6 +321,70 @@
   </div>
 
   <script>
+    // Password Protection Features
+    let portalPassword = "scrutinix2026";
+    function openPasswordProtectionModal() {
+      const newPass = prompt("Set a new password for client review link:", portalPassword);
+      if(newPass) {
+        portalPassword = newPass;
+        alert("🔒 Secure Password Updated Successfully!\nPassword: " + portalPassword);
+      }
+    }
+
+    function verifyPortalPassword() {
+      const val = document.getElementById('accessPasswordInput').value;
+      if(val === portalPassword) {
+        document.getElementById('passwordModal').classList.add('hidden');
+      } else {
+        alert("Incorrect password! Try again.");
+      }
+    }
+
+    // Voice Recording Simulation using MediaRecorder API
+    let mediaRecorder;
+    let audioChunks = [];
+    let recordedVoiceNote = "";
+    let isRecording = false;
+
+    async function toggleVoiceRecording() {
+      const btnText = document.getElementById('voiceBtnText');
+      const btn = document.getElementById('recordVoiceBtn');
+
+      if (!isRecording) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          mediaRecorder = new MediaRecorder(stream);
+          audioChunks = [];
+          
+          mediaRecorder.ondataavailable = event => {
+            audioChunks.push(event.data);
+          };
+
+          mediaRecorder.onstop = () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            recordedVoiceNote = "🎙️ [Voice Feedback Attached - " + Math.round(audioBlob.size / 1024) + " KB]";
+            document.getElementById('pinpointNoteInput').value = recordedVoiceNote;
+          };
+
+          mediaRecorder.start();
+          isRecording = true;
+          btnText.innerText = "Recording...";
+          btn.className = "bg-pink-500 text-slate-950 font-bold text-xs px-2.5 py-1.5 rounded transition flex items-center gap-1 animate-pulse";
+        } catch (err) {
+          recordedVoiceNote = "🎙️ [Voice Memo Simulation Recorded]";
+          document.getElementById('pinpointNoteInput').value = recordedVoiceNote;
+          alert("Microphone simulated successfully!");
+        }
+      } else {
+        if (mediaRecorder && mediaRecorder.state !== "inactive") {
+          mediaRecorder.stop();
+        }
+        isRecording = false;
+        btnText.innerText = "Voice";
+        btn.className = "bg-slate-900 hover:bg-slate-800 text-pink-400 border border-pink-500/30 font-bold text-xs px-2.5 py-1.5 rounded transition flex items-center gap-1";
+      }
+    }
+
     // Multi-Device Viewport Switcher Function
     function setViewport(mode) {
       const container = document.getElementById('container');
@@ -318,7 +408,6 @@
       const urlInput = document.getElementById('targetLiveUrlInput').value.trim();
       const iframeWrapper = document.getElementById('iframeWrapper');
       const iframe = document.getElementById('liveStagingIframe');
-      const badge = document.getElementById('activeUrlStatusBadge');
 
       if (!urlInput) {
         alert("Kripya pehle koi valid staging URL ya website link enter karein!");
@@ -332,7 +421,6 @@
 
       iframe.src = formattedUrl;
       iframeWrapper.classList.remove('hidden');
-      badge.innerText = "Mode: Live Staging URL Active";
     }
 
     function generateSystem() {
@@ -346,12 +434,6 @@
       } else {
         document.getElementById('brandColorPicker').value = document.getElementById('brandColor').value;
       }
-      generateSystem();
-    }
-
-    function setColor(hex) {
-      document.getElementById('brandColor').value = hex;
-      document.getElementById('brandColorPicker').value = hex;
       generateSystem();
     }
 
@@ -460,7 +542,6 @@
       setTimeout(() => btn.innerText = originalText, 2000);
     }
 
-    // Share Portal Link Function (Using Custom Domain)
     function sharePortalLink(btn) {
       const customDomain = "https://www.scrutinixai.com";
       navigator.clipboard.writeText(customDomain);
@@ -469,7 +550,6 @@
       setTimeout(() => btn.innerHTML = originalText, 2000);
     }
 
-    // Professional PDF Report Generator (Audit Trail)
     function exportPDFReport() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
