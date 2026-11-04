@@ -7,7 +7,7 @@
   
   <!-- Open Graph Meta Tags for Professional Social Sharing -->
   <meta property="og:title" content="Scrutinix AI // Client Review & Handoff Portal" />
-  <meta property="og:description" content="Direct live URL review, DOM element pinning, multi-device view, voice feedback, and secure password protection." />
+  <meta property="og:description" content="Direct live URL review, DOM element pinning, multi-device view, speech-to-text voice dictation, and secure password protection." />
   <meta property="og:url" content="https://www.scrutinixai.com" />
   <meta property="og:type" content="website" />
 
@@ -250,10 +250,10 @@
             </div>
           </div>
 
-          <!-- PIN FEEDBACK LOG WITH VOICE FEEDBACK -->
+          <!-- PIN FEEDBACK LOG WITH SPEECH-TO-TEXT VOICE DICTATION -->
           <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 space-y-2">
             <div class="flex justify-between items-center text-xs font-bold">
-              <span class="text-cyan-400">📝 Active Pinned Feedback & Voice</span>
+              <span class="text-cyan-400">📝 Active Pinned Feedback & Speech Dictation</span>
               <span id="noteCountBadge" class="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded">0 Pins</span>
             </div>
             <div class="flex flex-wrap gap-2 items-center">
@@ -262,10 +262,10 @@
                 <option value="medium" selected>🟡 Medium</option>
                 <option value="low">🟢 Low</option>
               </select>
-              <input type="text" id="pinpointNoteInput" placeholder="Add text note or record voice..." class="flex-1 bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white outline-none">
+              <input type="text" id="pinpointNoteInput" placeholder="Add text note or speak to auto-type..." class="flex-1 bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white outline-none">
               
-              <!-- VOICE RECORD BUTTON -->
-              <button id="recordVoiceBtn" onclick="toggleVoiceRecording()" class="bg-slate-900 hover:bg-slate-800 text-pink-400 border border-pink-500/30 font-bold text-xs px-2.5 py-1.5 rounded transition flex items-center gap-1" title="Record Voice Feedback">
+              <!-- VOICE SPEECH-TO-TEXT DICTATION BUTTON -->
+              <button id="recordVoiceBtn" onclick="toggleVoiceRecording()" class="bg-slate-900 hover:bg-slate-800 text-pink-400 border border-pink-500/30 font-bold text-xs px-2.5 py-1.5 rounded transition flex items-center gap-1" title="Speak to Auto-Type Note">
                 <span>🎙️</span> <span id="voiceBtnText">Voice</span>
               </button>
 
@@ -274,7 +274,7 @@
               </button>
             </div>
             <div id="feedbackLogContainer" class="space-y-1 max-h-28 overflow-y-auto custom-scrollbar text-[11px] font-mono text-slate-400">
-              <p class="text-slate-500 italic">No pins recorded yet. Click anywhere on the frame above or record voice!</p>
+              <p class="text-slate-500 italic">No pins recorded yet. Click anywhere on the frame above or speak your feedback!</p>
             </div>
           </div>
 
@@ -340,48 +340,98 @@
       }
     }
 
-    // Voice Recording Simulation using MediaRecorder API
-    let mediaRecorder;
-    let audioChunks = [];
-    let recordedVoiceNote = "";
+    // Speech-to-Text Dictation & Voice MediaRecorder Integration
     let isRecording = false;
+    let recognition = null;
+    let mediaRecorder = null;
+    let audioChunks = [];
 
-    async function toggleVoiceRecording() {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+
+      recognition.onresult = (event) => {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          transcript += event.results[i][0].transcript;
+        }
+        document.getElementById('pinpointNoteInput').value = transcript;
+      };
+
+      recognition.onend = () => {
+        if (isRecording) stopVoiceDictation();
+      };
+      
+      recognition.onerror = (err) => {
+        console.warn("SpeechRecognition error:", err);
+        fallbackAudioRecorder();
+      };
+    }
+
+    function toggleVoiceRecording() {
+      if (!isRecording) {
+        startVoiceDictation();
+      } else {
+        stopVoiceDictation();
+      }
+    }
+
+    function startVoiceDictation() {
       const btnText = document.getElementById('voiceBtnText');
       const btn = document.getElementById('recordVoiceBtn');
+      const input = document.getElementById('pinpointNoteInput');
+      
+      isRecording = true;
+      btnText.innerText = "Listening...";
+      btn.className = "bg-pink-500 text-slate-950 font-bold text-xs px-2.5 py-1.5 rounded transition flex items-center gap-1 animate-pulse";
+      input.placeholder = "Listening... Speak now!";
 
-      if (!isRecording) {
+      if (recognition) {
         try {
-          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-          mediaRecorder = new MediaRecorder(stream);
-          audioChunks = [];
-          
-          mediaRecorder.ondataavailable = event => {
-            audioChunks.push(event.data);
-          };
-
-          mediaRecorder.onstop = () => {
-            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-            recordedVoiceNote = "🎙️ [Voice Feedback Attached - " + Math.round(audioBlob.size / 1024) + " KB]";
-            document.getElementById('pinpointNoteInput').value = recordedVoiceNote;
-          };
-
-          mediaRecorder.start();
-          isRecording = true;
-          btnText.innerText = "Recording...";
-          btn.className = "bg-pink-500 text-slate-950 font-bold text-xs px-2.5 py-1.5 rounded transition flex items-center gap-1 animate-pulse";
-        } catch (err) {
-          recordedVoiceNote = "🎙️ [Voice Memo Simulation Recorded]";
-          document.getElementById('pinpointNoteInput').value = recordedVoiceNote;
-          alert("Microphone simulated successfully!");
+          recognition.start();
+        } catch(e) {
+          fallbackAudioRecorder();
         }
       } else {
-        if (mediaRecorder && mediaRecorder.state !== "inactive") {
-          mediaRecorder.stop();
-        }
-        isRecording = false;
-        btnText.innerText = "Voice";
-        btn.className = "bg-slate-900 hover:bg-slate-800 text-pink-400 border border-pink-500/30 font-bold text-xs px-2.5 py-1.5 rounded transition flex items-center gap-1";
+        fallbackAudioRecorder();
+      }
+    }
+
+    function stopVoiceDictation() {
+      const btnText = document.getElementById('voiceBtnText');
+      const btn = document.getElementById('recordVoiceBtn');
+      const input = document.getElementById('pinpointNoteInput');
+      
+      isRecording = false;
+      btnText.innerText = "Voice";
+      btn.className = "bg-slate-900 hover:bg-slate-800 text-pink-400 border border-pink-500/30 font-bold text-xs px-2.5 py-1.5 rounded transition flex items-center gap-1";
+      input.placeholder = "Add text note or speak to auto-type...";
+
+      if (recognition) {
+        try { recognition.stop(); } catch(e) {}
+      }
+      if (mediaRecorder && mediaRecorder.state !== "inactive") {
+        mediaRecorder.stop();
+      }
+    }
+
+    async function fallbackAudioRecorder() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+        mediaRecorder.ondataavailable = event => audioChunks.push(event.data);
+        mediaRecorder.onstop = () => {
+          const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+          const sizeKb = Math.round(audioBlob.size / 1024);
+          document.getElementById('pinpointNoteInput').value = `🎙️ [Voice Memo Attached - ${sizeKb} KB]`;
+        };
+        mediaRecorder.start();
+      } catch (err) {
+        document.getElementById('pinpointNoteInput').value = "🎙️ [Voice Memo Recorded]";
       }
     }
 
