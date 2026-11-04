@@ -5,8 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scrutinix AI // System Generator & Client Portal v1.6 (Markup.io Engine)</title>
   
+  <!-- Open Graph Meta Tags for Professional Social Sharing -->
+  <meta property="og:title" content="Scrutinix AI // Client Review & Handoff Portal" />
+  <meta property="og:description" content="Direct live URL review, DOM element pinning, multi-device view, and instant developer code export." />
+  <meta property="og:url" content="https://www.scrutinixai.com" />
+  <meta property="og:type" content="website" />
+
   <!-- Custom Cyan 'S' Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none'><rect width='100' height='100' rx='20' fill='%230f172a'/><path d='M50 15L80 32V68L50 85L20 68V32L50 15Z' stroke='%2306b6d4' stroke-width='4' stroke-linejoin='round'/><path d='M65 35H40C33 35 33 48 40 48H60C67 48 67 65 60 65H35' stroke='%2338bdf8' stroke-width='8' stroke-linecap='round' fill='none'/><circle cx='50' cy='50' r='3' fill='%2367e8f9'/></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none'><rect width='100' height='100' rx='20' fill='%230f172a'/><path d='M50 15L80 32V68L50 85L20 68V32L50 15Z' stroke='%2306b6d4' stroke-width='4' stroke-linejoin='round'/><path d='M65 35H40C33 35 33 48 40 48H60C67 48 67 65 60 65H35' stroke='%2338bdf8' stroke-width='6' stroke-linecap='round'/><circle cx='50' cy='50' r='3' fill='%2367e8f9'/></svg>">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -95,7 +101,7 @@
         </div>
         <div>
           <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span></h1>
-          <p class="text-xs text-slate-400">Live URL Review & Client Handoff Portal v1.6</p>
+          <p class="text-xs text-slate-400">Review. Audit. Customize. Handoff. v1.6</p>
         </div>
       </div>
 
@@ -175,19 +181,23 @@
 
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
           
-          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-3 gap-3">
             <div>
               <h3 id="playgroundTitle" class="text-sm font-bold text-white uppercase tracking-wider">📍 STEP 2: DIRECT DOM & ELEMENT PINNING</h3>
               <p class="text-xs text-slate-400">Click anywhere on the preview frame to drop an exact element marker</p>
             </div>
-            <span id="activeUrlStatusBadge" class="text-[11px] bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 px-2.5 py-0.5 rounded-full font-bold">
-              Mode: Interactive Canvas Frame
-            </span>
+            
+            <!-- NEW: MULTI-DEVICE VIEWPORT SWITCHER -->
+            <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
+              <button onclick="setViewport('mobile')" id="vpMobile" class="text-[10px] font-bold px-2.5 py-1 rounded text-slate-400 hover:text-white transition">📱 Mobile (390px)</button>
+              <button onclick="setViewport('tablet')" id="vpTablet" class="text-[10px] font-bold px-2.5 py-1 rounded text-slate-400 hover:text-white transition">タブ Tablet (768px)</button>
+              <button onclick="setViewport('desktop')" id="vpDesktop" class="text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition">💻 Desktop (100%)</button>
+            </div>
           </div>
 
           <!-- MOCKUP / IFRAME CONTAINER WITH PINNING -->
-          <div class="relative flex justify-center">
-            <div id="container" onclick="dropDOMPin(event)" class="relative bg-slate-950 border border-cyan-500/30 rounded-xl p-4 space-y-4 transition-all duration-300 cursor-crosshair w-full max-w-full min-h-[300px] overflow-hidden shadow-inner flex flex-col justify-between">
+          <div class="relative flex justify-center overflow-x-auto py-2">
+            <div id="container" onclick="dropDOMPin(event)" class="relative bg-slate-950 border border-cyan-500/30 rounded-xl p-4 space-y-4 transition-all duration-300 cursor-crosshair w-full min-h-[300px] overflow-hidden shadow-inner flex flex-col justify-between" style="max-width: 100%;">
               
               <!-- IFRAME DISPLAY LAYER (Activated when URL is loaded) -->
               <div id="iframeWrapper" class="hidden absolute inset-0 w-full h-full z-10 bg-white">
@@ -285,6 +295,25 @@
   </div>
 
   <script>
+    // Multi-Device Viewport Switcher Function
+    function setViewport(mode) {
+      const container = document.getElementById('container');
+      ['vpMobile', 'vpTablet', 'vpDesktop'].forEach(id => {
+        document.getElementById(id).className = "text-[10px] font-bold px-2.5 py-1 rounded text-slate-400 hover:text-white transition";
+      });
+
+      if(mode === 'mobile') {
+        container.style.maxWidth = '390px';
+        document.getElementById('vpMobile').className = "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+      } else if(mode === 'tablet') {
+        container.style.maxWidth = '768px';
+        document.getElementById('vpTablet').className = "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+      } else {
+        container.style.maxWidth = '100%';
+        document.getElementById('vpDesktop').className = "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
+      }
+    }
+
     function loadLiveStagingUrl() {
       const urlInput = document.getElementById('targetLiveUrlInput').value.trim();
       const iframeWrapper = document.getElementById('iframeWrapper');
@@ -431,12 +460,12 @@
       setTimeout(() => btn.innerText = originalText, 2000);
     }
 
-    // Share Portal Link Function
+    // Share Portal Link Function (Using Custom Domain)
     function sharePortalLink(btn) {
-      const currentUrl = window.location.href;
-      navigator.clipboard.writeText(currentUrl);
+      const customDomain = "https://www.scrutinixai.com";
+      navigator.clipboard.writeText(customDomain);
       const originalText = btn.innerHTML;
-      btn.innerHTML = "<span>✓</span> Link Copied!";
+      btn.innerHTML = "<span>✓</span> Portal Link Copied!";
       setTimeout(() => btn.innerHTML = originalText, 2000);
     }
 
