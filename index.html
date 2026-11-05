@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // System Generator & Client Portal v1.9 (Version History Edition)</title>
+  <title>Scrutinix AI // System Generator & Client Portal v1.9 (Enterprise Edition)</title>
   
   <!-- Open Graph Meta Tags for Professional Social Sharing -->
   <meta property="og:title" content="Scrutinix AI // Client Review & Handoff Portal" />
@@ -94,12 +94,42 @@
         <div class="w-10 h-10 bg-slate-950 border border-cyan-500/40 rounded-xl flex items-center justify-center text-cyan-400 font-bold text-lg">🔒</div>
         <div>
           <h3 class="text-base font-bold text-white">Protected Client Review Link</h3>
-          <p class="text-xs text-slate-400">Enter access password provided by agency</p>
+          <p class="text-xs text-slate-400">Enter access password provided by agency (Default: scrutinix2026)</p>
         </div>
       </div>
       <input type="password" id="accessPasswordInput" placeholder="Enter portal password..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-cyan-400">
       <button onclick="verifyPortalPassword()" class="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition">
         Unlock Review Portal
+      </button>
+    </div>
+  </div>
+
+  <!-- DIGITAL E-SIGN APPROVAL MODAL -->
+  <div id="esignModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden">
+    <div class="bg-slate-900 border border-emerald-500/40 p-6 rounded-xl max-w-md w-full space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-3">
+          <div class="w-9 h-9 bg-emerald-950 border border-emerald-500/40 rounded-lg flex items-center justify-center text-emerald-400 font-bold text-base">✍️</div>
+          <div>
+            <h3 class="text-base font-bold text-white">Legally Binding E-Sign</h3>
+            <p class="text-xs text-slate-400">Client Sign-Off & Verification Stamp</p>
+          </div>
+        </div>
+        <button onclick="closeEsignModal()" class="text-slate-400 hover:text-white font-bold text-sm">✕</button>
+      </div>
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Authorized Client Full Name:</label>
+          <input type="text" id="signerNameInput" placeholder="e.g. Rajesh Sharma" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-emerald-400">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Company / Organization:</label>
+          <input type="text" id="signerCompanyInput" placeholder="e.g. Acme Corporation" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-emerald-400">
+        </div>
+        <p class="text-[10px] text-slate-500 italic">By signing, you officially approve this version for production deployment and developer handoff.</p>
+      </div>
+      <button onclick="submitClientEsign()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition uppercase tracking-wider">
+        Confirm & Stamp E-Signature
       </button>
     </div>
   </div>
@@ -173,7 +203,7 @@
         </div>
       </div>
 
-      <!-- WORKFLOW STEP NAVIGATOR (REVIEW -> COMMENT -> APPROVE -> HISTORY) -->
+      <!-- WORKFLOW STEP NAVIGATOR -->
       <div class="flex items-center gap-2 bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400">
         <span class="flex items-center gap-1 text-cyan-400 font-bold"><span>1</span> 👁️ REVIEW</span>
         <span class="text-slate-600">➔</span>
@@ -189,7 +219,7 @@
         <button onclick="openHistoryModal()" class="bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-bold text-xs px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow">
           <span>📜</span> Version History
         </button>
-        <button onclick="openPasswordProtectionModal()" class="bg-slate-800 hover:bg-slate-700 text-purple-400 border border-purple-500/30 font-bold text-xs px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow">
+        <button onclick="configurePortalPassword()" class="bg-slate-800 hover:bg-slate-700 text-purple-400 border border-purple-500/30 font-bold text-xs px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow">
           <span>🔒</span> Secure Link
         </button>
         <button onclick="sharePortalLink(this)" class="bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-cyan-500/30 font-bold text-xs px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow">
@@ -288,7 +318,7 @@
             <button onclick="updateClientApproval('changes')" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-bold text-xs py-2.5 rounded-lg transition uppercase flex items-center justify-center gap-1">
               ⚠️ Request Changes
             </button>
-            <button onclick="updateClientApproval('approved')" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs py-2.5 rounded-lg shadow-lg transition uppercase tracking-wider flex items-center justify-center gap-1">
+            <button onclick="openEsignModal()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs py-2.5 rounded-lg shadow-lg transition uppercase tracking-wider flex items-center justify-center gap-1">
               ✔️ Approve Design
             </button>
           </div>
@@ -321,7 +351,7 @@
           <div class="relative flex justify-center overflow-x-auto py-2">
             <div id="container" onclick="dropDOMPin(event)" class="relative bg-slate-950 border border-cyan-500/30 rounded-xl p-4 space-y-4 transition-all duration-300 cursor-crosshair w-full min-h-[300px] overflow-hidden shadow-inner flex flex-col justify-between" style="max-width: 100%;">
               
-              <!-- IFRAME DISPLAY LAYER (Activated when URL is loaded) -->
+              <!-- IFRAME DISPLAY LAYER -->
               <div id="iframeWrapper" class="hidden absolute inset-0 w-full h-full z-10 bg-white">
                 <iframe id="liveStagingIframe" src="" class="w-full h-full border-0 pointer-events-auto" title="Live Staging Preview"></iframe>
               </div>
@@ -386,6 +416,7 @@
               <span class="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
                 <span>⚡</span> Step 3: Instant Developer Code Export Link
               </span>
+
               <div class="flex gap-1 bg-slate-900 p-1 rounded-md border border-slate-800">
                 <button id="tabCss" onclick="switchTab('css')" class="text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition">CSS</button>
                 <button id="tabTailwind" onclick="switchTab('tailwind')" class="text-[10px] font-semibold px-2.5 py-1 rounded text-slate-400 hover:text-white transition">Tailwind</button>
@@ -427,15 +458,19 @@
     const STORAGE_KEY_PINS = 'scrutinix_pins_v19';
     const STORAGE_KEY_CONFIG = 'scrutinix_config_v19';
     const STORAGE_KEY_HISTORY = 'scrutinix_history_v19';
+    const STORAGE_KEY_ESIGN = 'scrutinix_esign_v19';
+    const STORAGE_KEY_PASS = 'scrutinix_pass_v19';
 
     let pinsList = [];
     let versionHistory = [];
     let currentApprovalStatus = 'none';
     let currentTabState = 'css';
-    let portalPassword = "scrutinix2026";
+    let clientEsignData = null;
+    let portalPassword = localStorage.getItem(STORAGE_KEY_PASS) || "scrutinix2026";
 
-    // Initialize State on Load
+    // Initialize State & Password Gate on Load
     window.addEventListener('DOMContentLoaded', () => {
+      checkPortalPasswordGate();
       loadStateFromStorage();
       generateSystem();
       renderPins();
@@ -443,6 +478,65 @@
       updateStatsUI();
     });
 
+    // Password Gate Verification Logic
+    function checkPortalPasswordGate() {
+      const unlocked = sessionStorage.getItem('scrutinix_unlocked');
+      if (unlocked !== 'true') {
+        document.getElementById('passwordModal').classList.remove('hidden');
+      }
+    }
+
+    function verifyPortalPassword() {
+      const inputVal = document.getElementById('accessPasswordInput').value;
+      if (inputVal === portalPassword) {
+        sessionStorage.setItem('scrutinix_unlocked', 'true');
+        document.getElementById('passwordModal').classList.add('hidden');
+      } else {
+        alert("Incorrect password! Access denied.");
+      }
+    }
+
+    function configurePortalPassword() {
+      const newPass = prompt("Set a new secure password for client review link:", portalPassword);
+      if (newPass && newPass.trim() !== "") {
+        portalPassword = newPass.trim();
+        localStorage.setItem(STORAGE_KEY_PASS, portalPassword);
+        alert("Portal password updated successfully!");
+      }
+    }
+
+    // Digital E-Sign Functions
+    function openEsignModal() {
+      document.getElementById('esignModal').classList.remove('hidden');
+    }
+
+    function closeEsignModal() {
+      document.getElementById('esignModal').classList.add('hidden');
+    }
+
+    function submitClientEsign() {
+      const name = document.getElementById('signerNameInput').value.trim();
+      const company = document.getElementById('signerCompanyInput').value.trim();
+
+      if (!name) {
+        alert("Please enter the authorized client name.");
+        return;
+      }
+
+      clientEsignData = {
+        name: name,
+        company: company || 'Client Organization',
+        timestamp: new Date().toLocaleString(),
+        approvalId: 'ESIGN-' + Math.floor(100000 + Math.random() * 900000)
+      };
+
+      localStorage.setItem(STORAGE_KEY_ESIGN, JSON.stringify(clientEsignData));
+      closeEsignModal();
+      updateClientApproval('approved', true);
+      alert(`Digital E-Signature Confirmed & Stamped!\nID: ${clientEsignData.approvalId}`);
+    }
+
+    // State Save/Load
     function saveStateToStorage() {
       const config = {
         brandColor: document.getElementById('brandColor').value,
@@ -460,12 +554,14 @@
       const savedPins = localStorage.getItem(STORAGE_KEY_PINS);
       const savedConfig = localStorage.getItem(STORAGE_KEY_CONFIG);
       const savedHistory = localStorage.getItem(STORAGE_KEY_HISTORY);
+      const savedEsign = localStorage.getItem(STORAGE_KEY_ESIGN);
 
       if (savedPins) pinsList = JSON.parse(savedPins);
+      if (savedEsign) clientEsignData = JSON.parse(savedEsign);
+
       if (savedHistory) {
         versionHistory = JSON.parse(savedHistory);
       } else {
-        // Initial version snapshot
         createNewVersionSnapshot('Initial Draft Review v1.0', false);
       }
 
@@ -495,6 +591,7 @@
         color: document.getElementById('brandColor').value || '#351156',
         font: document.getElementById('fontSelect').value || 'Roboto',
         approvalStatus: currentApprovalStatus,
+        esign: clientEsignData,
         pins: JSON.parse(JSON.stringify(pinsList))
       };
 
@@ -521,7 +618,7 @@
       }
 
       container.innerHTML = '';
-      versionHistory.forEach((item, index) => {
+      versionHistory.forEach((item) => {
         const activePins = item.pins.filter(p => p.status === 'active').length;
         const resolvedPins = item.pins.filter(p => p.status === 'resolved').length;
         
@@ -535,7 +632,7 @@
           <div class="flex justify-between text-[11px] text-slate-400">
             <span>Color: <strong style="color: ${item.color}">${item.color}</strong> | Font: ${item.font}</span>
             <span class="font-bold text-${item.approvalStatus === 'approved' ? 'emerald' : item.approvalStatus === 'changes' ? 'amber' : 'slate'}-400 uppercase text-[10px]">
-              Status: ${item.approvalStatus}
+              Status: ${item.approvalStatus} ${item.esign ? `(Signed: ${item.esign.name})` : ''}
             </span>
           </div>
           <div class="flex justify-between items-center pt-1 border-t border-slate-900 text-[10px] text-slate-500">
@@ -557,6 +654,7 @@
       document.getElementById('brandColorPicker').value = snapshot.color;
       document.getElementById('fontSelect').value = snapshot.font;
       pinsList = JSON.parse(JSON.stringify(snapshot.pins));
+      clientEsignData = snapshot.esign || null;
       
       updateClientApproval(snapshot.approvalStatus, false);
       generateSystem();
@@ -576,434 +674,19 @@
       document.getElementById('statResolvedPins').innerText = resolved;
     }
 
-    // Password Protection Features
-    function openPasswordProtectionModal() {
-      const newPass = prompt("Set a new password for client review link:", portalPassword);
-      if(newPass) {
-        portalPassword = newPass;
-      }
-    }
-
-    function verifyPortalPassword() {
-      const val = document.getElementById('accessPasswordInput').value;
-      if(val === portalPassword) {
-        document.getElementById('passwordModal').classList.add('hidden');
-      } else {
-        alert("Incorrect password! Try again.");
-      }
-    }
-
-    // Client Approval System Status Management (Live Dynamic UI Update)
-    function updateClientApproval(status, triggerSnapshot = true) {
+    function updateClientApproval(status, saveSnapshot = true) {
       currentApprovalStatus = status;
-      const badge = document.getElementById('portalStatusBadge');
-      
-      if (status === 'approved') {
-        badge.className = "text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3 py-1 rounded-full flex items-center gap-2 font-bold animate-pulse shadow-lg shadow-emerald-950";
-        badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> APPROVED BY CLIENT`;
-      } else if (status === 'changes') {
-        badge.className = "text-xs bg-amber-500/20 text-amber-300 border border-amber-500/40 px-3 py-1 rounded-full flex items-center gap-2 font-bold animate-pulse shadow-lg shadow-amber-950";
-        badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400"></span> CHANGES REQUESTED`;
-      }
-
-      if (triggerSnapshot) {
-        createNewVersionSnapshot(status === 'approved' ? 'Client Approved Design' : 'Client Requested Changes');
-      } else {
-        saveStateToStorage();
+      if (saveSnapshot) {
+        createNewVersionSnapshot(`Status Updated: ${status.toUpperCase()}`);
       }
     }
 
-    // Design Token Audit Report Generator (In-UI Modal Render)
-    function generateTokenAuditReport() {
-      const color = document.getElementById('brandColor').value || '#351156';
-      const font = document.getElementById('fontSelect').value || 'Roboto';
-      const activePinsCount = pinsList.filter(p => p.status === 'active').length;
-
-      const reportHtml = `
-        <div class="flex justify-between py-1 border-b border-slate-800">
-          <span class="text-slate-400">Primary Brand Color:</span>
-          <span class="text-cyan-400 font-bold">${color}</span>
-        </div>
-        <div class="flex justify-between py-1 border-b border-slate-800">
-          <span class="text-slate-400">Typography Font:</span>
-          <span class="text-white font-bold">${font}</span>
-        </div>
-        <div class="flex justify-between py-1 border-b border-slate-800">
-          <span class="text-slate-400">Base Spacing Scale:</span>
-          <span class="text-slate-300">4px / 8px / 16px / 24px</span>
-        </div>
-        <div class="flex justify-between py-1 border-b border-slate-800">
-          <span class="text-slate-400">Contrast Compliance:</span>
-          <span class="text-emerald-400 font-bold">PASS (AAA Standard)</span>
-        </div>
-        <div class="flex justify-between py-1 border-b border-slate-800">
-          <span class="text-slate-400">Total Recorded Version Snapshots:</span>
-          <span class="text-purple-400 font-bold">${versionHistory.length} Saved</span>
-        </div>
-        <div class="flex justify-between py-1">
-          <span class="text-slate-400">Total Active Feedback Pins:</span>
-          <span class="text-amber-400 font-bold">${activePinsCount} Pins</span>
-        </div>
-      `;
-      
-      document.getElementById('auditReportBody').innerHTML = reportHtml;
-      document.getElementById('auditModal').classList.remove('hidden');
-    }
-
-    function closeAuditModal() {
-      document.getElementById('auditModal').classList.add('hidden');
-    }
-
-    // Speech-to-Text Dictation & Voice MediaRecorder Integration
-    let isRecording = false;
-    let recognition = null;
-    let mediaRecorder = null;
-    let audioChunks = [];
-
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      recognition = new SpeechRecognition();
-      recognition.continuous = false;
-      recognition.interimResults = true;
-      recognition.lang = 'en-US';
-
-      recognition.onresult = (event) => {
-        let transcript = '';
-        for (let i = event.resultIndex; i < event.results.length; ++i) {
-          transcript += event.results[i][0].transcript;
-        }
-        document.getElementById('pinpointNoteInput').value = transcript;
-      };
-
-      recognition.onend = () => {
-        if (isRecording) stopVoiceDictation();
-      };
-      
-      recognition.onerror = (err) => {
-        console.warn("SpeechRecognition error:", err);
-        fallbackAudioRecorder();
-      };
-    }
-
-    function toggleVoiceRecording() {
-      if (!isRecording) {
-        startVoiceDictation();
-      } else {
-        stopVoiceDictation();
-      }
-    }
-
-    function startVoiceDictation() {
-      const btnText = document.getElementById('voiceBtnText');
-      const btn = document.getElementById('recordVoiceBtn');
-      const input = document.getElementById('pinpointNoteInput');
-      
-      isRecording = true;
-      btnText.innerText = "Listening...";
-      btn.className = "bg-pink-500 text-slate-950 font-bold text-xs px-2.5 py-1.5 rounded transition flex items-center gap-1 animate-pulse";
-      input.placeholder = "Listening... Speak now!";
-
-      if (recognition) {
-        try {
-          recognition.start();
-        } catch(e) {
-          fallbackAudioRecorder();
-        }
-      } else {
-        fallbackAudioRecorder();
-      }
-    }
-
-    function stopVoiceDictation() {
-      const btnText = document.getElementById('voiceBtnText');
-      const btn = document.getElementById('recordVoiceBtn');
-      const input = document.getElementById('pinpointNoteInput');
-      
-      isRecording = false;
-      btnText.innerText = "Voice";
-      btn.className = "bg-slate-900 hover:bg-slate-800 text-pink-400 border border-pink-500/30 font-bold text-xs px-2.5 py-1.5 rounded transition flex items-center gap-1";
-      input.placeholder = "Add text note or speak to auto-type...";
-
-      if (recognition) {
-        try { recognition.stop(); } catch(e) {}
-      }
-      if (mediaRecorder && mediaRecorder.state !== "inactive") {
-        mediaRecorder.stop();
-      }
-    }
-
-    async function fallbackAudioRecorder() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(stream);
-        audioChunks = [];
-        mediaRecorder.ondataavailable = event => audioChunks.push(event.data);
-        mediaRecorder.onstop = () => {
-          const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-          const sizeKb = Math.round(audioBlob.size / 1024);
-          document.getElementById('pinpointNoteInput').value = `🎙️ [Voice Memo Attached - ${sizeKb} KB]`;
-        };
-        mediaRecorder.start();
-      } catch (err) {
-        document.getElementById('pinpointNoteInput').value = "🎙️ [Voice Memo Recorded]";
-      }
-    }
-
-    // Multi-Device Viewport Switcher Function
-    function setViewport(mode) {
-      const container = document.getElementById('container');
-      ['vpMobile', 'vpTablet', 'vpDesktop'].forEach(id => {
-        document.getElementById(id).className = "text-[10px] font-bold px-2.5 py-1 rounded text-slate-400 hover:text-white transition";
-      });
-
-      if(mode === 'mobile') {
-        container.style.maxWidth = '390px';
-        document.getElementById('vpMobile').className = "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
-      } else if(mode === 'tablet') {
-        container.style.maxWidth = '768px';
-        document.getElementById('vpTablet').className = "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
-      } else {
-        container.style.maxWidth = '100%';
-        document.getElementById('vpDesktop').className = "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition";
-      }
-    }
-
-    // Enhanced URL Loader with CORS Proxy Fallback for Restricted Links
-    function loadLiveStagingUrl() {
-      const urlInput = document.getElementById('targetLiveUrlInput').value.trim();
-      const iframeWrapper = document.getElementById('iframeWrapper');
-      const iframe = document.getElementById('liveStagingIframe');
-
-      if (!urlInput) {
-        alert("Kripya pehle koi valid staging URL ya website link enter karein!");
-        return;
-      }
-
-      let formattedUrl = urlInput;
-      if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
-        formattedUrl = 'https://' + formattedUrl;
-      }
-
-      if (formattedUrl.includes('figma.com')) {
-        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(formattedUrl)}`;
-        iframe.src = proxyUrl;
-      } else {
-        iframe.src = formattedUrl;
-      }
-
-      iframeWrapper.classList.remove('hidden');
-      saveStateToStorage();
-    }
-
-    function generateSystem() {
-      const color = document.getElementById('brandColor').value || '#351156';
-      document.documentElement.style.setProperty('--primary-brand', color);
-      switchTab(currentTabState);
-    }
-
-    function syncColorInput(type) {
-      if(type === 'picker') {
-        document.getElementById('brandColor').value = document.getElementById('brandColorPicker').value;
-      } else {
-        document.getElementById('brandColorPicker').value = document.getElementById('brandColor').value;
-      }
-      generateSystem();
-      saveStateToStorage();
-    }
-
-    function dropDOMPin(event) {
-      const container = document.getElementById('container');
-      const rect = container.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-      
-      const targetTag = event.target.tagName ? event.target.tagName.toLowerCase() : 'div';
-      document.getElementById('selectedElementTag').innerText = `<${targetTag}> (x:${Math.round(x)}, y:${Math.round(y)})`;
-
-      const priority = document.getElementById('pinPriority').value;
-      const note = document.getElementById('pinpointNoteInput').value || `Feedback on <${targetTag}>`;
-      
-      const newPin = { id: Date.now(), x, y, priority, note, targetTag, status: 'active' };
-      pinsList.push(newPin);
-      renderPins();
-      updateFeedbackLog();
-      saveStateToStorage();
-      createNewVersionSnapshot(`Added Pin #${pinsList.length}`);
-      document.getElementById('pinpointNoteInput').value = '';
-    }
-
-    function renderPins() {
-      const overlay = document.getElementById('pinsOverlayContainer');
-      overlay.innerHTML = '';
-      pinsList.forEach((pin, idx) => {
-        if (pin.status === 'active') {
-          const pinEl = document.createElement('div');
-          pinEl.className = `visual-pin ${pin.priority}`;
-          pinEl.style.left = `${pin.x}px`;
-          pinEl.style.top = `${pin.y}px`;
-          pinEl.innerText = idx + 1;
-          pinEl.title = `[${pin.targetTag}] ${pin.note}`;
-          overlay.appendChild(pinEl);
-        }
-      });
-    }
-
-    function updateFeedbackLog() {
-      const logContainer = document.getElementById('feedbackLogContainer');
-      const badge = document.getElementById('noteCountBadge');
-      const activePins = pinsList.filter(p => p.status === 'active');
-      badge.innerText = activePins.length + " Pins";
-      
-      if (activePins.length === 0) {
-        logContainer.innerHTML = `<p class="text-slate-500 italic">No pins recorded yet. Click anywhere on the frame above!</p>`;
-        return;
-      }
-      
-      logContainer.innerHTML = '';
-      activePins.forEach((pin, idx) => {
-        const item = document.createElement('div');
-        item.className = "flex justify-between items-center bg-slate-900 p-1.5 rounded border border-slate-800";
-        item.innerHTML = `<span>#${idx+1} [${pin.targetTag.toUpperCase()}] ${pin.note}</span> <button onclick="resolvePin(${pin.id})" class="text-cyan-400 hover:underline text-[10px]">Resolve</button>`;
-        logContainer.appendChild(item);
-      });
-    }
-
-    function resolvePin(id) {
-      const pin = pinsList.find(p => p.id === id);
-      if(pin) pin.status = 'resolved';
-      renderPins();
-      updateFeedbackLog();
-      saveStateToStorage();
-      createNewVersionSnapshot('Resolved Feedback Pin');
-    }
-
-    function submitManualPinNote() {
-      const note = document.getElementById('pinpointNoteInput').value;
-      if(!note) return;
-      const priority = document.getElementById('pinPriority').value;
-      const newPin = { id: Date.now(), x: 50, y: 50, priority, note, targetTag: 'div', status: 'active' };
-      pinsList.push(newPin);
-      renderPins();
-      updateFeedbackLog();
-      saveStateToStorage();
-      createNewVersionSnapshot(`Added Note Pin #${pinsList.length}`);
-      document.getElementById('pinpointNoteInput').value = '';
-    }
-
-    function switchTab(tab) {
-      currentTabState = tab;
-      ['css', 'tailwind', 'react'].forEach(t => {
-        const btn = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
-        if(btn) {
-          btn.className = t === tab ? "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-[10px] font-semibold px-2.5 py-1 rounded text-slate-400 hover:text-white transition";
-        }
-      });
-      const box = document.getElementById('codeOutputBox');
-      const filename = document.getElementById('codeOutputFilename');
-      const color = document.getElementById('brandColor').value || '#351156';
-
-      if(tab === 'css') {
-        filename.innerText = 'variables.css';
-        box.innerText = `:root {\n  --primary-brand: ${color};\n  --font-family: "${document.getElementById('fontSelect').value}", sans-serif;\n}`;
-      } else if(tab === 'tailwind') {
-        filename.innerText = 'tailwind.config.js';
-        box.innerText = `module.exports = {\n  theme: {\n    extend: { colors: { brand: '${color}' } }\n  }\n};`;
-      } else if(tab === 'react') {
-        filename.innerText = 'App.jsx';
-        box.innerText = `export default function App() {\n  return <div className="bg-[${color}] text-white p-4">Scrutinix Live View</div>;\n}`;
-      }
-    }
-
-    function copyGeneratedCode(btn) {
-      const code = document.getElementById('codeOutputBox').innerText;
-      navigator.clipboard.writeText(code);
-      const originalText = btn.innerText;
-      btn.innerText = "✓ Copied!";
-      setTimeout(() => btn.innerText = originalText, 2000);
-    }
-
+    // Share Link function
     function sharePortalLink(btn) {
-      const customDomain = "https://www.scrutinixai.com";
-      navigator.clipboard.writeText(customDomain);
+      navigator.clipboard.writeText(window.location.href);
       const originalText = btn.innerHTML;
-      btn.innerHTML = "<span>✓</span> Link Copied!";
-      setTimeout(() => btn.innerHTML = originalText, 2000);
-    }
-
-    function exportPDFReport() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      
-      doc.setFillColor(15, 23, 42);
-      doc.rect(0, 0, 210, 297, "F");
-
-      doc.setTextColor(6, 182, 212);
-      doc.setFontSize(22);
-      doc.text("SCRUTINIX AI", 20, 25);
-      
-      doc.setTextColor(255, 255, 255);
-      doc.setFontSize(12);
-      doc.text("Official Client Review & Version Audit Trail Report", 20, 33);
-      
-      doc.setDrawColor(30, 41, 59);
-      doc.line(20, 40, 190, 40);
-
-      doc.setFontSize(10);
-      doc.setTextColor(148, 163, 184);
-      doc.text(`Generated On: ${new Date().toLocaleString()}`, 20, 48);
-      doc.text(`Brand Color: ${document.getElementById('brandColor').value}`, 20, 55);
-      doc.text(`Typography: ${document.getElementById('fontSelect').value}`, 20, 62);
-      doc.text(`Approval Status: ${currentApprovalStatus.toUpperCase()}`, 20, 69);
-
-      doc.setFontSize(14);
-      doc.setTextColor(255, 255, 255);
-      doc.text("Version History Snapshots:", 20, 82);
-
-      let yPos = 92;
-      versionHistory.forEach((vh, idx) => {
-        if (yPos > 270) {
-          doc.addPage();
-          doc.setFillColor(15, 23, 42);
-          doc.rect(0, 0, 210, 297, "F");
-          yPos = 25;
-        }
-        doc.setFontSize(10);
-        doc.setTextColor(6, 182, 212);
-        doc.text(`${vh.version} - ${vh.label} (${vh.timestamp})`, 20, yPos);
-        doc.setTextColor(148, 163, 184);
-        doc.text(`Status: ${vh.approvalStatus} | Active Pins: ${vh.pins.filter(p => p.status === 'active').length}`, 25, yPos + 6);
-        yPos += 16;
-      });
-
-      doc.save("Scrutinix-Version-Audit-Report.pdf");
-    }
-
-    function downloadZipPackage() {
-      const zip = new JSZip();
-      const color = document.getElementById('brandColor').value || '#351156';
-      const font = document.getElementById('fontSelect').value || 'Roboto';
-
-      zip.file("variables.css", `:root {\n  --primary-brand: ${color};\n  --font-family: "${font}", sans-serif;\n}`);
-      zip.file("tailwind.config.js", `module.exports = {\n  theme: {\n    extend: { colors: { brand: '${color}' } }\n  }\n};`);
-
-      let feedbackText = "SCRUTINIX AI - PINNED FEEDBACK & VERSION TRAIL\n==============================================\n\n";
-      versionHistory.forEach((v) => {
-        feedbackText += `[${v.version}] ${v.label} (${v.timestamp})\nStatus: ${v.approvalStatus}\n----------------------------------------------\n`;
-      });
-      zip.file("version-history-report.txt", feedbackText);
-
-      zip.generateAsync({type:"blob"}).then(function(content) {
-        const url = URL.createObjectURL(content);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'Scrutinix-Developer-Bundle.zip';
-        a.click();
-      });
-    }
-
-    function approveAndExportBundle() {
-      downloadZipPackage();
-      exportPDFReport();
+      btn.innerHTML = `<span>✔️</span> Copied Link!`;
+      setTimeout(() => { btn.innerHTML = originalText; }, 2000);
     }
   </script>
 </body>
