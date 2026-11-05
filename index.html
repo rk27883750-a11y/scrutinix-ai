@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // System Generator & Client Portal v1.8 (Enterprise Edition)</title>
+  <title>Scrutinix AI // System Generator & Client Portal v1.9 (Version History Edition)</title>
   
   <!-- Open Graph Meta Tags for Professional Social Sharing -->
   <meta property="og:title" content="Scrutinix AI // Client Review & Handoff Portal" />
-  <meta property="og:description" content="Scrutinix AI — From Design Review to Developer Handoff." />
+  <meta property="og:description" content="Scrutinix AI — From Design Review to Developer Handoff with Version History & Audit Trail." />
   <meta property="og:url" content="https://www.scrutinixai.com" />
   <meta property="og:type" content="website" />
 
@@ -126,6 +126,35 @@
     </div>
   </div>
 
+  <!-- VERSION HISTORY MODAL -->
+  <div id="historyModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden">
+    <div class="bg-slate-900 border border-cyan-500/40 p-6 rounded-xl max-w-2xl w-full space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-3">
+          <div class="w-9 h-9 bg-cyan-950 border border-cyan-500/40 rounded-lg flex items-center justify-center text-cyan-400 font-bold text-base">📜</div>
+          <div>
+            <h3 class="text-base font-bold text-white">Project Version History & Audit Trail</h3>
+            <p class="text-xs text-slate-400">Track all saved client feedback, sign-offs, and design revisions</p>
+          </div>
+        </div>
+        <button onclick="closeHistoryModal()" class="text-slate-400 hover:text-white font-bold text-sm">✕</button>
+      </div>
+      
+      <div id="versionListContainer" class="space-y-2 max-h-80 overflow-y-auto custom-scrollbar p-1">
+        <!-- Rendered via JS -->
+      </div>
+
+      <div class="flex gap-2">
+        <button onclick="createNewVersionSnapshot('Manual Snapshot')" class="flex-1 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition uppercase tracking-wider">
+          ➕ Save New Version Snapshot
+        </button>
+        <button onclick="closeHistoryModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs px-4 py-2.5 rounded-lg transition">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div class="max-w-7xl mx-auto w-full space-y-5">
 
     <!-- HEADER & BRANDING WITH TOP WORKFLOW BAR -->
@@ -140,29 +169,34 @@
         </div>
         <div>
           <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span></h1>
-          <p class="text-xs text-slate-400">From Design Review to Developer Handoff. v1.8</p>
+          <p class="text-xs text-slate-400">From Design Review to Developer Handoff. v1.9</p>
         </div>
       </div>
 
-      <!-- WORKFLOW STEP NAVIGATOR (REVIEW -> COMMENT -> APPROVE) -->
+      <!-- WORKFLOW STEP NAVIGATOR (REVIEW -> COMMENT -> APPROVE -> HISTORY) -->
       <div class="flex items-center gap-2 bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400">
         <span class="flex items-center gap-1 text-cyan-400 font-bold"><span>1</span> 👁️ REVIEW</span>
         <span class="text-slate-600">➔</span>
         <span class="flex items-center gap-1 text-amber-400 font-bold"><span>2</span> 💬 COMMENT</span>
         <span class="text-slate-600">➔</span>
         <span class="flex items-center gap-1 text-emerald-400 font-bold"><span>3</span> ✔️ APPROVE</span>
+        <span class="text-slate-600">➔</span>
+        <span class="flex items-center gap-1 text-purple-400 font-bold"><span>4</span> 📜 HISTORY</span>
       </div>
 
-      <!-- SHARE PORTAL LINK & SECURITY BUTTON -->
-      <div class="flex items-center gap-3">
+      <!-- SHARE PORTAL LINK, SECURITY & VERSION BUTTON -->
+      <div class="flex items-center gap-2">
+        <button onclick="openHistoryModal()" class="bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-bold text-xs px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow">
+          <span>📜</span> Version History
+        </button>
         <button onclick="openPasswordProtectionModal()" class="bg-slate-800 hover:bg-slate-700 text-purple-400 border border-purple-500/30 font-bold text-xs px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow">
           <span>🔒</span> Secure Link
         </button>
-        <button onclick="sharePortalLink(this)" class="bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-cyan-500/30 font-bold text-xs px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 shadow">
-          <span>🔗</span> Share Portal Link
+        <button onclick="sharePortalLink(this)" class="bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-cyan-500/30 font-bold text-xs px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow">
+          <span>🔗</span> Share Link
         </button>
         <span id="portalStatusBadge" class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> v1.8 Active
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> v1.9 Active
         </span>
       </div>
     </div>
@@ -223,6 +257,28 @@
               </div>
             </div>
           </div>
+
+          <!-- PERSISTENCE & CHANGE TRACKING SUMMARY -->
+          <div class="bg-slate-950 p-3 border border-slate-800 rounded-xl space-y-2">
+            <div class="text-[11px] font-bold text-cyan-400 uppercase flex justify-between">
+              <span>📊 Real-Time Change Tracker</span>
+              <span id="activeVersionTag" class="text-purple-300 font-mono">v1.0</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-center">
+              <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                <div id="statTotalPins" class="text-sm font-bold text-white">0</div>
+                <div class="text-[9px] text-slate-400">Total Pins</div>
+              </div>
+              <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                <div id="statActivePins" class="text-sm font-bold text-amber-400">0</div>
+                <div class="text-[9px] text-slate-400">Pending</div>
+              </div>
+              <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                <div id="statResolvedPins" class="text-sm font-bold text-emerald-400">0</div>
+                <div class="text-[9px] text-slate-400">Resolved</div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- CLIENT APPROVAL SYSTEM ACTION BUTTONS -->
@@ -274,7 +330,7 @@
               <div id="defaultMockupContent" class="space-y-4 z-20 pointer-events-none">
                 <div class="flex justify-between items-center">
                   <div>
-                    <h4 id="previewAppTitle" contenteditable="true" onclick="event.stopPropagation()" class="text-base font-bold text-white outline-none pointer-events-auto">Scrutinix Client Portal v1.8</h4>
+                    <h4 id="previewAppTitle" contenteditable="true" onclick="event.stopPropagation()" class="text-base font-bold text-white outline-none pointer-events-auto">Scrutinix Client Portal v1.9</h4>
                     <p id="previewSubtitle" contenteditable="true" onclick="event.stopPropagation()" class="text-xs text-slate-400 outline-none pointer-events-auto">Click anywhere below to drop a feedback pin 📍</p>
                   </div>
                   <button id="previewBtn" contenteditable="true" onclick="event.stopPropagation()" class="text-white font-bold text-xs px-4 py-2 rounded-md shadow-md transition outline-none pointer-events-auto" style="background-color: var(--primary-brand, #351156);">
@@ -367,8 +423,160 @@
   </div>
 
   <script>
-    // Password Protection Features
+    // State Persistence Key Constants
+    const STORAGE_KEY_PINS = 'scrutinix_pins_v19';
+    const STORAGE_KEY_CONFIG = 'scrutinix_config_v19';
+    const STORAGE_KEY_HISTORY = 'scrutinix_history_v19';
+
+    let pinsList = [];
+    let versionHistory = [];
+    let currentApprovalStatus = 'none';
+    let currentTabState = 'css';
     let portalPassword = "scrutinix2026";
+
+    // Initialize State on Load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadStateFromStorage();
+      generateSystem();
+      renderPins();
+      updateFeedbackLog();
+      updateStatsUI();
+    });
+
+    function saveStateToStorage() {
+      const config = {
+        brandColor: document.getElementById('brandColor').value,
+        font: document.getElementById('fontSelect').value,
+        status: currentApprovalStatus,
+        targetUrl: document.getElementById('targetLiveUrlInput').value
+      };
+      localStorage.setItem(STORAGE_KEY_PINS, JSON.stringify(pinsList));
+      localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(config));
+      localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(versionHistory));
+      updateStatsUI();
+    }
+
+    function loadStateFromStorage() {
+      const savedPins = localStorage.getItem(STORAGE_KEY_PINS);
+      const savedConfig = localStorage.getItem(STORAGE_KEY_CONFIG);
+      const savedHistory = localStorage.getItem(STORAGE_KEY_HISTORY);
+
+      if (savedPins) pinsList = JSON.parse(savedPins);
+      if (savedHistory) {
+        versionHistory = JSON.parse(savedHistory);
+      } else {
+        // Initial version snapshot
+        createNewVersionSnapshot('Initial Draft Review v1.0', false);
+      }
+
+      if (savedConfig) {
+        const config = JSON.parse(savedConfig);
+        if (config.brandColor) {
+          document.getElementById('brandColor').value = config.brandColor;
+          document.getElementById('brandColorPicker').value = config.brandColor;
+        }
+        if (config.font) document.getElementById('fontSelect').value = config.font;
+        if (config.targetUrl) document.getElementById('targetLiveUrlInput').value = config.targetUrl;
+        if (config.status && config.status !== 'none') {
+          updateClientApproval(config.status, false);
+        }
+      }
+    }
+
+    // Version History Management
+    function createNewVersionSnapshot(changeLabel = 'Update Snapshot', autoSave = true) {
+      const vNumber = (versionHistory.length + 1) * 0.1 + 0.9;
+      const vTag = `v${vNumber.toFixed(1)}`;
+      
+      const newSnapshot = {
+        version: vTag,
+        timestamp: new Date().toLocaleString(),
+        label: changeLabel,
+        color: document.getElementById('brandColor').value || '#351156',
+        font: document.getElementById('fontSelect').value || 'Roboto',
+        approvalStatus: currentApprovalStatus,
+        pins: JSON.parse(JSON.stringify(pinsList))
+      };
+
+      versionHistory.unshift(newSnapshot);
+      document.getElementById('activeVersionTag').innerText = vTag;
+      
+      if (autoSave) saveStateToStorage();
+    }
+
+    function openHistoryModal() {
+      renderVersionHistoryList();
+      document.getElementById('historyModal').classList.remove('hidden');
+    }
+
+    function closeHistoryModal() {
+      document.getElementById('historyModal').classList.add('hidden');
+    }
+
+    function renderVersionHistoryList() {
+      const container = document.getElementById('versionListContainer');
+      if (versionHistory.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-500 italic p-2">No previous version history recorded.</p>`;
+        return;
+      }
+
+      container.innerHTML = '';
+      versionHistory.forEach((item, index) => {
+        const activePins = item.pins.filter(p => p.status === 'active').length;
+        const resolvedPins = item.pins.filter(p => p.status === 'resolved').length;
+        
+        const card = document.createElement('div');
+        card.className = "bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1.5 hover:border-cyan-500/50 transition";
+        card.innerHTML = `
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-bold text-cyan-400 font-mono">${item.version} — ${item.label}</span>
+            <span class="text-[10px] text-slate-500">${item.timestamp}</span>
+          </div>
+          <div class="flex justify-between text-[11px] text-slate-400">
+            <span>Color: <strong style="color: ${item.color}">${item.color}</strong> | Font: ${item.font}</span>
+            <span class="font-bold text-${item.approvalStatus === 'approved' ? 'emerald' : item.approvalStatus === 'changes' ? 'amber' : 'slate'}-400 uppercase text-[10px]">
+              Status: ${item.approvalStatus}
+            </span>
+          </div>
+          <div class="flex justify-between items-center pt-1 border-t border-slate-900 text-[10px] text-slate-500">
+            <span>Pins: ${activePins} Pending / ${resolvedPins} Resolved</span>
+            <button onclick="rollbackToVersion('${item.version}')" class="text-cyan-400 hover:underline font-bold">
+              ↺ Restore Snapshot
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function rollbackToVersion(vTag) {
+      const snapshot = versionHistory.find(v => v.version === vTag);
+      if (!snapshot) return;
+
+      document.getElementById('brandColor').value = snapshot.color;
+      document.getElementById('brandColorPicker').value = snapshot.color;
+      document.getElementById('fontSelect').value = snapshot.font;
+      pinsList = JSON.parse(JSON.stringify(snapshot.pins));
+      
+      updateClientApproval(snapshot.approvalStatus, false);
+      generateSystem();
+      renderPins();
+      updateFeedbackLog();
+      saveStateToStorage();
+      closeHistoryModal();
+      document.getElementById('activeVersionTag').innerText = snapshot.version;
+    }
+
+    function updateStatsUI() {
+      const active = pinsList.filter(p => p.status === 'active').length;
+      const resolved = pinsList.filter(p => p.status === 'resolved').length;
+      
+      document.getElementById('statTotalPins').innerText = pinsList.length;
+      document.getElementById('statActivePins').innerText = active;
+      document.getElementById('statResolvedPins').innerText = resolved;
+    }
+
+    // Password Protection Features
     function openPasswordProtectionModal() {
       const newPass = prompt("Set a new password for client review link:", portalPassword);
       if(newPass) {
@@ -386,15 +594,22 @@
     }
 
     // Client Approval System Status Management (Live Dynamic UI Update)
-    let currentTabState = 'css';
-    function updateClientApproval(status) {
+    function updateClientApproval(status, triggerSnapshot = true) {
+      currentApprovalStatus = status;
       const badge = document.getElementById('portalStatusBadge');
+      
       if (status === 'approved') {
         badge.className = "text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3 py-1 rounded-full flex items-center gap-2 font-bold animate-pulse shadow-lg shadow-emerald-950";
         badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> APPROVED BY CLIENT`;
-      } else {
+      } else if (status === 'changes') {
         badge.className = "text-xs bg-amber-500/20 text-amber-300 border border-amber-500/40 px-3 py-1 rounded-full flex items-center gap-2 font-bold animate-pulse shadow-lg shadow-amber-950";
         badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400"></span> CHANGES REQUESTED`;
+      }
+
+      if (triggerSnapshot) {
+        createNewVersionSnapshot(status === 'approved' ? 'Client Approved Design' : 'Client Requested Changes');
+      } else {
+        saveStateToStorage();
       }
     }
 
@@ -420,6 +635,10 @@
         <div class="flex justify-between py-1 border-b border-slate-800">
           <span class="text-slate-400">Contrast Compliance:</span>
           <span class="text-emerald-400 font-bold">PASS (AAA Standard)</span>
+        </div>
+        <div class="flex justify-between py-1 border-b border-slate-800">
+          <span class="text-slate-400">Total Recorded Version Snapshots:</span>
+          <span class="text-purple-400 font-bold">${versionHistory.length} Saved</span>
         </div>
         <div class="flex justify-between py-1">
           <span class="text-slate-400">Total Active Feedback Pins:</span>
@@ -573,6 +792,7 @@
       }
 
       iframeWrapper.classList.remove('hidden');
+      saveStateToStorage();
     }
 
     function generateSystem() {
@@ -588,9 +808,9 @@
         document.getElementById('brandColorPicker').value = document.getElementById('brandColor').value;
       }
       generateSystem();
+      saveStateToStorage();
     }
 
-    let pinsList = [];
     function dropDOMPin(event) {
       const container = document.getElementById('container');
       const rect = container.getBoundingClientRect();
@@ -603,10 +823,12 @@
       const priority = document.getElementById('pinPriority').value;
       const note = document.getElementById('pinpointNoteInput').value || `Feedback on <${targetTag}>`;
       
-      const newPin = { id: pinsList.length + 1, x, y, priority, note, targetTag, status: 'active' };
+      const newPin = { id: Date.now(), x, y, priority, note, targetTag, status: 'active' };
       pinsList.push(newPin);
       renderPins();
       updateFeedbackLog();
+      saveStateToStorage();
+      createNewVersionSnapshot(`Added Pin #${pinsList.length}`);
       document.getElementById('pinpointNoteInput').value = '';
     }
 
@@ -651,16 +873,20 @@
       if(pin) pin.status = 'resolved';
       renderPins();
       updateFeedbackLog();
+      saveStateToStorage();
+      createNewVersionSnapshot('Resolved Feedback Pin');
     }
 
     function submitManualPinNote() {
       const note = document.getElementById('pinpointNoteInput').value;
       if(!note) return;
       const priority = document.getElementById('pinPriority').value;
-      const newPin = { id: pinsList.length + 1, x: 50, y: 50, priority, note, targetTag: 'div', status: 'active' };
+      const newPin = { id: Date.now(), x: 50, y: 50, priority, note, targetTag: 'div', status: 'active' };
       pinsList.push(newPin);
       renderPins();
       updateFeedbackLog();
+      saveStateToStorage();
+      createNewVersionSnapshot(`Added Note Pin #${pinsList.length}`);
       document.getElementById('pinpointNoteInput').value = '';
     }
 
@@ -700,7 +926,7 @@
       const customDomain = "https://www.scrutinixai.com";
       navigator.clipboard.writeText(customDomain);
       const originalText = btn.innerHTML;
-      btn.innerHTML = "<span>✓</span> Portal Link Copied!";
+      btn.innerHTML = "<span>✓</span> Link Copied!";
       setTimeout(() => btn.innerHTML = originalText, 2000);
     }
 
@@ -717,7 +943,7 @@
       
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(12);
-      doc.text("Official Client Review & Audit Trail Report", 20, 33);
+      doc.text("Official Client Review & Version Audit Trail Report", 20, 33);
       
       doc.setDrawColor(30, 41, 59);
       doc.line(20, 40, 190, 40);
@@ -727,39 +953,29 @@
       doc.text(`Generated On: ${new Date().toLocaleString()}`, 20, 48);
       doc.text(`Brand Color: ${document.getElementById('brandColor').value}`, 20, 55);
       doc.text(`Typography: ${document.getElementById('fontSelect').value}`, 20, 62);
+      doc.text(`Approval Status: ${currentApprovalStatus.toUpperCase()}`, 20, 69);
 
       doc.setFontSize(14);
       doc.setTextColor(255, 255, 255);
-      doc.text("Pinned Feedback & Change Requests:", 20, 75);
+      doc.text("Version History Snapshots:", 20, 82);
 
-      let yPos = 85;
-      const activePins = pinsList.filter(p => p.status === 'active');
-      
-      if (activePins.length === 0) {
+      let yPos = 92;
+      versionHistory.forEach((vh, idx) => {
+        if (yPos > 270) {
+          doc.addPage();
+          doc.setFillColor(15, 23, 42);
+          doc.rect(0, 0, 210, 297, "F");
+          yPos = 25;
+        }
         doc.setFontSize(10);
+        doc.setTextColor(6, 182, 212);
+        doc.text(`${vh.version} - ${vh.label} (${vh.timestamp})`, 20, yPos);
         doc.setTextColor(148, 163, 184);
-        doc.text("No active pins recorded for this session.", 20, yPos);
-      } else {
-        activePins.forEach((pin, idx) => {
-          if (yPos > 270) {
-            doc.addPage();
-            doc.setFillColor(15, 23, 42);
-            doc.rect(0, 0, 210, 297, "F");
-            yPos = 25;
-          }
-          doc.setFontSize(10);
-          doc.setTextColor(6, 182, 212);
-          doc.text(`Pin #${idx + 1} [Element: <${pin.targetTag}>] - Priority: ${pin.priority.toUpperCase()}`, 20, yPos);
-          doc.setTextColor(255, 255, 255);
-          doc.text(`Note: ${pin.note}`, 25, yPos + 6);
-          doc.setTextColor(148, 163, 184);
-          doc.text(`Coordinates: X: ${Math.round(pin.x)}, Y: ${Math.round(pin.y)}`, 25, yPos + 12);
-          
-          yPos += 22;
-        });
-      }
+        doc.text(`Status: ${vh.approvalStatus} | Active Pins: ${vh.pins.filter(p => p.status === 'active').length}`, 25, yPos + 6);
+        yPos += 16;
+      });
 
-      doc.save("Scrutinix-Audit-Report.pdf");
+      doc.save("Scrutinix-Version-Audit-Report.pdf");
     }
 
     function downloadZipPackage() {
@@ -770,11 +986,11 @@
       zip.file("variables.css", `:root {\n  --primary-brand: ${color};\n  --font-family: "${font}", sans-serif;\n}`);
       zip.file("tailwind.config.js", `module.exports = {\n  theme: {\n    extend: { colors: { brand: '${color}' } }\n  }\n};`);
 
-      let feedbackText = "SCRUTINIX AI - PINNED FEEDBACK REPORT\n=====================================\n\n";
-      pinsList.forEach((p, idx) => {
-        feedbackText += `Pin #${idx+1} [${p.targetTag.toUpperCase()}] Priority: ${p.priority.toUpperCase()}\nNote: ${p.note}\nCoordinates: x:${Math.round(p.x)}, y:${Math.round(p.y)}\n-------------------------------------\n`;
+      let feedbackText = "SCRUTINIX AI - PINNED FEEDBACK & VERSION TRAIL\n==============================================\n\n";
+      versionHistory.forEach((v) => {
+        feedbackText += `[${v.version}] ${v.label} (${v.timestamp})\nStatus: ${v.approvalStatus}\n----------------------------------------------\n`;
       });
-      zip.file("feedback-report.txt", feedbackText);
+      zip.file("version-history-report.txt", feedbackText);
 
       zip.generateAsync({type:"blob"}).then(function(content) {
         const url = URL.createObjectURL(content);
