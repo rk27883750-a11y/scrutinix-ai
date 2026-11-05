@@ -467,6 +467,9 @@
     let currentTabState = 'css';
     let clientEsignData = null;
     let portalPassword = localStorage.getItem(STORAGE_KEY_PASS) || "scrutinix2026";
+    let lastClickedCoords = { x: 50, y: 50 };
+    let recognition = null;
+    let isRecording = false;
 
     // Initialize State & Password Gate on Load
     window.addEventListener('DOMContentLoaded', () => {
@@ -687,6 +690,310 @@
       const originalText = btn.innerHTML;
       btn.innerHTML = `<span>✔️</span> Copied Link!`;
       setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+    }
+
+    // System Generation & Theme Sync
+    function syncColorInput(source) {
+      const picker = document.getElementById('brandColorPicker');
+      const text = document.getElementById('brandColor');
+      if (source === 'picker') {
+        text.value = picker.value;
+      } else {
+        if (/^#[0-9A-F]{6}$/i.test(text.value)) {
+          picker.value = text.value;
+        }
+      }
+      generateSystem();
+    }
+
+    function generateSystem() {
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+      
+      document.documentElement.style.setProperty('--primary-brand', color);
+      document.body.style.fontFamily = `"${font}", sans-serif`;
+
+      const btn = document.getElementById('previewBtn');
+      if (btn) btn.style.backgroundColor = color;
+
+      updateCodeOutput();
+    }
+
+    // Pinning & DOM Interaction
+    function dropDOMPin(event) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = ((event.clientY - rect.top) / rect.height) * 100;
+      lastClickedCoords = { x, y };
+
+      document.getElementById('selectedElementTag').innerText = `#element-pos-${Math.round(x)}x-${Math.round(y)}y`;
+      document.getElementById('pinpointNoteInput').focus();
+    }
+
+    function submitManualPinNote() {
+      const noteInput = document.getElementById('pinpointNoteInput');
+      const text = noteInput.value.trim();
+      const priority = document.getElementById('pinPriority').value;
+
+      if (!text) {
+        alert("Please enter feedback note or record via voice.");
+        return;
+      }
+
+      const newPin = {
+        id: pinsList.length + 1,
+        x: lastClickedCoords.x,
+        y: lastClickedCoords.y,
+        text: text,
+        priority: priority,
+        status: 'active',
+        timestamp: new Date().toLocaleTimeString()
+      };
+
+      pinsList.push(newPin);
+      noteInput.value = '';
+      renderPins();
+      updateFeedbackLog();
+      createNewVersionSnapshot(`Added Pin #${newPin.id}`);
+    }
+
+    function renderPins() {
+      const container = document.getElementById('pinsOverlayContainer');
+      container.innerHTML = '';
+
+      pinsList.forEach((pin, index) => {
+        const pinEl = document.createElement('div');
+        pinEl.className = `visual-pin ${pin.priority} ${pin.status === 'resolved' ? 'opacity-50 grayscale' : ''}`;
+        pinEl.style.left = `${pin.x}%`;
+        pinEl.style.top = `${pin.y}%`;
+        pinEl.innerText = index + 1;
+        pinEl.title = `${pin.text} (${pin.status})`;
+        container.appendChild(pinEl);
+      });
+
+      document.getElementById('noteCountBadge.innerText = `${pinsList.length} Pins`);
+    }
+
+    function updateFeedbackLog() {
+      const container = document.getElementById('feedbackLogContainer');
+      if (pinsList.length === 0) {
+        container.innerHTML = `<p class="text-slate-500 italic">No pins recorded yet. Click anywhere on the frame above or speak your feedback!</p>`;
+        return;
+      }
+
+      container.innerHTML = '';
+      pinsList.forEach((pin, index) => {
+        const row = document.createElement('div');
+        row.className = "flex justify-between items-center bg-slate-900 p-1.5 rounded border border-slate-800";
+        row.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-cyan-400">#${index + 1}</span>
+            <span class="text-slate-300">${pin.text}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-[9px] uppercase px-1.5 py-0.5 rounded bg-${pin.status === 'resolved' ? 'emerald' : 'amber'}-500/20 text-${pin.status === 'resolved' ? 'emerald' : 'amber'}-300">${pin.status}</span>
+            <button onclick="togglePinResolved(${pin.id})" class="text-cyan-400 hover:text-white text-[10px]">✔</button>
+            <button onclick="deletePin(${pin.id})" class="text-red-400 hover:text-red-300 text-[10px]">✕</button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function togglePinResolved(id) {
+      const pin = pinsList.find(p => p.id === id);
+      if (pin) {
+        pin.status = pin.status === 'active' ? 'resolved' : 'active';
+        renderPins();
+        updateFeedbackLog();
+        saveStateToStorage();
+      }
+    }
+
+    function deletePin(id) {
+      pinsList = pinsList.filter(p => p.id !== id);
+      renderPins();
+      updateFeedbackLog();
+      saveStateToStorage();
+    }
+
+    // Voice Speech Dictation
+    function toggleVoiceRecording() {
+      const btnText = document.getElementById('voiceBtnText');
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        alert("Speech recognition is not supported in this browser. Try Chrome.");
+        return;
+      }
+
+      if (!isRecording) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+
+        recognition.onstart = () => {
+          isRecording = true;
+          btnText.innerText = "Listening...";
+        };
+
+        recognition.onresult = (event) => {
+          const speechToText = event.results[0][0].transcript;
+          document.getElementById('pinpointNoteInput').value = speechToText;
+        };
+
+        recognition.onerror = () => {
+          isRecording = false;
+          btnText.innerText = "Voice";
+        };
+
+        recognition.onend = () => {
+          isRecording = false;
+          btnText.innerText = "Voice";
+        };
+
+        recognition.start();
+      } else {
+        if (recognition) recognition.stop();
+        isRecording = false;
+        btnText.innerText = "Voice";
+      }
+    }
+
+    // Live URL Staging Loader
+    function loadLiveStagingUrl() {
+      const urlInput = document.getElementById('targetLiveUrlInput').value.trim();
+      if (!urlInput) {
+        alert("Please enter a valid staging URL.");
+        return;
+      }
+
+      const iframeWrapper = document.getElementById('iframeWrapper');
+      const iframe = document.getElementById('liveStagingIframe');
+      iframe.src = urlInput;
+      iframeWrapper.classList.remove('hidden');
+      saveStateToStorage();
+    }
+
+    // Code Generation & Tabs
+    function switchTab(tab) {
+      currentTabState = tab;
+      document.getElementById('tabCss').className = tab === 'css' ? "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-[10px] font-semibold px-2.5 py-1 rounded text-slate-400 hover:text-white transition";
+      document.getElementById('tabTailwind').className = tab === 'tailwind' ? "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-[10px] font-semibold px-2.5 py-1 rounded text-slate-400 hover:text-white transition";
+      document.getElementById('tabReact').className = tab === 'react' ? "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-[10px] font-semibold px-2.5 py-1 rounded text-slate-400 hover:text-white transition";
+
+      updateCodeOutput();
+    }
+
+    function updateCodeOutput() {
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+      const filenameBox = document.getElementById('codeOutputFilename');
+      const codeBox = document.getElementById('codeOutputBox');
+
+      if (currentTabState === 'css') {
+        filenameBox.innerText = "variables.css";
+        codeBox.innerText = `:root {\n  --primary-brand: ${color};\n  --font-family: "${font}", sans-serif;\n}`;
+      } else if (currentTabState === 'tailwind.config.js') {
+        filenameBox.innerText = "tailwind.config.js";
+        codeBox.innerText = `module.exports = {\n  theme: {\n    extend: {\n      colors: { brand: '${color}' },\n      fontFamily: { sans: ['${font}', 'sans-serif'] }\n    }\n  }\n}`;
+      } else {
+        filenameBox.innerText = "ThemeComponent.jsx";
+        codeBox.innerText = `export const ThemeToken = {\n  brandColor: "${color}",\n  fontFamily: "${font}"\n};`;
+      }
+    }
+
+    function copyGeneratedCode(btn) {
+      const text = document.getElementById('codeOutputBox').innerText;
+      navigator.clipboard.writeText(text);
+      const original = btn.innerText;
+      btn.innerText = "✔️ Copied!";
+      setTimeout(() => { btn.innerText = original; }, 2000);
+    }
+
+    // Design Token Audit Modal
+    function generateTokenAuditReport() {
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+      const body = document.getElementById('auditReportBody');
+
+      body.innerHTML = `
+        <p><strong>System Status:</strong> Enterprise Compliant</p>
+        <p><strong>Primary Hex Token:</strong> ${color}</p>
+        <p><strong>Active Typography:</strong> ${font}</p>
+        <p><strong>Total Feedback Pins:</strong> ${pinsList.length}</p>
+        <p><strong>E-Sign Status:</strong> ${clientEsignData ? 'Signed by ' + clientEsignData.name : 'Pending Sign-Off'}</p>
+      `;
+      document.getElementById('auditModal').classList.remove('hidden');
+    }
+
+    function closeAuditModal() {
+      document.getElementById('auditModal').classList.add('hidden');
+    }
+
+    // Export PDF Report
+    function exportPDFReport() {
+      const totalPins = pinsList.length;
+      const pendingPins = pinsList.filter(p => p.status === 'active').length;
+      const resolvedPins = pinsList.filter(p => p.status === 'resolved').length;
+      const color = document.getElementById('brandColor').value;
+      const font = document.getElementById('fontSelect').value;
+
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`
+        <html>
+            <head>
+                <title>Scrutinix AI - Audit & Handoff Report</title>
+                <style>
+                    body { font-family: Arial, sans-serif; padding: 30px; color: #333; }
+                    h1 { color: #0284c7; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+                    .meta { margin-bottom: 20px; font-size: 14px; color: #555; }
+                    .box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 6px; margin-bottom: 15px; }
+                </style>
+            </head>
+            <body>
+                <h1>Scrutinix AI - Official Client Review & Version Audit Trail Report</h1>
+                <div class="meta">
+                    <p><strong>Project:</strong> Scrutinix AI Client Portal v1.9</p>
+                    <p><strong>Generated On:</strong> ${new Date().toLocaleString()}</p>
+                    <p><strong>Brand Token Color:</strong> ${color}</p>
+                    <p><strong>Typography:</strong> ${font}</p>
+                    <p><strong>Approval Status:</strong> ${currentApprovalStatus.toUpperCase()} ${clientEsignData ? `(Signed by: ${clientEsignData.name} - ID: ${clientEsignData.approvalId})` : ''}</p>
+                </div>
+                <div class="box">
+                    <h3>Change Tracker Summary</h3>
+                    <p><strong>Total Feedback Pins:</strong> ${totalPins}</p>
+                    <p><strong>Pending Review:</strong> ${pendingPins}</p>
+                    <p><strong>Resolved Issues:</strong> ${resolvedPins}</p>
+                </div>
+                <br>
+                <p style="text-align: center; color: #888; font-size: 12px;">Generated via Scrutinix AI Enterprise Handoff Engine</p>
+            </body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+      }, 500);
+    }
+
+    // ZIP Bundle Export
+    function downloadZipPackage() {
+      const zip = new JSZip();
+      zip.file("variables.css", `:root {\n  --primary-brand: ${document.getElementById('brandColor').value};\n  --font-family: "${document.getElementById('fontSelect').value}", sans-serif;\n}`);
+      zip.file("audit-summary.json", JSON.stringify(pinsList, null, 2));
+
+      zip.generateAsync({ type: "blob" }).then(content => {
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(content);
+        link.download = "Scrutinix-Developer-Bundle.zip";
+        link.click();
+      });
+    }
+
+    function approveAndExportBundle() {
+      openEsignModal();
     }
   </script>
 </body>
