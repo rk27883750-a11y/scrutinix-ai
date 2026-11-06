@@ -3,22 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // Enterprise Business Management SaaS & Command Center v2.0</title>
+  <title>Scrutinix AI // Enterprise Business Management SaaS & Command Center v2.1</title>
   
-  <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Scrutinix AI // Enterprise Operations & Payment Tracker" />
   <meta property="og:description" content="All-in-One Business Command Center: Data Extraction, Task Tracking, Payment & Pending Accounts." />
   <meta property="og:url" content="https://www.scrutinixai.com" />
   <meta property="og:type" content="website" />
 
-  <!-- Custom Cyan 'S' Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none'><rect width='100' height='100' rx='20' fill='%230f172a'/><path d='M50 15L80 32V68L50 85L20 68V32L50 15Z' stroke='%2306b6d4' stroke-width='4' stroke-linejoin='round'/><path d='M65 35H40C33 35 33 48 40 48H60C67 48 67 65 60 65H35' stroke='%2338bdf8' stroke-width='6' stroke-linecap='round'/><circle cx='50' cy='50' r='3' fill='%2367e8f9'/></svg>">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
-  <!-- Microsoft Clarity Analytics -->
   <script type="text/javascript">
       (function(c,l,a,r,i,t,y){
           c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -37,13 +34,11 @@
       --text-muted: #94a3b8;
       --primary-brand: #351156;
     }
-
     body {
       background-color: var(--bg-color);
       color: var(--text-main);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
     .custom-scrollbar::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -89,16 +84,16 @@
           </svg>
         </div>
         <div>
-          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">Enterprise v2.0</span></h1>
+          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">Enterprise v2.1</span></h1>
           <p class="text-xs text-slate-400">Unified Command Center & Business Operations Platform</p>
         </div>
       </div>
 
-      <!-- QUICK COMMAND INPUT (AI Voice / Text Command Bar) -->
+      <!-- QUICK COMMAND INPUT -->
       <div class="flex-1 max-w-md w-full mx-4">
         <div class="flex items-center bg-slate-950 border border-cyan-500/40 rounded-lg px-3 py-1.5 shadow-inner">
           <span class="text-cyan-400 mr-2">⚡</span>
-          <input type="text" id="aiCommandInput" placeholder="Command AI: e.g., 'Add payment 5000 from Rajesh'..." class="w-full bg-transparent text-xs text-white outline-none">
+          <input type="text" id="aiCommandInput" placeholder="Command AI: e.g., 'Add payment 5000'..." class="w-full bg-transparent text-xs text-white outline-none">
           <button onclick="executeAICommand()" class="text-xs bg-cyan-400 text-slate-950 font-bold px-2.5 py-1 rounded ml-2 hover:bg-cyan-300 transition">Run</button>
         </div>
       </div>
@@ -129,7 +124,7 @@
       </button>
     </div>
 
-    <!-- MODULE 1: DATA EXTRACTOR (PDF, Invoice, Excel) -->
+    <!-- MODULE 1: DATA EXTRACTOR -->
     <div id="module-extractor" class="business-module space-y-4">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -145,7 +140,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
             <h4 class="text-xs font-bold text-cyan-400 uppercase">Input Document / Raw Text</h4>
-            <textarea id="rawInvoiceText" placeholder="Paste invoice text or upload document content here..." class="w-full h-36 bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-slate-300 outline-none font-mono focus:border-cyan-400">INVOICE #INV-9021
+            <textarea id="rawInvoiceText" class="w-full h-36 bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-slate-300 outline-none font-mono focus:border-cyan-400">INVOICE #INV-9021
 Client: Acme Corp (Rajesh Sharma)
 Date: Nov 06, 2026
 Items:
@@ -177,14 +172,11 @@ Status: Pending Balance ₹15,000</textarea>
             <button onclick="addTask()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-3 py-1.5 rounded-lg transition">Add Task</button>
           </div>
         </div>
-
-        <div id="taskListContainer" class="space-y-2">
-          <!-- Populated via JS -->
-        </div>
+        <div id="taskListContainer" class="space-y-2"></div>
       </div>
     </div>
 
-    <!-- MODULE 3: PAYMENT & PENDING TRACKER (कितना मिला, कितना बाकी) -->
+    <!-- MODULE 3: PAYMENT & PENDING TRACKER -->
     <div id="module-payments" class="business-module space-y-4 hidden">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -197,7 +189,6 @@ Status: Pending Balance ₹15,000</textarea>
           </button>
         </div>
 
-        <!-- SUMMARY STATS CARDS -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
             <div class="text-xs text-slate-400 uppercase">Total Received (कितना मिला)</div>
@@ -213,7 +204,6 @@ Status: Pending Balance ₹15,000</textarea>
           </div>
         </div>
 
-        <!-- TRANSACTIONS TABLE -->
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs border-collapse">
             <thead>
@@ -227,9 +217,7 @@ Status: Pending Balance ₹15,000</textarea>
                 <th class="p-3 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody id="paymentTableBody" class="divide-y divide-slate-800/60 font-mono">
-              <!-- Rendered via JS -->
-            </tbody>
+            <tbody id="paymentTableBody" class="divide-y divide-slate-800/60 font-mono"></tbody>
           </table>
         </div>
       </div>
@@ -245,14 +233,11 @@ Status: Pending Balance ₹15,000</textarea>
           </div>
           <input type="text" id="docSearchInput" oninput="filterDocuments()" placeholder="Search files..." class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-cyan-400">
         </div>
-
-        <div id="documentListContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <!-- Populated via JS -->
-        </div>
+        <div id="documentListContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
       </div>
     </div>
 
-    <!-- MODULE 5: REPORTS & AUDIT GENERATOR -->
+    <!-- MODULE 5: REPORTS & AUDIT -->
     <div id="module-reports" class="business-module space-y-4 hidden">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -264,10 +249,7 @@ Status: Pending Balance ₹15,000</textarea>
             📄 Download Official Audit PDF
           </button>
         </div>
-
-        <div id="auditReportPreview" class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3 font-mono text-xs text-slate-300">
-          <!-- Rendered via JS -->
-        </div>
+        <div id="auditReportPreview" class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3 font-mono text-xs text-slate-300"></div>
       </div>
     </div>
 
@@ -307,11 +289,9 @@ Status: Pending Balance ₹15,000</textarea>
   </div>
 
   <script>
-    // Storage Keys
-    const KEY_PAYMENTS = 'scrutinix_business_payments_v2';
-    const KEY_TASKS = 'scrutinix_business_tasks_v2';
-    const KEY_DOCS = 'scrutinix_business_docs_v2';
-    const KEY_PASS = 'scrutinix_pass_v2';
+    const KEY_PAYMENTS = 'scrutinix_business_payments_v21';
+    const KEY_TASKS = 'scrutinix_business_tasks_v21';
+    const KEY_PASS = 'scrutinix_pass_v21';
 
     let paymentsList = JSON.parse(localStorage.getItem(KEY_PAYMENTS)) || [
       { id: 1, client: 'Acme Corp', project: 'Website Development', total: 35000, received: 20000 },
@@ -356,12 +336,10 @@ Status: Pending Balance ₹15,000</textarea>
       }
     }
 
-    // Navigation Switcher
     function switchModule(moduleName) {
       document.querySelectorAll('.business-module').forEach(el => el.classList.add('hidden'));
       document.getElementById('module-' + moduleName).classList.remove('hidden');
 
-      // Update tabs UI
       ['extractor', 'tasks', 'payments', 'documents', 'reports'].forEach(m => {
         const btn = document.getElementById('nav-' + m);
         if (m === moduleName) {
@@ -372,11 +350,8 @@ Status: Pending Balance ₹15,000</textarea>
       });
     }
 
-    // Module 1: Data Extractor Simulation
     function simulateExtraction() {
-      const raw = document.getElementById('rawInvoiceText').value;
       const resultBox = document.getElementById('extractedResultBox');
-      
       resultBox.innerHTML = `
         <span class="text-cyan-400">{</span><br>
         &nbsp;&nbsp;<span class="text-white">"invoice_number"</span>: <span class="text-emerald-300">"INV-9021"</span>,<br>
@@ -392,7 +367,6 @@ Status: Pending Balance ₹15,000</textarea>
       `;
     }
 
-    // Module 2: Tasks Management
     function renderTasks() {
       const container = document.getElementById('taskListContainer');
       container.innerHTML = '';
@@ -430,7 +404,6 @@ Status: Pending Balance ₹15,000</textarea>
       renderTasks();
     }
 
-    // Module 3: Payment & Pending Tracker
     function renderPayments() {
       const tbody = document.getElementById('paymentTableBody');
       tbody.innerHTML = '';
@@ -464,9 +437,9 @@ Status: Pending Balance ₹15,000</textarea>
         tbody.appendChild(tr);
       });
 
-      document.getElementById('totalReceivedDisplay.innerText = `₹${totalRec.toLocaleString()}`);
-      document.getElementById('totalPendingDisplay.innerText = `₹${totalPend.toLocaleString()}`);
-      document.getElementById('totalVolumeDisplay.innerText = `₹${totalVol.toLocaleString()}`);
+      document.getElementById('totalReceivedDisplay').innerText = '₹' + totalRec.toLocaleString();
+      document.getElementById('totalPendingDisplay').innerText = '₹' + totalPend.toLocaleString();
+      document.getElementById('totalVolumeDisplay').innerText = '₹' + totalVol.toLocaleString();
 
       localStorage.setItem(KEY_PAYMENTS, JSON.stringify(paymentsList));
       renderAuditReport();
@@ -501,7 +474,6 @@ Status: Pending Balance ₹15,000</textarea>
       renderPayments();
     }
 
-    // Module 4: Document Finder
     function renderDocuments(list) {
       const container = document.getElementById('documentListContainer');
       container.innerHTML = '';
@@ -525,24 +497,25 @@ Status: Pending Balance ₹15,000</textarea>
       renderDocuments(filtered);
     }
 
-    // Module 5: Reports & Audit
     function renderAuditReport() {
       let totalVol = paymentsList.reduce((acc, curr) => acc + Number(curr.total), 0);
       let totalRec = paymentsList.reduce((acc, curr) => acc + Number(curr.received), 0);
       let totalPend = totalVol - totalRec;
 
       const box = document.getElementById('auditReportPreview');
-      box.innerHTML = `
-        <p class="text-cyan-400 font-bold">=== SCRUTINIX AI OFFICIAL FINANCIAL & SHIFT REPORT ===</p>
-        <p>Generated On: ${new Date().toLocaleString()}</p>
-        <hr class="border-slate-800 my-2">
-        <p><strong>Total Active Clients / Transactions:</strong> ${paymentsList.length}</p>
-        <p><strong>Total Business Volume:</strong> ₹${totalVol.toLocaleString()}</p>
-        <p><strong>Total Received Revenue (मिला):</strong> ₹${totalRec.toLocaleString()}</p>
-        <p><strong>Total Accounts Receivable (बाकी):</strong> ₹${totalPend.toLocaleString()}</p>
-        <hr class="border-slate-800 my-2">
-        <p class="text-emerald-400">System Health: 100% Secure LocalStorage / Zero External API Dependency.</p>
-      `;
+      if (box) {
+        box.innerHTML = `
+          <p class="text-cyan-400 font-bold">=== SCRUTINIX AI OFFICIAL FINANCIAL & SHIFT REPORT ===</p>
+          <p>Generated On: ${new Date().toLocaleString()}</p>
+          <hr class="border-slate-800 my-2">
+          <p><strong>Total Active Clients / Transactions:</strong> ${paymentsList.length}</p>
+          <p><strong>Total Business Volume:</strong> ₹${totalVol.toLocaleString()}</p>
+          <p><strong>Total Received Revenue (मिला):</strong> ₹${totalRec.toLocaleString()}</p>
+          <p><strong>Total Accounts Receivable (बाकी):</strong> ₹${totalPend.toLocaleString()}</p>
+          <hr class="border-slate-800 my-2">
+          <p class="text-emerald-400">System Health: 100% Secure LocalStorage / Zero External API Dependency.</p>
+        `;
+      }
     }
 
     function exportBusinessPDFReport() {
@@ -564,7 +537,7 @@ Status: Pending Balance ₹15,000</textarea>
               <h3>Summary Ledger</h3>
               <p>${document.getElementById('auditReportPreview').innerHTML}</p>
             </div>
-            <br><p style="text-align:center; color:#666; font-size:12px;">Generated via Scrutinix AI Command Center v2.0</p>
+            <br><p style="text-align:center; color:#666; font-size:12px;">Generated via Scrutinix AI Command Center v2.1</p>
           </body>
         </html>
       `);
@@ -573,13 +546,11 @@ Status: Pending Balance ₹15,000</textarea>
       setTimeout(() => { pdfWindow.print(); pdfWindow.close(); }, 500);
     }
 
-    // AI Command Center Execution
     function executeAICommand() {
       const cmd = document.getElementById('aiCommandInput').value.trim().toLowerCase();
       if (!cmd) return;
 
       if (cmd.includes('add payment')) {
-        alert("AI Command Recognized: Opening Payment Entry Form.");
         openAddPaymentModal();
       } else if (cmd.includes('export pdf') || cmd.includes('report')) {
         switchModule('reports');
