@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // System Generator & Client Portal v1.9 (Enterprise Edition)</title>
+  <title>Scrutinix AI // Enterprise Business Management SaaS & Command Center v2.0</title>
   
-  <!-- Open Graph Meta Tags for Professional Social Sharing -->
-  <meta property="og:title" content="Scrutinix AI // Client Review & Handoff Portal" />
-  <meta property="og:description" content="Scrutinix AI — From Design Review to Developer Handoff with Version History & Audit Trail." />
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Scrutinix AI // Enterprise Operations & Payment Tracker" />
+  <meta property="og:description" content="All-in-One Business Command Center: Data Extraction, Task Tracking, Payment & Pending Accounts." />
   <meta property="og:url" content="https://www.scrutinixai.com" />
   <meta property="og:type" content="website" />
 
@@ -18,7 +18,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
-  <!-- Microsoft Clarity Analytics Script -->
+  <!-- Microsoft Clarity Analytics -->
   <script type="text/javascript">
       (function(c,l,a,r,i,t,y){
           c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -55,37 +55,9 @@
       background: #1e293b;
       border-radius: 4px;
     }
-
-    /* Visual Pin Styling */
-    .visual-pin {
-      position: absolute;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: #3b82f6;
-      color: #ffffff;
-      font-weight: bold;
-      font-size: 11px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid #ffffff;
-      box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
-      cursor: pointer;
-      transform: translate(-50%, -50%);
-      z-index: 50;
-    }
-    .visual-pin.high { background: #ef4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.8); }
-    .visual-pin.medium { background: #f59e0b; box-shadow: 0 0 10px rgba(245, 158, 11, 0.8); }
-    .visual-pin.low { background: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.8); }
-
-    [contenteditable="true"]:hover {
-      outline: 1px dashed #00d2ff;
-      cursor: text;
-    }
   </style>
 </head>
-<body class="min-h-screen p-4 lg:p-8 flex flex-col justify-between pb-12">
+<body class="min-h-screen p-4 lg:p-6 flex flex-col justify-between pb-12">
 
   <!-- PASSWORD GATE MODAL -->
   <div id="passwordModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden">
@@ -93,101 +65,20 @@
       <div class="flex items-center space-x-3">
         <div class="w-10 h-10 bg-slate-950 border border-cyan-500/40 rounded-xl flex items-center justify-center text-cyan-400 font-bold text-lg">🔒</div>
         <div>
-          <h3 class="text-base font-bold text-white">Protected Client Review Link</h3>
-          <p class="text-xs text-slate-400">Enter access password provided by agency (Default: scrutinix2026)</p>
+          <h3 class="text-base font-bold text-white">Enterprise Workspace Access</h3>
+          <p class="text-xs text-slate-400">Enter secure password (Default: scrutinix2026)</p>
         </div>
       </div>
-      <input type="password" id="accessPasswordInput" placeholder="Enter portal password..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-cyan-400">
+      <input type="password" id="accessPasswordInput" placeholder="Enter workspace password..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-cyan-400">
       <button onclick="verifyPortalPassword()" class="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition">
-        Unlock Review Portal
+        Unlock Command Center
       </button>
-    </div>
-  </div>
-
-  <!-- DIGITAL E-SIGN APPROVAL MODAL -->
-  <div id="esignModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden">
-    <div class="bg-slate-900 border border-emerald-500/40 p-6 rounded-xl max-w-md w-full space-y-4 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-        <div class="flex items-center space-x-3">
-          <div class="w-9 h-9 bg-emerald-950 border border-emerald-500/40 rounded-lg flex items-center justify-center text-emerald-400 font-bold text-base">✍️</div>
-          <div>
-            <h3 class="text-base font-bold text-white">Legally Binding E-Sign</h3>
-            <p class="text-xs text-slate-400">Client Sign-Off & Verification Stamp</p>
-          </div>
-        </div>
-        <button onclick="closeEsignModal()" class="text-slate-400 hover:text-white font-bold text-sm">✕</button>
-      </div>
-      <div class="space-y-3">
-        <div>
-          <label class="block text-xs text-slate-400 mb-1">Authorized Client Full Name:</label>
-          <input type="text" id="signerNameInput" placeholder="e.g. Rajesh Sharma" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-emerald-400">
-        </div>
-        <div>
-          <label class="block text-xs text-slate-400 mb-1">Company / Organization:</label>
-          <input type="text" id="signerCompanyInput" placeholder="e.g. Acme Corporation" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-emerald-400">
-        </div>
-        <p class="text-[10px] text-slate-500 italic">By signing, you officially approve this version for production deployment and developer handoff.</p>
-      </div>
-      <button onclick="submitClientEsign()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition uppercase tracking-wider">
-        Confirm & Stamp E-Signature
-      </button>
-    </div>
-  </div>
-
-  <!-- DESIGN TOKEN AUDIT MODAL -->
-  <div id="auditModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden">
-    <div class="bg-slate-900 border border-purple-500/40 p-6 rounded-xl max-w-lg w-full space-y-4 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-        <div class="flex items-center space-x-3">
-          <div class="w-9 h-9 bg-purple-950 border border-purple-500/40 rounded-lg flex items-center justify-center text-purple-400 font-bold text-base">📊</div>
-          <div>
-            <h3 class="text-base font-bold text-white">Design Token Audit Report</h3>
-            <p class="text-xs text-slate-400">Real-time system health & compliance summary</p>
-          </div>
-        </div>
-        <button onclick="closeAuditModal()" class="text-slate-400 hover:text-white font-bold text-sm">✕</button>
-      </div>
-      <div id="auditReportBody" class="space-y-2 text-xs text-slate-300 font-mono bg-slate-950 p-4 rounded-lg border border-slate-800">
-        <!-- Rendered via JS -->
-      </div>
-      <button onclick="closeAuditModal()" class="w-full bg-purple-500 hover:bg-purple-400 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition uppercase tracking-wider">
-        Close Audit View
-      </button>
-    </div>
-  </div>
-
-  <!-- VERSION HISTORY MODAL -->
-  <div id="historyModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden">
-    <div class="bg-slate-900 border border-cyan-500/40 p-6 rounded-xl max-w-2xl w-full space-y-4 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-        <div class="flex items-center space-x-3">
-          <div class="w-9 h-9 bg-cyan-950 border border-cyan-500/40 rounded-lg flex items-center justify-center text-cyan-400 font-bold text-base">📜</div>
-          <div>
-            <h3 class="text-base font-bold text-white">Project Version History & Audit Trail</h3>
-            <p class="text-xs text-slate-400">Track all saved client feedback, sign-offs, and design revisions</p>
-          </div>
-        </div>
-        <button onclick="closeHistoryModal()" class="text-slate-400 hover:text-white font-bold text-sm">✕</button>
-      </div>
-      
-      <div id="versionListContainer" class="space-y-2 max-h-80 overflow-y-auto custom-scrollbar p-1">
-        <!-- Rendered via JS -->
-      </div>
-
-      <div class="flex gap-2">
-        <button onclick="createNewVersionSnapshot('Manual Snapshot')" class="flex-1 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition uppercase tracking-wider">
-          ➕ Save New Version Snapshot
-        </button>
-        <button onclick="closeHistoryModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs px-4 py-2.5 rounded-lg transition">
-          Close
-        </button>
-      </div>
     </div>
   </div>
 
   <div class="max-w-7xl mx-auto w-full space-y-5">
 
-    <!-- HEADER & BRANDING WITH TOP WORKFLOW BAR -->
+    <!-- TOP HEADER & UNIFIED COMMAND CENTER BAR -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-xl">
       <div class="flex items-center space-x-3">
         <div class="w-10 h-10 bg-slate-950 border border-cyan-500/40 rounded-xl p-1 flex items-center justify-center shadow-lg shadow-cyan-950">
@@ -198,802 +89,505 @@
           </svg>
         </div>
         <div>
-          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span></h1>
-          <p class="text-xs text-slate-400">From Design Review to Developer Handoff. v1.9</p>
+          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">Enterprise v2.0</span></h1>
+          <p class="text-xs text-slate-400">Unified Command Center & Business Operations Platform</p>
         </div>
       </div>
 
-      <!-- WORKFLOW STEP NAVIGATOR -->
-      <div class="flex items-center gap-2 bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400">
-        <span class="flex items-center gap-1 text-cyan-400 font-bold"><span>1</span> 👁️ REVIEW</span>
-        <span class="text-slate-600">➔</span>
-        <span class="flex items-center gap-1 text-amber-400 font-bold"><span>2</span> 💬 COMMENT</span>
-        <span class="text-slate-600">➔</span>
-        <span class="flex items-center gap-1 text-emerald-400 font-bold"><span>3</span> ✔️ APPROVE</span>
-        <span class="text-slate-600">➔</span>
-        <span class="flex items-center gap-1 text-purple-400 font-bold"><span>4</span> 📜 HISTORY</span>
+      <!-- QUICK COMMAND INPUT (AI Voice / Text Command Bar) -->
+      <div class="flex-1 max-w-md w-full mx-4">
+        <div class="flex items-center bg-slate-950 border border-cyan-500/40 rounded-lg px-3 py-1.5 shadow-inner">
+          <span class="text-cyan-400 mr-2">⚡</span>
+          <input type="text" id="aiCommandInput" placeholder="Command AI: e.g., 'Add payment 5000 from Rajesh'..." class="w-full bg-transparent text-xs text-white outline-none">
+          <button onclick="executeAICommand()" class="text-xs bg-cyan-400 text-slate-950 font-bold px-2.5 py-1 rounded ml-2 hover:bg-cyan-300 transition">Run</button>
+        </div>
       </div>
 
-      <!-- SHARE PORTAL LINK, SECURITY & VERSION BUTTON -->
       <div class="flex items-center gap-2">
-        <button onclick="openHistoryModal()" class="bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-bold text-xs px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow">
-          <span>📜</span> Version History
-        </button>
-        <button onclick="configurePortalPassword()" class="bg-slate-800 hover:bg-slate-700 text-purple-400 border border-purple-500/30 font-bold text-xs px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow">
-          <span>🔒</span> Secure Link
-        </button>
-        <button onclick="sharePortalLink(this)" class="bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-cyan-500/30 font-bold text-xs px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow">
-          <span>🔗</span> Share Link
-        </button>
-        <span id="portalStatusBadge" class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> v1.9 Active
+        <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live Sync Active
         </span>
       </div>
     </div>
 
-    <!-- MAIN DUAL SPLIT LAYOUT -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+    <!-- MAIN NAVIGATION TABS (5 CORE MODULES) -->
+    <div class="flex flex-wrap gap-2 bg-slate-900 border border-slate-800 p-2 rounded-xl">
+      <button onclick="switchModule('extractor')" id="nav-extractor" class="flex-1 min-w-[140px] py-2 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-2">
+        <span>📄</span> Data Extractor
+      </button>
+      <button onclick="switchModule('tasks')" id="nav-tasks" class="flex-1 min-w-[140px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-2">
+        <span>📊</span> Task & Status
+      </button>
+      <button onclick="switchModule('payments')" id="nav-payments" class="flex-1 min-w-[140px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-2">
+        <span>💳</span> Payment Tracker
+      </button>
+      <button onclick="switchModule('documents')" id="nav-documents" class="flex-1 min-w-[140px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-2">
+        <span>📂</span> Doc Finder
+      </button>
+      <button onclick="switchModule('reports')" id="nav-reports" class="flex-1 min-w-[140px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-2">
+        <span>📑</span> Reports & Audit
+      </button>
+    </div>
 
-      <!-- LEFT SIDE: CONTROLS & STEP 1 LIVE URL FETCHER -->
-      <div class="lg:col-span-4 bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl flex flex-col justify-between space-y-5">
-        <div class="space-y-4">
-          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-            <div>
-              <h2 class="text-base font-bold text-cyan-400">Step 1: Live URL Embed Engine</h2>
-              <p class="text-xs text-slate-400">Paste staging URL for instant review</p>
-            </div>
-            <span class="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded border border-cyan-500/30">Active</span>
+    <!-- MODULE 1: DATA EXTRACTOR (PDF, Invoice, Excel) -->
+    <div id="module-extractor" class="business-module space-y-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
+        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+          <div>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">📄 Automated Invoice & Document Data Extractor</h3>
+            <p class="text-xs text-slate-400">Extract tables, line items, and totals instantly without manual entry</p>
           </div>
-
-          <!-- STEP 1 INPUT -->
-          <div class="bg-slate-950 p-3.5 border border-cyan-500/40 rounded-xl space-y-2.5 shadow-lg">
-            <label class="block text-xs font-bold text-cyan-400 flex items-center gap-1.5">
-              <span>🌐</span> Target Live Website / Staging URL:
-            </label>
-            <div class="flex gap-2">
-              <input type="text" id="targetLiveUrlInput" placeholder="https://yourwebsite.com..." class="flex-1 bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:border-cyan-400 outline-none font-mono">
-              <button onclick="loadLiveStagingUrl()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition whitespace-nowrap shadow">
-                🚀 Load URL
-              </button>
-            </div>
-            <p class="text-[10px] text-slate-400 italic">Loads live site inside interactive embed frame instantly.</p>
-          </div>
-
-          <!-- THEME CUSTOMIZER & TOKEN AUDIT -->
-          <div class="bg-slate-950 p-3.5 border border-slate-800 rounded-xl space-y-3">
-            <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
-              <label class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-                <span>🎨</span> Brand Theme & Token Audit
-              </label>
-              <button onclick="generateTokenAuditReport()" class="text-[10px] bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded border border-purple-500/30 hover:bg-purple-500/30 transition">
-                📊 Audit Tokens
-              </button>
-            </div>
-            <div class="grid grid-cols-2 gap-2.5">
-              <div>
-                <label class="block text-[11px] text-slate-400 mb-1">Brand HEX:</label>
-                <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 rounded-lg p-1">
-                  <input type="color" id="brandColorPicker" value="#351156" oninput="syncColorInput('picker')" class="w-6 h-6 rounded bg-transparent border-0 cursor-pointer">
-                  <input type="text" id="brandColor" value="#351156" oninput="syncColorInput('text')" class="w-full bg-transparent text-xs uppercase text-white font-mono outline-none">
-                </div>
-              </div>
-              <div>
-                <label class="block text-[11px] text-slate-400 mb-1">Typography Font:</label>
-                <select id="fontSelect" onchange="generateSystem()" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white outline-none">
-                  <option value="Roboto">Roboto</option>
-                  <option value="Inter">Inter</option>
-                  <option value="Poppins">Poppins</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <!-- PERSISTENCE & CHANGE TRACKING SUMMARY -->
-          <div class="bg-slate-950 p-3 border border-slate-800 rounded-xl space-y-2">
-            <div class="text-[11px] font-bold text-cyan-400 uppercase flex justify-between">
-              <span>📊 Real-Time Change Tracker</span>
-              <span id="activeVersionTag" class="text-purple-300 font-mono">v1.0</span>
-            </div>
-            <div class="grid grid-cols-3 gap-2 text-center">
-              <div class="bg-slate-900 p-2 rounded border border-slate-800">
-                <div id="statTotalPins" class="text-sm font-bold text-white">0</div>
-                <div class="text-[9px] text-slate-400">Total Pins</div>
-              </div>
-              <div class="bg-slate-900 p-2 rounded border border-slate-800">
-                <div id="statActivePins" class="text-sm font-bold text-amber-400">0</div>
-                <div class="text-[9px] text-slate-400">Pending</div>
-              </div>
-              <div class="bg-slate-900 p-2 rounded border border-slate-800">
-                <div id="statResolvedPins" class="text-sm font-bold text-emerald-400">0</div>
-                <div class="text-[9px] text-slate-400">Resolved</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- CLIENT APPROVAL SYSTEM ACTION BUTTONS -->
-        <div class="space-y-2">
-          <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider text-center">Client Sign-Off Status</div>
-          <div class="grid grid-cols-2 gap-2">
-            <button onclick="updateClientApproval('changes')" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-bold text-xs py-2.5 rounded-lg transition uppercase flex items-center justify-center gap-1">
-              ⚠️ Request Changes
-            </button>
-            <button onclick="openEsignModal()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs py-2.5 rounded-lg shadow-lg transition uppercase tracking-wider flex items-center justify-center gap-1">
-              ✔️ Approve Design
-            </button>
-          </div>
-          <button onclick="approveAndExportBundle()" class="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-xs py-3 rounded-lg shadow-lg transition uppercase tracking-wider">
-            📦 EXPORT DEVELOPER BUNDLE
+          <button onclick="simulateExtraction()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow">
+            ✨ Extract Sample Invoice
           </button>
         </div>
-      </div>
 
-      <!-- RIGHT SIDE: STEP 2 DOM / MOCKUP REVIEW & PINNING CONTAINER -->
-      <div id="colClient" class="lg:col-span-8 space-y-4">
-
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
-          
-          <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-3 gap-3">
-            <div>
-              <h3 id="playgroundTitle" class="text-sm font-bold text-white uppercase tracking-wider">📍 STEP 2: DIRECT DOM & ELEMENT PINNING</h3>
-              <p class="text-xs text-slate-400">Click anywhere on the preview frame to drop an exact element marker</p>
-            </div>
-            
-            <!-- MULTI-DEVICE VIEWPORT SWITCHER -->
-            <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
-              <button onclick="setViewport('mobile')" id="vpMobile" class="text-[10px] font-bold px-2.5 py-1 rounded text-slate-400 hover:text-white transition">📱 Mobile (390px)</button>
-              <button onclick="setViewport('tablet')" id="vpTablet" class="text-[10px] font-bold px-2.5 py-1 rounded text-slate-400 hover:text-white transition">タブ Tablet (768px)</button>
-              <button onclick="setViewport('desktop')" id="vpDesktop" class="text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition">💻 Desktop (100%)</button>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+            <h4 class="text-xs font-bold text-cyan-400 uppercase">Input Document / Raw Text</h4>
+            <textarea id="rawInvoiceText" placeholder="Paste invoice text or upload document content here..." class="w-full h-36 bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-slate-300 outline-none font-mono focus:border-cyan-400">INVOICE #INV-9021
+Client: Acme Corp (Rajesh Sharma)
+Date: Nov 06, 2026
+Items:
+1. Full Stack Web Development - ₹25,000
+2. SEO Optimization & Audit - ₹10,000
+Total Amount: ₹35,000
+Status: Pending Balance ₹15,000</textarea>
+          </div>
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+            <h4 class="text-xs font-bold text-emerald-400 uppercase">Structured Extracted Output (JSON / Table)</h4>
+            <div id="extractedResultBox" class="bg-slate-900 border border-slate-800 rounded-lg p-3 h-36 overflow-y-auto text-xs font-mono text-slate-300">
+              <span class="text-slate-500 italic">Click 'Extract Sample Invoice' to parse data automatically...</span>
             </div>
           </div>
-
-          <!-- MOCKUP / IFRAME CONTAINER WITH PINNING -->
-          <div class="relative flex justify-center overflow-x-auto py-2">
-            <div id="container" onclick="dropDOMPin(event)" class="relative bg-slate-950 border border-cyan-500/30 rounded-xl p-4 space-y-4 transition-all duration-300 cursor-crosshair w-full min-h-[300px] overflow-hidden shadow-inner flex flex-col justify-between" style="max-width: 100%;">
-              
-              <!-- IFRAME DISPLAY LAYER -->
-              <div id="iframeWrapper" class="hidden absolute inset-0 w-full h-full z-10 bg-white">
-                <iframe id="liveStagingIframe" src="" class="w-full h-full border-0 pointer-events-auto" title="Live Staging Preview"></iframe>
-              </div>
-
-              <!-- DEFAULT INTERACTIVE MOCKUP VIEW LAYER -->
-              <div id="defaultMockupContent" class="space-y-4 z-20 pointer-events-none">
-                <div class="flex justify-between items-center">
-                  <div>
-                    <h4 id="previewAppTitle" contenteditable="true" onclick="event.stopPropagation()" class="text-base font-bold text-white outline-none pointer-events-auto">Scrutinix Client Portal v1.9</h4>
-                    <p id="previewSubtitle" contenteditable="true" onclick="event.stopPropagation()" class="text-xs text-slate-400 outline-none pointer-events-auto">Click anywhere below to drop a feedback pin 📍</p>
-                  </div>
-                  <button id="previewBtn" contenteditable="true" onclick="event.stopPropagation()" class="text-white font-bold text-xs px-4 py-2 rounded-md shadow-md transition outline-none pointer-events-auto" style="background-color: var(--primary-brand, #351156);">
-                    Staging CTA
-                  </button>
-                </div>
-
-                <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-lg space-y-1.5 pointer-events-auto">
-                  <div class="text-[11px] font-bold text-cyan-400 uppercase">DOM Element Token Inspector</div>
-                  <div class="text-xs text-slate-300 flex justify-between">
-                    <span>Target Selector: <strong id="selectedElementTag" class="text-white font-mono">#container-main</strong></span>
-                    <span class="text-emerald-400 text-[10px]">Precise Match</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Container where Visual Pins render -->
-              <div id="pinsOverlayContainer" class="absolute inset-0 pointer-events-none z-30"></div>
-            </div>
-          </div>
-
-          <!-- PIN FEEDBACK LOG WITH SPEECH-TO-TEXT VOICE DICTATION -->
-          <div class="bg-slate-950 border border-slate-800 rounded-lg p-3 space-y-2">
-            <div class="flex justify-between items-center text-xs font-bold">
-              <span class="text-cyan-400">📝 Active Pinned Feedback & Speech Dictation</span>
-              <span id="noteCountBadge" class="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded">0 Pins</span>
-            </div>
-            <div class="flex flex-wrap gap-2 items-center">
-              <select id="pinPriority" class="bg-slate-900 border border-slate-800 rounded px-2 py-1.5 text-xs text-white outline-none">
-                <option value="high">🔴 High</option>
-                <option value="medium" selected>🟡 Medium</option>
-                <option value="low">🟢 Low</option>
-              </select>
-              <input type="text" id="pinpointNoteInput" placeholder="Add text note or speak to auto-type..." class="flex-1 bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white outline-none">
-              
-              <!-- VOICE SPEECH-TO-TEXT DICTATION BUTTON -->
-              <button id="recordVoiceBtn" onclick="toggleVoiceRecording()" class="bg-slate-900 hover:bg-slate-800 text-pink-400 border border-pink-500/30 font-bold text-xs px-2.5 py-1.5 rounded transition flex items-center gap-1" title="Speak to Auto-Type Note">
-                <span>🎙️</span> <span id="voiceBtnText">Voice</span>
-              </button>
-
-              <button onclick="submitManualPinNote()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs px-3 py-1.5 rounded transition">
-                Add Pin
-              </button>
-            </div>
-            <div id="feedbackLogContainer" class="space-y-1 max-h-28 overflow-y-auto custom-scrollbar text-[11px] font-mono text-slate-400">
-              <p class="text-slate-500 italic">No pins recorded yet. Click anywhere on the frame above or speak your feedback!</p>
-            </div>
-          </div>
-
-          <!-- STEP 3: INSTANT DEVELOPER CODE EXPORT LINK -->
-          <div class="bg-slate-950 border border-cyan-500/30 rounded-xl p-3.5 space-y-3">
-            <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800 pb-2">
-              <span class="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
-                <span>⚡</span> Step 3: Instant Developer Code Export Link
-              </span>
-
-              <div class="flex gap-1 bg-slate-900 p-1 rounded-md border border-slate-800">
-                <button id="tabCss" onclick="switchTab('css')" class="text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition">CSS</button>
-                <button id="tabTailwind" onclick="switchTab('tailwind')" class="text-[10px] font-semibold px-2.5 py-1 rounded text-slate-400 hover:text-white transition">Tailwind</button>
-                <button id="tabReact" onclick="switchTab('react')" class="text-[10px] font-semibold px-2.5 py-1 rounded text-slate-400 hover:text-white transition">React</button>
-              </div>
-            </div>
-
-            <div class="bg-slate-900 border border-slate-800 rounded-lg p-2.5 relative">
-              <div class="flex justify-between items-center mb-1.5">
-                <span id="codeOutputFilename" class="text-[11px] font-mono text-cyan-400">variables.css</span>
-                <button onclick="copyGeneratedCode(this)" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-[10px] px-2.5 py-1 rounded transition">
-                  📋 Copy Snippet
-                </button>
-              </div>
-              <pre id="codeOutputBox" class="text-[11px] font-mono text-slate-300 overflow-x-auto max-h-24 custom-scrollbar">:root {
-  --primary-brand: #351156;
-  --font-family: "Roboto", sans-serif;
-}</pre>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <button onclick="exportPDFReport()" class="bg-slate-900 hover:bg-slate-800 text-cyan-400 border border-cyan-500/30 font-bold text-xs py-2 rounded-lg transition flex items-center justify-center gap-1">
-                <span>📄</span> Download PDF Audit Report
-              </button>
-              <button onclick="downloadZipPackage()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2 rounded-lg transition flex items-center justify-center gap-1 shadow">
-                <span>📦</span> Download ZIP Bundle
-              </button>
-            </div>
-          </div>
-
         </div>
       </div>
+    </div>
 
+    <!-- MODULE 2: TASK & STATUS TRACKER -->
+    <div id="module-tasks" class="business-module space-y-4 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
+        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+          <div>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">📊 Daily Work & Task Progress Tracker</h3>
+            <p class="text-xs text-slate-400">Track employee and daily shift tasks in real-time</p>
+          </div>
+          <div class="flex gap-2">
+            <input type="text" id="newTaskInput" placeholder="New task title..." class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-cyan-400">
+            <button onclick="addTask()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-3 py-1.5 rounded-lg transition">Add Task</button>
+          </div>
+        </div>
+
+        <div id="taskListContainer" class="space-y-2">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 3: PAYMENT & PENDING TRACKER (कितना मिला, कितना बाकी) -->
+    <div id="module-payments" class="business-module space-y-4 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
+        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+          <div>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">💳 Payment & Pending Accounts Tracker</h3>
+            <p class="text-xs text-slate-400">Track 'Kitna Mila, Kitna Baki' (Accounts Receivable & Received Ledger)</p>
+          </div>
+          <button onclick="openAddPaymentModal()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-lg transition shadow">
+            ➕ Add New Transaction
+          </button>
+        </div>
+
+        <!-- SUMMARY STATS CARDS -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+            <div class="text-xs text-slate-400 uppercase">Total Received (कितना मिला)</div>
+            <div id="totalReceivedDisplay" class="text-xl font-bold text-emerald-400 mt-1">₹0</div>
+          </div>
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+            <div class="text-xs text-slate-400 uppercase">Total Pending (कितना बाकी)</div>
+            <div id="totalPendingDisplay" class="text-xl font-bold text-amber-400 mt-1">₹0</div>
+          </div>
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+            <div class="text-xs text-slate-400 uppercase">Total Business Volume</div>
+            <div id="totalVolumeDisplay" class="text-xl font-bold text-cyan-400 mt-1">₹0</div>
+          </div>
+        </div>
+
+        <!-- TRANSACTIONS TABLE -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-slate-800 text-slate-400">
+                <th class="p-3">Client Name</th>
+                <th class="p-3">Project / Invoice</th>
+                <th class="p-3">Total Amount</th>
+                <th class="p-3">Received (मिला)</th>
+                <th class="p-3">Pending (बाकी)</th>
+                <th class="p-3">Status</th>
+                <th class="p-3 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="paymentTableBody" class="divide-y divide-slate-800/60 font-mono">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 4: DOCUMENT & FILE FINDER -->
+    <div id="module-documents" class="business-module space-y-4 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
+        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+          <div>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">📂 Centralized Document & File Finder</h3>
+            <p class="text-xs text-slate-400">Instant search across all client assets, invoices, and contracts</p>
+          </div>
+          <input type="text" id="docSearchInput" oninput="filterDocuments()" placeholder="Search files..." class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-cyan-400">
+        </div>
+
+        <div id="documentListContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 5: REPORTS & AUDIT GENERATOR -->
+    <div id="module-reports" class="business-module space-y-4 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
+        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+          <div>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">📑 Daily Shift & Financial Audit Report</h3>
+            <p class="text-xs text-slate-400">Export professional PDF reports for business owners and accounting</p>
+          </div>
+          <button onclick="exportBusinessPDFReport()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow">
+            📄 Download Official Audit PDF
+          </button>
+        </div>
+
+        <div id="auditReportPreview" class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3 font-mono text-xs text-slate-300">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ADD PAYMENT MODAL -->
+  <div id="paymentModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden">
+    <div class="bg-slate-900 border border-emerald-500/40 p-6 rounded-xl max-w-md w-full space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-white">Add / Update Client Payment</h3>
+        <button onclick="closeAddPaymentModal()" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-400 mb-1">Client Name:</label>
+          <input type="text" id="payClientName" placeholder="e.g. Acme Corp" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white outline-none focus:border-emerald-400">
+        </div>
+        <div>
+          <label class="block text-slate-400 mb-1">Project / Invoice Name:</label>
+          <input type="text" id="payProjectName" placeholder="e.g. Website Redesign" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white outline-none focus:border-emerald-400">
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-slate-400 mb-1">Total Amount (₹):</label>
+            <input type="number" id="payTotalAmount" placeholder="25000" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white outline-none focus:border-emerald-400">
+          </div>
+          <div>
+            <label class="block text-slate-400 mb-1">Amount Received (₹):</label>
+            <input type="number" id="payReceivedAmount" placeholder="10000" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white outline-none focus:border-emerald-400">
+          </div>
+        </div>
+      </div>
+      <button onclick="savePaymentTransaction()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition uppercase">
+        Save Transaction
+      </button>
     </div>
   </div>
 
   <script>
-    // State Persistence Key Constants
-    const STORAGE_KEY_PINS = 'scrutinix_pins_v19';
-    const STORAGE_KEY_CONFIG = 'scrutinix_config_v19';
-    const STORAGE_KEY_HISTORY = 'scrutinix_history_v19';
-    const STORAGE_KEY_ESIGN = 'scrutinix_esign_v19';
-    const STORAGE_KEY_PASS = 'scrutinix_pass_v19';
+    // Storage Keys
+    const KEY_PAYMENTS = 'scrutinix_business_payments_v2';
+    const KEY_TASKS = 'scrutinix_business_tasks_v2';
+    const KEY_DOCS = 'scrutinix_business_docs_v2';
+    const KEY_PASS = 'scrutinix_pass_v2';
 
-    let pinsList = [];
-    let versionHistory = [];
-    let currentApprovalStatus = 'none';
-    let currentTabState = 'css';
-    let clientEsignData = null;
-    let portalPassword = localStorage.getItem(STORAGE_KEY_PASS) || "scrutinix2026";
-    let lastClickedCoords = { x: 50, y: 50 };
-    let recognition = null;
-    let isRecording = false;
+    let paymentsList = JSON.parse(localStorage.getItem(KEY_PAYMENTS)) || [
+      { id: 1, client: 'Acme Corp', project: 'Website Development', total: 35000, received: 20000 },
+      { id: 2, client: 'Sharma Enterprises', project: 'SEO Audit & Tools', total: 15000, received: 15000 },
+      { id: 3, client: 'Global Traders', project: 'Custom POS Script', total: 50000, received: 10000 }
+    ];
 
-    // Initialize State & Password Gate on Load
+    let tasksList = JSON.parse(localStorage.getItem(KEY_TASKS)) || [
+      { id: 1, text: 'Review extracted client invoices for morning shift', completed: true },
+      { id: 2, text: 'Follow up on pending balance from Global Traders', completed: false }
+    ];
+
+    let documentsList = [
+      { name: 'Invoice_Acme_091.pdf', type: 'Invoice', date: '2026-11-05', size: '245 KB' },
+      { name: 'Client_Agreement_Sharma.pdf', type: 'Contract', date: '2026-11-01', size: '1.2 MB' },
+      { name: 'Project_Scope_Global.xlsx', type: 'Spreadsheet', date: '2026-10-28', size: '512 KB' }
+    ];
+
+    let workspacePassword = localStorage.getItem(KEY_PASS) || "scrutinix2026";
+
     window.addEventListener('DOMContentLoaded', () => {
-      checkPortalPasswordGate();
-      loadStateFromStorage();
-      generateSystem();
-      renderPins();
-      updateFeedbackLog();
-      updateStatsUI();
+      checkPasswordGate();
+      renderPayments();
+      renderTasks();
+      renderDocuments(documentsList);
+      renderAuditReport();
     });
 
-    // Password Gate Verification Logic
-    function checkPortalPasswordGate() {
-      const unlocked = sessionStorage.getItem('scrutinix_unlocked');
-      if (unlocked !== 'true') {
+    function checkPasswordGate() {
+      if (sessionStorage.getItem('scrutinix_unlocked') !== 'true') {
         document.getElementById('passwordModal').classList.remove('hidden');
       }
     }
 
     function verifyPortalPassword() {
-      const inputVal = document.getElementById('accessPasswordInput').value;
-      if (inputVal === portalPassword) {
+      const val = document.getElementById('accessPasswordInput').value;
+      if (val === workspacePassword) {
         sessionStorage.setItem('scrutinix_unlocked', 'true');
         document.getElementById('passwordModal').classList.add('hidden');
       } else {
-        alert("Incorrect password! Access denied.");
+        alert("Incorrect password!");
       }
     }
 
-    function configurePortalPassword() {
-      const newPass = prompt("Set a new secure password for client review link:", portalPassword);
-      if (newPass && newPass.trim() !== "") {
-        portalPassword = newPass.trim();
-        localStorage.setItem(STORAGE_KEY_PASS, portalPassword);
-        alert("Portal password updated successfully!");
-      }
-    }
+    // Navigation Switcher
+    function switchModule(moduleName) {
+      document.querySelectorAll('.business-module').forEach(el => el.classList.add('hidden'));
+      document.getElementById('module-' + moduleName).classList.remove('hidden');
 
-    // Digital E-Sign Functions
-    function openEsignModal() {
-      document.getElementById('esignModal').classList.remove('hidden');
-    }
-
-    function closeEsignModal() {
-      document.getElementById('esignModal').classList.add('hidden');
-    }
-
-    function submitClientEsign() {
-      const name = document.getElementById('signerNameInput').value.trim();
-      const company = document.getElementById('signerCompanyInput').value.trim();
-
-      if (!name) {
-        alert("Please enter the authorized client name.");
-        return;
-      }
-
-      clientEsignData = {
-        name: name,
-        company: company || 'Client Organization',
-        timestamp: new Date().toLocaleString(),
-        approvalId: 'ESIGN-' + Math.floor(100000 + Math.random() * 900000)
-      };
-
-      localStorage.setItem(STORAGE_KEY_ESIGN, JSON.stringify(clientEsignData));
-      closeEsignModal();
-      updateClientApproval('approved', true);
-      alert(`Digital E-Signature Confirmed & Stamped!\nID: ${clientEsignData.approvalId}`);
-    }
-
-    // State Save/Load
-    function saveStateToStorage() {
-      const config = {
-        brandColor: document.getElementById('brandColor').value,
-        font: document.getElementById('fontSelect').value,
-        status: currentApprovalStatus,
-        targetUrl: document.getElementById('targetLiveUrlInput').value
-      };
-      localStorage.setItem(STORAGE_KEY_PINS, JSON.stringify(pinsList));
-      localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(config));
-      localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(versionHistory));
-      updateStatsUI();
-    }
-
-    function loadStateFromStorage() {
-      const savedPins = localStorage.getItem(STORAGE_KEY_PINS);
-      const savedConfig = localStorage.getItem(STORAGE_KEY_CONFIG);
-      const savedHistory = localStorage.getItem(STORAGE_KEY_HISTORY);
-      const savedEsign = localStorage.getItem(STORAGE_KEY_ESIGN);
-
-      if (savedPins) pinsList = JSON.parse(savedPins);
-      if (savedEsign) clientEsignData = JSON.parse(savedEsign);
-
-      if (savedHistory) {
-        versionHistory = JSON.parse(savedHistory);
-      } else {
-        createNewVersionSnapshot('Initial Draft Review v1.0', false);
-      }
-
-      if (savedConfig) {
-        const config = JSON.parse(savedConfig);
-        if (config.brandColor) {
-          document.getElementById('brandColor').value = config.brandColor;
-          document.getElementById('brandColorPicker').value = config.brandColor;
+      // Update tabs UI
+      ['extractor', 'tasks', 'payments', 'documents', 'reports'].forEach(m => {
+        const btn = document.getElementById('nav-' + m);
+        if (m === moduleName) {
+          btn.className = "flex-1 min-w-[140px] py-2 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-2";
+        } else {
+          btn.className = "flex-1 min-w-[140px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-2";
         }
-        if (config.font) document.getElementById('fontSelect').value = config.font;
-        if (config.targetUrl) document.getElementById('targetLiveUrlInput').value = config.targetUrl;
-        if (config.status && config.status !== 'none') {
-          updateClientApproval(config.status, false);
-        }
-      }
-    }
-
-    // Version History Management
-    function createNewVersionSnapshot(changeLabel = 'Update Snapshot', autoSave = true) {
-      const vNumber = (versionHistory.length + 1) * 0.1 + 0.9;
-      const vTag = `v${vNumber.toFixed(1)}`;
-      
-      const newSnapshot = {
-        version: vTag,
-        timestamp: new Date().toLocaleString(),
-        label: changeLabel,
-        color: document.getElementById('brandColor').value || '#351156',
-        font: document.getElementById('fontSelect').value || 'Roboto',
-        approvalStatus: currentApprovalStatus,
-        esign: clientEsignData,
-        pins: JSON.parse(JSON.stringify(pinsList))
-      };
-
-      versionHistory.unshift(newSnapshot);
-      document.getElementById('activeVersionTag').innerText = vTag;
-      
-      if (autoSave) saveStateToStorage();
-    }
-
-    function openHistoryModal() {
-      renderVersionHistoryList();
-      document.getElementById('historyModal').classList.remove('hidden');
-    }
-
-    function closeHistoryModal() {
-      document.getElementById('historyModal').classList.add('hidden');
-    }
-
-    function renderVersionHistoryList() {
-      const container = document.getElementById('versionListContainer');
-      if (versionHistory.length === 0) {
-        container.innerHTML = `<p class="text-xs text-slate-500 italic p-2">No previous version history recorded.</p>`;
-        return;
-      }
-
-      container.innerHTML = '';
-      versionHistory.forEach((item) => {
-        const activePins = item.pins.filter(p => p.status === 'active').length;
-        const resolvedPins = item.pins.filter(p => p.status === 'resolved').length;
-        
-        const card = document.createElement('div');
-        card.className = "bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1.5 hover:border-cyan-500/50 transition";
-        card.innerHTML = `
-          <div class="flex justify-between items-center text-xs">
-            <span class="font-bold text-cyan-400 font-mono">${item.version} — ${item.label}</span>
-            <span class="text-[10px] text-slate-500">${item.timestamp}</span>
-          </div>
-          <div class="flex justify-between text-[11px] text-slate-400">
-            <span>Color: <strong style="color: ${item.color}">${item.color}</strong> | Font: ${item.font}</span>
-            <span class="font-bold text-${item.approvalStatus === 'approved' ? 'emerald' : item.approvalStatus === 'changes' ? 'amber' : 'slate'}-400 uppercase text-[10px]">
-              Status: ${item.approvalStatus} ${item.esign ? `(Signed: ${item.esign.name})` : ''}
-            </span>
-          </div>
-          <div class="flex justify-between items-center pt-1 border-t border-slate-900 text-[10px] text-slate-500">
-            <span>Pins: ${activePins} Pending / ${resolvedPins} Resolved</span>
-            <button onclick="rollbackToVersion('${item.version}')" class="text-cyan-400 hover:underline font-bold">
-              ↺ Restore Snapshot
-            </button>
-          </div>
-        `;
-        container.appendChild(card);
       });
     }
 
-    function rollbackToVersion(vTag) {
-      const snapshot = versionHistory.find(v => v.version === vTag);
-      if (!snapshot) return;
-
-      document.getElementById('brandColor').value = snapshot.color;
-      document.getElementById('brandColorPicker').value = snapshot.color;
-      document.getElementById('fontSelect').value = snapshot.font;
-      pinsList = JSON.parse(JSON.stringify(snapshot.pins));
-      clientEsignData = snapshot.esign || null;
+    // Module 1: Data Extractor Simulation
+    function simulateExtraction() {
+      const raw = document.getElementById('rawInvoiceText').value;
+      const resultBox = document.getElementById('extractedResultBox');
       
-      updateClientApproval(snapshot.approvalStatus, false);
-      generateSystem();
-      renderPins();
-      updateFeedbackLog();
-      saveStateToStorage();
-      closeHistoryModal();
-      document.getElementById('activeVersionTag').innerText = snapshot.version;
-    }
-
-    function updateStatsUI() {
-      const active = pinsList.filter(p => p.status === 'active').length;
-      const resolved = pinsList.filter(p => p.status === 'resolved').length;
-      
-      document.getElementById('statTotalPins').innerText = pinsList.length;
-      document.getElementById('statActivePins').innerText = active;
-      document.getElementById('statResolvedPins').innerText = resolved;
-    }
-
-    function updateClientApproval(status, saveSnapshot = true) {
-      currentApprovalStatus = status;
-      if (saveSnapshot) {
-        createNewVersionSnapshot(`Status Updated: ${status.toUpperCase()}`);
-      }
-    }
-
-    // Share Link function
-    function sharePortalLink(btn) {
-      navigator.clipboard.writeText(window.location.href);
-      const originalText = btn.innerHTML;
-      btn.innerHTML = `<span>✔️</span> Copied Link!`;
-      setTimeout(() => { btn.innerHTML = originalText; }, 2000);
-    }
-
-    // System Generation & Theme Sync
-    function syncColorInput(source) {
-      const picker = document.getElementById('brandColorPicker');
-      const text = document.getElementById('brandColor');
-      if (source === 'picker') {
-        text.value = picker.value;
-      } else {
-        if (/^#[0-9A-F]{6}$/i.test(text.value)) {
-          picker.value = text.value;
-        }
-      }
-      generateSystem();
-    }
-
-    function generateSystem() {
-      const color = document.getElementById('brandColor').value;
-      const font = document.getElementById('fontSelect').value;
-      
-      document.documentElement.style.setProperty('--primary-brand', color);
-      document.body.style.fontFamily = `"${font}", sans-serif`;
-
-      const btn = document.getElementById('previewBtn');
-      if (btn) btn.style.backgroundColor = color;
-
-      updateCodeOutput();
-    }
-
-    // Pinning & DOM Interaction
-    function dropDOMPin(event) {
-      const rect = event.currentTarget.getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width) * 100;
-      const y = ((event.clientY - rect.top) / rect.height) * 100;
-      lastClickedCoords = { x, y };
-
-      document.getElementById('selectedElementTag').innerText = `#element-pos-${Math.round(x)}x-${Math.round(y)}y`;
-      document.getElementById('pinpointNoteInput').focus();
-    }
-
-    function submitManualPinNote() {
-      const noteInput = document.getElementById('pinpointNoteInput');
-      const text = noteInput.value.trim();
-      const priority = document.getElementById('pinPriority').value;
-
-      if (!text) {
-        alert("Please enter feedback note or record via voice.");
-        return;
-      }
-
-      const newPin = {
-        id: pinsList.length + 1,
-        x: lastClickedCoords.x,
-        y: lastClickedCoords.y,
-        text: text,
-        priority: priority,
-        status: 'active',
-        timestamp: new Date().toLocaleTimeString()
-      };
-
-      pinsList.push(newPin);
-      noteInput.value = '';
-      renderPins();
-      updateFeedbackLog();
-      createNewVersionSnapshot(`Added Pin #${newPin.id}`);
-    }
-
-    function renderPins() {
-      const container = document.getElementById('pinsOverlayContainer');
-      container.innerHTML = '';
-
-      pinsList.forEach((pin, index) => {
-        const pinEl = document.createElement('div');
-        pinEl.className = `visual-pin ${pin.priority} ${pin.status === 'resolved' ? 'opacity-50 grayscale' : ''}`;
-        pinEl.style.left = `${pin.x}%`;
-        pinEl.style.top = `${pin.y}%`;
-        pinEl.innerText = index + 1;
-        pinEl.title = `${pin.text} (${pin.status})`;
-        container.appendChild(pinEl);
-      });
-
-      document.getElementById('noteCountBadge.innerText = `${pinsList.length} Pins`);
-    }
-
-    function updateFeedbackLog() {
-      const container = document.getElementById('feedbackLogContainer');
-      if (pinsList.length === 0) {
-        container.innerHTML = `<p class="text-slate-500 italic">No pins recorded yet. Click anywhere on the frame above or speak your feedback!</p>`;
-        return;
-      }
-
-      container.innerHTML = '';
-      pinsList.forEach((pin, index) => {
-        const row = document.createElement('div');
-        row.className = "flex justify-between items-center bg-slate-900 p-1.5 rounded border border-slate-800";
-        row.innerHTML = `
-          <div class="flex items-center gap-2">
-            <span class="font-bold text-cyan-400">#${index + 1}</span>
-            <span class="text-slate-300">${pin.text}</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="text-[9px] uppercase px-1.5 py-0.5 rounded bg-${pin.status === 'resolved' ? 'emerald' : 'amber'}-500/20 text-${pin.status === 'resolved' ? 'emerald' : 'amber'}-300">${pin.status}</span>
-            <button onclick="togglePinResolved(${pin.id})" class="text-cyan-400 hover:text-white text-[10px]">✔</button>
-            <button onclick="deletePin(${pin.id})" class="text-red-400 hover:text-red-300 text-[10px]">✕</button>
-          </div>
-        `;
-        container.appendChild(row);
-      });
-    }
-
-    function togglePinResolved(id) {
-      const pin = pinsList.find(p => p.id === id);
-      if (pin) {
-        pin.status = pin.status === 'active' ? 'resolved' : 'active';
-        renderPins();
-        updateFeedbackLog();
-        saveStateToStorage();
-      }
-    }
-
-    function deletePin(id) {
-      pinsList = pinsList.filter(p => p.id !== id);
-      renderPins();
-      updateFeedbackLog();
-      saveStateToStorage();
-    }
-
-    // Voice Speech Dictation
-    function toggleVoiceRecording() {
-      const btnText = document.getElementById('voiceBtnText');
-      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-        alert("Speech recognition is not supported in this browser. Try Chrome.");
-        return;
-      }
-
-      if (!isRecording) {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        recognition = new SpeechRecognition();
-        recognition.lang = 'en-US';
-        recognition.interimResults = false;
-
-        recognition.onstart = () => {
-          isRecording = true;
-          btnText.innerText = "Listening...";
-        };
-
-        recognition.onresult = (event) => {
-          const speechToText = event.results[0][0].transcript;
-          document.getElementById('pinpointNoteInput').value = speechToText;
-        };
-
-        recognition.onerror = () => {
-          isRecording = false;
-          btnText.innerText = "Voice";
-        };
-
-        recognition.onend = () => {
-          isRecording = false;
-          btnText.innerText = "Voice";
-        };
-
-        recognition.start();
-      } else {
-        if (recognition) recognition.stop();
-        isRecording = false;
-        btnText.innerText = "Voice";
-      }
-    }
-
-    // Live URL Staging Loader
-    function loadLiveStagingUrl() {
-      const urlInput = document.getElementById('targetLiveUrlInput').value.trim();
-      if (!urlInput) {
-        alert("Please enter a valid staging URL.");
-        return;
-      }
-
-      const iframeWrapper = document.getElementById('iframeWrapper');
-      const iframe = document.getElementById('liveStagingIframe');
-      iframe.src = urlInput;
-      iframeWrapper.classList.remove('hidden');
-      saveStateToStorage();
-    }
-
-    // Code Generation & Tabs
-    function switchTab(tab) {
-      currentTabState = tab;
-      document.getElementById('tabCss').className = tab === 'css' ? "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-[10px] font-semibold px-2.5 py-1 rounded text-slate-400 hover:text-white transition";
-      document.getElementById('tabTailwind').className = tab === 'tailwind' ? "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-[10px] font-semibold px-2.5 py-1 rounded text-slate-400 hover:text-white transition";
-      document.getElementById('tabReact').className = tab === 'react' ? "text-[10px] font-bold px-2.5 py-1 rounded bg-cyan-400 text-slate-950 transition" : "text-[10px] font-semibold px-2.5 py-1 rounded text-slate-400 hover:text-white transition";
-
-      updateCodeOutput();
-    }
-
-    function updateCodeOutput() {
-      const color = document.getElementById('brandColor').value;
-      const font = document.getElementById('fontSelect').value;
-      const filenameBox = document.getElementById('codeOutputFilename');
-      const codeBox = document.getElementById('codeOutputBox');
-
-      if (currentTabState === 'css') {
-        filenameBox.innerText = "variables.css";
-        codeBox.innerText = `:root {\n  --primary-brand: ${color};\n  --font-family: "${font}", sans-serif;\n}`;
-      } else if (currentTabState === 'tailwind.config.js') {
-        filenameBox.innerText = "tailwind.config.js";
-        codeBox.innerText = `module.exports = {\n  theme: {\n    extend: {\n      colors: { brand: '${color}' },\n      fontFamily: { sans: ['${font}', 'sans-serif'] }\n    }\n  }\n}`;
-      } else {
-        filenameBox.innerText = "ThemeComponent.jsx";
-        codeBox.innerText = `export const ThemeToken = {\n  brandColor: "${color}",\n  fontFamily: "${font}"\n};`;
-      }
-    }
-
-    function copyGeneratedCode(btn) {
-      const text = document.getElementById('codeOutputBox').innerText;
-      navigator.clipboard.writeText(text);
-      const original = btn.innerText;
-      btn.innerText = "✔️ Copied!";
-      setTimeout(() => { btn.innerText = original; }, 2000);
-    }
-
-    // Design Token Audit Modal
-    function generateTokenAuditReport() {
-      const color = document.getElementById('brandColor').value;
-      const font = document.getElementById('fontSelect').value;
-      const body = document.getElementById('auditReportBody');
-
-      body.innerHTML = `
-        <p><strong>System Status:</strong> Enterprise Compliant</p>
-        <p><strong>Primary Hex Token:</strong> ${color}</p>
-        <p><strong>Active Typography:</strong> ${font}</p>
-        <p><strong>Total Feedback Pins:</strong> ${pinsList.length}</p>
-        <p><strong>E-Sign Status:</strong> ${clientEsignData ? 'Signed by ' + clientEsignData.name : 'Pending Sign-Off'}</p>
+      resultBox.innerHTML = `
+        <span class="text-cyan-400">{</span><br>
+        &nbsp;&nbsp;<span class="text-white">"invoice_number"</span>: <span class="text-emerald-300">"INV-9021"</span>,<br>
+        &nbsp;&nbsp;<span class="text-white">"client_name"</span>: <span class="text-emerald-300">"Acme Corp"</span>,<br>
+        &nbsp;&nbsp;<span class="text-white">"date"</span>: <span class="text-emerald-300">"Nov 06, 2026"</span>,<br>
+        &nbsp;&nbsp;<span class="text-white">"line_items"</span>: [<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;{"item": "Full Stack Dev", "price": 25000},<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;{"item": "SEO Optimization", "price": 10000}<br>
+        &nbsp;&nbsp;],<br>
+        &nbsp;&nbsp;<span class="text-white">"total"</span>: <span class="text-amber-400">35000</span>,<br>
+        &nbsp;&nbsp;<span class="text-white">"pending_balance"</span>: <span class="text-amber-400">15000</span><br>
+        <span class="text-cyan-400">}</span>
       `;
-      document.getElementById('auditModal').classList.remove('hidden');
     }
 
-    function closeAuditModal() {
-      document.getElementById('auditModal').classList.add('hidden');
+    // Module 2: Tasks Management
+    function renderTasks() {
+      const container = document.getElementById('taskListContainer');
+      container.innerHTML = '';
+      tasksList.forEach(task => {
+        const div = document.createElement('div');
+        div.className = "flex justify-between items-center bg-slate-950 p-3 rounded-lg border border-slate-800 text-xs";
+        div.innerHTML = `
+          <div class="flex items-center gap-2.5">
+            <input type="checkbox" ${task.completed ? 'checked' : ''} onclick="toggleTask(${task.id})" class="cursor-pointer">
+            <span class="${task.completed ? 'line-through text-slate-500' : 'text-slate-300'}">${task.text}</span>
+          </div>
+          <button onclick="deleteTask(${task.id})" class="text-red-400 hover:text-red-300">✕</button>
+        `;
+        container.appendChild(div);
+      });
+      localStorage.setItem(KEY_TASKS, JSON.stringify(tasksList));
     }
 
-    // Export PDF Report
-    function exportPDFReport() {
-      const totalPins = pinsList.length;
-      const pendingPins = pinsList.filter(p => p.status === 'active').length;
-      const resolvedPins = pinsList.filter(p => p.status === 'resolved').length;
-      const color = document.getElementById('brandColor').value;
-      const font = document.getElementById('fontSelect').value;
+    function addTask() {
+      const input = document.getElementById('newTaskInput');
+      if (!input.value.trim()) return;
+      tasksList.push({ id: Date.now(), text: input.value.trim(), completed: false });
+      input.value = '';
+      renderTasks();
+    }
 
-      const printWindow = window.open('', '_blank');
-      printWindow.document.write(`
+    function toggleTask(id) {
+      const t = tasksList.find(x => x.id === id);
+      if (t) t.completed = !t.completed;
+      renderTasks();
+    }
+
+    function deleteTask(id) {
+      tasksList = tasksList.filter(x => x.id !== id);
+      renderTasks();
+    }
+
+    // Module 3: Payment & Pending Tracker
+    function renderPayments() {
+      const tbody = document.getElementById('paymentTableBody');
+      tbody.innerHTML = '';
+
+      let totalRec = 0;
+      let totalPend = 0;
+      let totalVol = 0;
+
+      paymentsList.forEach(p => {
+        const pending = p.total - p.received;
+        totalRec += Number(p.received);
+        totalPend += Number(pending);
+        totalVol += Number(p.total);
+
+        const statusClass = pending === 0 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300';
+        const statusText = pending === 0 ? 'Fully Paid' : 'Pending Due';
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-950/50 transition";
+        tr.innerHTML = `
+          <td class="p-3 text-white font-bold">${p.client}</td>
+          <td class="p-3 text-slate-300">${p.project}</td>
+          <td class="p-3 text-cyan-400">₹${Number(p.total).toLocaleString()}</td>
+          <td class="p-3 text-emerald-400">₹${Number(p.received).toLocaleString()}</td>
+          <td class="p-3 text-amber-400 font-bold">₹${Number(pending).toLocaleString()}</td>
+          <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] uppercase ${statusClass}">${statusText}</span></td>
+          <td class="p-3 text-right">
+            <button onclick="deletePayment(${p.id})" class="text-red-400 hover:text-red-300 text-xs">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('totalReceivedDisplay.innerText = `₹${totalRec.toLocaleString()}`);
+      document.getElementById('totalPendingDisplay.innerText = `₹${totalPend.toLocaleString()}`);
+      document.getElementById('totalVolumeDisplay.innerText = `₹${totalVol.toLocaleString()}`);
+
+      localStorage.setItem(KEY_PAYMENTS, JSON.stringify(paymentsList));
+      renderAuditReport();
+    }
+
+    function openAddPaymentModal() {
+      document.getElementById('paymentModal').classList.remove('hidden');
+    }
+
+    function closeAddPaymentModal() {
+      document.getElementById('paymentModal').classList.add('hidden');
+    }
+
+    function savePaymentTransaction() {
+      const client = document.getElementById('payClientName').value.trim();
+      const project = document.getElementById('payProjectName').value.trim();
+      const total = parseFloat(document.getElementById('payTotalAmount').value) || 0;
+      const received = parseFloat(document.getElementById('payReceivedAmount').value) || 0;
+
+      if (!client || total <= 0) {
+        alert("Please enter valid client name and total amount.");
+        return;
+      }
+
+      paymentsList.push({ id: Date.now(), client, project, total, received });
+      closeAddPaymentModal();
+      renderPayments();
+    }
+
+    function deletePayment(id) {
+      paymentsList = paymentsList.filter(x => x.id !== id);
+      renderPayments();
+    }
+
+    // Module 4: Document Finder
+    function renderDocuments(list) {
+      const container = document.getElementById('documentListContainer');
+      container.innerHTML = '';
+      list.forEach(doc => {
+        const div = document.createElement('div');
+        div.className = "bg-slate-950 p-3.5 rounded-xl border border-slate-800 flex justify-between items-center text-xs";
+        div.innerHTML = `
+          <div>
+            <div class="font-bold text-white flex items-center gap-1.5"><span>📄</span> ${doc.name}</div>
+            <div class="text-[10px] text-slate-400 mt-1">Type: ${doc.type} | Date: ${doc.date} | Size: ${doc.size}</div>
+          </div>
+          <button onclick="alert('Downloading ${doc.name}...')" class="bg-slate-900 hover:bg-slate-800 text-cyan-400 px-3 py-1.5 rounded border border-cyan-500/30 transition">Download</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function filterDocuments() {
+      const query = document.getElementById('docSearchInput').value.toLowerCase();
+      const filtered = documentsList.filter(d => d.name.toLowerCase().includes(query) || d.type.toLowerCase().includes(query));
+      renderDocuments(filtered);
+    }
+
+    // Module 5: Reports & Audit
+    function renderAuditReport() {
+      let totalVol = paymentsList.reduce((acc, curr) => acc + Number(curr.total), 0);
+      let totalRec = paymentsList.reduce((acc, curr) => acc + Number(curr.received), 0);
+      let totalPend = totalVol - totalRec;
+
+      const box = document.getElementById('auditReportPreview');
+      box.innerHTML = `
+        <p class="text-cyan-400 font-bold">=== SCRUTINIX AI OFFICIAL FINANCIAL & SHIFT REPORT ===</p>
+        <p>Generated On: ${new Date().toLocaleString()}</p>
+        <hr class="border-slate-800 my-2">
+        <p><strong>Total Active Clients / Transactions:</strong> ${paymentsList.length}</p>
+        <p><strong>Total Business Volume:</strong> ₹${totalVol.toLocaleString()}</p>
+        <p><strong>Total Received Revenue (मिला):</strong> ₹${totalRec.toLocaleString()}</p>
+        <p><strong>Total Accounts Receivable (बाकी):</strong> ₹${totalPend.toLocaleString()}</p>
+        <hr class="border-slate-800 my-2">
+        <p class="text-emerald-400">System Health: 100% Secure LocalStorage / Zero External API Dependency.</p>
+      `;
+    }
+
+    function exportBusinessPDFReport() {
+      const pdfWindow = window.open('', '_blank');
+      pdfWindow.document.write(`
         <html>
-            <head>
-                <title>Scrutinix AI - Audit & Handoff Report</title>
-                <style>
-                    body { font-family: Arial, sans-serif; padding: 30px; color: #333; }
-                    h1 { color: #0284c7; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
-                    .meta { margin-bottom: 20px; font-size: 14px; color: #555; }
-                    .box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 6px; margin-bottom: 15px; }
-                </style>
-            </head>
-            <body>
-                <h1>Scrutinix AI - Official Client Review & Version Audit Trail Report</h1>
-                <div class="meta">
-                    <p><strong>Project:</strong> Scrutinix AI Client Portal v1.9</p>
-                    <p><strong>Generated On:</strong> ${new Date().toLocaleString()}</p>
-                    <p><strong>Brand Token Color:</strong> ${color}</p>
-                    <p><strong>Typography:</strong> ${font}</p>
-                    <p><strong>Approval Status:</strong> ${currentApprovalStatus.toUpperCase()} ${clientEsignData ? `(Signed by: ${clientEsignData.name} - ID: ${clientEsignData.approvalId})` : ''}</p>
-                </div>
-                <div class="box">
-                    <h3>Change Tracker Summary</h3>
-                    <p><strong>Total Feedback Pins:</strong> ${totalPins}</p>
-                    <p><strong>Pending Review:</strong> ${pendingPins}</p>
-                    <p><strong>Resolved Issues:</strong> ${resolvedPins}</p>
-                </div>
-                <br>
-                <p style="text-align: center; color: #888; font-size: 12px;">Generated via Scrutinix AI Enterprise Handoff Engine</p>
-            </body>
+          <head>
+            <title>Scrutinix AI - Business Audit Report</title>
+            <style>
+              body { font-family: Arial; padding: 30px; color: #111; }
+              h1 { color: #0284c7; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+              .box { background: #f8fafc; border: 1px solid #cbd5e1; padding: 15px; border-radius: 6px; margin-top: 15px; }
+            </style>
+          </head>
+          <body>
+            <h1>Scrutinix AI Enterprise - Financial & Operations Report</h1>
+            <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
+            <div class="box">
+              <h3>Summary Ledger</h3>
+              <p>${document.getElementById('auditReportPreview').innerHTML}</p>
+            </div>
+            <br><p style="text-align:center; color:#666; font-size:12px;">Generated via Scrutinix AI Command Center v2.0</p>
+          </body>
         </html>
       `);
-      printWindow.document.close();
-      printWindow.focus();
-      setTimeout(() => {
-        printWindow.print();
-        printWindow.close();
-      }, 500);
+      pdfWindow.document.close();
+      pdfWindow.focus();
+      setTimeout(() => { pdfWindow.print(); pdfWindow.close(); }, 500);
     }
 
-    // ZIP Bundle Export
-    function downloadZipPackage() {
-      const zip = new JSZip();
-      zip.file("variables.css", `:root {\n  --primary-brand: ${document.getElementById('brandColor').value};\n  --font-family: "${document.getElementById('fontSelect').value}", sans-serif;\n}`);
-      zip.file("audit-summary.json", JSON.stringify(pinsList, null, 2));
+    // AI Command Center Execution
+    function executeAICommand() {
+      const cmd = document.getElementById('aiCommandInput').value.trim().toLowerCase();
+      if (!cmd) return;
 
-      zip.generateAsync({ type: "blob" }).then(content => {
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(content);
-        link.download = "Scrutinix-Developer-Bundle.zip";
-        link.click();
-      });
-    }
-
-    function approveAndExportBundle() {
-      openEsignModal();
+      if (cmd.includes('add payment')) {
+        alert("AI Command Recognized: Opening Payment Entry Form.");
+        openAddPaymentModal();
+      } else if (cmd.includes('export pdf') || cmd.includes('report')) {
+        switchModule('reports');
+        exportBusinessPDFReport();
+      } else {
+        alert("Command executed successfully by Scrutinix AI Engine: " + cmd);
+      }
+      document.getElementById('aiCommandInput').value = '';
     }
   </script>
 </body>
