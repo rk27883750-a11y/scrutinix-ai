@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // Enterprise Business Management SaaS & Command Center v3.1</title>
+  <title>Scrutinix AI // Enterprise Business Management SaaS & Command Center v3.2</title>
   
   <meta property="og:title" content="Scrutinix AI // Enterprise Operations & Payment Tracker" />
-  <meta property="og:description" content="All-in-One Business Command Center: OCR Data Extraction, Bank Reconciliation, Task Tracking & Payment Accounts." />
+  <meta property="og:description" content="All-in-One Business Command Center: OCR Data Extraction, Tally XML Export, Bank Reconciliation & Payment Accounts." />
   <meta property="og:url" content="https://www.scrutinixai.com" />
   <meta property="og:type" content="website" />
 
@@ -67,7 +67,7 @@
           </svg>
         </div>
         <div>
-          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">Enterprise v3.1</span></h1>
+          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">Enterprise v3.2</span></h1>
           <p class="text-xs text-slate-400">Unified Command Center & Business Operations Platform</p>
         </div>
       </div>
@@ -113,13 +113,13 @@
       </button>
     </div>
 
-    <!-- MODULE 1: OCR EXTRACTOR -->
+    <!-- MODULE 1: OCR EXTRACTOR & MULTI-FORMAT EXPORT -->
     <div id="module-extractor" class="business-module space-y-4">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
           <div>
             <h3 class="text-sm font-bold text-white uppercase tracking-wider">📄 Automated Invoice & Document OCR Extractor</h3>
-            <p class="text-xs text-slate-400">Extract tables, line items, and totals instantly via OCR</p>
+            <p class="text-xs text-slate-400">Extract tables, line items, and export directly to Tally XML or Excel</p>
           </div>
           <button onclick="simulateExtraction()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow">
             ✨ Extract Sample Invoice
@@ -143,6 +143,25 @@ Status: Pending Balance ₹15,000</textarea>
             <div id="extractedResultBox" class="bg-slate-900 border border-slate-800 rounded-lg p-3 h-36 overflow-y-auto text-xs font-mono text-slate-300">
               <span class="text-slate-500 italic">Click 'Extract Sample Invoice' to parse data automatically...</span>
             </div>
+          </div>
+        </div>
+
+        <!-- 3 MAGIC EXPORT BUTTONS FOR ACCOUNTANTS -->
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h4 class="text-xs font-bold text-white uppercase">One-Click Accounting Software Integration</h4>
+            <p class="text-xs text-slate-400">Export extracted OCR data instantly into your preferred format</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="exportToTallyXML()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-lg transition shadow flex items-center gap-1.5">
+              <span>📥</span> Export to Tally XML
+            </button>
+            <button onclick="exportToExcelCSV()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-lg transition shadow flex items-center gap-1.5">
+              <span>📊</span> Export to Excel / CSV
+            </button>
+            <button onclick="pushToLedgerDirect()" class="bg-purple-500 hover:bg-purple-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-lg transition shadow flex items-center gap-1.5">
+              <span>⚡</span> Push to Ledger
+            </button>
           </div>
         </div>
       </div>
@@ -316,8 +335,8 @@ Status: Pending Balance ₹15,000</textarea>
   </div>
 
   <script>
-    const KEY_PAYMENTS = 'scrutinix_business_payments_v31';
-    const KEY_TASKS = 'scrutinix_business_tasks_v31';
+    const KEY_PAYMENTS = 'scrutinix_business_payments_v32';
+    const KEY_TASKS = 'scrutinix_business_tasks_v32';
 
     let paymentsList = JSON.parse(localStorage.getItem(KEY_PAYMENTS)) || [
       { id: 1, client: 'Acme Corp', project: 'Website Development', total: 35000, received: 20000 },
@@ -372,6 +391,63 @@ Status: Pending Balance ₹15,000</textarea>
         &nbsp;&nbsp;<span class="text-white">"pending_balance"</span>: <span class="text-amber-400">15000</span><br>
         <span class="text-cyan-400">}</span>
       `;
+    }
+
+    // --- TALLY XML & EXCEL EXPORT FUNCTIONS ---
+    function exportToTallyXML() {
+      const xmlData = `<?xml version="1.0" encoding="UTF-8"?>
+<ENVELOPE>
+  <HEADER>
+    <TALLYREQUEST>Import Data</TALLYREQUEST>
+  </HEADER>
+  <BODY>
+    <IMPORTDATA>
+      <REQUESTDESC>
+        <REPORTNAME>Vouchers</REPORTNAME>
+      </REQUESTDESC>
+      <REQUESTDATA>
+        <TALLYMESSAGE xmlns:UDF="TallyUDF">
+          <VOUCHER VCHTYPE="Sales" ACTION="Create">
+            <DATE>20261106</DATE>
+            <PARTYLEDGERNAME>Acme Corp</PARTYLEDGERNAME>
+            <VOUCHERNUMBER>INV-9021</VOUCHERNUMBER>
+            <AMOUNT>35000</AMOUNT>
+          </VOUCHER>
+        </TALLYMESSAGE>
+      </REQUESTDATA>
+    </IMPORTDATA>
+  </BODY>
+</ENVELOPE>`;
+
+      const blob = new Blob([xmlData], { type: 'application/xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Tally_Import_INV9021.xml';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function exportToExcelCSV() {
+      const csvData = "Invoice Number,Client Name,Date,Total Amount,Pending Balance\nINV-9021,Acme Corp,Nov 06 2026,35000,15000";
+      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Extracted_Invoice_Data.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function pushToLedgerDirect() {
+      paymentsList.push({ id: Date.now(), client: 'Acme Corp', project: 'INV-9021 Extracted Order', total: 35000, received: 20000 });
+      renderPayments();
+      alert("Successfully pushed extracted OCR invoice data directly into the Payments & Accounts Ledger!");
+      switchModule('payments');
     }
 
     function simulateWhatsAppBill() {
@@ -591,7 +667,7 @@ Status: Pending Balance ₹15,000</textarea>
               <h3>Summary Ledger</h3>
               <p>${document.getElementById('auditReportPreview').innerHTML}</p>
             </div>
-            <br><p style="text-align:center; color:#666; font-size:12px;">Generated via Scrutinix AI Command Center v3.1</p>
+            <br><p style="text-align:center; color:#666; font-size:12px;">Generated via Scrutinix AI Command Center v3.2</p>
           </body>
         </html>
       `);
