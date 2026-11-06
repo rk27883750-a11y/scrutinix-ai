@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // Enterprise Business Management SaaS & Command Center v3.0</title>
+  <title>Scrutinix AI // Enterprise Business Management SaaS & Command Center v3.1</title>
   
   <meta property="og:title" content="Scrutinix AI // Enterprise Operations & Payment Tracker" />
   <meta property="og:description" content="All-in-One Business Command Center: OCR Data Extraction, Bank Reconciliation, Task Tracking & Payment Accounts." />
@@ -67,7 +67,7 @@
           </svg>
         </div>
         <div>
-          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">Enterprise v3.0</span></h1>
+          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">Enterprise v3.1</span></h1>
           <p class="text-xs text-slate-400">Unified Command Center & Business Operations Platform</p>
         </div>
       </div>
@@ -88,7 +88,7 @@
       </div>
     </div>
 
-    <!-- MAIN NAVIGATION TABS (7 MODULES INCLUDING NEW AI FEATURES) -->
+    <!-- MAIN NAVIGATION TABS -->
     <div class="flex flex-wrap gap-2 bg-slate-900 border border-slate-800 p-2 rounded-xl">
       <button onclick="switchModule('extractor')" id="nav-extractor" class="flex-1 min-w-[120px] py-2 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-1.5">
         <span>📄</span> OCR Extractor
@@ -316,8 +316,8 @@ Status: Pending Balance ₹15,000</textarea>
   </div>
 
   <script>
-    const KEY_PAYMENTS = 'scrutinix_business_payments_v30';
-    const KEY_TASKS = 'scrutinix_business_tasks_v30';
+    const KEY_PAYMENTS = 'scrutinix_business_payments_v31';
+    const KEY_TASKS = 'scrutinix_business_tasks_v31';
 
     let paymentsList = JSON.parse(localStorage.getItem(KEY_PAYMENTS)) || [
       { id: 1, client: 'Acme Corp', project: 'Website Development', total: 35000, received: 20000 },
@@ -461,7 +461,7 @@ Status: Pending Balance ₹15,000</textarea>
           <td class="p-3 text-amber-400 font-bold">₹${Number(pending).toLocaleString()}</td>
           <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] uppercase ${statusClass}">${statusText}</span></td>
           <td class="p-3 text-right space-x-1">
-            <button onclick="alert('Quick Action: Reminder sent via WhatsApp to ${p.client}!')" class="bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 px-2 py-1 rounded text-[10px]">WhatsApp</button>
+            <button onclick="window.open('https://api.whatsapp.com/send?text=Hello%20' + encodeURIComponent('${p.client}') + ',%20please%20clear%20your%20pending%20balance%20of%20Rs.%20' + ${pending}, '_blank')" class="bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 px-2 py-1 rounded text-[10px]">WhatsApp</button>
             <button onclick="deletePayment(${p.id})" class="text-red-400 hover:text-red-300 text-[10px]">Delete</button>
           </td>
         `;
@@ -518,11 +518,18 @@ Status: Pending Balance ₹15,000</textarea>
           </div>
           <div class="space-x-1">
             <button onclick="downloadDocument(${index})" class="bg-slate-900 hover:bg-slate-800 text-cyan-400 px-2.5 py-1.5 rounded border border-cyan-500/30 transition">Download</button>
-            <button onclick="alert('Quick Action: Email sent to client successfully!')" class="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-2.5 py-1.5 rounded transition">Email</button>
+            <button onclick="openGmailForDocument('${doc.name}', '${encodeURIComponent(doc.content)}')" class="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-2.5 py-1.5 rounded transition">Email</button>
           </div>
         `;
         container.appendChild(div);
       });
+    }
+
+    function openGmailForDocument(docName, docContent) {
+      const subject = encodeURIComponent("Document Sharing: " + docName);
+      const body = encodeURIComponent("Hello,\n\nPlease find the attached/referenced document details below:\n\n" + decodeURIComponent(docContent) + "\n\nSent via Scrutinix AI Enterprise Workspace.");
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`;
+      window.open(gmailUrl, '_blank');
     }
 
     function downloadDocument(index) {
@@ -584,7 +591,7 @@ Status: Pending Balance ₹15,000</textarea>
               <h3>Summary Ledger</h3>
               <p>${document.getElementById('auditReportPreview').innerHTML}</p>
             </div>
-            <br><p style="text-align:center; color:#666; font-size:12px;">Generated via Scrutinix AI Command Center v3.0</p>
+            <br><p style="text-align:center; color:#666; font-size:12px;">Generated via Scrutinix AI Command Center v3.1</p>
           </body>
         </html>
       `);
