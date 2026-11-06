@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // Enterprise Business Management SaaS & Command Center v2.2</title>
+  <title>Scrutinix AI // Enterprise Business Management SaaS & Command Center v2.3</title>
   
   <meta property="og:title" content="Scrutinix AI // Enterprise Operations & Payment Tracker" />
   <meta property="og:description" content="All-in-One Business Command Center: Data Extraction, Task Tracking, Payment & Pending Accounts." />
@@ -84,7 +84,7 @@
           </svg>
         </div>
         <div>
-          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">Enterprise v2.2</span></h1>
+          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">Enterprise v2.3</span></h1>
           <p class="text-xs text-slate-400">Unified Command Center & Business Operations Platform</p>
         </div>
       </div>
@@ -289,9 +289,9 @@ Status: Pending Balance ₹15,000</textarea>
   </div>
 
   <script>
-    const KEY_PAYMENTS = 'scrutinix_business_payments_v22';
-    const KEY_TASKS = 'scrutinix_business_tasks_v22';
-    const KEY_PASS = 'scrutinix_pass_v22';
+    const KEY_PAYMENTS = 'scrutinix_business_payments_v23';
+    const KEY_TASKS = 'scrutinix_business_tasks_v23';
+    const KEY_PASS = 'scrutinix_pass_v23';
 
     let paymentsList = JSON.parse(localStorage.getItem(KEY_PAYMENTS)) || [
       { id: 1, client: 'Acme Corp', project: 'Website Development', total: 35000, received: 20000 },
@@ -305,9 +305,9 @@ Status: Pending Balance ₹15,000</textarea>
     ];
 
     let documentsList = [
-      { name: 'Invoice_Acme_091.pdf', type: 'Invoice', date: '2026-11-05', size: '245 KB', content: 'Invoice #091 for Acme Corp. Total: 35000 INR.' },
-      { name: 'Client_Agreement_Sharma.pdf', type: 'Contract', date: '2026-11-01', size: '1.2 MB', content: 'Official Client Service Agreement - Sharma Enterprises.' },
-      { name: 'Project_Scope_Global.xlsx', type: 'Spreadsheet', date: '2026-10-28', size: '512 KB', content: 'Global Traders POS Project Scope & Deliverables.' }
+      { name: 'Invoice_Acme_091.txt', type: 'Invoice', date: '2026-11-05', size: '245 KB', content: 'Invoice #091 for Acme Corp. Total: 35000 INR.' },
+      { name: 'Client_Agreement_Sharma.txt', type: 'Contract', date: '2026-11-01', size: '1.2 MB', content: 'Official Client Service Agreement - Sharma Enterprises.' },
+      { name: 'Project_Scope_Global.txt', type: 'Spreadsheet', date: '2026-10-28', size: '512 KB', content: 'Global Traders POS Project Scope & Deliverables.' }
     ];
 
     let workspacePassword = localStorage.getItem(KEY_PASS) || "scrutinix2026";
@@ -550,7 +550,7 @@ Status: Pending Balance ₹15,000</textarea>
               <h3>Summary Ledger</h3>
               <p>${document.getElementById('auditReportPreview').innerHTML}</p>
             </div>
-            <br><p style="text-align:center; color:#666; font-size:12px;">Generated via Scrutinix AI Command Center v2.2</p>
+            <br><p style="text-align:center; color:#666; font-size:12px;">Generated via Scrutinix AI Command Center v2.3</p>
           </body>
         </html>
       `);
