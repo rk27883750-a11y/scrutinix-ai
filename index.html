@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // Enterprise Business Management SaaS & Command Center v3.4</title>
+  <title>Scrutinix AI // Enterprise Multi-Client Accounting Command Center v3.5</title>
   
-  <meta property="og:title" content="Scrutinix AI // Enterprise Operations & Payment Tracker" />
-  <meta property="og:description" content="All-in-One Business Command Center: OCR Data Extraction, GST Reconciliation, Tally XML Export & Payment Tracker." />
+  <meta property="og:title" content="Scrutinix AI // Multi-Client CA Accounting & Operations Suite" />
+  <meta property="og:description" content="All-in-One Multi-Client Business Command Center: OCR Data Extraction, GST Reconciliation, Multi-Client Ledger & Tally XML Export." />
   <meta property="og:url" content="https://www.scrutinixai.com" />
   <meta property="og:type" content="website" />
 
@@ -56,7 +56,7 @@
 
   <div class="max-w-7xl mx-auto w-full space-y-5">
 
-    <!-- TOP HEADER & UNIFIED COMMAND CENTER BAR -->
+    <!-- TOP HEADER & MULTI-CLIENT SWITCHER BAR -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-xl">
       <div class="flex items-center space-x-3">
         <div class="w-10 h-10 bg-slate-950 border border-cyan-500/40 rounded-xl p-1 flex items-center justify-center shadow-lg shadow-cyan-950">
@@ -67,24 +67,29 @@
           </svg>
         </div>
         <div>
-          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">Enterprise v3.4</span></h1>
-          <p class="text-xs text-slate-400">Unified Command Center & CA Accounting Suite</p>
+          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">CA Multi-Client v3.5</span></h1>
+          <p class="text-xs text-slate-400">Unified Multi-Tenant Accounting Suite</p>
         </div>
+      </div>
+
+      <!-- MULTI-CLIENT SWITCHER DROPDOWN -->
+      <div class="flex items-center gap-2 bg-slate-950 border border-cyan-500/40 rounded-lg px-3 py-1.5 shadow-inner">
+        <span class="text-xs text-cyan-400 font-bold">🏢 Active Client:</span>
+        <select id="globalClientSelector" onchange="switchActiveClient(this.value)" class="bg-transparent text-xs text-white outline-none cursor-pointer font-bold">
+          <option value="Acme Corp" class="bg-slate-900 text-white">Acme Corp</option>
+          <option value="Sharma Enterprises" class="bg-slate-900 text-white">Sharma Enterprises</option>
+          <option value="Global Traders" class="bg-slate-900 text-white">Global Traders</option>
+        </select>
+        <button onclick="promptNewClient()" class="text-[10px] bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 px-2 py-0.5 rounded font-bold transition">＋ Add</button>
       </div>
 
       <!-- QUICK COMMAND INPUT -->
-      <div class="flex-1 max-w-md w-full mx-4">
-        <div class="flex items-center bg-slate-950 border border-cyan-500/40 rounded-lg px-3 py-1.5 shadow-inner">
-          <span class="text-cyan-400 mr-2">⚡</span>
-          <input type="text" id="aiCommandInput" placeholder="Command AI: e.g., 'Add payment 5000'..." class="w-full bg-transparent text-xs text-white outline-none">
+      <div class="flex-1 max-w-xs w-full">
+        <div class="flex items-center bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 shadow-inner">
+          <span class="text-cyan-400 mr-2 text-xs">⚡</span>
+          <input type="text" id="aiCommandInput" placeholder="Command AI..." class="w-full bg-transparent text-xs text-white outline-none">
           <button onclick="executeAICommand()" class="text-xs bg-cyan-400 text-slate-950 font-bold px-2.5 py-1 rounded ml-2 hover:bg-cyan-300 transition">Run</button>
         </div>
-      </div>
-
-      <div class="flex items-center gap-2">
-        <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live Sync Active
-        </span>
       </div>
     </div>
 
@@ -122,7 +127,7 @@
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
           <div>
             <h3 class="text-sm font-bold text-white uppercase tracking-wider">📄 Automated Invoice & Document OCR Extractor</h3>
-            <p class="text-xs text-slate-400">Extract tables, line items, and ledger category with instant push</p>
+            <p class="text-xs text-slate-400">Extract tables, line items, and ledger category for active client</p>
           </div>
           <button onclick="simulateExtraction()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow">
             ✨ Extract Sample Invoice
@@ -133,7 +138,7 @@
           <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
             <h4 class="text-xs font-bold text-cyan-400 uppercase">Input Document / Raw Text</h4>
             <textarea id="rawInvoiceText" class="w-full h-44 bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-slate-300 outline-none font-mono focus:border-cyan-400">INVOICE #INV-9021
-Client: Acme Corp (Rajesh Sharma)
+Client: Active Selected Client
 Date: Nov 06, 2026
 Items:
 1. Full Stack Web Development - ₹25,000
@@ -149,7 +154,7 @@ Status: Pending Balance ₹15,000</textarea>
           </div>
         </div>
 
-        <!-- 3 MAGIC EXPORT BUTTONS FOR ACCOUNTANTS -->
+        <!-- 3 MAGIC EXPORT BUTTONS -->
         <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-wrap items-center justify-between gap-3">
           <div>
             <h4 class="text-xs font-bold text-white uppercase">One-Click Accounting Software Integration</h4>
@@ -176,7 +181,7 @@ Status: Pending Balance ₹15,000</textarea>
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
           <div>
             <h3 class="text-sm font-bold text-white uppercase tracking-wider">⚖️ AI GST Reconciliation Center (GSTR-2B vs Books)</h3>
-            <p class="text-xs text-slate-400">Automatically match purchase invoices with portal data to claim 100% ITC safely</p>
+            <p class="text-xs text-slate-400">Automatically match purchase invoices with portal data for active client</p>
           </div>
           <button onclick="runGstReconciliation()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow">
             ⚡ Run GST Auto-Recon
@@ -226,7 +231,7 @@ Status: Pending Balance ₹15,000</textarea>
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
           <div>
             <h3 class="text-sm font-bold text-white uppercase tracking-wider">💬 WhatsApp OCR Auto-Entry Gateway</h3>
-            <p class="text-xs text-slate-400">Simulate incoming client bill photos & auto-sync to accounting ledger</p>
+            <p class="text-xs text-slate-400">Simulate incoming client bill photos & auto-sync to active client ledger</p>
           </div>
           <button onclick="simulateWhatsAppBill()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow">
             📥 Simulate Incoming WhatsApp Bill
@@ -244,7 +249,7 @@ Status: Pending Balance ₹15,000</textarea>
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
           <div>
             <h3 class="text-sm font-bold text-white uppercase tracking-wider">🔄 AI Bank Reconciliation Engine</h3>
-            <p class="text-xs text-slate-400">Automatically match bank statement transactions with paper invoices</p>
+            <p class="text-xs text-slate-400">Automatically match bank statement transactions for active client</p>
           </div>
           <button onclick="runBankReconciliation()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow">
             ⚡ Run Auto-Match Reconciliation
@@ -262,7 +267,7 @@ Status: Pending Balance ₹15,000</textarea>
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
           <div>
             <h3 class="text-sm font-bold text-white uppercase tracking-wider">📊 Daily Work & Task Progress Tracker</h3>
-            <p class="text-xs text-slate-400">Track employee and daily shift tasks in real-time</p>
+            <p class="text-xs text-slate-400">Track tasks for active client in real-time</p>
           </div>
           <div class="flex gap-2">
             <input type="text" id="newTaskInput" placeholder="New task title..." class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-cyan-400">
@@ -279,7 +284,7 @@ Status: Pending Balance ₹15,000</textarea>
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
           <div>
             <h3 class="text-sm font-bold text-white uppercase tracking-wider">💳 Payment & Accounts Receivable Tracker</h3>
-            <p class="text-xs text-slate-400">Track Received Amount & Pending Balances Ledger</p>
+            <p class="text-xs text-slate-400">Track Received Amount & Pending Balances for Active Client</p>
           </div>
           <div class="flex gap-2">
             <button onclick="openAddPaymentModal()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-lg transition shadow">
@@ -328,7 +333,7 @@ Status: Pending Balance ₹15,000</textarea>
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
           <div>
             <h3 class="text-sm font-bold text-white uppercase tracking-wider">📂 Centralized Document & File Finder</h3>
-            <p class="text-xs text-slate-400">Instant search across all client assets, invoices, and contracts</p>
+            <p class="text-xs text-slate-400">Instant search across active client assets and contracts</p>
           </div>
           <input type="text" id="docSearchInput" oninput="filterDocuments()" placeholder="Search files..." class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-cyan-400">
         </div>
@@ -342,7 +347,7 @@ Status: Pending Balance ₹15,000</textarea>
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
           <div>
             <h3 class="text-sm font-bold text-white uppercase tracking-wider">📑 Daily Shift & Financial Audit Report</h3>
-            <p class="text-xs text-slate-400">Export professional PDF reports for business owners and accounting</p>
+            <p class="text-xs text-slate-400">Export professional PDF audit reports for active client</p>
           </div>
           <button onclick="exportBusinessPDFReport()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow">
             📄 Download Official Audit PDF
@@ -388,34 +393,77 @@ Status: Pending Balance ₹15,000</textarea>
   </div>
 
   <script>
-    const KEY_PAYMENTS = 'scrutinix_business_payments_v34';
-    const KEY_TASKS = 'scrutinix_business_tasks_v34';
+    let activeClient = 'Acme Corp';
+    let clientsList = JSON.parse(localStorage.getItem('scrutinix_clients_list_v35')) || ['Acme Corp', 'Sharma Enterprises', 'Global Traders'];
+
+    function getStorageKey(baseKey) {
+      return `scrutinix_${activeClient.replace(/\s+/g, '_')}_${baseKey}_v35`;
+    }
 
     let lastExtractedInvoiceNumber = "INV-9021";
 
-    let paymentsList = JSON.parse(localStorage.getItem(KEY_PAYMENTS)) || [
-      { id: 1, client: 'Acme Corp', project: 'INV-8000 Website Development', total: 35000, received: 20000 },
-      { id: 2, client: 'Sharma Enterprises', project: 'INV-881 SEO Audit', total: 15000, received: 15000 },
-      { id: 3, client: 'Global Traders', project: 'INV-702 Custom POS', total: 50000, received: 10000 }
-    ];
+    function loadClientData() {
+      const KEY_PAYMENTS = getStorageKey('payments');
+      const KEY_TASKS = getStorageKey('tasks');
 
-    let tasksList = JSON.parse(localStorage.getItem(KEY_TASKS)) || [
-      { id: 1, text: 'Review extracted client invoices for morning shift', completed: true },
-      { id: 2, text: 'Follow up on pending balance from Global Traders', completed: false }
-    ];
+      paymentsList = JSON.parse(localStorage.getItem(KEY_PAYMENTS)) || [
+        { id: 1, client: activeClient, project: 'INV-8000 Website Development', total: 35000, received: 20000 }
+      ];
 
-    let documentsList = [
-      { name: 'Invoice_Acme_091.txt', type: 'Invoice', date: '2026-11-05', size: '245 KB', content: 'Invoice #091 for Acme Corp. Total: 35000 INR.' },
-      { name: 'Client_Agreement_Sharma.txt', type: 'Contract', date: '2026-11-01', size: '1.2 MB', content: 'Official Client Service Agreement - Sharma Enterprises.' },
-      { name: 'Project_Scope_Global.txt', type: 'Spreadsheet', date: '2026-10-28', size: '512 KB', content: 'Global Traders POS Project Scope & Deliverables.' }
-    ];
+      tasksList = JSON.parse(localStorage.getItem(KEY_TASKS)) || [
+        { id: 1, text: `Review extracted invoices for ${activeClient}`, completed: false }
+      ];
 
-    window.addEventListener('DOMContentLoaded', () => {
       renderPayments();
       renderTasks();
       renderDocuments(documentsList);
       renderAuditReport();
+    }
+
+    let paymentsList = [];
+    let tasksList = [];
+
+    let documentsList = [
+      { name: 'Invoice_Acme_091.txt', type: 'Invoice', date: '2026-11-05', size: '245 KB', content: 'Invoice #091. Total: 35000 INR.' },
+      { name: 'Client_Agreement.txt', type: 'Contract', date: '2026-11-01', size: '1.2 MB', content: 'Official Client Service Agreement.' }
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initClientDropdown();
+      loadClientData();
     });
+
+    function initClientDropdown() {
+      const select = document.getElementById('globalClientSelector');
+      if (!select) return;
+      select.innerHTML = '';
+      clientsList.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.innerText = c;
+        if (c === activeClient) opt.selected = true;
+        select.appendChild(opt);
+      });
+    }
+
+    function switchActiveClient(clientName) {
+      activeClient = clientName;
+      loadClientData();
+      alert("Switched active workspace to client: " + activeClient);
+    }
+
+    function promptNewClient() {
+      const newName = prompt("Enter new client / company name:");
+      if (!newName || !newName.trim()) return;
+      const formatted = newName.trim();
+      if (!clientsList.includes(formatted)) {
+        clientsList.push(formatted);
+        localStorage.setItem('scrutinix_clients_list_v35', JSON.stringify(clientsList));
+      }
+      activeClient = formatted;
+      initClientDropdown();
+      loadClientData();
+    }
 
     function switchModule(moduleName) {
       document.querySelectorAll('.business-module').forEach(el => el.classList.add('hidden'));
@@ -437,19 +485,15 @@ Status: Pending Balance ₹15,000</textarea>
     // --- SIMULATE EXTRACTION ---
     function simulateExtraction() {
       const resultBox = document.getElementById('extractedResultBox');
-      lastExtractedInvoiceNumber = "INV-9021";
+      lastExtractedInvoiceNumber = "INV-" + Math.floor(1000 + Math.random() * 9000);
 
       if (resultBox) {
         resultBox.innerHTML = `
           <span class="text-cyan-400">{</span><br>
-          &nbsp;&nbsp;<span class="text-white">"invoice_number"</span>: <span class="text-emerald-300">"INV-9021"</span>,<br>
-          &nbsp;&nbsp;<span class="text-white">"client_name"</span>: <span class="text-emerald-300">"Acme Corp"</span>,<br>
+          &nbsp;&nbsp;<span class="text-white">"client"</span>: <span class="text-emerald-300">"${activeClient}"</span>,<br>
+          &nbsp;&nbsp;<span class="text-white">"invoice_number"</span>: <span class="text-emerald-300">"${lastExtractedInvoiceNumber}"</span>,<br>
           &nbsp;&nbsp;<span class="text-white">"date"</span>: <span class="text-emerald-300">"Nov 06, 2026"</span>,<br>
-          &nbsp;&nbsp;<span class="text-white">"Suggested_Ledger"</span>: <span class="text-purple-300 font-bold">"IT & Software Expenses"</span>,<br>
-          &nbsp;&nbsp;<span class="text-white">"line_items"</span>: [<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;{"item": "Full Stack Dev", "price": 25000},<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;{"item": "SEO Optimization", "price": 10000}<br>
-          &nbsp;&nbsp;],<br>
+          &nbsp;&nbsp;<span class="text-white">"Suggested_Ledger"</span>: <span class="text-purple-300 font-bold">"Professional Services"</span>,<br>
           &nbsp;&nbsp;<span class="text-white">"total"</span>: <span class="text-amber-400">35000</span>,<br>
           &nbsp;&nbsp;<span class="text-white">"pending_balance"</span>: <span class="text-amber-400">15000</span><br>
           <span class="text-cyan-400">}</span>
@@ -461,9 +505,9 @@ Status: Pending Balance ₹15,000</textarea>
     function runGstReconciliation() {
       const tbody = document.getElementById('gstTableBody');
       const reconData = [
-        { gstin: '07AABCT1234F1Z5 (Acme Corp)', inv: 'INV-9021', books: 35000, portal: 35000, status: 'MATCHED (ITC OK)', color: 'text-emerald-400 bg-emerald-500/10' },
-        { gstin: '29XYZAB5678G2Z1 (Sharma Ent.)', inv: 'INV-881', books: 15000, portal: 14500, status: 'MISMATCH (Tax Diff)', color: 'text-amber-400 bg-amber-500/10' },
-        { gstin: '19LMNOP9876H1ZX (Global Traders)', inv: 'INV-702', books: 50000, portal: 0, status: 'MISSING IN 2B', color: 'text-red-400 bg-red-500/10' }
+        { gstin: `07GSTIN${Math.floor(1000+Math.random()*9000)} (${activeClient})`, inv: lastExtractedInvoiceNumber, books: 35000, portal: 35000, status: 'MATCHED (ITC OK)', color: 'text-emerald-400 bg-emerald-500/10' },
+        { gstin: '29SUPPLIER5678G2Z1', inv: 'INV-881', books: 15000, portal: 14500, status: 'MISMATCH (Tax Diff)', color: 'text-amber-400 bg-amber-500/10' },
+        { gstin: '19VENDOR9876H1ZX', inv: 'INV-702', books: 50000, portal: 0, status: 'MISSING IN 2B', color: 'text-red-400 bg-red-500/10' }
       ];
 
       if (tbody) {
@@ -478,20 +522,16 @@ Status: Pending Balance ₹15,000</textarea>
             <td class="p-3 text-slate-300">₹${item.portal.toLocaleString()}</td>
             <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold ${item.color}">${item.status}</span></td>
             <td class="p-3 text-right">
-              <button onclick="alert('GST Action triggered for ${item.inv}')" class="bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 px-2.5 py-1 rounded text-[10px]">Resolve</button>
+              <button onclick="alert('Resolved GST issue for ${activeClient}')" class="bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 px-2.5 py-1 rounded text-[10px]">Resolve</button>
             </td>
           `;
           tbody.appendChild(tr);
         });
       }
 
-      const matchEl = document.getElementById('gstMatchedCount');
-      const mismatchEl = document.getElementById('gstMismatchCount');
-      const missingEl = document.getElementById('gstMissingCount');
-
-      if (matchEl) matchEl.innerText = '1';
-      if (mismatchEl) mismatchEl.innerText = '1';
-      if (missingEl) missingEl.innerText = '1';
+      document.getElementById('gstMatchedCount').innerText = '1';
+      document.getElementById('gstMismatchCount').innerText = '1';
+      document.getElementById('gstMissingCount').innerText = '1';
     }
 
     // --- TALLY XML EXPORT ---
@@ -510,9 +550,8 @@ Status: Pending Balance ₹15,000</textarea>
         <TALLYMESSAGE xmlns:UDF="TallyUDF">
           <VOUCHER VCHTYPE="Sales" ACTION="Create">
             <DATE>20261106</DATE>
-            <PARTYLEDGERNAME>Acme Corp</PARTYLEDGERNAME>
-            <VOUCHERNUMBER>INV-9021</VOUCHERNUMBER>
-            <EXPENSELEDGER>IT &amp; Software Expenses</EXPENSELEDGER>
+            <PARTYLEDGERNAME>${activeClient}</PARTYLEDGERNAME>
+            <VOUCHERNUMBER>${lastExtractedInvoiceNumber}</VOUCHERNUMBER>
             <AMOUNT>35000</AMOUNT>
           </VOUCHER>
         </TALLYMESSAGE>
@@ -525,7 +564,7 @@ Status: Pending Balance ₹15,000</textarea>
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'Tally_Import_INV9021.xml';
+      a.download = `Tally_${activeClient.replace(/\s+/g, '_')}_${lastExtractedInvoiceNumber}.xml`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -534,24 +573,24 @@ Status: Pending Balance ₹15,000</textarea>
 
     // --- EXCEL / CSV EXPORT ---
     function exportToExcelCSV() {
-      const csvData = "Invoice Number,Client Name,Suggested Ledger,Date,Total Amount,Pending Balance\nINV-9021,Acme Corp,IT & Software Expenses,Nov 06 2026,35000,15000";
+      const csvData = `Client Name,Invoice Number,Date,Total Amount,Pending Balance\n${activeClient},${lastExtractedInvoiceNumber},Nov 06 2026,35000,15000`;
       const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'Extracted_Invoice_Data.csv';
+      a.download = `${activeClient.replace(/\s+/g, '_')}_Data.csv`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
 
-    // --- PUSH TO LEDGER (DIRECT) ---
+    // --- PUSH TO LEDGER ---
     function pushToLedgerDirect() {
       paymentsList.push({ 
         id: Date.now(), 
-        client: 'Acme Corp', 
-        project: `${lastExtractedInvoiceNumber} (IT & Software Expenses)`, 
+        client: activeClient, 
+        project: `${lastExtractedInvoiceNumber} (Professional Services)`, 
         total: 35000, 
         received: 20000 
       });
@@ -564,15 +603,13 @@ Status: Pending Balance ₹15,000</textarea>
       const logBox = document.getElementById('whatsappLogBox');
       if (logBox) {
         logBox.innerHTML += `
-          <p class="text-emerald-400">[Incoming WhatsApp Media Detected]</p>
-          <p>Sender: +91 7304111280 (Rajesh Sharma)</p>
-          <p>OCR Processing: Extracted Petrol Bill - Amount: ₹2,400 | Date: Nov 06, 2026</p>
-          <p class="text-purple-300">AI Suggested Ledger: Fuel & Conveyance Expenses</p>
-          <p class="text-cyan-300">Status: Synced directly to Ledger!</p>
+          <p class="text-emerald-400">[Incoming WhatsApp Media for ${activeClient}]</p>
+          <p>OCR Processing: Extracted Bill - Amount: ₹2,400 | Date: Nov 06, 2026</p>
+          <p class="text-cyan-300">Status: Synced directly to ${activeClient}'s Ledger!</p>
           <hr class="border-slate-800 my-1">
         `;
       }
-      paymentsList.push({ id: Date.now(), client: 'Rajesh Sharma', project: 'Petrol Expense (Fuel Ledger)', total: 2400, received: 2400 });
+      paymentsList.push({ id: Date.now(), client: activeClient, project: 'WhatsApp Bill Sync', total: 2400, received: 2400 });
       renderPayments();
     }
 
@@ -580,10 +617,8 @@ Status: Pending Balance ₹15,000</textarea>
       const reconBox = document.getElementById('reconResultContainer');
       if (reconBox) {
         reconBox.innerHTML = `
-          <p class="text-cyan-400 font-bold">=== AI BANK RECONCILIATION REPORT ===</p>
-          <p>Scanning Bank Statement (UPI-TRFR-9831) against Open Invoices...</p>
-          <p class="text-emerald-400">✔ Match Found: ₹15,000 from Sharma Enterprises matches Invoice #INV-881.</p>
-          <p class="text-amber-400">⚠ Unmatched Item: ₹12,000 from unknown UPI handle (Flagged for Review).</p>
+          <p class="text-cyan-400 font-bold">=== AI BANK RECONCILIATION FOR ${activeClient.toUpperCase()} ===</p>
+          <p class="text-emerald-400">✔ Match Found: Bank Statement matches active client ledger entries.</p>
         `;
       }
     }
@@ -604,7 +639,7 @@ Status: Pending Balance ₹15,000</textarea>
         `;
         container.appendChild(div);
       });
-      localStorage.setItem(KEY_TASKS, JSON.stringify(tasksList));
+      localStorage.setItem(getStorageKey('tasks'), JSON.stringify(tasksList));
     }
 
     function addTask() {
@@ -654,7 +689,6 @@ Status: Pending Balance ₹15,000</textarea>
           <td class="p-3 text-amber-400 font-bold">₹${Number(pending).toLocaleString()}</td>
           <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] uppercase ${statusClass}">${statusText}</span></td>
           <td class="p-3 text-right space-x-1">
-            <button onclick="window.open('https://api.whatsapp.com/send?text=Hello%20' + encodeURIComponent('${p.client}') + ',%20please%20clear%20your%20pending%20balance%20of%20Rs.%20' + ${pending}, '_blank')" class="bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 px-2 py-1 rounded text-[10px]">WhatsApp</button>
             <button onclick="deletePayment(${p.id})" class="text-red-400 hover:text-red-300 text-[10px]">Delete</button>
           </td>
         `;
@@ -669,13 +703,16 @@ Status: Pending Balance ₹15,000</textarea>
       if (pendDisp) pendDisp.innerText = '₹' + totalPend.toLocaleString();
       if (volDisp) volDisp.innerText = '₹' + totalVol.toLocaleString();
 
-      localStorage.setItem(KEY_PAYMENTS, JSON.stringify(paymentsList));
+      localStorage.setItem(getStorageKey('payments'), JSON.stringify(paymentsList));
       renderAuditReport();
     }
 
     function openAddPaymentModal() {
       const modal = document.getElementById('paymentModal');
-      if (modal) modal.classList.remove('hidden');
+      if (modal) {
+        document.getElementById('payClientName').value = activeClient;
+        modal.classList.remove('hidden');
+      }
     }
 
     function closeAddPaymentModal() {
@@ -691,13 +728,13 @@ Status: Pending Balance ₹15,000</textarea>
 
       if (!clientEl || !totalEl) return;
 
-      const client = clientEl.value.trim();
+      const client = clientEl.value.trim() || activeClient;
       const project = projectEl ? projectEl.value.trim() : 'General Invoice';
       const total = parseFloat(totalEl.value) || 0;
       const received = receivedEl ? parseFloat(receivedEl.value) || 0 : 0;
 
-      if (!client || total <= 0) {
-        alert("Please enter valid client name and total amount.");
+      if (total <= 0) {
+        alert("Please enter valid total amount.");
         return;
       }
 
@@ -721,35 +758,12 @@ Status: Pending Balance ₹15,000</textarea>
         div.innerHTML = `
           <div>
             <div class="font-bold text-white flex items-center gap-1.5"><span>📄</span> ${doc.name}</div>
-            <div class="text-[10px] text-slate-400 mt-1">Type: ${doc.type} | Date: ${doc.date} | Size: ${doc.size}</div>
+            <div class="text-[10px] text-slate-400 mt-1">Client: ${activeClient} | Type: ${doc.type}</div>
           </div>
-          <div class="space-x-1">
-            <button onclick="downloadDocument(${index})" class="bg-slate-900 hover:bg-slate-800 text-cyan-400 px-2.5 py-1.5 rounded border border-cyan-500/35 transition">Download</button>
-            <button onclick="openGmailForDocument('${doc.name}', '${encodeURIComponent(doc.content)}')" class="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-2.5 py-1.5 rounded transition">Email</button>
-          </div>
+          <button onclick="alert('Downloading ${doc.name} for ${activeClient}')" class="bg-slate-900 hover:bg-slate-800 text-cyan-400 px-2.5 py-1.5 rounded border border-cyan-500/35 transition">Download</button>
         `;
         container.appendChild(div);
       });
-    }
-
-    function openGmailForDocument(docName, docContent) {
-      const subject = encodeURIComponent("Document Sharing: " + docName);
-      const body = encodeURIComponent("Hello,\n\nPlease find the attached/referenced document details below:\n\n" + decodeURIComponent(docContent) + "\n\nSent via Scrutinix AI Enterprise Workspace.");
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`;
-      window.open(gmailUrl, '_blank');
-    }
-
-    function downloadDocument(index) {
-      const doc = documentsList[index];
-      const blob = new Blob([doc.content], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = doc.name;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
     }
 
     function filterDocuments() {
@@ -768,15 +782,13 @@ Status: Pending Balance ₹15,000</textarea>
       const box = document.getElementById('auditReportPreview');
       if (box) {
         box.innerHTML = `
-          <p class="text-cyan-400 font-bold">=== SCRUTINIX AI OFFICIAL FINANCIAL & SHIFT REPORT ===</p>
+          <p class="text-cyan-400 font-bold">=== AUDIT REPORT FOR: ${activeClient.toUpperCase()} ===</p>
           <p>Generated On: ${new Date().toLocaleString()}</p>
           <hr class="border-slate-800 my-2">
-          <p><strong>Total Active Clients / Transactions:</strong> ${paymentsList.length}</p>
+          <p><strong>Total Transactions:</strong> ${paymentsList.length}</p>
           <p><strong>Total Business Volume:</strong> ₹${totalVol.toLocaleString()}</p>
           <p><strong>Total Received Revenue:</strong> ₹${totalRec.toLocaleString()}</p>
           <p><strong>Total Accounts Receivable (Pending):</strong> ₹${totalPend.toLocaleString()}</p>
-          <hr class="border-slate-800 my-2">
-          <p class="text-emerald-400">System Health: 100% Secure LocalStorage / Zero External API Dependency.</p>
         `;
       }
     }
@@ -786,7 +798,7 @@ Status: Pending Balance ₹15,000</textarea>
       pdfWindow.document.write(`
         <html>
           <head>
-            <title>Scrutinix AI - Business Audit Report</title>
+            <title>Scrutinix AI - ${activeClient} Audit Report</title>
             <style>
               body { font-family: Arial; padding: 30px; color: #111; }
               h1 { color: #0284c7; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
@@ -794,13 +806,11 @@ Status: Pending Balance ₹15,000</textarea>
             </style>
           </head>
           <body>
-            <h1>Scrutinix AI Enterprise - Financial & Operations Report</h1>
+            <h1>Scrutinix AI - Audit Report for ${activeClient}</h1>
             <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
             <div class="box">
-              <h3>Summary Ledger</h3>
               <p>${document.getElementById('auditReportPreview') ? document.getElementById('auditReportPreview').innerHTML : ''}</p>
             </div>
-            <br><p style="text-align:center; color:#666; font-size:12px;">Generated via Scrutinix AI Command Center v3.4</p>
           </body>
         </html>
       `);
@@ -819,15 +829,10 @@ Status: Pending Balance ₹15,000</textarea>
         openAddPaymentModal();
       } else if (cmd.includes('gst')) {
         switchModule('gst');
-      } else if (cmd.includes('export pdf') || cmd.includes('report')) {
+      } else if (cmd.includes('report')) {
         switchModule('reports');
-        exportBusinessPDFReport();
-      } else if (cmd.includes('whatsapp') || cmd.includes('bot')) {
-        switchModule('whatsapp');
-      } else if (cmd.includes('recon') || cmd.includes('bank')) {
-        switchModule('recon');
       } else {
-        alert("Command executed successfully by Scrutinix AI Engine: " + cmd);
+        alert("Command executed for " + activeClient + ": " + cmd);
       }
       inputEl.value = '';
     }
