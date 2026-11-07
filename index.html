@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // Enterprise Multi-Client Accounting Command Center v3.5</title>
+  <title>Scrutinix AI // Enterprise Multi-Client Accounting Command Center v3.6</title>
   
   <meta property="og:title" content="Scrutinix AI // Multi-Client CA Accounting & Operations Suite" />
-  <meta property="og:description" content="All-in-One Multi-Client Business Command Center: OCR Data Extraction, GST Reconciliation, Multi-Client Ledger & Tally XML Export." />
+  <meta property="og:description" content="All-in-One Multi-Client Business Command Center: OCR Data Extraction, GST Reconciliation, Multi-Client Ledger & Gmail/WhatsApp Sharing." />
   <meta property="og:url" content="https://www.scrutinixai.com" />
   <meta property="og:type" content="website" />
 
@@ -67,7 +67,7 @@
           </svg>
         </div>
         <div>
-          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">CA Multi-Client v3.5</span></h1>
+          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">CA Multi-Client v3.6</span></h1>
           <p class="text-xs text-slate-400">Unified Multi-Tenant Accounting Suite</p>
         </div>
       </div>
@@ -154,21 +154,27 @@ Status: Pending Balance ₹15,000</textarea>
           </div>
         </div>
 
-        <!-- 3 MAGIC EXPORT BUTTONS -->
+        <!-- EXPORT & SHARING BUTTONS (INCLUDING GMAIL & WHATSAPP) -->
         <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h4 class="text-xs font-bold text-white uppercase">One-Click Accounting Software Integration</h4>
-            <p class="text-xs text-slate-400">Export extracted OCR data instantly into your preferred format</p>
+            <h4 class="text-xs font-bold text-white uppercase">One-Click Accounting Software & Sharing</h4>
+            <p class="text-xs text-slate-400">Export data or share instantly via Gmail & WhatsApp</p>
           </div>
           <div class="flex flex-wrap gap-2">
-            <button onclick="exportToTallyXML()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-lg transition shadow flex items-center gap-1.5">
-              <span>📥</span> Export to Tally XML
+            <button onclick="exportToTallyXML()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1">
+              <span>📥</span> Tally XML
             </button>
-            <button onclick="exportToExcelCSV()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-lg transition shadow flex items-center gap-1.5">
-              <span>📊</span> Export to Excel / CSV
+            <button onclick="exportToExcelCSV()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1">
+              <span>📊</span> Excel / CSV
             </button>
-            <button onclick="pushToLedgerDirect()" class="bg-purple-500 hover:bg-purple-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-lg transition shadow flex items-center gap-1.5">
-              <span>⚡</span> Push to Ledger
+            <button onclick="pushToLedgerDirect()" class="bg-purple-500 hover:bg-purple-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1">
+              <span>⚡</span> Ledger
+            </button>
+            <button onclick="sendViaGmail()" class="bg-rose-500 hover:bg-rose-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1">
+              <span>📧</span> Gmail
+            </button>
+            <button onclick="sendViaWhatsApp()" class="bg-green-500 hover:bg-green-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1">
+              <span>💬</span> WhatsApp
             </button>
           </div>
         </div>
@@ -349,9 +355,17 @@ Status: Pending Balance ₹15,000</textarea>
             <h3 class="text-sm font-bold text-white uppercase tracking-wider">📑 Daily Shift & Financial Audit Report</h3>
             <p class="text-xs text-slate-400">Export professional PDF audit reports for active client</p>
           </div>
-          <button onclick="exportBusinessPDFReport()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow">
-            📄 Download Official Audit PDF
-          </button>
+          <div class="flex gap-2">
+            <button onclick="exportBusinessPDFReport()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow">
+              📄 Download PDF
+            </button>
+            <button onclick="sendViaGmail()" class="bg-rose-500 hover:bg-rose-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1">
+              <span>📧</span> Gmail
+            </button>
+            <button onclick="sendViaWhatsApp()" class="bg-green-500 hover:bg-green-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1">
+              <span>💬</span> WhatsApp
+            </button>
+          </div>
         </div>
         <div id="auditReportPreview" class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3 font-mono text-xs text-slate-300"></div>
       </div>
@@ -394,10 +408,10 @@ Status: Pending Balance ₹15,000</textarea>
 
   <script>
     let activeClient = 'Acme Corp';
-    let clientsList = JSON.parse(localStorage.getItem('scrutinix_clients_list_v35')) || ['Acme Corp', 'Sharma Enterprises', 'Global Traders'];
+    let clientsList = JSON.parse(localStorage.getItem('scrutinix_clients_list_v36')) || ['Acme Corp', 'Sharma Enterprises', 'Global Traders'];
 
     function getStorageKey(baseKey) {
-      return `scrutinix_${activeClient.replace(/\s+/g, '_')}_${baseKey}_v35`;
+      return `scrutinix_${activeClient.replace(/\s+/g, '_')}_${baseKey}_v36`;
     }
 
     let lastExtractedInvoiceNumber = "INV-9021";
@@ -449,7 +463,6 @@ Status: Pending Balance ₹15,000</textarea>
     function switchActiveClient(clientName) {
       activeClient = clientName;
       loadClientData();
-      alert("Switched active workspace to client: " + activeClient);
     }
 
     function promptNewClient() {
@@ -458,7 +471,7 @@ Status: Pending Balance ₹15,000</textarea>
       const formatted = newName.trim();
       if (!clientsList.includes(formatted)) {
         clientsList.push(formatted);
-        localStorage.setItem('scrutinix_clients_list_v35', JSON.stringify(clientsList));
+        localStorage.setItem('scrutinix_clients_list_v36', JSON.stringify(clientsList));
       }
       activeClient = formatted;
       initClientDropdown();
@@ -583,6 +596,18 @@ Status: Pending Balance ₹15,000</textarea>
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
+    }
+
+    // --- GMAIL & WHATSAPP SHARING ---
+    function sendViaGmail() {
+      const subject = encodeURIComponent(`Scrutinix AI Report - ${activeClient}`);
+      const body = encodeURIComponent(`Hello,\n\nPlease find attached/extracted accounting data and summary report for client: ${activeClient}.\n\nGenerated via Scrutinix AI Accounting Suite.`);
+      window.open(`https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`, '_blank');
+    }
+
+    function sendViaWhatsApp() {
+      const text = encodeURIComponent(`*Scrutinix AI Report*\nClient: ${activeClient}\nStatus: Accounting data processed successfully for invoice ${lastExtractedInvoiceNumber}.`);
+      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
     }
 
     // --- PUSH TO LEDGER ---
@@ -760,7 +785,11 @@ Status: Pending Balance ₹15,000</textarea>
             <div class="font-bold text-white flex items-center gap-1.5"><span>📄</span> ${doc.name}</div>
             <div class="text-[10px] text-slate-400 mt-1">Client: ${activeClient} | Type: ${doc.type}</div>
           </div>
-          <button onclick="alert('Downloading ${doc.name} for ${activeClient}')" class="bg-slate-900 hover:bg-slate-800 text-cyan-400 px-2.5 py-1.5 rounded border border-cyan-500/35 transition">Download</button>
+          <div class="flex gap-1.5">
+            <button onclick="alert('Downloading ${doc.name}')" class="bg-slate-900 hover:bg-slate-800 text-cyan-400 px-2 py-1 rounded border border-cyan-500/35 transition">Download</button>
+            <button onclick="sendViaGmail()" class="bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 px-2 py-1 rounded transition">📧</button>
+            <button onclick="sendViaWhatsApp()" class="bg-green-500/20 hover:bg-green-500/30 text-green-300 px-2 py-1 rounded transition">💬</button>
+          </div>
         `;
         container.appendChild(div);
       });
