@@ -170,7 +170,7 @@ Status: Pending Balance ₹15,000</textarea>
       </div>
     </div>
 
-    <!-- MODULE 2: GST RECONCILIATION CENTER (NEW) -->
+    <!-- MODULE 2: GST RECONCILIATION CENTER -->
     <div id="module-gst" class="business-module space-y-4 hidden">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -419,7 +419,8 @@ Status: Pending Balance ₹15,000</textarea>
 
     function switchModule(moduleName) {
       document.querySelectorAll('.business-module').forEach(el => el.classList.add('hidden'));
-      document.getElementById('module-' + moduleName).classList.remove('hidden');
+      const activeModule = document.getElementById('module-' + moduleName);
+      if (activeModule) activeModule.classList.remove('hidden');
 
       ['extractor', 'gst', 'whatsapp', 'recon', 'tasks', 'payments', 'documents', 'reports'].forEach(m => {
         const btn = document.getElementById('nav-' + m);
@@ -438,20 +439,22 @@ Status: Pending Balance ₹15,000</textarea>
       const resultBox = document.getElementById('extractedResultBox');
       lastExtractedInvoiceNumber = "INV-9021";
 
-      resultBox.innerHTML = `
-        <span class="text-cyan-400">{</span><br>
-        &nbsp;&nbsp;<span class="text-white">"invoice_number"</span>: <span class="text-emerald-300">"INV-9021"</span>,<br>
-        &nbsp;&nbsp;<span class="text-white">"client_name"</span>: <span class="text-emerald-300">"Acme Corp"</span>,<br>
-        &nbsp;&nbsp;<span class="text-white">"date"</span>: <span class="text-emerald-300">"Nov 06, 2026"</span>,<br>
-        &nbsp;&nbsp;<span class="text-white">"Suggested_Ledger"</span>: <span class="text-purple-300 font-bold">"IT & Software Expenses"</span>,<br>
-        &nbsp;&nbsp;<span class="text-white">"line_items"</span>: [<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;{"item": "Full Stack Dev", "price": 25000},<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;{"item": "SEO Optimization", "price": 10000}<br>
-        &nbsp;&nbsp;],<br>
-        &nbsp;&nbsp;<span class="text-white">"total"</span>: <span class="text-amber-400">35000</span>,<br>
-        &nbsp;&nbsp;<span class="text-white">"pending_balance"</span>: <span class="text-amber-400">15000</span><br>
-        <span class="text-cyan-400">}</span>
-      `;
+      if (resultBox) {
+        resultBox.innerHTML = `
+          <span class="text-cyan-400">{</span><br>
+          &nbsp;&nbsp;<span class="text-white">"invoice_number"</span>: <span class="text-emerald-300">"INV-9021"</span>,<br>
+          &nbsp;&nbsp;<span class="text-white">"client_name"</span>: <span class="text-emerald-300">"Acme Corp"</span>,<br>
+          &nbsp;&nbsp;<span class="text-white">"date"</span>: <span class="text-emerald-300">"Nov 06, 2026"</span>,<br>
+          &nbsp;&nbsp;<span class="text-white">"Suggested_Ledger"</span>: <span class="text-purple-300 font-bold">"IT & Software Expenses"</span>,<br>
+          &nbsp;&nbsp;<span class="text-white">"line_items"</span>: [<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;{"item": "Full Stack Dev", "price": 25000},<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;{"item": "SEO Optimization", "price": 10000}<br>
+          &nbsp;&nbsp;],<br>
+          &nbsp;&nbsp;<span class="text-white">"total"</span>: <span class="text-amber-400">35000</span>,<br>
+          &nbsp;&nbsp;<span class="text-white">"pending_balance"</span>: <span class="text-amber-400">15000</span><br>
+          <span class="text-cyan-400">}</span>
+        `;
+      }
     }
 
     // --- GST RECONCILIATION ENGINE ---
@@ -463,26 +466,32 @@ Status: Pending Balance ₹15,000</textarea>
         { gstin: '19LMNOP9876H1ZX (Global Traders)', inv: 'INV-702', books: 50000, portal: 0, status: 'MISSING IN 2B', color: 'text-red-400 bg-red-500/10' }
       ];
 
-      tbody.innerHTML = '';
-      reconData.forEach(item => {
-        const tr = document.createElement('tr');
-        tr.className = "hover:bg-slate-950/50 transition";
-        tr.innerHTML = `
-          <td class="p-3 text-white font-bold">${item.gstin}</td>
-          <td class="p-3 text-cyan-300">${item.inv}</td>
-          <td class="p-3 text-slate-300">₹${item.books.toLocaleString()}</td>
-          <td class="p-3 text-slate-300">₹${item.portal.toLocaleString()}</td>
-          <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold ${item.color}">${item.status}</span></td>
-          <td class="p-3 text-right">
-            <button onclick="alert('GST Action triggered for ${item.inv}')" class="bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 px-2.5 py-1 rounded text-[10px]">Resolve</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
+      if (tbody) {
+        tbody.innerHTML = '';
+        reconData.forEach(item => {
+          const tr = document.createElement('tr');
+          tr.className = "hover:bg-slate-950/50 transition";
+          tr.innerHTML = `
+            <td class="p-3 text-white font-bold">${item.gstin}</td>
+            <td class="p-3 text-cyan-300">${item.inv}</td>
+            <td class="p-3 text-slate-300">₹${item.books.toLocaleString()}</td>
+            <td class="p-3 text-slate-300">₹${item.portal.toLocaleString()}</td>
+            <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold ${item.color}">${item.status}</span></td>
+            <td class="p-3 text-right">
+              <button onclick="alert('GST Action triggered for ${item.inv}')" class="bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 px-2.5 py-1 rounded text-[10px]">Resolve</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
 
-      document.getElementById('gstMatchedCount').innerText = '1';
-      document.getElementById('gstMismatchCount').innerText = '1';
-      document.getElementById('gstMissingCount').innerText = '1';
+      const matchEl = document.getElementById('gstMatchedCount');
+      const mismatchEl = document.getElementById('gstMismatchCount');
+      const missingEl = document.getElementById('gstMissingCount');
+
+      if (matchEl) matchEl.innerText = '1';
+      if (mismatchEl) mismatchEl.innerText = '1';
+      if (missingEl) missingEl.innerText = '1';
     }
 
     // --- TALLY XML EXPORT ---
@@ -537,7 +546,7 @@ Status: Pending Balance ₹15,000</textarea>
       URL.revokeObjectURL(url);
     }
 
-    // --- PUSH TO LEDGER (DIRECT WITHOUT POP-UP) ---
+    // --- PUSH TO LEDGER (DIRECT) ---
     function pushToLedgerDirect() {
       paymentsList.push({ 
         id: Date.now(), 
@@ -553,30 +562,35 @@ Status: Pending Balance ₹15,000</textarea>
 
     function simulateWhatsAppBill() {
       const logBox = document.getElementById('whatsappLogBox');
-      logBox.innerHTML += `
-        <p class="text-emerald-400">[Incoming WhatsApp Media Detected]</p>
-        <p>Sender: +91 7304111280 (Rajesh Sharma)</p>
-        <p>OCR Processing: Extracted Petrol Bill - Amount: ₹2,400 | Date: Nov 06, 2026</p>
-        <p class="text-purple-300">AI Suggested Ledger: Fuel & Conveyance Expenses</p>
-        <p class="text-cyan-300">Status: Synced directly to Ledger!</p>
-        <hr class="border-slate-800 my-1">
-      `;
+      if (logBox) {
+        logBox.innerHTML += `
+          <p class="text-emerald-400">[Incoming WhatsApp Media Detected]</p>
+          <p>Sender: +91 7304111280 (Rajesh Sharma)</p>
+          <p>OCR Processing: Extracted Petrol Bill - Amount: ₹2,400 | Date: Nov 06, 2026</p>
+          <p class="text-purple-300">AI Suggested Ledger: Fuel & Conveyance Expenses</p>
+          <p class="text-cyan-300">Status: Synced directly to Ledger!</p>
+          <hr class="border-slate-800 my-1">
+        `;
+      }
       paymentsList.push({ id: Date.now(), client: 'Rajesh Sharma', project: 'Petrol Expense (Fuel Ledger)', total: 2400, received: 2400 });
       renderPayments();
     }
 
     function runBankReconciliation() {
       const reconBox = document.getElementById('reconResultContainer');
-      reconBox.innerHTML = `
-        <p class="text-cyan-400 font-bold">=== AI BANK RECONCILIATION REPORT ===</p>
-        <p>Scanning Bank Statement (UPI-TRFR-9831) against Open Invoices...</p>
-        <p class="text-emerald-400">✔ Match Found: ₹15,000 from Sharma Enterprises matches Invoice #INV-881.</p>
-        <p class="text-amber-400">⚠ Unmatched Item: ₹12,000 from unknown UPI handle (Flagged for Review).</p>
-      `;
+      if (reconBox) {
+        reconBox.innerHTML = `
+          <p class="text-cyan-400 font-bold">=== AI BANK RECONCILIATION REPORT ===</p>
+          <p>Scanning Bank Statement (UPI-TRFR-9831) against Open Invoices...</p>
+          <p class="text-emerald-400">✔ Match Found: ₹15,000 from Sharma Enterprises matches Invoice #INV-881.</p>
+          <p class="text-amber-400">⚠ Unmatched Item: ₹12,000 from unknown UPI handle (Flagged for Review).</p>
+        `;
+      }
     }
 
     function renderTasks() {
       const container = document.getElementById('taskListContainer');
+      if (!container) return;
       container.innerHTML = '';
       tasksList.forEach(task => {
         const div = document.createElement('div');
@@ -595,7 +609,7 @@ Status: Pending Balance ₹15,000</textarea>
 
     function addTask() {
       const input = document.getElementById('newTaskInput');
-      if (!input.value.trim()) return;
+      if (!input || !input.value.trim()) return;
       tasksList.push({ id: Date.now(), text: input.value.trim(), completed: false });
       input.value = '';
       renderTasks();
@@ -614,6 +628,7 @@ Status: Pending Balance ₹15,000</textarea>
 
     function renderPayments() {
       const tbody = document.getElementById('paymentTableBody');
+      if (!tbody) return;
       tbody.innerHTML = '';
 
       let totalRec = 0;
@@ -646,27 +661,40 @@ Status: Pending Balance ₹15,000</textarea>
         tbody.appendChild(tr);
       });
 
-      document.getElementById('totalReceivedDisplay').innerText = '₹' + totalRec.toLocaleString();
-      document.getElementById('totalPendingDisplay').innerText = '₹' + totalPend.toLocaleString();
-      document.getElementById('totalVolumeDisplay').innerText = '₹' + totalVol.toLocaleString();
+      const recDisp = document.getElementById('totalReceivedDisplay');
+      const pendDisp = document.getElementById('totalPendingDisplay');
+      const volDisp = document.getElementById('totalVolumeDisplay');
+
+      if (recDisp) recDisp.innerText = '₹' + totalRec.toLocaleString();
+      if (pendDisp) pendDisp.innerText = '₹' + totalPend.toLocaleString();
+      if (volDisp) volDisp.innerText = '₹' + totalVol.toLocaleString();
 
       localStorage.setItem(KEY_PAYMENTS, JSON.stringify(paymentsList));
       renderAuditReport();
     }
 
     function openAddPaymentModal() {
-      document.getElementById('paymentModal').classList.remove('hidden');
+      const modal = document.getElementById('paymentModal');
+      if (modal) modal.classList.remove('hidden');
     }
 
     function closeAddPaymentModal() {
-      document.getElementById('paymentModal').classList.add('hidden');
+      const modal = document.getElementById('paymentModal');
+      if (modal) modal.classList.add('hidden');
     }
 
     function savePaymentTransaction() {
-      const client = document.getElementById('payClientName').value.trim();
-      const project = document.getElementById('payProjectName').value.trim();
-      const total = parseFloat(document.getElementById('payTotalAmount').value) || 0;
-      const received = parseFloat(document.getElementById('payReceivedAmount').value) || 0;
+      const clientEl = document.getElementById('payClientName');
+      const projectEl = document.getElementById('payProjectName');
+      const totalEl = document.getElementById('payTotalAmount');
+      const receivedEl = document.getElementById('payReceivedAmount');
+
+      if (!clientEl || !totalEl) return;
+
+      const client = clientEl.value.trim();
+      const project = projectEl ? projectEl.value.trim() : 'General Invoice';
+      const total = parseFloat(totalEl.value) || 0;
+      const received = receivedEl ? parseFloat(receivedEl.value) || 0 : 0;
 
       if (!client || total <= 0) {
         alert("Please enter valid client name and total amount.");
@@ -685,6 +713,7 @@ Status: Pending Balance ₹15,000</textarea>
 
     function renderDocuments(list) {
       const container = document.getElementById('documentListContainer');
+      if (!container) return;
       container.innerHTML = '';
       list.forEach((doc, index) => {
         const div = document.createElement('div');
@@ -724,7 +753,9 @@ Status: Pending Balance ₹15,000</textarea>
     }
 
     function filterDocuments() {
-      const query = document.getElementById('docSearchInput').value.toLowerCase();
+      const input = document.getElementById('docSearchInput');
+      if (!input) return;
+      const query = input.value.toLowerCase();
       const filtered = documentsList.filter(d => d.name.toLowerCase().includes(query) || d.type.toLowerCase().includes(query));
       renderDocuments(filtered);
     }
@@ -767,7 +798,7 @@ Status: Pending Balance ₹15,000</textarea>
             <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
             <div class="box">
               <h3>Summary Ledger</h3>
-              <p>${document.getElementById('auditReportPreview').innerHTML}</p>
+              <p>${document.getElementById('auditReportPreview') ? document.getElementById('auditReportPreview').innerHTML : ''}</p>
             </div>
             <br><p style="text-align:center; color:#666; font-size:12px;">Generated via Scrutinix AI Command Center v3.4</p>
           </body>
@@ -779,7 +810,9 @@ Status: Pending Balance ₹15,000</textarea>
     }
 
     function executeAICommand() {
-      const cmd = document.getElementById('aiCommandInput'].value.trim().toLowerCase();
+      const inputEl = document.getElementById('aiCommandInput');
+      if (!inputEl) return;
+      const cmd = inputEl.value.trim().toLowerCase();
       if (!cmd) return;
 
       if (cmd.includes('add payment')) {
@@ -796,7 +829,7 @@ Status: Pending Balance ₹15,000</textarea>
       } else {
         alert("Command executed successfully by Scrutinix AI Engine: " + cmd);
       }
-      document.getElementById('aiCommandInput'].value = '';
+      inputEl.value = '';
     }
   </script>
 </body>
