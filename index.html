@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // Enterprise Business Management SaaS & Command Center v3.2</title>
+  <title>Scrutinix AI // Enterprise Business Management SaaS & Command Center v3.3</title>
   
   <meta property="og:title" content="Scrutinix AI // Enterprise Operations & Payment Tracker" />
-  <meta property="og:description" content="All-in-One Business Command Center: OCR Data Extraction, Tally XML Export, Bank Reconciliation & Payment Accounts." />
+  <meta property="og:description" content="All-in-One Business Command Center: OCR Data Extraction, Tally XML Export, Bank Reconciliation & Duplicate Detection." />
   <meta property="og:url" content="https://www.scrutinixai.com" />
   <meta property="og:type" content="website" />
 
@@ -67,8 +67,8 @@
           </svg>
         </div>
         <div>
-          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">Enterprise v3.2</span></h1>
-          <p class="text-xs text-slate-400">Unified Command Center & Business Operations Platform</p>
+          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">Enterprise v3.3</span></h1>
+          <p class="text-xs text-slate-400">Unified Command Center & Enterprise Accounting Protection</p>
         </div>
       </div>
 
@@ -119,17 +119,29 @@
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
           <div>
             <h3 class="text-sm font-bold text-white uppercase tracking-wider">📄 Automated Invoice & Document OCR Extractor</h3>
-            <p class="text-xs text-slate-400">Extract tables, line items, and export directly to Tally XML or Excel</p>
+            <p class="text-xs text-slate-400">Extract tables, line items, ledger category, and check duplicate status</p>
           </div>
           <button onclick="simulateExtraction()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow">
             ✨ Extract Sample Invoice
           </button>
         </div>
 
+        <!-- DUPLICATE WARNING ALERT BANNER -->
+        <div id="duplicateAlertBox" class="hidden bg-red-500/10 border border-red-500/40 p-3 rounded-xl flex items-center justify-between text-xs text-red-300">
+          <div class="flex items-center gap-2">
+            <span class="text-base">🚨</span>
+            <div>
+              <span class="font-bold uppercase">Duplicate Invoice Alert!</span>
+              <p id="duplicateAlertText" class="text-[11px] text-red-400">Invoice #INV-9021 for Acme Corp has already been processed in your Ledger!</p>
+            </div>
+          </div>
+          <span class="bg-red-500/20 text-red-300 px-2 py-1 rounded text-[10px] font-bold">Cash Leakage Blocked</span>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
             <h4 class="text-xs font-bold text-cyan-400 uppercase">Input Document / Raw Text</h4>
-            <textarea id="rawInvoiceText" class="w-full h-36 bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-slate-300 outline-none font-mono focus:border-cyan-400">INVOICE #INV-9021
+            <textarea id="rawInvoiceText" class="w-full h-44 bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-slate-300 outline-none font-mono focus:border-cyan-400">INVOICE #INV-9021
 Client: Acme Corp (Rajesh Sharma)
 Date: Nov 06, 2026
 Items:
@@ -139,8 +151,8 @@ Total Amount: ₹35,000
 Status: Pending Balance ₹15,000</textarea>
           </div>
           <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
-            <h4 class="text-xs font-bold text-emerald-400 uppercase">Structured Extracted Output (JSON)</h4>
-            <div id="extractedResultBox" class="bg-slate-900 border border-slate-800 rounded-lg p-3 h-36 overflow-y-auto text-xs font-mono text-slate-300">
+            <h4 class="text-xs font-bold text-emerald-400 uppercase">Structured Extracted Output (JSON + AI Ledger)</h4>
+            <div id="extractedResultBox" class="bg-slate-900 border border-slate-800 rounded-lg p-3 h-44 overflow-y-auto text-xs font-mono text-slate-300">
               <span class="text-slate-500 italic">Click 'Extract Sample Invoice' to parse data automatically...</span>
             </div>
           </div>
@@ -315,7 +327,7 @@ Status: Pending Balance ₹15,000</textarea>
         </div>
         <div>
           <label class="block text-slate-400 mb-1">Project / Invoice Name:</label>
-          <input type="text" id="payProjectName" placeholder="e.g. Website Redesign" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white outline-none focus:border-emerald-400">
+          <input type="text" id="payProjectName" placeholder="e.g. INV-9021 Website Redesign" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white outline-none focus:border-emerald-400">
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
@@ -335,13 +347,15 @@ Status: Pending Balance ₹15,000</textarea>
   </div>
 
   <script>
-    const KEY_PAYMENTS = 'scrutinix_business_payments_v32';
-    const KEY_TASKS = 'scrutinix_business_tasks_v32';
+    const KEY_PAYMENTS = 'scrutinix_business_payments_v33';
+    const KEY_TASKS = 'scrutinix_business_tasks_v33';
+
+    let lastExtractedInvoiceNumber = "INV-9021";
 
     let paymentsList = JSON.parse(localStorage.getItem(KEY_PAYMENTS)) || [
-      { id: 1, client: 'Acme Corp', project: 'Website Development', total: 35000, received: 20000 },
-      { id: 2, client: 'Sharma Enterprises', project: 'SEO Audit & Tools', total: 15000, received: 15000 },
-      { id: 3, client: 'Global Traders', project: 'Custom POS Script', total: 50000, received: 10000 }
+      { id: 1, client: 'Acme Corp', project: 'INV-8000 Website Development', total: 35000, received: 20000 },
+      { id: 2, client: 'Sharma Enterprises', project: 'INV-881 SEO Audit', total: 15000, received: 15000 },
+      { id: 3, client: 'Global Traders', project: 'INV-702 Custom POS', total: 50000, received: 10000 }
     ];
 
     let tasksList = JSON.parse(localStorage.getItem(KEY_TASKS)) || [
@@ -376,13 +390,32 @@ Status: Pending Balance ₹15,000</textarea>
       });
     }
 
+    // --- ENHANCED SIMULATE EXTRACTION WITH LEDGER CATEGORIZATION & DUPLICATE CHECK ---
     function simulateExtraction() {
       const resultBox = document.getElementById('extractedResultBox');
+      const alertBox = document.getElementById('duplicateAlertBox');
+      const alertText = document.getElementById('duplicateAlertText');
+
+      lastExtractedInvoiceNumber = "INV-9021";
+
+      // 1. DUPLICATE CHECK LOGIC
+      const isDuplicate = paymentsList.some(p => p.project.includes(lastExtractedInvoiceNumber));
+
+      if (isDuplicate) {
+        alertText.innerText = `Invoice #${lastExtractedInvoiceNumber} for Acme Corp has ALREADY been processed in your Ledger!`;
+        alertBox.classList.remove('hidden');
+      } else {
+        alertBox.classList.add('hidden');
+      }
+
+      // 2. AI LEDGER CATEGORIZATION
       resultBox.innerHTML = `
         <span class="text-cyan-400">{</span><br>
         &nbsp;&nbsp;<span class="text-white">"invoice_number"</span>: <span class="text-emerald-300">"INV-9021"</span>,<br>
         &nbsp;&nbsp;<span class="text-white">"client_name"</span>: <span class="text-emerald-300">"Acme Corp"</span>,<br>
         &nbsp;&nbsp;<span class="text-white">"date"</span>: <span class="text-emerald-300">"Nov 06, 2026"</span>,<br>
+        &nbsp;&nbsp;<span class="text-white">"Suggested_Ledger"</span>: <span class="text-purple-300 font-bold">"IT & Software Expenses"</span>,<br>
+        &nbsp;&nbsp;<span class="text-white">"Duplicate_Status"</span>: <span class="${isDuplicate ? 'text-red-400 font-bold' : 'text-emerald-300'}">${isDuplicate ? '"DUPLICATE DETECTED"' : '"CLEAN / UNIQUE"'}</span>,<br>
         &nbsp;&nbsp;<span class="text-white">"line_items"</span>: [<br>
         &nbsp;&nbsp;&nbsp;&nbsp;{"item": "Full Stack Dev", "price": 25000},<br>
         &nbsp;&nbsp;&nbsp;&nbsp;{"item": "SEO Optimization", "price": 10000}<br>
@@ -393,7 +426,7 @@ Status: Pending Balance ₹15,000</textarea>
       `;
     }
 
-    // --- TALLY XML & EXCEL EXPORT FUNCTIONS ---
+    // --- TALLY XML EXPORT ---
     function exportToTallyXML() {
       const xmlData = `<?xml version="1.0" encoding="UTF-8"?>
 <ENVELOPE>
@@ -411,6 +444,7 @@ Status: Pending Balance ₹15,000</textarea>
             <DATE>20261106</DATE>
             <PARTYLEDGERNAME>Acme Corp</PARTYLEDGERNAME>
             <VOUCHERNUMBER>INV-9021</VOUCHERNUMBER>
+            <EXPENSELEDGER>IT &amp; Software Expenses</EXPENSELEDGER>
             <AMOUNT>35000</AMOUNT>
           </VOUCHER>
         </TALLYMESSAGE>
@@ -430,8 +464,9 @@ Status: Pending Balance ₹15,000</textarea>
       URL.revokeObjectURL(url);
     }
 
+    // --- EXCEL / CSV EXPORT WITH SUGGESTED LEDGER ---
     function exportToExcelCSV() {
-      const csvData = "Invoice Number,Client Name,Date,Total Amount,Pending Balance\nINV-9021,Acme Corp,Nov 06 2026,35000,15000";
+      const csvData = "Invoice Number,Client Name,Suggested Ledger,Date,Total Amount,Pending Balance\nINV-9021,Acme Corp,IT & Software Expenses,Nov 06 2026,35000,15000";
       const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -443,10 +478,25 @@ Status: Pending Balance ₹15,000</textarea>
       URL.revokeObjectURL(url);
     }
 
+    // --- PUSH TO LEDGER WITH DUPLICATE PROTECTION ---
     function pushToLedgerDirect() {
-      paymentsList.push({ id: Date.now(), client: 'Acme Corp', project: 'INV-9021 Extracted Order', total: 35000, received: 20000 });
+      const isDuplicate = paymentsList.some(p => p.project.includes(lastExtractedInvoiceNumber));
+
+      if (isDuplicate) {
+        const confirmPush = confirm("⚠️ DUPLICATE WARNING!\n\nInvoice #" + lastExtractedInvoiceNumber + " already exists in your ledger.\nAre you sure you want to push it again?");
+        if (!confirmPush) return;
+      }
+
+      paymentsList.push({ 
+        id: Date.now(), 
+        client: 'Acme Corp', 
+        project: `${lastExtractedInvoiceNumber} (IT & Software Expenses)`, 
+        total: 35000, 
+        received: 20000 
+      });
+      
       renderPayments();
-      alert("Successfully pushed extracted OCR invoice data directly into the Payments & Accounts Ledger!");
+      alert("Successfully pushed invoice data (" + lastExtractedInvoiceNumber + ") directly to Ledger under 'IT & Software Expenses'!");
       switchModule('payments');
     }
 
@@ -456,10 +506,11 @@ Status: Pending Balance ₹15,000</textarea>
         <p class="text-emerald-400">[Incoming WhatsApp Media Detected]</p>
         <p>Sender: +91 7304111280 (Rajesh Sharma)</p>
         <p>OCR Processing: Extracted Petrol Bill - Amount: ₹2,400 | Date: Nov 06, 2026</p>
-        <p class="text-cyan-300">Status: Automatically added to Ledger & Expense Spreadsheet!</p>
+        <p class="text-purple-300">AI Suggested Ledger: Fuel & Conveyance Expenses</p>
+        <p class="text-cyan-300">Status: Verified non-duplicate & synced to Ledger!</p>
         <hr class="border-slate-800 my-1">
       `;
-      paymentsList.push({ id: Date.now(), client: 'Rajesh Sharma', project: 'Petrol Expense Bill', total: 2400, received: 2400 });
+      paymentsList.push({ id: Date.now(), client: 'Rajesh Sharma', project: 'Petrol Expense (Fuel Ledger)', total: 2400, received: 2400 });
       renderPayments();
     }
 
@@ -667,7 +718,7 @@ Status: Pending Balance ₹15,000</textarea>
               <h3>Summary Ledger</h3>
               <p>${document.getElementById('auditReportPreview').innerHTML}</p>
             </div>
-            <br><p style="text-align:center; color:#666; font-size:12px;">Generated via Scrutinix AI Command Center v3.2</p>
+            <br><p style="text-align:center; color:#666; font-size:12px;">Generated via Scrutinix AI Command Center v3.3</p>
           </body>
         </html>
       `);
