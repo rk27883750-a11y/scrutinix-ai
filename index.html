@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // Enterprise Business Management SaaS & Command Center v3.3</title>
+  <title>Scrutinix AI // Enterprise Business Management SaaS & Command Center v3.4</title>
   
   <meta property="og:title" content="Scrutinix AI // Enterprise Operations & Payment Tracker" />
-  <meta property="og:description" content="All-in-One Business Command Center: OCR Data Extraction, Tally XML Export, Bank Reconciliation & Duplicate Detection." />
+  <meta property="og:description" content="All-in-One Business Command Center: OCR Data Extraction, GST Reconciliation, Tally XML Export & Payment Tracker." />
   <meta property="og:url" content="https://www.scrutinixai.com" />
   <meta property="og:type" content="website" />
 
@@ -67,8 +67,8 @@
           </svg>
         </div>
         <div>
-          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">Enterprise v3.3</span></h1>
-          <p class="text-xs text-slate-400">Unified Command Center & Enterprise Accounting Protection</p>
+          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">Enterprise v3.4</span></h1>
+          <p class="text-xs text-slate-400">Unified Command Center & CA Accounting Suite</p>
         </div>
       </div>
 
@@ -90,25 +90,28 @@
 
     <!-- MAIN NAVIGATION TABS -->
     <div class="flex flex-wrap gap-2 bg-slate-900 border border-slate-800 p-2 rounded-xl">
-      <button onclick="switchModule('extractor')" id="nav-extractor" class="flex-1 min-w-[120px] py-2 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-1.5">
+      <button onclick="switchModule('extractor')" id="nav-extractor" class="flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-1.5">
         <span>📄</span> OCR Extractor
       </button>
-      <button onclick="switchModule('whatsapp')" id="nav-whatsapp" class="flex-1 min-w-[120px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
+      <button onclick="switchModule('gst')" id="nav-gst" class="flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
+        <span>⚖️</span> GST Recon
+      </button>
+      <button onclick="switchModule('whatsapp')" id="nav-whatsapp" class="flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
         <span>💬</span> WhatsApp Bot
       </button>
-      <button onclick="switchModule('recon')" id="nav-recon" class="flex-1 min-w-[120px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
+      <button onclick="switchModule('recon')" id="nav-recon" class="flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
         <span>🔄</span> Bank Recon
       </button>
-      <button onclick="switchModule('tasks')" id="nav-tasks" class="flex-1 min-w-[120px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
+      <button onclick="switchModule('tasks')" id="nav-tasks" class="flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
         <span>📊</span> Tasks
       </button>
-      <button onclick="switchModule('payments')" id="nav-payments" class="flex-1 min-w-[120px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
+      <button onclick="switchModule('payments')" id="nav-payments" class="flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
         <span>💳</span> Payments
       </button>
-      <button onclick="switchModule('documents')" id="nav-documents" class="flex-1 min-w-[120px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
+      <button onclick="switchModule('documents')" id="nav-documents" class="flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
         <span>📂</span> Documents
       </button>
-      <button onclick="switchModule('reports')" id="nav-reports" class="flex-1 min-w-[120px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
+      <button onclick="switchModule('reports')" id="nav-reports" class="flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
         <span>📑</span> Reports
       </button>
     </div>
@@ -119,23 +122,11 @@
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
           <div>
             <h3 class="text-sm font-bold text-white uppercase tracking-wider">📄 Automated Invoice & Document OCR Extractor</h3>
-            <p class="text-xs text-slate-400">Extract tables, line items, ledger category, and check duplicate status</p>
+            <p class="text-xs text-slate-400">Extract tables, line items, and ledger category with instant push</p>
           </div>
           <button onclick="simulateExtraction()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow">
             ✨ Extract Sample Invoice
           </button>
-        </div>
-
-        <!-- DUPLICATE WARNING ALERT BANNER -->
-        <div id="duplicateAlertBox" class="hidden bg-red-500/10 border border-red-500/40 p-3 rounded-xl flex items-center justify-between text-xs text-red-300">
-          <div class="flex items-center gap-2">
-            <span class="text-base">🚨</span>
-            <div>
-              <span class="font-bold uppercase">Duplicate Invoice Alert!</span>
-              <p id="duplicateAlertText" class="text-[11px] text-red-400">Invoice #INV-9021 for Acme Corp has already been processed in your Ledger!</p>
-            </div>
-          </div>
-          <span class="bg-red-500/20 text-red-300 px-2 py-1 rounded text-[10px] font-bold">Cash Leakage Blocked</span>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -179,7 +170,57 @@ Status: Pending Balance ₹15,000</textarea>
       </div>
     </div>
 
-    <!-- MODULE 2: WHATSAPP AUTO-ENTRY BOT -->
+    <!-- MODULE 2: GST RECONCILIATION CENTER (NEW) -->
+    <div id="module-gst" class="business-module space-y-4 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
+        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+          <div>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">⚖️ AI GST Reconciliation Center (GSTR-2B vs Books)</h3>
+            <p class="text-xs text-slate-400">Automatically match purchase invoices with portal data to claim 100% ITC safely</p>
+          </div>
+          <button onclick="runGstReconciliation()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow">
+            ⚡ Run GST Auto-Recon
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+            <div class="text-xs text-slate-400 uppercase">Matched Invoices (ITC Available)</div>
+            <div id="gstMatchedCount" class="text-xl font-bold text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+            <div class="text-xs text-slate-400 uppercase">Mismatched Tax / Amount</div>
+            <div id="gstMismatchCount" class="text-xl font-bold text-amber-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+            <div class="text-xs text-slate-400 uppercase">Missing in GSTR-2B (Action Req.)</div>
+            <div id="gstMissingCount" class="text-xl font-bold text-red-400 mt-1">0</div>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-slate-800 text-slate-400">
+                <th class="p-3">GSTIN / Vendor</th>
+                <th class="p-3">Invoice No</th>
+                <th class="p-3">Books Amount</th>
+                <th class="p-3">GSTR-2B Portal</th>
+                <th class="p-3">Status / Match</th>
+                <th class="p-3 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="gstTableBody" class="divide-y divide-slate-800/60 font-mono">
+              <tr>
+                <td colspan="6" class="p-4 text-center text-slate-500 italic">Click 'Run GST Auto-Recon' to scan and match portal vs book records...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 3: WHATSAPP AUTO-ENTRY BOT -->
     <div id="module-whatsapp" class="business-module space-y-4 hidden">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -197,7 +238,7 @@ Status: Pending Balance ₹15,000</textarea>
       </div>
     </div>
 
-    <!-- MODULE 3: BANK RECONCILIATION ENGINE -->
+    <!-- MODULE 4: BANK RECONCILIATION ENGINE -->
     <div id="module-recon" class="business-module space-y-4 hidden">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -215,7 +256,7 @@ Status: Pending Balance ₹15,000</textarea>
       </div>
     </div>
 
-    <!-- MODULE 4: TASK & STATUS TRACKER -->
+    <!-- MODULE 5: TASK & STATUS TRACKER -->
     <div id="module-tasks" class="business-module space-y-4 hidden">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -232,7 +273,7 @@ Status: Pending Balance ₹15,000</textarea>
       </div>
     </div>
 
-    <!-- MODULE 5: PAYMENT & PENDING TRACKER -->
+    <!-- MODULE 6: PAYMENT & PENDING TRACKER -->
     <div id="module-payments" class="business-module space-y-4 hidden">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -281,7 +322,7 @@ Status: Pending Balance ₹15,000</textarea>
       </div>
     </div>
 
-    <!-- MODULE 6: DOCUMENT & FILE FINDER -->
+    <!-- MODULE 7: DOCUMENT & FILE FINDER -->
     <div id="module-documents" class="business-module space-y-4 hidden">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -295,7 +336,7 @@ Status: Pending Balance ₹15,000</textarea>
       </div>
     </div>
 
-    <!-- MODULE 7: REPORTS & AUDIT -->
+    <!-- MODULE 8: REPORTS & AUDIT -->
     <div id="module-reports" class="business-module space-y-4 hidden">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -347,8 +388,8 @@ Status: Pending Balance ₹15,000</textarea>
   </div>
 
   <script>
-    const KEY_PAYMENTS = 'scrutinix_business_payments_v33';
-    const KEY_TASKS = 'scrutinix_business_tasks_v33';
+    const KEY_PAYMENTS = 'scrutinix_business_payments_v34';
+    const KEY_TASKS = 'scrutinix_business_tasks_v34';
 
     let lastExtractedInvoiceNumber = "INV-9021";
 
@@ -380,42 +421,29 @@ Status: Pending Balance ₹15,000</textarea>
       document.querySelectorAll('.business-module').forEach(el => el.classList.add('hidden'));
       document.getElementById('module-' + moduleName).classList.remove('hidden');
 
-      ['extractor', 'whatsapp', 'recon', 'tasks', 'payments', 'documents', 'reports'].forEach(m => {
+      ['extractor', 'gst', 'whatsapp', 'recon', 'tasks', 'payments', 'documents', 'reports'].forEach(m => {
         const btn = document.getElementById('nav-' + m);
-        if (m === moduleName) {
-          btn.className = "flex-1 min-w-[120px] py-2 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-1.5";
-        } else {
-          btn.className = "flex-1 min-w-[120px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5";
+        if (btn) {
+          if (m === moduleName) {
+            btn.className = "flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-1.5";
+          } else {
+            btn.className = "flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5";
+          }
         }
       });
     }
 
-    // --- ENHANCED SIMULATE EXTRACTION WITH LEDGER CATEGORIZATION & DUPLICATE CHECK ---
+    // --- SIMULATE EXTRACTION ---
     function simulateExtraction() {
       const resultBox = document.getElementById('extractedResultBox');
-      const alertBox = document.getElementById('duplicateAlertBox');
-      const alertText = document.getElementById('duplicateAlertText');
-
       lastExtractedInvoiceNumber = "INV-9021";
 
-      // 1. DUPLICATE CHECK LOGIC
-      const isDuplicate = paymentsList.some(p => p.project.includes(lastExtractedInvoiceNumber));
-
-      if (isDuplicate) {
-        alertText.innerText = `Invoice #${lastExtractedInvoiceNumber} for Acme Corp has ALREADY been processed in your Ledger!`;
-        alertBox.classList.remove('hidden');
-      } else {
-        alertBox.classList.add('hidden');
-      }
-
-      // 2. AI LEDGER CATEGORIZATION
       resultBox.innerHTML = `
         <span class="text-cyan-400">{</span><br>
         &nbsp;&nbsp;<span class="text-white">"invoice_number"</span>: <span class="text-emerald-300">"INV-9021"</span>,<br>
         &nbsp;&nbsp;<span class="text-white">"client_name"</span>: <span class="text-emerald-300">"Acme Corp"</span>,<br>
         &nbsp;&nbsp;<span class="text-white">"date"</span>: <span class="text-emerald-300">"Nov 06, 2026"</span>,<br>
         &nbsp;&nbsp;<span class="text-white">"Suggested_Ledger"</span>: <span class="text-purple-300 font-bold">"IT & Software Expenses"</span>,<br>
-        &nbsp;&nbsp;<span class="text-white">"Duplicate_Status"</span>: <span class="${isDuplicate ? 'text-red-400 font-bold' : 'text-emerald-300'}">${isDuplicate ? '"DUPLICATE DETECTED"' : '"CLEAN / UNIQUE"'}</span>,<br>
         &nbsp;&nbsp;<span class="text-white">"line_items"</span>: [<br>
         &nbsp;&nbsp;&nbsp;&nbsp;{"item": "Full Stack Dev", "price": 25000},<br>
         &nbsp;&nbsp;&nbsp;&nbsp;{"item": "SEO Optimization", "price": 10000}<br>
@@ -424,6 +452,37 @@ Status: Pending Balance ₹15,000</textarea>
         &nbsp;&nbsp;<span class="text-white">"pending_balance"</span>: <span class="text-amber-400">15000</span><br>
         <span class="text-cyan-400">}</span>
       `;
+    }
+
+    // --- GST RECONCILIATION ENGINE ---
+    function runGstReconciliation() {
+      const tbody = document.getElementById('gstTableBody');
+      const reconData = [
+        { gstin: '07AABCT1234F1Z5 (Acme Corp)', inv: 'INV-9021', books: 35000, portal: 35000, status: 'MATCHED (ITC OK)', color: 'text-emerald-400 bg-emerald-500/10' },
+        { gstin: '29XYZAB5678G2Z1 (Sharma Ent.)', inv: 'INV-881', books: 15000, portal: 14500, status: 'MISMATCH (Tax Diff)', color: 'text-amber-400 bg-amber-500/10' },
+        { gstin: '19LMNOP9876H1ZX (Global Traders)', inv: 'INV-702', books: 50000, portal: 0, status: 'MISSING IN 2B', color: 'text-red-400 bg-red-500/10' }
+      ];
+
+      tbody.innerHTML = '';
+      reconData.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-950/50 transition";
+        tr.innerHTML = `
+          <td class="p-3 text-white font-bold">${item.gstin}</td>
+          <td class="p-3 text-cyan-300">${item.inv}</td>
+          <td class="p-3 text-slate-300">₹${item.books.toLocaleString()}</td>
+          <td class="p-3 text-slate-300">₹${item.portal.toLocaleString()}</td>
+          <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold ${item.color}">${item.status}</span></td>
+          <td class="p-3 text-right">
+            <button onclick="alert('GST Action triggered for ${item.inv}')" class="bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 px-2.5 py-1 rounded text-[10px]">Resolve</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('gstMatchedCount').innerText = '1';
+      document.getElementById('gstMismatchCount').innerText = '1';
+      document.getElementById('gstMissingCount').innerText = '1';
     }
 
     // --- TALLY XML EXPORT ---
@@ -464,7 +523,7 @@ Status: Pending Balance ₹15,000</textarea>
       URL.revokeObjectURL(url);
     }
 
-    // --- EXCEL / CSV EXPORT WITH SUGGESTED LEDGER ---
+    // --- EXCEL / CSV EXPORT ---
     function exportToExcelCSV() {
       const csvData = "Invoice Number,Client Name,Suggested Ledger,Date,Total Amount,Pending Balance\nINV-9021,Acme Corp,IT & Software Expenses,Nov 06 2026,35000,15000";
       const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
@@ -478,15 +537,8 @@ Status: Pending Balance ₹15,000</textarea>
       URL.revokeObjectURL(url);
     }
 
-    // --- PUSH TO LEDGER WITH DUPLICATE PROTECTION ---
+    // --- PUSH TO LEDGER (DIRECT WITHOUT POP-UP) ---
     function pushToLedgerDirect() {
-      const isDuplicate = paymentsList.some(p => p.project.includes(lastExtractedInvoiceNumber));
-
-      if (isDuplicate) {
-        const confirmPush = confirm("⚠️ DUPLICATE WARNING!\n\nInvoice #" + lastExtractedInvoiceNumber + " already exists in your ledger.\nAre you sure you want to push it again?");
-        if (!confirmPush) return;
-      }
-
       paymentsList.push({ 
         id: Date.now(), 
         client: 'Acme Corp', 
@@ -496,7 +548,6 @@ Status: Pending Balance ₹15,000</textarea>
       });
       
       renderPayments();
-      alert("Successfully pushed invoice data (" + lastExtractedInvoiceNumber + ") directly to Ledger under 'IT & Software Expenses'!");
       switchModule('payments');
     }
 
@@ -507,7 +558,7 @@ Status: Pending Balance ₹15,000</textarea>
         <p>Sender: +91 7304111280 (Rajesh Sharma)</p>
         <p>OCR Processing: Extracted Petrol Bill - Amount: ₹2,400 | Date: Nov 06, 2026</p>
         <p class="text-purple-300">AI Suggested Ledger: Fuel & Conveyance Expenses</p>
-        <p class="text-cyan-300">Status: Verified non-duplicate & synced to Ledger!</p>
+        <p class="text-cyan-300">Status: Synced directly to Ledger!</p>
         <hr class="border-slate-800 my-1">
       `;
       paymentsList.push({ id: Date.now(), client: 'Rajesh Sharma', project: 'Petrol Expense (Fuel Ledger)', total: 2400, received: 2400 });
@@ -644,7 +695,7 @@ Status: Pending Balance ₹15,000</textarea>
             <div class="text-[10px] text-slate-400 mt-1">Type: ${doc.type} | Date: ${doc.date} | Size: ${doc.size}</div>
           </div>
           <div class="space-x-1">
-            <button onclick="downloadDocument(${index})" class="bg-slate-900 hover:bg-slate-800 text-cyan-400 px-2.5 py-1.5 rounded border border-cyan-500/30 transition">Download</button>
+            <button onclick="downloadDocument(${index})" class="bg-slate-900 hover:bg-slate-800 text-cyan-400 px-2.5 py-1.5 rounded border border-cyan-500/35 transition">Download</button>
             <button onclick="openGmailForDocument('${doc.name}', '${encodeURIComponent(doc.content)}')" class="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-2.5 py-1.5 rounded transition">Email</button>
           </div>
         `;
@@ -718,7 +769,7 @@ Status: Pending Balance ₹15,000</textarea>
               <h3>Summary Ledger</h3>
               <p>${document.getElementById('auditReportPreview').innerHTML}</p>
             </div>
-            <br><p style="text-align:center; color:#666; font-size:12px;">Generated via Scrutinix AI Command Center v3.3</p>
+            <br><p style="text-align:center; color:#666; font-size:12px;">Generated via Scrutinix AI Command Center v3.4</p>
           </body>
         </html>
       `);
@@ -728,11 +779,13 @@ Status: Pending Balance ₹15,000</textarea>
     }
 
     function executeAICommand() {
-      const cmd = document.getElementById('aiCommandInput').value.trim().toLowerCase();
+      const cmd = document.getElementById('aiCommandInput'].value.trim().toLowerCase();
       if (!cmd) return;
 
       if (cmd.includes('add payment')) {
         openAddPaymentModal();
+      } else if (cmd.includes('gst')) {
+        switchModule('gst');
       } else if (cmd.includes('export pdf') || cmd.includes('report')) {
         switchModule('reports');
         exportBusinessPDFReport();
@@ -743,7 +796,7 @@ Status: Pending Balance ₹15,000</textarea>
       } else {
         alert("Command executed successfully by Scrutinix AI Engine: " + cmd);
       }
-      document.getElementById('aiCommandInput').value = '';
+      document.getElementById('aiCommandInput'].value = '';
     }
   </script>
 </body>
