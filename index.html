@@ -5,26 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scrutinix AI // Enterprise Multi-Client Accounting Command Center v3.7</title>
   
-  <meta property="og:title" content="Scrutinix AI // Multi-Client CA Accounting & Operations Suite" />
-  <meta property="og:description" content="All-in-One Multi-Client Business Command Center: OCR Data Extraction, GST Reconciliation, Multi-Client Ledger & Gmail/WhatsApp Sharing." />
-  <meta property="og:url" content="https://www.scrutinixai.com" />
-  <meta property="og:type" content="website" />
-
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none'><rect width='100' height='100' rx='20' fill='%230f172a'/><path d='M50 15L80 32V68L50 85L20 68V32L50 15Z' stroke='%2306b6d4' stroke-width='4' stroke-linejoin='round'/><path d='M65 35H40C33 35 33 48 40 48H60C67 48 67 65 60 65H35' stroke='%2338bdf8' stroke-width='6' stroke-linecap='round'/><circle cx='50' cy='50' r='3' fill='%2367e8f9'/></svg>">
-  
-  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <!-- Supabase JS Library -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script type="text/javascript">
-      (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "z0izx81cd2");
-  </script>
   
   <style>
     :root {
@@ -34,461 +17,218 @@
       --accent-color: #00d2ff;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --primary-brand: #351156;
     }
     body {
       background-color: var(--bg-color);
       color: var(--text-main);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
     }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #020617;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #1e293b;
-      border-radius: 4px;
-    }
+    .container { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+    .header-bar { background: #0f172a; border: 1px solid #1e293b; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+    .nav-bar { display: flex; gap: 8px; background: #0f172a; border: 1px solid #1e293b; padding: 10px; border-radius: 12px; flex-wrap: wrap; }
+    .nav-btn { flex: 1; min-width: 110px; padding: 10px 15px; border-radius: 8px; border: none; font-size: 12px; font-weight: bold; cursor: pointer; background: #1e293b; color: #94a3b8; transition: 0.2s; }
+    .nav-btn.active { background: #00d2ff; color: #070a12; }
+    .nav-btn:hover { background: #334155; color: #fff; }
+    .module-box { background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px; display: none; }
+    .module-box.active { display: block; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+    .card { background: linear-gradient(to bottom, #0f172a, #020617); border: 1px solid #1e293b; border-radius: 12px; padding: 15px; }
+    .btn { background: #00d2ff; color: #070a12; font-weight: bold; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 12px; }
+    .btn:hover { background: #38bdf8; }
+    textarea, select, input { background: #020617; border: 1px solid #1e293b; color: #fff; padding: 10px; border-radius: 8px; width: 100%; box-sizing: border-box; font-family: monospace; font-size: 12px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; font-family: monospace; }
+    th, td { padding: 10px; text-align: left; border-bottom: 1px solid #1e293b; }
+    th { color: #94a3b8; }
+    .modal { position: fixed; inset: 0; background: rgba(7, 10, 18, 0.85); display: flex; align-items: center; justify-content: center; z-index: 100; display: none; }
+    .modal.active { display: flex; }
+    .modal-content { background: #0f172a; border: 1px solid #00d2ff; padding: 25px; border-radius: 12px; width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 15px; }
   </style>
 </head>
-<body class="min-h-screen p-4 lg:p-6 flex flex-col justify-between pb-12">
+<body>
 
-  <div class="max-w-7xl mx-auto w-full space-y-5">
+  <div class="container">
 
-    <!-- TOP HEADER & MULTI-CLIENT SWITCHER BAR -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-xl">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 bg-slate-950 border border-cyan-500/40 rounded-xl p-1 flex items-center justify-center shadow-lg shadow-cyan-950">
-          <svg viewBox="0 0 100 100" class="w-full h-full">
-            <path d="M50 10L85 30V70L50 90L15 70V30L50 10Z" stroke="#06b6d4" stroke-width="6" fill="none" stroke-linejoin="round"/>
-            <path d="M65 35H40C32 35 32 48 40 48H60C68 48 68 65 60 65H35" stroke="#38bdf8" stroke-width="8" stroke-linecap="round" fill="none"/>
-            <polygon points="50,45 53,50 50,55 47,50" fill="#67e8f9"/>
-          </svg>
-        </div>
+    <!-- TOP HEADER & CLIENT SWITCHER -->
+    <div class="header-bar">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="width: 40px; height: 40px; background: #020617; border: 1px solid #00d2ff; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #00d2ff; font-weight: bold;">AI</div>
         <div>
-          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">CA Multi-Client v3.7</span></h1>
-          <p class="text-xs text-slate-400">Unified Multi-Tenant Accounting Suite & Cloud DB</p>
+          <h1 style="margin: 0; font-size: 18px; color: #fff;">Scrutinix <span style="color: #00d2ff;">AI</span> <span style="font-size: 11px; background: rgba(0,210,255,0.2); color: #00d2ff; padding: 2px 6px; border-radius: 4px;">Cloud DB v3.7</span></h1>
+          <p style="margin: 0; font-size: 11px; color: #94a3b8;">CA Multi-Client Accounting Command Center</p>
         </div>
       </div>
 
-      <!-- MULTI-CLIENT SWITCHER DROPDOWN -->
-      <div class="flex items-center gap-2 bg-slate-950 border border-cyan-500/40 rounded-lg px-3 py-1.5 shadow-inner">
-        <span class="text-xs text-cyan-400 font-bold">🏢 Active Client:</span>
-        <select id="globalClientSelector" onchange="switchActiveClient(this.value)" class="bg-transparent text-xs text-white outline-none cursor-pointer font-bold">
-          <option value="Acme Corp" class="bg-slate-900 text-white">Acme Corp</option>
-          <option value="Sharma Enterprises" class="bg-slate-900 text-white">Sharma Enterprises</option>
-          <option value="Global Traders" class="bg-slate-900 text-white">Global Traders</option>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 12px; color: #00d2ff; font-weight: bold;">🏢 Active Client:</span>
+        <select id="globalClientSelector" onchange="switchActiveClient(this.value)" style="width: auto;">
+          <option value="Acme Corp">Acme Corp</option>
+          <option value="Sharma Enterprises">Sharma Enterprises</option>
+          <option value="Global Traders">Global Traders</option>
         </select>
-        <button onclick="promptNewClient()" class="text-[10px] bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 px-2 py-0.5 rounded font-bold transition">＋ Add</button>
-      </div>
-
-      <!-- QUICK COMMAND INPUT -->
-      <div class="flex-1 max-w-xs w-full">
-        <div class="flex items-center bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 shadow-inner">
-          <span class="text-cyan-400 mr-2 text-xs">⚡</span>
-          <input type="text" id="aiCommandInput" placeholder="Command AI..." class="w-full bg-transparent text-xs text-white outline-none">
-          <button onclick="executeAICommand()" class="text-xs bg-cyan-400 text-slate-950 font-bold px-2.5 py-1 rounded ml-2 hover:bg-cyan-300 transition">Run</button>
-        </div>
+        <button onclick="promptNewClient()" class="btn" style="background: rgba(0,210,255,0.2); color: #00d2ff;">＋ Add</button>
       </div>
     </div>
 
-    <!-- ENTERPRISE FEATURE SHOWCASE CARDS -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      
-      <!-- CARD 1: PAYMENT TRACKER -->
-      <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-emerald-500/30 rounded-xl p-4 shadow-xl space-y-3">
-        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-          <div class="flex items-center gap-2">
-            <span class="text-lg">💳</span>
-            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Payment Tracker</h3>
-          </div>
-          <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-bold">Active</span>
-        </div>
-        <p class="text-[11px] text-slate-400 font-semibold">Find Pending Payments in Seconds</p>
-        <div class="space-y-1.5 text-[11px] text-slate-300 font-mono">
-          <div class="flex items-center gap-1.5"><span class="text-emerald-400">1.</span> Upload sales & payment data</div>
-          <div class="flex items-center gap-1.5"><span class="text-emerald-400">2.</span> Track pending invoices & due dates</div>
-          <div class="flex items-center gap-1.5"><span class="text-emerald-400">3.</span> Get reminders & export report</div>
-        </div>
-        <div class="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800 text-[10px] space-y-1">
-          <div class="flex justify-between font-bold text-slate-300"><span>Total: ₹8,75,000</span> <span class="text-emerald-400">Rec: ₹6,25,000</span></div>
-          <div class="text-amber-400">Pending Balance: ₹2,50,000 (28.6%)</div>
-        </div>
-        <div class="bg-emerald-500/10 border border-emerald-500/20 p-2 rounded-lg text-emerald-400 text-[11px] font-bold flex items-center justify-between">
-          <span>✔ Benefit: Never miss a payment & improve cash flow.</span>
-        </div>
-      </div>
-
-      <!-- CARD 2: DUPLICATE DETECTOR -->
-      <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-purple-500/30 rounded-xl p-4 shadow-xl space-y-3">
-        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-          <div class="flex items-center gap-2">
-            <span class="text-lg">📄</span>
-            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Duplicate Detector</h3>
-          </div>
-          <span class="text-[10px] bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded font-bold">AI Guard</span>
-        </div>
-        <p class="text-[11px] text-slate-400 font-semibold">Catch Duplicate Invoices Automatically</p>
-        <div class="space-y-1.5 text-[11px] text-slate-300 font-mono">
-          <div class="flex items-center gap-1.5"><span class="text-purple-400">1.</span> Upload invoices or Excel file</div>
-          <div class="flex items-center gap-1.5"><span class="text-purple-400">2.</span> AI finds duplicate entries</div>
-          <div class="flex items-center gap-1.5"><span class="text-purple-400">3.</span> Review & take action</div>
-        </div>
-        <div class="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800 text-[10px] space-y-1 text-red-400 font-mono">
-          <div class="font-bold">⚠ 3 Duplicate Invoices Found</div>
-          <div>Total Impact: ₹1,85,000</div>
-        </div>
-        <div class="bg-purple-500/10 border border-purple-500/20 p-2 rounded-lg text-purple-400 text-[11px] font-bold flex items-center justify-between">
-          <span>✔ Benefit: Prevent fraud & avoid double payments.</span>
-        </div>
-      </div>
-
-      <!-- CARD 3: REPORTS & AUDIT -->
-      <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-cyan-500/30 rounded-xl p-4 shadow-xl space-y-3">
-        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-          <div class="flex items-center gap-2">
-            <span class="text-lg">📑</span>
-            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Reports & Audit</h3>
-          </div>
-          <span class="text-[10px] bg-cyan-500/20 text-cyan-400 px-2 py-0.5 rounded font-bold">Ready</span>
-        </div>
-        <p class="text-[11px] text-slate-400 font-semibold">Get Professional Reports with One Click</p>
-        <div class="space-y-1.5 text-[11px] text-slate-300 font-mono">
-          <div class="flex items-center gap-1.5"><span class="text-cyan-400">1.</span> Choose report type</div>
-          <div class="flex items-center gap-1.5"><span class="text-cyan-400">2.</span> Generate in seconds</div>
-          <div class="flex items-center gap-1.5"><span class="text-cyan-400">3.</span> Download as PDF / Excel</div>
-        </div>
-        <div class="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800 text-[10px] space-y-1 font-mono text-cyan-300">
-          <div class="font-bold">📑 Monthly Financial Report</div>
-          <div>Status: Ready for Client Delivery</div>
-        </div>
-        <div class="bg-cyan-500/10 border border-cyan-500/20 p-2 rounded-lg text-cyan-400 text-[11px] font-bold flex items-center justify-between">
-          <span>✔ Benefit: Download ready-to-share reports in one click.</span>
-        </div>
-      </div>
-
+    <!-- NAVIGATION TABS -->
+    <div class="nav-bar">
+      <button onclick="switchModule('extractor')" id="nav-extractor" class="nav-btn active">📄 OCR Extractor</button>
+      <button onclick="switchModule('gst')" id="nav-gst" class="nav-btn">⚖️ GST Recon</button>
+      <button onclick="switchModule('whatsapp')" id="nav-whatsapp" class="nav-btn">💬 WhatsApp Bot</button>
+      <button onclick="switchModule('recon')" id="nav-recon" class="nav-btn">🔄 Bank Recon</button>
+      <button onclick="switchModule('tasks')" id="nav-tasks" class="nav-btn">📊 Tasks</button>
+      <button onclick="switchModule('payments')" id="nav-payments" class="nav-btn">💳 Payments</button>
+      <button onclick="switchModule('documents')" id="nav-documents" class="nav-btn">📂 Documents</button>
+      <button onclick="switchModule('reports')" id="nav-reports" class="nav-btn">📑 Reports</button>
     </div>
 
-    <!-- MAIN NAVIGATION TABS -->
-    <div class="flex flex-wrap gap-2 bg-slate-900 border border-slate-800 p-2 rounded-xl">
-      <button onclick="switchModule('extractor')" id="nav-extractor" class="flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-1.5">
-        <span>📄</span> OCR Extractor
-      </button>
-      <button onclick="switchModule('gst')" id="nav-gst" class="flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
-        <span>⚖️</span> GST Recon
-      </button>
-      <button onclick="switchModule('whatsapp')" id="nav-whatsapp" class="flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
-        <span>💬</span> WhatsApp Bot
-      </button>
-      <button onclick="switchModule('recon')" id="nav-recon" class="flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
-        <span>🔄</span> Bank Recon
-      </button>
-      <button onclick="switchModule('tasks')" id="nav-tasks" class="flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
-        <span>📊</span> Tasks
-      </button>
-      <button onclick="switchModule('payments')" id="nav-payments" class="flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
-        <span>💳</span> Payments
-      </button>
-      <button onclick="switchModule('documents')" id="nav-documents" class="flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
-        <span>📂</span> Documents
-      </button>
-      <button onclick="switchModule('reports')" id="nav-reports" class="flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5">
-        <span>📑</span> Reports
-      </button>
-    </div>
-
-    <!-- MODULE 1: OCR EXTRACTOR & MULTI-FORMAT EXPORT -->
-    <div id="module-extractor" class="business-module space-y-4">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-          <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">📄 Automated Invoice & Document OCR Extractor</h3>
-            <p class="text-xs text-slate-400">Extract tables, line items, and sync to Supabase Cloud DB</p>
-          </div>
-          <button onclick="simulateExtraction()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow">
-            ✨ Extract & Save to Cloud
-          </button>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
-            <h4 class="text-xs font-bold text-cyan-400 uppercase">Input Document / Raw Text</h4>
-            <textarea id="rawInvoiceText" class="w-full h-44 bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-slate-300 outline-none font-mono focus:border-cyan-400">INVOICE #INV-9021
+    <!-- MODULE 1: OCR EXTRACTOR -->
+    <div id="module-extractor" class="module-box active">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">
+        <h3 style="margin: 0; font-size: 14px; color: #fff;">📄 Automated Invoice & Document OCR Extractor (Supabase Synced)</h3>
+        <button onclick="simulateExtraction()" class="btn">✨ Extract & Save to Cloud</button>
+      </div>
+      <div class="grid-3" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="card">
+          <h4 style="color: #00d2ff; margin-top: 0; font-size: 12px;">Input Document / Raw Text</h4>
+          <textarea id="rawInvoiceText" style="height: 150px;">INVOICE #INV-9021
 Client: Active Selected Client
 Date: Nov 06, 2026
 Items:
 1. Full Stack Web Development - ₹25,000
 2. SEO Optimization & Audit - ₹10,000
 Total Amount: ₹35,000
-GSTIN: 27AAAAA0000A1Z5
-Status: Pending Balance ₹15,000</textarea>
-          </div>
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
-            <h4 class="text-xs font-bold text-emerald-400 uppercase">Structured Extracted Output (Supabase Synced)</h4>
-            <div id="extractedResultBox" class="bg-slate-900 border border-slate-800 rounded-lg p-3 h-44 overflow-y-auto text-xs font-mono text-slate-300">
-              <span class="text-slate-500 italic">Click 'Extract & Save to Cloud' to parse and store in Supabase...</span>
-            </div>
-          </div>
+GSTIN: 27AAAAA0000A1Z5</textarea>
         </div>
-
-        <!-- EXPORT & SHARING BUTTONS -->
-        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h4 class="text-xs font-bold text-white uppercase">One-Click Accounting Software & Sharing</h4>
-            <p class="text-xs text-slate-400">Export data or share instantly via Gmail & WhatsApp</p>
+        <div class="card">
+          <h4 style="color: #34d399; margin-top: 0; font-size: 12px;">Structured Extracted Output</h4>
+          <div id="extractedResultBox" style="background: #020617; border: 1px solid #1e293b; padding: 10px; border-radius: 8px; height: 150px; overflow-y: auto; color: #34d399;">
+            Click 'Extract & Save to Cloud' to parse and store in Supabase...
           </div>
-          <div class="flex flex-wrap gap-2">
-            <button onclick="exportToTallyXML()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1">
-              <span>📥</span> Tally XML
-            </button>
-            <button onclick="exportToExcelCSV()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1">
-              <span>📊</span> Excel / CSV
-            </button>
-            <button onclick="pushToLedgerDirect()" class="bg-purple-500 hover:bg-purple-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1">
-              <span>⚡</span> Ledger
-            </button>
-            <button onclick="sendViaGmail()" class="bg-rose-500 hover:bg-rose-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1">
-              <span>📧</span> Gmail
-            </button>
-            <button onclick="sendViaWhatsApp()" class="bg-green-500 hover:bg-green-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1">
-              <span>💬</span> WhatsApp
-            </button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- MODULE 2: GST RECONCILIATION CENTER -->
-    <div id="module-gst" class="business-module space-y-4 hidden">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-          <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">⚖️ AI GST Reconciliation Center (GSTR-2B vs Books)</h3>
-            <p class="text-xs text-slate-400">Automatically match purchase invoices with portal data for active client</p>
-          </div>
-          <button onclick="runGstReconciliation()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow">
-            ⚡ Run GST Auto-Recon
-          </button>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-            <div class="text-xs text-slate-400 uppercase">Matched Invoices (ITC Available)</div>
-            <div id="gstMatchedCount" class="text-xl font-bold text-emerald-400 mt-1">0</div>
-          </div>
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-            <div class="text-xs text-slate-400 uppercase">Mismatched Tax / Amount</div>
-            <div id="gstMismatchCount" class="text-xl font-bold text-amber-400 mt-1">0</div>
-          </div>
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-            <div class="text-xs text-slate-400 uppercase">Missing in GSTR-2B (Action Req.)</div>
-            <div id="gstMissingCount" class="text-xl font-bold text-red-400 mt-1">0</div>
-          </div>
-        </div>
-
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border-collapse">
-            <thead>
-              <tr class="border-b border-slate-800 text-slate-400">
-                <th class="p-3">GSTIN / Vendor</th>
-                <th class="p-3">Invoice No</th>
-                <th class="p-3">Books Amount</th>
-                <th class="p-3">GSTR-2B Portal</th>
-                <th class="p-3">Status / Match</th>
-                <th class="p-3 text-right">Action</th>
-              </tr>
-            </thead>
-            <tbody id="gstTableBody" class="divide-y divide-slate-800/60 font-mono">
-              <tr>
-                <td colspan="6" class="p-4 text-center text-slate-500 italic">Click 'Run GST Auto-Recon' to scan and match portal vs book records...</td>
-              </tr>
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
 
-    <!-- MODULE 3: WHATSAPP AUTO-ENTRY BOT -->
-    <div id="module-whatsapp" class="business-module space-y-4 hidden">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-          <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">💬 WhatsApp OCR Auto-Entry Gateway</h3>
-            <p class="text-xs text-slate-400">Simulate incoming client bill photos & auto-sync to active client ledger</p>
-          </div>
-          <button onclick="simulateWhatsAppBill()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow">
-            📥 Simulate Incoming WhatsApp Bill
-          </button>
-        </div>
-        <div id="whatsappLogBox" class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2 font-mono text-xs text-slate-300 h-48 overflow-y-auto">
-          <p class="text-slate-500 italic">No incoming WhatsApp media yet. Click 'Simulate Incoming WhatsApp Bill' to test OCR auto-entry...</p>
-        </div>
+    <!-- MODULE 2: GST RECONCILIATION -->
+    <div id="module-gst" class="module-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">
+        <h3 style="margin: 0; font-size: 14px; color: #fff;">⚖️ AI GST Reconciliation Center (GSTR-2B vs Books)</h3>
+        <button onclick="runGstReconciliation()" class="btn">⚡ Run GST Auto-Recon</button>
+      </div>
+      <div class="grid-3" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 15px;">
+        <div class="card"><div style="color: #94a3b8; font-size: 11px;">MATCHED (ITC OK)</div><div id="gstMatchedCount" style="font-size: 20px; color: #34d399; font-weight: bold;">0</div></div>
+        <div class="card"><div style="color: #94a3b8; font-size: 11px;">MISMATCHED TAX</div><div id="gstMismatchCount" style="font-size: 20px; color: #fbbf24; font-weight: bold;">0</div></div>
+        <div class="card"><div style="color: #94a3b8; font-size: 11px;">MISSING IN GSTR-2B</div><div id="gstMissingCount" style="font-size: 20px; color: #f87171; font-weight: bold;">0</div></div>
+      </div>
+      <table>
+        <thead><tr><th>GSTIN / Vendor</th><th>Invoice No</th><th>Books Amount</th><th>GSTR-2B Portal</th><th>Status</th></tr></thead>
+        <tbody id="gstTableBody"><tr><td colspan="5" style="text-align: center; color: #94a3b8;">Click 'Run GST Auto-Recon' to scan records...</td></tr></tbody>
+      </table>
+    </div>
+
+    <!-- MODULE 3: WHATSAPP BOT -->
+    <div id="module-whatsapp" class="module-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">
+        <h3 style="margin: 0; font-size: 14px; color: #fff;">💬 WhatsApp OCR Auto-Entry Gateway</h3>
+        <button onclick="simulateWhatsAppBill()" class="btn" style="background: #34d399; color: #070a12;">📥 Simulate Incoming WhatsApp Bill</button>
+      </div>
+      <div id="whatsappLogBox" class="card" style="height: 180px; overflow-y: auto; color: #cbd5e1;">
+        <i style="color: #94a3b8;">No incoming WhatsApp media yet. Click simulate to test...</i>
       </div>
     </div>
 
-    <!-- MODULE 4: BANK RECONCILIATION ENGINE -->
-    <div id="module-recon" class="business-module space-y-4 hidden">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-          <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">🔄 AI Bank Reconciliation Engine</h3>
-            <p class="text-xs text-slate-400">Automatically match bank statement transactions for active client</p>
-          </div>
-          <button onclick="runBankReconciliation()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow">
-            ⚡ Run Auto-Match Reconciliation
-          </button>
-        </div>
-        <div id="reconResultContainer" class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2 font-mono text-xs text-slate-300">
-          <p class="text-slate-500 italic">Click 'Run Auto-Match Reconciliation' to verify bank statements against invoices...</p>
-        </div>
+    <!-- MODULE 4: BANK RECONCILIATION -->
+    <div id="module-recon" class="module-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">
+        <h3 style="margin: 0; font-size: 14px; color: #fff;">🔄 AI Bank Reconciliation Engine</h3>
+        <button onclick="runBankReconciliation()" class="btn">⚡ Run Auto-Match Reconciliation</button>
+      </div>
+      <div id="reconResultContainer" class="card" style="color: #cbd5e1;">
+        <i style="color: #94a3b8;">Click 'Run Auto-Match Reconciliation' to verify bank statements...</i>
       </div>
     </div>
 
-    <!-- MODULE 5: TASK & STATUS TRACKER -->
-    <div id="module-tasks" class="business-module space-y-4 hidden">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-          <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">📊 Daily Work & Task Progress Tracker</h3>
-            <p class="text-xs text-slate-400">Track tasks for active client in real-time</p>
-          </div>
-          <div class="flex gap-2">
-            <input type="text" id="newTaskInput" placeholder="New task title..." class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-cyan-400">
-            <button onclick="addTask()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-3 py-1.5 rounded-lg transition">Add Task</button>
-          </div>
+    <!-- MODULE 5: TASKS -->
+    <div id="module-tasks" class="module-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">
+        <h3 style="margin: 0; font-size: 14px; color: #fff;">📊 Daily Work & Task Progress Tracker</h3>
+        <div style="display: flex; gap: 10px; width: 300px;">
+          <input type="text" id="newTaskInput" placeholder="New task title...">
+          <button onclick="addTask()" class="btn">Add</button>
         </div>
-        <div id="taskListContainer" class="space-y-2"></div>
       </div>
+      <div id="taskListContainer" style="display: flex; flex-direction: column; gap: 10px;"></div>
     </div>
 
-    <!-- MODULE 6: PAYMENT & PENDING TRACKER -->
-    <div id="module-payments" class="business-module space-y-4 hidden">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-          <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">💳 Payment & Accounts Receivable Tracker</h3>
-            <p class="text-xs text-slate-400">Track Received Amount & Pending Balances for Active Client</p>
-          </div>
-          <div class="flex gap-2">
-            <button onclick="openAddPaymentModal()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-lg transition shadow">
-              ➕ Add Transaction
-            </button>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-            <div class="text-xs text-slate-400 uppercase">Total Received</div>
-            <div id="totalReceivedDisplay" class="text-xl font-bold text-emerald-400 mt-1">₹0</div>
-          </div>
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-            <div class="text-xs text-slate-400 uppercase">Total Pending Balance</div>
-            <div id="totalPendingDisplay" class="text-xl font-bold text-amber-400 mt-1">₹0</div>
-          </div>
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
-            <div class="text-xs text-slate-400 uppercase">Total Business Volume</div>
-            <div id="totalVolumeDisplay" class="text-xl font-bold text-cyan-400 mt-1">₹0</div>
-          </div>
-        </div>
-
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border-collapse">
-            <thead>
-              <tr class="border-b border-slate-800 text-slate-400">
-                <th class="p-3">Client Name</th>
-                <th class="p-3">Project / Invoice</th>
-                <th class="p-3">Total Amount</th>
-                <th class="p-3">Received</th>
-                <th class="p-3">Pending</th>
-                <th class="p-3">Status</th>
-                <th class="p-3 text-right">Quick Actions</th>
-              </tr>
-            </thead>
-            <tbody id="paymentTableBody" class="divide-y divide-slate-800/60 font-mono"></tbody>
-          </table>
-        </div>
+    <!-- MODULE 6: PAYMENTS -->
+    <div id="module-payments" class="module-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">
+        <h3 style="margin: 0; font-size: 14px; color: #fff;">💳 Payment & Accounts Receivable Tracker</h3>
+        <button onclick="openAddPaymentModal()" class="btn" style="background: #34d399; color: #070a12;">➕ Add Transaction</button>
       </div>
+      <div class="grid-3" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 15px;">
+        <div class="card"><div style="color: #94a3b8; font-size: 11px;">TOTAL RECEIVED</div><div id="totalReceivedDisplay" style="font-size: 20px; color: #34d399; font-weight: bold;">₹0</div></div>
+        <div class="card"><div style="color: #94a3b8; font-size: 11px;">TOTAL PENDING</div><div id="totalPendingDisplay" style="font-size: 20px; color: #fbbf24; font-weight: bold;">₹0</div></div>
+        <div class="card"><div style="color: #94a3b8; font-size: 11px;">TOTAL VOLUME</div><div id="totalVolumeDisplay" style="font-size: 20px; color: #00d2ff; font-weight: bold;">₹0</div></div>
+      </div>
+      <table>
+        <thead><tr><th>Client Name</th><th>Project / Invoice</th><th>Total Amount</th><th>Received</th><th>Pending</th><th>Status</th></tr></thead>
+        <tbody id="paymentTableBody"></tbody>
+      </table>
     </div>
 
-    <!-- MODULE 7: DOCUMENT & FILE FINDER -->
-    <div id="module-documents" class="business-module space-y-4 hidden">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-          <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">📂 Centralized Document & File Finder</h3>
-            <p class="text-xs text-slate-400">Instant search across active client assets and contracts</p>
-          </div>
-          <input type="text" id="docSearchInput" oninput="filterDocuments()" placeholder="Search files..." class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-cyan-400">
-        </div>
-        <div id="documentListContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+    <!-- MODULE 7: DOCUMENTS -->
+    <div id="module-documents" class="module-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">
+        <h3 style="margin: 0; font-size: 14px; color: #fff;">📂 Centralized Document Finder</h3>
+        <input type="text" id="docSearchInput" oninput="filterDocuments()" placeholder="Search files..." style="width: 250px;">
       </div>
+      <div id="documentListContainer" class="grid-3"></div>
     </div>
 
-    <!-- MODULE 8: REPORTS & AUDIT -->
-    <div id="module-reports" class="business-module space-y-4 hidden">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-          <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">📑 Daily Shift & Financial Audit Report</h3>
-            <p class="text-xs text-slate-400">Export professional PDF audit reports for active client</p>
-          </div>
-          <div class="flex gap-2">
-            <button onclick="exportBusinessPDFReport()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow">
-              📄 Download PDF
-            </button>
-            <button onclick="sendViaGmail()" class="bg-rose-500 hover:bg-rose-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1">
-              <span>📧</span> Gmail
-            </button>
-            <button onclick="sendViaWhatsApp()" class="bg-green-500 hover:bg-green-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1">
-              <span>💬</span> WhatsApp
-            </button>
-          </div>
-        </div>
-        <div id="auditReportPreview" class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3 font-mono text-xs text-slate-300"></div>
+    <!-- MODULE 8: REPORTS -->
+    <div id="module-reports" class="module-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">
+        <h3 style="margin: 0; font-size: 14px; color: #fff;">📑 Daily Shift & Financial Audit Report</h3>
+        <button onclick="exportBusinessPDFReport()" class="btn">📄 Download PDF Report</button>
       </div>
+      <div id="auditReportPreview" class="card" style="font-family: monospace; color: #cbd5e1;"></div>
     </div>
 
   </div>
 
   <!-- ADD PAYMENT MODAL -->
-  <div id="paymentModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden">
-    <div class="bg-slate-900 border border-emerald-500/40 p-6 rounded-xl max-w-md w-full space-y-4 shadow-2xl">
-      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-        <h3 class="text-base font-bold text-white">Add / Update Client Payment</h3>
-        <button onclick="closeAddPaymentModal()" class="text-slate-400 hover:text-white">✕</button>
+  <div id="paymentModal" class="modal">
+    <div class="modal-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">
+        <h3 style="margin: 0; color: #fff; font-size: 15px;">Add Client Payment</h3>
+        <button onclick="closeAddPaymentModal()" style="background: none; border: none; color: #fff; cursor: pointer; font-size: 16px;">✕</button>
       </div>
-      <div class="space-y-3 text-xs">
+      <div>
+        <label style="font-size: 11px; color: #94a3b8;">Client Name:</label>
+        <input type="text" id="payClientName" placeholder="e.g. Acme Corp">
+      </div>
+      <div>
+        <label style="font-size: 11px; color: #94a3b8;">Project / Invoice:</label>
+        <input type="text" id="payProjectName" placeholder="e.g. INV-9021">
+      </div>
+      <div style="display: flex; gap: 10px;">
         <div>
-          <label class="block text-slate-400 mb-1">Client Name:</label>
-          <input type="text" id="payClientName" placeholder="e.g. Acme Corp" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white outline-none focus:border-emerald-400">
+          <label style="font-size: 11px; color: #94a3b8;">Total Amount (₹):</label>
+          <input type="number" id="payTotalAmount" placeholder="25000">
         </div>
         <div>
-          <label class="block text-slate-400 mb-1">Project / Invoice Name:</label>
-          <input type="text" id="payProjectName" placeholder="e.g. INV-9021 Website Redesign" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white outline-none focus:border-emerald-400">
-        </div>
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block text-slate-400 mb-1">Total Amount (₹):</label>
-            <input type="number" id="payTotalAmount" placeholder="25000" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white outline-none focus:border-emerald-400">
-          </div>
-          <div>
-            <label class="block text-slate-400 mb-1">Amount Received (₹):</label>
-            <input type="number" id="payReceivedAmount" placeholder="10000" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white outline-none focus:border-emerald-400">
-          </div>
+          <label style="font-size: 11px; color: #94a3b8;">Received (₹):</label>
+          <input type="number" id="payReceivedAmount" placeholder="10000">
         </div>
       </div>
-      <button onclick="savePaymentTransaction()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition uppercase">
-        Save Transaction
-      </button>
+      <button onclick="savePaymentTransaction()" class="btn" style="width: 100%; padding: 10px; background: #34d399; color: #070a12;">Save Transaction</button>
     </div>
   </div>
 
   <script>
-    // Safe Supabase Initialization with Error Protection
+    // Supabase Configuration
     let supabase = null;
     try {
       const SUPABASE_URL = 'https://ziosdrikaumecasnjhmq.supabase.co';
@@ -497,36 +237,29 @@ Status: Pending Balance ₹15,000</textarea>
         supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       }
     } catch (e) {
-      console.warn('Supabase initialization warning:', e);
+      console.warn('Supabase offline mode:', e);
     }
 
     let activeClient = 'Acme Corp';
     let clientsList = JSON.parse(localStorage.getItem('scrutinix_clients_list_v37')) || ['Acme Corp', 'Sharma Enterprises', 'Global Traders'];
+    let paymentsList = [];
+    let tasksList = [];
+    let documentsList = [
+      { name: 'Invoice_Acme_091.txt', type: 'Invoice', date: '2026-11-05', size: '245 KB' },
+      { name: 'Client_Agreement.txt', type: 'Contract', date: '2026-11-01', size: '1.2 MB' }
+    ];
 
     function getStorageKey(baseKey) {
       return `scrutinix_${activeClient.replace(/\s+/g, '_')}_${baseKey}_v37`;
     }
 
-    let paymentsList = [];
-    let tasksList = [];
-
-    let documentsList = [
-      { name: 'Invoice_Acme_091.txt', type: 'Invoice', date: '2026-11-05', size: '245 KB', content: 'Invoice #091. Total: 35000 INR.' },
-      { name: 'Client_Agreement.txt', type: 'Contract', date: '2026-11-01', size: '1.2 MB', content: 'Official Client Service Agreement.' }
-    ];
-
     function loadClientData() {
-      const KEY_PAYMENTS = getStorageKey('payments');
-      const KEY_TASKS = getStorageKey('tasks');
-
-      paymentsList = JSON.parse(localStorage.getItem(KEY_PAYMENTS)) || [
+      paymentsList = JSON.parse(localStorage.getItem(getStorageKey('payments'))) || [
         { id: 1, client: activeClient, project: 'INV-8000 Website Development', total: 35000, received: 20000 }
       ];
-
-      tasksList = JSON.parse(localStorage.getItem(KEY_TASKS)) || [
+      tasksList = JSON.parse(localStorage.getItem(getStorageKey('tasks'))) || [
         { id: 1, text: `Review extracted invoices for ${activeClient}`, completed: false }
       ];
-
       renderPayments();
       renderTasks();
       renderDocuments(documentsList);
@@ -571,92 +304,36 @@ Status: Pending Balance ₹15,000</textarea>
     }
 
     function switchModule(modId) {
-      document.querySelectorAll('.business-module').forEach(m => m.classList.add('hidden'));
-      document.querySelectorAll('[id^="nav-"]').forEach(btn => {
-        btn.className = "flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5";
-      });
+      document.querySelectorAll('.module-box').forEach(m => m.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
 
-      const targetModule = document.getElementById('module-' + modId);
-      if (targetModule) targetModule.classList.remove('hidden');
+      const target = document.getElementById('module--' + modId) || document.getElementById('module-' + modId);
+      if (target) target.classList.add('active');
 
-      const activeBtn = document.getElementById('nav-' + modId);
-      if (activeBtn) {
-        activeBtn.className = "flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-1.5 shadow";
-      }
+      const btn = document.getElementById('nav-' + modId);
+      if (btn) btn.classList.add('active');
     }
 
-    // Save Invoice to Supabase Database Function
     async function saveInvoiceToDatabase(invoiceData) {
-      if (!supabase) {
-        console.log('Supabase client not active, data kept locally.');
-        return;
-      }
+      if (!supabase) return;
       try {
-        const { data, error } = await supabase
-          .from('invoices')
-          .insert([
-            { 
-              invoice_number: invoiceData.invoiceNo || 'INV-9021', 
-              party_name: invoiceData.partyName || activeClient, 
-              invoice_date: invoiceData.date || new Date().toISOString().split('T')[0], 
-              amount: invoiceData.amount || 35000, 
-              gstin: invoiceData.gstin || '27AAAAA0000A1Z5',
-              status: 'Pending' 
-            }
-          ]);
-
-        if (error) {
-          console.error('Supabase Error:', error);
-        } else {
-          console.log('Saved to Supabase successfully:', data);
-        }
-      } catch (err) {
-        console.error('Network or Database error:', err);
-      }
+        await supabase.from('invoices').insert([{
+          invoice_number: invoiceData.invoiceNo || 'INV-9021',
+          party_name: invoiceData.partyName || activeClient,
+          amount: invoiceData.amount || 35000,
+          status: 'Pending'
+        }]);
+      } catch (err) { console.log('Supabase error:', err); }
     }
 
     async function simulateExtraction() {
-      const resultBox = document.getElementById('extractedResultBox');
-      resultBox.innerHTML = `<span class="text-cyan-400 animate-pulse">Scanning document via AI OCR & syncing to Supabase...</span>`;
-      
+      const box = document.getElementById('extractedResultBox');
+      box.innerHTML = `<span style="color: #00d2ff;">Scanning document & syncing to Supabase...</span>`;
       setTimeout(async () => {
-        const sampleData = {
-          invoiceNo: "INV-9021",
-          partyName: activeClient,
-          date: "2026-11-06",
-          amount: 35000,
-          gstin: "27AAAAA0000A1Z5",
-          items: [
-            { desc: "Full Stack Web Development", amount: 25000 },
-            { desc: "SEO Optimization & Audit", amount: 10000 }
-          ]
-        };
-
-        resultBox.innerHTML = `<pre class="text-emerald-400">${JSON.stringify(sampleData, null, 2)}</pre>`;
-        
-        // Push to Supabase Cloud DB
-        await saveInvoiceToDatabase(sampleData);
-      }, 1000);
-    }
-
-    function exportToTallyXML() {
-      alert("Tally XML export generated successfully for " + activeClient);
-    }
-
-    function exportToExcelCSV() {
-      alert("Excel / CSV spreadsheet downloaded successfully.");
-    }
-
-    function pushToLedgerDirect() {
-      alert("Ledger sync completed with Supabase backend!");
-    }
-
-    function sendViaGmail() {
-      window.open(`mailto:?subject=Audit Report - ${activeClient}&body=Please find attached the financial report and ledger summary.`);
-    }
-
-    function sendViaWhatsApp() {
-      window.open(`https://api.whatsapp.com/send?text=Hello,%20here%20is%20the%20financial%20report%20for%20${activeClient}.`);
+        const data = { invoiceNo: "INV-9021", partyName: activeClient, amount: 35000, status: "Synced" };
+        box.innerHTML = `<pre style="color: #34d399; margin:0;">${JSON.stringify(data, null, 2)}</pre>`;
+        await saveInvoiceToDatabase(data);
+      }, 800);
     }
 
     function runGstReconciliation() {
@@ -664,40 +341,18 @@ Status: Pending Balance ₹15,000</textarea>
       document.getElementById('gstMismatchCount').innerText = "2";
       document.getElementById('gstMissingCount').innerText = "1";
       document.getElementById('gstTableBody').innerHTML = `
-        <tr class="hover:bg-slate-900/50">
-          <td class="p-3">27AAAAA0000A1Z5 / TechCorp</td>
-          <td class="p-3">INV-401</td>
-          <td class="p-3">₹45,000</td>
-          <td class="p-3">₹45,000</td>
-          <td class="p-3 text-emerald-400 font-bold">✔ Matched (ITC Ok)</td>
-          <td class="p-3 text-right"><button class="text-cyan-400 hover:underline">View</button></td>
-        </tr>
-        <tr class="hover:bg-slate-900/50">
-          <td class="p-3">08BBBBB1111B2Z6 / Apex Solutions</td>
-          <td class="p-3">INV-992</td>
-          <td class="p-3">₹18,000</td>
-          <td class="p-3 text-amber-400">₹15,000</td>
-          <td class="p-3 text-amber-400 font-bold">⚠ Tax Mismatch</td>
-          <td class="p-3 text-right"><button class="text-cyan-400 hover:underline">Resolve</button></td>
-        </tr>
+        <tr><td>27AAAAA0000A1Z5 / TechCorp</td><td>INV-401</td><td>₹45,000</td><td>₹45,000</td><td style="color:#34d399; font-weight:bold;">✔ Matched</td></tr>
+        <tr><td>08BBBBB1111B2Z6 / Apex</td><td>INV-992</td><td>₹18,000</td><td style="color:#fbbf24;">₹15,000</td><td style="color:#fbbf24; font-weight:bold;">⚠ Tax Mismatch</td></tr>
       `;
     }
 
     function simulateWhatsAppBill() {
-      const box = document.getElementById('whatsappLogBox');
-      box.innerHTML += `
-        <div class="border-b border-slate-800 pb-2">
-          <span class="text-green-400">[Incoming WhatsApp Bill]</span> Received image from client (+91 98765 43210). OCR extracted ₹12,500. Synced to Supabase!
-        </div>
-      `;
+      const log = document.getElementById('whatsappLogBox');
+      log.innerHTML += `<div style="margin-bottom: 5px; color: #34d399;">[WhatsApp OCR] Bill received from client (+91 9876543210). Amount ₹12,500 synced!</div>`;
     }
 
     function runBankReconciliation() {
-      document.getElementById('reconResultContainer').innerHTML = `
-        <div class="text-emerald-400 font-bold">✔ Bank Statement Recon Completed Successfully!</div>
-        <div>Total Bank Credits: ₹6,25,000 | Matched Invoices: 18 / 18</div>
-        <div class="text-cyan-300">All transactions verified against active client ledger.</div>
-      `;
+      document.getElementById('reconResultContainer').innerHTML = `<div style="color: #34d399; font-weight:bold;">✔ Bank Reconciliation Successful!</div><div>Matched 18 / 18 Bank Credits against Active Ledger.</div>`;
     }
 
     function addTask() {
@@ -715,12 +370,12 @@ Status: Pending Balance ₹15,000</textarea>
       container.innerHTML = '';
       tasksList.forEach(t => {
         container.innerHTML += `
-          <div class="flex items-center justify-between bg-slate-950 p-3 rounded-lg border border-slate-800">
-            <div class="flex items-center gap-2">
-              <input type="checkbox" ${t.completed ? 'checked' : ''} onclick="toggleTask(${t.id})" class="cursor-pointer">
-              <span class="text-xs ${t.completed ? 'line-through text-slate-500' : 'text-slate-200'}">${t.text}</span>
+          <div class="card" style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <input type="checkbox" ${t.completed ? 'checked' : ''} onclick="toggleTask(${t.id})" style="width: auto;">
+              <span style="font-size: 12px; ${t.completed ? 'text-decoration: line-through; color: #94a3b8;' : 'color: #fff;'}">${t.text}</span>
             </div>
-            <button onclick="deleteTask(${t.id})" class="text-xs text-red-400 hover:text-red-300">Delete</button>
+            <button onclick="deleteTask(${t.id})" style="background: none; border: none; color: #f87171; cursor: pointer; font-size: 11px;">Delete</button>
           </div>
         `;
       });
@@ -740,40 +395,22 @@ Status: Pending Balance ₹15,000</textarea>
     }
 
     function openAddPaymentModal() {
-      const modal = document.getElementById('paymentModal');
-      if (modal) modal.classList.remove('hidden');
-      const payClient = document.getElementById('payClientName');
-      if (payClient) payClient.value = activeClient;
+      document.getElementById('paymentModal').classList.add('active');
+      document.getElementById('payClientName').value = activeClient;
     }
 
     function closeAddPaymentModal() {
-      const modal = document.getElementById('paymentModal');
-      if (modal) modal.classList.add('hidden');
+      document.getElementById('paymentModal').classList.remove('active');
     }
 
     async function savePaymentTransaction() {
       const client = document.getElementById('payClientName').value || activeClient;
-      const project = document.getElementById('payProjectName').value || 'General Service';
+      const project = document.getElementById('payProjectName').value || 'Service';
       const total = parseFloat(document.getElementById('payTotalAmount').value) || 0;
       const received = parseFloat(document.getElementById('payReceivedAmount').value) || 0;
 
       paymentsList.push({ id: Date.now(), client, project, total, received });
       localStorage.setItem(getStorageKey('payments'), JSON.stringify(paymentsList));
-      
-      // Also sync payment to Supabase if active
-      if (supabase) {
-        try {
-          await supabase.from('invoices').insert([{
-            invoice_number: project,
-            party_name: client,
-            amount: total,
-            status: received >= total ? 'Paid' : 'Pending'
-          }]);
-        } catch (err) {
-          console.log('Supabase sync skipped offline');
-        }
-      }
-
       closeAddPaymentModal();
       renderPayments();
     }
@@ -786,45 +423,27 @@ Status: Pending Balance ₹15,000</textarea>
 
       paymentsList.forEach(p => {
         const pending = p.total - p.received;
-        totVol += p.total;
-        totRec += p.received;
-        totPend += pending;
-        const statusClass = pending <= 0 ? 'text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded' : 'text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded';
-
+        totVol += p.total; totRec += p.received; totPend += pending;
         tbody.innerHTML += `
-          <tr class="hover:bg-slate-900/50">
-            <td class="p-3">${p.client}</td>
-            <td class="p-3 font-bold">${p.project}</td>
-            <td class="p-3">₹${p.total.toLocaleString()}</td>
-            <td class="p-3 text-emerald-400">₹${p.received.toLocaleString()}</td>
-            <td class="p-3 text-amber-400">₹${pending.toLocaleString()}</td>
-            <td class="p-3"><span class="${statusClass}">${pending <= 0 ? 'Paid' : 'Pending'}</span></td>
-            <td class="p-3 text-right"><button onclick="markAsPaid(${p.id})" class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-1 rounded">Mark Paid</button></td>
+          <tr>
+            <td>${p.client}</td>
+            <td style="font-weight:bold;">${p.project}</td>
+            <td>₹${p.total.toLocaleString()}</td>
+            <td style="color:#34d399;">₹${p.received.toLocaleString()}</td>
+            <td style="color:#fbbf24;">₹${pending.toLocaleString()}</td>
+            <td><span style="padding: 2px 6px; border-radius: 4px; background: ${pending <= 0 ? 'rgba(52,211,153,0.2)' : 'rgba(251,191,36,0.2)'}; color: ${pending <= 0 ? '#34d399' : '#fbbf24'};">${pending <= 0 ? 'Paid' : 'Pending'}</span></td>
           </tr>
         `;
       });
 
-      const vDisplay = document.getElementById('totalVolumeDisplay');
-      const rDisplay = document.getElementById('totalReceivedDisplay');
-      const pDisplay = document.getElementById('totalPendingDisplay');
-      if (vDisplay) vDisplay.innerText = `₹${totVol.toLocaleString()}`;
-      if (rDisplay) rDisplay.innerText = `₹${totRec.toLocaleString()}`;
-      if (pDisplay) pDisplay.innerText = `₹${totPend.toLocaleString()}`;
-    }
-
-    function markAsPaid(id) {
-      const p = paymentsList.find(x => x.id === id);
-      if (p) {
-        p.received = p.total;
-        renderPayments();
-        localStorage.setItem(getStorageKey('payments'), JSON.stringify(paymentsList));
-      }
+      document.getElementById('totalVolumeDisplay').innerText = `₹${totVol.toLocaleString()}`;
+      document.getElementById('totalReceivedDisplay').innerText = `₹${totRec.toLocaleString()}`;
+      document.getElementById('totalPendingDisplay').innerText = `₹${totPend.toLocaleString()}`;
     }
 
     function filterDocuments() {
-      const query = document.getElementById('docSearchInput').value.toLowerCase();
-      const filtered = documentsList.filter(d => d.name.toLowerCase().includes(query) || d.type.toLowerCase().includes(query));
-      renderDocuments(filtered);
+      const q = document.getElementById('docSearchInput').value.toLowerCase();
+      renderDocuments(documentsList.filter(d => d.name.toLowerCase().includes(q)));
     }
 
     function renderDocuments(list) {
@@ -833,31 +452,26 @@ Status: Pending Balance ₹15,000</textarea>
       container.innerHTML = '';
       list.forEach(doc => {
         container.innerHTML += `
-          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between items-center">
+          <div class="card" style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-              <div class="text-xs font-bold text-white">${doc.name}</div>
-              <div class="text-[10px] text-slate-400">${doc.type} • ${doc.date} • ${doc.size}</div>
+              <div style="font-weight:bold; color:#fff; font-size:12px;">${doc.name}</div>
+              <div style="font-size:10px; color:#94a3b8;">${doc.type} • ${doc.date} • ${doc.size}</div>
             </div>
-            <button onclick="alert('Downloading ${doc.name}')" class="text-xs bg-cyan-400 text-slate-950 font-bold px-2.5 py-1 rounded">Download</button>
+            <button onclick="alert('Downloading ${doc.name}')" class="btn" style="padding: 5px 10px;">Download</button>
           </div>
         `;
       });
     }
 
     function renderAuditReport() {
-      const preview = document.getElementById('auditReportPreview');
-      if (preview) {
-        preview.innerHTML = `
-          <div class="font-bold text-cyan-400">SCRUTINIX AI // DAILY FINANCIAL AUDIT REPORT</div>
-          <div>Active Client: ${activeClient}</div>
-          <div>Generated On: ${new Date().toLocaleDateString()}</div>
-          <hr class="border-slate-800 my-2">
-          <div>- Total Processed Documents: 14</div>
-          <div>- GST Reconciliation Status: Clean (0 ITC Discrepancies)</div>
-          <div>- Outstanding Receivables: Managed & Synced with Supabase DB</div>
-          <div class="text-emerald-400 font-bold mt-2">Status: Ready for CA Review & Client Delivery.</div>
-        `;
-      }
+      document.getElementById('auditReportPreview').innerHTML = `
+        <div style="color: #00d2ff; font-weight:bold;">SCRUTINIX AI // DAILY FINANCIAL AUDIT REPORT</div>
+        <div>Active Client: ${activeClient}</div>
+        <div>Date: ${new Date().toLocaleDateString()}</div>
+        <hr style="border-color: #1e293b; margin: 10px 0;">
+        <div>- Processed Invoices: 14 | GST Discrepancies: 0</div>
+        <div style="color: #34d399; font-weight:bold; margin-top: 10px;">Status: Ready for CA Review & Client Delivery.</div>
+      `;
     }
 
     function exportBusinessPDFReport() {
@@ -865,17 +479,7 @@ Status: Pending Balance ₹15,000</textarea>
       const doc = new jsPDF();
       doc.text(`Scrutinix AI Audit Report - ${activeClient}`, 14, 20);
       doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
-      doc.text(`All financial records synced securely to cloud database.`, 14, 40);
       doc.save(`Scrutinix_Audit_${activeClient.replace(/\s+/g, '_')}.pdf`);
-    }
-
-    function executeAICommand() {
-      const input = document.getElementById('aiCommandInput');
-      if (!input) return;
-      const val = input.value.trim();
-      if (!val) return;
-      alert(`AI Command executed for ${activeClient}: "${val}"`);
-      input.value = '';
     }
   </script>
 </body>
