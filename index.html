@@ -488,10 +488,17 @@ Status: Pending Balance ₹15,000</textarea>
   </div>
 
   <script>
-    // Supabase Configuration
-    const SUPABASE_URL = 'https://ziosdrikaumecasnjhmq.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_4d-qkUHGpbkhkZVju0owjA_llEKs3rT';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // Safe Supabase Initialization with Error Protection
+    let supabase = null;
+    try {
+      const SUPABASE_URL = 'https://ziosdrikaumecasnjhmq.supabase.co';
+      const SUPABASE_ANON_KEY = 'sb_publishable_4d-qkUHGpbkhkZVju0owjA_llEKs3rT';
+      if (window.supabase) {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      }
+    } catch (e) {
+      console.warn('Supabase initialization warning:', e);
+    }
 
     let activeClient = 'Acme Corp';
     let clientsList = JSON.parse(localStorage.getItem('scrutinix_clients_list_v37')) || ['Acme Corp', 'Sharma Enterprises', 'Global Traders'];
@@ -529,6 +536,7 @@ Status: Pending Balance ₹15,000</textarea>
     window.addEventListener('DOMContentLoaded', () => {
       initClientDropdown();
       loadClientData();
+      switchModule('extractor');
     });
 
     function initClientDropdown() {
@@ -579,23 +587,31 @@ Status: Pending Balance ₹15,000</textarea>
 
     // Save Invoice to Supabase Database Function
     async function saveInvoiceToDatabase(invoiceData) {
-      const { data, error } = await supabase
-        .from('invoices')
-        .insert([
-          { 
-            invoice_number: invoiceData.invoiceNo || 'INV-9021', 
-            party_name: invoiceData.partyName || activeClient, 
-            invoice_date: invoiceData.date || new Date().toISOString().split('T')[0], 
-            amount: invoiceData.amount || 35000, 
-            gstin: invoiceData.gstin || '27AAAAA0000A1Z5',
-            status: 'Pending' 
-          }
-        ]);
+      if (!supabase) {
+        console.log('Supabase client not active, data kept locally.');
+        return;
+      }
+      try {
+        const { data, error } = await supabase
+          .from('invoices')
+          .insert([
+            { 
+              invoice_number: invoiceData.invoiceNo || 'INV-9021', 
+              party_name: invoiceData.partyName || activeClient, 
+              invoice_date: invoiceData.date || new Date().toISOString().split('T')[0], 
+              amount: invoiceData.amount || 35000, 
+              gstin: invoiceData.gstin || '27AAAAA0000A1Z5',
+              status: 'Pending' 
+            }
+          ]);
 
-      if (error) {
-        console.error('Supabase Error:', error);
-      } else {
-        console.log('Saved to Supabase successfully:', data);
+        if (error) {
+          console.error('Supabase Error:', error);
+        } else {
+          console.log('Saved to Supabase successfully:', data);
+        }
+      } catch (err) {
+        console.error('Network or Database error:', err);
       }
     }
 
@@ -695,6 +711,7 @@ Status: Pending Balance ₹15,000</textarea>
 
     function renderTasks() {
       const container = document.getElementById('taskListContainer');
+      if (!container) return;
       container.innerHTML = '';
       tasksList.forEach(t => {
         container.innerHTML += `
@@ -723,12 +740,15 @@ Status: Pending Balance ₹15,000</textarea>
     }
 
     function openAddPaymentModal() {
-      document.getElementById('paymentModal').classList.remove('hidden');
-      document.getElementById('payClientName').value = activeClient;
+      const modal = document.getElementById('paymentModal');
+      if (modal) modal.classList.remove('hidden');
+      const payClient = document.getElementById('payClientName');
+      if (payClient) payClient.value = activeClient;
     }
 
     function closeAddPaymentModal() {
-      document.getElementById('paymentModal').classList.add('hidden');
+      const modal = document.getElementById('paymentModal');
+      if (modal) modal.classList.add('hidden');
     }
 
     async function savePaymentTransaction() {
@@ -740,13 +760,19 @@ Status: Pending Balance ₹15,000</textarea>
       paymentsList.push({ id: Date.now(), client, project, total, received });
       localStorage.setItem(getStorageKey('payments'), JSON.stringify(paymentsList));
       
-      // Also sync payment to Supabase
-      await supabase.from('invoices').insert([{
-        invoice_number: project,
-        party_name: client,
-        amount: total,
-        status: received >= total ? 'Paid' : 'Pending'
-      }]);
+      // Also sync payment to Supabase if active
+      if (supabase) {
+        try {
+          await supabase.from('invoices').insert([{
+            invoice_number: project,
+            party_name: client,
+            amount: total,
+            status: received >= total ? 'Paid' : 'Pending'
+          }]);
+        } catch (err) {
+          console.log('Supabase sync skipped offline');
+        }
+      }
 
       closeAddPaymentModal();
       renderPayments();
@@ -754,6 +780,7 @@ Status: Pending Balance ₹15,000</textarea>
 
     function renderPayments() {
       const tbody = document.getElementById('paymentTableBody');
+      if (!tbody) return;
       tbody.innerHTML = '';
       let totVol = 0, totRec = 0, totPend = 0;
 
@@ -777,9 +804,12 @@ Status: Pending Balance ₹15,000</textarea>
         `;
       });
 
-      document.getElementById('totalVolumeDisplay').innerText = `₹${totVol.toLocaleString()}`;
-      document.getElementById('totalReceivedDisplay').innerText = `₹${totRec.toLocaleString()}`;
-      document.getElementById('totalPendingDisplay').innerText = `₹${totPend.toLocaleString()}`;
+      const vDisplay = document.getElementById('totalVolumeDisplay');
+      const rDisplay = document.getElementById('totalReceivedDisplay');
+      const pDisplay = document.getElementById('totalPendingDisplay');
+      if (vDisplay) vDisplay.innerText = `₹${totVol.toLocaleString()}`;
+      if (rDisplay) rDisplay.innerText = `₹${totRec.toLocaleString()}`;
+      if (pDisplay) pDisplay.innerText = `₹${totPend.toLocaleString()}`;
     }
 
     function markAsPaid(id) {
@@ -799,6 +829,7 @@ Status: Pending Balance ₹15,000</textarea>
 
     function renderDocuments(list) {
       const container = document.getElementById('documentListContainer');
+      if (!container) return;
       container.innerHTML = '';
       list.forEach(doc => {
         container.innerHTML += `
@@ -839,10 +870,12 @@ Status: Pending Balance ₹15,000</textarea>
     }
 
     function executeAICommand() {
-      const val = document.getElementById('aiCommandInput').value.trim();
+      const input = document.getElementById('aiCommandInput');
+      if (!input) return;
+      const val = input.value.trim();
       if (!val) return;
       alert(`AI Command executed for ${activeClient}: "${val}"`);
-      document.getElementById('aiCommandInput').value = '';
+      input.value = '';
     }
   </script>
 </body>
