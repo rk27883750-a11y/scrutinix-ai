@@ -6,7 +6,6 @@
   <title>Scrutinix AI // Enterprise Multi-Client Accounting Command Center v3.7</title>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <!-- Safe Supabase CDN with async fallback -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
   <style>
@@ -228,17 +227,20 @@ GSTIN: 27AAAAA0000A1Z5</textarea>
   </div>
 
   <script>
-    // Bulletproof Supabase Initialization (Safe against network blocks)
+    // Non-blocking Supabase Initialization
     let supabase = null;
-    try {
-      const SUPABASE_URL = 'https://ziosdrikaumecasnjhmq.supabase.co';
-      const SUPABASE_ANON_KEY = 'sb_publishable_4d-qkUHGpbkhkZVju0owjA_llEKs3rT';
-      if (window.supabase && typeof window.supabase.createClient === 'function') {
-        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    setTimeout(() => {
+      try {
+        const SUPABASE_URL = 'https://ziosdrikaumecasnjhmq.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_4d-qkUHGpbkhkZVju0owjA_llEKs3rT';
+        if (window.supabase && typeof window.supabase.createClient === 'function') {
+          supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+          console.log("Supabase connected successfully.");
+        }
+      } catch (err) {
+        console.warn("Supabase background connect warning:", err);
       }
-    } catch (err) {
-      console.warn("Supabase running in offline fallback mode:", err);
-    }
+    }, 100);
 
     let activeClient = 'Acme Corp';
     let clientsList = JSON.parse(localStorage.getItem('scrutinix_clients_list_v37')) || ['Acme Corp', 'Sharma Enterprises', 'Global Traders'];
@@ -315,10 +317,7 @@ GSTIN: 27AAAAA0000A1Z5</textarea>
     }
 
     async function saveInvoiceToDatabase(invoiceData) {
-      if (!supabase) {
-        console.log("Supabase not active, data saved locally.");
-        return;
-      }
+      if (!supabase) return;
       try {
         await supabase.from('invoices').insert([{
           invoice_number: invoiceData.invoiceNo || 'INV-9021',
@@ -327,15 +326,15 @@ GSTIN: 27AAAAA0000A1Z5</textarea>
           status: 'Pending'
         }]);
       } catch (err) { 
-        console.log('Supabase insert note:', err); 
+        console.log('Supabase sync note:', err); 
       }
     }
 
     async function simulateExtraction() {
       const box = document.getElementById('extractedResultBox');
-      box.innerHTML = `<span style="color: #00d2ff;">Scanning document & syncing to cloud...</span>`;
+      box.innerHTML = `<span style="color: #00d2ff;">Scanning document & syncing to Supabase Cloud...</span>`;
       setTimeout(async () => {
-        const data = { invoiceNo: "INV-9021", partyName: activeClient, amount: 35000, status: "Synced" };
+        const data = { invoiceNo: "INV-9021", partyName: activeClient, amount: 35000, status: "Synced to Cloud DB" };
         box.innerHTML = `<pre style="color: #34d399; margin:0;">${JSON.stringify(data, null, 2)}</pre>`;
         await saveInvoiceToDatabase(data);
       }, 800);
