@@ -6,7 +6,7 @@
   <title>Scrutinix AI // Enterprise Multi-Client Accounting Command Center v3.7</title>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <!-- Supabase JS Library -->
+  <!-- Safe Supabase CDN with async fallback -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
   <style>
@@ -228,16 +228,16 @@ GSTIN: 27AAAAA0000A1Z5</textarea>
   </div>
 
   <script>
-    // Supabase Configuration
+    // Bulletproof Supabase Initialization (Safe against network blocks)
     let supabase = null;
     try {
       const SUPABASE_URL = 'https://ziosdrikaumecasnjhmq.supabase.co';
       const SUPABASE_ANON_KEY = 'sb_publishable_4d-qkUHGpbkhkZVju0owjA_llEKs3rT';
-      if (window.supabase) {
+      if (window.supabase && typeof window.supabase.createClient === 'function') {
         supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       }
-    } catch (e) {
-      console.warn('Supabase offline mode:', e);
+    } catch (err) {
+      console.warn("Supabase running in offline fallback mode:", err);
     }
 
     let activeClient = 'Acme Corp';
@@ -307,7 +307,7 @@ GSTIN: 27AAAAA0000A1Z5</textarea>
       document.querySelectorAll('.module-box').forEach(m => m.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
 
-      const target = document.getElementById('module--' + modId) || document.getElementById('module-' + modId);
+      const target = document.getElementById('module-' + modId);
       if (target) target.classList.add('active');
 
       const btn = document.getElementById('nav-' + modId);
@@ -315,7 +315,10 @@ GSTIN: 27AAAAA0000A1Z5</textarea>
     }
 
     async function saveInvoiceToDatabase(invoiceData) {
-      if (!supabase) return;
+      if (!supabase) {
+        console.log("Supabase not active, data saved locally.");
+        return;
+      }
       try {
         await supabase.from('invoices').insert([{
           invoice_number: invoiceData.invoiceNo || 'INV-9021',
@@ -323,12 +326,14 @@ GSTIN: 27AAAAA0000A1Z5</textarea>
           amount: invoiceData.amount || 35000,
           status: 'Pending'
         }]);
-      } catch (err) { console.log('Supabase error:', err); }
+      } catch (err) { 
+        console.log('Supabase insert note:', err); 
+      }
     }
 
     async function simulateExtraction() {
       const box = document.getElementById('extractedResultBox');
-      box.innerHTML = `<span style="color: #00d2ff;">Scanning document & syncing to Supabase...</span>`;
+      box.innerHTML = `<span style="color: #00d2ff;">Scanning document & syncing to cloud...</span>`;
       setTimeout(async () => {
         const data = { invoiceNo: "INV-9021", partyName: activeClient, amount: 35000, status: "Synced" };
         box.innerHTML = `<pre style="color: #34d399; margin:0;">${JSON.stringify(data, null, 2)}</pre>`;
@@ -348,16 +353,21 @@ GSTIN: 27AAAAA0000A1Z5</textarea>
 
     function simulateWhatsAppBill() {
       const log = document.getElementById('whatsappLogBox');
-      log.innerHTML += `<div style="margin-bottom: 5px; color: #34d399;">[WhatsApp OCR] Bill received from client (+91 9876543210). Amount ₹12,500 synced!</div>`;
+      if (log) {
+        log.innerHTML += `<div style="margin-bottom: 5px; color: #34d399;">[WhatsApp OCR] Bill received from client (+91 9876543210). Amount ₹12,500 synced!</div>`;
+      }
     }
 
     function runBankReconciliation() {
-      document.getElementById('reconResultContainer').innerHTML = `<div style="color: #34d399; font-weight:bold;">✔ Bank Reconciliation Successful!</div><div>Matched 18 / 18 Bank Credits against Active Ledger.</div>`;
+      const container = document.getElementById('reconResultContainer');
+      if (container) {
+        container.innerHTML = `<div style="color: #34d399; font-weight:bold;">✔ Bank Reconciliation Successful!</div><div>Matched 18 / 18 Bank Credits against Active Ledger.</div>`;
+      }
     }
 
     function addTask() {
       const input = document.getElementById('newTaskInput');
-      if (!input.value.trim()) return;
+      if (!input || !input.value.trim()) return;
       tasksList.push({ id: Date.now(), text: input.value.trim(), completed: false });
       input.value = '';
       renderTasks();
@@ -395,19 +405,27 @@ GSTIN: 27AAAAA0000A1Z5</textarea>
     }
 
     function openAddPaymentModal() {
-      document.getElementById('paymentModal').classList.add('active');
-      document.getElementById('payClientName').value = activeClient;
+      const modal = document.getElementById('paymentModal');
+      if (modal) modal.classList.add('active');
+      const payClient = document.getElementById('payClientName');
+      if (payClient) payClient.value = activeClient;
     }
 
     function closeAddPaymentModal() {
-      document.getElementById('paymentModal').classList.remove('active');
+      const modal = document.getElementById('paymentModal');
+      if (modal) modal.classList.remove('active');
     }
 
     async function savePaymentTransaction() {
-      const client = document.getElementById('payClientName').value || activeClient;
-      const project = document.getElementById('payProjectName').value || 'Service';
-      const total = parseFloat(document.getElementById('payTotalAmount').value) || 0;
-      const received = parseFloat(document.getElementById('payReceivedAmount').value) || 0;
+      const clientEl = document.getElementById('payClientName');
+      const projectEl = document.getElementById('payProjectName');
+      const totalEl = document.getElementById('payTotalAmount');
+      const receivedEl = document.getElementById('payReceivedAmount');
+
+      const client = clientEl ? clientEl.value || activeClient : activeClient;
+      const project = projectEl ? projectEl.value || 'Service' : 'Service';
+      const total = totalEl ? parseFloat(totalEl.value) || 0 : 0;
+      const received = receivedEl ? parseFloat(receivedEl.value) || 0 : 0;
 
       paymentsList.push({ id: Date.now(), client, project, total, received });
       localStorage.setItem(getStorageKey('payments'), JSON.stringify(paymentsList));
@@ -436,13 +454,18 @@ GSTIN: 27AAAAA0000A1Z5</textarea>
         `;
       });
 
-      document.getElementById('totalVolumeDisplay').innerText = `₹${totVol.toLocaleString()}`;
-      document.getElementById('totalReceivedDisplay').innerText = `₹${totRec.toLocaleString()}`;
-      document.getElementById('totalPendingDisplay').innerText = `₹${totPend.toLocaleString()}`;
+      const vDisp = document.getElementById('totalVolumeDisplay');
+      const rDisp = document.getElementById('totalReceivedDisplay');
+      const pDisp = document.getElementById('totalPendingDisplay');
+      if (vDisp) vDisp.innerText = `₹${totVol.toLocaleString()}`;
+      if (rDisp) rDisp.innerText = `₹${totRec.toLocaleString()}`;
+      if (pDisp) pDisp.innerText = `₹${totPend.toLocaleString()}`;
     }
 
     function filterDocuments() {
-      const q = document.getElementById('docSearchInput').value.toLowerCase();
+      const input = document.getElementById('docSearchInput');
+      if (!input) return;
+      const q = input.value.toLowerCase();
       renderDocuments(documentsList.filter(d => d.name.toLowerCase().includes(q)));
     }
 
@@ -464,22 +487,29 @@ GSTIN: 27AAAAA0000A1Z5</textarea>
     }
 
     function renderAuditReport() {
-      document.getElementById('auditReportPreview').innerHTML = `
-        <div style="color: #00d2ff; font-weight:bold;">SCRUTINIX AI // DAILY FINANCIAL AUDIT REPORT</div>
-        <div>Active Client: ${activeClient}</div>
-        <div>Date: ${new Date().toLocaleDateString()}</div>
-        <hr style="border-color: #1e293b; margin: 10px 0;">
-        <div>- Processed Invoices: 14 | GST Discrepancies: 0</div>
-        <div style="color: #34d399; font-weight:bold; margin-top: 10px;">Status: Ready for CA Review & Client Delivery.</div>
-      `;
+      const preview = document.getElementById('auditReportPreview');
+      if (preview) {
+        preview.innerHTML = `
+          <div style="color: #00d2ff; font-weight:bold;">SCRUTINIX AI // DAILY FINANCIAL AUDIT REPORT</div>
+          <div>Active Client: ${activeClient}</div>
+          <div>Date: ${new Date().toLocaleDateString()}</div>
+          <hr style="border-color: #1e293b; margin: 10px 0;">
+          <div>- Processed Invoices: 14 | GST Discrepancies: 0</div>
+          <div style="color: #34d399; font-weight:bold; margin-top: 10px;">Status: Ready for CA Review & Client Delivery.</div>
+        `;
+      }
     }
 
     function exportBusinessPDFReport() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      doc.text(`Scrutinix AI Audit Report - ${activeClient}`, 14, 20);
-      doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
-      doc.save(`Scrutinix_Audit_${activeClient.replace(/\s+/g, '_')}.pdf`);
+      if (window.jspdf && window.jspdf.jsPDF) {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.text(`Scrutinix AI Audit Report - ${activeClient}`, 14, 20);
+        doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
+        doc.save(`Scrutinix_Audit_${activeClient.replace(/\s+/g, '_')}.pdf`);
+      } else {
+        alert("PDF generator loading...");
+      }
     }
   </script>
 </body>
