@@ -500,7 +500,13 @@ Status: Pending Balance ₹15,000</textarea>
       return `scrutinix_${activeClient.replace(/\s+/g, '_')}_${baseKey}_v37`;
     }
 
-    let lastExtractedInvoiceNumber = "INV-9021";
+    let paymentsList = [];
+    let tasksList = [];
+
+    let documentsList = [
+      { name: 'Invoice_Acme_091.txt', type: 'Invoice', date: '2026-11-05', size: '245 KB', content: 'Invoice #091. Total: 35000 INR.' },
+      { name: 'Client_Agreement.txt', type: 'Contract', date: '2026-11-01', size: '1.2 MB', content: 'Official Client Service Agreement.' }
+    ];
 
     function loadClientData() {
       const KEY_PAYMENTS = getStorageKey('payments');
@@ -519,14 +525,6 @@ Status: Pending Balance ₹15,000</textarea>
       renderDocuments(documentsList);
       renderAuditReport();
     }
-
-    let paymentsList = [];
-    let tasksList = [];
-
-    let documentsList = [
-      { name: 'Invoice_Acme_091.txt', type: 'Invoice', date: '2026-11-05', size: '245 KB', content: 'Invoice #091. Total: 35000 INR.' },
-      { name: 'Client_Agreement.txt', type: 'Contract', date: '2026-11-01', size: '1.2 MB', content: 'Official Client Service Agreement.' }
-    ];
 
     window.addEventListener('DOMContentLoaded', () => {
       initClientDropdown();
@@ -570,9 +568,13 @@ Status: Pending Balance ₹15,000</textarea>
         btn.className = "flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5";
       });
 
-      document.getElementById('module-' + modId).classList.remove('hidden');
+      const targetModule = document.getElementById('module-' + modId);
+      if (targetModule) targetModule.classList.remove('hidden');
+
       const activeBtn = document.getElementById('nav-' + modId);
-      activeBtn.className = "flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-1.5 shadow";
+      if (activeBtn) {
+        activeBtn.className = "flex-1 min-w-[110px] py-2 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-1.5 shadow";
+      }
     }
 
     // Save Invoice to Supabase Database Function
@@ -812,16 +814,19 @@ Status: Pending Balance ₹15,000</textarea>
     }
 
     function renderAuditReport() {
-      document.getElementById('auditReportPreview').innerHTML = `
-        <div class="font-bold text-cyan-400">SCRUTINIX AI // DAILY FINANCIAL AUDIT REPORT</div>
-        <div>Active Client: ${activeClient}</div>
-        <div>Generated On: ${new Date().toLocaleDateString()}</div>
-        <hr class="border-slate-800 my-2">
-        <div>- Total Processed Documents: 14</div>
-        <div>- GST Reconciliation Status: Clean (0 ITC Discrepancies)</div>
-        <div>- Outstanding Receivables: Managed & Synced with Supabase DB</div>
-        <div class="text-emerald-400 font-bold mt-2">Status: Ready for CA Review & Client Delivery.</div>
-      `;
+      const preview = document.getElementById('auditReportPreview');
+      if (preview) {
+        preview.innerHTML = `
+          <div class="font-bold text-cyan-400">SCRUTINIX AI // DAILY FINANCIAL AUDIT REPORT</div>
+          <div>Active Client: ${activeClient}</div>
+          <div>Generated On: ${new Date().toLocaleDateString()}</div>
+          <hr class="border-slate-800 my-2">
+          <div>- Total Processed Documents: 14</div>
+          <div>- GST Reconciliation Status: Clean (0 ITC Discrepancies)</div>
+          <div>- Outstanding Receivables: Managed & Synced with Supabase DB</div>
+          <div class="text-emerald-400 font-bold mt-2">Status: Ready for CA Review & Client Delivery.</div>
+        `;
+      }
     }
 
     function exportBusinessPDFReport() {
