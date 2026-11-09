@@ -13,6 +13,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none'><rect width='100' height='100' rx='20' fill='%230f172a'/><path d='M50 15L80 32V68L50 85L20 68V32L50 15Z' stroke='%2306b6d4' stroke-width='4' stroke-linejoin='round'/><path d='M65 35H40C33 35 33 48 40 48H60C67 48 67 65 60 65H35' stroke='%2338bdf8' stroke-width='6' stroke-linecap='round'/><circle cx='50' cy='50' r='3' fill='%2367e8f9'/></svg>">
   
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- jsPDF Library for Real PDF Generation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
@@ -391,13 +392,13 @@ Status: Pending Balance ₹15,000</textarea>
             <p class="text-xs text-slate-400">Export professional PDF audit reports for active client</p>
           </div>
           <div class="flex gap-2">
-            <button onclick="exportBusinessPDFReport()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow">
-              📄 Download PDF
+            <button onclick="exportBusinessPDFReport()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-lg transition shadow flex items-center gap-1">
+              <span>📄</span> Download PDF
             </button>
-            <button onclick="sendViaGmail()" class="bg-rose-500 hover:bg-rose-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1">
+            <button onclick="sendViaGmail()" class="bg-rose-500 hover:bg-rose-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-lg transition shadow flex items-center gap-1">
               <span>📧</span> Gmail
             </button>
-            <button onclick="sendViaWhatsApp()" class="bg-green-500 hover:bg-green-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1">
+            <button onclick="sendViaWhatsApp()" class="bg-green-500 hover:bg-green-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-lg transition shadow flex items-center gap-1">
               <span>💬</span> WhatsApp
             </button>
           </div>
@@ -564,7 +565,7 @@ Status: Pending Balance ₹15,000</textarea>
       alert(`⚡ Success: Invoice ${lastExtractedInvoiceNumber} pushed to ${activeClient}'s Ledger securely! No duplicates found.`);
     }
 
-    // --- TALLY XML EXPORT (Blob Direct Download) ---
+    // --- TALLY XML EXPORT ---
     function exportToTallyXML() {
       const tallyXmlData = `<?xml version="1.0"?>
 <ENVELOPE>
@@ -748,7 +749,7 @@ Status: Pending Balance ₹15,000</textarea>
       renderPayments();
     }
 
-    // --- DOCUMENTS & REPORTS ---
+    // --- DOCUMENTS & REPORTS (FIXED DOWNLOAD & EMAIL) ---
     function renderDocuments(list) {
       const container = document.getElementById('documentListContainer');
       if (!container) return;
@@ -760,10 +761,29 @@ Status: Pending Balance ₹15,000</textarea>
               <div class="font-bold text-white">${d.name}</div>
               <div class="text-[10px] text-slate-400">${d.type} • ${d.date} • ${d.size}</div>
             </div>
-            <button onclick="alert('Downloading ${d.name}')" class="bg-cyan-500/20 text-cyan-300 px-2.5 py-1 rounded hover:bg-cyan-500/35 transition">Download</button>
+            <div class="flex gap-2">
+              <button onclick="downloadDocumentFile('${d.name}', '${d.content}')" class="bg-cyan-500/20 text-cyan-300 px-2.5 py-1 rounded hover:bg-cyan-500/35 transition font-bold">Download</button>
+              <button onclick="sendDocViaGmail('${d.name}')" class="bg-rose-500/20 text-rose-300 px-2.5 py-1 rounded hover:bg-rose-500/35 transition font-bold">Email</button>
+            </div>
           </div>
         `;
       });
+    }
+
+    function downloadDocumentFile(filename, content) {
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function sendDocViaGmail(docName) {
+      const subject = encodeURIComponent(`Document: ${docName} - ${activeClient}`);
+      const body = encodeURIComponent(`Hello,\n\nPlease find the attached document "${docName}" for client ${activeClient}.\n\nBest regards,\nScrutinix AI User`);
+      window.open(`https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`);
     }
 
     function filterDocuments() {
@@ -785,12 +805,40 @@ Status: Pending Balance ₹15,000</textarea>
       `;
     }
 
+    // REAL PDF GENERATION USING jsPDF
     function exportBusinessPDFReport() {
-      alert("PDF Audit Report generated and downloaded successfully!");
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      doc.setFillColor(15, 23, 42);
+      doc.rect(0, 0, 210, 297, "F");
+
+      doc.setTextColor(6, 182, 212);
+      doc.setFontSize(18);
+      doc.text("SCRUTINIX AI // FINANCIAL AUDIT REPORT", 15, 20);
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(12);
+      doc.text(`Active Client: ${activeClient}`, 15, 32);
+      doc.text(`Generated On: ${new Date().toLocaleString()}`, 15, 40);
+
+      let totalVol = paymentsList.reduce((acc, curr) => acc + curr.total, 0);
+      let totalRec = paymentsList.reduce((acc, curr) => acc + curr.received, 0);
+      let totalPend = totalVol - totalRec;
+
+      doc.setTextColor(148, 163, 184);
+      doc.text(`Total Transactions: ${paymentsList.length}`, 15, 55);
+      doc.text(`Total Business Volume: Rs. ${totalVol.toLocaleString()}`, 15, 63);
+      doc.text(`Total Received Revenue: Rs. ${totalRec.toLocaleString()}`, 15, 71);
+      doc.text(`Total Accounts Receivable (Pending): Rs. ${totalPend.toLocaleString()}`, 15, 79);
+
+      doc.save(`Scrutinix_Audit_Report_${activeClient.replace(/\s+/g, '_')}.pdf`);
     }
 
     function sendViaGmail() {
-      window.open(`mailto:client@example.com?subject=Financial Audit Report - ${activeClient}&body=Please find attached the financial audit report and reconciliation summary.`);
+      const subject = encodeURIComponent(`Financial Audit Report - ${activeClient}`);
+      const body = encodeURIComponent(`Hello,\n\nPlease find the financial audit report summary for client ${activeClient}.\n\nTotal Business Volume: Rs. ${paymentsList.reduce((acc, curr) => acc + curr.total, 0)}\nTotal Pending Balance: Rs. ${paymentsList.reduce((acc, curr) => acc + (curr.total - curr.received), 0)}\n\nBest regards,\nScrutinix AI`);
+      window.open(`https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`);
     }
 
     function sendViaWhatsApp() {
