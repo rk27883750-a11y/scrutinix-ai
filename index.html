@@ -80,14 +80,14 @@
           <option value="Sharma Enterprises" class="bg-slate-900 text-white">Sharma Enterprises</option>
           <option value="Global Traders" class="bg-slate-900 text-white">Global Traders</option>
         </select>
-        <button onclick="promptNewClient()" class="text-[10px] bg-cyan-500/25 hover:bg-cyan-500/35 text-cyan-300 px-2 py-0.5 rounded font-bold transition">＋ Add</button>
+        <button onclick="openAddClientModal()" class="text-[10px] bg-cyan-500/25 hover:bg-cyan-500/35 text-cyan-300 px-2 py-0.5 rounded font-bold transition">＋ Add</button>
       </div>
 
       <!-- QUICK COMMAND INPUT -->
       <div class="flex-1 max-w-xs w-full">
         <div class="flex items-center bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 shadow-inner">
           <span class="text-cyan-400 mr-2 text-xs">⚡</span>
-          <input type="text" id="aiCommandInput" placeholder="Command AI..." class="w-full bg-transparent text-xs text-white outline-none">
+          <input type="text" id="aiCommandInput" placeholder="Try 'gst' or 'payment'..." class="w-full bg-transparent text-xs text-white outline-none">
           <button onclick="executeAICommand()" class="text-xs bg-cyan-400 text-slate-950 font-bold px-2.5 py-1 rounded ml-2 hover:bg-cyan-300 transition">Run</button>
         </div>
       </div>
@@ -409,6 +409,25 @@ Status: Pending Balance ₹15,000</textarea>
 
   </div>
 
+  <!-- ADD CLIENT MODAL -->
+  <div id="clientModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden">
+    <div class="bg-slate-900 border border-cyan-500/40 p-6 rounded-xl max-w-md w-full space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-white">Add New Client / Company</h3>
+        <button onclick="closeAddClientModal()" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-400 mb-1">Company / Client Name:</label>
+          <input type="text" id="newClientNameInput" placeholder="e.g. Apex Traders" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white outline-none focus:border-cyan-400">
+        </div>
+      </div>
+      <button onclick="saveNewClient()" class="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition uppercase">
+        Add & Switch Client
+      </button>
+    </div>
+  </div>
+
   <!-- ADD PAYMENT MODAL -->
   <div id="paymentModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden">
     <div class="bg-slate-900 border border-emerald-500/40 p-6 rounded-xl max-w-md w-full space-y-4 shadow-2xl">
@@ -501,17 +520,29 @@ Status: Pending Balance ₹15,000</textarea>
       loadClientData();
     }
 
-    function promptNewClient() {
-      const newName = prompt("Enter new client / company name:");
-      if (!newName || !newName.trim()) return;
-      const formatted = newName.trim();
-      if (!clientsList.includes(formatted)) {
-        clientsList.push(formatted);
+    function openAddClientModal() {
+      document.getElementById('clientModal').classList.remove('hidden');
+      document.getElementById('newClientNameInput').value = '';
+    }
+
+    function closeAddClientModal() {
+      document.getElementById('clientModal').classList.add('hidden');
+    }
+
+    function saveNewClient() {
+      const newName = document.getElementById('newClientNameInput').value.trim();
+      if (!newName) {
+        alert("Please enter a valid client name!");
+        return;
+      }
+      if (!clientsList.includes(newName)) {
+        clientsList.push(newName);
         localStorage.setItem('scrutinix_clients_list_v36', JSON.stringify(clientsList));
       }
-      activeClient = formatted;
+      activeClient = newName;
       initClientDropdown();
       loadClientData();
+      closeAddClientModal();
     }
 
     function switchModule(moduleName) {
@@ -749,7 +780,7 @@ Status: Pending Balance ₹15,000</textarea>
       renderPayments();
     }
 
-    // --- DOCUMENTS & REPORTS (FIXED DOWNLOAD & EMAIL) ---
+    // --- DOCUMENTS & REPORTS ---
     function renderDocuments(list) {
       const container = document.getElementById('documentListContainer');
       if (!container) return;
