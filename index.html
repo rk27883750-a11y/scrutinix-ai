@@ -122,7 +122,7 @@
       </button>
     </div>
 
-    <!-- MODULE 1: EXCEL & CSV PROCESSOR (UPDATED - NO API KEY REQUIRED) -->
+    <!-- MODULE 1: EXCEL & CSV PROCESSOR -->
     <div id="module-extractor" class="business-module space-y-4">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-3 gap-3">
@@ -479,17 +479,13 @@
       return `scrutinix_${activeClient.replace(/\s+/g, '_')}_${baseKey}_v38`;
     }
 
-    let currentProcessedData = {
-      invoiceNumber: "INV-9047",
-      clientName: activeClient,
-      date: "Nov 06, 2026",
-      taxableValue: 29661.02,
-      cgst: 2669.49,
-      sgst: 2669.49,
-      igst: 0,
-      total: 35000,
-      status: "Unique"
-    };
+    // HELPER: Get current system date, month, day automatically (e.g. "10 Nov 2026, Tue")
+    function getAutoFormattedDate() {
+      const now = new Date();
+      return now.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric', weekday: 'short' });
+    }
+
+    let uploadedInvoicesList = [];
 
     function loadClientData() {
       const KEY_PAYMENTS = getStorageKey('payments');
@@ -513,8 +509,8 @@
     let tasksList = [];
 
     let documentsList = [
-      { name: 'Invoice_Acme_091.xlsx', type: 'Excel Sheet', date: '2026-11-05', size: '245 KB', content: 'Invoice #091. Total: 35000 INR.' },
-      { name: 'Client_Agreement.txt', type: 'Contract', date: '2026-11-01', size: '1.2 MB', content: 'Official Client Service Agreement.' }
+      { name: 'Invoice_Acme_091.xlsx', type: 'Excel Sheet', date: getAutoFormattedDate(), size: '245 KB', content: 'Invoice #091. Total: 35000 INR.' },
+      { name: 'Client_Agreement.txt', type: 'Contract', date: getAutoFormattedDate(), size: '1.2 MB', content: 'Official Client Service Agreement.' }
     ];
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -552,10 +548,7 @@
 
     function saveNewClient() {
       const newName = document.getElementById('newClientNameInput').value.trim();
-      if (!newName) {
-        alert("Please enter a valid client name!");
-        return;
-      }
+      if (!newName) return;
       if (!clientsList.includes(newName)) {
         clientsList.push(newName);
         localStorage.setItem('scrutinix_clients_list_v38', JSON.stringify(clientsList));
@@ -583,23 +576,16 @@
       });
     }
 
-    // LOAD SAMPLE EXCEL DATA & DISPLAY IN CHROME PREVIEW TABLE
     function loadSampleExcelData() {
-      currentProcessedData = {
-        invoiceNumber: "INV-9047",
-        clientName: activeClient,
-        date: "Nov 06, 2026",
-        taxableValue: 29661.02,
-        cgst: 2669.49,
-        sgst: 2669.49,
-        igst: 0,
-        total: 35000,
-        status: "Unique"
-      };
+      const autoDate = getAutoFormattedDate();
+      uploadedInvoicesList = [
+        { invoiceNumber: "INV-9047", clientName: activeClient, date: autoDate, taxableValue: 29661.02, cgst: 2669.49, sgst: 2669.49, igst: 0, total: 35000, status: "Unique" },
+        { invoiceNumber: "INV-9048", clientName: activeClient, date: autoDate, taxableValue: 10000.00, cgst: 900.00, sgst: 900.00, igst: 0, total: 11800, status: "Unique" }
+      ];
+      runDuplicateCheck();
       updatePreviewAndJSON();
     }
 
-    // HANDLE REAL EXCEL / CSV FILE UPLOAD VIA SHEETJS (NO API KEY REQUIRED)
     function handleExcelUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -612,69 +598,96 @@
           const worksheet = workbook.Sheets[firstSheetName];
           const jsonSheet = XLSX.utils.sheet_to_json(worksheet);
 
+          const autoDate = getAutoFormattedDate();
+
           if (jsonSheet.length > 0) {
-            const row = jsonSheet[0];
-            currentProcessedData = {
-              invoiceNumber: row['InvoiceNumber'] || row['Invoice No'] || row['InvNo'] || 'INV-9999',
-              clientName: row['ClientName'] || row['Customer'] || activeClient,
-              date: row['Date'] || 'Nov 10, 2026',
-              taxableValue: parseFloat(row['TaxableValue'] || row['Amount'] || 10000),
-              cgst: parseFloat(row['CGST'] || 900),
-              sgst: parseFloat(row['SGST'] || 900),
-              igst: parseFloat(row['IGST'] || 0),
-              total: parseFloat(row['Total'] || 11800),
-              status: "Verified"
-            };
+            uploadedInvoicesList = jsonSheet.map(row => {
+              const tax = parseFloat(row['TaxableValue'] || row['Amount'] || 10000);
+              const cgst = parseFloat(row['CGST'] || tax * 0.09);
+              const sgst = parseFloat(row['SGST'] || tax * 0.09);
+              const igst = parseFloat(row['IGST'] || 0);
+              const tot = parseFloat(row['Total'] || (tax + cgst + sgst + igst));
+
+              return {
+                invoiceNumber: String(row['InvoiceNumber'] || row['Invoice No'] || row['InvNo'] || 'INV-9999').trim(),
+                clientName: row['ClientName'] || row['Customer'] || activeClient,
+                date: row['Date'] || autoDate, // Auto System Date if missing
+                taxableValue: tax,
+                cgst: cgst,
+                sgst: sgst,
+                igst: igst,
+                total: tot,
+                status: "Unique"
+              };
+            });
           }
-          updatePreviewAndJSON();
-          alert("Excel/CSV File successfully loaded and processed locally without API keys!");
+          runDuplicateCheck();
+          updatePreviewAndJSON(); // Direct display without popup window
         } catch (err) {
           console.error(err);
-          alert("Error parsing Excel file. Please ensure standard column names.");
         }
       };
       reader.readAsArrayBuffer(file);
     }
 
-    function updatePreviewAndJSON() {
-      // 1. Render Chrome Live Preview Table
-      const tbody = document.getElementById('previewTableBody');
-      tbody.innerHTML = `
-        <tr class="border-b border-slate-800/50 hover:bg-slate-900/50">
-          <td class="p-1.5 font-bold text-cyan-300">${currentProcessedData.invoiceNumber}</td>
-          <td class="p-1.5">${currentProcessedData.clientName}</td>
-          <td class="p-1.5 text-emerald-400">₹${currentProcessedData.total.toLocaleString()}</td>
-          <td class="p-1.5"><span class="bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded text-[10px]">${currentProcessedData.status}</span></td>
-        </tr>
-      `;
+    // DUPLICATE INVOICE DETECTOR FUNCTION
+    function runDuplicateCheck() {
+      const seenMap = {};
+      uploadedInvoicesList.forEach(item => {
+        const key = item.invoiceNumber.toLowerCase();
+        if (seenMap[key]) {
+          item.status = "Duplicate";
+          seenMap[key].status = "Duplicate";
+        } else {
+          seenMap[key] = item;
+        }
+      });
+    }
 
-      // 2. Render JSON Output
+    function updatePreviewAndJSON() {
+      const tbody = document.getElementById('previewTableBody');
+      tbody.innerHTML = uploadedInvoicesList.map(item => {
+        const statusBadge = item.status === "Duplicate"
+          ? `<span class="bg-red-500/20 text-red-400 px-1.5 py-0.5 rounded text-[10px] font-bold border border-red-500/40">⚠️ Duplicate</span>`
+          : `<span class="bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded text-[10px] font-bold">✔ Unique</span>`;
+
+        return `
+          <tr class="border-b border-slate-800/50 hover:bg-slate-900/50">
+            <td class="p-1.5 font-bold ${item.status === 'Duplicate' ? 'text-red-400' : 'text-cyan-300'}">${item.invoiceNumber}</td>
+            <td class="p-1.5">${item.clientName}</td>
+            <td class="p-1.5 text-emerald-400">₹${item.total.toLocaleString()}</td>
+            <td class="p-1.5">${statusBadge}</td>
+          </tr>
+        `;
+      }).join('');
+
       const jsonBox = document.getElementById('extractedResultBox');
-      jsonBox.innerHTML = `<pre class="text-cyan-300">${JSON.stringify(currentProcessedData, null, 2)}</pre>`;
+      jsonBox.innerHTML = `<pre class="text-cyan-300">${JSON.stringify(uploadedInvoicesList, null, 2)}</pre>`;
+    }
+
+    // SILENT ACTION (DIRECT UPDATE WITHOUT POPUP)
+    function pushToLedgerDirect() {
+      renderAuditReport();
     }
 
     // EXPORT FUNCTIONS
     function exportToTallyXML() {
-      const xmlContent = `<ENVELOPE><HEADER><TALLYREQUEST>Import Data</TALLYREQUEST></HEADER><BODY><IMPORTDATA><REQUESTDESC><REPORTNAME>Vouchers</REPORTNAME></REQUESTDESC><REQUESTDATA><TALLYMESSAGE><VOUCHER><VOUCHERTYPE>Sales</VOUCHERTYPE><DATE>20261106</DATE><PARTYNAME>${currentProcessedData.clientName}</PARTYNAME><AMOUNT>${currentProcessedData.total}</AMOUNT></VOUCHER></TALLYMESSAGE></REQUESTDATA></IMPORTDATA></BODY></ENVELOPE>`;
-      downloadFile(xmlContent, `Tally_XML_${currentProcessedData.invoiceNumber}.xml`, 'application/xml');
+      const first = uploadedInvoicesList[0] || {};
+      const xmlContent = `<ENVELOPE><HEADER><TALLYREQUEST>Import Data</TALLYREQUEST></HEADER><BODY><IMPORTDATA><REQUESTDESC><REPORTNAME>Vouchers</REPORTNAME></REQUESTDESC><REQUESTDATA><TALLYMESSAGE><VOUCHER><VOUCHERTYPE>Sales</VOUCHERTYPE><DATE>20261110</DATE><PARTYNAME>${first.clientName || activeClient}</PARTYNAME><AMOUNT>${first.total || 0}</AMOUNT></VOUCHER></TALLYMESSAGE></REQUESTDATA></IMPORTDATA></BODY></ENVELOPE>`;
+      downloadFile(xmlContent, `Tally_XML_${first.invoiceNumber || 'Export'}.xml`, 'application/xml');
     }
 
     function exportToExcelCSV() {
-      const csv = `InvoiceNumber,Date,ClientName,TaxableValue,CGST,SGST,IGST,Total\n${currentProcessedData.invoiceNumber},${currentProcessedData.date},${currentProcessedData.clientName},${currentProcessedData.taxableValue},${currentProcessedData.cgst},${currentProcessedData.sgst},${currentProcessedData.igst},${currentProcessedData.total}`;
-      downloadFile(csv, `Standard_Layout_${currentProcessedData.invoiceNumber}.csv`, 'text/csv');
+      let csv = "InvoiceNumber,Date,ClientName,TaxableValue,CGST,SGST,IGST,Total,Status\n";
+      uploadedInvoicesList.forEach(i => {
+        csv += `${i.invoiceNumber},${i.date},${i.clientName},${i.taxableValue},${i.cgst},${i.sgst},${i.igst},${i.total},${i.status}\n`;
+      });
+      downloadFile(csv, `Processed_Invoices_${activeClient}.csv`, 'text/csv');
     }
 
-    function exportMultipleItemsCSV() {
-      exportToExcelCSV();
-    }
-
-    function exportStandardCSV() {
-      exportToExcelCSV();
-    }
-
-    function exportTaxSplitCSV() {
-      exportToExcelCSV();
-    }
+    function exportMultipleItemsCSV() { exportToExcelCSV(); }
+    function exportStandardCSV() { exportToExcelCSV(); }
+    function exportTaxSplitCSV() { exportToExcelCSV(); }
 
     function downloadFile(content, filename, contentType) {
       const blob = new Blob([content], { type: contentType });
@@ -688,16 +701,35 @@
       URL.revokeObjectURL(url);
     }
 
-    function pushToLedgerDirect() {
-      alert(`Successfully synced ${currentProcessedData.invoiceNumber} to ${activeClient} Ledger!`);
-    }
-
+    // GMAIL SHARE FUNCTION
     function sendViaGmail() {
-      window.open(`mailto:client@account.com?subject=Financial Report for ${activeClient}&body=Please find attached processed report for invoice ${currentProcessedData.invoiceNumber}.`);
+      const first = uploadedInvoicesList[0] || {};
+      const subject = encodeURIComponent(`Financial Report & Invoice Summary - ${activeClient}`);
+      const body = encodeURIComponent(
+        `Hello Team,\n\nPlease find below the processed financial data for ${activeClient}:\n\n` +
+        `- Invoice Number: ${first.invoiceNumber || 'N/A'}\n` +
+        `- Date: ${first.date || 'N/A'}\n` +
+        `- Taxable Value: ₹${first.taxableValue || 0}\n` +
+        `- CGST: ₹${first.cgst || 0} | SGST: ₹${first.sgst || 0}\n` +
+        `- Total Amount: ₹${first.total || 0}\n` +
+        `- Status: ${first.status || 'Verified'}\n\n` +
+        `Generated via Scrutinix AI Multi-Client Accounting Suite.`
+      );
+      window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
     }
 
+    // WHATSAPP SHARE FUNCTION
     function sendViaWhatsApp() {
-      window.open(`https://api.whatsapp.com/send?text=Hello, here is the processed financial report for ${activeClient} (Invoice: ${currentProcessedData.invoiceNumber}, Total: Rs.${currentProcessedData.total}).`);
+      const first = uploadedInvoicesList[0] || {};
+      const message = encodeURIComponent(
+        `*Scrutinix AI Financial Report*\n` +
+        `🏢 Client: ${activeClient}\n` +
+        `📄 Invoice: ${first.invoiceNumber || 'N/A'}\n` +
+        `📅 Date: ${first.date || 'N/A'}\n` +
+        `💰 Total Amount: ₹${first.total || 0}\n` +
+        `📊 Status: ${first.status || 'Verified'}`
+      );
+      window.open(`https://api.whatsapp.com/send?text=${message}`, '_blank');
     }
 
     // OTHER MODULE FUNCTIONS
@@ -791,10 +823,7 @@
       const total = parseFloat(document.getElementById('payTotalAmount').value) || 0;
       const received = parseFloat(document.getElementById('payReceivedAmount').value) || 0;
 
-      if (!project || total <= 0) {
-        alert("Please enter valid project and amount details!");
-        return;
-      }
+      if (!project || total <= 0) return;
 
       paymentsList.push({ id: Date.now(), client, project, total, received });
       localStorage.setItem(getStorageKey('payments'), JSON.stringify(paymentsList));
@@ -816,7 +845,7 @@
             <div class="font-bold text-white">${d.name}</div>
             <div class="text-[10px] text-slate-400">${d.type} • ${d.date} • ${d.size}</div>
           </div>
-          <button onclick="alert('Downloading ${d.name}')" class="text-xs bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 px-2.5 py-1 rounded">Download</button>
+          <button onclick="downloadFile('${d.content}', '${d.name}', 'text/plain')" class="text-xs bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 px-2.5 py-1 rounded font-bold">Download</button>
         </div>
       `).join('');
     }
@@ -831,8 +860,8 @@
       document.getElementById('auditReportPreview').innerHTML = `
         <div class="font-bold text-cyan-400">SCRUTINIX AI - DAILY OPERATIONS AUDIT REPORT</div>
         <div>Active Client: ${activeClient}</div>
-        <div>Date: ${new Date().toLocaleDateString()}</div>
-        <div class="text-slate-400">Status: All modules active, zero API costs, zero import errors. Ready for CA workflow compliance.</div>
+        <div>Date: ${getAutoFormattedDate()}</div>
+        <div class="text-slate-400">Status: All modules active, zero API costs, duplicate detection active. Ready for CA workflow compliance.</div>
       `;
     }
 
@@ -840,7 +869,7 @@
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
       doc.text(`Scrutinix AI Audit Report - ${activeClient}`, 15, 15);
-      doc.text(`Date: ${new Date().toLocaleDateString()}`, 15, 25);
+      doc.text(`Date: ${getAutoFormattedDate()}`, 15, 25);
       doc.text(`Total Transactions Processed: ${paymentsList.length}`, 15, 35);
       doc.save(`Scrutinix_Audit_Report_${activeClient}.pdf`);
     }
@@ -850,7 +879,6 @@
       if (cmd.includes('gst')) switchModule('gst');
       else if (cmd.includes('payment') || cmd.includes('pay')) switchModule('payments');
       else if (cmd.includes('task')) switchModule('tasks');
-      else alert("Command executed successfully!");
       document.getElementById('aiCommandInput').value = '';
     }
   </script>
