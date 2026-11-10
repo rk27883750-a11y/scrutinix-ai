@@ -123,7 +123,6 @@
             <p class="text-xs text-slate-400">Upload multiple sheets or folders to clean, verify mathematical tax accuracy, and flag mismatches</p>
           </div>
           <div class="flex items-center gap-2 flex-wrap">
-            <!-- 1. BULK FOLDER / MULTI-FILE UPLOAD -->
             <label class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-lg transition shadow cursor-pointer flex items-center gap-1.5">
               <span>📁</span> Bulk Upload (Multi-Files)
               <input type="file" id="bulkUploadInput" multiple accept=".xlsx, .xls, .csv" class="hidden" onchange="handleBulkFilesUpload(event)">
@@ -641,7 +640,7 @@
                 const val = row[k];
                 if (lowerK.includes('invoicenumber') || lowerK.includes('invoiceno') || lowerK.includes('invno') || lowerK.includes('invoice')) {
                   if (val) invNo = String(val).trim();
-                } else if (lowerK.includes('clientname') || lowerK.includes('customer') || lowerK.includes('party')) {
+                } else if (lowerK.includes('clientname') || lowerK.includes('customer') || lowerK.includes('party') || lowerK.includes('clint')) {
                   if (val) client = String(val).trim();
                 } else if (lowerK.includes('date')) {
                   if (val) date = String(val).trim();
@@ -806,7 +805,14 @@
       downloadFile(csv, `Master_Processed_Invoices_${activeClient}.csv`, 'text/csv');
     }
 
-    function exportTaxSplitCSV() { exportToExcelCSV(); }
+    // DEDICATED TAX SPLIT (GST) EXPORT FUNCTION
+    function exportTaxSplitCSV() {
+      let csv = "InvoiceNumber,Date,ClientName,TaxableValue,CGST,SGST,IGST,Total,AuditStatus\n";
+      uploadedInvoicesList.forEach(i => {
+        csv += `${i.invoiceNumber},${i.date},${i.clientName},${i.taxableValue},${i.cgst},${i.sgst},${i.igst},${i.total},${i.status}\n`;
+      });
+      downloadFile(csv, `GST_Tax_Split_Report_${activeClient}.csv`, 'text/csv');
+    }
 
     function downloadFile(content, filename, contentType) {
       const blob = new Blob([content], { type: contentType });
