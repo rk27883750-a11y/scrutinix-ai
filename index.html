@@ -577,13 +577,12 @@
       });
     }
 
-    // FEATURE 2: MATHEMATICAL TAX VERIFICATION & MISMATCH DETECTOR
+    // MATHEMATICAL TAX VERIFICATION & MISMATCH DETECTOR
     function verifyTaxCalculations(invoices) {
       return invoices.map(item => {
         let taxable = parseFloat(item.taxableValue) || 0;
         let givenTotal = parseFloat(item.total) || 0;
 
-        // Standard 18% GST check (9% CGST + 9% SGST)
         let calcCgst = parseFloat((taxable * 0.09).toFixed(2));
         let calcSgst = parseFloat((taxable * 0.09).toFixed(2));
         let expectedTotal = taxable + calcCgst + calcSgst;
@@ -591,7 +590,6 @@
         item.cgst = item.cgst || calcCgst;
         item.sgst = item.sgst || calcSgst;
 
-        // If total differs by more than Rs. 1.5, flag Tax Mismatch Warning
         if (Math.abs(givenTotal - expectedTotal) > 1.5) {
           item.status = "⚠️ Tax Mismatch Warning!";
           item.isMismatch = true;
@@ -607,14 +605,14 @@
       const autoDate = getAutoFormattedDate();
       let rawData = [
         { invoiceNumber: "INV-9047", clientName: activeClient, date: autoDate, taxableValue: 29661.02, cgst: 2669.49, sgst: 2669.49, igst: 0, total: 35000 },
-        { invoiceNumber: "INV-9048", clientName: activeClient, date: autoDate, taxableValue: 10000.00, cgst: 900.00, sgst: 900.00, igst: 0, total: 12500 } // Intentional mismatch to show warning
+        { invoiceNumber: "INV-9048", clientName: activeClient, date: autoDate, taxableValue: 10000.00, cgst: 900.00, sgst: 900.00, igst: 0, total: 12500 }
       ];
       uploadedInvoicesList = verifyTaxCalculations(rawData);
       runDuplicateCheck();
       updatePreviewAndJSON();
     }
 
-    // FEATURE 1: BULK FILES / FOLDER MULTI-PROCESSING
+    // REVISED SMART BULK UPLOAD HANDLER
     function handleBulkFilesUpload(event) {
       const files = event.target.files;
       if (!files || files.length === 0) return;
@@ -630,25 +628,47 @@
             const workbook = XLSX.read(data, { type: 'array' });
             const firstSheetName = workbook.SheetNames[0];
             const worksheet = workbook.Sheets[firstSheetName];
-            const jsonSheet = XLSX.utils.sheet_to_json(worksheet);
+            const jsonSheet = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
 
             const autoDate = getAutoFormattedDate();
 
             jsonSheet.forEach(row => {
-              const tax = parseFloat(row['TaxableValue'] || row['Amount'] || 10000);
-              const cgst = parseFloat(row['CGST'] || tax * 0.09);
-              const sgst = parseFloat(row['SGST'] || tax * 0.09);
-              const igst = parseFloat(row['IGST'] || 0);
-              const tot = parseFloat(row['Total'] || (tax + cgst + sgst + igst));
+              const keys = Object.keys(row);
+              let invNo = "", client = activeClient, date = autoDate, tax = 0, tot = 0;
+
+              keys.forEach(k => {
+                const lowerK = k.toLowerCase().replace(/[^a-z0-9]/g, '');
+                const val = row[k];
+                if (lowerK.includes('invoicenumber') || lowerK.includes('invoiceno') || lowerK.includes('invno') || lowerK.includes('invoice')) {
+                  if (val) invNo = String(val).trim();
+                } else if (lowerK.includes('clientname') || lowerK.includes('customer') || lowerK.includes('party')) {
+                  if (val) client = String(val).trim();
+                } else if (lowerK.includes('date')) {
+                  if (val) date = String(val).trim();
+                } else if (lowerK.includes('taxablevalue') || lowerK.includes('taxable') || lowerK.includes('amount')) {
+                  let parsed = parseFloat(val);
+                  if (!isNaN(parsed) && parsed > 0) tax = parsed;
+                } else if (lowerK.includes('total') || lowerK.includes('grandtotal')) {
+                  let parsed = parseFloat(val);
+                  if (!isNaN(parsed) && parsed > 0) tot = parsed;
+                }
+              });
+
+              if (!invNo) invNo = "INV-" + Math.floor(Math.random() * 9000 + 1000);
+              if (tax === 0 && tot > 0) tax = parseFloat((tot / 1.18).toFixed(2));
+              if (tax === 0) tax = 10000;
+              let cgst = parseFloat((tax * 0.09).toFixed(2));
+              let sgst = parseFloat((tax * 0.09).toFixed(2));
+              if (tot === 0) tot = tax + cgst + sgst;
 
               allParsedData.push({
-                invoiceNumber: String(row['InvoiceNumber'] || row['Invoice No'] || row['InvNo'] || ('INV-' + Math.floor(Math.random()*9000+1000))).trim(),
-                clientName: row['ClientName'] || row['Customer'] || activeClient,
-                date: row['Date'] || autoDate,
+                invoiceNumber: invNo,
+                clientName: client || activeClient,
+                date: date || autoDate,
                 taxableValue: tax,
                 cgst: cgst,
                 sgst: sgst,
-                igst: igst,
+                igst: 0,
                 total: tot
               });
             });
@@ -704,7 +724,7 @@
       jsonBox.innerHTML = `<pre class="text-cyan-300">${JSON.stringify(uploadedInvoicesList, null, 2)}</pre>`;
     }
 
-    // FEATURE 3: BANK STATEMENT TO LEDGER AUTO-POST ENGINE
+    // BANK STATEMENT TO LEDGER AUTO-POST ENGINE
     function handleBankStatementUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -722,7 +742,6 @@
             const amt = parseFloat(row['Amount'] || row['Withdrawal'] || row['Deposit'] || 5000);
             const type = (row['Type'] || (narration.includes('received') || narration.includes('neft in') ? 'Credit' : 'Debit'));
 
-            // AI Keyword Matching for Ledger Heads
             let suggestedLedger = "Sundry Creditors / General Expense";
             if (narration.includes('swiggy') || narration.includes('zomato') || narration.includes('food')) {
               suggestedLedger = "Staff Welfare Expenses";
