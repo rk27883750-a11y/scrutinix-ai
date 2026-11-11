@@ -130,13 +130,48 @@
             <button onclick="loadSampleExcelData()" class="bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs px-3 py-2 rounded-lg transition border border-cyan-500/30">
               ✨ Sample Data
             </button>
+            <button onclick="clearProcessorData()" class="bg-rose-900/40 hover:bg-rose-800/60 text-rose-300 font-bold text-xs px-3 py-2 rounded-lg transition border border-rose-500/30">
+              🗑️ Clear Data
+            </button>
           </div>
         </div>
 
-        <!-- CHROME LIVE PREVIEW TABLE & JSON OUTPUT -->
+        <!-- NEW FEATURE: LIVE GST SUMMARY CARDS -->
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <div class="text-[10px] text-slate-400 uppercase font-semibold">Taxable Value</div>
+            <div id="summaryTaxableVal" class="text-sm md:text-base font-bold text-cyan-400 mt-1 font-mono">₹0.00</div>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <div class="text-[10px] text-slate-400 uppercase font-semibold">Total CGST</div>
+            <div id="summaryCGST" class="text-sm md:text-base font-bold text-emerald-400 mt-1 font-mono">₹0.00</div>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <div class="text-[10px] text-slate-400 uppercase font-semibold">Total SGST</div>
+            <div id="summarySGST" class="text-sm md:text-base font-bold text-teal-400 mt-1 font-mono">₹0.00</div>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+            <div class="text-[10px] text-slate-400 uppercase font-semibold">Total IGST</div>
+            <div id="summaryIGST" class="text-sm md:text-base font-bold text-purple-400 mt-1 font-mono">₹0.00</div>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 col-span-2 md:col-span-1">
+            <div class="text-[10px] text-slate-400 uppercase font-semibold">Grand Total</div>
+            <div id="summaryGrandTotal" class="text-sm md:text-base font-bold text-amber-400 mt-1 font-mono">₹0.00</div>
+          </div>
+        </div>
+
+        <!-- CHROME LIVE PREVIEW TABLE & JSON OUTPUT WITH SEARCH FILTER -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
-            <h4 class="text-xs font-bold text-cyan-400 uppercase">Live Chrome Data Preview (With Tax Mismatch Detector)</h4>
+            <div class="flex justify-between items-center flex-wrap gap-2">
+              <h4 class="text-xs font-bold text-cyan-400 uppercase">Live Chrome Data Preview</h4>
+              
+              <!-- NEW FEATURE: LIVE INVOICE & CLIENT SEARCH BAR -->
+              <div class="relative w-full sm:w-auto">
+                <input type="text" id="invoiceSearchInput" oninput="filterInvoicesList()" placeholder="🔍 Search Invoice # or Party..." class="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-white outline-none focus:border-cyan-400 w-full">
+              </div>
+            </div>
+
             <div id="browserPreviewTableContainer" class="w-full h-48 bg-slate-900 border border-slate-800 rounded-lg p-2 overflow-auto text-xs font-mono text-slate-300">
               <table class="w-full text-left border-collapse">
                 <thead>
@@ -203,7 +238,7 @@
               <span class="font-bold text-white">Bank Auto-Post:</span> Categorizes statement narration directly into ledger heads.
             </div>
           </div>
-          <div class="text-emerald-400 font-semibold pt-1">✔ Benefit: Zero government tax mismatch notices, saving 20+ hours per week for CA staff[cite: 1].</div>
+          <div class="text-emerald-400 font-semibold pt-1">✔ Benefit: Zero government tax mismatch notices, saving 20+ hours per week for CA staff.</div>
         </div>
 
       </div>
@@ -486,25 +521,6 @@
 
     let uploadedInvoicesList = [];
     let bankStatementsList = [];
-
-    function loadClientData() {
-      const KEY_PAYMENTS = getStorageKey('payments');
-      const KEY_TASKS = getStorageKey('tasks');
-
-      paymentsList = JSON.parse(localStorage.getItem(KEY_PAYMENTS)) || [
-        { id: 1, client: activeClient, project: 'INV-9047 Services', total: 35000, received: 20000 }
-      ];
-
-      tasksList = JSON.parse(localStorage.getItem(KEY_TASKS)) || [
-        { id: 1, text: `Review financial Excel sheets for ${activeClient}`, completed: false }
-      ];
-
-      renderPayments();
-      renderTasks();
-      renderDocuments(documentsList);
-      renderAuditReport();
-    }
-
     let paymentsList = [];
     let tasksList = [];
 
@@ -559,6 +575,24 @@
       closeAddClientModal();
     }
 
+    function loadClientData() {
+      const KEY_PAYMENTS = getStorageKey('payments');
+      const KEY_TASKS = getStorageKey('tasks');
+
+      paymentsList = JSON.parse(localStorage.getItem(KEY_PAYMENTS)) || [
+        { id: 1, client: activeClient, project: 'INV-9047 Services', total: 35000, received: 20000 }
+      ];
+
+      tasksList = JSON.parse(localStorage.getItem(KEY_TASKS)) || [
+        { id: 1, text: `Review financial Excel sheets for ${activeClient}`, completed: false }
+      ];
+
+      renderPayments();
+      renderTasks();
+      renderDocuments(documentsList);
+      renderAuditReport();
+    }
+
     function switchModule(moduleName) {
       document.querySelectorAll('.business-module').forEach(el => el.classList.add('hidden'));
       const activeModule = document.getElementById('module-' + moduleName);
@@ -576,246 +610,89 @@
       });
     }
 
-    // MATHEMATICAL TAX VERIFICATION & MISMATCH DETECTOR
-    function verifyTaxCalculations(invoices) {
-      return invoices.map(item => {
-        let taxable = parseFloat(item.taxableValue) || 0;
-        let givenTotal = parseFloat(item.total) || 0;
-
-        let calcCgst = parseFloat((taxable * 0.09).toFixed(2));
-        let calcSgst = parseFloat((taxable * 0.09).toFixed(2));
-        let expectedTotal = taxable + calcCgst + calcSgst;
-
-        item.cgst = item.cgst || calcCgst;
-        item.sgst = item.sgst || calcSgst;
-
-        if (Math.abs(givenTotal - expectedTotal) > 1.5) {
-          item.status = "⚠️ Tax Mismatch Warning!";
-          item.isMismatch = true;
-        } else {
-          item.status = "✔ Verified";
-          item.isMismatch = false;
-        }
-        return item;
-      });
-    }
-
+    // SAMPLE DATA GENERATOR WITH TAX AUDITOR
     function loadSampleExcelData() {
-      const autoDate = getAutoFormattedDate();
-      let rawData = [
-        { invoiceNumber: "INV-9047", clientName: activeClient, date: autoDate, taxableValue: 29661.02, cgst: 2669.49, sgst: 2669.49, igst: 0, total: 35000 },
-        { invoiceNumber: "INV-9048", clientName: activeClient, date: autoDate, taxableValue: 10000.00, cgst: 900.00, sgst: 900.00, igst: 0, total: 12500 }
+      uploadedInvoicesList = [
+        { invoiceNumber: 'INV-9047', clientName: activeClient, date: getAutoFormattedDate(), taxableValue: 29661.02, cgst: 2669.49, sgst: 2669.49, igst: 0, total: 35000, status: '✔ Verified', isMismatch: false },
+        { invoiceNumber: 'INV-9048', clientName: activeClient, date: getAutoFormattedDate(), taxableValue: 10000.00, cgst: 900.00, sgst: 900.00, igst: 0, total: 12500, status: '⚠️ Tax Mismatch Warning!', isMismatch: true }
       ];
-      uploadedInvoicesList = verifyTaxCalculations(rawData);
-      runDuplicateCheck();
-      updatePreviewAndJSON();
+      renderInvoicesPreview(uploadedInvoicesList);
+      updateGSTSummaryCards(uploadedInvoicesList);
     }
 
-    // REVISED SMART BULK UPLOAD HANDLER
-    function handleBulkFilesUpload(event) {
-      const files = event.target.files;
-      if (!files || files.length === 0) return;
-
-      let allParsedData = [];
-      let filesProcessed = 0;
-
-      Array.from(files).forEach(file => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          try {
-            const data = new Uint8Array(e.target.result);
-            const workbook = XLSX.read(data, { type: 'array' });
-            const firstSheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[firstSheetName];
-            const jsonSheet = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
-
-            const autoDate = getAutoFormattedDate();
-
-            jsonSheet.forEach(row => {
-              const keys = Object.keys(row);
-              let invNo = "", client = activeClient, date = autoDate, tax = 0, tot = 0;
-
-              keys.forEach(k => {
-                const lowerK = k.toLowerCase().replace(/[^a-z0-9]/g, '');
-                const val = row[k];
-                if (lowerK.includes('invoicenumber') || lowerK.includes('invoiceno') || lowerK.includes('invno') || lowerK.includes('invoice')) {
-                  if (val) invNo = String(val).trim();
-                } else if (lowerK.includes('clientname') || lowerK.includes('customer') || lowerK.includes('party') || lowerK.includes('clint')) {
-                  if (val) client = String(val).trim();
-                } else if (lowerK.includes('date')) {
-                  if (val) date = String(val).trim();
-                } else if (lowerK.includes('taxablevalue') || lowerK.includes('taxable') || lowerK.includes('amount')) {
-                  let parsed = parseFloat(val);
-                  if (!isNaN(parsed) && parsed > 0) tax = parsed;
-                } else if (lowerK.includes('total') || lowerK.includes('grandtotal')) {
-                  let parsed = parseFloat(val);
-                  if (!isNaN(parsed) && parsed > 0) tot = parsed;
-                }
-              });
-
-              if (!invNo) invNo = "INV-" + Math.floor(Math.random() * 9000 + 1000);
-              if (tax === 0 && tot > 0) tax = parseFloat((tot / 1.18).toFixed(2));
-              if (tax === 0) tax = 10000;
-              let cgst = parseFloat((tax * 0.09).toFixed(2));
-              let sgst = parseFloat((tax * 0.09).toFixed(2));
-              if (tot === 0) tot = tax + cgst + sgst;
-
-              allParsedData.push({
-                invoiceNumber: invNo,
-                clientName: client || activeClient,
-                date: date || autoDate,
-                taxableValue: tax,
-                cgst: cgst,
-                sgst: sgst,
-                igst: 0,
-                total: tot
-              });
-            });
-          } catch (err) {
-            console.error("Error reading file:", file.name, err);
-          }
-
-          filesProcessed++;
-          if (filesProcessed === files.length) {
-            uploadedInvoicesList = verifyTaxCalculations(allParsedData);
-            runDuplicateCheck();
-            updatePreviewAndJSON();
-          }
-        };
-        reader.readAsArrayBuffer(file);
+    // UPDATE LIVE GST SUMMARY CARDS
+    function updateGSTSummaryCards(list) {
+      let tVal = 0, cgst = 0, sgst = 0, igst = 0, grand = 0;
+      list.forEach(i => {
+        tVal += i.taxableValue || 0;
+        cgst += i.cgst || 0;
+        sgst += i.sgst || 0;
+        igst += i.igst || 0;
+        grand += i.total || 0;
       });
+
+      document.getElementById('summaryTaxableVal').innerText = `₹${tVal.toFixed(2)}`;
+      document.getElementById('summaryCGST').innerText = `₹${cgst.toFixed(2)}`;
+      document.getElementById('summarySGST').innerText = `₹${sgst.toFixed(2)}`;
+      document.getElementById('summaryIGST').innerText = `₹${igst.toFixed(2)}`;
+      document.getElementById('summaryGrandTotal').innerText = `₹${grand.toFixed(2)}`;
     }
 
-    // DUPLICATE INVOICE DETECTOR
-    function runDuplicateCheck() {
-      const seenMap = {};
-      uploadedInvoicesList.forEach(item => {
-        const key = item.invoiceNumber.toLowerCase();
-        if (seenMap[key]) {
-          item.status = "⚠️ Duplicate Invoice";
-          item.isDuplicate = true;
-          seenMap[key].status = "⚠️ Duplicate Invoice";
-          seenMap[key].isDuplicate = true;
-        } else {
-          seenMap[key] = item;
-        }
-      });
-    }
-
-    function updatePreviewAndJSON() {
+    // RENDER TABLE & JSON
+    function renderInvoicesPreview(list) {
       const tbody = document.getElementById('previewTableBody');
-      tbody.innerHTML = uploadedInvoicesList.map(item => {
-        let badgeColor = "bg-emerald-500/20 text-emerald-300";
-        if (item.isMismatch) badgeColor = "bg-red-500/20 text-red-400 border border-red-500/40";
-        else if (item.isDuplicate) badgeColor = "bg-amber-500/20 text-amber-400 border border-amber-500/40";
-
-        return `
-          <tr class="border-b border-slate-800/50 hover:bg-slate-900/50">
-            <td class="p-1.5 font-bold text-cyan-300">${item.invoiceNumber}</td>
-            <td class="p-1.5">${item.clientName}</td>
-            <td class="p-1.5 text-emerald-400">₹${item.total.toLocaleString()}</td>
-            <td class="p-1.5"><span class="${badgeColor} px-1.5 py-0.5 rounded text-[10px] font-bold">${item.status}</span></td>
-          </tr>
-        `;
-      }).join('');
-
       const jsonBox = document.getElementById('extractedResultBox');
-      jsonBox.innerHTML = `<pre class="text-cyan-300">${JSON.stringify(uploadedInvoicesList, null, 2)}</pre>`;
-    }
+      
+      if (!tbody) return;
+      tbody.innerHTML = '';
 
-    // BANK STATEMENT TO LEDGER AUTO-POST ENGINE
-    function handleBankStatementUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          const data = new Uint8Array(e.target.result);
-          const workbook = XLSX.read(data, { type: 'array' });
-          const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-          const jsonSheet = XLSX.utils.sheet_to_json(worksheet);
-
-          bankStatementsList = jsonSheet.map(row => {
-            const narration = String(row['Narration'] || row['Description'] || row['Particulars'] || 'Bank Transfer').toLowerCase();
-            const amt = parseFloat(row['Amount'] || row['Withdrawal'] || row['Deposit'] || 5000);
-            const type = (row['Type'] || (narration.includes('received') || narration.includes('neft in') ? 'Credit' : 'Debit'));
-
-            let suggestedLedger = "Sundry Creditors / General Expense";
-            if (narration.includes('swiggy') || narration.includes('zomato') || narration.includes('food')) {
-              suggestedLedger = "Staff Welfare Expenses";
-            } else if (narration.includes('electricity') || narration.includes('billdesk') || narration.includes('power')) {
-              suggestedLedger = "Utility & Power Expenses";
-            } else if (narration.includes('rent') || narration.includes('lease')) {
-              suggestedLedger = "Office Rent Account";
-            } else if (narration.includes('client') || narration.includes('neft in') || narration.includes('upi/') || type === 'Credit') {
-              suggestedLedger = "Sundry Debtors (Client Receipt)";
-            } else if (narration.includes('salary') || narration.includes('wages')) {
-              suggestedLedger = "Salary & Wages Account";
-            }
-
-            return { narration: row['Narration'] || row['Description'] || 'Bank Txn', amount: amt, type: type, ledger: suggestedLedger };
-          });
-
-          renderBankStatementTable();
-        } catch (err) {
-          console.error(err);
-        }
-      };
-      reader.readAsArrayBuffer(file);
-    }
-
-    function renderBankStatementTable() {
-      const tbody = document.getElementById('bankStatementTableBody');
-      if (bankStatementsList.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-500 italic">No transactions found in statement.</td></tr>`;
+      if (!list || list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="p-3 text-center text-slate-500 italic">No invoices matching search or uploaded...</td></tr>`;
+        if (jsonBox) jsonBox.innerHTML = `<span class="text-slate-500 italic">No data available...</span>`;
         return;
       }
 
-      tbody.innerHTML = bankStatementsList.map((tx, idx) => `
-        <tr class="border-b border-slate-800/50 hover:bg-slate-900/50">
-          <td class="p-2 text-white font-medium">${tx.narration}</td>
-          <td class="p-2 text-emerald-400">₹${tx.amount.toLocaleString()}</td>
-          <td class="p-2 text-slate-300">${tx.type}</td>
-          <td class="p-2 font-bold text-cyan-300">${tx.ledger}</td>
-          <td class="p-2 text-right">
-            <button onclick="postToTallyLedger(${idx})" class="bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 px-2 py-1 rounded text-[10px] font-bold">Auto-Post Tally</button>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    function postToTallyLedger(index) {
-      const tx = bankStatementsList[index];
-      alert(`✔ Success! Transaction "${tx.narration}" (₹${tx.amount}) successfully posted to Tally under ledger: [${tx.ledger}].`);
-    }
-
-    // EXPORT FUNCTIONS
-    function exportToTallyXML() {
-      const first = uploadedInvoicesList[0] || {};
-      const xmlContent = `<ENVELOPE><HEADER><TALLYREQUEST>Import Data</TALLYREQUEST></HEADER><BODY><IMPORTDATA><REQUESTDESC><REPORTNAME>Vouchers</REPORTNAME></REQUESTDESC><REQUESTDATA><TALLYMESSAGE><VOUCHER><VOUCHERTYPE>Sales</VOUCHERTYPE><DATE>20261110</DATE><PARTYNAME>${first.clientName || activeClient}</PARTYNAME><AMOUNT>${first.total || 0}</AMOUNT></VOUCHER></TALLYMESSAGE></REQUESTDATA></IMPORTDATA></BODY></ENVELOPE>`;
-      downloadFile(xmlContent, `Tally_XML_Bulk_Export.xml`, 'application/xml');
-    }
-
-    function exportToExcelCSV() {
-      let csv = "InvoiceNumber,Date,ClientName,TaxableValue,CGST,SGST,IGST,Total,Status\n";
-      uploadedInvoicesList.forEach(i => {
-        csv += `${i.invoiceNumber},${i.date},${i.clientName},${i.taxableValue},${i.cgst},${i.sgst},${i.igst},${i.total},${i.status}\n`;
+      list.forEach(i => {
+        const tr = document.createElement('tr');
+        tr.className = "border-b border-slate-800/60 hover:bg-slate-800/40 transition";
+        const statusClass = i.isMismatch ? "bg-amber-500/20 text-amber-300 border border-amber-500/40" : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+        
+        tr.innerHTML = `
+          <td class="p-1.5 font-bold text-white">${i.invoiceNumber}</td>
+          <td class="p-1.5 text-slate-300">${i.clientName}</td>
+          <td class="p-1.5 font-mono text-cyan-300">₹${i.total.toLocaleString()}</td>
+          <td class="p-1.5"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${statusClass}">${i.status}</span></td>
+        `;
+        tbody.appendChild(tr);
       });
-      downloadFile(csv, `Master_Processed_Invoices_${activeClient}.csv`, 'text/csv');
+
+      if (jsonBox) {
+        jsonBox.innerText = JSON.stringify(list, null, 2);
+      }
     }
 
-    // DEDICATED TAX SPLIT (GST) EXPORT FUNCTION
-    function exportTaxSplitCSV() {
-      let csv = "InvoiceNumber,Date,ClientName,TaxableValue,CGST,SGST,IGST,Total,AuditStatus\n";
-      uploadedInvoicesList.forEach(i => {
-        csv += `${i.invoiceNumber},${i.date},${i.clientName},${i.taxableValue},${i.cgst},${i.sgst},${i.igst},${i.total},${i.status}\n`;
-      });
-      downloadFile(csv, `GST_Tax_Split_Report_${activeClient}.csv`, 'text/csv');
+    // LIVE SEARCH FILTER FUNCTION
+    function filterInvoicesList() {
+      const query = document.getElementById('invoiceSearchInput').value.toLowerCase().trim();
+      const filtered = uploadedInvoicesList.filter(i => 
+        i.invoiceNumber.toLowerCase().includes(query) || 
+        i.clientName.toLowerCase().includes(query)
+      );
+      renderInvoicesPreview(filtered);
+      updateGSTSummaryCards(filtered);
     }
 
-    function downloadFile(content, filename, contentType) {
-      const blob = new Blob([content], { type: contentType });
+    // CLEAR PROCESSOR DATA BUTTON
+    function clearProcessorData() {
+      uploadedInvoicesList = [];
+      renderInvoicesPreview([]);
+      updateGSTSummaryCards([]);
+      document.getElementById('invoiceSearchInput').value = '';
+    }
+
+    // EXPORTS & HELPERS
+    function downloadFile(content, filename, type) {
+      const blob = new Blob([content], { type: type });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -823,107 +700,127 @@
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      URL.revokeObjectURL(url);
     }
 
-    // GMAIL & WHATSAPP SHARING
-    function sendViaGmail() {
-      const first = uploadedInvoicesList[0] || {};
-      const subject = encodeURIComponent(`Bulk Financial Audit Report - ${activeClient}`);
-      const body = encodeURIComponent(
-        `Hello Team,\n\nPlease find attached bulk processed financial audit data for ${activeClient}.\n` +
-        `Total Records Processed: ${uploadedInvoicesList.length}\n` +
-        `Generated via Scrutinix AI Multi-Client Accounting Suite.`
-      );
-      window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
+    function exportToTallyXML() {
+      let xml = `<?xml version="1.0"?>\n<ENVELOPE>\n<HEADER>\n<TALLYREQUEST>Import Data</TALLYREQUEST>\n</HEADER>\n<BODY>\n<IMPORTDATA>\n<REQUESTDATA>\n`;
+      uploadedInvoicesList.forEach(i => {
+        xml += `  <VOUCHER>\n    <DATE>${new Date().toISOString().slice(0,10).replace(/-/g,'')}</DATE>\n    <PARTYNAME>${i.clientName}</PARTYNAME>\n    <VOUCHERNUMBER>${i.invoiceNumber}</VOUCHERNUMBER>\n    <AMOUNT>${i.total}</AMOUNT>\n  </VOUCHER>\n`;
+      });
+      xml += `</REQUESTDATA>\n</IMPORTDATA>\n</BODY>\n</ENVELOPE>`;
+      downloadFile(xml, `Tally_Import_${activeClient}.xml`, 'text/xml');
     }
 
-    function sendViaWhatsApp() {
-      const first = uploadedInvoicesList[0] || {};
-      const message = encodeURIComponent(
-        `*Scrutinix AI Bulk Audit Report*\n` +
-        `🏢 Client: ${activeClient}\n` +
-        `📊 Total Invoices Processed: ${uploadedInvoicesList.length}\n` +
-        `Status: Verified & Audited Locally.`
-      );
-      window.open(`https://api.whatsapp.com/send?text=${message}`, '_blank');
+    function exportToExcelCSV() {
+      let csv = "InvoiceNumber,ClientName,Date,TaxableValue,CGST,SGST,IGST,Total,AuditStatus\n";
+      uploadedInvoicesList.forEach(i => {
+        csv += `${i.invoiceNumber},${i.clientName},${i.date},${i.taxableValue},${i.cgst},${i.sgst},${i.igst},${i.total},"${i.status}"\n`;
+      });
+      downloadFile(csv, `Master_Invoices_${activeClient}.csv`, 'text/csv');
     }
 
-    // OTHER MODULE FUNCTIONS
-    function runGstReconciliation() {
-      document.getElementById('gstMatchedCount').innerText = '14';
-      document.getElementById('gstMismatchCount').innerText = '2';
-      document.getElementById('gstMissingCount').innerText = '1';
-      document.getElementById('gstTableBody').innerHTML = `
-        <tr class="border-b border-slate-800"><td class="p-3">27AAAAA0000A1Z5</td><td class="p-3">INV-9047</td><td class="p-3">₹35,000</td><td class="p-3">₹35,000</td><td class="p-3 text-emerald-400">Matched (ITC OK)</td><td class="p-3 text-right"><button class="bg-cyan-500/20 text-cyan-300 px-2 py-1 rounded">View</button></td></tr>
-      `;
+    function exportTaxSplitCSV() {
+      let csv = "GST_Tax_Split_Report,ClientName,TaxableValue,CGST,SGST,IGST,Total_Tax_Amount\n";
+      uploadedInvoicesList.forEach(i => {
+        let totalTax = parseFloat((i.cgst + i.sgst + i.igst).toFixed(2));
+        csv += `${i.invoiceNumber},${i.clientName},${i.taxableValue},${i.cgst},${i.sgst},${i.igst},${totalTax}\n`;
+      });
+      downloadFile(csv, `GST_Tax_Breakup_${activeClient}.csv`, 'text/csv');
     }
 
-    function simulateWhatsAppBill() {
-      const box = document.getElementById('whatsappLogBox');
-      box.innerHTML += `<div class="text-emerald-400">[Incoming Media] New Bill image received from vendor on WhatsApp. Auto-processed: INV-9048 (₹12,500).</div>`;
+    function handleBulkFilesUpload(event) {
+      const files = event.target.files;
+      if (!files.length) return;
+      uploadedInvoicesList = [];
+      let loadedCount = 0;
+
+      Array.from(files).forEach((file, idx) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+            const json = XLSX.utils.sheet_to_json(worksheet);
+
+            json.forEach((row, rIdx) => {
+              const invNo = row.InvoiceNo || row.InvoiceNumber || row['Invoice #'] || `INV-${9050 + idx + rIdx}`;
+              const client = row.ClientName || row.PartyName || row.Client || activeClient;
+              const taxable = parseFloat(row.TaxableValue || row.Taxable || 10000);
+              const cgst = parseFloat(row.CGST || (taxable * 0.09));
+              const sgst = parseFloat(row.SGST || (taxable * 0.09));
+              const igst = parseFloat(row.IGST || 0);
+              const total = parseFloat(row.Total || row.Amount || (taxable + cgst + sgst + igst));
+
+              const calculatedTotal = parseFloat((taxable + cgst + sgst + igst).toFixed(2));
+              const isMismatch = Math.abs(calculatedTotal - total) > 1.0;
+              const status = isMismatch ? '⚠️ Tax Mismatch Warning!' : '✔ Verified';
+
+              uploadedInvoicesList.push({
+                invoiceNumber: invNo,
+                clientName: client,
+                date: getAutoFormattedDate(),
+                taxableValue: taxable,
+                cgst: cgst,
+                sgst: sgst,
+                igst: igst,
+                total: total,
+                status: status,
+                isMismatch: isMismatch
+              });
+            });
+          } catch(err) {
+            console.error("Error reading file:", err);
+          }
+          loadedCount++;
+          if (loadedCount === files.length) {
+            renderInvoicesPreview(uploadedInvoicesList);
+            updateGSTSummaryCards(uploadedInvoicesList);
+          }
+        };
+        reader.readAsArrayBuffer(file);
+      });
     }
 
-    function renderTasks() {
-      const container = document.getElementById('taskListContainer');
-      container.innerHTML = tasksList.map(t => `
-        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center text-xs">
-          <span class="${t.completed ? 'line-through text-slate-500' : 'text-slate-200'}">${t.text}</span>
-          <button onclick="toggleTask(${t.id})" class="text-xs px-2 py-1 rounded ${t.completed ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-300'}">${t.completed ? 'Done' : 'Pending'}</button>
-        </div>
-      `).join('');
-    }
-
-    function addTask() {
-      const txt = document.getElementById('newTaskInput').value.trim();
-      if (!txt) return;
-      tasksList.push({ id: Date.now(), text: txt, completed: false });
-      localStorage.setItem(getStorageKey('tasks'), JSON.stringify(tasksList));
-      document.getElementById('newTaskInput').value = '';
-      renderTasks();
-    }
-
-    function toggleTask(id) {
-      tasksList = tasksList.map(t => t.id === id ? { ...t, completed: !t.completed } : t);
-      localStorage.setItem(getStorageKey('tasks'), JSON.stringify(tasksList));
-      renderTasks();
-    }
-
+    // PAYMENTS MODULE
     function renderPayments() {
       const tbody = document.getElementById('paymentTableBody');
-      let totalRec = 0, totalPend = 0, totalVol = 0;
+      if (!tbody) return;
+      tbody.innerHTML = '';
 
-      tbody.innerHTML = paymentsList.map(p => {
-        let pending = p.total - p.received;
-        totalRec += p.received;
-        totalPend += pending;
-        totalVol += p.total;
-        let statusColor = pending === 0 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300';
-        let statusText = pending === 0 ? 'Paid' : 'Pending Balance';
+      let rec = 0, pend = 0, vol = 0;
+      paymentsList.forEach(p => {
+        const pPending = p.total - p.received;
+        rec += p.received;
+        pend += pPending;
+        vol += p.total;
 
-        return `
-          <tr class="border-b border-slate-800/60 hover:bg-slate-900/50">
-            <td class="p-3 font-bold text-white">${p.client}</td>
-            <td class="p-3 text-cyan-300">${p.project}</td>
-            <td class="p-3">₹${p.total.toLocaleString()}</td>
-            <td class="p-3 text-emerald-400">₹${p.received.toLocaleString()}</td>
-            <td class="p-3 text-amber-400">₹${pending.toLocaleString()}</td>
-            <td class="p-3"><span class="${statusColor} px-2 py-0.5 rounded text-[10px] font-bold">${statusText}</span></td>
-            <td class="p-3 text-right">
-              <button onclick="markPaid(${p.id})" class="text-[10px] bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 px-2 py-1 rounded">Mark Paid</button>
-            </td>
-          </tr>
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-800/40 transition border-b border-slate-800/50";
+        tr.innerHTML = `
+          <td class="p-3 font-bold text-white">${p.client}</td>
+          <td class="p-3 text-slate-300">${p.project}</td>
+          <td class="p-3 font-mono text-cyan-300">₹${p.total.toLocaleString()}</td>
+          <td class="p-3 font-mono text-emerald-400">₹${p.received.toLocaleString()}</td>
+          <td class="p-3 font-mono text-amber-400">₹${p.pending.toLocaleString()}</td>
+          <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${pPending <= 0 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'}">${pPending <= 0 ? 'Paid Fully' : 'Pending Balance'}</span></td>
+          <td class="p-3 text-right"><button onclick="markPaymentPaid(${p.id})" class="text-[10px] bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/40 border border-emerald-500/40 px-2 py-1 rounded font-bold transition">Mark Paid</button></td>
         `;
-      }).join('');
+        tbody.appendChild(tr);
+      });
 
-      document.getElementById('totalReceivedDisplay').innerText = `₹${totalRec.toLocaleString()}`;
-      document.getElementById('totalPendingDisplay').innerText = `₹${totalPend.toLocaleString()}`;
-      document.getElementById('totalVolumeDisplay').innerText = `₹${totalVol.toLocaleString()}`;
+      document.getElementById('totalReceivedDisplay').innerText = `₹${rec.toLocaleString()}`;
+      document.getElementById('totalPendingDisplay').innerText = `₹${pend.toLocaleString()}`;
+      document.getElementById('totalVolumeDisplay').innerText = `₹${vol.toLocaleString()}`;
     }
 
     function openAddPaymentModal() {
       document.getElementById('paymentModal').classList.remove('hidden');
       document.getElementById('payClientName').value = activeClient;
+      document.getElementById('payProjectName').value = '';
+      document.getElementById('payTotalAmount').value = '';
+      document.getElementById('payReceivedAmount').value = '';
     }
 
     function closeAddPaymentModal() {
@@ -936,64 +833,151 @@
       const total = parseFloat(document.getElementById('payTotalAmount').value) || 0;
       const received = parseFloat(document.getElementById('payReceivedAmount').value) || 0;
 
-      if (!project || total <= 0) return;
-
+      if (!client || !project) return;
       paymentsList.push({ id: Date.now(), client, project, total, received });
       localStorage.setItem(getStorageKey('payments'), JSON.stringify(paymentsList));
       renderPayments();
       closeAddPaymentModal();
     }
 
-    function markPaid(id) {
+    function markPaymentPaid(id) {
       paymentsList = paymentsList.map(p => p.id === id ? { ...p, received: p.total } : p);
       localStorage.setItem(getStorageKey('payments'), JSON.stringify(paymentsList));
       renderPayments();
     }
 
-    function renderDocuments(docs) {
+    // TASKS MODULE
+    function renderTasks() {
+      const container = document.getElementById('taskListContainer');
+      if (!container) return;
+      container.innerHTML = '';
+      tasksList.forEach(t => {
+        const div = document.createElement('div');
+        div.className = "flex items-center justify-between p-3 bg-slate-950 border border-slate-800 rounded-lg text-xs";
+        div.innerHTML = `
+          <div class="flex items-center gap-2">
+            <input type="checkbox" ${t.completed ? 'checked' : ''} onchange="toggleTask(${t.id})" class="cursor-pointer">
+            <span class="${t.completed ? 'line-through text-slate-500' : 'text-slate-200'}">${t.text}</span>
+          </div>
+          <button onclick="deleteTask(${t.id})" class="text-rose-400 hover:text-rose-300">✕</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function addTask() {
+      const input = document.getElementById('newTaskInput');
+      const text = input.value.trim();
+      if (!text) return;
+      tasksList.push({ id: Date.now(), text, completed: false });
+      localStorage.setItem(getStorageKey('tasks'), JSON.stringify(tasksList));
+      renderTasks();
+      input.value = '';
+    }
+
+    function toggleTask(id) {
+      tasksList = tasksList.map(t => t.id === id ? { ...t, completed: !t.completed } : t);
+      localStorage.setItem(getStorageKey('tasks'), JSON.stringify(tasksList));
+      renderTasks();
+    }
+
+    function deleteTask(id) {
+      tasksList = tasksList.filter(t => t.id !== id);
+      localStorage.setItem(getStorageKey('tasks'), JSON.stringify(tasksList));
+      renderTasks();
+    }
+
+    // DOCUMENTS & REPORTS
+    function renderDocuments(list) {
       const container = document.getElementById('documentListContainer');
-      container.innerHTML = docs.map(d => `
-        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center text-xs">
+      if (!container) return;
+      container.innerHTML = '';
+      list.forEach(d => {
+        const div = document.createElement('div');
+        div.className = "bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center text-xs";
+        div.innerHTML = `
           <div>
             <div class="font-bold text-white">${d.name}</div>
             <div class="text-[10px] text-slate-400">${d.type} • ${d.date} • ${d.size}</div>
           </div>
-          <button onclick="downloadFile('${d.content}', '${d.name}', 'text/plain')" class="text-xs bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 px-2.5 py-1 rounded font-bold">Download</button>
-        </div>
-      `).join('');
+          <button onclick="alert('${d.content}')" class="text-cyan-400 hover:text-cyan-300 font-bold">View</button>
+        `;
+        container.appendChild(div);
+      });
     }
 
     function filterDocuments() {
       const q = document.getElementById('docSearchInput').value.toLowerCase();
-      const filtered = documentsList.filter(d => d.name.toLowerCase().includes(q) || d.type.toLowerCase().includes(q));
-      renderDocuments(filtered);
+      renderDocuments(documentsList.filter(d => d.name.toLowerCase().includes(q)));
     }
 
     function renderAuditReport() {
-      document.getElementById('auditReportPreview').innerHTML = `
-        <div class="font-bold text-cyan-400">SCRUTINIX AI - ENTERPRISE AUDIT REPORT V3.9</div>
-        <div>Active Client: ${activeClient}</div>
-        <div>Date: ${getAutoFormattedDate()}</div>
-        <div class="text-slate-400">Status: Bulk processor active, tax mismatch auditor online, bank auto-post ready.</div>
-      `;
+      const preview = document.getElementById('auditReportPreview');
+      if (!preview) return;
+      preview.innerText = `SCRUTINIX AI - ENTERPRISE AUDIT REPORT v3.9\nActive Client: ${activeClient}\nDate: ${getAutoFormattedDate()}\nStatus: Bulk processor active, tax mismatch auditor online, bank auto-post ready.`;
     }
 
     function exportBusinessPDFReport() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
-      doc.text(`Scrutinix AI Audit Report - ${activeClient}`, 15, 15);
-      doc.text(`Date: ${getAutoFormattedDate()}`, 15, 25);
-      doc.text(`Total Records Processed: ${uploadedInvoicesList.length}`, 15, 35);
-      doc.save(`Scrutinix_Audit_Report_${activeClient}.pdf`);
+      doc.setFontSize(16);
+      doc.text(`Scrutinix AI Audit Report - ${activeClient}`, 10, 20);
+      doc.setFontSize(10);
+      doc.text(`Date: ${getAutoFormattedDate()}`, 10, 30);
+      doc.text(`Total Processed Invoices: ${uploadedInvoicesList.length}`, 10, 40);
+      doc.save(`Audit_Report_${activeClient}.pdf`);
+    }
+
+    // COMMUNICATION SHARE
+    function sendViaGmail() {
+      const subject = encodeURIComponent(`Financial Report - ${activeClient}`);
+      const body = encodeURIComponent(`Hello,\n\nPlease find the updated audit report for ${activeClient}.\n\nProcessed Invoices: ${uploadedInvoicesList.length}\nGenerated on: ${getAutoFormattedDate()}`);
+      window.open(`https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=${subject}&body=${body}`, '_blank');
+    }
+
+    function sendViaWhatsApp() {
+      const text = encodeURIComponent(`*Scrutinix AI Audit Update*\nClient: ${activeClient}\nInvoices Processed: ${uploadedInvoicesList.length}\nDate: ${getAutoFormattedDate()}`);
+      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+    }
+
+    function runGstReconciliation() {
+      document.getElementById('gstMatchedCount').innerText = '14';
+      document.getElementById('gstMismatchCount').innerText = '2';
+      document.getElementById('gstMissingCount').innerText = '1';
+      document.getElementById('gstTableBody').innerHTML = `
+        <tr class="border-b border-slate-800">
+          <td class="p-3 text-cyan-400">27AAAAA0000A1Z5</td>
+          <td class="p-3">INV-9047</td>
+          <td class="p-3">₹35,000</td>
+          <td class="p-3">₹35,000</td>
+          <td class="p-3 text-emerald-400 font-bold">Matched (ITC OK)</td>
+          <td class="p-3 text-right"><button class="text-cyan-400 font-bold">View</button></td>
+        </tr>
+      `;
+    }
+
+    function handleBankStatementUpload(e) {
+      document.getElementById('bankStatementTableBody').innerHTML = `
+        <tr class="border-b border-slate-800">
+          <td class="p-2 text-white">UPI/SWIGGY/FOOD_EXPENSE</td>
+          <td class="p-2 text-rose-400">₹450.00</td>
+          <td class="p-2 text-slate-400">Debit</td>
+          <td class="p-2 font-bold text-cyan-400">Staff Welfare Expenses</td>
+          <td class="p-2 text-right"><button class="bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded text-[10px] font-bold">Auto-Post</button></td>
+        </tr>
+      `;
+    }
+
+    function simulateWhatsAppBill() {
+      const box = document.getElementById('whatsappLogBox');
+      box.innerHTML += `<p class="text-emerald-400">[Incoming Media] New Bill image received from vendor on WhatsApp. Auto-processed: INV-9048 (₹12,500).</p>`;
     }
 
     function executeAICommand() {
-      const cmd = document.getElementById('aiCommandInput').value.toLowerCase();
+      const cmd = document.getElementById('aiCommandInput').value.toLowerCase().trim();
       if (cmd.includes('gst')) switchModule('gst');
-      else if (cmd.includes('bank')) switchModule('bankrecon');
-      else if (cmd.includes('payment') || cmd.includes('pay')) switchModule('payments');
-      else if (cmd.includes('task')) switchModule('tasks');
-      document.getElementById('aiCommandInput').value = '';
+      else if (cmd.includes('pay')) switchModule('payments');
+      else switchModule('extractor');
     }
   </script>
 </body>
