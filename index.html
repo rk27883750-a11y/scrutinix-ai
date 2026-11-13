@@ -47,7 +47,7 @@
       </div>
       <div class="space-y-3 text-xs">
         <div>
-          <label class="block text-slate-400 mb-1">Accountant / Firm Name:</label>
+          <label class="block text-slate-400 mb-1">Accountant / Firm Name (Signup के लिए):</label>
           <input type="text" id="authNameInput" placeholder="e.g. Rahul Kumar" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white outline-none focus:border-cyan-400">
         </div>
         <div>
@@ -55,7 +55,7 @@
           <input type="email" id="authEmailInput" placeholder="accountant@gmail.com" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white outline-none focus:border-cyan-400">
         </div>
         <div>
-          <label class="block text-slate-400 mb-1">Password (Min 6 characters):</label>
+          <label class="block text-slate-400 mb-1">Password (कम से कम 6 अंक):</label>
           <input type="password" id="authPasswordInput" placeholder="••••••" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white outline-none focus:border-cyan-400">
         </div>
       </div>
@@ -65,7 +65,7 @@
         <button id="btnFirebaseSignup" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition uppercase">Create Account</button>
       </div>
       <button onclick="bypassAuthForLocalTest()" class="w-full text-[11px] text-slate-400 hover:text-cyan-300 underline pt-1">
-        ⚡ Open in Local Demo Mode (Offline Ready)
+        ⚡ बिना Login के सीधे Local Demo मोड में खोलें
       </button>
     </div>
   </div>
@@ -475,24 +475,24 @@
     }
 
     function exportToExcelCSV() {
-      if (!uploadedInvoicesList.length) return alert("Please upload data first!");
+      if (!uploadedInvoicesList.length) return alert("पहले डेटा अपलोड करें!");
       const ws = XLSX.utils.json_to_sheet(uploadedInvoicesList);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Audit");
       XLSX.writeFile(wb, `${activeClient}_Audit.csv`);
     }
     function exportTaxSplitCSV() { exportToExcelCSV(); }
-    function exportToTallyXML() { alert("Tally XML Exported successfully."); }
-    function sendViaGmail() { alert("Report dispatched via Gmail."); }
-    function sendViaWhatsApp() { alert("Report dispatched via WhatsApp."); }
-    function runGstReconciliation() { alert("GST Auto-Reconciliation executed!"); }
-    function handleBankStatementUpload(e) { alert("Bank statement successfully uploaded and categorized."); }
-    function simulateWhatsAppBill() { alert("Simulated incoming WhatsApp bill synced!"); }
-    function addTask() { alert("Task added successfully."); }
+    function exportToTallyXML() { alert("Tally XML Exported."); }
+    function sendViaGmail() { alert("Sent via Gmail."); }
+    function sendViaWhatsApp() { alert("Dispatched via WhatsApp."); }
+    function runGstReconciliation() { alert("GST Recon executed!"); }
+    function handleBankStatementUpload(e) { alert("Bank statement uploaded."); }
+    function simulateWhatsAppBill() { alert("WhatsApp Bill simulated!"); }
+    function addTask() { alert("Task added."); }
     function openAddPaymentModal() { alert("Payment modal opened."); }
   </script>
 
-  <!-- FIREBASE v10 CDN MODULE (ENGLISH STATUS MESSAGES & CORRECT API KEY) -->
+  <!-- FIREBASE v10 CDN MODULE (CORRECT API KEY INTEGRATED) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -527,16 +527,16 @@
       const pass = document.getElementById('authPasswordInput').value;
       if (!email || pass.length < 6) {
         statusMsg.style.color = "#f87171";
-        statusMsg.innerText = "Please enter a valid email and a password of at least 6 characters!";
+        statusMsg.innerText = "सही Email और कम से कम 6 अंकों का Password डालें!";
         return;
       }
       statusMsg.style.color = "#38bdf8";
-      statusMsg.innerText = "Creating account...";
+      statusMsg.innerText = "Account बन रहा है...";
       try {
         const cred = await createUserWithEmailAndPassword(auth, email, pass);
         await setDoc(doc(db, "accountants", cred.user.uid), { name, email, createdAt: new Date().toISOString() });
         statusMsg.style.color = "#34d399";
-        statusMsg.innerText = "✅ Account created successfully!";
+        statusMsg.innerText = "✅ Account बन गया!";
       } catch (err) {
         statusMsg.style.color = "#f87171";
         statusMsg.innerText = "Error: " + err.message;
@@ -547,7 +547,7 @@
       const email = document.getElementById('authEmailInput').value.trim();
       const pass = document.getElementById('authPasswordInput').value;
       statusMsg.style.color = "#38bdf8";
-      statusMsg.innerText = "Logging in...";
+      statusMsg.innerText = "Login हो रहा है...";
       try {
         await signInWithEmailAndPassword(auth, email, pass);
       } catch (err) {
