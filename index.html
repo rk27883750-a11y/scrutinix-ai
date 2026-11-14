@@ -47,7 +47,7 @@
       </div>
       <div class="space-y-3 text-xs">
         <div>
-          <label class="block text-slate-400 mb-1">Accountant / Firm Name (Signup के लिए):</label>
+          <label class="block text-slate-400 mb-1">Accountant / Firm Name:</label>
           <input type="text" id="authNameInput" placeholder="e.g. Rahul Kumar" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white outline-none focus:border-cyan-400">
         </div>
         <div>
@@ -55,7 +55,7 @@
           <input type="email" id="authEmailInput" placeholder="accountant@gmail.com" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white outline-none focus:border-cyan-400">
         </div>
         <div>
-          <label class="block text-slate-400 mb-1">Password (कम से कम 6 अंक):</label>
+          <label class="block text-slate-400 mb-1">Password (Min 6 characters):</label>
           <input type="password" id="authPasswordInput" placeholder="••••••" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-white outline-none focus:border-cyan-400">
         </div>
       </div>
@@ -64,8 +64,26 @@
         <button id="btnFirebaseLogin" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition uppercase">Login</button>
         <button id="btnFirebaseSignup" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition uppercase">Create Account</button>
       </div>
+
+      <!-- GOOGLE LOGIN BUTTON -->
+      <div class="relative flex py-1 items-center">
+        <div class="flex-grow border-t border-slate-800"></div>
+        <span class="flex-shrink mx-2 text-[10px] text-slate-500 uppercase">OR</span>
+        <div class="flex-grow border-t border-slate-800"></div>
+      </div>
+
+      <button id="btnFirebaseGoogleLogin" class="w-full bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs py-2.5 rounded-lg transition flex items-center justify-center gap-2 shadow-md">
+        <svg class="w-4 h-4" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.29v3.14C3.26 21.3 7.31 24 12 24z"/>
+          <path fill="#FBBC05" d="M5.28 14.24c-.24-.72-.38-1.49-.38-2.24s.14-1.52.38-2.24V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.99-3.14z"/>
+          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.99 3.14c.95-2.85 3.6-4.96 6.72-4.96z"/>
+        </svg>
+        Continue with Google
+      </button>
+
       <button onclick="bypassAuthForLocalTest()" class="w-full text-[11px] text-slate-400 hover:text-cyan-300 underline pt-1">
-        ⚡ बिना Login के सीधे Local Demo मोड में खोलें
+        ⚡ Bypass Login & Open Local Demo Mode
       </button>
     </div>
   </div>
@@ -129,7 +147,7 @@
       <button onclick="switchModule('reports')" id="nav-reports" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1"><span>📑</span> Reports</button>
     </div>
 
-    <!-- MODULE 1: BULK EXCEL / CSV, DUPLICATE DETECTOR & TAX AUDITOR -->
+    <!-- MODULE 1 -->
     <div id="module-extractor" class="business-module space-y-4">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-3 gap-3">
@@ -147,7 +165,6 @@
           </div>
         </div>
 
-        <!-- LIVE AUDIT STATUS & GST SUMMARY CARDS -->
         <div class="grid grid-cols-2 md:grid-cols-6 gap-3">
           <div class="bg-slate-950 p-3 rounded-xl border border-slate-800"><div class="text-[10px] text-slate-400 uppercase font-semibold">Taxable Value</div><div id="summaryTaxableVal" class="text-sm font-bold text-cyan-400 mt-1 font-mono">₹0.00</div></div>
           <div class="bg-slate-950 p-3 rounded-xl border border-slate-800"><div class="text-[10px] text-slate-400 uppercase font-semibold">Total CGST</div><div id="summaryCGST" class="text-sm font-bold text-emerald-400 mt-1 font-mono">₹0.00</div></div>
@@ -157,7 +174,6 @@
           <div id="overallAuditCard" class="bg-slate-950 p-3 rounded-xl border border-slate-800"><div class="text-[10px] text-slate-400 uppercase font-semibold">Client Audit Health</div><div id="overallAuditBadge" class="text-xs font-bold text-slate-400 mt-1.5">Waiting Data...</div></div>
         </div>
 
-        <!-- CHROME LIVE PREVIEW TABLE & JSON OUTPUT WITH SEARCH FILTER -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
             <div class="flex justify-between items-center flex-wrap gap-2">
@@ -181,7 +197,6 @@
           </div>
         </div>
 
-        <!-- EXPORTS -->
         <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-wrap items-center justify-between gap-3">
           <div><h4 class="text-xs font-bold text-white uppercase">One-Click Accounting Software & Sharing</h4><p class="text-xs text-slate-400">Export Tally XML, Bulk Master CSV, Tax Splits & Reports</p></div>
           <div class="flex flex-wrap gap-2">
@@ -195,88 +210,149 @@
       </div>
     </div>
 
-    <!-- MODULE 2: GST RECON -->
-    <div id="module-gst" class="business-module space-y-4 hidden">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-          <div><h3 class="text-sm font-bold text-white uppercase tracking-wider">⚖️ AI GST Reconciliation Center (GSTR-2B vs Books)</h3><p class="text-xs text-slate-400">Automatically match purchase invoices with portal data for active client</p></div>
-          <button onclick="runGstReconciliation()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow">⚡ Run GST Auto-Recon</button>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800"><div class="text-xs text-slate-400 uppercase">Matched Invoices (ITC Available)</div><div id="gstMatchedCount" class="text-xl font-bold text-emerald-400 mt-1">0</div></div>
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800"><div class="text-xs text-slate-400 uppercase">Mismatched Tax / Amount</div><div id="gstMismatchCount" class="text-xl font-bold text-amber-400 mt-1">0</div></div>
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800"><div class="text-xs text-slate-400 uppercase">Missing in GSTR-2B (Action Req.)</div><div id="gstMissingCount" class="text-xl font-bold text-red-400 mt-1">0</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MODULE 3: BANK AUTO-POST -->
-    <div id="module-bankrecon" class="business-module space-y-4 hidden">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-          <div><h3 class="text-sm font-bold text-white uppercase tracking-wider">🏦 Bank Statement to Ledger Auto-Post Engine</h3><p class="text-xs text-slate-400">Upload Bank Statement CSV/Excel to auto-categorize expenses</p></div>
-          <label class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow cursor-pointer">📤 Upload Bank Statement<input type="file" accept=".csv, .xlsx, .xls" class="hidden" onchange="handleBankStatementUpload(event)"></label>
-        </div>
-      </div>
-    </div>
-
-    <!-- MODULE 4: WHATSAPP BOT -->
-    <div id="module-whatsapp" class="business-module space-y-4 hidden">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-          <div><h3 class="text-sm font-bold text-white uppercase tracking-wider">💬 WhatsApp Auto-Entry Gateway</h3><p class="text-xs text-slate-400">Simulate incoming client bills</p></div>
-          <button onclick="simulateWhatsAppBill()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg transition shadow">📥 Simulate Incoming WhatsApp Bill</button>
-        </div>
-        <div id="whatsappLogBox" class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2 font-mono text-xs text-slate-300 h-48 overflow-y-auto">
-          <p class="text-slate-500 italic">No incoming WhatsApp messages yet...</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- MODULE 5: TASKS -->
-    <div id="module-tasks" class="business-module space-y-4 hidden">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-          <div><h3 class="text-sm font-bold text-white uppercase tracking-wider">📊 Daily Work & Task Progress Tracker</h3></div>
-          <div class="flex gap-2"><input type="text" id="newTaskInput" placeholder="New task title..." class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-cyan-400"><button onclick="addTask()" class="bg-cyan-400 text-slate-950 font-bold text-xs px-3 py-1.5 rounded-lg">Add Task</button></div>
-        </div>
-        <div id="taskListContainer" class="space-y-2"></div>
-      </div>
-    </div>
-
-    <!-- MODULE 6: PAYMENTS -->
-    <div id="module-payments" class="business-module space-y-4 hidden">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-          <div><h3 class="text-sm font-bold text-white uppercase tracking-wider">💳 Payment & Accounts Receivable Tracker</h3></div>
-          <button onclick="openAddPaymentModal()" class="bg-emerald-500 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-lg">➕ Add Transaction</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- MODULE 7: DOCUMENTS -->
-    <div id="module-documents" class="business-module space-y-4 hidden">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
-        <h3 class="text-sm font-bold text-white uppercase tracking-wider">📂 Centralized Document & File Finder</h3>
-      </div>
-    </div>
-
-    <!-- MODULE 8: REPORTS -->
-    <div id="module-reports" class="business-module space-y-4 hidden">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
-        <h3 class="text-sm font-bold text-white uppercase tracking-wider">📑 Daily Shift & Financial Audit Report</h3>
-      </div>
-    </div>
+    <!-- OTHER MODULES PLACEHOLDERS -->
+    <div id="module-gst" class="business-module space-y-4 hidden"><div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl"><h3 class="text-sm font-bold text-white uppercase">⚖️ GST Recon</h3></div></div>
+    <div id="module-bankrecon" class="business-module space-y-4 hidden"><div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl"><h3 class="text-sm font-bold text-white uppercase">🏦 Bank Auto-Post</h3></div></div>
+    <div id="module-whatsapp" class="business-module space-y-4 hidden"><div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl"><h3 class="text-sm font-bold text-white uppercase">💬 WhatsApp Bot</h3></div></div>
+    <div id="module-tasks" class="business-module space-y-4 hidden"><div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl"><h3 class="text-sm font-bold text-white uppercase">📊 Tasks</h3></div></div>
+    <div id="module-payments" class="business-module space-y-4 hidden"><div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl"><h3 class="text-sm font-bold text-white uppercase">💳 Payments</h3></div></div>
+    <div id="module-documents" class="business-module space-y-4 hidden"><div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl"><h3 class="text-sm font-bold text-white uppercase">📂 Documents</h3></div></div>
+    <div id="module-reports" class="business-module space-y-4 hidden"><div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl"><h3 class="text-sm font-bold text-white uppercase">📑 Reports</h3></div></div>
 
   </div>
 
+  <!-- FIREBASE MODULAR SDK & AUTH LOGIC (ENGLISH MESSAGING) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { 
+      getAuth, 
+      createUserWithEmailAndPassword, 
+      signInWithEmailAndPassword, 
+      GoogleAuthProvider, 
+      signInWithPopup, 
+      onAuthStateChanged, 
+      signOut 
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "YOUR_FIREBASE_API_KEY",
+      authDomain: "scrutinix-ai.firebaseapp.com",
+      projectId: "scrutinix-ai",
+      storageBucket: "scrutinix-ai.appspot.com",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const googleProvider = new GoogleAuthProvider();
+
+    // Email/Password Signup
+    document.getElementById('btnFirebaseSignup').addEventListener('click', async () => {
+      const email = document.getElementById('authEmailInput').value.trim();
+      const password = document.getElementById('authPasswordInput').value.trim();
+      const name = document.getElementById('authNameInput').value.trim() || "CA Professional";
+      const statusMsg = document.getElementById('authStatusMsg');
+
+      if (!email || !password) {
+        statusMsg.innerText = "⚠️ Please enter email and password!";
+        statusMsg.className = "text-xs font-bold text-center text-amber-400";
+        return;
+      }
+
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        await setDoc(doc(db, "accountants", cred.user.uid), {
+          name: name,
+          email: email,
+          createdAt: new Date().toISOString()
+        });
+        statusMsg.innerText = "✅ Account created successfully!";
+        statusMsg.className = "text-xs font-bold text-center text-emerald-400";
+      } catch (err) {
+        statusMsg.innerText = "❌ Error: " + err.message;
+        statusMsg.className = "text-xs font-bold text-center text-rose-400";
+      }
+    });
+
+    // Email/Password Login
+    document.getElementById('btnFirebaseLogin').addEventListener('click', async () => {
+      const email = document.getElementById('authEmailInput').value.trim();
+      const password = document.getElementById('authPasswordInput').value.trim();
+      const statusMsg = document.getElementById('authStatusMsg');
+
+      if (!email || !password) {
+        statusMsg.innerText = "⚠️ Please enter email and password!";
+        statusMsg.className = "text-xs font-bold text-center text-amber-400";
+        return;
+      }
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        statusMsg.innerText = "✅ Login successful!";
+        statusMsg.className = "text-xs font-bold text-center text-emerald-400";
+      } catch (err) {
+        statusMsg.innerText = "❌ Error: " + err.message;
+        statusMsg.className = "text-xs font-bold text-center text-rose-400";
+      }
+    });
+
+    // GOOGLE LOGIN (ONE-CLICK OAUTH)
+    document.getElementById('btnFirebaseGoogleLogin').addEventListener('click', async () => {
+      const statusMsg = document.getElementById('authStatusMsg');
+      statusMsg.innerText = "Connecting with Google...";
+      statusMsg.className = "text-xs font-bold text-center text-cyan-400";
+
+      try {
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
+
+        await setDoc(doc(db, "accountants", user.uid), {
+          name: user.displayName || "CA Professional",
+          email: user.email,
+          lastLogin: new Date().toISOString()
+        }, { merge: true });
+
+        statusMsg.innerText = "✅ Google Login successful!";
+        statusMsg.className = "text-xs font-bold text-center text-emerald-400";
+      } catch (error) {
+        console.error(error);
+        statusMsg.innerText = "❌ Error: " + error.message;
+        statusMsg.className = "text-xs font-bold text-center text-rose-400";
+      }
+    });
+
+    // Auth State Monitor
+    onAuthStateChanged(auth, (user) => {
+      const modal = document.getElementById('authGateModal');
+      const badge = document.getElementById('loggedInUserBadge');
+      const logoutBtn = document.getElementById('btnFirebaseLogout');
+
+      if (user) {
+        modal.classList.add('hidden');
+        badge.innerText = `🟢 Cloud Synced: ${user.email}`;
+        logoutBtn.classList.remove('hidden');
+      } else {
+        badge.innerText = "Mode: Local Ready";
+        logoutBtn.classList.add('hidden');
+      }
+    });
+
+    // Logout
+    document.getElementById('btnFirebaseLogout').addEventListener('click', () => {
+      signOut(auth).then(() => {
+        document.getElementById('authGateModal').classList.remove('hidden');
+      });
+    });
+  </script>
+
   <script>
     let activeClient = 'Acme Corp';
-    let clientsList = JSON.parse(localStorage.getItem('scrutinix_clients_list_v40')) || ['Acme Corp', 'Sharma Enterprises', 'Global Traders'];
     let uploadedInvoicesList = [];
     let uploadedFileSignatures = new Set();
     let seenInvoiceNumbers = new Set();
-    let tasksList = JSON.parse(localStorage.getItem('scrutinix_tasks_v40')) || [];
 
     function bypassAuthForLocalTest() {
       document.getElementById('authGateModal').classList.add('hidden');
@@ -304,9 +380,6 @@
       else switchModule('extractor');
     }
 
-    function openAddClientModal() { document.getElementById('clientModal').classList.remove('hidden'); }
-    function closeAddClientModal() { document.getElementById('clientModal').classList.add('hidden'); }
-    
     function loadSampleExcelData() {
       uploadedFileSignatures.clear();
       const sampleData = [
@@ -418,26 +491,6 @@
       document.getElementById('summarySGST').innerText = "₹" + totalSgst.toFixed(2);
       document.getElementById('summaryIGST').innerText = "₹" + totalIgst.toFixed(2);
       document.getElementById('summaryGrandTotal').innerText = "₹" + grandTotal.toFixed(2);
-
-      const healthEl = document.getElementById('overallAuditBadge');
-      const cardEl = document.getElementById('overallAuditCard');
-      if (uploadedInvoicesList.length === 0) {
-        healthEl.innerText = "Waiting Data...";
-        healthEl.className = "text-xs font-bold text-slate-400 mt-1.5";
-        cardEl.className = "bg-slate-950 p-3 rounded-xl border border-slate-800";
-      } else if (dupCount > 0) {
-        healthEl.innerText = `❌ ${dupCount} Duplicate Found`;
-        healthEl.className = "text-xs font-bold text-rose-400 mt-1.5";
-        cardEl.className = "bg-rose-950/30 p-3 rounded-xl border border-rose-500/50";
-      } else if (mismatchCount > 0) {
-        healthEl.innerText = `⚠️ ${mismatchCount} Tax Mismatch`;
-        healthEl.className = "text-xs font-bold text-amber-400 mt-1.5";
-        cardEl.className = "bg-amber-950/30 p-3 rounded-xl border border-amber-500/50";
-      } else {
-        healthEl.innerText = `✅ 100% Verified (${verifiedCount})`;
-        healthEl.className = "text-xs font-bold text-emerald-400 mt-1.5";
-        cardEl.className = "bg-emerald-950/30 p-3 rounded-xl border border-emerald-500/50";
-      }
     }
 
     function renderTable(list) {
@@ -455,112 +508,6 @@
         </tr>
       `).join('');
     }
-
-    function filterInvoicesList() {
-      const query = document.getElementById('invoiceSearchInput').value.toLowerCase();
-      const filtered = uploadedInvoicesList.filter(item =>
-        item.invoiceNumber.toLowerCase().includes(query) ||
-        (item.sourceFile && item.sourceFile.toLowerCase().includes(query))
-      );
-      renderTable(filtered);
-    }
-
-    function clearProcessorData() {
-      uploadedInvoicesList = [];
-      uploadedFileSignatures.clear();
-      seenInvoiceNumbers.clear();
-      recalculateDashboardTotals();
-      document.getElementById('previewTableBody').innerHTML = `<tr><td colspan="4" class="p-3 text-center text-slate-500 italic">Data cleared.</td></tr>`;
-      document.getElementById('extractedResultBox').innerHTML = `<span class="text-slate-500 italic">No data...</span>`;
-    }
-
-    function exportToExcelCSV() {
-      if (!uploadedInvoicesList.length) return alert("पहले डेटा अपलोड करें!");
-      const ws = XLSX.utils.json_to_sheet(uploadedInvoicesList);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "Audit");
-      XLSX.writeFile(wb, `${activeClient}_Audit.csv`);
-    }
-    function exportTaxSplitCSV() { exportToExcelCSV(); }
-    function exportToTallyXML() { alert("Tally XML Exported."); }
-    function sendViaGmail() { alert("Sent via Gmail."); }
-    function sendViaWhatsApp() { alert("Dispatched via WhatsApp."); }
-    function runGstReconciliation() { alert("GST Recon executed!"); }
-    function handleBankStatementUpload(e) { alert("Bank statement uploaded."); }
-    function simulateWhatsAppBill() { alert("WhatsApp Bill simulated!"); }
-    function addTask() { alert("Task added."); }
-    function openAddPaymentModal() { alert("Payment modal opened."); }
   </script>
-
-  <!-- FIREBASE v10 CDN MODULE (CORRECT API KEY INTEGRATED) -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyB5ko4dNdSmFT12Rb5s-hOCwuL8VcDRP84",
-      authDomain: "scrutinix-ai.firebaseapp.com",
-      projectId: "scrutinix-ai",
-      storageBucket: "scrutinix-ai.firebasestorage.app",
-      messagingSenderId: "320510105313",
-      appId: "1:320510105313:web:2be24fd753b8e0a4fa89a0"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    const statusMsg = document.getElementById('authStatusMsg');
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        document.getElementById('authGateModal').classList.add('hidden');
-        document.getElementById('loggedInUserBadge').innerText = `🟢 Cloud Synced: ${user.email}`;
-        document.getElementById('btnFirebaseLogout').classList.remove('hidden');
-      }
-    });
-
-    document.getElementById('btnFirebaseSignup').addEventListener('click', async () => {
-      const name = document.getElementById('authNameInput').value.trim() || "Accountant";
-      const email = document.getElementById('authEmailInput').value.trim();
-      const pass = document.getElementById('authPasswordInput').value;
-      if (!email || pass.length < 6) {
-        statusMsg.style.color = "#f87171";
-        statusMsg.innerText = "सही Email और कम से कम 6 अंकों का Password डालें!";
-        return;
-      }
-      statusMsg.style.color = "#38bdf8";
-      statusMsg.innerText = "Account बन रहा है...";
-      try {
-        const cred = await createUserWithEmailAndPassword(auth, email, pass);
-        await setDoc(doc(db, "accountants", cred.user.uid), { name, email, createdAt: new Date().toISOString() });
-        statusMsg.style.color = "#34d399";
-        statusMsg.innerText = "✅ Account बन गया!";
-      } catch (err) {
-        statusMsg.style.color = "#f87171";
-        statusMsg.innerText = "Error: " + err.message;
-      }
-    });
-
-    document.getElementById('btnFirebaseLogin').addEventListener('click', async () => {
-      const email = document.getElementById('authEmailInput').value.trim();
-      const pass = document.getElementById('authPasswordInput').value;
-      statusMsg.style.color = "#38bdf8";
-      statusMsg.innerText = "Login हो रहा है...";
-      try {
-        await signInWithEmailAndPassword(auth, email, pass);
-      } catch (err) {
-        statusMsg.style.color = "#f87171";
-        statusMsg.innerText = "Login Error: " + err.message;
-      }
-    });
-
-    document.getElementById('btnFirebaseLogout').addEventListener('click', async () => {
-      await signOut(auth);
-      location.reload();
-    });
-  </script>
-
 </body>
 </html>
