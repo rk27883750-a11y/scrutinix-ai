@@ -81,10 +81,6 @@
         </svg>
         Continue with Google
       </button>
-
-      <button onclick="bypassAuthForLocalTest()" class="w-full text-[11px] text-slate-400 hover:text-cyan-300 underline pt-1">
-        ⚡ Bypass Login & Open Local Demo Mode
-      </button>
     </div>
   </div>
 
@@ -109,7 +105,7 @@
         </div>
         <div>
           <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">CA Multi-Client v4.0</span></h1>
-          <p id="loggedInUserBadge" class="text-xs text-emerald-400">Mode: Local Ready</p>
+          <p id="loggedInUserBadge" class="text-xs text-emerald-400">Mode: Cloud Ready</p>
         </div>
       </div>
 
@@ -221,7 +217,7 @@
 
   </div>
 
-  <!-- FIREBASE MODULAR SDK & AUTH LOGIC (ENGLISH MESSAGING) -->
+  <!-- FIREBASE MODULAR SDK & AUTH LOGIC -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { 
@@ -335,7 +331,8 @@
         badge.innerText = `🟢 Cloud Synced: ${user.email}`;
         logoutBtn.classList.remove('hidden');
       } else {
-        badge.innerText = "Mode: Local Ready";
+        modal.classList.remove('hidden');
+        badge.innerText = "Mode: Cloud Ready";
         logoutBtn.classList.add('hidden');
       }
     });
@@ -353,11 +350,6 @@
     let uploadedInvoicesList = [];
     let uploadedFileSignatures = new Set();
     let seenInvoiceNumbers = new Set();
-
-    function bypassAuthForLocalTest() {
-      document.getElementById('authGateModal').classList.add('hidden');
-      document.getElementById('loggedInUserBadge').innerText = "Mode: Local Demo (Offline Ready)";
-    }
 
     function switchModule(mod) {
       document.querySelectorAll('.business-module').forEach(m => m.classList.add('hidden'));
