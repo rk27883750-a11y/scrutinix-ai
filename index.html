@@ -351,6 +351,7 @@
         });
         statusMsg.innerText = "✅ Account created successfully!";
         statusMsg.className = "text-xs font-bold text-center text-emerald-400";
+        document.getElementById('authGateModal').classList.add('hidden');
       } catch (err) {
         statusMsg.innerText = "❌ Error: " + err.message;
         statusMsg.className = "text-xs font-bold text-center text-rose-400";
@@ -373,6 +374,7 @@
         await signInWithEmailAndPassword(auth, email, password);
         statusMsg.innerText = "✅ Login successful!";
         statusMsg.className = "text-xs font-bold text-center text-emerald-400";
+        document.getElementById('authGateModal').classList.add('hidden');
       } catch (err) {
         statusMsg.innerText = "❌ Error: " + err.message;
         statusMsg.className = "text-xs font-bold text-center text-rose-400";
@@ -397,6 +399,9 @@
 
         statusMsg.innerText = "✅ Google Login successful!";
         statusMsg.className = "text-xs font-bold text-center text-emerald-400";
+        
+        // 👉 मॉडल तुरंत बंद हो जाएगा और डैशबोर्ड दिखेगा
+        document.getElementById('authGateModal').classList.add('hidden');
       } catch (error) {
         console.error(error);
         statusMsg.innerText = "❌ Error: " + error.message;
