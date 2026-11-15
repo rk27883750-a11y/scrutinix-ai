@@ -86,11 +86,15 @@
 
   <div class="max-w-7xl mx-auto w-full space-y-5">
 
-    <!-- HERO HEADER BANNER -->
-    <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-cyan-950 border border-cyan-500/30 p-6 rounded-2xl shadow-2xl text-center space-y-2">
+    <!-- HERO HEADER BANNER WITH START FREE TRIAL -->
+    <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-cyan-950 border border-cyan-500/30 p-6 rounded-2xl shadow-2xl text-center space-y-3">
       <div class="text-[10px] tracking-widest text-cyan-400 font-bold uppercase">SMARTER ACCOUNTING. LESS MANUAL WORK.</div>
       <h2 class="text-lg md:text-2xl font-extrabold text-white">The AI-Powered Accounting Automation Suite for CAs & Accountants</h2>
       <p class="text-xs text-slate-400 max-w-2xl mx-auto">Automate. Reconcile. Simplify. Process bulk invoices, automate bank data entry, detect GST mismatches, and streamline accounting workflows — all from one powerful platform.</p>
+      <div>
+        <button onclick="startFreeTrial()" class="bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-extrabold text-xs px-6 py-2.5 rounded-xl shadow-lg transition uppercase tracking-wider">🚀 Start Free Trial (14-Day Pro)</button>
+        <p id="trialNotice" class="text-[11px] text-emerald-400 mt-1 font-semibold"></p>
+      </div>
     </div>
 
     <!-- TOP HEADER & MULTI-CLIENT SWITCHER BAR -->
@@ -193,6 +197,7 @@
           </div>
         </div>
 
+        <!-- FIXED BUTTONS FOR EXPORT & SHARING -->
         <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-wrap items-center justify-between gap-3">
           <div><h4 class="text-xs font-bold text-white uppercase">One-Click Accounting Software & Sharing</h4><p class="text-xs text-slate-400">Export Tally XML, Bulk Master CSV, Tax Splits & Reports</p></div>
           <div class="flex flex-wrap gap-2">
@@ -351,6 +356,12 @@
     let uploadedFileSignatures = new Set();
     let seenInvoiceNumbers = new Set();
 
+    function startFreeTrial() {
+      const notice = document.getElementById('trialNotice');
+      notice.innerText = "🎉 14-Day Free Trial Activated! Enjoy Pro CA Multi-Client Features.";
+      setTimeout(() => { notice.innerText = ""; }, 5000);
+    }
+
     function switchModule(mod) {
       document.querySelectorAll('.business-module').forEach(m => m.classList.add('hidden'));
       document.getElementById('module-' + mod).classList.remove('hidden');
@@ -464,7 +475,6 @@
 
     function recalculateDashboardTotals() {
       let totalTaxable = 0, totalCgst = 0, totalSgst = 0, totalIgst = 0, grandTotal = 0;
-      let dupCount = 0, mismatchCount = 0, verifiedCount = 0;
 
       uploadedInvoicesList.forEach(inv => {
         totalTaxable += Number(inv.taxableValue) || 0;
@@ -472,10 +482,6 @@
         totalSgst += Number(inv.sgst) || 0;
         totalIgst += Number(inv.igst) || 0;
         grandTotal += Number(inv.total) || 0;
-
-        if (inv.auditStatus.includes("Duplicate")) dupCount++;
-        else if (inv.auditStatus.includes("Mismatch")) mismatchCount++;
-        else verifiedCount++;
       });
 
       document.getElementById('summaryTaxableVal').innerText = "₹" + totalTaxable.toFixed(2);
@@ -499,6 +505,88 @@
           <td class="p-2"><span class="${item.badgeClass}">${item.auditStatus}</span></td>
         </tr>
       `).join('');
+    }
+
+    function clearProcessorData() {
+      uploadedInvoicesList = [];
+      uploadedFileSignatures.clear();
+      seenInvoiceNumbers.clear();
+      recalculateDashboardTotals();
+      renderTable([]);
+      document.getElementById('extractedResultBox').innerHTML = `<span class="text-slate-500 italic">Data cleared...</span>`;
+    }
+
+    // --- ONE-CLICK EXPORT & SHARING FUNCTIONS ---
+    function exportToTallyXML() {
+      if (uploadedInvoicesList.length === 0) {
+        alert("⚠️ Please upload files or load sample data first!");
+        return;
+      }
+      let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<ENVELOPE>\n  <BODY>\n    <IMPORTDATA>\n      <REQUESTDESC>\n        <REPORTNAME>Vouchers</REPORTNAME>\n      </REQUESTDESC>\n      <REQUESTDATA>\n`;
+      
+      uploadedInvoicesList.forEach(inv => {
+        xml += `        <TALLYMESSAGE xmlns:UDF="TallyUDF">\n`;
+        xml += `          <VOUCHER VCHTYPE="Sales" ACTION="Create">\n`;
+        xml += `            <DATE>${new Date().toISOString().slice(0,10).replace(/-/g,'')}</DATE>\n`;
+        xml += `            <PARTYLEDGERNAME>${inv.clientName || 'Cash Client'}</PARTYLEDGERNAME>\n`;
+        xml += `            <VOUCHERTYPENAME>Sales</VOUCHERTYPENAME>\n`;
+        xml += `            <REFERENCE>${inv.invoiceNumber}</REFERENCE>\n`;
+        xml += `            <AMOUNT>${inv.total}</AMOUNT>\n`;
+        xml += `          </VOUCHER>\n`;
+        xml += `        </TALLYMESSAGE>\n`;
+      });
+
+      xml += `      </REQUESTDATA>\n    </IMPORTDATA>\n  </BODY>\n</ENVELOPE>`;
+
+      const blob = new Blob([xml], { type: 'application/xml' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'Scrutinix_Tally_Vouchers.xml';
+      link.click();
+    }
+
+    function exportToExcelCSV() {
+      if (uploadedInvoicesList.length === 0) {
+        alert("⚠️ No data available to export!");
+        return;
+      }
+      let csv = "Invoice Number,Client Name,Source File,Taxable Value,CGST,SGST,IGST,Grand Total,Status\n";
+      uploadedInvoicesList.forEach(inv => {
+        csv += `"${inv.invoiceNumber}","${inv.clientName}","${inv.sourceFile || ''}",${inv.taxableValue},${inv.cgst},${inv.sgst},${inv.igst},${inv.total},"${inv.auditStatus}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'Scrutinix_Master_Invoices.csv';
+      link.click();
+    }
+
+    function exportTaxSplitCSV() {
+      if (uploadedInvoicesList.length === 0) {
+        alert("⚠️ No tax split data found!");
+        return;
+      }
+      let csv = "Invoice Number,Taxable Value,CGST,SGST,IGST,Total Tax\n";
+      uploadedInvoicesList.forEach(inv => {
+        const totalTax = (Number(inv.cgst)||0) + (Number(inv.sgst)||0) + (Number(inv.igst)||0);
+        csv += `"${inv.invoiceNumber}",${inv.taxableValue},${inv.cgst},${inv.sgst},${inv.igst},${totalTax}\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'Scrutinix_GST_Tax_Split.csv';
+      link.click();
+    }
+
+    function sendViaGmail() {
+      const subject = encodeURIComponent("Scrutinix AI - Financial & Tax Audit Report");
+      const body = encodeURIComponent("Hello,\n\nPlease find attached the verified multi-client financial data and GST audit summary processed via Scrutinix AI.\n\nRegards,\nCA Professional");
+      window.open(`https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`);
+    }
+
+    function sendViaWhatsApp() {
+      const text = encodeURIComponent("Hello! Here is the verified tax and financial summary report generated securely via Scrutinix AI Cloud.");
+      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
     }
   </script>
 </body>
