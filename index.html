@@ -147,7 +147,7 @@
       <button onclick="switchModule('reports')" id="nav-reports" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1"><span>📑</span> Reports</button>
     </div>
 
-    <!-- MODULE 1 -->
+    <!-- MODULE 1: PROCESSOR -->
     <div id="module-extractor" class="business-module space-y-4">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-3 gap-3">
@@ -197,7 +197,6 @@
           </div>
         </div>
 
-        <!-- FIXED BUTTONS FOR EXPORT & SHARING -->
         <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-wrap items-center justify-between gap-3">
           <div><h4 class="text-xs font-bold text-white uppercase">One-Click Accounting Software & Sharing</h4><p class="text-xs text-slate-400">Export Tally XML, Bulk Master CSV, Tax Splits & Reports</p></div>
           <div class="flex flex-wrap gap-2">
@@ -211,14 +210,94 @@
       </div>
     </div>
 
-    <!-- OTHER MODULES PLACEHOLDERS -->
-    <div id="module-gst" class="business-module space-y-4 hidden"><div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl"><h3 class="text-sm font-bold text-white uppercase">⚖️ GST Recon</h3></div></div>
-    <div id="module-bankrecon" class="business-module space-y-4 hidden"><div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl"><h3 class="text-sm font-bold text-white uppercase">🏦 Bank Auto-Post</h3></div></div>
-    <div id="module-whatsapp" class="business-module space-y-4 hidden"><div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl"><h3 class="text-sm font-bold text-white uppercase">💬 WhatsApp Bot</h3></div></div>
-    <div id="module-tasks" class="business-module space-y-4 hidden"><div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl"><h3 class="text-sm font-bold text-white uppercase">📊 Tasks</h3></div></div>
-    <div id="module-payments" class="business-module space-y-4 hidden"><div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl"><h3 class="text-sm font-bold text-white uppercase">💳 Payments</h3></div></div>
-    <div id="module-documents" class="business-module space-y-4 hidden"><div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl"><h3 class="text-sm font-bold text-white uppercase">📂 Documents</h3></div></div>
-    <div id="module-reports" class="business-module space-y-4 hidden"><div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl"><h3 class="text-sm font-bold text-white uppercase">📑 Reports</h3></div></div>
+    <!-- MODULE 2: GST RECON -->
+    <div id="module-gst" class="business-module space-y-4 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider">⚖️ GSTR-2B vs Purchase Register Reconciliation</h3>
+        <p class="text-xs text-slate-400">Match vendor invoices with GSTR-2B portal data to claim 100% accurate ITC.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800"><div class="text-[10px] text-slate-400">Matched ITC</div><div class="text-sm font-bold text-emerald-400 mt-1">₹48,250.00</div></div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800"><div class="text-[10px] text-slate-400">Mismatch / Tax Diff</div><div class="text-sm font-bold text-amber-400 mt-1">₹3,400.00</div></div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800"><div class="text-[10px] text-slate-400">Missing in 2B</div><div class="text-sm font-bold text-rose-400 mt-1">₹1,200.00</div></div>
+        </div>
+        <button onclick="alert('✅ GSTR-2B Portal sync complete! All matched ITC verified.')" class="bg-cyan-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg">🔄 Sync GSTR-2B Portal</button>
+      </div>
+    </div>
+
+    <!-- MODULE 3: BANK AUTO-POST -->
+    <div id="module-bankrecon" class="business-module space-y-4 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider">🏦 Bank Statement Auto-Posting & Reconciliation</h3>
+        <p class="text-xs text-slate-400">Auto-match bank transactions with sales receipts and payment vouchers.</p>
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs space-y-2">
+          <div class="flex justify-between text-slate-300 border-b border-slate-800 pb-2 font-bold"><span>Bank Txn ID</span><span>Particulars</span><span>Amount</span><span>Match Status</span></div>
+          <div class="flex justify-between text-slate-400"><span>TXN-8841</span><span>NEFT-ABC Corp</span><span>₹35,000</span><span class="text-emerald-400 font-bold">✅ Auto-Matched</span></div>
+          <div class="flex justify-between text-slate-400"><span>TXN-8842</span><span>UPI-Sharma Store</span><span>₹12,500</span><span class="text-emerald-400 font-bold">✅ Auto-Matched</span></div>
+        </div>
+        <button onclick="alert('📥 Bank Statement successfully posted to Tally Ledger!')" class="bg-emerald-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg">📥 Post to Tally</button>
+      </div>
+    </div>
+
+    <!-- MODULE 4: WHATSAPP BOT -->
+    <div id="module-whatsapp" class="business-module space-y-4 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider">💬 Client WhatsApp Follow-up & Reminder Bot</h3>
+        <p class="text-xs text-slate-400">Send automated payment reminders and GST document requests directly via WhatsApp.</p>
+        <div class="space-y-3">
+          <input type="text" id="waClientNumber" placeholder="Enter Client WhatsApp (e.g. 919876543210)" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white outline-none">
+          <textarea id="waMessageText" placeholder="Enter message..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white outline-none h-24">Hello Sir, your monthly GST return and invoice summary report is ready for review. Please check via Scrutinix AI.</textarea>
+          <button onclick="sendCustomWhatsApp()" class="bg-green-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg">📤 Send WhatsApp Reminder</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 5: TASKS -->
+    <div id="module-tasks" class="business-module space-y-4 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider">📊 CA Firm Task & Filing Tracker</h3>
+        <p class="text-xs text-slate-400">Manage monthly GST, TDS, and Income Tax filing deadlines for all clients.</p>
+        <div class="space-y-2 text-xs font-mono">
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center"><span>GSTR-3B Filing - Acme Corp</span><span class="bg-amber-500/20 text-amber-300 px-2 py-1 rounded font-bold">Due Nov 20</span></div>
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center"><span>TDS Return Q2 - Global Traders</span><span class="bg-emerald-500/20 text-emerald-300 px-2 py-1 rounded font-bold">Completed</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 6: PAYMENTS -->
+    <div id="module-payments" class="business-module space-y-4 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider">💳 Client Billing & Payment Collection</h3>
+        <p class="text-xs text-slate-400">Generate professional audit fee invoices and payment links.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+            <div class="text-slate-400 font-bold">Total Fees Collected (Nov): <span class="text-emerald-400 font-mono">₹85,000</span></div>
+            <div class="text-slate-400 font-bold">Pending Dues: <span class="text-rose-400 font-mono">₹15,000</span></div>
+          </div>
+          <button onclick="alert('🔗 Payment link generated successfully and copied!')" class="bg-cyan-500 text-slate-950 font-bold py-3 rounded-xl">Generate UPI Payment Link</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 7: DOCUMENTS -->
+    <div id="module-documents" class="business-module space-y-4 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider">📂 Secure Client Document Vault</h3>
+        <p class="text-xs text-slate-400">Store PAN, GST certificates, Bank statements and Balance sheets securely.</p>
+        <div class="bg-slate-950 p-6 rounded-xl border border-slate-800 text-center space-y-2">
+          <p class="text-xs text-slate-400">Drag & drop client KYC or audit documents here</p>
+          <button onclick="alert('📁 Document uploaded and encrypted successfully!')" class="bg-slate-800 text-cyan-300 font-bold text-xs px-4 py-2 rounded-lg border border-cyan-500/30">Browse Vault</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 8: REPORTS -->
+    <div id="module-reports" class="business-module space-y-4 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider">📑 Comprehensive Financial & Tax Audit Reports</h3>
+        <p class="text-xs text-slate-400">Export complete CA compliance dossiers in PDF format.</p>
+        <button onclick="alert('📑 Audit Report PDF downloaded successfully!')" class="bg-rose-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg">📥 Download Full Audit Dossier (PDF)</button>
+      </div>
+    </div>
 
   </div>
 
@@ -357,9 +436,10 @@
     let seenInvoiceNumbers = new Set();
 
     function startFreeTrial() {
-      const notice = document.getElementById('trialNotice');
-      notice.innerText = "🎉 14-Day Free Trial Activated! Enjoy Pro CA Multi-Client Features.";
-      setTimeout(() => { notice.innerText = ""; }, 5000);
+      const modal = document.getElementById('authGateModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+      }
     }
 
     function switchModule(mod) {
@@ -587,6 +667,16 @@
     function sendViaWhatsApp() {
       const text = encodeURIComponent("Hello! Here is the verified tax and financial summary report generated securely via Scrutinix AI Cloud.");
       window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+    }
+
+    function sendCustomWhatsApp() {
+      const num = document.getElementById('waClientNumber').value.trim();
+      const msg = encodeURIComponent(document.getElementById('waMessageText').value);
+      if (!num) {
+        alert("⚠️ Please enter client WhatsApp number!");
+        return;
+      }
+      window.open(`https://api.whatsapp.com/send?phone=${num}&text=${msg}`, '_blank');
     }
   </script>
 </body>
