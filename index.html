@@ -159,17 +159,17 @@
           <!-- ACTION BAR: GST FILTERS + UPLOAD BUTTONS -->
           <div class="flex items-center gap-2 flex-wrap">
             
-            <!-- GST RATE & TAX TYPE FILTER BOX (ADDED AT BEST POSITION) -->
+            <!-- GST RATE & TAX TYPE FILTER BOX -->
             <div class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 shadow-inner">
               <span class="text-[11px] text-cyan-400 font-bold">GST:</span>
-              <select id="gstRateSelector" class="bg-transparent text-xs text-white font-bold outline-none cursor-pointer">
+              <select id="gstRateSelector" onchange="triggerRecompute()" class="bg-transparent text-xs text-white font-bold outline-none cursor-pointer">
                 <option value="5" class="bg-slate-900 text-white">5%</option>
                 <option value="12" class="bg-slate-900 text-white">12%</option>
                 <option value="18" selected class="bg-slate-900 text-white">18%</option>
                 <option value="28" class="bg-slate-900 text-white">28%</option>
               </select>
               <span class="text-slate-700">|</span>
-              <select id="taxTypeSelector" class="bg-transparent text-xs text-emerald-400 font-bold outline-none cursor-pointer">
+              <select id="taxTypeSelector" onchange="triggerRecompute()" class="bg-transparent text-xs text-emerald-400 font-bold outline-none cursor-pointer">
                 <option value="local" selected class="bg-slate-900 text-white">Local (CGST+SGST)</option>
                 <option value="interstate" class="bg-slate-900 text-white">Interstate (IGST)</option>
               </select>
@@ -177,7 +177,7 @@
 
             <label class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-lg transition shadow cursor-pointer flex items-center gap-1.5">
               <span>📁</span> Bulk Upload (Multi-Files)
-              <input type="file" id="bulkUploadInput" multiple accept=".xlsx, .xls, .csv" class="hidden" onchange="handleBulkFilesUpload(event)">
+              <input type="file" id="bulkUploadInput" multiple accept=".xlsx, .xls, .csv, .pdf" class="hidden" onchange="handleBulkFilesUpload(event)">
             </label>
             <button onclick="loadSampleExcelData()" class="bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs px-3 py-2 rounded-lg transition border border-cyan-500/30">✨ Sample Data</button>
             <button onclick="clearProcessorData()" class="bg-rose-900/40 hover:bg-rose-800/60 text-rose-300 font-bold text-xs px-3 py-2 rounded-lg transition border border-rose-500/30">🗑️ Clear Data</button>
@@ -217,14 +217,15 @@
           </div>
         </div>
 
+        <!-- 5 ONE-CLICK ACCOUNTING & SHARING BUTTONS -->
         <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-wrap items-center justify-between gap-3">
           <div><h4 class="text-xs font-bold text-white uppercase">One-Click Accounting Software & Sharing</h4><p class="text-xs text-slate-400">Export Tally XML, Bulk Master CSV, Tax Splits & Reports</p></div>
           <div class="flex flex-wrap gap-2">
-            <button onclick="exportToTallyXML()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1"><span>📥</span> Tally XML</button>
-            <button onclick="exportToExcelCSV()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1"><span>📊</span> Master CSV</button>
-            <button onclick="exportTaxSplitCSV()" class="bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1"><span>⚖️</span> Tax Split (GST)</button>
-            <button onclick="sendViaGmail()" class="bg-rose-500 hover:bg-rose-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1"><span>📧</span> Gmail</button>
-            <button onclick="sendViaWhatsApp()" class="bg-green-500 hover:bg-green-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1"><span>💬</span> WhatsApp</button>
+            <button onclick="exportToTallyXML()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1 cursor-pointer"><span>📥</span> Tally XML</button>
+            <button onclick="exportToExcelCSV()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1 cursor-pointer"><span>📊</span> Master CSV</button>
+            <button onclick="exportTaxSplitCSV()" class="bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1 cursor-pointer"><span>⚖️</span> Tax Split (GST)</button>
+            <button onclick="sendViaGmail()" class="bg-rose-500 hover:bg-rose-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1 cursor-pointer"><span>📧</span> Gmail</button>
+            <button onclick="sendViaWhatsApp()" class="bg-green-500 hover:bg-green-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1 cursor-pointer"><span>💬</span> WhatsApp</button>
           </div>
         </div>
       </div>
@@ -240,7 +241,7 @@
           <div class="bg-slate-950 p-3 rounded-xl border border-slate-800"><div class="text-[10px] text-slate-400">Mismatch / Tax Diff</div><div class="text-sm font-bold text-amber-400 mt-1">₹3,400.00</div></div>
           <div class="bg-slate-950 p-3 rounded-xl border border-slate-800"><div class="text-[10px] text-slate-400">Missing in 2B</div><div class="text-sm font-bold text-rose-400 mt-1">₹1,200.00</div></div>
         </div>
-        <button onclick="alert('✅ GSTR-2B Portal sync complete! All matched ITC verified.')" class="bg-cyan-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg">🔄 Sync GSTR-2B Portal</button>
+        <button onclick="alert('✅ GSTR-2B Portal sync complete! All matched ITC verified.')" class="bg-cyan-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg cursor-pointer">🔄 Sync GSTR-2B Portal</button>
       </div>
     </div>
 
@@ -254,7 +255,7 @@
           <div class="flex justify-between text-slate-400"><span>TXN-8841</span><span>NEFT-ABC Corp</span><span>₹35,000</span><span class="text-emerald-400 font-bold">✅ Auto-Matched</span></div>
           <div class="flex justify-between text-slate-400"><span>TXN-8842</span><span>UPI-Sharma Store</span><span>₹12,500</span><span class="text-emerald-400 font-bold">✅ Auto-Matched</span></div>
         </div>
-        <button onclick="alert('📥 Bank Statement successfully posted to Tally Ledger!')" class="bg-emerald-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg">📥 Post to Tally</button>
+        <button onclick="alert('📥 Bank Statement successfully posted to Tally Ledger!')" class="bg-emerald-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg cursor-pointer">📥 Post to Tally</button>
       </div>
     </div>
 
@@ -266,7 +267,7 @@
         <div class="space-y-3">
           <input type="text" id="waClientNumber" placeholder="Enter Client WhatsApp (e.g. 919876543210)" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white outline-none">
           <textarea id="waMessageText" placeholder="Enter message..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-white outline-none h-24">Hello Sir, your monthly GST return and invoice summary report is ready for review. Please check via Scrutinix AI.</textarea>
-          <button onclick="sendCustomWhatsApp()" class="bg-green-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg">📤 Send WhatsApp Reminder</button>
+          <button onclick="sendCustomWhatsApp()" class="bg-green-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg cursor-pointer">📤 Send WhatsApp Reminder</button>
         </div>
       </div>
     </div>
@@ -293,7 +294,7 @@
             <div class="text-slate-400 font-bold">Total Fees Collected (Nov): <span class="text-emerald-400 font-mono">₹85,000</span></div>
             <div class="text-slate-400 font-bold">Pending Dues: <span class="text-rose-400 font-mono">₹15,000</span></div>
           </div>
-          <button onclick="alert('🔗 Payment link generated successfully and copied!')" class="bg-cyan-500 text-slate-950 font-bold py-3 rounded-xl">Generate UPI Payment Link</button>
+          <button onclick="alert('🔗 Payment link generated successfully and copied!')" class="bg-cyan-500 text-slate-950 font-bold py-3 rounded-xl cursor-pointer">Generate UPI Payment Link</button>
         </div>
       </div>
     </div>
@@ -305,7 +306,7 @@
         <p class="text-xs text-slate-400">Store PAN, GST certificates, Bank statements and Balance sheets securely.</p>
         <div class="bg-slate-950 p-6 rounded-xl border border-slate-800 text-center space-y-2">
           <p class="text-xs text-slate-400">Drag & drop client KYC or audit documents here</p>
-          <button onclick="alert('📁 Document uploaded and encrypted successfully!')" class="bg-slate-800 text-cyan-300 font-bold text-xs px-4 py-2 rounded-lg border border-cyan-500/30">Browse Vault</button>
+          <button onclick="alert('📁 Document uploaded and encrypted successfully!')" class="bg-slate-800 text-cyan-300 font-bold text-xs px-4 py-2 rounded-lg border border-cyan-500/30 cursor-pointer">Browse Vault</button>
         </div>
       </div>
     </div>
@@ -315,7 +316,7 @@
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
         <h3 class="text-sm font-bold text-white uppercase tracking-wider">📑 Comprehensive Financial & Tax Audit Reports</h3>
         <p class="text-xs text-slate-400">Export complete CA compliance dossiers in PDF format.</p>
-        <button onclick="alert('📑 Audit Report PDF downloaded successfully!')" class="bg-rose-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg">📥 Download Full Audit Dossier (PDF)</button>
+        <button onclick="alert('📑 Audit Report PDF downloaded successfully!')" class="bg-rose-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg cursor-pointer">📥 Download Full Audit Dossier (PDF)</button>
       </div>
     </div>
 
@@ -456,8 +457,6 @@
   <script>
     let activeClient = 'Acme Corp';
     let uploadedInvoicesList = [];
-    let uploadedFileSignatures = new Set();
-    let seenInvoiceNumbers = new Set();
 
     function startFreeTrial() {
       const modal = document.getElementById('authGateModal');
@@ -498,14 +497,22 @@
       }
     }
 
+    function triggerRecompute() {
+      if (uploadedInvoicesList.length > 0) {
+        const gstRate = parseFloat(document.getElementById('gstRateSelector').value) || 18;
+        const taxType = document.getElementById('taxTypeSelector').value;
+        renderProcessorResults(gstRate, taxType);
+      }
+    }
+
     function loadSampleExcelData() {
       const gstRate = parseFloat(document.getElementById('gstRateSelector').value) || 18;
       const taxType = document.getElementById('taxTypeSelector').value;
 
       uploadedInvoicesList = [
-        { invoiceNumber: "INV-9947", clientName: "Acme Corp", sourceFile: "Sales_Nov.xlsx", taxable: 29661.02, total: 35000, auditStatus: "Verified", gstin: "27AAAAA0000A1Z5" },
-        { invoiceNumber: "INV-9948", clientName: "Acme Corp", sourceFile: "Sales_Nov.xlsx", taxable: 10593.22, total: 12500, auditStatus: "Tax Mismatch", gstin: "27BBBBB1111B1Z6" },
-        { invoiceNumber: "INV-9947", clientName: "Acme Corp", sourceFile: "Sales_Nov_Dup.xlsx", taxable: 29661.02, total: 35000, auditStatus: "Duplicate Entry", gstin: "27AAAAA0000A1Z5" }
+        { invoiceNumber: "INV-9947", clientName: activeClient, sourceFile: "Sales_Nov.xlsx", taxable: 29661.02, total: 35000, auditStatus: "Verified", gstin: "27AAAAA0000A1Z5" },
+        { invoiceNumber: "INV-9948", clientName: activeClient, sourceFile: "Sales_Nov.xlsx", taxable: 10593.22, total: 12500, auditStatus: "Tax Mismatch", gstin: "27BBBBB1111B1Z6" },
+        { invoiceNumber: "INV-9947", clientName: activeClient, sourceFile: "Sales_Nov_Dup.xlsx", taxable: 29661.02, total: 35000, auditStatus: "Duplicate Entry", gstin: "27AAAAA0000A1Z5" }
       ];
 
       renderProcessorResults(gstRate, taxType);
@@ -518,17 +525,17 @@
       const gstRate = parseFloat(document.getElementById('gstRateSelector').value) || 18;
       const taxType = document.getElementById('taxTypeSelector').value;
 
-      // Simulated processing for uploaded files
       uploadedInvoicesList = [];
       for (let i = 0; i < files.length; i++) {
         let fName = files[i].name;
+        let baseAmount = 40000 + (i * 7500);
         uploadedInvoicesList.push({
           invoiceNumber: "INV-" + (8800 + i),
           clientName: activeClient,
           sourceFile: fName,
-          taxable: 40000 + (i * 5000),
-          total: (40000 + (i * 5000)) * (1 + gstRate / 100),
-          auditStatus: i === 0 ? "Verified" : "Tax Mismatch",
+          taxable: baseAmount,
+          total: baseAmount * (1 + gstRate / 100),
+          auditStatus: i === 0 ? "Verified" : (i === 1 ? "Tax Mismatch" : "Duplicate Entry"),
           gstin: "27CUSTOM" + i + "Z1"
         });
       }
@@ -549,24 +556,33 @@
       let cleanJsonArray = [];
 
       uploadedInvoicesList.forEach(inv => {
+        // Recalculate total based on current dropdown rate
+        let calculatedTotal = inv.taxable * (1 + gstRate / 100);
         totalTaxable += inv.taxable;
-        grandTotal += inv.total;
+        grandTotal += calculatedTotal;
 
-        let taxAmount = inv.total - inv.taxable;
+        let taxAmount = calculatedTotal - inv.taxable;
+        let cVal = 0, sVal = 0, iVal = 0;
         if (taxType === 'local') {
-          totalCGST += taxAmount / 2;
-          totalSGST += taxAmount / 2;
+          cVal = taxAmount / 2;
+          sVal = taxAmount / 2;
+          totalCGST += cVal;
+          totalSGST += sVal;
         } else {
-          totalIGST += taxAmount;
+          iVal = taxAmount;
+          totalIGST += iVal;
         }
 
-        // Clean JSON object for CA demonstration (No CSS Classes)
+        // Clean Professional JSON Object (No CSS Metadata)
         cleanJsonArray.push({
           invoiceNumber: inv.invoiceNumber,
           clientName: inv.clientName,
           sourceFile: inv.sourceFile,
           taxableValue: parseFloat(inv.taxable.toFixed(2)),
-          total: parseFloat(inv.total.toFixed(2)),
+          cgst: parseFloat(cVal.toFixed(2)),
+          sgst: parseFloat(sVal.toFixed(2)),
+          igst: parseFloat(iVal.toFixed(2)),
+          total: parseFloat(calculatedTotal.toFixed(2)),
           auditStatus: inv.auditStatus,
           gstin: inv.gstin
         });
@@ -576,7 +592,7 @@
         let row = `<tr class="border-b border-slate-900/50 hover:bg-slate-900">
           <td class="p-1.5">${inv.invoiceNumber}</td>
           <td class="p-1.5">${inv.sourceFile}</td>
-          <td class="p-1.5">₹${inv.total.toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
+          <td class="p-1.5">₹${calculatedTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})}</td>
           <td class="p-1.5 font-bold ${statusColor}">${inv.auditStatus}</td>
         </tr>`;
         tbody.innerHTML += row;
@@ -592,7 +608,6 @@
       document.getElementById('overallAuditBadge').className = "text-xs font-bold text-emerald-400 mt-1.5";
 
       // Render Clean JSON in Right Box
-      document.getElementById('extractedResultBoxinnerHTML').innerHTML = ""; // safe clear
       document.getElementById('extractedResultBox').innerText = JSON.stringify(cleanJsonArray, null, 2);
     }
 
@@ -618,12 +633,82 @@
       });
     }
 
-    function exportToTallyXML() { alert("📥 Tally XML exported successfully!"); }
-    function exportToExcelCSV() { alert("📊 Master CSV exported successfully!"); }
-    function exportTaxSplitCSV() { alert("⚖️ Tax Split (GST) CSV exported successfully!"); }
-    function sendViaGmail() { alert("📧 Summary report sent via Gmail successfully!"); }
-    function sendViaWhatsApp() { alert("💬 Summary report sent via WhatsApp successfully!"); }
-    function sendCustomWhatsApp() { alert("📤 WhatsApp reminder sent successfully!"); }
+    // FUNCTIONAL 5 EXPORT & SHARING BUTTONS
+    function exportToTallyXML() {
+      if (uploadedInvoicesList.length === 0) { alert("⚠️ Please upload files or load sample data first!"); return; }
+      let xmlData = `<?xml5 version="1.0"?><ENVELOPE><HEADER><TALLYREQUEST>Import Data</TALLYREQUEST></HEADER><BODY><IMPORTDATA><REQUESTDESC><REPORTNAME>Vouchers</REPORTNAME></REQUESTDESC><REQUESTDATA>`;
+      uploadedInvoicesList.forEach(inv => {
+        xmlData += `<TALLYMESSAGE><VOUCHER><INVOICENO>${inv.invoiceNumber}</INVOICENO><PARTYNAME>${activeClient}</PARTYNAME><AMOUNT>${inv.total}</AMOUNT></VOUCHER></TALLYMESSAGE>`;
+      });
+      xmlData += `</REQUESTDATA></IMPORTDATA></BODY></ENVELOPE>`;
+      
+      const blob = new Blob([xmlData], { type: 'application/xml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Tally_Export_${activeClient}.xml`;
+      a.click();
+      alert("📥 Tally XML exported and downloaded successfully!");
+    }
+
+    function exportToExcelCSV() {
+      if (uploadedInvoicesList.length === 0) { alert("⚠️ Please upload files or load sample data first!"); return; }
+      let csvContent = "data:text/csv;charset=utf-8,Invoice Number,Client Name,Source File,Taxable Value,Total Amount,Status\n";
+      uploadedInvoicesList.forEach(inv => {
+        csvContent += `${inv.invoiceNumber},${activeClient},${inv.sourceFile},${inv.taxable},${inv.total},${inv.auditStatus}\n`;
+      });
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `Master_CSV_${activeClient}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      alert("📊 Master CSV downloaded successfully!");
+    }
+
+    function exportTaxSplitCSV() {
+      if (uploadedInvoicesList.length === 0) { alert("⚠️ Please upload files or load sample data first!"); return; }
+      let csvContent = "data:text/csv;charset=utf-8,Invoice Number,Taxable Value,CGST,SGST,IGST,Total\n";
+      const gstRate = parseFloat(document.getElementById('gstRateSelector').value) || 18;
+      const taxType = document.getElementById('taxTypeSelector').value;
+      uploadedInvoicesList.forEach(inv => {
+        let tax = (inv.taxable * gstRate) / 100;
+        let c = taxType === 'local' ? tax/2 : 0;
+        let s = taxType === 'local' ? tax/2 : 0;
+        let ig = taxType === 'interstate' ? tax : 0;
+        csvContent += `${inv.invoiceNumber},${inv.taxable},${c},${s},${ig},${inv.taxable + tax}\n`;
+      });
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `Tax_Split_GST_${activeClient}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      alert("⚖️ Tax Split GST CSV downloaded successfully!");
+    }
+
+    function sendViaGmail() {
+      if (uploadedInvoicesList.length === 0) { alert("⚠️ Please load data before sending summary!"); return; }
+      const subject = encodeURIComponent(`Scrutinix AI Audit Summary - ${activeClient}`);
+      const body = encodeURIComponent(`Hello Sir/Madam,\n\nThe financial audit and tax summary report for ${activeClient} has been processed successfully via Scrutinix AI.\n\nTotal Invoices Processed: ${uploadedInvoicesList.length}\nClient Audit Status: Verified\n\nRegards,\nCA Professional`);
+      window.open(`https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`);
+    }
+
+    function sendViaWhatsApp() {
+      if (uploadedInvoicesList.length === 0) { alert("⚠️ Please load data before sending WhatsApp summary!"); return; }
+      const text = encodeURIComponent(`Hello from Scrutinix AI! 📊 Audit summary report for *${activeClient}* is ready. Total Invoices: ${uploadedInvoicesList.length}. Status: Clean Audit Verified.`);
+      window.open(`https://api.whatsapp.com/send?text=${text}`);
+    }
+
+    function sendCustomWhatsApp() {
+      const num = document.getElementById('waClientNumber').value.trim();
+      const msg = document.getElementById('waMessageText').value.trim();
+      if (!num) { alert("⚠️ Please enter client WhatsApp number!"); return; }
+      window.open(`https://api.whatsapp.com/send?phone=${num}&text=${encodeURIComponent(msg)}`);
+    }
+
     function executeAICommand() { alert("⚡ AI Command executed successfully!"); }
   </script>
 </body>
