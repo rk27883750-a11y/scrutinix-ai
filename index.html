@@ -135,7 +135,7 @@
       </div>
     </div>
 
-    <!-- MAIN NAVIGATION TABS (PROCESSOR DEFAULT) -->
+    <!-- MAIN NAVIGATION TABS -->
     <div class="flex flex-wrap gap-2 bg-slate-900 border border-slate-800 p-2 rounded-xl">
       <button onclick="switchModule('extractor')" id="nav-extractor" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-1"><span>📊</span> Processor</button>
       <button onclick="switchModule('gst')" id="nav-gst" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1"><span>⚖️</span> GST Recon</button>
@@ -216,7 +216,7 @@
           </div>
         </div>
 
-        <!-- 6 ONE-CLICK ACCOUNTING, DIRECT PDF & SHARING BUTTONS -->
+        <!-- BUTTONS -->
         <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-wrap items-center justify-between gap-3">
           <div><h4 class="text-xs font-bold text-white uppercase">One-Click Accounting Software & Direct Exports</h4><p class="text-xs text-slate-400">Direct PDF Audit Report, Tally XML, Master CSV & Sharing</p></div>
           <div class="flex flex-wrap gap-2">
@@ -241,7 +241,7 @@
           <div class="bg-slate-950 p-3 rounded-xl border border-slate-800"><div class="text-[10px] text-slate-400">Mismatch / Tax Diff</div><div class="text-sm font-bold text-amber-400 mt-1">₹3,400.00</div></div>
           <div class="bg-slate-950 p-3 rounded-xl border border-slate-800"><div class="text-[10px] text-slate-400">Missing in 2B</div><div class="text-sm font-bold text-rose-400 mt-1">₹1,200.00</div></div>
         </div>
-        <button onclick="alert('✅ GSTR-2B Portal sync complete! All matched ITC verified.')" class="bg-cyan-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg cursor-pointer">🔄 Sync GSTR-2B Portal</button>
+        <button onclick="console.log('GSTR-2B Synced successfully');" class="bg-cyan-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg cursor-pointer">🔄 Sync GSTR-2B Portal</button>
       </div>
     </div>
 
@@ -255,7 +255,7 @@
           <div class="flex justify-between text-slate-400"><span>TXN-8841</span><span>NEFT-ABC Corp</span><span>₹35,000</span><span class="text-emerald-400 font-bold">✅ Auto-Matched</span></div>
           <div class="flex justify-between text-slate-400"><span>TXN-8842</span><span>UPI-Sharma Store</span><span>₹12,500</span><span class="text-emerald-400 font-bold">✅ Auto-Matched</span></div>
         </div>
-        <button onclick="alert('📥 Bank Statement successfully posted to Tally Ledger!')" class="bg-emerald-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg cursor-pointer">📥 Post to Tally</button>
+        <button onclick="console.log('Bank Statement posted to Tally');" class="bg-emerald-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg cursor-pointer">📥 Post to Tally</button>
       </div>
     </div>
 
@@ -284,17 +284,31 @@
       </div>
     </div>
 
-    <!-- MODULE 6: PAYMENTS -->
+    <!-- MODULE 6: PAYMENTS & DIRECT PDF UPLOAD -->
     <div id="module-payments" class="business-module space-y-4 hidden">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
-        <h3 class="text-sm font-bold text-white uppercase tracking-wider">💳 Client Billing & Payment Collection</h3>
-        <p class="text-xs text-slate-400">Generate professional audit fee invoices and payment links.</p>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
-            <div class="text-slate-400 font-bold">Total Fees Collected (Nov): <span class="text-emerald-400 font-mono">₹85,000</span></div>
-            <div class="text-slate-400 font-bold">Pending Dues: <span class="text-rose-400 font-mono">₹15,000</span></div>
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider">💳 Client Billing & Payment Collection / PDF Vault</h3>
+        <p class="text-xs text-slate-400">Upload payment invoices or client bills in PDF format and download instantly with 1-click.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+            <div class="text-slate-300 font-bold text-xs uppercase">Upload PDF Payment / Bill</div>
+            <label class="block w-full bg-slate-900 border border-dashed border-cyan-500/50 hover:border-cyan-400 rounded-xl p-6 text-center cursor-pointer transition">
+              <span class="text-xs text-cyan-400 font-bold block">📁 Click to Upload PDF Invoice/Bill</span>
+              <span class="text-[10px] text-slate-500 block mt-1">Supports client payment receipts & audit bills</span>
+              <input type="file" id="clientPdfUploadInput" accept=".pdf" class="hidden" onchange="handleClientPdfUpload(event)">
+            </label>
           </div>
-          <button onclick="alert('🔗 Payment link generated successfully and copied!')" class="bg-cyan-500 text-slate-950 font-bold py-3 rounded-xl cursor-pointer">Generate UPI Payment Link</button>
+
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3 flex flex-col justify-between">
+            <div>
+              <div class="text-slate-300 font-bold text-xs uppercase mb-1">Uploaded PDF Files List</div>
+              <div id="uploadedPdfListContainer" class="bg-slate-900 border border-slate-800 rounded-lg p-3 h-28 overflow-y-auto custom-scrollbar text-xs font-mono text-slate-400">
+                <span class="italic text-slate-600">No PDF uploaded yet...</span>
+              </div>
+            </div>
+            <div class="text-[11px] text-emerald-400 font-semibold">⚡ Click any file name below to download instantly in 1-click!</div>
+          </div>
         </div>
       </div>
     </div>
@@ -306,7 +320,7 @@
         <p class="text-xs text-slate-400">Store PAN, GST certificates, Bank statements and Balance sheets securely.</p>
         <div class="bg-slate-950 p-6 rounded-xl border border-slate-800 text-center space-y-2">
           <p class="text-xs text-slate-400">Drag & drop client KYC or audit documents here</p>
-          <button onclick="alert('📁 Document uploaded and encrypted successfully!')" class="bg-slate-800 text-cyan-300 font-bold text-xs px-4 py-2 rounded-lg border border-cyan-500/30 cursor-pointer">Browse Vault</button>
+          <button onclick="console.log('Document uploaded');" class="bg-slate-800 text-cyan-300 font-bold text-xs px-4 py-2 rounded-lg border border-cyan-500/30 cursor-pointer">Browse Vault</button>
         </div>
       </div>
     </div>
@@ -372,7 +386,6 @@
     const db = getFirestore(app);
     const googleProvider = new GoogleAuthProvider();
 
-    // Email/Password Signup
     document.getElementById('btnFirebaseSignup').addEventListener('click', async () => {
       const email = document.getElementById('authEmailInput').value.trim();
       const password = document.getElementById('authPasswordInput').value.trim();
@@ -401,7 +414,6 @@
       }
     });
 
-    // Email/Password Login
     document.getElementById('btnFirebaseLogin').addEventListener('click', async () => {
       const email = document.getElementById('authEmailInput').value.trim();
       const password = document.getElementById('authPasswordInput').value.trim();
@@ -424,7 +436,6 @@
       }
     });
 
-    // GOOGLE LOGIN
     document.getElementById('btnFirebaseGoogleLogin').addEventListener('click', async () => {
       const statusMsg = document.getElementById('authStatusMsg');
       statusMsg.innerText = "Connecting with Google...";
@@ -450,7 +461,6 @@
       }
     });
 
-    // Auth State Monitor
     onAuthStateChanged(auth, (user) => {
       const modal = document.getElementById('authGateModal');
       const badge = document.getElementById('loggedInUserBadge');
@@ -467,7 +477,6 @@
       }
     });
 
-    // Logout
     document.getElementById('btnFirebaseLogout').addEventListener('click', () => {
       signOut(auth).then(() => {
         document.getElementById('authGateModal').classList.remove('hidden');
@@ -475,10 +484,11 @@
     });
   </script>
 
-  <!-- CORE BUSINESS & DIRECT PDF ENGINE -->
+  <!-- CORE BUSINESS & PDF UPLOAD/DOWNLOAD ENGINE -->
   <script>
     let activeClient = 'Acme Corp';
     let uploadedInvoicesList = [];
+    let storedClientPdfs = [];
 
     function startFreeTrial() {
       const modal = document.getElementById('authGateModal');
@@ -513,8 +523,40 @@
         selector.appendChild(opt);
         selector.value = newClient.trim();
         switchActiveClient(newClient.trim());
-        alert("✅ Client '" + newClient.trim() + "' added successfully!");
       }
+    }
+
+    // CLIENT PDF UPLOAD & 1-CLICK DOWNLOAD HANDLER
+    function handleClientPdfUpload(event) {
+      const files = event.target.files;
+      if (!files || files.length === 0) return;
+
+      for (let i = 0; i < files.length; i++) {
+        let file = files[i];
+        let fileUrl = URL.createObjectURL(file);
+        storedClientPdfs.push({ name: file.name, url: fileUrl });
+      }
+
+      renderClientPdfList();
+    }
+
+    function renderClientPdfList() {
+      const container = document.getElementById('uploadedPdfListContainer');
+      if (storedClientPdfs.length === 0) {
+        container.innerHTML = `<span class="italic text-slate-600">No PDF uploaded yet...</span>`;
+        return;
+      }
+
+      container.innerHTML = "";
+      storedClientPdfs.forEach((pdf, index) => {
+        let item = document.createElement('div');
+        item.className = "flex justify-between items-center bg-slate-950 border border-slate-800 p-2 rounded mb-1.5 hover:border-cyan-500/50 transition";
+        item.innerHTML = `
+          <span class="text-cyan-300 truncate max-w-[200px]" title="${pdf.name}">📄 ${pdf.name}</span>
+          <a href="${pdf.url}" download="${pdf.name}" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-[10px] px-2.5 py-1 rounded transition shadow">📥 Download PDF</a>
+        `;
+        container.appendChild(item);
+      });
     }
 
     function triggerRecompute() {
@@ -620,7 +662,6 @@
       document.getElementById('overallAuditBadge').className = "text-xs font-bold text-emerald-400 mt-1.5";
       document.getElementById('extractedResultBox').innerText = JSON.stringify(cleanJsonArray, null, 2);
 
-      // Update Reports & P&L Tab Automatically
       let totalGst = totalCGST + totalSGST + totalIGST;
       let estTds = totalTaxable * 0.02;
       document.getElementById('reportPnLVal').innerText = "₹" + totalTaxable.toLocaleString('en-IN', {minimumFractionDigits: 2}) + " (Net Taxable)";
@@ -654,18 +695,16 @@
     // DIRECT PDF REPORT GENERATOR (jsPDF)
     function downloadDirectPDFReport() {
       if (typeof window.jspdf === 'undefined') {
-        alert("⚠️ PDF library loading... Please try again in 2 seconds.");
         return;
       }
       if (uploadedInvoicesList.length === 0) {
-        loadSampleExcelData(); // Auto-load sample if empty so demo never fails
+        loadSampleExcelData();
       }
 
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
       const gstRate = parseFloat(document.getElementById('gstRateSelector').value) || 18;
 
-      // Dark Header Banner
       doc.setFillColor(15, 23, 42);
       doc.rect(0, 0, 210, 40, "F");
 
@@ -677,7 +716,6 @@
       doc.setFontSize(10);
       doc.text(`Client: ${activeClient}   |   GST Slab: ${gstRate}%   |   Date: ${new Date().toLocaleDateString('en-IN')}`, 14, 28);
 
-      // Summary Block
       let yPos = 50;
       doc.setTextColor(15, 23, 42);
       doc.setFontSize(12);
@@ -691,7 +729,6 @@
       yPos += 7;
       doc.text(`CGST: ${document.getElementById('summaryCGST').innerText} | SGST: ${document.getElementById('summarySGST').innerText} | IGST: ${document.getElementById('summaryIGST').innerText}`, 16, yPos);
 
-      // Table Header
       yPos += 14;
       doc.setFontSize(12);
       doc.text("2. Audited Invoice Breakdown:", 14, yPos);
@@ -717,7 +754,6 @@
         yPos += 7;
       });
 
-      // Footer
       doc.setTextColor(100, 116, 139);
       doc.setFontSize(8);
       doc.text("Generated securely via Scrutinix AI Enterprise Multi-Client Accounting Suite (scrutinixai.com)", 14, 285);
@@ -726,7 +762,7 @@
     }
 
     function exportToTallyXML() {
-      if (uploadedInvoicesList.length === 0) { alert("⚠️ Please upload files or load sample data first!"); return; }
+      if (uploadedInvoicesList.length === 0) return;
       let xmlData = `<?xml version="1.0"?><ENVELOPE><HEADER><TALLYREQUEST>Import Data</TALLYREQUEST></HEADER><BODY><IMPORTDATA><REQUESTDESC><REPORTNAME>Vouchers</REPORTNAME></REQUESTDESC><REQUESTDATA>`;
       uploadedInvoicesList.forEach(inv => {
         xmlData += `<TALLYMESSAGE><VOUCHER><INVOICENO>${inv.invoiceNumber}</INVOICENO><PARTYNAME>${activeClient}</PARTYNAME><AMOUNT>${inv.total.toFixed(2)}</AMOUNT></VOUCHER></TALLYMESSAGE>`;
@@ -742,7 +778,7 @@
     }
 
     function exportToExcelCSV() {
-      if (uploadedInvoicesList.length === 0) { alert("⚠️ Please upload files or load sample data first!"); return; }
+      if (uploadedInvoicesList.length === 0) return;
       let csvContent = "data:text/csv;charset=utf-8,Invoice Number,Client Name,Source File,Taxable Value,Total Amount,Status\n";
       uploadedInvoicesList.forEach(inv => {
         csvContent += `${inv.invoiceNumber},${activeClient},${inv.sourceFile},${inv.taxable.toFixed(2)},${inv.total.toFixed(2)},${inv.auditStatus}\n`;
@@ -756,7 +792,7 @@
     }
 
     function exportTaxSplitCSV() {
-      if (uploadedInvoicesList.length === 0) { alert("⚠️ Please upload files or load sample data first!"); return; }
+      if (uploadedInvoicesList.length === 0) return;
       let csvContent = "data:text/csv;charset=utf-8,Invoice Number,Taxable Value,CGST,SGST,IGST,Total\n";
       const gstRate = parseFloat(document.getElementById('gstRateSelector').value) || 18;
       const taxType = document.getElementById('taxTypeSelector').value;
@@ -776,14 +812,14 @@
     }
 
     function sendViaGmail() {
-      if (uploadedInvoicesList.length === 0) { alert("⚠️ Please load data before sending summary!"); return; }
+      if (uploadedInvoicesList.length === 0) return;
       const subject = encodeURIComponent(`Scrutinix AI Audit Summary - ${activeClient}`);
       const body = encodeURIComponent(`Hello Sir/Madam,\n\nThe financial audit and tax summary report for ${activeClient} has been processed successfully via Scrutinix AI.\n\nTotal Invoices Processed: ${uploadedInvoicesList.length}\nClient Audit Status: Verified\n\nRegards,\nCA Professional`);
       window.open(`https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`);
     }
 
     function sendViaWhatsApp() {
-      if (uploadedInvoicesList.length === 0) { alert("⚠️ Please load data before sending WhatsApp summary!"); return; }
+      if (uploadedInvoicesList.length === 0) return;
       const text = encodeURIComponent(`Hello from Scrutinix AI! 📊 Audit summary report for *${activeClient}* is ready. Total Invoices: ${uploadedInvoicesList.length}. Status: Clean Audit Verified.`);
       window.open(`https://api.whatsapp.com/send?text=${text}`);
     }
@@ -791,7 +827,7 @@
     function sendCustomWhatsApp() {
       const num = document.getElementById('waClientNumber').value.trim();
       const msg = document.getElementById('waMessageText').value.trim();
-      if (!num) { alert("⚠️ Please enter client WhatsApp number!"); return; }
+      if (!num) return;
       window.open(`https://api.whatsapp.com/send?phone=${num}&text=${encodeURIComponent(msg)}`);
     }
 
