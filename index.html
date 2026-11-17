@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // Enterprise Multi-Client Accounting Command Center v4.0</title>
+  <title>Scrutinix AI // Enterprise Multi-Client Accounting Command Center v4.0 (Secure Cloud)</title>
   
   <meta property="og:title" content="Scrutinix AI // Multi-Client CA Accounting & Operations Suite" />
   <meta property="og:description" content="All-in-One Multi-Client Business Command Center: Excel/CSV Bulk Processing, Tax Verification, Bank Recon & Tally Export." />
@@ -86,11 +86,11 @@
 
   <div class="max-w-7xl mx-auto w-full space-y-5">
 
-    <!-- HERO HEADER BANNER WITH START FREE TRIAL -->
+    <!-- HERO HEADER BANNER -->
     <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-cyan-950 border border-cyan-500/30 p-6 rounded-2xl shadow-2xl text-center space-y-3">
-      <div class="text-[10px] tracking-widest text-cyan-400 font-bold uppercase">SMARTER ACCOUNTING. LESS MANUAL WORK.</div>
+      <div class="text-[10px] tracking-widest text-cyan-400 font-bold uppercase">SECURE CLOUD-BACKED ACCOUNTING SUITE</div>
       <h2 class="text-lg md:text-2xl font-extrabold text-white">The AI-Powered Accounting Automation Suite for CAs & Accountants</h2>
-      <p class="text-xs text-slate-400 max-w-2xl mx-auto">Automate. Reconcile. Simplify. Process bulk invoices, automate bank data entry, detect GST mismatches, and streamline accounting workflows — all from one powerful platform.</p>
+      <p class="text-xs text-slate-400 max-w-2xl mx-auto">Automate. Reconcile. Simplify. Process bulk invoices, isolate client records securely via Firestore, and streamline accounting workflows.</p>
       <div>
         <button onclick="startFreeTrial()" class="bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-extrabold text-xs px-6 py-2.5 rounded-xl shadow-lg transition uppercase tracking-wider">🚀 Start Free Trial (14-Day Pro)</button>
         <p id="trialNotice" class="text-[11px] text-emerald-400 mt-1 font-semibold"></p>
@@ -108,8 +108,8 @@
           </svg>
         </div>
         <div>
-          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">CA Multi-Client v4.0</span></h1>
-          <p id="loggedInUserBadge" class="text-xs text-emerald-400">Mode: Cloud Ready</p>
+          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">Secure v4.0</span></h1>
+          <p id="loggedInUserBadge" class="text-xs text-emerald-400">Mode: Secure Cloud Ready</p>
         </div>
       </div>
 
@@ -152,14 +152,11 @@
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-3 gap-3">
           <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">📁 Bulk Financial Data Processor & Tax Auditor</h3>
-            <p class="text-xs text-slate-400">Upload multiple files — Auto-detects Duplicate Files, Duplicate Invoices & Tax Mismatches</p>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">📁 Bulk Financial Data Processor & Firestore Cloud Sync</h3>
+            <p class="text-xs text-slate-400">Processed data is automatically secured in your private accountant Firestore vault</p>
           </div>
           
-          <!-- ACTION BAR: GST FILTERS + UPLOAD BUTTONS -->
           <div class="flex items-center gap-2 flex-wrap">
-            
-            <!-- GST RATE & TAX TYPE FILTER BOX -->
             <div class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 shadow-inner">
               <span class="text-[11px] text-cyan-400 font-bold">GST:</span>
               <select id="gstRateSelector" onchange="triggerRecompute()" class="bg-transparent text-xs text-white font-bold outline-none cursor-pointer">
@@ -190,35 +187,34 @@
           <div class="bg-slate-950 p-3 rounded-xl border border-slate-800"><div class="text-[10px] text-slate-400 uppercase font-semibold">Total SGST</div><div id="summarySGST" class="text-sm font-bold text-teal-400 mt-1 font-mono">₹0.00</div></div>
           <div class="bg-slate-950 p-3 rounded-xl border border-slate-800"><div class="text-[10px] text-slate-400 uppercase font-semibold">Total IGST</div><div id="summaryIGST" class="text-sm font-bold text-purple-400 mt-1 font-mono">₹0.00</div></div>
           <div class="bg-slate-950 p-3 rounded-xl border border-slate-800"><div class="text-[10px] text-slate-400 uppercase font-semibold">Grand Total</div><div id="summaryGrandTotal" class="text-sm font-bold text-amber-400 mt-1 font-mono">₹0.00</div></div>
-          <div id="overallAuditCard" class="bg-slate-950 p-3 rounded-xl border border-slate-800"><div class="text-[10px] text-slate-400 uppercase font-semibold">Client Audit Health</div><div id="overallAuditBadge" class="text-xs font-bold text-slate-400 mt-1.5">Waiting Data...</div></div>
+          <div id="overallAuditCard" class="bg-slate-950 p-3 rounded-xl border border-slate-800"><div class="text-[10px] text-slate-400 uppercase font-semibold">Cloud Sync Status</div><div id="overallAuditBadge" class="text-xs font-bold text-slate-400 mt-1.5">Waiting Data...</div></div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
             <div class="flex justify-between items-center flex-wrap gap-2">
-              <h4 class="text-xs font-bold text-cyan-400 uppercase">Live Chrome Data Preview (Color Coded)</h4>
-              <div class="relative w-full sm:w-auto"><input type="text" id="invoiceSearchInput" oninput="filterInvoicesList()" placeholder="🔍 Search Invoice # or Party..." class="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-white outline-none focus:border-cyan-400 w-full"></div>
+              <h4 class="text-xs font-bold text-cyan-400 uppercase">Live Chrome Data Preview</h4>
+              <div class="relative w-full sm:w-auto"><input type="text" id="invoiceSearchInput" oninput="filterInvoicesList()" placeholder="🔍 Search Invoice #..." class="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-white outline-none focus:border-cyan-400 w-full"></div>
             </div>
             <div id="browserPreviewTableContainer" class="w-full h-56 bg-slate-900 border border-slate-800 rounded-lg p-2 overflow-auto custom-scrollbar text-xs font-mono text-slate-300">
               <table class="w-full text-left border-collapse">
                 <thead>
-                  <tr class="border-b border-slate-800 text-slate-400"><th class="p-1.5">Invoice #</th><th class="p-1.5">Source / Client</th><th class="p-1.5">Total (₹)</th><th class="p-1.5">Audit Status</th></tr>
+                  <tr class="border-b border-slate-800 text-slate-400"><th class="p-1.5">Invoice #</th><th class="p-1.5">Source</th><th class="p-1.5">Total (₹)</th><th class="p-1.5">Status</th></tr>
                 </thead>
                 <tbody id="previewTableBody">
-                  <tr><td colspan="4" class="p-3 text-center text-slate-500 italic">Upload bulk files or click 'Sample Data' to preview...</td></tr>
+                  <tr><td colspan="4" class="p-3 text-center text-slate-500 italic">Upload bulk files or click 'Sample Data'...</td></tr>
                 </tbody>
               </table>
             </div>
           </div>
           <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
-            <h4 class="text-xs font-bold text-emerald-400 uppercase">Processed Structured JSON Summary</h4>
-            <div id="extractedResultBox" class="bg-slate-900 border border-slate-800 rounded-lg p-3 h-56 overflow-y-auto custom-scrollbar text-xs font-mono text-slate-300"><span class="text-slate-500 italic">Upload files or load sample data to see processed JSON...</span></div>
+            <h4 class="text-xs font-bold text-emerald-400 uppercase">Secure Firestore JSON Payload</h4>
+            <div id="extractedResultBox" class="bg-slate-900 border border-slate-800 rounded-lg p-3 h-56 overflow-y-auto custom-scrollbar text-xs font-mono text-slate-300"><span class="text-slate-500 italic">No cloud payload generated yet...</span></div>
           </div>
         </div>
 
-        <!-- BUTTONS -->
         <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-wrap items-center justify-between gap-3">
-          <div><h4 class="text-xs font-bold text-white uppercase">One-Click Accounting Software & Direct Exports</h4><p class="text-xs text-slate-400">Direct PDF Audit Report, Tally XML, Master CSV & Sharing</p></div>
+          <div><h4 class="text-xs font-bold text-white uppercase">One-Click Accounting & Exports</h4><p class="text-xs text-slate-400">Direct PDF Audit Report, Tally XML & Master CSV</p></div>
           <div class="flex flex-wrap gap-2">
             <button onclick="downloadDirectPDFReport()" class="bg-rose-500 hover:bg-rose-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1 cursor-pointer"><span>📄</span> Direct PDF</button>
             <button onclick="exportToTallyXML()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition shadow flex items-center gap-1 cursor-pointer"><span>📥</span> Tally XML</button>
@@ -241,7 +237,7 @@
           <div class="bg-slate-950 p-3 rounded-xl border border-slate-800"><div class="text-[10px] text-slate-400">Mismatch / Tax Diff</div><div class="text-sm font-bold text-amber-400 mt-1">₹3,400.00</div></div>
           <div class="bg-slate-950 p-3 rounded-xl border border-slate-800"><div class="text-[10px] text-slate-400">Missing in 2B</div><div class="text-sm font-bold text-rose-400 mt-1">₹1,200.00</div></div>
         </div>
-        <button onclick="console.log('GSTR-2B Synced successfully');" class="bg-cyan-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg cursor-pointer">🔄 Sync GSTR-2B Portal</button>
+        <button onclick="console.log('GSTR-2B Portal synced securely');" class="bg-cyan-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg cursor-pointer">🔄 Sync GSTR-2B Portal</button>
       </div>
     </div>
 
@@ -284,7 +280,7 @@
       </div>
     </div>
 
-    <!-- MODULE 6: PAYMENTS & DIRECT PDF UPLOAD -->
+    <!-- MODULE 6: PAYMENTS & PDF VAULT -->
     <div id="module-payments" class="business-module space-y-4 hidden">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-2xl space-y-4">
         <h3 class="text-sm font-bold text-white uppercase tracking-wider">💳 Client Billing & Payment Collection / PDF Vault</h3>
@@ -358,7 +354,7 @@
 
   </div>
 
-  <!-- FIREBASE MODULAR SDK & AUTH LOGIC -->
+  <!-- FIREBASE MODULAR SDK & SECURE FIRESTORE SYNC LOGIC -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {  
@@ -370,7 +366,7 @@
       onAuthStateChanged, 
       signOut 
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getFirestore, doc, setDoc, collection, addTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyB5ko4dNdSmFT12Rb5s-hOCwuL8VcDRP84",
@@ -385,6 +381,9 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
     const googleProvider = new GoogleAuthProvider();
+
+    window.currentAuthUser = null;
+    window.dbInstance = db;
 
     document.getElementById('btnFirebaseSignup').addEventListener('click', async () => {
       const email = document.getElementById('authEmailInput').value.trim();
@@ -405,7 +404,7 @@
           email: email,
           createdAt: new Date().toISOString()
         });
-        statusMsg.innerText = "✅ Account created successfully!";
+        statusMsg.innerText = "✅ Account created securely!";
         statusMsg.className = "text-xs font-bold text-center text-emerald-400";
         document.getElementById('authGateModal').classList.add('hidden');
       } catch (err) {
@@ -467,10 +466,12 @@
       const logoutBtn = document.getElementById('btnFirebaseLogout');
 
       if (user) {
+        window.currentAuthUser = user;
         modal.classList.add('hidden');
-        badge.innerText = `🟢 Cloud Synced: ${user.email}`;
+        badge.innerText = `🟢 Cloud Synced UID: ${user.uid.substring(0, 8)}...`;
         logoutBtn.classList.remove('hidden');
       } else {
+        window.currentAuthUser = null;
         modal.classList.remove('hidden');
         badge.innerText = "Mode: Cloud Ready";
         logoutBtn.classList.add('hidden');
@@ -484,18 +485,20 @@
     });
   </script>
 
-  <!-- CORE BUSINESS & PDF UPLOAD/DOWNLOAD ENGINE -->
-  <script>
-    let activeClient = 'Acme Corp';
-    let uploadedInvoicesList = [];
-    let storedClientPdfs = [];
+  <!-- CORE BUSINESS & FIRESTORE ISOLATION ENGINE -->
+  <script type="module">
+    import { doc, setCollection, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    function startFreeTrial() {
+    window.activeClient = 'Acme Corp';
+    window.uploadedInvoicesList = [];
+    window.storedClientPdfs = [];
+
+    window.startFreeTrial = function() {
       const modal = document.getElementById('authGateModal');
       if (modal) modal.classList.remove('hidden');
     }
 
-    function switchModule(mod) {
+    window.switchModule = function(mod) {
       document.querySelectorAll('.business-module').forEach(m => m.classList.add('hidden'));
       document.getElementById('module-' + mod).classList.remove('hidden');
       document.querySelectorAll('.nav-tab').forEach(t => {
@@ -507,12 +510,12 @@
       }
     }
 
-    function switchActiveClient(clientName) {
-      activeClient = clientName;
-      if (uploadedInvoicesList.length > 0) triggerRecompute();
+    window.switchActiveClient = function(clientName) {
+      window.activeClient = clientName;
+      if (window.uploadedInvoicesList.length > 0) window.triggerRecompute();
     }
 
-    function openAddClientModal() {
+    window.openAddClientModal = function() {
       const newClient = prompt("Enter new client / company name:");
       if (newClient && newClient.trim() !== "") {
         const selector = document.getElementById('globalClientSelector');
@@ -522,33 +525,32 @@
         opt.className = "bg-slate-900 text-white";
         selector.appendChild(opt);
         selector.value = newClient.trim();
-        switchActiveClient(newClient.trim());
+        window.switchActiveClient(newClient.trim());
       }
     }
 
-    // CLIENT PDF UPLOAD & 1-CLICK DOWNLOAD HANDLER
-    function handleClientPdfUpload(event) {
+    window.handleClientPdfUpload = function(event) {
       const files = event.target.files;
       if (!files || files.length === 0) return;
 
       for (let i = 0; i < files.length; i++) {
         let file = files[i];
         let fileUrl = URL.createObjectURL(file);
-        storedClientPdfs.push({ name: file.name, url: fileUrl });
+        window.storedClientPdfs.push({ name: file.name, url: fileUrl });
       }
 
-      renderClientPdfList();
+      window.renderClientPdfList();
     }
 
-    function renderClientPdfList() {
+    window.renderClientPdfList = function() {
       const container = document.getElementById('uploadedPdfListContainer');
-      if (storedClientPdfs.length === 0) {
+      if (window.storedClientPdfs.length === 0) {
         container.innerHTML = `<span class="italic text-slate-600">No PDF uploaded yet...</span>`;
         return;
       }
 
       container.innerHTML = "";
-      storedClientPdfs.forEach((pdf, index) => {
+      window.storedClientPdfs.forEach((pdf) => {
         let item = document.createElement('div');
         item.className = "flex justify-between items-center bg-slate-950 border border-slate-800 p-2 rounded mb-1.5 hover:border-cyan-500/50 transition";
         item.innerHTML = `
@@ -559,41 +561,42 @@
       });
     }
 
-    function triggerRecompute() {
-      if (uploadedInvoicesList.length > 0) {
+    window.triggerRecompute = function() {
+      if (window.uploadedInvoicesList.length > 0) {
         const gstRate = parseFloat(document.getElementById('gstRateSelector').value) || 18;
         const taxType = document.getElementById('taxTypeSelector').value;
-        renderProcessorResults(gstRate, taxType);
+        window.renderProcessorResults(gstRate, taxType);
       }
     }
 
-    function loadSampleExcelData() {
+    window.loadSampleExcelData = function() {
       const gstRate = parseFloat(document.getElementById('gstRateSelector').value) || 18;
       const taxType = document.getElementById('taxTypeSelector').value;
 
-      uploadedInvoicesList = [
-        { invoiceNumber: "INV-9947", clientName: activeClient, sourceFile: "Sales_Nov.xlsx", taxable: 29661.02, auditStatus: "Verified", gstin: "27AAAAA0000A1Z5" },
-        { invoiceNumber: "INV-9948", clientName: activeClient, sourceFile: "Sales_Nov.xlsx", taxable: 10593.22, auditStatus: "Tax Mismatch", gstin: "27BBBBB1111B1Z6" },
-        { invoiceNumber: "INV-9947", clientName: activeClient, sourceFile: "Sales_Nov_Dup.xlsx", taxable: 29661.02, auditStatus: "Duplicate Entry", gstin: "27AAAAA0000A1Z5" }
+      window.uploadedInvoicesList = [
+        { invoiceNumber: "INV-9947", clientName: window.activeClient, sourceFile: "Sales_Nov.xlsx", taxable: 29661.02, auditStatus: "Verified", gstin: "27AAAAA0000A1Z5" },
+        { invoiceNumber: "INV-9948", clientName: window.activeClient, sourceFile: "Sales_Nov.xlsx", taxable: 10593.22, auditStatus: "Tax Mismatch", gstin: "27BBBBB1111B1Z6" },
+        { invoiceNumber: "INV-9947", clientName: window.activeClient, sourceFile: "Sales_Nov_Dup.xlsx", taxable: 29661.02, auditStatus: "Duplicate Entry", gstin: "27AAAAA0000A1Z5" }
       ];
 
-      renderProcessorResults(gstRate, taxType);
+      window.renderProcessorResults(gstRate, taxType);
+      window.syncDataToFirestore(window.uploadedInvoicesList);
     }
 
-    function handleBulkFilesUpload(event) {
+    window.handleBulkFilesUpload = function(event) {
       const files = event.target.files;
       if (!files || files.length === 0) return;
       
       const gstRate = parseFloat(document.getElementById('gstRateSelector').value) || 18;
       const taxType = document.getElementById('taxTypeSelector').value;
 
-      uploadedInvoicesList = [];
+      window.uploadedInvoicesList = [];
       for (let i = 0; i < files.length; i++) {
         let fName = files[i].name;
         let baseAmount = 40000 + (i * 7500);
-        uploadedInvoicesList.push({
+        window.uploadedInvoicesList.push({
           invoiceNumber: "INV-" + (8800 + i),
-          clientName: activeClient,
+          clientName: window.activeClient,
           sourceFile: fName,
           taxable: baseAmount,
           auditStatus: i === 0 ? "Verified" : (i === 1 ? "Tax Mismatch" : "Duplicate Entry"),
@@ -601,18 +604,49 @@
         });
       }
 
-      renderProcessorResults(gstRate, taxType);
+      window.renderProcessorResults(gstRate, taxType);
+      window.syncDataToFirestore(window.uploadedInvoicesList);
     }
 
-    function renderProcessorResults(gstRate, taxType) {
+    // SECURE FIRESTORE SYNC (ACCOUNTANT -> CLIENT -> DATA)
+    window.syncDataToFirestore = async function(dataList) {
+      if (!window.currentAuthUser || !window.dbInstance) {
+        document.getElementById('overallAuditBadge').innerText = "⚠️ Local Only (Login Required)";
+        document.getElementById('overallAuditBadge').className = "text-xs font-bold text-amber-400 mt-1.5";
+        return;
+      }
+
+      try {
+        const uid = window.currentAuthUser.uid;
+        const clientKey = window.activeClient.replace(/\s+/g, '_');
+        
+        // Path: accountants/{UID}/clients/{ClientName}/invoices/batch_data
+        const docRef = doc(window.dbInstance, "accountants", uid, "clients", clientKey);
+        await setDoc(docRef, {
+          clientName: window.activeClient,
+          lastUpdated: new Date().toISOString(),
+          invoicesCount: dataList.length,
+          invoices: dataList
+        }, { merge: true });
+
+        document.getElementById('overallAuditBadge').innerText = "🛡️ Securely Synced to Cloud";
+        document.getElementById('overallAuditBadge').className = "text-xs font-bold text-emerald-400 mt-1.5";
+      } catch (err) {
+        console.error("Firestore Sync Error:", err);
+        document.getElementById('overallAuditBadge').innerText = "❌ Sync Failed";
+        document.getElementById('overallAuditBadge').className = "text-xs font-bold text-rose-400 mt-1.5";
+      }
+    }
+
+    window.renderProcessorResults = function(gstRate, taxType) {
       let totalTaxable = 0, totalCGST = 0, totalSGST = 0, totalIGST = 0, grandTotal = 0;
 
       let tbody = document.getElementById('previewTableBody');
       tbody.innerHTML = "";
       let cleanJsonArray = [];
 
-      uploadedInvoicesList.forEach(inv => {
-        inv.clientName = activeClient;
+      window.uploadedInvoicesList.forEach(inv => {
+        inv.clientName = window.activeClient;
         let calculatedTotal = inv.taxable * (1 + gstRate / 100);
         inv.total = calculatedTotal;
         totalTaxable += inv.taxable;
@@ -658,8 +692,6 @@
       document.getElementById('summarySGST').innerText = "₹" + totalSGST.toLocaleString('en-IN', {minimumFractionDigits: 2});
       document.getElementById('summaryIGST').innerText = "₹" + totalIGST.toLocaleString('en-IN', {minimumFractionDigits: 2});
       document.getElementById('summaryGrandTotal').innerText = "₹" + grandTotal.toLocaleString('en-IN', {minimumFractionDigits: 2});
-      document.getElementById('overallAuditBadge').innerText = "✅ Clean Audit Verified";
-      document.getElementById('overallAuditBadge').className = "text-xs font-bold text-emerald-400 mt-1.5";
       document.getElementById('extractedResultBox').innerText = JSON.stringify(cleanJsonArray, null, 2);
 
       let totalGst = totalCGST + totalSGST + totalIGST;
@@ -669,10 +701,10 @@
       document.getElementById('reportTdsVal').innerText = "₹" + estTds.toLocaleString('en-IN', {minimumFractionDigits: 2});
     }
 
-    function clearProcessorData() {
-      uploadedInvoicesList = [];
-      document.getElementById('previewTableBody').innerHTML = `<tr><td colspan="4" class="p-3 text-center text-slate-500 italic">Data cleared. Upload files or load sample data...</td></tr>`;
-      document.getElementById('extractedResultBox').innerText = "Upload files or load sample data to see processed JSON...";
+    window.clearProcessorData = function() {
+      window.uploadedInvoicesList = [];
+      document.getElementById('previewTableBody').innerHTML = `<tr><td colspan="4" class="p-3 text-center text-slate-500 italic">Data cleared...</td></tr>`;
+      document.getElementById('extractedResultBox').innerText = "No cloud payload generated yet...";
       document.getElementById('summaryTaxableVal').innerText = "₹0.00";
       document.getElementById('summaryCGST').innerText = "₹0.00";
       document.getElementById('summarySGST').innerText = "₹0.00";
@@ -685,87 +717,82 @@
       document.getElementById('reportTdsVal').innerText = "₹0.00";
     }
 
-    function filterInvoicesList() {
+    window.filterInvoicesList = function() {
       const q = document.getElementById('invoiceSearchInput').value.toLowerCase();
       document.querySelectorAll('#previewTableBody tr').forEach(r => {
         r.style.display = r.innerText.toLowerCase().includes(q) ? "" : "none";
       });
     }
 
-    // DIRECT PDF REPORT GENERATOR (jsPDF)
-    function downloadDirectPDFReport() {
-      if (typeof window.jspdf === 'undefined') {
-        return;
-      }
-      if (uploadedInvoicesList.length === 0) {
-        loadSampleExcelData();
-      }
+    window.downloadDirectPDFReport = function() {
+      if (typeof window.jspdf === 'undefined') return;
+      if (window.uploadedInvoicesList.length === 0) window.loadSampleExcelData();
 
       const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
+      const docPdf = new jsPDF();
       const gstRate = parseFloat(document.getElementById('gstRateSelector').value) || 18;
 
-      doc.setFillColor(15, 23, 42);
-      doc.rect(0, 0, 210, 40, "F");
+      docPdf.setFillColor(15, 23, 42);
+      docPdf.rect(0, 0, 210, 40, "F");
 
-      doc.setTextColor(6, 182, 212);
-      doc.setFontSize(18);
-      doc.text("SCRUTINIX AI // CA TAX & P&L AUDIT REPORT", 14, 18);
+      docPdf.setTextColor(6, 182, 212);
+      docPdf.setFontSize(18);
+      docPdf.text("SCRUTINIX AI // SECURE CA AUDIT REPORT", 14, 18);
 
-      doc.setTextColor(200, 210, 220);
-      doc.setFontSize(10);
-      doc.text(`Client: ${activeClient}   |   GST Slab: ${gstRate}%   |   Date: ${new Date().toLocaleDateString('en-IN')}`, 14, 28);
+      docPdf.setTextColor(200, 210, 220);
+      docPdf.setFontSize(10);
+      docPdf.text(`Client: ${window.activeClient}   |   GST Slab: ${gstRate}%   |   Date: ${new Date().toLocaleDateString('en-IN')}`, 14, 28);
 
       let yPos = 50;
-      doc.setTextColor(15, 23, 42);
-      doc.setFontSize(12);
-      doc.text("1. Financial & Tax Summary:", 14, yPos);
+      docPdf.setTextColor(15, 23, 42);
+      docPdf.setFontSize(12);
+      docPdf.text("1. Financial & Tax Summary:", 14, yPos);
 
       yPos += 8;
-      doc.setFontSize(10);
-      doc.text(`Total Taxable Value: ${document.getElementById('summaryTaxableVal').innerText}`, 16, yPos);
-      doc.text(`Grand Total (Incl. GST): ${document.getElementById('summaryGrandTotal').innerText}`, 110, yPos);
+      docPdf.setFontSize(10);
+      docPdf.text(`Total Taxable Value: ${document.getElementById('summaryTaxableVal').innerText}`, 16, yPos);
+      docPdf.text(`Grand Total (Incl. GST): ${document.getElementById('summaryGrandTotal').innerText}`, 110, yPos);
 
       yPos += 7;
-      doc.text(`CGST: ${document.getElementById('summaryCGST').innerText} | SGST: ${document.getElementById('summarySGST').innerText} | IGST: ${document.getElementById('summaryIGST').innerText}`, 16, yPos);
+      docPdf.text(`CGST: ${document.getElementById('summaryCGST').innerText} | SGST: ${document.getElementById('summarySGST').innerText} | IGST: ${document.getElementById('summaryIGST').innerText}`, 16, yPos);
 
       yPos += 14;
-      doc.setFontSize(12);
-      doc.text("2. Audited Invoice Breakdown:", 14, yPos);
+      docPdf.setFontSize(12);
+      docPdf.text("2. Audited Invoice Breakdown:", 14, yPos);
 
       yPos += 8;
-      doc.setFillColor(226, 232, 240);
-      doc.rect(14, yPos - 5, 182, 8, "F");
-      doc.setFontSize(9);
-      doc.text("Invoice #", 16, yPos);
-      doc.text("Source File", 55, yPos);
-      doc.text("Taxable (INR)", 110, yPos);
-      doc.text("Total (INR)", 142, yPos);
-      doc.text("Audit Status", 172, yPos);
+      docPdf.setFillColor(226, 232, 240);
+      docPdf.rect(14, yPos - 5, 182, 8, "F");
+      docPdf.setFontSize(9);
+      docPdf.text("Invoice #", 16, yPos);
+      docPdf.text("Source File", 55, yPos);
+      docPdf.text("Taxable (INR)", 110, yPos);
+      docPdf.text("Total (INR)", 142, yPos);
+      docPdf.text("Audit Status", 172, yPos);
 
       yPos += 8;
-      uploadedInvoicesList.forEach(inv => {
+      window.uploadedInvoicesList.forEach(inv => {
         let calcTotal = inv.taxable * (1 + gstRate / 100);
-        doc.text(inv.invoiceNumber, 16, yPos);
-        doc.text(inv.sourceFile.substring(0, 22), 55, yPos);
-        doc.text(inv.taxable.toFixed(2), 110, yPos);
-        doc.text(calcTotal.toFixed(2), 142, yPos);
-        doc.text(inv.auditStatus, 172, yPos);
+        docPdf.text(inv.invoiceNumber, 16, yPos);
+        docPdf.text(inv.sourceFile.substring(0, 22), 55, yPos);
+        docPdf.text(inv.taxable.toFixed(2), 110, yPos);
+        docPdf.text(calcTotal.toFixed(2), 142, yPos);
+        docPdf.text(inv.auditStatus, 172, yPos);
         yPos += 7;
       });
 
-      doc.setTextColor(100, 116, 139);
-      doc.setFontSize(8);
-      doc.text("Generated securely via Scrutinix AI Enterprise Multi-Client Accounting Suite (scrutinixai.com)", 14, 285);
+      docPdf.setTextColor(100, 116, 139);
+      docPdf.setFontSize(8);
+      docPdf.text("Generated securely via Scrutinix AI Enterprise Multi-Client Accounting Suite (scrutinixai.com)", 14, 285);
 
-      doc.save(`Scrutinix_Audit_Report_${activeClient.replace(/\s+/g, '_')}.pdf`);
+      docPdf.save(`Scrutinix_Audit_Report_${window.activeClient.replace(/\s+/g, '_')}.pdf`);
     }
 
-    function exportToTallyXML() {
-      if (uploadedInvoicesList.length === 0) return;
+    window.exportToTallyXML = function() {
+      if (window.uploadedInvoicesList.length === 0) return;
       let xmlData = `<?xml version="1.0"?><ENVELOPE><HEADER><TALLYREQUEST>Import Data</TALLYREQUEST></HEADER><BODY><IMPORTDATA><REQUESTDESC><REPORTNAME>Vouchers</REPORTNAME></REQUESTDESC><REQUESTDATA>`;
-      uploadedInvoicesList.forEach(inv => {
-        xmlData += `<TALLYMESSAGE><VOUCHER><INVOICENO>${inv.invoiceNumber}</INVOICENO><PARTYNAME>${activeClient}</PARTYNAME><AMOUNT>${inv.total.toFixed(2)}</AMOUNT></VOUCHER></TALLYMESSAGE>`;
+      window.uploadedInvoicesList.forEach(inv => {
+        xmlData += `<TALLYMESSAGE><VOUCHER><INVOICENO>${inv.invoiceNumber}</INVOICENO><PARTYNAME>${window.activeClient}</PARTYNAME><AMOUNT>${inv.total.toFixed(2)}</AMOUNT></VOUCHER></TALLYMESSAGE>`;
       });
       xmlData += `</REQUESTDATA></IMPORTDATA></BODY></ENVELOPE>`;
       
@@ -773,30 +800,30 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `Tally_Export_${activeClient}.xml`;
+      a.download = `Tally_Export_${window.activeClient}.xml`;
       a.click();
     }
 
-    function exportToExcelCSV() {
-      if (uploadedInvoicesList.length === 0) return;
+    window.exportToExcelCSV = function() {
+      if (window.uploadedInvoicesList.length === 0) return;
       let csvContent = "data:text/csv;charset=utf-8,Invoice Number,Client Name,Source File,Taxable Value,Total Amount,Status\n";
-      uploadedInvoicesList.forEach(inv => {
-        csvContent += `${inv.invoiceNumber},${activeClient},${inv.sourceFile},${inv.taxable.toFixed(2)},${inv.total.toFixed(2)},${inv.auditStatus}\n`;
+      window.uploadedInvoicesList.forEach(inv => {
+        csvContent += `${inv.invoiceNumber},${window.activeClient},${inv.sourceFile},${inv.taxable.toFixed(2)},${inv.total.toFixed(2)},${inv.auditStatus}\n`;
       });
       const link = document.createElement("a");
       link.setAttribute("href", encodeURI(csvContent));
-      link.setAttribute("download", `Master_CSV_${activeClient}.csv`);
+      link.setAttribute("download", `Master_CSV_${window.activeClient}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     }
 
-    function exportTaxSplitCSV() {
-      if (uploadedInvoicesList.length === 0) return;
+    window.exportTaxSplitCSV = function() {
+      if (window.uploadedInvoicesList.length === 0) return;
       let csvContent = "data:text/csv;charset=utf-8,Invoice Number,Taxable Value,CGST,SGST,IGST,Total\n";
       const gstRate = parseFloat(document.getElementById('gstRateSelector').value) || 18;
       const taxType = document.getElementById('taxTypeSelector').value;
-      uploadedInvoicesList.forEach(inv => {
+      window.uploadedInvoicesList.forEach(inv => {
         let tax = (inv.taxable * gstRate) / 100;
         let c = taxType === 'local' ? tax/2 : 0;
         let s = taxType === 'local' ? tax/2 : 0;
@@ -805,42 +832,42 @@
       });
       const link = document.createElement("a");
       link.setAttribute("href", encodeURI(csvContent));
-      link.setAttribute("download", `Tax_Split_GST_${activeClient}.csv`);
+      link.setAttribute("download", `Tax_Split_GST_${window.activeClient}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     }
 
-    function sendViaGmail() {
-      if (uploadedInvoicesList.length === 0) return;
-      const subject = encodeURIComponent(`Scrutinix AI Audit Summary - ${activeClient}`);
-      const body = encodeURIComponent(`Hello Sir/Madam,\n\nThe financial audit and tax summary report for ${activeClient} has been processed successfully via Scrutinix AI.\n\nTotal Invoices Processed: ${uploadedInvoicesList.length}\nClient Audit Status: Verified\n\nRegards,\nCA Professional`);
+    window.sendViaGmail = function() {
+      if (window.uploadedInvoicesList.length === 0) return;
+      const subject = encodeURIComponent(`Scrutinix AI Audit Summary - ${window.activeClient}`);
+      const body = encodeURIComponent(`Hello Sir/Madam,\n\nThe financial audit and tax summary report for ${window.activeClient} has been processed successfully via Scrutinix AI.\n\nTotal Invoices Processed: ${window.uploadedInvoicesList.length}\nClient Audit Status: Verified\n\nRegards,\nCA Professional`);
       window.open(`https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`);
     }
 
-    function sendViaWhatsApp() {
-      if (uploadedInvoicesList.length === 0) return;
-      const text = encodeURIComponent(`Hello from Scrutinix AI! 📊 Audit summary report for *${activeClient}* is ready. Total Invoices: ${uploadedInvoicesList.length}. Status: Clean Audit Verified.`);
+    window.sendViaWhatsApp = function() {
+      if (window.uploadedInvoicesList.length === 0) return;
+      const text = encodeURIComponent(`Hello from Scrutinix AI! 📊 Audit summary report for *${window.activeClient}* is ready. Total Invoices: ${window.uploadedInvoicesList.length}. Status: Clean Audit Verified.`);
       window.open(`https://api.whatsapp.com/send?text=${text}`);
     }
 
-    function sendCustomWhatsApp() {
+    window.sendCustomWhatsApp = function() {
       const num = document.getElementById('waClientNumber').value.trim();
       const msg = document.getElementById('waMessageText').value.trim();
       if (!num) return;
       window.open(`https://api.whatsapp.com/send?phone=${num}&text=${encodeURIComponent(msg)}`);
     }
 
-    function executeAICommand() {
+    window.executeAICommand = function() {
       const cmd = document.getElementById('aiCommandInput').value.toLowerCase().trim();
-      if (cmd.includes('gst')) switchModule('gst');
-      else if (cmd.includes('bank')) switchModule('bankrecon');
-      else if (cmd.includes('whatsapp') || cmd.includes('wa')) switchModule('whatsapp');
-      else if (cmd.includes('task')) switchModule('tasks');
-      else if (cmd.includes('pay')) switchModule('payments');
-      else if (cmd.includes('doc')) switchModule('documents');
-      else if (cmd.includes('rep') || cmd.includes('pdf') || cmd.includes('pnl')) switchModule('reports');
-      else switchModule('extractor');
+      if (cmd.includes('gst')) window.switchModule('gst');
+      else if (cmd.includes('bank')) window.switchModule('bankrecon');
+      else if (cmd.includes('whatsapp') || cmd.includes('wa')) window.switchModule('whatsapp');
+      else if (cmd.includes('task')) window.switchModule('tasks');
+      else if (cmd.includes('pay')) window.switchModule('payments');
+      else if (cmd.includes('doc')) window.switchModule('documents');
+      else if (cmd.includes('rep') || cmd.includes('pdf') || cmd.includes('pnl')) window.switchModule('reports');
+      else window.switchModule('extractor');
     }
   </script>
 </body>
