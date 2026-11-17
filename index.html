@@ -61,8 +61,8 @@
       </div>
       <div id="authStatusMsg" class="text-xs font-bold text-center min-h-[18px]"></div>
       <div class="grid grid-cols-2 gap-2 pt-1">
-        <button id="btnFirebaseLogin" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition uppercase">Login</button>
-        <button id="btnFirebaseSignup" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition uppercase">Create Account</button>
+        <button id="btnFirebaseLogin" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition uppercase cursor-pointer">Login</button>
+        <button id="btnFirebaseSignup" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs py-2.5 rounded-lg transition uppercase cursor-pointer">Create Account</button>
       </div>
 
       <!-- GOOGLE LOGIN BUTTON -->
@@ -72,7 +72,7 @@
         <div class="flex-grow border-t border-slate-800"></div>
       </div>
 
-      <button id="btnFirebaseGoogleLogin" class="w-full bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs py-2.5 rounded-lg transition flex items-center justify-center gap-2 shadow-md">
+      <button id="btnFirebaseGoogleLogin" class="w-full bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs py-2.5 rounded-lg transition flex items-center justify-center gap-2 shadow-md cursor-pointer">
         <svg class="w-4 h-4" viewBox="0 0 24 24">
           <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
           <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.29v3.14C3.26 21.3 7.31 24 12 24z"/>
@@ -92,7 +92,7 @@
       <h2 class="text-lg md:text-2xl font-extrabold text-white">The AI-Powered Accounting Automation Suite for CAs & Accountants</h2>
       <p class="text-xs text-slate-400 max-w-2xl mx-auto">Automate. Reconcile. Simplify. Process bulk invoices, isolate client records securely via Firestore, and streamline accounting workflows.</p>
       <div>
-        <button onclick="startFreeTrial()" class="bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-extrabold text-xs px-6 py-2.5 rounded-xl shadow-lg transition uppercase tracking-wider">🚀 Start Free Trial (14-Day Pro)</button>
+        <button onclick="startFreeTrial()" class="bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-extrabold text-xs px-6 py-2.5 rounded-xl shadow-lg transition uppercase tracking-wider cursor-pointer">🚀 Start Free Trial (14-Day Pro)</button>
         <p id="trialNotice" class="text-[11px] text-emerald-400 mt-1 font-semibold"></p>
       </div>
     </div>
@@ -121,7 +121,7 @@
           <option value="Sharma Enterprises" class="bg-slate-900 text-white">Sharma Enterprises</option>
           <option value="Global Traders" class="bg-slate-900 text-white">Global Traders</option>
         </select>
-        <button onclick="openAddClientModal()" class="text-[10px] bg-cyan-500/25 hover:bg-cyan-500/35 text-cyan-300 px-2 py-0.5 rounded font-bold transition">＋ Add</button>
+        <button onclick="openAddClientModal()" class="text-[10px] bg-cyan-500/25 hover:bg-cyan-500/35 text-cyan-300 px-2 py-0.5 rounded font-bold transition cursor-pointer">＋ Add</button>
       </div>
 
       <!-- QUICK COMMAND INPUT & LOGOUT -->
@@ -129,22 +129,22 @@
         <div class="flex items-center bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 shadow-inner flex-1">
           <span class="text-cyan-400 mr-2 text-xs">⚡</span>
           <input type="text" id="aiCommandInput" placeholder="Try 'gst', 'report', 'payment'..." class="w-full bg-transparent text-xs text-white outline-none">
-          <button onclick="executeAICommand()" class="text-xs bg-cyan-400 text-slate-950 font-bold px-2.5 py-1 rounded ml-2 hover:bg-cyan-300 transition">Run</button>
+          <button onclick="executeAICommand()" class="text-xs bg-cyan-400 text-slate-950 font-bold px-2.5 py-1 rounded ml-2 hover:bg-cyan-300 transition cursor-pointer">Run</button>
         </div>
-        <button id="btnFirebaseLogout" class="text-xs bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 px-2.5 py-1.5 rounded-lg font-bold hidden">Logout</button>
+        <button id="btnFirebaseLogout" class="text-xs bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 px-2.5 py-1.5 rounded-lg font-bold hidden cursor-pointer">Logout</button>
       </div>
     </div>
 
     <!-- MAIN NAVIGATION TABS -->
     <div class="flex flex-wrap gap-2 bg-slate-900 border border-slate-800 p-2 rounded-xl">
-      <button onclick="switchModule('extractor')" id="nav-extractor" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-1"><span>📊</span> Processor</button>
-      <button onclick="switchModule('gst')" id="nav-gst" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1"><span>⚖️</span> GST Recon</button>
-      <button onclick="switchModule('bankrecon')" id="nav-bankrecon" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1"><span>🏦</span> Bank Auto-Post</button>
-      <button onclick="switchModule('whatsapp')" id="nav-whatsapp" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1"><span>💬</span> WhatsApp Bot</button>
-      <button onclick="switchModule('tasks')" id="nav-tasks" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1"><span>📋</span> Tasks</button>
-      <button onclick="switchModule('payments')" id="nav-payments" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1"><span>💳</span> Payments</button>
-      <button onclick="switchModule('documents')" id="nav-documents" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1"><span>📂</span> Documents</button>
-      <button onclick="switchModule('reports')" id="nav-reports" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1"><span>📑</span> Reports & P&L</button>
+      <button onclick="switchModule('extractor')" id="nav-extractor" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-1 cursor-pointer"><span>📊</span> Processor</button>
+      <button onclick="switchModule('gst')" id="nav-gst" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1 cursor-pointer"><span>⚖️</span> GST Recon</button>
+      <button onclick="switchModule('bankrecon')" id="nav-bankrecon" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1 cursor-pointer"><span>🏦</span> Bank Auto-Post</button>
+      <button onclick="switchModule('whatsapp')" id="nav-whatsapp" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1 cursor-pointer"><span>💬</span> WhatsApp Bot</button>
+      <button onclick="switchModule('tasks')" id="nav-tasks" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1 cursor-pointer"><span>📋</span> Tasks</button>
+      <button onclick="switchModule('payments')" id="nav-payments" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1 cursor-pointer"><span>💳</span> Payments</button>
+      <button onclick="switchModule('documents')" id="nav-documents" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1 cursor-pointer"><span>📂</span> Documents</button>
+      <button onclick="switchModule('reports')" id="nav-reports" class="nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1 cursor-pointer"><span>📑</span> Reports & P&L</button>
     </div>
 
     <!-- MODULE 1: PROCESSOR -->
@@ -176,8 +176,8 @@
               <span>📁</span> Bulk Upload (Multi-Files)
               <input type="file" id="bulkUploadInput" multiple accept=".xlsx, .xls, .csv, .pdf" class="hidden" onchange="handleBulkFilesUpload(event)">
             </label>
-            <button onclick="loadSampleExcelData()" class="bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs px-3 py-2 rounded-lg transition border border-cyan-500/30">✨ Sample Data</button>
-            <button onclick="clearProcessorData()" class="bg-rose-900/40 hover:bg-rose-800/60 text-rose-300 font-bold text-xs px-3 py-2 rounded-lg transition border border-rose-500/30">🗑️ Clear Data</button>
+            <button onclick="loadSampleExcelData()" class="bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs px-3 py-2 rounded-lg transition border border-cyan-500/30 cursor-pointer">✨ Sample Data</button>
+            <button onclick="clearProcessorData()" class="bg-rose-900/40 hover:bg-rose-800/60 text-rose-300 font-bold text-xs px-3 py-2 rounded-lg transition border border-rose-500/30 cursor-pointer">🗑️ Clear Data</button>
           </div>
         </div>
 
@@ -366,7 +366,7 @@
       onAuthStateChanged, 
       signOut 
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getFirestore, doc, setDoc, collection, addTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyB5ko4dNdSmFT12Rb5s-hOCwuL8VcDRP84",
@@ -487,7 +487,7 @@
 
   <!-- CORE BUSINESS & FIRESTORE ISOLATION ENGINE -->
   <script type="module">
-    import { doc, setCollection, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     window.activeClient = 'Acme Corp';
     window.uploadedInvoicesList = [];
@@ -502,11 +502,11 @@
       document.querySelectorAll('.business-module').forEach(m => m.classList.add('hidden'));
       document.getElementById('module-' + mod).classList.remove('hidden');
       document.querySelectorAll('.nav-tab').forEach(t => {
-        t.className = "nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1";
+        t.className = "nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1 cursor-pointer";
       });
       const activeBtn = document.getElementById('nav-' + mod);
       if (activeBtn) {
-        activeBtn.className = "nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-1";
+        activeBtn.className = "nav-tab flex-1 min-w-[100px] py-2 px-2.5 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-1 cursor-pointer";
       }
     }
 
@@ -620,7 +620,6 @@
         const uid = window.currentAuthUser.uid;
         const clientKey = window.activeClient.replace(/\s+/g, '_');
         
-        // Path: accountants/{UID}/clients/{ClientName}/invoices/batch_data
         const docRef = doc(window.dbInstance, "accountants", uid, "clients", clientKey);
         await setDoc(docRef, {
           clientName: window.activeClient,
