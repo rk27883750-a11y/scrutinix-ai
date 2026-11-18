@@ -37,7 +37,7 @@
 
   <div class="max-w-7xl mx-auto w-full space-y-5">
 
-    <!-- HERO HEADER BANNER (As in your original design) -->
+    <!-- HERO HEADER BANNER -->
     <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-cyan-950 border border-cyan-500/30 p-6 rounded-2xl shadow-2xl text-center space-y-3">
       <div class="text-[10px] tracking-widest text-cyan-400 font-bold uppercase">SECURE CLOUD-BACKED ACCOUNTING SUITE</div>
       <h2 class="text-lg md:text-2xl font-extrabold text-white">The AI-Powered Accounting Automation Suite for CAs & Accountants</h2>
@@ -48,7 +48,7 @@
       </div>
     </div>
 
-    <!-- TOP HEADER & MULTI-CLIENT SWITCHER BAR (Original Hexagon Logo & White Headings) -->
+    <!-- TOP HEADER & MULTI-CLIENT SWITCHER BAR -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-xl">
       <div class="flex items-center space-x-3">
         <div class="w-10 h-10 bg-slate-950 border border-cyan-500/40 rounded-xl p-1 flex items-center justify-center shadow-lg shadow-cyan-950">
@@ -93,59 +93,77 @@
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-6">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 gap-3">
           <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">📁 Monthly Document Checklist & Drive Auto-Sync</h3>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">📁 Monthly Document Checklist & Live Chrome Preview</h3>
             <p class="text-xs text-slate-400">Manage statutory files for active client: <span id="activeClientTitle" class="text-cyan-400 font-bold">Ramesh Traders</span></p>
           </div>
           <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-semibold">
-            Google Drive Vault Active 📂
+            Browser Live Viewer Active 👁️
           </span>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <!-- Bank Statement Upload -->
-          <label class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4 cursor-pointer hover:border-cyan-400 transition">
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
             <div>
               <div class="flex items-center justify-between mb-2">
                 <span class="text-xs font-bold text-white">Bank Statement (PDF)</span>
                 <span id="badge-bankStatement" class="text-[11px] text-amber-400 flex items-center gap-1 font-semibold">⏳ Pending</span>
               </div>
-              <p class="text-[11px] text-slate-500">Required for monthly bank reconciliation & ledger posting.</p>
+              <p class="text-[11px] text-slate-500 mb-2">Required for monthly bank reconciliation.</p>
+              <div id="file-info-bankStatement" class="text-[11px] text-cyan-300 font-mono hidden bg-slate-900 p-2 rounded border border-cyan-500/30 truncate"></div>
             </div>
-            <span class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2 rounded-lg border border-slate-700 transition text-center inline-block">
-              📤 Upload Bank Statement
-            </span>
-            <input type="file" accept=".pdf,.xlsx,.csv" class="hidden" onchange="handleClientDocSelected(event, 'bankStatement')">
-          </label>
+            <div class="space-y-2">
+              <label class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2 rounded-lg border border-slate-700 transition text-center block cursor-pointer">
+                📤 Upload Bank Statement
+                <input type="file" accept=".pdf,.xlsx,.csv" class="hidden" onchange="handleClientDocSelected(event, 'bankStatement')">
+              </label>
+              <button id="view-btn-bankStatement" onclick="previewFile('bankStatement')" class="w-full bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 text-[11px] font-bold py-1.5 rounded border border-cyan-500/30 hidden transition cursor-pointer">
+                👁️ View Uploaded File in Chrome
+              </button>
+            </div>
+          </div>
 
           <!-- Sales Bills Upload -->
-          <label class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4 cursor-pointer hover:border-cyan-400 transition">
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
             <div>
               <div class="flex items-center justify-between mb-2">
                 <span class="text-xs font-bold text-white">Sales Bills (B2B / B2C)</span>
                 <span id="badge-salesBills" class="text-[11px] text-amber-400 flex items-center gap-1 font-semibold">⏳ Pending</span>
               </div>
-              <p class="text-[11px] text-slate-500">Required for GSTR-1 filing before 11th of the month.</p>
+              <p class="text-[11px] text-slate-500 mb-2">Required for GSTR-1 filing before 11th.</p>
+              <div id="file-info-salesBills" class="text-[11px] text-cyan-300 font-mono hidden bg-slate-900 p-2 rounded border border-cyan-500/30 truncate"></div>
             </div>
-            <span class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2 rounded-lg border border-slate-700 transition text-center inline-block">
-              📤 Upload Sales Bills
-            </span>
-            <input type="file" accept=".pdf,.xlsx,.csv" class="hidden" onchange="handleClientDocSelected(event, 'salesBills')">
-          </label>
+            <div class="space-y-2">
+              <label class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2 rounded-lg border border-slate-700 transition text-center block cursor-pointer">
+                📤 Upload Sales Bills
+                <input type="file" accept=".pdf,.xlsx,.csv" class="hidden" onchange="handleClientDocSelected(event, 'salesBills')">
+              </label>
+              <button id="view-btn-salesBills" onclick="previewFile('salesBills')" class="w-full bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 text-[11px] font-bold py-1.5 rounded border border-cyan-500/30 hidden transition cursor-pointer">
+                👁️ View Uploaded File in Chrome
+              </button>
+            </div>
+          </div>
 
           <!-- Purchase Bills Upload -->
-          <label class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4 cursor-pointer hover:border-cyan-400 transition">
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
             <div>
               <div class="flex items-center justify-between mb-2">
                 <span class="text-xs font-bold text-white">Purchase Bills (ITC)</span>
                 <span id="badge-purchaseBills" class="text-[11px] text-amber-400 flex items-center gap-1 font-semibold">⏳ Pending</span>
               </div>
-              <p class="text-[11px] text-slate-500">Required for GSTR-3B Input Tax Credit verification.</p>
+              <p class="text-[11px] text-slate-500 mb-2">Required for GSTR-3B ITC verification.</p>
+              <div id="file-info-purchaseBills" class="text-[11px] text-cyan-300 font-mono hidden bg-slate-900 p-2 rounded border border-cyan-500/30 truncate"></div>
             </div>
-            <span class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2 rounded-lg border border-slate-700 transition text-center inline-block">
-              📤 Upload Purchase Bills
-            </span>
-            <input type="file" accept=".pdf,.xlsx,.csv" class="hidden" onchange="handleClientDocSelected(event, 'purchaseBills')">
-          </label>
+            <div class="space-y-2">
+              <label class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2 rounded-lg border border-slate-700 transition text-center block cursor-pointer">
+                📤 Upload Purchase Bills
+                <input type="file" accept=".pdf,.xlsx,.csv" class="hidden" onchange="handleClientDocSelected(event, 'purchaseBills')">
+              </label>
+              <button id="view-btn-purchaseBills" onclick="previewFile('purchaseBills')" class="w-full bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 text-[11px] font-bold py-1.5 rounded border border-cyan-500/30 hidden transition cursor-pointer">
+                👁️ View Uploaded File in Chrome
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -210,13 +228,15 @@
   <script>
     lucide.createIcons();
 
+    // Store state for each client independently
     let clientsData = {
-      "Ramesh Traders": { gstin: "27AABCR1234F1Z5", dueDate: "20th Nov", bankStatement: false, salesBills: false, purchaseBills: false, status: "Incomplete ⏳" },
-      "Sharma Enterprises": { gstin: "07XYZPS9876K1ZH", dueDate: "11th Nov", bankStatement: true, salesBills: true, purchaseBills: true, status: "Received ✅" },
-      "Verma Logistics": { gstin: "10BFGVP5544L1ZT", dueDate: "20th Nov", bankStatement: false, salesBills: false, purchaseBills: false, status: "Pending ❌" }
+      "Ramesh Traders": { gstin: "27AABCR1234F1Z5", dueDate: "20th Nov", bankStatement: null, salesBills: null, purchaseBills: null, status: "Incomplete ⏳" },
+      "Sharma Enterprises": { gstin: "07XYZPS9876K1ZH", dueDate: "11th Nov", bankStatement: null, salesBills: null, purchaseBills: null, status: "Incomplete ⏳" },
+      "Verma Logistics": { gstin: "10BFGVP5544L1ZT", dueDate: "20th Nov", bankStatement: null, salesBills: null, purchaseBills: null, status: "Incomplete ⏳" }
     };
 
     let activeClient = "Ramesh Traders";
+    let uploadedFileUrls = {};
 
     function showLiveNotification(message) {
       const banner = document.getElementById('liveNotificationBanner');
@@ -256,26 +276,36 @@
 
       document.getElementById('activeClientTitle').innerText = activeClient;
 
-      setBadge('bankStatement', client.bankStatement);
-      setBadge('salesBills', client.salesBills);
-      setBadge('purchaseBills', client.purchaseBills);
+      setDocState('bankStatement', client.bankStatement);
+      setDocState('salesBills', client.salesBills);
+      setDocState('purchaseBills', client.purchaseBills);
     }
 
-    function setBadge(docType, isUploaded) {
+    function setDocState(docType, fileName) {
       const badge = document.getElementById('badge-' + docType);
-      if (isUploaded) {
+      const infoBox = document.getElementById('file-info-' + docType);
+      const viewBtn = document.getElementById('view-btn-' + docType);
+
+      if (fileName) {
         badge.className = "text-[11px] text-emerald-400 flex items-center gap-1 font-semibold";
         badge.innerHTML = "✅ Uploaded";
+        infoBox.innerText = `📄 ${fileName}`;
+        infoBox.classList.remove('hidden');
+        viewBtn.classList.remove('hidden');
       } else {
         badge.className = "text-[11px] text-amber-400 flex items-center gap-1 font-semibold";
         badge.innerHTML = "⏳ Pending";
+        infoBox.classList.add('hidden');
+        viewBtn.classList.add('hidden');
       }
     }
 
     function handleClientDocSelected(event, docType) {
       const file = event.target.files[0];
       if (file) {
-        clientsData[activeClient][docType] = true;
+        clientsData[activeClient][docType] = file.name;
+        uploadedFileUrls[`${activeClient}_${docType}`] = URL.createObjectURL(file);
+
         const c = clientsData[activeClient];
         if (c.bankStatement && c.salesBills && c.purchaseBills) {
           c.status = "Received ✅";
@@ -283,7 +313,17 @@
           c.status = "Incomplete ⏳";
         }
         updateChecklistUI();
-        showLiveNotification(`✅ [${activeClient}] ${file.name} uploaded & auto-synced to Google Drive!`);
+        showLiveNotification(`✅ [${activeClient}] ${file.name} uploaded & viewable in Chrome!`);
+      }
+    }
+
+    function previewFile(docType) {
+      const fileKey = `${activeClient}_${docType}`;
+      const fileUrl = uploadedFileUrls[fileKey];
+      if (fileUrl) {
+        window.open(fileUrl, '_blank');
+      } else {
+        showLiveNotification(`ℹ️ No active file found for preview.`);
       }
     }
 
