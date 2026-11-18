@@ -93,11 +93,11 @@
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-6">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 gap-3">
           <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">📁 Monthly Document Checklist & Live Chrome Preview</h3>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">📁 Monthly Document Checklist & Auto-Open Live Viewer</h3>
             <p class="text-xs text-slate-400">Manage statutory files for active client: <span id="activeClientTitle" class="text-cyan-400 font-bold">Ramesh Traders</span></p>
           </div>
           <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-semibold">
-            Browser Live Viewer Active 👁️
+            Auto-Live Chrome Open Active 🚀
           </span>
         </div>
 
@@ -118,7 +118,7 @@
                 <input type="file" accept=".pdf,.xlsx,.csv" class="hidden" onchange="handleClientDocSelected(event, 'bankStatement')">
               </label>
               <button id="view-btn-bankStatement" onclick="previewFile('bankStatement')" class="w-full bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 text-[11px] font-bold py-1.5 rounded border border-cyan-500/30 hidden transition cursor-pointer">
-                👁️ View Uploaded File in Chrome
+                👁️ Open in Chrome
               </button>
             </div>
           </div>
@@ -139,7 +139,7 @@
                 <input type="file" accept=".pdf,.xlsx,.csv" class="hidden" onchange="handleClientDocSelected(event, 'salesBills')">
               </label>
               <button id="view-btn-salesBills" onclick="previewFile('salesBills')" class="w-full bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 text-[11px] font-bold py-1.5 rounded border border-cyan-500/30 hidden transition cursor-pointer">
-                👁️ View Uploaded File in Chrome
+                👁️ Open in Chrome
               </button>
             </div>
           </div>
@@ -160,7 +160,7 @@
                 <input type="file" accept=".pdf,.xlsx,.csv" class="hidden" onchange="handleClientDocSelected(event, 'purchaseBills')">
               </label>
               <button id="view-btn-purchaseBills" onclick="previewFile('purchaseBills')" class="w-full bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 text-[11px] font-bold py-1.5 rounded border border-cyan-500/30 hidden transition cursor-pointer">
-                👁️ View Uploaded File in Chrome
+                👁️ Open in Chrome
               </button>
             </div>
           </div>
@@ -228,7 +228,6 @@
   <script>
     lucide.createIcons();
 
-    // Store state for each client independently
     let clientsData = {
       "Ramesh Traders": { gstin: "27AABCR1234F1Z5", dueDate: "20th Nov", bankStatement: null, salesBills: null, purchaseBills: null, status: "Incomplete ⏳" },
       "Sharma Enterprises": { gstin: "07XYZPS9876K1ZH", dueDate: "11th Nov", bankStatement: null, salesBills: null, purchaseBills: null, status: "Incomplete ⏳" },
@@ -304,7 +303,8 @@
       const file = event.target.files[0];
       if (file) {
         clientsData[activeClient][docType] = file.name;
-        uploadedFileUrls[`${activeClient}_${docType}`] = URL.createObjectURL(file);
+        const fileUrl = URL.createObjectURL(file);
+        uploadedFileUrls[`${activeClient}_${docType}`] = fileUrl;
 
         const c = clientsData[activeClient];
         if (c.bankStatement && c.salesBills && c.purchaseBills) {
@@ -313,7 +313,11 @@
           c.status = "Incomplete ⏳";
         }
         updateChecklistUI();
-        showLiveNotification(`✅ [${activeClient}] ${file.name} uploaded & viewable in Chrome!`);
+        
+        // AUTO-OPEN FILE DIRECTLY IN CHROME TAB ON UPLOAD
+        window.open(fileUrl, '_blank');
+
+        showLiveNotification(`🚀 [${activeClient}] ${file.name} uploaded & opened live in Chrome!`);
       }
     }
 
@@ -361,7 +365,9 @@
       const file = event.target.files[0];
       if (file) {
         document.getElementById('selectedPdfFileName').innerText = `📄 Selected: ${file.name}`;
-        showLiveNotification(`✅ Bank PDF statement "${file.name}" loaded successfully for Tally conversion!`);
+        const fileUrl = URL.createObjectURL(file);
+        window.open(fileUrl, '_blank');
+        showLiveNotification(`✅ Bank PDF statement "${file.name}" loaded & opened in Chrome!`);
       }
     }
 
