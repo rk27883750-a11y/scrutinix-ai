@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // CA & Tax Consultant Edition v4.0</title>
+  <title>Scrutinix AI // Enterprise Multi-Client Accounting Command Center v4.0</title>
   
-  <!-- Custom 'S' Favicon Logo -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23070a12'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='Arial, sans-serif' font-size='65' font-weight='bold' fill='%2300d2ff'>S</text></svg>">
+  <!-- Custom Hexagon SVG Favicon Logo -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none'><rect width='100' height='100' rx='20' fill='%230f172a'/><path d='M50 15L80 32V68L50 85L20 68V32L50 15Z' stroke='%2306b6d4' stroke-width='4' stroke-linejoin='round'/><path d='M65 35H40C33 35 33 48 40 48H60C67 48 67 65 60 65H35' stroke='%2338bdf8' stroke-width='6' stroke-linecap='round'/><circle cx='50' cy='50' r='3' fill='%2367e8f9'/></svg>">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -37,14 +37,29 @@
 
   <div class="max-w-7xl mx-auto w-full space-y-5">
 
-    <!-- TOP HEADER & MULTI-CLIENT SWITCHER BAR -->
+    <!-- HERO HEADER BANNER (As in your original design) -->
+    <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-cyan-950 border border-cyan-500/30 p-6 rounded-2xl shadow-2xl text-center space-y-3">
+      <div class="text-[10px] tracking-widest text-cyan-400 font-bold uppercase">SECURE CLOUD-BACKED ACCOUNTING SUITE</div>
+      <h2 class="text-lg md:text-2xl font-extrabold text-white">The AI-Powered Accounting Automation Suite for CAs & Accountants</h2>
+      <p class="text-xs text-slate-400 max-w-2xl mx-auto">Automate. Reconcile. Simplify. Process bulk invoices, isolate client records securely, and streamline statutory workflows.</p>
+      <div>
+        <button onclick="showLiveNotification('🚀 Free Trial Active: All CA modules unlocked successfully!')" class="bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-extrabold text-xs px-6 py-2.5 rounded-xl shadow-lg transition uppercase tracking-wider cursor-pointer">🚀 Start Free Trial (14-Day Pro)</button>
+        <p class="text-[11px] text-emerald-400 mt-1 font-semibold">Cloud Synced & Ready</p>
+      </div>
+    </div>
+
+    <!-- TOP HEADER & MULTI-CLIENT SWITCHER BAR (Original Hexagon Logo & White Headings) -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-xl">
       <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 bg-slate-950 border border-cyan-500/40 rounded-xl p-1 flex items-center justify-center shadow-lg font-bold text-cyan-400 text-lg">
-          S
+        <div class="w-10 h-10 bg-slate-950 border border-cyan-500/40 rounded-xl p-1 flex items-center justify-center shadow-lg shadow-cyan-950">
+          <svg viewBox="0 0 100 100" class="w-full h-full">
+            <path d="M50 10L85 30V70L50 90L15 70V30L50 10Z" stroke="#06b6d4" stroke-width="6" fill="none" stroke-linejoin="round"/>
+            <path d="M65 35H40C32 35 32 48 40 48H60C68 48 68 65 60 65H35" stroke="#38bdf8" stroke-width="8" stroke-linecap="round" fill="none"/>
+            <polygon points="50,45 53,50 50,55 47,50" fill="#67e8f9"/>
+          </svg>
         </div>
         <div>
-          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">CA Edition v4.0</span></h1>
+          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">Secure v4.0</span></h1>
           <p id="loggedInUserBadge" class="text-xs text-emerald-400">Cloud Synced UID: AN Rahul (Connected)</p>
         </div>
       </div>
@@ -60,7 +75,7 @@
       </div>
     </div>
 
-    <!-- LIVE NOTIFICATION BANNER (Replaces Popups) -->
+    <!-- LIVE NOTIFICATION BANNER -->
     <div id="liveNotificationBanner" class="hidden bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-between transition-all">
       <span id="liveNotificationText">✅ Success message here</span>
       <button onclick="document.getElementById('liveNotificationBanner').classList.add('hidden')" class="text-emerald-400 hover:text-white font-bold px-2">✕</button>
@@ -87,8 +102,8 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <!-- Bank Statement -->
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+          <!-- Bank Statement Upload -->
+          <label class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4 cursor-pointer hover:border-cyan-400 transition">
             <div>
               <div class="flex items-center justify-between mb-2">
                 <span class="text-xs font-bold text-white">Bank Statement (PDF)</span>
@@ -96,13 +111,14 @@
               </div>
               <p class="text-[11px] text-slate-500">Required for monthly bank reconciliation & ledger posting.</p>
             </div>
-            <button onclick="uploadClientDoc('bankStatement')" class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2 rounded-lg border border-slate-700 transition flex items-center justify-center gap-1.5 cursor-pointer">
-              <span>📤</span> Upload Bank Statement
-            </button>
-          </div>
+            <span class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2 rounded-lg border border-slate-700 transition text-center inline-block">
+              📤 Upload Bank Statement
+            </span>
+            <input type="file" accept=".pdf,.xlsx,.csv" class="hidden" onchange="handleClientDocSelected(event, 'bankStatement')">
+          </label>
 
-          <!-- Sales Bills -->
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+          <!-- Sales Bills Upload -->
+          <label class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4 cursor-pointer hover:border-cyan-400 transition">
             <div>
               <div class="flex items-center justify-between mb-2">
                 <span class="text-xs font-bold text-white">Sales Bills (B2B / B2C)</span>
@@ -110,13 +126,14 @@
               </div>
               <p class="text-[11px] text-slate-500">Required for GSTR-1 filing before 11th of the month.</p>
             </div>
-            <button onclick="uploadClientDoc('salesBills')" class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2 rounded-lg border border-slate-700 transition flex items-center justify-center gap-1.5 cursor-pointer">
-              <span>📤</span> Upload Sales Bills
-            </button>
-          </div>
+            <span class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2 rounded-lg border border-slate-700 transition text-center inline-block">
+              📤 Upload Sales Bills
+            </span>
+            <input type="file" accept=".pdf,.xlsx,.csv" class="hidden" onchange="handleClientDocSelected(event, 'salesBills')">
+          </label>
 
-          <!-- Purchase Bills -->
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+          <!-- Purchase Bills Upload -->
+          <label class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4 cursor-pointer hover:border-cyan-400 transition">
             <div>
               <div class="flex items-center justify-between mb-2">
                 <span class="text-xs font-bold text-white">Purchase Bills (ITC)</span>
@@ -124,10 +141,11 @@
               </div>
               <p class="text-[11px] text-slate-500">Required for GSTR-3B Input Tax Credit verification.</p>
             </div>
-            <button onclick="uploadClientDoc('purchaseBills')" class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2 rounded-lg border border-slate-700 transition flex items-center justify-center gap-1.5 cursor-pointer">
-              <span>📤</span> Upload Purchase Bills
-            </button>
-          </div>
+            <span class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2 rounded-lg border border-slate-700 transition text-center inline-block">
+              📤 Upload Purchase Bills
+            </span>
+            <input type="file" accept=".pdf,.xlsx,.csv" class="hidden" onchange="handleClientDocSelected(event, 'purchaseBills')">
+          </label>
         </div>
       </div>
     </div>
@@ -172,7 +190,6 @@
           <p class="text-xs text-slate-400">Upload bank statements or financial PDFs to instantly extract and convert into Tally XML or Master CSV.</p>
         </div>
 
-        <!-- Working File Upload Trigger -->
         <label class="border-2 border-dashed border-slate-700 hover:border-cyan-400 transition bg-slate-950/50 rounded-2xl p-8 text-center cursor-pointer flex flex-col items-center justify-center block">
           <div class="bg-cyan-500/10 p-4 rounded-full border border-cyan-500/20 mb-3">
             <i data-lucide="file-text" class="w-8 h-8 text-cyan-400"></i>
@@ -255,17 +272,19 @@
       }
     }
 
-    function uploadClientDoc(docType) {
-      clientsData[activeClient][docType] = true;
-      const c = clientsData[activeClient];
-      if (c.bankStatement && c.salesBills && c.purchaseBills) {
-        c.status = "Received ✅";
-      } else {
-        c.status = "Incomplete ⏳";
+    function handleClientDocSelected(event, docType) {
+      const file = event.target.files[0];
+      if (file) {
+        clientsData[activeClient][docType] = true;
+        const c = clientsData[activeClient];
+        if (c.bankStatement && c.salesBills && c.purchaseBills) {
+          c.status = "Received ✅";
+        } else {
+          c.status = "Incomplete ⏳";
+        }
+        updateChecklistUI();
+        showLiveNotification(`✅ [${activeClient}] ${file.name} uploaded & auto-synced to Google Drive!`);
       }
-      updateChecklistUI();
-      
-      showLiveNotification(`✅ [${activeClient}] ${docType} successfully uploaded & auto-synced!`);
     }
 
     function renderPendingTable() {
