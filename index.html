@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // Enterprise Multi-Client Accounting Command Center v4.0</title>
+  <title>Scrutinix AI // Enterprise Multi-Client Accounting Command Center v5.0 (CA Edition)</title>
   
   <!-- Custom Hexagon SVG Favicon Logo -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none'><rect width='100' height='100' rx='20' fill='%230f172a'/><path d='M50 15L80 32V68L50 85L20 68V32L50 15Z' stroke='%2306b6d4' stroke-width='4' stroke-linejoin='round'/><path d='M65 35H40C33 35 33 48 40 48H60C67 48 67 65 60 65H35' stroke='%2338bdf8' stroke-width='6' stroke-linecap='round'/><circle cx='50' cy='50' r='3' fill='%2367e8f9'/></svg>">
@@ -44,7 +44,7 @@
       <p class="text-xs text-slate-400 max-w-2xl mx-auto">Automate. Reconcile. Simplify. Process bulk invoices, isolate client records securely, and streamline statutory workflows.</p>
       <div>
         <button onclick="showLiveNotification('🚀 Free Trial Active: All CA modules unlocked successfully!')" class="bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-extrabold text-xs px-6 py-2.5 rounded-xl shadow-lg transition uppercase tracking-wider cursor-pointer">🚀 Start Free Trial (14-Day Pro)</button>
-        <p class="text-[11px] text-emerald-400 mt-1 font-semibold">Cloud Synced & Ready</p>
+        <p class="text-[11px] text-emerald-400 mt-1 font-semibold">Cloud Synced & Ready // 100% Client-Side Privacy</p>
       </div>
     </div>
 
@@ -59,7 +59,7 @@
           </svg>
         </div>
         <div>
-          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">Secure v4.0</span></h1>
+          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">CA Edition v5.0</span></h1>
           <p id="loggedInUserBadge" class="text-xs text-emerald-400">Cloud Synced UID: AN Rahul (Connected)</p>
         </div>
       </div>
@@ -81,11 +81,12 @@
       <button onclick="document.getElementById('liveNotificationBanner').classList.add('hidden')" class="text-emerald-400 hover:text-white font-bold px-2">✕</button>
     </div>
 
-    <!-- MAIN NAVIGATION TABS -->
+    <!-- MAIN NAVIGATION TABS (4 CORE MODULES) -->
     <div class="flex flex-wrap gap-2 bg-slate-900 border border-slate-800 p-2 rounded-xl">
       <button onclick="switchModule('checklist')" id="nav-checklist" class="nav-tab flex-1 min-w-[140px] py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-1.5 cursor-pointer"><span>📁</span> Client Checklist</button>
       <button onclick="switchModule('pending')" id="nav-pending" class="nav-tab flex-1 min-w-[140px] py-2.5 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5 cursor-pointer"><span>⏰</span> Pending & Reminders</button>
       <button onclick="switchModule('converter')" id="nav-converter" class="nav-tab flex-1 min-w-[140px] py-2.5 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5 cursor-pointer"><span>🔄</span> PDF to Tally/Excel</button>
+      <button onclick="switchModule('matcher')" id="nav-matcher" class="nav-tab flex-1 min-w-[160px] py-2.5 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5 cursor-pointer"><span>⚖️</span> 2B vs Purchase Match</button>
     </div>
 
     <!-- MODULE 1: CLIENT CHECKLIST & UPLOAD PORTAL -->
@@ -222,6 +223,106 @@
       </div>
     </div>
 
+    <!-- MODULE 4: GSTR-2B vs PURCHASE BILLS AUTO-MATCHER & ERROR AUDITOR -->
+    <div id="module-matcher" class="business-module space-y-4 hidden">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-6">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 gap-3">
+          <div>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">⚖️ GSTR-2B vs Purchase Register Auto-Matcher (ITC Tool)</h3>
+            <p class="text-xs text-slate-400">Upload GSTR-2B and Purchase Register (Excel/CSV) to instantly detect Missing Bills, Amount Mismatches, and Duplicate/GSTIN Errors.</p>
+          </div>
+          <button onclick="loadSampleItcDemo()" class="text-xs bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/30 px-3 py-1.5 rounded-lg font-semibold transition cursor-pointer">
+            ⚡ Load Demo Files (1-Click Test)
+          </button>
+        </div>
+
+        <!-- TWO UPLOAD BOXES -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Upload GSTR-2B -->
+          <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-3">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-bold text-white">1️⃣ Upload GSTR-2B (Excel / CSV)</span>
+                <span id="badge-gstr2b" class="text-[11px] text-amber-400 font-semibold">⏳ Required</span>
+              </div>
+              <p class="text-[11px] text-slate-500">Portal downloaded GSTR-2B sheet containing supplier invoices.</p>
+              <div id="info-gstr2b" class="text-[11px] text-cyan-300 font-mono hidden bg-slate-900 p-2 mt-2 rounded border border-cyan-500/30 truncate"></div>
+            </div>
+            <label class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2.5 rounded-lg border border-slate-700 transition text-center block cursor-pointer">
+              📤 Upload GSTR-2B (Excel/CSV)
+              <input type="file" accept=".xlsx,.xls,.csv" class="hidden" onchange="handleItcFileUpload(event, 'gstr2b')">
+            </label>
+          </div>
+
+          <!-- Upload Purchase Register -->
+          <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-3">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-bold text-white">2️⃣ Upload Purchase Register (Excel / CSV)</span>
+                <span id="badge-purchaseReg" class="text-[11px] text-amber-400 font-semibold">⏳ Required</span>
+              </div>
+              <p class="text-[11px] text-slate-500">Tally / Accounting software purchase register sheet.</p>
+              <div id="info-purchaseReg" class="text-[11px] text-cyan-300 font-mono hidden bg-slate-900 p-2 mt-2 rounded border border-cyan-500/30 truncate"></div>
+            </div>
+            <label class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2.5 rounded-lg border border-slate-700 transition text-center block cursor-pointer">
+              📤 Upload Purchase Register (Excel/CSV)
+              <input type="file" accept=".xlsx,.xls,.csv" class="hidden" onchange="handleItcFileUpload(event, 'purchaseReg')">
+            </label>
+          </div>
+        </div>
+
+        <!-- ACTION BUTTON -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <button onclick="runItcReconciliation()" class="w-full sm:w-auto bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-extrabold text-xs px-8 py-3 rounded-xl shadow-lg transition uppercase tracking-wider cursor-pointer">
+            🔍 Find Missing Bills & ITC Mismatch
+          </button>
+          <button id="exportReconcilBtn" onclick="exportReconcilExcel()" class="hidden w-full sm:w-auto bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-emerald-500/30 font-bold text-xs px-5 py-3 rounded-xl transition cursor-pointer">
+            📥 Export Audit Report (Excel)
+          </button>
+        </div>
+
+        <!-- SUMMARY CARDS -->
+        <div id="itcSummaryCards" class="hidden grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+          <div class="bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-xl">
+            <div class="text-[11px] text-emerald-300 font-bold uppercase">✅ Matched Bills</div>
+            <div id="count-matched" class="text-2xl font-extrabold text-white mt-1">0</div>
+            <div class="text-[11px] text-emerald-400/80 mt-0.5">Verified & Safe for ITC Claim</div>
+          </div>
+          <div class="bg-rose-500/10 border border-rose-500/30 p-4 rounded-xl">
+            <div class="text-[11px] text-rose-300 font-bold uppercase">❌ Missing in 2B</div>
+            <div id="count-missing" class="text-2xl font-extrabold text-white mt-1">0</div>
+            <div class="text-[11px] text-rose-400/80 mt-0.5">Not filed by supplier — Hold Payment</div>
+          </div>
+          <div class="bg-amber-500/10 border border-amber-500/30 p-4 rounded-xl">
+            <div class="text-[11px] text-amber-300 font-bold uppercase">⚠️ Amount Mismatch / Audit Alert</div>
+            <div id="count-mismatch" class="text-2xl font-extrabold text-white mt-1">0</div>
+            <div class="text-[11px] text-amber-400/80 mt-0.5">Difference in Tax/Amount or Duplicate</div>
+          </div>
+        </div>
+
+        <!-- RECONCILIATION RESULTS TABLE -->
+        <div id="itcResultTableWrapper" class="hidden overflow-x-auto bg-slate-950 rounded-xl border border-slate-800">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-900 text-slate-400 border-b border-slate-800">
+              <tr>
+                <th class="p-3">Status</th>
+                <th class="p-3">Invoice No.</th>
+                <th class="p-3">Supplier / Party</th>
+                <th class="p-3">GSTIN</th>
+                <th class="p-3 text-right">Purchase Amt (₹)</th>
+                <th class="p-3 text-right">GSTR-2B Amt (₹)</th>
+                <th class="p-3 text-right">Difference (₹)</th>
+                <th class="p-3">Audit Remark</th>
+              </tr>
+            </thead>
+            <tbody id="itcResultsTableBody" class="divide-y divide-slate-800/60">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- CORE JAVASCRIPT LOGIC -->
@@ -237,6 +338,11 @@
     let activeClient = "Ramesh Traders";
     let uploadedFileUrls = {};
 
+    // Stores parsed rows for GSTR-2B and Purchase Register
+    let gstr2bRecords = [];
+    let purchaseRecords = [];
+    let lastReconciliationReport = [];
+
     function showLiveNotification(message) {
       const banner = document.getElementById('liveNotificationBanner');
       const textEl = document.getElementById('liveNotificationText');
@@ -245,7 +351,7 @@
 
       setTimeout(() => {
         banner.classList.add('hidden');
-      }, 4000);
+      }, 4500);
     }
 
     function switchModule(moduleName) {
@@ -369,6 +475,203 @@
         window.open(fileUrl, '_blank');
         showLiveNotification(`✅ Bank PDF statement "${file.name}" loaded & opened in Chrome!`);
       }
+    }
+
+    // ==========================================
+    // MODULE 4: GSTR-2B vs PURCHASE AUTO-MATCHER
+    // ==========================================
+    function normalizeInvoiceRow(rawRow) {
+      const keys = Object.keys(rawRow);
+      let invNo = "";
+      let supplier = "Unknown Party";
+      let gstin = "MISSING-GSTIN";
+      let amount = 0;
+
+      for (const k of keys) {
+        const lower = k.toLowerCase().trim();
+        const val = rawRow[k];
+        if (lower.includes('inv') || lower.includes('bill') || lower.includes('voucher')) {
+          invNo = String(val || '').trim().toUpperCase();
+        } else if (lower.includes('party') || lower.includes('supplier') || lower.includes('name') || lower.includes('vendor')) {
+          supplier = String(val || 'Unknown Party').trim();
+        } else if (lower.includes('gst')) {
+          gstin = String(val || 'MISSING-GSTIN').trim().toUpperCase();
+        } else if (lower.includes('amt') || lower.includes('amount') || lower.includes('total') || lower.includes('taxable') || lower.includes('value')) {
+          const num = parseFloat(String(val || '0').replace(/[^0-9.-]/g, ''));
+          if (!isNaN(num) && num > 0) amount = num;
+        }
+      }
+      return { invNo, supplier, gstin, amount };
+    }
+
+    function handleItcFileUpload(event, targetType) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+        const jsonRows = XLSX.utils.sheet_to_json(firstSheet, { defval: "" });
+        const normalized = jsonRows.map(normalizeInvoiceRow).filter(r => r.invNo !== "");
+
+        if (targetType === 'gstr2b') {
+          gstr2bRecords = normalized;
+          document.getElementById('badge-gstr2b').className = "text-[11px] text-emerald-400 font-semibold";
+          document.getElementById('badge-gstr2b').innerText = `✅ Loaded (${normalized.length} bills)`;
+          const info = document.getElementById('info-gstr2b');
+          info.innerText = `📄 ${file.name}`;
+          info.classList.remove('hidden');
+        } else {
+          purchaseRecords = normalized;
+          document.getElementById('badge-purchaseReg').className = "text-[11px] text-emerald-400 font-semibold";
+          document.getElementById('badge-purchaseReg').innerText = `✅ Loaded (${normalized.length} bills)`;
+          const info = document.getElementById('info-purchaseReg');
+          info.innerText = `📄 ${file.name}`;
+          info.classList.remove('hidden');
+        }
+        showLiveNotification(`📊 "${file.name}" parsed successfully (${normalized.length} invoices detected).`);
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function loadSampleItcDemo() {
+      gstr2bRecords = [
+        { invNo: "INV-2026-101", supplier: "Mahavir Steel Corp", gstin: "10AABCM4512K1Z2", amount: 54000 },
+        { invNo: "INV-2026-102", supplier: "Shree Balaji Traders", gstin: "10AAKCS8821P1Z9", amount: 28500 },
+        { invNo: "INV-2026-104", supplier: "National Logistics", gstin: "07AAACN9012M1Z4", amount: 15000 }
+      ];
+
+      purchaseRecords = [
+        { invNo: "INV-2026-101", supplier: "Mahavir Steel Corp", gstin: "10AABCM4512K1Z2", amount: 54000 },
+        { invNo: "INV-2026-102", supplier: "Shree Balaji Traders", gstin: "10AAKCS8821P1Z9", amount: 31200 },
+        { invNo: "INV-2026-103", supplier: "Mithila Hardware Store", gstin: "10BGHPM1122L1Z8", amount: 42000 },
+        { invNo: "INV-2026-103", supplier: "Mithila Hardware Store", gstin: "10BGHPM1122L1Z8", amount: 42000 }
+      ];
+
+      document.getElementById('badge-gstr2b').className = "text-[11px] text-emerald-400 font-semibold";
+      document.getElementById('badge-gstr2b').innerText = "✅ Demo Loaded (3 bills)";
+      const info2b = document.getElementById('info-gstr2b');
+      info2b.innerText = "📄 Sample_GSTR2B_Nov2026.xlsx";
+      info2b.classList.remove('hidden');
+
+      document.getElementById('badge-purchaseReg').className = "text-[11px] text-emerald-400 font-semibold";
+      document.getElementById('badge-purchaseReg').innerText = "✅ Demo Loaded (4 bills)";
+      const infoPr = document.getElementById('info-purchaseReg');
+      infoPr.innerText = "📄 Sample_Purchase_Register_Nov2026.xlsx";
+      infoPr.classList.remove('hidden');
+
+      runItcReconciliation();
+    }
+
+    function runItcReconciliation() {
+      if (gstr2bRecords.length === 0 && purchaseRecords.length === 0) {
+        showLiveNotification("⚠️ Please upload GSTR-2B and Purchase Register files first (or click 'Load Demo Files').");
+        return;
+      }
+
+      const map2B = new Map();
+      gstr2bRecords.forEach(item => map2B.set(item.invNo, item));
+
+      const seenPurchaseInv = new Set();
+      let matchedCount = 0;
+      let missingCount = 0;
+      let mismatchCount = 0;
+      lastReconciliationReport = [];
+
+      const tbody = document.getElementById('itcResultsTableBody');
+      tbody.innerHTML = '';
+
+      purchaseRecords.forEach(pr => {
+        let statusType = "";
+        let badgeHtml = "";
+        let remark = "";
+        let amt2B = 0;
+        let diff = 0;
+
+        // Accounting Error Auditor: Duplicate Check & Missing GSTIN Check
+        const isDuplicate = seenPurchaseInv.has(pr.invNo);
+        seenPurchaseInv.add(pr.invNo);
+        const hasMissingGstin = !pr.gstin || pr.gstin === "MISSING-GSTIN" || pr.gstin.length < 15;
+
+        if (isDuplicate) {
+          statusType = "Duplicate / Audit Alert";
+          mismatchCount++;
+          const match2B = map2B.get(pr.invNo);
+          amt2B = match2B ? match2B.amount : 0;
+          diff = pr.amount - amt2B;
+          badgeHtml = `<span class="px-2 py-1 rounded-full text-[11px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">⚠️ Duplicate Entry</span>`;
+          remark = "Duplicate bill in Purchase Register! Remove to avoid excess ITC claim.";
+        } else if (!map2B.has(pr.invNo)) {
+          statusType = "Missing in 2B";
+          missingCount++;
+          amt2B = 0;
+          diff = pr.amount;
+          badgeHtml = `<span class="px-2 py-1 rounded-full text-[11px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20">❌ Missing in 2B</span>`;
+          remark = "Supplier hasn't uploaded in GSTR-1. Hold supplier payment!";
+        } else {
+          const item2B = map2B.get(pr.invNo);
+          amt2B = item2B.amount;
+          diff = pr.amount - amt2B;
+
+          if (Math.abs(diff) > 1 || hasMissingGstin) {
+            statusType = "Amount / GSTIN Mismatch";
+            mismatchCount++;
+            badgeHtml = `<span class="px-2 py-1 rounded-full text-[11px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">⚠️ Amount Mismatch</span>`;
+            remark = hasMissingGstin ? "Invalid/Missing GSTIN detected!" : `Amount differs by ₹${Math.abs(diff).toLocaleString('en-IN')}. Verify tax.`;
+          } else {
+            statusType = "Matched Bill";
+            matchedCount++;
+            badgeHtml = `<span class="px-2 py-1 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">✅ Matched Bills</span>`;
+            remark = "100% Verified — Safe to claim ITC.";
+          }
+        }
+
+        lastReconciliationReport.push({
+          Status: statusType,
+          Invoice_No: pr.invNo,
+          Supplier: pr.supplier,
+          GSTIN: pr.gstin,
+          Purchase_Amount: pr.amount,
+          GSTR2B_Amount: amt2B,
+          Difference: diff,
+          Audit_Remark: remark
+        });
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-800/40";
+        tr.innerHTML = `
+          <td class="p-3 whitespace-nowrap">${badgeHtml}</td>
+          <td class="p-3 font-mono font-bold text-white">${pr.invNo}</td>
+          <td class="p-3 text-slate-300">${pr.supplier}</td>
+          <td class="p-3 font-mono text-slate-400">${pr.gstin}</td>
+          <td class="p-3 text-right font-mono text-white">₹${pr.amount.toLocaleString('en-IN')}</td>
+          <td class="p-3 text-right font-mono text-cyan-300">₹${amt2B.toLocaleString('en-IN')}</td>
+          <td class="p-3 text-right font-mono font-bold ${diff !== 0 ? 'text-rose-400' : 'text-emerald-400'}">₹${diff.toLocaleString('en-IN')}</td>
+          <td class="p-3 text-slate-300">${remark}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('count-matched').innerText = matchedCount;
+      document.getElementById('count-missing').innerText = missingCount;
+      document.getElementById('count-mismatch').innerText = mismatchCount;
+
+      document.getElementById('itcSummaryCards').classList.remove('hidden');
+      document.getElementById('itcResultTableWrapper').classList.remove('hidden');
+      document.getElementById('exportReconcilBtn').classList.remove('hidden');
+
+      showLiveNotification(`✅ ITC Audit Complete: ${matchedCount} Matched, ${missingCount} Missing in 2B, ${mismatchCount} Mismatches!`);
+    }
+
+    function exportReconcilExcel() {
+      if (lastReconciliationReport.length === 0) return;
+      const ws = XLSX.utils.json_to_sheet(lastReconciliationReport);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "GSTR2B_vs_Purchase_Audit");
+      XLSX.writeFile(wb, `Scrutinix_ITC_Audit_${activeClient.replace(/\s+/g, '_')}.xlsx`);
+      showLiveNotification("📥 Excel Audit Report downloaded successfully!");
     }
 
     // Initial UI load
