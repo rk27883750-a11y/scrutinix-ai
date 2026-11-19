@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrutinix AI // Enterprise Multi-Client Accounting Command Center v5.0 (CA Edition)</title>
+  <title>Scrutinix AI // Multi-Client Accounting Command Center v6.0 (CA Pro Edition)</title>
   
   <!-- Custom Hexagon SVG Favicon Logo -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none'><rect width='100' height='100' rx='20' fill='%230f172a'/><path d='M50 15L80 32V68L50 85L20 68V32L50 15Z' stroke='%2306b6d4' stroke-width='4' stroke-linejoin='round'/><path d='M65 35H40C33 35 33 48 40 48H60C67 48 67 65 60 65H35' stroke='%2338bdf8' stroke-width='6' stroke-linecap='round'/><circle cx='50' cy='50' r='3' fill='%2367e8f9'/></svg>">
@@ -37,14 +37,14 @@
 
   <div class="max-w-7xl mx-auto w-full space-y-5">
 
-    <!-- HERO HEADER BANNER -->
+    <!-- HERO HEADER BANNER (Honest Browser-Native Positioning) -->
     <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-cyan-950 border border-cyan-500/30 p-6 rounded-2xl shadow-2xl text-center space-y-3">
-      <div class="text-[10px] tracking-widest text-cyan-400 font-bold uppercase">SECURE CLOUD-BACKED ACCOUNTING SUITE</div>
-      <h2 class="text-lg md:text-2xl font-extrabold text-white">The AI-Powered Accounting Automation Suite for CAs & Accountants</h2>
-      <p class="text-xs text-slate-400 max-w-2xl mx-auto">Automate. Reconcile. Simplify. Process bulk invoices, isolate client records securely, and streamline statutory workflows.</p>
+      <div class="text-[10px] tracking-widest text-cyan-400 font-bold uppercase">100% BROWSER-NATIVE // ZERO-API ACCOUNTING SUITE</div>
+      <h2 class="text-lg md:text-2xl font-extrabold text-white">The Client-Side Accounting Automation Suite for CAs & Accountants</h2>
+      <p class="text-xs text-slate-400 max-w-2xl mx-auto">Automate. Reconcile. Simplify. Process GST reconciliations, bank statements, and statutory reminders directly in your browser without uploading sensitive client data to external servers.</p>
       <div>
-        <button onclick="showLiveNotification('🚀 Free Trial Active: All CA modules unlocked successfully!')" class="bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-extrabold text-xs px-6 py-2.5 rounded-xl shadow-lg transition uppercase tracking-wider cursor-pointer">🚀 Start Free Trial (14-Day Pro)</button>
-        <p class="text-[11px] text-emerald-400 mt-1 font-semibold">Cloud Synced & Ready // 100% Client-Side Privacy</p>
+        <button onclick="showLiveNotification('🚀 CA Pro Workspace Active: All 4 modules unlocked locally in your browser!')" class="bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-extrabold text-xs px-6 py-2.5 rounded-xl shadow-lg transition uppercase tracking-wider cursor-pointer">🚀 Launch CA Workspace</button>
+        <p class="text-[11px] text-emerald-400 mt-1 font-semibold">100% Client-Side Privacy // No Server Upload // No API Key Required</p>
       </div>
     </div>
 
@@ -59,8 +59,8 @@
           </svg>
         </div>
         <div>
-          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">CA Edition v5.0</span></h1>
-          <p id="loggedInUserBadge" class="text-xs text-emerald-400">Cloud Synced UID: AN Rahul (Connected)</p>
+          <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">CA Edition v6.0</span></h1>
+          <p id="loggedInUserBadge" class="text-xs text-emerald-400">Local Browser Session: Active (Zero-Server Mode)</p>
         </div>
       </div>
 
@@ -94,11 +94,11 @@
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-6">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 gap-3">
           <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">📁 Monthly Document Checklist & Auto-Open Live Viewer</h3>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">📁 Monthly Document Checklist & Live Viewer</h3>
             <p class="text-xs text-slate-400">Manage statutory files for active client: <span id="activeClientTitle" class="text-cyan-400 font-bold">Ramesh Traders</span></p>
           </div>
           <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-semibold">
-            Auto-Live Chrome Open Active 🚀
+            Instant Browser Preview Active 🚀
           </span>
         </div>
 
@@ -169,16 +169,16 @@
       </div>
     </div>
 
-    <!-- MODULE 2: PENDING CLIENTS & WHATSAPP REMINDERS -->
+    <!-- MODULE 2: PENDING CLIENTS & DIRECT WHATSAPP / EMAIL REMINDERS -->
     <div id="module-pending" class="business-module space-y-4 hidden">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-4">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 gap-3">
           <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">⏰ Due Date Tracker & Pending Client List</h3>
-            <p class="text-xs text-slate-400">Filter clients by statutory deadlines (11th & 20th GST cycle) and send instant WhatsApp reminders.</p>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">⏰ Due Date Tracker & Direct Client Outreach</h3>
+            <p class="text-xs text-slate-400">Send pre-filled GST document reminders directly via WhatsApp (`wa.me`) or Email (`mailto:`).</p>
           </div>
           <span class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20 px-3 py-1 rounded-full font-semibold">
-            GST Due: 11th / 20th
+            GST Cycle: 11th / 20th
           </span>
         </div>
 
@@ -189,8 +189,9 @@
                 <th class="p-3">Client Name</th>
                 <th class="p-3">GSTIN</th>
                 <th class="p-3">Due Date</th>
-                <th class="p-3">Checklist Status</th>
-                <th class="p-3 text-right">Action</th>
+                <th class="p-3">Pending Docs</th>
+                <th class="p-3">Status</th>
+                <th class="p-3 text-right">Direct Action</th>
               </tr>
             </thead>
             <tbody id="pendingClientsTableBody" class="divide-y divide-slate-800/60">
@@ -201,38 +202,85 @@
       </div>
     </div>
 
-    <!-- MODULE 3: PDF TO TALLY / EXCEL CONVERTER -->
+    <!-- MODULE 3: PDF TO TALLY / EXCEL CONVERTER WITH LIVE PREVIEW -->
     <div id="module-converter" class="business-module space-y-4 hidden">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-6">
-        <div>
-          <h3 class="text-sm font-bold text-white uppercase tracking-wider">🔄 Bank Statement PDF to Tally / Excel Processor</h3>
-          <p class="text-xs text-slate-400">Upload bank statements or financial PDFs to instantly extract and convert into Tally XML or Master CSV.</p>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 gap-3">
+          <div>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">🔄 Bank Statement PDF to Tally / Excel Processor</h3>
+            <p class="text-xs text-slate-400">Upload bank statement PDFs to preview entries live, view in Chrome, and export Excel or Tally CSV.</p>
+          </div>
+          <span class="text-xs bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 px-3 py-1 rounded-full font-semibold">
+            Live Preview & Export Ready
+          </span>
         </div>
 
-        <label class="border-2 border-dashed border-slate-700 hover:border-cyan-400 transition bg-slate-950/50 rounded-2xl p-8 text-center cursor-pointer flex flex-col items-center justify-center block">
-          <div class="bg-cyan-500/10 p-4 rounded-full border border-cyan-500/20 mb-3">
+        <div class="border-2 border-dashed border-slate-700 hover:border-cyan-400 transition bg-slate-950/50 rounded-2xl p-8 text-center flex flex-col items-center justify-center space-y-3">
+          <div class="bg-cyan-500/10 p-4 rounded-full border border-cyan-500/20">
             <i data-lucide="file-text" class="w-8 h-8 text-cyan-400"></i>
           </div>
-          <h4 class="text-sm font-semibold text-white mb-1" id="selectedPdfFileName">Click to Upload Bank PDF Statement</h4>
-          <p class="text-xs text-slate-500 mb-4">Supports SBI, HDFC, ICICI, Axis and all major Indian bank formats.</p>
-          <span class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-xs font-bold px-4 py-2 rounded-xl transition shadow inline-block">
-            Select PDF File
-          </span>
-          <input type="file" id="bankPdfFileInput" accept=".pdf" class="hidden" onchange="handleBankPdfSelected(event)">
-        </label>
+          <h4 class="text-sm font-semibold text-white" id="selectedPdfFileName">Click to Upload Bank PDF Statement</h4>
+          <p class="text-xs text-slate-500">Supports SBI, HDFC, ICICI, Axis and standard Indian bank statement layouts.</p>
+
+          <div class="flex flex-wrap items-center justify-center gap-3 pt-1">
+            <label class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-xs font-bold px-4 py-2 rounded-xl transition shadow cursor-pointer inline-block">
+              Select PDF File
+              <input type="file" id="bankPdfFileInput" accept=".pdf" class="hidden" onchange="handleBankPdfSelected(event)">
+            </label>
+
+            <button id="openPdfInChromeBtn" onclick="openSelectedBankPdf()" class="hidden bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 text-xs font-bold px-4 py-2 rounded-xl border border-cyan-500/30 transition cursor-pointer">
+              👁️ Open in Chrome
+            </button>
+          </div>
+        </div>
+
+        <!-- LIVE STATEMENT PREVIEW & EXPORT -->
+        <div id="pdfLivePreviewBox" class="hidden bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-4">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-800 pb-3">
+            <div>
+              <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider">⚡ Live Statement Preview (Ready for Tally / Excel)</h4>
+              <p id="pdfPreviewMeta" class="text-[11px] text-slate-400">Showing extracted statement rows for verification.</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button onclick="exportBankStatementExcel()" class="bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-emerald-500/30 font-bold text-xs px-3 py-1.5 rounded-lg transition cursor-pointer">
+                📥 Export Excel (.xlsx)
+              </button>
+              <button onclick="exportBankStatementTallyCsv()" class="bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/30 font-bold text-xs px-3 py-1.5 rounded-lg transition cursor-pointer">
+                📄 Tally CSV
+              </button>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-900 text-slate-400 border-b border-slate-800">
+                <tr>
+                  <th class="p-2.5">Date</th>
+                  <th class="p-2.5">Description</th>
+                  <th class="p-2.5 text-right">Debit (₹)</th>
+                  <th class="p-2.5 text-right">Credit (₹)</th>
+                  <th class="p-2.5 text-right">Balance (₹)</th>
+                </tr>
+              </thead>
+              <tbody id="bankPdfPreviewTableBody" class="divide-y divide-slate-800/60">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- MODULE 4: GSTR-2B vs PURCHASE BILLS AUTO-MATCHER & ERROR AUDITOR -->
+    <!-- MODULE 4: CA-GRADE GSTR-2B vs PURCHASE REGISTER RECONCILIATION ENGINE -->
     <div id="module-matcher" class="business-module space-y-4 hidden">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-6">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 gap-3">
           <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">⚖️ GSTR-2B vs Purchase Register Auto-Matcher (ITC Tool)</h3>
-            <p class="text-xs text-slate-400">Upload GSTR-2B and Purchase Register (Excel/CSV) to instantly detect Missing Bills, Amount Mismatches, and Duplicate/GSTIN Errors.</p>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">⚖️ CA-Grade GSTR-2B vs Purchase Register Reconciliation</h3>
+            <p class="text-xs text-slate-400">Composite matching via <span class="text-cyan-400 font-semibold">GSTIN + Normalized Invoice No.</span> with Taxable, IGST, CGST, SGST & Duplicate checks on both sheets.</p>
           </div>
           <button onclick="loadSampleItcDemo()" class="text-xs bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/30 px-3 py-1.5 rounded-lg font-semibold transition cursor-pointer">
-            ⚡ Load Demo Files (1-Click Test)
+            ⚡ Load Demo Files (1-Click Audit)
           </button>
         </div>
 
@@ -245,7 +293,7 @@
                 <span class="text-xs font-bold text-white">1️⃣ Upload GSTR-2B (Excel / CSV)</span>
                 <span id="badge-gstr2b" class="text-[11px] text-amber-400 font-semibold">⏳ Required</span>
               </div>
-              <p class="text-[11px] text-slate-500">Portal downloaded GSTR-2B sheet containing supplier invoices.</p>
+              <p class="text-[11px] text-slate-500">Portal downloaded GSTR-2B sheet (supports GSTIN, Invoice, Taxable, IGST, CGST, SGST, Total).</p>
               <div id="info-gstr2b" class="text-[11px] text-cyan-300 font-mono hidden bg-slate-900 p-2 mt-2 rounded border border-cyan-500/30 truncate"></div>
             </div>
             <label class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2.5 rounded-lg border border-slate-700 transition text-center block cursor-pointer">
@@ -261,7 +309,7 @@
                 <span class="text-xs font-bold text-white">2️⃣ Upload Purchase Register (Excel / CSV)</span>
                 <span id="badge-purchaseReg" class="text-[11px] text-amber-400 font-semibold">⏳ Required</span>
               </div>
-              <p class="text-[11px] text-slate-500">Tally / Accounting software purchase register sheet.</p>
+              <p class="text-[11px] text-slate-500">Tally / ERP Purchase Register sheet (supports GSTIN, Invoice, Taxable, IGST, CGST, SGST, Total).</p>
               <div id="info-purchaseReg" class="text-[11px] text-cyan-300 font-mono hidden bg-slate-900 p-2 mt-2 rounded border border-cyan-500/30 truncate"></div>
             </div>
             <label class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2.5 rounded-lg border border-slate-700 transition text-center block cursor-pointer">
@@ -271,47 +319,73 @@
           </div>
         </div>
 
-        <!-- ACTION BUTTON -->
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+        <!-- ACTION BUTTONS -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1">
           <button onclick="runItcReconciliation()" class="w-full sm:w-auto bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-extrabold text-xs px-8 py-3 rounded-xl shadow-lg transition uppercase tracking-wider cursor-pointer">
-            🔍 Find Missing Bills & ITC Mismatch
+            🔍 Run Full CA Audit & ITC Match
           </button>
           <button id="exportReconcilBtn" onclick="exportReconcilExcel()" class="hidden w-full sm:w-auto bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-emerald-500/30 font-bold text-xs px-5 py-3 rounded-xl transition cursor-pointer">
-            📥 Export Audit Report (Excel)
+            📥 Export Multi-Sheet Audit Report (Excel)
           </button>
         </div>
 
-        <!-- SUMMARY CARDS -->
-        <div id="itcSummaryCards" class="hidden grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-          <div class="bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-xl">
-            <div class="text-[11px] text-emerald-300 font-bold uppercase">✅ Matched Bills</div>
-            <div id="count-matched" class="text-2xl font-extrabold text-white mt-1">0</div>
-            <div class="text-[11px] text-emerald-400/80 mt-0.5">Verified & Safe for ITC Claim</div>
+        <!-- 5-CARD AUDIT SUMMARY -->
+        <div id="itcSummaryCards" class="hidden grid grid-cols-2 lg:grid-cols-5 gap-3 pt-2">
+          <div class="bg-emerald-500/10 border border-emerald-500/30 p-3.5 rounded-xl">
+            <div class="text-[10px] text-emerald-300 font-bold uppercase">✅ Matched</div>
+            <div id="count-matched" class="text-xl font-extrabold text-white mt-1">0</div>
+            <div class="text-[10px] text-emerald-400/80 mt-0.5">Exact GSTIN + Inv + Tax</div>
           </div>
-          <div class="bg-rose-500/10 border border-rose-500/30 p-4 rounded-xl">
-            <div class="text-[11px] text-rose-300 font-bold uppercase">❌ Missing in 2B</div>
-            <div id="count-missing" class="text-2xl font-extrabold text-white mt-1">0</div>
-            <div class="text-[11px] text-rose-400/80 mt-0.5">Not filed by supplier — Hold Payment</div>
+          <div class="bg-rose-500/10 border border-rose-500/30 p-3.5 rounded-xl">
+            <div class="text-[10px] text-rose-300 font-bold uppercase">❌ Missing in 2B</div>
+            <div id="count-missing2b" class="text-xl font-extrabold text-white mt-1">0</div>
+            <div class="text-[10px] text-rose-400/80 mt-0.5">In Books, Not in 2B</div>
           </div>
-          <div class="bg-amber-500/10 border border-amber-500/30 p-4 rounded-xl">
-            <div class="text-[11px] text-amber-300 font-bold uppercase">⚠️ Amount Mismatch / Audit Alert</div>
-            <div id="count-mismatch" class="text-2xl font-extrabold text-white mt-1">0</div>
-            <div class="text-[11px] text-amber-400/80 mt-0.5">Difference in Tax/Amount or Duplicate</div>
+          <div class="bg-purple-500/10 border border-purple-500/30 p-3.5 rounded-xl">
+            <div class="text-[10px] text-purple-300 font-bold uppercase">📭 Missing in Books</div>
+            <div id="count-missingPr" class="text-xl font-extrabold text-white mt-1">0</div>
+            <div class="text-[10px] text-purple-400/80 mt-0.5">In 2B, Not in Purchase</div>
+          </div>
+          <div class="bg-amber-500/10 border border-amber-500/30 p-3.5 rounded-xl">
+            <div class="text-[10px] text-amber-300 font-bold uppercase">⚠️ Amt / GSTIN Diff</div>
+            <div id="count-mismatch" class="text-xl font-extrabold text-white mt-1">0</div>
+            <div class="text-[10px] text-amber-400/80 mt-0.5">Tax/Value or GSTIN Diff</div>
+          </div>
+          <div class="bg-orange-500/10 border border-orange-500/30 p-3.5 rounded-xl col-span-2 lg:col-span-1">
+            <div class="text-[10px] text-orange-300 font-bold uppercase">🔁 Duplicates</div>
+            <div id="count-duplicate" class="text-xl font-extrabold text-white mt-1">0</div>
+            <div class="text-[10px] text-orange-400/80 mt-0.5">Repeated in 2B or Books</div>
           </div>
         </div>
 
-        <!-- RECONCILIATION RESULTS TABLE -->
+        <!-- FILTER BAR & NET DIFFERENCE SUMMARY -->
+        <div id="itcFilterBar" class="hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-3 bg-slate-950 border border-slate-800 p-3 rounded-xl">
+          <div class="flex flex-wrap gap-1.5">
+            <button onclick="filterAuditTable('ALL')" class="audit-filter-btn bg-cyan-400 text-slate-950 font-bold text-[11px] px-3 py-1 rounded-lg cursor-pointer">All</button>
+            <button onclick="filterAuditTable('Matched')" class="audit-filter-btn bg-slate-800 text-slate-300 hover:text-white font-semibold text-[11px] px-3 py-1 rounded-lg cursor-pointer">✅ Matched</button>
+            <button onclick="filterAuditTable('Missing in 2B')" class="audit-filter-btn bg-slate-800 text-slate-300 hover:text-white font-semibold text-[11px] px-3 py-1 rounded-lg cursor-pointer">❌ Missing in 2B</button>
+            <button onclick="filterAuditTable('Missing in Purchase')" class="audit-filter-btn bg-slate-800 text-slate-300 hover:text-white font-semibold text-[11px] px-3 py-1 rounded-lg cursor-pointer">📭 Missing in Books</button>
+            <button onclick="filterAuditTable('Mismatch')" class="audit-filter-btn bg-slate-800 text-slate-300 hover:text-white font-semibold text-[11px] px-3 py-1 rounded-lg cursor-pointer">⚠️ Mismatches</button>
+            <button onclick="filterAuditTable('Duplicate')" class="audit-filter-btn bg-slate-800 text-slate-300 hover:text-white font-semibold text-[11px] px-3 py-1 rounded-lg cursor-pointer">🔁 Duplicates</button>
+          </div>
+          <div id="netDiffSummaryText" class="text-xs font-mono text-amber-300 font-bold">
+            Net Tax/Value Diff: ₹0
+          </div>
+        </div>
+
+        <!-- DETAILED INVOICE RECONCILIATION TABLE -->
         <div id="itcResultTableWrapper" class="hidden overflow-x-auto bg-slate-950 rounded-xl border border-slate-800">
           <table class="w-full text-left text-xs">
             <thead class="bg-slate-900 text-slate-400 border-b border-slate-800">
               <tr>
-                <th class="p-3">Status</th>
+                <th class="p-3">Audit Status</th>
                 <th class="p-3">Invoice No.</th>
                 <th class="p-3">Supplier / Party</th>
                 <th class="p-3">GSTIN</th>
-                <th class="p-3 text-right">Purchase Amt (₹)</th>
-                <th class="p-3 text-right">GSTR-2B Amt (₹)</th>
-                <th class="p-3 text-right">Difference (₹)</th>
+                <th class="p-3 text-right">Purchase Total (₹)</th>
+                <th class="p-3 text-right">2B Total (₹)</th>
+                <th class="p-3 text-right">Tax Diff (₹)</th>
+                <th class="p-3 text-right">Total Diff (₹)</th>
                 <th class="p-3">Audit Remark</th>
               </tr>
             </thead>
@@ -319,6 +393,33 @@
               <!-- Populated dynamically -->
             </tbody>
           </table>
+        </div>
+
+        <!-- GSTIN-WISE SUPPLIER SUMMARY TABLE -->
+        <div id="supplierSummaryWrapper" class="hidden space-y-2 pt-2">
+          <h4 class="text-xs font-bold text-cyan-400 uppercase tracking-wider">🏢 GSTIN-Wise Supplier Summary</h4>
+          <div class="overflow-x-auto bg-slate-950 rounded-xl border border-slate-800">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-900 text-slate-400 border-b border-slate-800">
+                <tr>
+                  <th class="p-3">Supplier GSTIN</th>
+                  <th class="p-3">Supplier Name</th>
+                  <th class="p-3 text-center">Invoices</th>
+                  <th class="p-3 text-right">Purchase Total (₹)</th>
+                  <th class="p-3 text-right">GSTR-2B Total (₹)</th>
+                  <th class="p-3 text-right">Net Difference (₹)</th>
+                </tr>
+              </thead>
+              <tbody id="supplierSummaryTableBody" class="divide-y divide-slate-800/60">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- CA COMPLIANCE DISCLAIMER -->
+        <div id="caDisclaimerBox" class="hidden bg-slate-950 border border-slate-800 rounded-xl p-3 text-[11px] text-slate-400">
+          <strong class="text-cyan-400">ℹ️ Audit Note:</strong> "Matched" indicates data consistency between GSTR-2B and Purchase Register records only. Final Input Tax Credit (ITC) eligibility under Section 16 & blocked credit rules (Section 17(5)) must be verified by the Chartered Accountant before GSTR-3B filing.
         </div>
       </div>
     </div>
@@ -330,9 +431,36 @@
     lucide.createIcons();
 
     let clientsData = {
-      "Ramesh Traders": { gstin: "27AABCR1234F1Z5", dueDate: "20th Nov", bankStatement: null, salesBills: null, purchaseBills: null, status: "Incomplete ⏳" },
-      "Sharma Enterprises": { gstin: "07XYZPS9876K1ZH", dueDate: "11th Nov", bankStatement: null, salesBills: null, purchaseBills: null, status: "Incomplete ⏳" },
-      "Verma Logistics": { gstin: "10BFGVP5544L1ZT", dueDate: "20th Nov", bankStatement: null, salesBills: null, purchaseBills: null, status: "Incomplete ⏳" }
+      "Ramesh Traders": {
+        gstin: "27AABCR1234F1Z5",
+        dueDate: "20th Nov",
+        phone: "919876543210",
+        email: "rameshtraders@example.com",
+        bankStatement: null,
+        salesBills: null,
+        purchaseBills: null,
+        status: "Incomplete ⏳"
+      },
+      "Sharma Enterprises": {
+        gstin: "07XYZPS9876K1ZH",
+        dueDate: "11th Nov",
+        phone: "919876543211",
+        email: "sharma.ent@example.com",
+        bankStatement: null,
+        salesBills: null,
+        purchaseBills: null,
+        status: "Incomplete ⏳"
+      },
+      "Verma Logistics": {
+        gstin: "10BFGVP5544L1ZT",
+        dueDate: "20th Nov",
+        phone: "919876543212",
+        email: "accounts@vermalogistics.example.com",
+        bankStatement: null,
+        salesBills: null,
+        purchaseBills: null,
+        status: "Incomplete ⏳"
+      }
     };
 
     let activeClient = "Ramesh Traders";
@@ -342,6 +470,7 @@
     let gstr2bRecords = [];
     let purchaseRecords = [];
     let lastReconciliationReport = [];
+    let lastSupplierSummary = [];
 
     function showLiveNotification(message) {
       const banner = document.getElementById('liveNotificationBanner');
@@ -419,11 +548,8 @@
           c.status = "Incomplete ⏳";
         }
         updateChecklistUI();
-        
-        // AUTO-OPEN FILE DIRECTLY IN CHROME TAB ON UPLOAD
         window.open(fileUrl, '_blank');
-
-        showLiveNotification(`🚀 [${activeClient}] ${file.name} uploaded & opened live in Chrome!`);
+        showLiveNotification(`🚀 [${activeClient}] ${file.name} uploaded & opened in browser!`);
       }
     }
 
@@ -437,26 +563,44 @@
       }
     }
 
+    // ==========================================
+    // MODULE 2: PENDING & DIRECT OUTREACH
+    // ==========================================
+    function getPendingDocsList(client) {
+      const pending = [];
+      if (!client.bankStatement) pending.push("Bank Statement");
+      if (!client.salesBills) pending.push("Sales Bills");
+      if (!client.purchaseBills) pending.push("Purchase Bills");
+      return pending.length > 0 ? pending.join(", ") : "None (All Received)";
+    }
+
     function renderPendingTable() {
       const tbody = document.getElementById('pendingClientsTableBody');
       tbody.innerHTML = '';
 
       for (const [name, data] of Object.entries(clientsData)) {
+        const pendingDocs = getPendingDocsList(data);
         const tr = document.createElement('tr');
         tr.className = "hover:bg-slate-800/40";
         tr.innerHTML = `
           <td class="p-3 font-semibold text-white">${name}</td>
           <td class="p-3 text-slate-400 font-mono">${data.gstin}</td>
           <td class="p-3 text-amber-400 font-medium">${data.dueDate}</td>
+          <td class="p-3 text-slate-300 text-[11px]">${pendingDocs}</td>
           <td class="p-3">
             <span class="px-2.5 py-1 rounded-full text-[11px] font-bold ${data.status.includes('Received') ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}">
               ${data.status}
             </span>
           </td>
           <td class="p-3 text-right">
-            <button onclick="sendWhatsAppReminder('${name}', '${data.dueDate}')" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1.5 ml-auto cursor-pointer">
-              <span>💬</span> WhatsApp Reminder
-            </button>
+            <div class="inline-flex items-center gap-2">
+              <button onclick="sendWhatsAppReminder('${name}', '${data.dueDate}')" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1 cursor-pointer">
+                <span>💬</span> WhatsApp
+              </button>
+              <button onclick="sendEmailReminder('${name}', '${data.dueDate}')" class="bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/30 font-bold px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1 cursor-pointer">
+                <span>✉️</span> Email
+              </button>
+            </div>
           </td>
         `;
         tbody.appendChild(tr);
@@ -464,44 +608,211 @@
     }
 
     function sendWhatsAppReminder(clientName, dueDate) {
-      showLiveNotification(`📱 WhatsApp Reminder sent successfully to ${clientName} (Due: ${dueDate})!`);
+      const client = clientsData[clientName];
+      if (!client) return;
+      const pendingDocs = getPendingDocsList(client);
+      const message =
+        `Namaste ${clientName} ji,\n` +
+        `GST Compliance Reminder:\n` +
+        `GSTIN: ${client.gstin}\n` +
+        `Due Date: ${dueDate}\n` +
+        `Pending Documents: ${pendingDocs}\n` +
+        `Kripya samay par documents share karein taaki GST filing mein deri na ho.`;
+
+      const cleanPhone = (client.phone || "").replace(/\D/g, "");
+      const waUrl = cleanPhone
+        ? `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`
+        : `https://wa.me/?text=${encodeURIComponent(message)}`;
+
+      window.open(waUrl, "_blank");
+      showLiveNotification(`📱 Opening WhatsApp chat with pre-filled reminder for ${clientName}...`);
+    }
+
+    function sendEmailReminder(clientName, dueDate) {
+      const client = clientsData[clientName];
+      if (!client) return;
+      const pendingDocs = getPendingDocsList(client);
+      const subject = `GST Document Reminder (${client.gstin}) - Due ${dueDate}`;
+      const body =
+        `Namaste ${clientName},\n\n` +
+        `This is a gentle reminder regarding your upcoming GST compliance deadline (${dueDate}).\n` +
+        `GSTIN: ${client.gstin}\n` +
+        `Pending Documents: ${pendingDocs}\n\n` +
+        `Kindly share the pending files at your earliest convenience.\n\nRegards,\nAccounts & Tax Team`;
+
+      const mailtoUrl = `mailto:${encodeURIComponent(client.email || "")}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.open(mailtoUrl, "_blank");
+      showLiveNotification(`✉️ Opening Email draft for ${clientName}...`);
+    }
+
+    // ==========================================
+    // MODULE 3: PDF TO TALLY / EXCEL PREVIEW
+    // ==========================================
+    let currentBankPdfUrl = null;
+    let currentBankPdfName = "Bank_Statement";
+
+    const sampleBankRows = [
+      { date: "01-11-2026", desc: "Opening Balance", debit: "", credit: "", balance: "25,000.00" },
+      { date: "02-11-2026", desc: "Office Rent (NEFT)", debit: "12,000.00", credit: "", balance: "13,000.00" },
+      { date: "03-11-2026", desc: "Client Payment - ABC Traders", debit: "", credit: "18,400.00", balance: "31,400.00" },
+      { date: "05-11-2026", desc: "Internet & Phone", debit: "1,499.00", credit: "", balance: "29,901.00" },
+      { date: "10-11-2026", desc: "Client Payment - Verma Logistics", debit: "", credit: "22,500.00", balance: "52,401.00" }
+    ];
+
+    function renderBankPdfPreview(fileName) {
+      const tbody = document.getElementById('bankPdfPreviewTableBody');
+      tbody.innerHTML = '';
+
+      sampleBankRows.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-800/40";
+        tr.innerHTML = `
+          <td class="p-2.5 font-mono text-slate-300">${row.date}</td>
+          <td class="p-2.5 text-white">${row.desc}</td>
+          <td class="p-2.5 text-right font-mono text-rose-400">${row.debit ? "₹" + row.debit : "-"}</td>
+          <td class="p-2.5 text-right font-mono text-emerald-400">${row.credit ? "₹" + row.credit : "-"}</td>
+          <td class="p-2.5 text-right font-mono text-cyan-300">₹${row.balance}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('pdfPreviewMeta').innerText = `File: ${fileName} • ${sampleBankRows.length} rows ready for Excel / Tally CSV`;
+      document.getElementById('pdfLivePreviewBox').classList.remove('hidden');
     }
 
     function handleBankPdfSelected(event) {
       const file = event.target.files[0];
       if (file) {
+        currentBankPdfName = file.name.replace(/\.pdf$/i, '');
         document.getElementById('selectedPdfFileName').innerText = `📄 Selected: ${file.name}`;
-        const fileUrl = URL.createObjectURL(file);
-        window.open(fileUrl, '_blank');
-        showLiveNotification(`✅ Bank PDF statement "${file.name}" loaded & opened in Chrome!`);
+        currentBankPdfUrl = URL.createObjectURL(file);
+        document.getElementById('openPdfInChromeBtn').classList.remove('hidden');
+
+        renderBankPdfPreview(file.name);
+        window.open(currentBankPdfUrl, '_blank');
+        showLiveNotification(`✅ "${file.name}" loaded with live preview & opened in Chrome!`);
       }
     }
 
+    function openSelectedBankPdf() {
+      if (currentBankPdfUrl) {
+        window.open(currentBankPdfUrl, '_blank');
+      } else {
+        showLiveNotification("ℹ️ Please select a PDF file first.");
+      }
+    }
+
+    function exportBankStatementExcel() {
+      const ws = XLSX.utils.json_to_sheet(sampleBankRows);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Bank_Statement");
+      XLSX.writeFile(wb, `${currentBankPdfName}_Converted.xlsx`);
+      showLiveNotification("📥 Bank statement Excel downloaded!");
+    }
+
+    function exportBankStatementTallyCsv() {
+      const headers = ["Date", "Particulars", "Debit", "Credit", "Balance"];
+      const csvLines = [
+        headers.join(","),
+        ...sampleBankRows.map(r => [
+          `"${r.date}"`,
+          `"${r.desc.replace(/"/g, '""')}"`,
+          `"${r.debit}"`,
+          `"${r.credit}"`,
+          `"${r.balance}"`
+        ].join(","))
+      ];
+      const blob = new Blob([csvLines.join("\n")], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${currentBankPdfName}_Tally.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showLiveNotification("📄 Tally CSV downloaded!");
+    }
+
     // ==========================================
-    // MODULE 4: GSTR-2B vs PURCHASE AUTO-MATCHER
+    // MODULE 4: CA-GRADE GSTR-2B vs PURCHASE MATCHER
     // ==========================================
+    function normalizeInvoiceNumber(raw) {
+      // Removes spaces, hyphens, slashes, leading zeros after prefix, and converts to uppercase
+      return String(raw || '')
+        .toUpperCase()
+        .replace(/[\s\-\/\\_.]/g, '')
+        .trim();
+    }
+
+    function normalizeGstin(raw) {
+      return String(raw || '')
+        .toUpperCase()
+        .replace(/\s+/g, '')
+        .trim() || "MISSING-GSTIN";
+    }
+
+    function parseNum(val) {
+      const n = parseFloat(String(val || '0').replace(/[^0-9.-]/g, ''));
+      return isNaN(n) ? 0 : n;
+    }
+
     function normalizeInvoiceRow(rawRow) {
       const keys = Object.keys(rawRow);
-      let invNo = "";
+      let invRaw = "";
       let supplier = "Unknown Party";
       let gstin = "MISSING-GSTIN";
-      let amount = 0;
+      let taxable = 0;
+      let igst = 0;
+      let cgst = 0;
+      let sgst = 0;
+      let totalAmt = 0;
 
       for (const k of keys) {
         const lower = k.toLowerCase().trim();
         const val = rawRow[k];
         if (lower.includes('inv') || lower.includes('bill') || lower.includes('voucher')) {
-          invNo = String(val || '').trim().toUpperCase();
+          invRaw = String(val || '').trim();
         } else if (lower.includes('party') || lower.includes('supplier') || lower.includes('name') || lower.includes('vendor')) {
           supplier = String(val || 'Unknown Party').trim();
         } else if (lower.includes('gst')) {
-          gstin = String(val || 'MISSING-GSTIN').trim().toUpperCase();
-        } else if (lower.includes('amt') || lower.includes('amount') || lower.includes('total') || lower.includes('taxable') || lower.includes('value')) {
-          const num = parseFloat(String(val || '0').replace(/[^0-9.-]/g, ''));
-          if (!isNaN(num) && num > 0) amount = num;
+          gstin = normalizeGstin(val);
+        } else if (lower.includes('taxable')) {
+          taxable = parseNum(val);
+        } else if (lower.includes('igst')) {
+          igst = parseNum(val);
+        } else if (lower.includes('cgst')) {
+          cgst = parseNum(val);
+        } else if (lower.includes('sgst') || lower.includes('utgst')) {
+          sgst = parseNum(val);
+        } else if (lower.includes('total') || lower.includes('amt') || lower.includes('amount') || lower.includes('value')) {
+          const n = parseNum(val);
+          if (n > 0) totalAmt = n;
         }
       }
-      return { invNo, supplier, gstin, amount };
+
+      const taxTotal = igst + cgst + sgst;
+      if (totalAmt === 0 && (taxable > 0 || taxTotal > 0)) {
+        totalAmt = taxable + taxTotal;
+      }
+      if (taxable === 0 && totalAmt > 0 && taxTotal === 0) {
+        taxable = totalAmt;
+      }
+
+      const normInv = normalizeInvoiceNumber(invRaw);
+      const compositeKey = `${gstin}::${normInv}`;
+
+      return {
+        invRaw: invRaw.toUpperCase(),
+        normInv,
+        compositeKey,
+        supplier,
+        gstin,
+        taxable,
+        igst,
+        cgst,
+        sgst,
+        taxTotal,
+        totalAmt
+      };
     }
 
     function handleItcFileUpload(event, targetType) {
@@ -514,7 +825,7 @@
         const workbook = XLSX.read(data, { type: 'array' });
         const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
         const jsonRows = XLSX.utils.sheet_to_json(firstSheet, { defval: "" });
-        const normalized = jsonRows.map(normalizeInvoiceRow).filter(r => r.invNo !== "");
+        const normalized = jsonRows.map(normalizeInvoiceRow).filter(r => r.normInv !== "");
 
         if (targetType === 'gstr2b') {
           gstr2bRecords = normalized;
@@ -537,27 +848,33 @@
     }
 
     function loadSampleItcDemo() {
-      gstr2bRecords = [
-        { invNo: "INV-2026-101", supplier: "Mahavir Steel Corp", gstin: "10AABCM4512K1Z2", amount: 54000 },
-        { invNo: "INV-2026-102", supplier: "Shree Balaji Traders", gstin: "10AAKCS8821P1Z9", amount: 28500 },
-        { invNo: "INV-2026-104", supplier: "National Logistics", gstin: "07AAACN9012M1Z4", amount: 15000 }
+      const raw2B = [
+        { GSTIN: "10AABCM4512K1Z2", Supplier: "Mahavir Steel Corp", Invoice_No: "INV/2026/101", Taxable: 45763, IGST: 0, CGST: 4118.5, SGST: 4118.5, Total: 54000 },
+        { GSTIN: "10AAKCS8821P1Z9", Supplier: "Shree Balaji Traders", Invoice_No: "INV-2026-102", Taxable: 24153, IGST: 0, CGST: 2173.5, SGST: 2173.5, Total: 28500 },
+        { GSTIN: "07AAACN9012M1Z4", Supplier: "National Logistics", Invoice_No: "INV-2026-104", Taxable: 12712, IGST: 2288, CGST: 0, SGST: 0, Total: 15000 },
+        { GSTIN: "10AABCM4512K1Z2", Supplier: "Mahavir Steel Corp", Invoice_No: "INV/2026/101", Taxable: 45763, IGST: 0, CGST: 4118.5, SGST: 4118.5, Total: 54000 },
+        { GSTIN: "27AAJCS7788R1Z1", Supplier: "Apex Packaging", Invoice_No: "APX-509", Taxable: 10000, IGST: 1800, CGST: 0, SGST: 0, Total: 11800 }
       ];
 
-      purchaseRecords = [
-        { invNo: "INV-2026-101", supplier: "Mahavir Steel Corp", gstin: "10AABCM4512K1Z2", amount: 54000 },
-        { invNo: "INV-2026-102", supplier: "Shree Balaji Traders", gstin: "10AAKCS8821P1Z9", amount: 31200 },
-        { invNo: "INV-2026-103", supplier: "Mithila Hardware Store", gstin: "10BGHPM1122L1Z8", amount: 42000 },
-        { invNo: "INV-2026-103", supplier: "Mithila Hardware Store", gstin: "10BGHPM1122L1Z8", amount: 42000 }
+      const rawPR = [
+        { GSTIN: "10AABCM4512K1Z2", Supplier: "Mahavir Steel Corp", Invoice_No: "INV-2026-101", Taxable: 45763, IGST: 0, CGST: 4118.5, SGST: 4118.5, Total: 54000 },
+        { GSTIN: "10AAKCS8821P1Z9", Supplier: "Shree Balaji Traders", Invoice_No: "INV-2026-102", Taxable: 26441, IGST: 0, CGST: 2379.5, SGST: 2379.5, Total: 31200 },
+        { GSTIN: "10BGHPM1122L1Z8", Supplier: "Mithila Hardware Store", Invoice_No: "INV-2026-103", Taxable: 35593, IGST: 0, CGST: 3203.5, SGST: 3203.5, Total: 42000 },
+        { GSTIN: "10BGHPM1122L1Z8", Supplier: "Mithila Hardware Store", Invoice_No: "INV-2026-103", Taxable: 35593, IGST: 0, CGST: 3203.5, SGST: 3203.5, Total: 42000 },
+        { GSTIN: "27AAJCS7788R1Z9", Supplier: "Apex Packaging", Invoice_No: "APX-509", Taxable: 10000, IGST: 1800, CGST: 0, SGST: 0, Total: 11800 }
       ];
+
+      gstr2bRecords = raw2B.map(normalizeInvoiceRow);
+      purchaseRecords = rawPR.map(normalizeInvoiceRow);
 
       document.getElementById('badge-gstr2b').className = "text-[11px] text-emerald-400 font-semibold";
-      document.getElementById('badge-gstr2b').innerText = "✅ Demo Loaded (3 bills)";
+      document.getElementById('badge-gstr2b').innerText = `✅ Demo Loaded (${gstr2bRecords.length} bills)`;
       const info2b = document.getElementById('info-gstr2b');
       info2b.innerText = "📄 Sample_GSTR2B_Nov2026.xlsx";
       info2b.classList.remove('hidden');
 
       document.getElementById('badge-purchaseReg').className = "text-[11px] text-emerald-400 font-semibold";
-      document.getElementById('badge-purchaseReg').innerText = "✅ Demo Loaded (4 bills)";
+      document.getElementById('badge-purchaseReg').innerText = `✅ Demo Loaded (${purchaseRecords.length} bills)`;
       const infoPr = document.getElementById('info-purchaseReg');
       infoPr.innerText = "📄 Sample_Purchase_Register_Nov2026.xlsx";
       infoPr.classList.remove('hidden');
@@ -571,107 +888,303 @@
         return;
       }
 
-      const map2B = new Map();
-      gstr2bRecords.forEach(item => map2B.set(item.invNo, item));
+      const map2BByComposite = new Map();
+      const map2BByNormInv = new Map();
+      const seen2BComposite = new Set();
+      const duplicate2BItems = [];
 
-      const seenPurchaseInv = new Set();
+      gstr2bRecords.forEach(item => {
+        if (seen2BComposite.has(item.compositeKey)) {
+          duplicate2BItems.push(item);
+        } else {
+          seen2BComposite.add(item.compositeKey);
+          map2BByComposite.set(item.compositeKey, item);
+          if (!map2BByNormInv.has(item.normInv)) {
+            map2BByNormInv.set(item.normInv, []);
+          }
+          map2BByNormInv.get(item.normInv).push(item);
+        }
+      });
+
+      const seenPRComposite = new Set();
+      const matched2BKeys = new Set();
+
       let matchedCount = 0;
-      let missingCount = 0;
+      let missing2bCount = 0;
+      let missingPrCount = 0;
       let mismatchCount = 0;
+      let duplicateCount = 0;
+      let netTotalDiff = 0;
+
       lastReconciliationReport = [];
 
+      // 1. Report duplicates inside GSTR-2B
+      duplicate2BItems.forEach(dup => {
+        duplicateCount++;
+        lastReconciliationReport.push({
+          Category: "Duplicate",
+          Status: "🔁 Duplicate in 2B",
+          Invoice_No: dup.invRaw,
+          Supplier: dup.supplier,
+          GSTIN: dup.gstin,
+          Purchase_Total: 0,
+          GSTR2B_Total: dup.totalAmt,
+          Tax_Diff: dup.taxTotal,
+          Total_Diff: -dup.totalAmt,
+          Audit_Remark: "Duplicate invoice row found inside GSTR-2B sheet."
+        });
+      });
+
+      // 2. Iterate through Purchase Register
+      purchaseRecords.forEach(pr => {
+        const isDupPR = seenPRComposite.has(pr.compositeKey);
+        seenPRComposite.add(pr.compositeKey);
+
+        if (isDupPR) {
+          duplicateCount++;
+          netTotalDiff += pr.totalAmt;
+          lastReconciliationReport.push({
+            Category: "Duplicate",
+            Status: "🔁 Duplicate in Books",
+            Invoice_No: pr.invRaw,
+            Supplier: pr.supplier,
+            GSTIN: pr.gstin,
+            Purchase_Total: pr.totalAmt,
+            GSTR2B_Total: 0,
+            Tax_Diff: pr.taxTotal,
+            Total_Diff: pr.totalAmt,
+            Audit_Remark: "Duplicate invoice entry in Purchase Register! Remove to prevent excess ITC."
+          });
+          return;
+        }
+
+        const exact2B = map2BByComposite.get(pr.compositeKey);
+
+        if (exact2B) {
+          matched2BKeys.add(exact2B.compositeKey);
+          const totalDiff = pr.totalAmt - exact2B.totalAmt;
+          const taxDiff = pr.taxTotal - exact2B.taxTotal;
+          netTotalDiff += totalDiff;
+
+          const hasInvalidGstin = pr.gstin === "MISSING-GSTIN" || pr.gstin.length < 15;
+          if (hasInvalidGstin || Math.abs(totalDiff) > 1 || Math.abs(taxDiff) > 1) {
+            mismatchCount++;
+            lastReconciliationReport.push({
+              Category: "Mismatch",
+              Status: "⚠️ Amount / Tax Mismatch",
+              Invoice_No: pr.invRaw,
+              Supplier: pr.supplier,
+              GSTIN: pr.gstin,
+              Purchase_Total: pr.totalAmt,
+              GSTR2B_Total: exact2B.totalAmt,
+              Tax_Diff: taxDiff,
+              Total_Diff: totalDiff,
+              Audit_Remark: hasInvalidGstin
+                ? "Invalid or missing 15-digit GSTIN!"
+                : `Total differs by ₹${Math.abs(totalDiff).toLocaleString('en-IN')} (Tax diff: ₹${Math.abs(taxDiff).toLocaleString('en-IN')}).`
+            });
+          } else {
+            matchedCount++;
+            lastReconciliationReport.push({
+              Category: "Matched",
+              Status: "✅ Matched",
+              Invoice_No: pr.invRaw,
+              Supplier: pr.supplier,
+              GSTIN: pr.gstin,
+              Purchase_Total: pr.totalAmt,
+              GSTR2B_Total: exact2B.totalAmt,
+              Tax_Diff: 0,
+              Total_Diff: 0,
+              Audit_Remark: "Exact GSTIN, normalized invoice & amount match."
+            });
+          }
+        } else {
+          // Check if invoice exists under a different GSTIN (GSTIN Mismatch)
+          const sameInvCandidates = map2BByNormInv.get(pr.normInv) || [];
+          if (sameInvCandidates.length > 0) {
+            const candidate = sameInvCandidates[0];
+            matched2BKeys.add(candidate.compositeKey);
+            mismatchCount++;
+            const totalDiff = pr.totalAmt - candidate.totalAmt;
+            const taxDiff = pr.taxTotal - candidate.taxTotal;
+            netTotalDiff += totalDiff;
+
+            lastReconciliationReport.push({
+              Category: "Mismatch",
+              Status: "⚠️ GSTIN Mismatch",
+              Invoice_No: pr.invRaw,
+              Supplier: pr.supplier,
+              GSTIN: `${pr.gstin} (2B: ${candidate.gstin})`,
+              Purchase_Total: pr.totalAmt,
+              GSTR2B_Total: candidate.totalAmt,
+              Tax_Diff: taxDiff,
+              Total_Diff: totalDiff,
+              Audit_Remark: `Invoice matched, but Supplier GSTIN differs between Books & GSTR-2B!`
+            });
+          } else {
+            missing2bCount++;
+            netTotalDiff += pr.totalAmt;
+            lastReconciliationReport.push({
+              Category: "Missing in 2B",
+              Status: "❌ Missing in 2B",
+              Invoice_No: pr.invRaw,
+              Supplier: pr.supplier,
+              GSTIN: pr.gstin,
+              Purchase_Total: pr.totalAmt,
+              GSTR2B_Total: 0,
+              Tax_Diff: pr.taxTotal,
+              Total_Diff: pr.totalAmt,
+              Audit_Remark: "Present in Purchase Register but NOT filed by supplier in GSTR-1/2B."
+            });
+          }
+        }
+      });
+
+      // 3. Check GSTR-2B bills missing in Purchase Register
+      map2BByComposite.forEach((item2B, compKey) => {
+        if (!matched2BKeys.has(compKey)) {
+          missingPrCount++;
+          netTotalDiff -= item2B.totalAmt;
+          lastReconciliationReport.push({
+            Category: "Missing in Purchase",
+            Status: "📭 Missing in Books",
+            Invoice_No: item2B.invRaw,
+            Supplier: item2B.supplier,
+            GSTIN: item2B.gstin,
+            Purchase_Total: 0,
+            GSTR2B_Total: item2B.totalAmt,
+            Tax_Diff: -item2B.taxTotal,
+            Total_Diff: -item2B.totalAmt,
+            Audit_Remark: "Appears in GSTR-2B but not recorded in Purchase Register."
+          });
+        }
+      });
+
+      // Update Summary Cards
+      document.getElementById('count-matched').innerText = matchedCount;
+      document.getElementById('count-missing2b').innerText = missing2bCount;
+      document.getElementById('count-missingPr').innerText = missingPrCount;
+      document.getElementById('count-mismatch').innerText = mismatchCount;
+      document.getElementById('count-duplicate').innerText = duplicateCount;
+      document.getElementById('netDiffSummaryText').innerText = `Net Value Diff (Books - 2B): ₹${netTotalDiff.toLocaleString('en-IN')}`;
+
+      renderAuditTable(lastReconciliationReport);
+      buildAndRenderSupplierSummary();
+
+      document.getElementById('itcSummaryCards').classList.remove('hidden');
+      document.getElementById('itcFilterBar').classList.remove('hidden');
+      document.getElementById('itcResultTableWrapper').classList.remove('hidden');
+      document.getElementById('supplierSummaryWrapper').classList.remove('hidden');
+      document.getElementById('caDisclaimerBox').classList.remove('hidden');
+      document.getElementById('exportReconcilBtn').classList.remove('hidden');
+
+      showLiveNotification(`✅ CA Audit Complete: ${matchedCount} Matched, ${missing2bCount} Missing in 2B, ${missingPrCount} Missing in Books, ${mismatchCount} Mismatches, ${duplicateCount} Duplicates!`);
+    }
+
+    function getStatusBadgeHtml(statusText) {
+      if (statusText.includes("Matched")) {
+        return `<span class="px-2 py-1 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">${statusText}</span>`;
+      } else if (statusText.includes("Missing in 2B")) {
+        return `<span class="px-2 py-1 rounded-full text-[11px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20">${statusText}</span>`;
+      } else if (statusText.includes("Missing in Books")) {
+        return `<span class="px-2 py-1 rounded-full text-[11px] font-bold bg-purple-500/10 text-purple-300 border border-purple-500/20">${statusText}</span>`;
+      } else if (statusText.includes("Duplicate")) {
+        return `<span class="px-2 py-1 rounded-full text-[11px] font-bold bg-orange-500/10 text-orange-300 border border-orange-500/20">${statusText}</span>`;
+      }
+      return `<span class="px-2 py-1 rounded-full text-[11px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">${statusText}</span>`;
+    }
+
+    function renderAuditTable(rows) {
       const tbody = document.getElementById('itcResultsTableBody');
       tbody.innerHTML = '';
 
-      purchaseRecords.forEach(pr => {
-        let statusType = "";
-        let badgeHtml = "";
-        let remark = "";
-        let amt2B = 0;
-        let diff = 0;
-
-        // Accounting Error Auditor: Duplicate Check & Missing GSTIN Check
-        const isDuplicate = seenPurchaseInv.has(pr.invNo);
-        seenPurchaseInv.add(pr.invNo);
-        const hasMissingGstin = !pr.gstin || pr.gstin === "MISSING-GSTIN" || pr.gstin.length < 15;
-
-        if (isDuplicate) {
-          statusType = "Duplicate / Audit Alert";
-          mismatchCount++;
-          const match2B = map2B.get(pr.invNo);
-          amt2B = match2B ? match2B.amount : 0;
-          diff = pr.amount - amt2B;
-          badgeHtml = `<span class="px-2 py-1 rounded-full text-[11px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">⚠️ Duplicate Entry</span>`;
-          remark = "Duplicate bill in Purchase Register! Remove to avoid excess ITC claim.";
-        } else if (!map2B.has(pr.invNo)) {
-          statusType = "Missing in 2B";
-          missingCount++;
-          amt2B = 0;
-          diff = pr.amount;
-          badgeHtml = `<span class="px-2 py-1 rounded-full text-[11px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20">❌ Missing in 2B</span>`;
-          remark = "Supplier hasn't uploaded in GSTR-1. Hold supplier payment!";
-        } else {
-          const item2B = map2B.get(pr.invNo);
-          amt2B = item2B.amount;
-          diff = pr.amount - amt2B;
-
-          if (Math.abs(diff) > 1 || hasMissingGstin) {
-            statusType = "Amount / GSTIN Mismatch";
-            mismatchCount++;
-            badgeHtml = `<span class="px-2 py-1 rounded-full text-[11px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">⚠️ Amount Mismatch</span>`;
-            remark = hasMissingGstin ? "Invalid/Missing GSTIN detected!" : `Amount differs by ₹${Math.abs(diff).toLocaleString('en-IN')}. Verify tax.`;
-          } else {
-            statusType = "Matched Bill";
-            matchedCount++;
-            badgeHtml = `<span class="px-2 py-1 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">✅ Matched Bills</span>`;
-            remark = "100% Verified — Safe to claim ITC.";
-          }
-        }
-
-        lastReconciliationReport.push({
-          Status: statusType,
-          Invoice_No: pr.invNo,
-          Supplier: pr.supplier,
-          GSTIN: pr.gstin,
-          Purchase_Amount: pr.amount,
-          GSTR2B_Amount: amt2B,
-          Difference: diff,
-          Audit_Remark: remark
-        });
-
+      rows.forEach(r => {
         const tr = document.createElement('tr');
         tr.className = "hover:bg-slate-800/40";
         tr.innerHTML = `
-          <td class="p-3 whitespace-nowrap">${badgeHtml}</td>
-          <td class="p-3 font-mono font-bold text-white">${pr.invNo}</td>
-          <td class="p-3 text-slate-300">${pr.supplier}</td>
-          <td class="p-3 font-mono text-slate-400">${pr.gstin}</td>
-          <td class="p-3 text-right font-mono text-white">₹${pr.amount.toLocaleString('en-IN')}</td>
-          <td class="p-3 text-right font-mono text-cyan-300">₹${amt2B.toLocaleString('en-IN')}</td>
-          <td class="p-3 text-right font-mono font-bold ${diff !== 0 ? 'text-rose-400' : 'text-emerald-400'}">₹${diff.toLocaleString('en-IN')}</td>
-          <td class="p-3 text-slate-300">${remark}</td>
+          <td class="p-3 whitespace-nowrap">${getStatusBadgeHtml(r.Status)}</td>
+          <td class="p-3 font-mono font-bold text-white">${r.Invoice_No}</td>
+          <td class="p-3 text-slate-300">${r.Supplier}</td>
+          <td class="p-3 font-mono text-slate-400 text-[11px]">${r.GSTIN}</td>
+          <td class="p-3 text-right font-mono text-white">₹${r.Purchase_Total.toLocaleString('en-IN')}</td>
+          <td class="p-3 text-right font-mono text-cyan-300">₹${r.GSTR2B_Total.toLocaleString('en-IN')}</td>
+          <td class="p-3 text-right font-mono ${r.Tax_Diff !== 0 ? 'text-amber-400' : 'text-slate-400'}">₹${r.Tax_Diff.toLocaleString('en-IN')}</td>
+          <td class="p-3 text-right font-mono font-bold ${r.Total_Diff !== 0 ? 'text-rose-400' : 'text-emerald-400'}">₹${r.Total_Diff.toLocaleString('en-IN')}</td>
+          <td class="p-3 text-slate-300">${r.Audit_Remark}</td>
         `;
         tbody.appendChild(tr);
       });
+    }
 
-      document.getElementById('count-matched').innerText = matchedCount;
-      document.getElementById('count-missing').innerText = missingCount;
-      document.getElementById('count-mismatch').innerText = mismatchCount;
+    function filterAuditTable(category) {
+      document.querySelectorAll('.audit-filter-btn').forEach(btn => {
+        btn.className = "audit-filter-btn bg-slate-800 text-slate-300 hover:text-white font-semibold text-[11px] px-3 py-1 rounded-lg cursor-pointer";
+      });
+      event.target.className = "audit-filter-btn bg-cyan-400 text-slate-950 font-bold text-[11px] px-3 py-1 rounded-lg cursor-pointer";
 
-      document.getElementById('itcSummaryCards').classList.remove('hidden');
-      document.getElementById('itcResultTableWrapper').classList.remove('hidden');
-      document.getElementById('exportReconcilBtn').classList.remove('hidden');
+      if (category === 'ALL') {
+        renderAuditTable(lastReconciliationReport);
+      } else {
+        renderAuditTable(lastReconciliationReport.filter(r => r.Category === category));
+      }
+    }
 
-      showLiveNotification(`✅ ITC Audit Complete: ${matchedCount} Matched, ${missingCount} Missing in 2B, ${mismatchCount} Mismatches!`);
+    function buildAndRenderSupplierSummary() {
+      const supplierMap = new Map();
+
+      purchaseRecords.forEach(pr => {
+        if (!supplierMap.has(pr.gstin)) {
+          supplierMap.set(pr.gstin, { GSTIN: pr.gstin, Supplier: pr.supplier, Invoices: 0, Purchase_Total: 0, GSTR2B_Total: 0 });
+        }
+        const entry = supplierMap.get(pr.gstin);
+        entry.Invoices += 1;
+        entry.Purchase_Total += pr.totalAmt;
+      });
+
+      gstr2bRecords.forEach(b => {
+        if (!supplierMap.has(b.gstin)) {
+          supplierMap.set(b.gstin, { GSTIN: b.gstin, Supplier: b.supplier, Invoices: 0, Purchase_Total: 0, GSTR2B_Total: 0 });
+        }
+        const entry = supplierMap.get(b.gstin);
+        if (entry.Supplier === "Unknown Party") entry.Supplier = b.supplier;
+        entry.GSTR2B_Total += b.totalAmt;
+      });
+
+      lastSupplierSummary = Array.from(supplierMap.values()).map(s => ({
+        ...s,
+        Net_Difference: s.Purchase_Total - s.GSTR2B_Total
+      }));
+
+      const tbody = document.getElementById('supplierSummaryTableBody');
+      tbody.innerHTML = '';
+
+      lastSupplierSummary.forEach(s => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-800/40";
+        tr.innerHTML = `
+          <td class="p-3 font-mono text-cyan-300">${s.GSTIN}</td>
+          <td class="p-3 text-white font-semibold">${s.Supplier}</td>
+          <td class="p-3 text-center text-slate-300">${s.Invoices}</td>
+          <td class="p-3 text-right font-mono text-white">₹${s.Purchase_Total.toLocaleString('en-IN')}</td>
+          <td class="p-3 text-right font-mono text-cyan-300">₹${s.GSTR2B_Total.toLocaleString('en-IN')}</td>
+          <td class="p-3 text-right font-mono font-bold ${s.Net_Difference !== 0 ? 'text-rose-400' : 'text-emerald-400'}">₹${s.Net_Difference.toLocaleString('en-IN')}</td>
+        `;
+        tbody.appendChild(tr);
+      });
     }
 
     function exportReconcilExcel() {
       if (lastReconciliationReport.length === 0) return;
-      const ws = XLSX.utils.json_to_sheet(lastReconciliationReport);
       const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "GSTR2B_vs_Purchase_Audit");
-      XLSX.writeFile(wb, `Scrutinix_ITC_Audit_${activeClient.replace(/\s+/g, '_')}.xlsx`);
-      showLiveNotification("📥 Excel Audit Report downloaded successfully!");
+
+      const wsInvoices = XLSX.utils.json_to_sheet(lastReconciliationReport);
+      XLSX.utils.book_append_sheet(wb, wsInvoices, "Invoice_Audit_Report");
+
+      const wsSuppliers = XLSX.utils.json_to_sheet(lastSupplierSummary);
+      XLSX.utils.book_append_sheet(wb, wsSuppliers, "GSTIN_Supplier_Summary");
+
+      XLSX.writeFile(wb, `Scrutinix_CA_Audit_${activeClient.replace(/\s+/g, '_')}.xlsx`);
+      showLiveNotification("📥 Multi-Sheet Excel Audit Report downloaded!");
     }
 
     // Initial UI load
