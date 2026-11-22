@@ -31,12 +31,11 @@
 </head>
 <body class="min-h-screen p-4 lg:p-6 flex flex-col justify-between pb-12">
 
-  <!-- FIREBASE LOGIN GATE (Clean Login + Google SVG Icon) -->
+  <!-- ACCOUNTANT LOGIN GATE -->
   <div id="firebaseAuthGate" class="max-w-md mx-auto my-12 w-full bg-slate-900 border border-cyan-500/30 p-6 rounded-2xl shadow-2xl space-y-4">
     <div class="text-center space-y-1">
       <div class="text-[10px] font-bold uppercase tracking-widest text-cyan-400">Scrutinix AI Cloud</div>
       <h2 class="text-lg font-extrabold text-white">Accountant Secure Login</h2>
-      <p class="text-xs text-slate-400">Har accountant ka client data alag aur surakshit rahega.</p>
     </div>
 
     <div id="authErrorBox" class="hidden bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs p-2.5 rounded-lg"></div>
@@ -83,13 +82,13 @@
 
     <!-- HERO HEADER BANNER -->
     <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-cyan-950 border border-cyan-500/30 p-6 rounded-2xl shadow-2xl text-center space-y-3">
-      <div class="text-[10px] tracking-widest text-cyan-400 font-bold uppercase">FIREBASE CLOUD SYNC + BROWSER ACCOUNTING SUITE</div>
+      <div class="text-[10px] tracking-widest text-cyan-400 font-bold uppercase">ACCOUNTANT WORKSPACE + BROWSER ACCOUNTING SUITE</div>
       <h2 class="text-lg md:text-2xl font-extrabold text-white">The Accounting Automation Suite for CAs & Accountants</h2>
-      <p class="text-xs text-slate-400 max-w-2xl mx-auto">Per-accountant Firestore client isolation with fast browser-side GSTR-2B reconciliation, statement preview, and reminders.</p>
+      <p class="text-xs text-slate-400 max-w-2xl mx-auto">Per-accountant client workspace with fast browser-side GSTR-2B reconciliation, statement preview, and reminders.</p>
       <div class="flex flex-wrap items-center justify-center gap-2">
-        <button onclick="showLiveNotification('🚀 CA Pro Workspace Active: Firestore per-accountant sync enabled!')" class="bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-extrabold text-xs px-6 py-2.5 rounded-xl shadow-lg transition uppercase tracking-wider cursor-pointer">🚀 Launch CA Workspace</button>
+        <button onclick="showLiveNotification('🚀 Accountant Workspace Active: Dedicated client records ready!')" class="bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-extrabold text-xs px-6 py-2.5 rounded-xl shadow-lg transition uppercase tracking-wider cursor-pointer">🚀 Launch CA Workspace</button>
       </div>
-      <p id="planStatusBannerText" class="text-[11px] text-emerald-400 mt-1 font-semibold">Starter Plan Active // Isolated by UID // Firestore Client Records</p>
+      <p id="planStatusBannerText" class="text-[11px] text-emerald-400 mt-1 font-semibold">Starter Plan Active // Isolated by Account // Accountant Client Records</p>
     </div>
 
     <!-- TOP HEADER & MULTI-CLIENT SWITCHER BAR -->
@@ -104,14 +103,14 @@
         </div>
         <div>
           <h1 class="text-xl font-bold text-white tracking-tight">Scrutinix <span class="text-cyan-400">AI</span> <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded ml-2">CA Edition v6.0</span></h1>
-          <p id="loggedInUserBadge" class="text-xs text-emerald-400">Cloud Session: Active</p>
+          <p id="loggedInUserBadge" class="text-xs text-emerald-400">Accountant Session: Active</p>
         </div>
       </div>
 
       <div class="flex flex-wrap items-center gap-2">
-        <span id="trialBadgePill" class="bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[11px] font-bold px-3 py-1.5 rounded-lg">
+        <button type="button" id="trialBadgePill" onclick="openUpgradeModal('Starter Plan (Free) active hai. Unlimited clients, full statement export aur Excel audit report ke liye Pro Plan (₹499/माह या ₹3,999/साल) चुनें।')" class="bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 text-[11px] font-bold px-3 py-1.5 rounded-lg cursor-pointer transition">
           Starter Plan (Free)
-        </span>
+        </button>
         <div class="flex items-center gap-2 bg-slate-950 border border-cyan-500/40 rounded-lg px-3 py-1.5 shadow-inner">
           <span class="text-xs text-cyan-400 font-bold">🏢 Active Client:</span>
           <select id="globalClientSelector" onchange="switchActiveClient(this.value)" class="bg-transparent text-xs text-white outline-none cursor-pointer font-bold"></select>
@@ -145,7 +144,7 @@
             <p class="text-xs text-slate-400">Active client: <span id="activeClientTitle" class="text-cyan-400 font-bold">-</span> | Status: <span id="activeClientStatusBadge" class="text-amber-400 font-semibold">Incomplete ⏳</span></p>
           </div>
           <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-semibold">
-            Firestore Status Sync Active
+            Accountant Records Sync Active
           </span>
         </div>
 
@@ -457,7 +456,7 @@
     </div>
   </div>
 
-  <!-- FIREBASE AUTH + FIRESTORE PER-ACCOUNTANT SYNC -->
+  <!-- ACCOUNT AUTH + CLIENT DATA SYNC -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
@@ -555,10 +554,10 @@
 
       if (isPro) {
         if (pill) pill.innerText = "CA Pro Plan: Active";
-        if (bannerText) bannerText.innerText = "CA Pro Plan Active // Isolated by UID // Firestore Client Records";
+        if (bannerText) bannerText.innerText = "CA Pro Plan Active // Isolated by Account // Accountant Client Records";
       } else {
         if (pill) pill.innerText = "Starter Plan (Free)";
-        if (bannerText) bannerText.innerText = "Starter Plan Active // Isolated by UID // Firestore Client Records";
+        if (bannerText) bannerText.innerText = "Starter Plan Active // Isolated by Account // Accountant Client Records";
       }
     }
 
