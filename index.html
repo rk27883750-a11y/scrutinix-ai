@@ -86,7 +86,7 @@
       <h2 class="text-lg md:text-2xl font-extrabold text-white">The Accounting Automation Suite for CAs & Accountants</h2>
       <p class="text-xs text-slate-400 max-w-2xl mx-auto">Per-accountant client workspace with fast browser-side GSTR-2B reconciliation, statement preview, and reminders.</p>
       <div class="flex flex-wrap items-center justify-center gap-2">
-        <button onclick="showLiveNotification('🚀 Accountant Workspace Active: Dedicated client records ready!')" class="bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-extrabold text-xs px-6 py-2.5 rounded-xl shadow-lg transition uppercase tracking-wider cursor-pointer">🚀 Launch CA Workspace</button>
+        <button onclick="showLiveNotification('Accountant Workspace Active: Dedicated client records ready!')" class="bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-extrabold text-xs px-6 py-2.5 rounded-xl shadow-lg transition uppercase tracking-wider cursor-pointer">Launch CA Workspace</button>
       </div>
       <p id="planStatusBannerText" class="text-[11px] text-emerald-400 mt-1 font-semibold">Starter Plan Active // Isolated by Account // Accountant Client Records</p>
     </div>
@@ -108,11 +108,11 @@
       </div>
 
       <div class="flex flex-wrap items-center gap-2">
-        <button type="button" id="trialBadgePill" onclick="openUpgradeModal('Starter Plan (Free) active hai. Unlimited clients, full statement export aur Excel audit report ke liye Pro Plan (₹499/माह या ₹3,999/साल) चुनें।')" class="bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 text-[11px] font-bold px-3 py-1.5 rounded-lg cursor-pointer transition">
+        <button type="button" id="trialBadgePill" onclick="openUpgradeModal('Starter Plan (Free) is active. Choose Pro Plan (₹499/mo or ₹3,999/yr) for unlimited clients, full statement export & Excel audit reports.')" class="bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 text-[11px] font-bold px-3 py-1.5 rounded-lg cursor-pointer transition">
           Starter Plan (Free)
         </button>
         <div class="flex items-center gap-2 bg-slate-950 border border-cyan-500/40 rounded-lg px-3 py-1.5 shadow-inner">
-          <span class="text-xs text-cyan-400 font-bold">🏢 Active Client:</span>
+          <span class="text-xs text-cyan-400 font-bold">Active Client:</span>
           <select id="globalClientSelector" onchange="switchActiveClient(this.value)" class="bg-transparent text-xs text-white outline-none cursor-pointer font-bold"></select>
         </div>
         <button onclick="fbLogout()" class="bg-slate-800 hover:bg-rose-500/20 text-slate-300 hover:text-rose-300 border border-slate-700 hover:border-rose-500/40 text-xs font-bold px-3 py-1.5 rounded-lg transition cursor-pointer">
@@ -123,16 +123,16 @@
 
     <!-- LIVE NOTIFICATION BANNER -->
     <div id="liveNotificationBanner" class="hidden bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-between transition-all">
-      <span id="liveNotificationText">✅ Ready</span>
+      <span id="liveNotificationText">Ready</span>
       <button onclick="document.getElementById('liveNotificationBanner').classList.add('hidden')" class="text-emerald-400 hover:text-white font-bold px-2 cursor-pointer">✕</button>
     </div>
 
     <!-- MAIN NAVIGATION TABS -->
     <div class="flex flex-wrap gap-2 bg-slate-900 border border-slate-800 p-2 rounded-xl">
-      <button onclick="switchModule('checklist')" id="nav-checklist" class="nav-tab flex-1 min-w-[140px] py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-1.5 cursor-pointer"><span>📁</span> Client Checklist</button>
-      <button onclick="switchModule('pending')" id="nav-pending" class="nav-tab flex-1 min-w-[140px] py-2.5 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5 cursor-pointer"><span>⏰</span> Pending & Reminders</button>
-      <button onclick="switchModule('converter')" id="nav-converter" class="nav-tab flex-1 min-w-[140px] py-2.5 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5 cursor-pointer"><span>🔄</span> Statement to Tally/Excel</button>
-      <button onclick="switchModule('matcher')" id="nav-matcher" class="nav-tab flex-1 min-w-[160px] py-2.5 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5 cursor-pointer"><span>⚖️</span> 2B vs Purchase Match</button>
+      <button onclick="switchModule('checklist')" id="nav-checklist" class="nav-tab flex-1 min-w-[140px] py-2.5 px-3 rounded-lg text-xs font-bold bg-cyan-400 text-slate-950 transition flex items-center justify-center gap-1.5 cursor-pointer"><span>Client Checklist</span></button>
+      <button onclick="switchModule('pending')" id="nav-pending" class="nav-tab flex-1 min-w-[140px] py-2.5 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5 cursor-pointer"><span>Pending & Reminders</span></button>
+      <button onclick="switchModule('converter')" id="nav-converter" class="nav-tab flex-1 min-w-[140px] py-2.5 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5 cursor-pointer"><span>Statement to Tally/Excel</span></button>
+      <button onclick="switchModule('matcher')" id="nav-matcher" class="nav-tab flex-1 min-w-[160px] py-2.5 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition flex items-center justify-center gap-1.5 cursor-pointer"><span>2B vs Purchase Match</span></button>
     </div>
 
     <!-- MODULE 1: CLIENT CHECKLIST -->
@@ -140,8 +140,8 @@
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-6">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 gap-3">
           <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">📁 Monthly Document Checklist & Live Viewer</h3>
-            <p class="text-xs text-slate-400">Active client: <span id="activeClientTitle" class="text-cyan-400 font-bold">-</span> | Status: <span id="activeClientStatusBadge" class="text-amber-400 font-semibold">Incomplete ⏳</span></p>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Monthly Document Checklist & Live Viewer</h3>
+            <p class="text-xs text-slate-400">Active client: <span id="activeClientTitle" class="text-cyan-400 font-bold">-</span> | Status: <span id="activeClientStatusBadge" class="text-amber-400 font-semibold">Incomplete</span></p>
           </div>
           <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-semibold">
             Accountant Records Sync Active
@@ -153,18 +153,18 @@
             <div>
               <div class="flex items-center justify-between mb-2">
                 <span class="text-xs font-bold text-white">Bank Statement</span>
-                <span id="badge-bankStatement" class="text-[11px] text-amber-400 font-semibold">⏳ Pending</span>
+                <span id="badge-bankStatement" class="text-[11px] text-amber-400 font-semibold">Pending</span>
               </div>
               <p class="text-[11px] text-slate-500 mb-2">Monthly bank reconciliation file.</p>
               <div id="file-info-bankStatement" class="text-[11px] text-cyan-300 font-mono hidden bg-slate-900 p-2 rounded border border-cyan-500/30 truncate"></div>
             </div>
             <div class="space-y-2">
               <label class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2 rounded-lg border border-slate-700 transition text-center block cursor-pointer">
-                📤 Select Bank Statement
+                Select Bank Statement
                 <input type="file" accept=".pdf,.xlsx,.xls,.csv" class="hidden" onchange="handleClientDocSelected(event, 'bankStatement')">
               </label>
               <button id="view-btn-bankStatement" onclick="previewFile('bankStatement')" class="w-full bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 text-[11px] font-bold py-1.5 rounded border border-cyan-500/30 hidden transition cursor-pointer">
-                👁️ Open in Chrome
+                Open in Chrome
               </button>
             </div>
           </div>
@@ -173,18 +173,18 @@
             <div>
               <div class="flex items-center justify-between mb-2">
                 <span class="text-xs font-bold text-white">Sales Bills (B2B / B2C)</span>
-                <span id="badge-salesBills" class="text-[11px] text-amber-400 font-semibold">⏳ Pending</span>
+                <span id="badge-salesBills" class="text-[11px] text-amber-400 font-semibold">Pending</span>
               </div>
               <p class="text-[11px] text-slate-500 mb-2">GSTR-1 filing record.</p>
               <div id="file-info-salesBills" class="text-[11px] text-cyan-300 font-mono hidden bg-slate-900 p-2 rounded border border-cyan-500/30 truncate"></div>
             </div>
             <div class="space-y-2">
               <label class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2 rounded-lg border border-slate-700 transition text-center block cursor-pointer">
-                📤 Select Sales Bills
+                Select Sales Bills
                 <input type="file" accept=".pdf,.xlsx,.xls,.csv" class="hidden" onchange="handleClientDocSelected(event, 'salesBills')">
               </label>
               <button id="view-btn-salesBills" onclick="previewFile('salesBills')" class="w-full bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 text-[11px] font-bold py-1.5 rounded border border-cyan-500/30 hidden transition cursor-pointer">
-                👁️ Open in Chrome
+                Open in Chrome
               </button>
             </div>
           </div>
@@ -193,18 +193,18 @@
             <div>
               <div class="flex items-center justify-between mb-2">
                 <span class="text-xs font-bold text-white">Purchase Bills (ITC)</span>
-                <span id="badge-purchaseBills" class="text-[11px] text-amber-400 font-semibold">⏳ Pending</span>
+                <span id="badge-purchaseBills" class="text-[11px] text-amber-400 font-semibold">Pending</span>
               </div>
               <p class="text-[11px] text-slate-500 mb-2">GSTR-3B ITC verification.</p>
               <div id="file-info-purchaseBills" class="text-[11px] text-cyan-300 font-mono hidden bg-slate-900 p-2 rounded border border-cyan-500/30 truncate"></div>
             </div>
             <div class="space-y-2">
               <label class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2 rounded-lg border border-slate-700 transition text-center block cursor-pointer">
-                📤 Select Purchase Bills
+                Select Purchase Bills
                 <input type="file" accept=".pdf,.xlsx,.xls,.csv" class="hidden" onchange="handleClientDocSelected(event, 'purchaseBills')">
               </label>
               <button id="view-btn-purchaseBills" onclick="previewFile('purchaseBills')" class="w-full bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 text-[11px] font-bold py-1.5 rounded border border-cyan-500/30 hidden transition cursor-pointer">
-                👁️ Open in Chrome
+                Open in Chrome
               </button>
             </div>
           </div>
@@ -217,7 +217,7 @@
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-4">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 gap-3">
           <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">⏰ Due Date Tracker & Direct Client Outreach</h3>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Due Date Tracker & Direct Client Outreach</h3>
             <p class="text-xs text-slate-400">Send pre-filled reminders via WhatsApp or Email.</p>
           </div>
           <span class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20 px-3 py-1 rounded-full font-semibold">GST Cycle: 11th / 20th</span>
@@ -246,11 +246,11 @@
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-6">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 gap-3">
           <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">🔄 Bank Statement (PDF / CSV / Excel) to Tally / Excel</h3>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Bank Statement (PDF / CSV / Excel) to Tally / Excel</h3>
             <p class="text-xs text-slate-400">Auto-extracts dates, descriptions, and amounts into preview table, view in Chrome, and export Excel or Tally CSV.</p>
           </div>
           <button onclick="loadChecklistBankStatementIntoConverter()" class="text-xs bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-emerald-500/30 px-3 py-1.5 rounded-lg font-semibold transition cursor-pointer">
-            📥 Load From Checklist
+            Load From Checklist
           </button>
         </div>
 
@@ -267,7 +267,7 @@
               <input type="file" id="bankPdfFileInput" accept=".pdf,.csv,.xlsx,.xls" class="hidden" onchange="handleBankPdfSelected(event)">
             </label>
             <button id="openPdfInChromeBtn" onclick="openSelectedBankPdf()" class="hidden bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 text-xs font-bold px-4 py-2 rounded-xl border border-cyan-500/30 transition cursor-pointer">
-              👁️ Open in Chrome
+              Open in Chrome
             </button>
           </div>
         </div>
@@ -275,12 +275,12 @@
         <div id="pdfLivePreviewBox" class="hidden bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-4">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-800 pb-3">
             <div>
-              <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider">⚡ Live Statement Preview</h4>
+              <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Live Statement Preview</h4>
               <p id="pdfPreviewMeta" class="text-[11px] text-slate-400">Auto-extracted rows ready for Tally / Excel export.</p>
             </div>
             <div class="flex flex-wrap gap-2">
-              <button onclick="exportBankStatementExcel()" class="bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-emerald-500/30 font-bold text-xs px-3 py-1.5 rounded-lg transition cursor-pointer">📥 Export Excel (.xlsx)</button>
-              <button onclick="exportBankStatementTallyCsv()" class="bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/30 font-bold text-xs px-3 py-1.5 rounded-lg transition cursor-pointer">📄 Tally CSV</button>
+              <button onclick="exportBankStatementExcel()" class="bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-emerald-500/30 font-bold text-xs px-3 py-1.5 rounded-lg transition cursor-pointer">Export Excel (.xlsx)</button>
+              <button onclick="exportBankStatementTallyCsv()" class="bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/30 font-bold text-xs px-3 py-1.5 rounded-lg transition cursor-pointer">Tally CSV</button>
             </div>
           </div>
 
@@ -307,11 +307,11 @@
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-6">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 gap-3">
           <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider">⚖️ GSTR-2B vs Purchase Register Reconciliation</h3>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">GSTR-2B vs Purchase Register Reconciliation</h3>
             <p class="text-xs text-slate-400">Matches by <span class="text-cyan-400 font-semibold">GSTIN + Invoice No.</span> across Taxable, IGST, CGST, SGST & Duplicate rows.</p>
           </div>
           <button onclick="loadSampleItcDemo()" class="text-xs bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/30 px-3 py-1.5 rounded-lg font-semibold transition cursor-pointer">
-            ⚡ Load 3-Item Demo
+            Load 3-Item Demo
           </button>
         </div>
 
@@ -319,13 +319,13 @@
           <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-3">
             <div>
               <div class="flex items-center justify-between mb-1">
-                <span class="text-xs font-bold text-white">1️⃣ Upload GSTR-2B (Excel / CSV)</span>
-                <span id="badge-gstr2b" class="text-[11px] text-amber-400 font-semibold">⏳ Required</span>
+                <span class="text-xs font-bold text-white">1. Upload GSTR-2B (Excel / CSV)</span>
+                <span id="badge-gstr2b" class="text-[11px] text-amber-400 font-semibold">Required</span>
               </div>
               <div id="info-gstr2b" class="text-[11px] text-cyan-300 font-mono hidden bg-slate-900 p-2 mt-2 rounded border border-cyan-500/30 truncate"></div>
             </div>
             <label class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2.5 rounded-lg border border-slate-700 transition text-center block cursor-pointer">
-              📤 Upload GSTR-2B (Excel/CSV)
+              Upload GSTR-2B (Excel/CSV)
               <input type="file" accept=".xlsx,.xls,.csv" class="hidden" onchange="handleItcFileUpload(event, 'gstr2b')">
             </label>
           </div>
@@ -333,13 +333,13 @@
           <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-3">
             <div>
               <div class="flex items-center justify-between mb-1">
-                <span class="text-xs font-bold text-white">2️⃣ Upload Purchase Register (Excel / CSV)</span>
-                <span id="badge-purchaseReg" class="text-[11px] text-amber-400 font-semibold">⏳ Required</span>
+                <span class="text-xs font-bold text-white">2. Upload Purchase Register (Excel / CSV)</span>
+                <span id="badge-purchaseReg" class="text-[11px] text-amber-400 font-semibold">Required</span>
               </div>
               <div id="info-purchaseReg" class="text-[11px] text-cyan-300 font-mono hidden bg-slate-900 p-2 mt-2 rounded border border-cyan-500/30 truncate"></div>
             </div>
             <label class="w-full bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs py-2.5 rounded-lg border border-slate-700 transition text-center block cursor-pointer">
-              📤 Upload Purchase Register (Excel/CSV)
+              Upload Purchase Register (Excel/CSV)
               <input type="file" accept=".xlsx,.xls,.csv" class="hidden" onchange="handleItcFileUpload(event, 'purchaseReg')">
             </label>
           </div>
@@ -347,32 +347,32 @@
 
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1">
           <button onclick="runItcReconciliation()" class="w-full sm:w-auto bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-extrabold text-xs px-8 py-3 rounded-xl shadow-lg transition uppercase tracking-wider cursor-pointer">
-            🔍 Run Audit & ITC Match
+            Run Audit & ITC Match
           </button>
           <button id="exportReconcilBtn" onclick="exportReconcilExcel()" class="hidden w-full sm:w-auto bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-emerald-500/30 font-bold text-xs px-5 py-3 rounded-xl transition cursor-pointer">
-            📥 Export Audit Report (Excel)
+            Export Audit Report (Excel)
           </button>
         </div>
 
         <div id="itcSummaryCards" class="hidden grid grid-cols-2 lg:grid-cols-5 gap-3 pt-2">
           <div class="bg-emerald-500/10 border border-emerald-500/30 p-3.5 rounded-xl">
-            <div class="text-[10px] text-emerald-300 font-bold uppercase">✅ Matched</div>
+            <div class="text-[10px] text-emerald-300 font-bold uppercase">Matched</div>
             <div id="count-matched" class="text-xl font-extrabold text-white mt-1">0</div>
           </div>
           <div class="bg-rose-500/10 border border-rose-500/30 p-3.5 rounded-xl">
-            <div class="text-[10px] text-rose-300 font-bold uppercase">❌ Missing in 2B</div>
+            <div class="text-[10px] text-rose-300 font-bold uppercase">Missing in 2B</div>
             <div id="count-missing2b" class="text-xl font-extrabold text-white mt-1">0</div>
           </div>
           <div class="bg-purple-500/10 border border-purple-500/30 p-3.5 rounded-xl">
-            <div class="text-[10px] text-purple-300 font-bold uppercase">📭 Missing in Books</div>
+            <div class="text-[10px] text-purple-300 font-bold uppercase">Missing in Books</div>
             <div id="count-missingPr" class="text-xl font-extrabold text-white mt-1">0</div>
           </div>
           <div class="bg-amber-500/10 border border-amber-500/30 p-3.5 rounded-xl">
-            <div class="text-[10px] text-amber-300 font-bold uppercase">⚠️ Mismatch</div>
+            <div class="text-[10px] text-amber-300 font-bold uppercase">Mismatch</div>
             <div id="count-mismatch" class="text-xl font-extrabold text-white mt-1">0</div>
           </div>
           <div class="bg-orange-500/10 border border-orange-500/30 p-3.5 rounded-xl col-span-2 lg:col-span-1">
-            <div class="text-[10px] text-orange-300 font-bold uppercase">🔁 Duplicates</div>
+            <div class="text-[10px] text-orange-300 font-bold uppercase">Duplicates</div>
             <div id="count-duplicate" class="text-xl font-extrabold text-white mt-1">0</div>
           </div>
         </div>
@@ -412,7 +412,7 @@
 
   </div>
 
-  <!-- RAZORPAY UPGRADE MODAL -->
+  <!-- UPGRADE MODAL -->
   <div id="upgradeModal" style="display:none; position:fixed; inset:0; background:rgba(2,6,23,0.85); z-index:9999; align-items:center; justify-content:center; padding:16px;">
     <div style="background:#0f172a; border:1px solid #1e293b; border-radius:16px; max-width:560px; width:100%; padding:20px; color:#f8fafc; position:relative; box-shadow:0 25px 50px -12px rgba(0,0,0,0.7);">
       <button type="button" onclick="closeUpgradeModal()" style="position:absolute; top:12px; right:14px; background:#1e293b; color:#cbd5e1; border:none; border-radius:8px; padding:4px 10px; cursor:pointer; font-weight:bold;">✕</button>
@@ -420,39 +420,62 @@
       <div style="text-align:center; margin-bottom:14px;">
         <div style="font-size:11px; color:#38bdf8; font-weight:bold; text-transform:uppercase; letter-spacing:1px;">Scrutinix AI // CA Pro Plan</div>
         <h3 style="font-size:18px; font-weight:800; margin:4px 0; color:#ffffff;">Upgrade to Pro</h3>
-        <p id="upgradeReasonText" style="font-size:12px; color:#94a3b8; margin:0;">Unlimited clients, full statement export & Excel audit report unlock karein.</p>
+        <p id="upgradeReasonText" style="font-size:12px; color:#94a3b8; margin:0;">Unlock unlimited clients, full statement export & Excel audit reports.</p>
       </div>
 
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin-bottom:14px;">
-        <!-- Monthly Plan (₹499) -->
-        <div style="background:#1e293b; border:1px solid #334155; padding:16px; border-radius:12px; text-align:center;">
+        <!-- Monthly Box (Clicking anywhere on the box opens Monthly Plan Popup) -->
+        <div onclick="openPlanPopup('monthly')" style="background:#1e293b; border:1px solid #334155; padding:16px; border-radius:12px; text-align:center; cursor:pointer; transition:border-color 0.2s;">
           <div style="color:#60a5fa; font-size:12px; font-weight:bold;">MONTHLY CA SUITE</div>
-          <div style="font-size:26px; font-weight:800; margin:6px 0; color:#ffffff;">₹499<span style="font-size:12px; color:#94a3b8; font-weight:normal;">/माह</span></div>
+          <div style="font-size:26px; font-weight:800; margin:6px 0; color:#ffffff;">₹499<span style="font-size:12px; color:#94a3b8; font-weight:normal;">/mo</span></div>
           <ul style="text-align:left; font-size:12px; color:#cbd5e1; padding-left:18px; line-height:1.8; margin:8px 0;">
-            <li>Unlimited क्लाइंट्स</li>
+            <li>Unlimited Clients</li>
             <li>Full Statement (Excel / Tally CSV)</li>
             <li>Unlimited 2B Match + Audit Excel</li>
           </ul>
-          <a href="https://rzp.io/rzp/PyuQnws" target="_blank" rel="noopener noreferrer" style="display:block; margin-top:12px; background:#3b82f6; color:white; padding:10px; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px;">Monthly चुनें</a>
+          <button type="button" onclick="event.stopPropagation(); openPlanPopup('monthly');" style="display:block; width:100%; margin-top:12px; background:#3b82f6; color:white; padding:10px; border:none; border-radius:8px; cursor:pointer; font-weight:bold; font-size:13px;">Choose Monthly</button>
         </div>
 
-        <!-- Yearly Plan (₹3,999) -->
-        <div style="background:#1e293b; border:2px solid #10b981; padding:16px; border-radius:12px; text-align:center; position:relative;">
+        <!-- Yearly Box (Clicking anywhere on the box opens Yearly Plan Popup) -->
+        <div onclick="openPlanPopup('yearly')" style="background:#1e293b; border:2px solid #10b981; padding:16px; border-radius:12px; text-align:center; position:relative; cursor:pointer; transition:border-color 0.2s;">
           <span style="position:absolute; top:-10px; right:10px; background:#10b981; color:#0f172a; font-size:10px; font-weight:800; padding:2px 8px; border-radius:10px;">SAVE 33%</span>
           <div style="color:#10b981; font-size:12px; font-weight:bold;">YEARLY CA SUITE</div>
-          <div style="font-size:26px; font-weight:800; margin:6px 0; color:#ffffff;">₹3,999<span style="font-size:12px; color:#94a3b8; font-weight:normal;">/साल</span></div>
+          <div style="font-size:26px; font-weight:800; margin:6px 0; color:#ffffff;">₹3,999<span style="font-size:12px; color:#94a3b8; font-weight:normal;">/yr</span></div>
           <ul style="text-align:left; font-size:12px; color:#cbd5e1; padding-left:18px; line-height:1.8; margin:8px 0;">
-            <li>सब कुछ Unlimited</li>
-            <li>1-क्लिक WhatsApp अलर्ट</li>
-            <li>VIP कॉल/WhatsApp सपोर्ट</li>
+            <li>Everything Unlimited</li>
+            <li>1-Click WhatsApp Alerts</li>
+            <li>VIP Call/WhatsApp Support</li>
           </ul>
-          <a href="https://rzp.io/rzp/gb8d2ye" target="_blank" rel="noopener noreferrer" style="display:block; margin-top:12px; background:#10b981; color:#0f172a; padding:10px; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px;">🚀 Yearly चुनें</a>
+          <button type="button" onclick="event.stopPropagation(); openPlanPopup('yearly');" style="display:block; width:100%; margin-top:12px; background:#10b981; color:#0f172a; padding:10px; border:none; border-radius:8px; cursor:pointer; font-weight:bold; font-size:13px;">🚀 Choose Yearly</button>
         </div>
       </div>
 
       <p style="text-align:center; font-size:12px; color:#94a3b8; margin:0;">
-        🔒 Razorpay द्वारा 100% सुरक्षित पेमेंट (UPI / Card / NetBanking) — पेमेंट के बाद आपका Pro प्लान एक्टिव कर दिया जाएगा।
+        100% Secure Payment (UPI / Card / NetBanking) — Your Pro plan will be activated after payment.
       </p>
+    </div>
+  </div>
+
+  <!-- PLAN SELECTION POPUP (Opens when Monthly or Yearly box/button is clicked) -->
+  <div id="planActionPopup" style="display:none; position:fixed; inset:0; background:rgba(2,6,23,0.9); z-index:10000; align-items:center; justify-content:center; padding:16px;">
+    <div style="background:#0f172a; border:1px solid #38bdf8; border-radius:16px; max-width:420px; width:100%; padding:22px; color:#f8fafc; position:relative; box-shadow:0 25px 50px -12px rgba(0,0,0,0.8); text-align:center;">
+      <button type="button" onclick="closePlanPopup()" style="position:absolute; top:12px; right:14px; background:#1e293b; color:#cbd5e1; border:none; border-radius:8px; padding:4px 10px; cursor:pointer; font-weight:bold;">✕</button>
+
+      <div id="planPopupTag" style="font-size:11px; color:#38bdf8; font-weight:bold; text-transform:uppercase; letter-spacing:1px;">Selected Plan</div>
+      <h3 id="planPopupTitle" style="font-size:20px; font-weight:800; margin:6px 0; color:#ffffff;">Monthly CA Suite</h3>
+      <div id="planPopupPrice" style="font-size:28px; font-weight:800; margin:8px 0; color:#10b981;">₹499/mo</div>
+      <p id="planPopupDesc" style="font-size:12px; color:#94a3b8; margin:0 0 16px 0;">
+        Unlimited clients, full statement export (Excel / Tally CSV), and unlimited 2B reconciliation with Excel audit report.
+      </p>
+
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <a id="planPopupCheckoutBtn" href="https://rzp.io/rzp/PyuQnws" target="_blank" rel="noopener noreferrer" onclick="closePlanPopup()" style="display:block; background:#3b82f6; color:#ffffff; padding:11px; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px;">
+          Proceed to Payment
+        </a>
+        <button type="button" onclick="closePlanPopup()" style="background:#1e293b; color:#cbd5e1; padding:9px; border:1px solid #334155; border-radius:8px; cursor:pointer; font-weight:bold; font-size:12px;">
+          Back to Plans
+        </button>
+      </div>
     </div>
   </div>
 
@@ -502,7 +525,7 @@
         bankStatementName: null,
         salesBillsName: null,
         purchaseBillsName: null,
-        status: "Incomplete ⏳"
+        status: "Incomplete"
       },
       "Sharma Enterprises": {
         gstin: "07XYZPS9876K1ZH",
@@ -512,7 +535,7 @@
         bankStatementName: null,
         salesBillsName: null,
         purchaseBillsName: null,
-        status: "Incomplete ⏳"
+        status: "Incomplete"
       },
       "Verma Logistics": {
         gstin: "10BFGVP5544L1ZT",
@@ -522,7 +545,7 @@
         bankStatementName: null,
         salesBillsName: null,
         purchaseBillsName: null,
-        status: "Incomplete ⏳"
+        status: "Incomplete"
       }
     };
 
@@ -652,7 +675,7 @@
       clearAuthError();
       const email = document.getElementById("authEmail").value.trim();
       const pass = document.getElementById("authPassword").value;
-      if (!email || !pass) return showAuthError("Email aur password darj karein.");
+      if (!email || !pass) return showAuthError("Please enter email and password.");
       try {
         await signInWithEmailAndPassword(auth, email, pass);
       } catch (e) {
@@ -664,7 +687,7 @@
       clearAuthError();
       const email = document.getElementById("authEmail").value.trim();
       const pass = document.getElementById("authPassword").value;
-      if (!email || pass.length < 6) return showAuthError("Valid email aur kam se kam 6 character ka password dein.");
+      if (!email || pass.length < 6) return showAuthError("Enter a valid email and at least 6-character password.");
       try {
         await createUserWithEmailAndPassword(auth, email, pass);
       } catch (e) {
@@ -696,7 +719,7 @@
     });
   </script>
 
-  <!-- WORKSPACE LOGIC (Auto Date + Auto PDF Extraction + Freemium Limits + Razorpay Modal) -->
+  <!-- WORKSPACE LOGIC -->
   <script>
     if (window["pdfjsLib"]) {
       pdfjsLib.GlobalWorkerOptions.workerSrc =
@@ -731,6 +754,44 @@
       if (modal) modal.style.display = "none";
     }
 
+    function openPlanPopup(cycle) {
+      const popup = document.getElementById("planActionPopup");
+      const tag = document.getElementById("planPopupTag");
+      const title = document.getElementById("planPopupTitle");
+      const price = document.getElementById("planPopupPrice");
+      const desc = document.getElementById("planPopupDesc");
+      const btn = document.getElementById("planPopupCheckoutBtn");
+
+      if (cycle === "yearly") {
+        tag.innerText = "YEARLY PLAN SELECTED (SAVE 33%)";
+        title.innerText = "Yearly CA Suite";
+        price.innerText = "₹3,999/yr";
+        price.style.color = "#10b981";
+        desc.innerText = "Everything unlimited, 1-click WhatsApp alerts, and VIP call/WhatsApp support for 12 months.";
+        btn.href = "https://rzp.io/rzp/gb8d2ye";
+        btn.innerText = "Proceed to Pay ₹3,999/yr";
+        btn.style.background = "#10b981";
+        btn.style.color = "#0f172a";
+      } else {
+        tag.innerText = "MONTHLY PLAN SELECTED";
+        title.innerText = "Monthly CA Suite";
+        price.innerText = "₹499/mo";
+        price.style.color = "#60a5fa";
+        desc.innerText = "Unlimited clients, full statement export (Excel / Tally CSV), and unlimited 2B match with Excel audit reports.";
+        btn.href = "https://rzp.io/rzp/PyuQnws";
+        btn.innerText = "Proceed to Pay ₹499/mo";
+        btn.style.background = "#3b82f6";
+        btn.style.color = "#ffffff";
+      }
+
+      if (popup) popup.style.display = "flex";
+    }
+
+    function closePlanPopup() {
+      const popup = document.getElementById("planActionPopup");
+      if (popup) popup.style.display = "none";
+    }
+
     function showLiveNotification(msg) {
       const banner = document.getElementById("liveNotificationBanner");
       const text = document.getElementById("liveNotificationText");
@@ -760,14 +821,14 @@
       if (!window.clientsData[name]) return;
       window.activeClient = name;
       updateChecklistUI();
-      showLiveNotification(`🏢 Active Client switched to ${name}`);
+      showLiveNotification(`Active Client switched to ${name}`);
     }
 
     function computeClientStatus(c) {
       const done = [c.bankStatementName, c.salesBillsName, c.purchaseBillsName].filter(Boolean).length;
-      if (done === 3) return "Complete ✅";
-      if (done > 0) return `Partial (${done}/3) ⏳`;
-      return "Incomplete ⏳";
+      if (done === 3) return "Complete";
+      if (done > 0) return `Partial (${done}/3)`;
+      return "Incomplete";
     }
 
     function updateChecklistUI() {
@@ -796,13 +857,13 @@
         const viewBtn = document.getElementById(`view-btn-${key}`);
 
         if (fname) {
-          bEl.innerText = "✅ Attached";
+          bEl.innerText = "Attached";
           bEl.className = "text-[11px] text-emerald-400 font-semibold";
           infoEl.innerText = fname;
           infoEl.classList.remove("hidden");
           viewBtn.classList.remove("hidden");
         } else {
-          bEl.innerText = "⏳ Pending";
+          bEl.innerText = "Pending";
           bEl.className = "text-[11px] text-amber-400 font-semibold";
           infoEl.innerText = "";
           infoEl.classList.add("hidden");
@@ -833,13 +894,13 @@
 
       updateChecklistUI();
       if (window.saveClientDoc) await window.saveClientDoc(clientName, c);
-      showLiveNotification(`✅ ${file.name} attached for ${clientName}`);
+      showLiveNotification(`${file.name} attached for ${clientName}`);
     }
 
     function previewFile(docType) {
       const key = `${window.activeClient}_${docType}`;
       const url = window.uploadedFileUrls[key];
-      if (!url) return alert("Is session me file dubara select karein preview ke liye.");
+      if (!url) return alert("Please re-select the file in this session to preview.");
       window.open(url, "_blank");
     }
 
@@ -856,7 +917,7 @@
           const pendingText = pending.length ? pending.join(", ") : "None";
 
           const msg = encodeURIComponent(
-            `Namaste ${name}, GST return (${c.dueDate}) ke liye pending documents bhej dein: ${pendingText}.`
+            `Hello ${name}, please share pending documents for GST return (${c.dueDate}): ${pendingText}.`
           );
           const waLink = `https://wa.me/${c.phone || ""}?text=${msg}`;
           const mailLink = `mailto:${c.email || ""}?subject=${encodeURIComponent(
@@ -869,7 +930,7 @@
               <td class="p-3 font-mono text-slate-300">${c.gstin || "-"}</td>
               <td class="p-3 text-cyan-300">${c.dueDate || "-"}</td>
               <td class="p-3 text-amber-300">${pendingText}</td>
-              <td class="p-3">${c.status || "Incomplete ⏳"}</td>
+              <td class="p-3">${c.status || "Incomplete"}</td>
               <td class="p-3 text-right space-x-2">
                 <a href="${waLink}" target="_blank" class="inline-block bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 px-2.5 py-1 rounded font-bold">WhatsApp</a>
                 <a href="${mailLink}" class="inline-block bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/30 px-2.5 py-1 rounded font-bold">Email</a>
@@ -1049,7 +1110,7 @@
 
       if (!window.isProUser && rows.length > 20) {
         openUpgradeModal(
-          `Free प्लान में केवल 20 statement rows तक ही प्रीव्यू/एक्सपोर्ट उपलब्ध है (इस फ़ाइल में ${rows.length} rows हैं)। Full export के लिए Pro चुनें।`
+          `Starter Plan supports preview/export up to 20 statement rows (this file has ${rows.length} rows). Upgrade to Pro for full export.`
         );
       }
     }
@@ -1095,11 +1156,11 @@
       const fileObj = window.uploadedFileObjects[key];
       if (!fileObj) {
         return showLiveNotification(
-          `⚠️ ${window.activeClient} ke Checklist me Bank Statement is session me select nahi hai.`
+          `Bank Statement is not selected in this session for ${window.activeClient}.`
         );
       }
       await processBankStatementFile(fileObj);
-      showLiveNotification(`📥 Loaded ${fileObj.name} from ${window.activeClient} Checklist.`);
+      showLiveNotification(`Loaded ${fileObj.name} from ${window.activeClient} Checklist.`);
     }
 
     function openSelectedBankPdf() {
@@ -1117,7 +1178,7 @@
         `${(selectedBankPdfFile?.name || "Statement").replace(/\.(pdf|csv|xlsx|xls)$/i, "")}.xlsx`
       );
       if (!window.isProUser && currentBankRows.length > 20) {
-        openUpgradeModal("Free प्लान में केवल पहली 20 rows एक्सपोर्ट हुई हैं। Full Statement Excel के लिए Pro प्लान लें।");
+        openUpgradeModal("Starter Plan exported only the first 20 rows. Choose Pro for full statement Excel export.");
       }
     }
 
@@ -1135,7 +1196,7 @@
       a.download = "Tally_Bank_Statement.csv";
       a.click();
       if (!window.isProUser && currentBankRows.length > 20) {
-        openUpgradeModal("Free प्लान में केवल पहली 20 rows एक्सपोर्ट हुई हैं। Full Tally CSV के लिए Pro प्लान लें।");
+        openUpgradeModal("Starter Plan exported only the first 20 rows. Choose Pro for full Tally CSV export.");
       }
     }
 
@@ -1227,7 +1288,7 @@
     function runItcReconciliation() {
       if (!window.isProUser && (gstr2bRows.length > 25 || purchaseRegRows.length > 25)) {
         openUpgradeModal(
-          "Free प्लान में 25 bills तक का ही मिलान उपलब्ध है। Unlimited bills और Excel Audit Report के लिए Pro प्लान चुनें।"
+          "Starter Plan supports reconciliation up to 25 bills. Choose Pro for unlimited bills and Excel audit reports."
         );
         return;
       }
@@ -1368,7 +1429,7 @@
     function exportReconcilExcel() {
       if (!window.isProUser) {
         openUpgradeModal(
-          "Excel Audit Report डाउनलोड करने के लिए Pro Plan (₹499/माह या ₹3,999/साल) चुनें।"
+          "Choose Pro Plan (₹499/mo or ₹3,999/yr) to export the Excel Audit Report."
         );
         return;
       }
